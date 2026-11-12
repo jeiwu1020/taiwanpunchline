@@ -1,7 +1,7 @@
-import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=workers-background-only-20261113-r1';
-import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=workers-background-only-20261113-r1';
-import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=workers-background-only-20261113-r1';
+import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=campaign-complete-20261112-r1';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-complete-20261112-r1';
+import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-complete-20261112-r1';
+import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=campaign-complete-20261112-r1';
 export {CHALLENGE_KEY};
 
 /** A fresh campaign namespace. Opening is read-only; all writes require Web Locks. */
@@ -169,7 +169,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
      if(result.run.stepId==='boss-comic')result=applyRunAction(result.document,result.run,{type:'story-complete'});
      if(result.ok)result=applyRunAction(result.document,result.run,{type:'retry'});
     }else result=startRun(party.document,{replayChapterId:replay?(options.chapterId??'chapter-1'):null});
-    if(!result.ok)return reject(result.reason);if(['chapter-5','finale-3v4'].includes(result.run.chapterId))return reject('content-locked');
+    if(!result.ok)return reject(result.reason);
     if(options.chapterId&&result.run.chapterId!==options.chapterId)return reject('chapter-mismatch');
     if(options.enterFirstRoute&&result.run.chapterId==='chapter-1'&&result.run.stepId==='entry')result=applyRunAction(result.document,result.run,{type:'story-complete'});
     if(!result.ok)return reject(result.reason);
@@ -178,15 +178,15 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
    },{...options,runOperation:true});
   },
   beginChallenge(options={}){options={...options};return enqueue(()=>{
-   const wanted=options.chapterId??options.replayChapterId??readProfile().campaign.cursor.chapterId;if(['chapter-5','finale-3v4'].includes(wanted))return reject('content-locked');
+   const wanted=options.chapterId??options.replayChapterId??readProfile().campaign.cursor.chapterId;
    const result=startRun(state.campaign,{replayChapterId:options.replay?wanted:options.replayChapterId??null});if(!result.ok)return reject(result.reason);if(result.run.chapterId!==wanted)return reject('chapter-mismatch');
    if(options.difficulty!==undefined){if(!['beginner','easy','hard'].includes(options.difficulty))return reject('invalid-difficulty');currentProfile(result.document).campaign.difficulty=options.difficulty;}
    return installRun(result,saveCampaign(result,{keepSession:true}));
   },{...options,runOperation:true});},
   dispatchChallenge(token,actions){let list;try{list=clone(Array.isArray(actions)?actions:[actions]);}catch{return Promise.resolve(reject('invalid-batch'));}return enqueue(()=>{
-   if(!validSession(token))return reject('stale-run');if(['chapter-5','finale-3v4'].includes(session.run.chapterId))return reject('content-locked');if(list.length<1||list.length>100)return reject('invalid-batch');
+   if(!validSession(token))return reject('stale-run');if(list.length<1||list.length>100)return reject('invalid-batch');
    let document=clone(state.campaign),run=clone(session.run),rewardedXP=0;
-   for(const action of list){if(['chapter-5','finale-3v4'].includes(run.chapterId))return reject('content-locked');const result=applyRunAction(document,run,action);if(!result.ok)return reject(result.reason);document=result.document;run=result.run;rewardedXP+=result.rewardedXP??0;}
+   for(const action of list){const result=applyRunAction(document,run,action);if(!result.ok)return reject(result.reason);document=result.document;run=result.run;rewardedXP+=result.rewardedXP??0;}
    const previous=session.run,rotate=previous.chapterId!==run.chapterId||previous.stepId!==run.stepId||previous.attemptId!==run.attemptId||previous.finished!==run.finished||list.some(a=>a.type==='retry');
    const result={ok:true,document,run,rewardedXP};return installRun(result,saveCampaign(result,{keepSession:true}),{rotate});
   },{profileId:token?.profileId??active(),expectedGeneration:token?.generation,runOperation:true});},

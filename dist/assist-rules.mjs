@@ -1,4 +1,4 @@
-import {CAST} from './roster.mjs?v=workers-background-only-20261113-r1';
+import {CAST} from './roster.mjs?v=campaign-complete-20261112-r1';
 // A helper is one transient cast, never another controllable fighter.
 // Explicitly exclude defensive hazards and stances, even when they list damage.
 export const ASSIST_WARNING=.9;

@@ -1,5 +1,5 @@
-import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=workers-background-only-20261113-r1';
-import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById} from './catalog.mjs?v=workers-background-only-20261113-r1';
+import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=campaign-complete-20261112-r1';
+import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-complete-20261112-r1';
 export const SKILLS=Object.freeze(['hp','move','basic','defense','special','rally','assist']);
 export const MAX_XP=2800,XP_PER_POINT=80,MAX_RANK=5,MAX_SERIAL=1_000_000_000,MAX_JSON_LENGTH=250_000;
 export const clone=v=>JSON.parse(JSON.stringify(v));
@@ -27,8 +27,8 @@ export function validateDocument(input){
    if(!uniqueStrings(c.chapterClears,5)||!c.chapterClears.every((id,i)=>id===CHAPTERS[i].id&&p.unlockedCharacters.includes(CHAPTERS[i].boss)))return {ok:false,reason:'invalid-clears'};
    if(!onlyKeys(c.cursor,['chapterId','stepId']))return {ok:false,reason:'invalid-cursor'};
    const chapter=chapterById(c.cursor.chapterId),clears=c.chapterClears.length;
-   if(c.cursor.chapterId==='finale-3v4'){
-    if(c.cursor.stepId!=='team-select'||clears!==5||!CHARACTER_IDS.every(id=>p.unlockedCharacters.includes(id)))return {ok:false,reason:'invalid-finale-cursor'};
+   if(c.cursor.chapterId===FINALE_ID){
+    if(!FINALE_STEPS.includes(c.cursor.stepId)||clears!==5||!CHARACTER_IDS.every(id=>p.unlockedCharacters.includes(id)))return {ok:false,reason:'invalid-finale-cursor'};
    }else if(!chapter||!STEPS.includes(c.cursor.stepId)||chapter.index>clears||(chapter.index<clears&&(chapter.index!==clears-1||!['handoff-comic','roster-choice'].includes(c.cursor.stepId)))||(chapter.index===clears&&['handoff-comic','roster-choice'].includes(c.cursor.stepId)))return {ok:false,reason:'invalid-cursor'};
    if(!onlyKeys(c.selection,['characterId','helperId'])||![c.selection.characterId,c.selection.helperId].every(id=>p.unlockedCharacters.includes(id)))return {ok:false,reason:'invalid-selection'};
    if(!onlyKeys(c.story,['opening','seen','pending'])||!['unseen','seen','legacy-unknown'].includes(c.story.opening)||!uniqueStrings(c.story.seen,100)||(c.story.pending!==null&&(typeof c.story.pending!=='string'||!/^chapter-[1-5]:after-boss$/.test(c.story.pending))))return {ok:false,reason:'invalid-story'};
@@ -37,7 +37,13 @@ export function validateDocument(input){
    const consumed=c.chapterClears.flatMap(id=>FIRST_CLEAR_STEPS.map(step=>receiptFor(id,step)));
    if(chapter&&chapter.index===clears)for(const step of FIRST_CLEAR_STEPS)if(STEPS.indexOf(step)<STEPS.indexOf(c.cursor.stepId))consumed.push(receiptFor(chapter.id,step));
    if(!consumed.every(receipt=>c.receipts.includes(receipt))||!c.receipts.every(receipt=>CHAPTERS.some(ch=>FIRST_CLEAR_STEPS.some(step=>receipt===receiptFor(ch.id,step)))))return {ok:false,reason:'inconsistent-consumed-rewards'};
-   if(!onlyKeys(c.finale,['status','receipt'])||c.finale.status!==(clears===5?'ready':'not-ready')||c.finale.receipt!==null)return {ok:false,reason:'invalid-finale'};
+   const f=c.finale,finalStep=c.cursor.chapterId===FINALE_ID?c.cursor.stepId:null;
+   if(!onlyKeys(f,['status','receipt','team'])||!['not-ready','ready','completed'].includes(f.status)||
+    (clears<5?(f.status!=='not-ready'||f.receipt!==null||f.team!==undefined):f.status==='not-ready')||
+    (f.team!==undefined&&(!uniqueStrings(f.team,3)||f.team.length!==3||!f.team.every(id=>p.unlockedCharacters.includes(id))))||
+    (finalStep&&finalStep!=='team-select'&&!f.team)||
+    (f.status==='completed'?(f.receipt!==FINALE_RECEIPT||!['ending','complete'].includes(finalStep)):f.receipt!==null||['ending','complete'].includes(finalStep))||
+    (finalStep==='complete'&&!c.story.seen.includes('finale:ending')))return {ok:false,reason:'invalid-finale'};
   }
   const serialized=JSON.stringify(input);if(serialized.length>MAX_JSON_LENGTH)return {ok:false,reason:'document-too-large'};
   return {ok:true,document:JSON.parse(serialized)};

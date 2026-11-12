@@ -1,4 +1,4 @@
-import {CAST} from './roster.mjs?v=workers-background-only-20261113-r1';
+import {CAST} from './roster.mjs?v=campaign-complete-20261112-r1';
 const GROUND=430;
 // One world-space transform shared by visible chamber and desk collision.
 export const CHAMBER=Object.freeze({x:480,y:430,width:1400,height:1400*941/1672,floorRatio:715/941});

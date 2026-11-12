@@ -1,9 +1,9 @@
-import {setGameSelectValue} from '../../game-select.mjs?v=workers-background-only-20261113-r1';
-import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=workers-background-only-20261113-r1';
-import {saveIssueText} from '../../save-copy.mjs?v=workers-background-only-20261113-r1';
-import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=workers-background-only-20261113-r1';
-import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=workers-background-only-20261113-r1';
-import {createCampaignPlayable} from './playable-bridge.mjs?v=workers-background-only-20261113-r1';
+import {setGameSelectValue} from '../../game-select.mjs?v=campaign-complete-20261112-r1';
+import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-complete-20261112-r1';
+import {saveIssueText} from '../../save-copy.mjs?v=campaign-complete-20261112-r1';
+import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-complete-20261112-r1';
+import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-complete-20261112-r1';
+import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-complete-20261112-r1';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',
@@ -171,17 +171,17 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  const visible=!card.closest('[hidden],.hidden'),entered=s.mode==='complete'&&card.dataset.continuationMode!=='complete'&&visible;
  if(s.mode!=='complete'||visible)card.dataset.continuationMode=s.mode;
  actions.hidden=s.mode!=='complete';link.hidden=true;link.removeAttribute('href');home.hidden=true;home.removeAttribute('href');home.removeAttribute('aria-disabled');home.removeAttribute('tabindex');
- if(s.campaignChapterId&&s.mode==='choice')copy.textContent=(chapterId==='chapter-4'?'第五章尚未開放。完成本章並確認保存後可回挑戰總覽，進度會保留。':'選好接下來的主角，再繼續追麥。')+(s.saveLabel||'');
+ if(s.campaignChapterId&&s.mode==='choice')copy.textContent=(chapterId==='chapter-5'?'七人齊備，前往議場中庭選擇最終戰隊伍。':'選好接下來的主角，接續同一趟神麥旅程。')+(s.saveLabel||'');
  if(s.mode!=='complete')return;
  home.hidden=false;let safe=true;
  if(s.campaignChapterId){
   safe=completionCanLeave(s);
-  copy.textContent=(s.saveLabel||'')+(s.nextRoute?.status==='locked'?'；第五章尚未開放，檢查點會保留。':'；確認保存後即可接續下一章。');
+  copy.textContent=(s.saveLabel||'')+(s.nextRoute?.status==='locked'?'；內容暫時無法接續，檢查點會保留。':'；確認保存後即可接續下一章。');
   if(!safe)copy.textContent+=' 尚未能安全離開，請先重試保存或匯出備份；若進度已在其他頁變更，請保留備份後重新接續。';
   if(safe&&s.nextRoute?.status==='ready'){link.hidden=false;link.href=s.nextRoute.url;link.textContent='接續下一章 →';}
  }else{
-  const next=({'chapter-2':'chapter3','chapter-3':'chapter4'})[chapterId];
-  copy.textContent=next?'本章預覽完成。本次遊玩不保存進度，可繼續試玩下一章。':'本章預覽完成。第五章尚未開放，本次遊玩不保存進度。';
+  const next=({'chapter-2':'chapter3','chapter-3':'chapter4','chapter-4':'chapter5','chapter-5':'finale'})[chapterId];
+  copy.textContent=next?'本章預覽完成。本次遊玩不保存進度，可繼續試玩下一章。':'本章預覽完成，本次遊玩不保存進度。';
   if(next){link.hidden=false;link.href=`../${next}/?previewOnly=1`;link.textContent='不存檔試玩下一章 →';}
  }
  if(safe)home.href=s.campaignChapterId?'../../?challengeOverview=1':'../../';else{home.setAttribute('aria-disabled','true');home.tabIndex=-1;}

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile,writeFile} from 'node:fs/promises';
+import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {JSDOM} from 'jsdom';
@@ -26,7 +26,7 @@ test('real chapter-two renderer keeps a rear-contact actor behind both tabletop 
  const g=app.chapter.world,t=g.platforms[0];g.section={...g.section,spawns:[]};g.enemies=[];g.platforms=[t];g.supplyUsed=true;
  Object.assign(g.player,{x:(t.left+t.right)/2,depth:t.depth-t.depthHalf-10,y:430,supportY:430});advance(g,{down:true},90);
  assert.equal(g.player.depth,-62,'unchanged physical collision stops at rear edge');
- events.length=0;app.draw(1000);await writeFile(resolve('../evidence/rear-contact-current.png'),native.toBuffer('image/png'));
+ events.length=0;app.draw(1000);await mkdir(resolve('../evidence'),{recursive:true});await writeFile(resolve('../evidence/rear-contact-current.png'),native.toBuffer('image/png'));
  const bodyLast=events.findLastIndex(e=>/wang-(parts|head)/.test(e.image)),tables=events.map((e,i)=>({...e,i})).filter(e=>e.image?.endsWith('street-props-v2.webp')&&e.args[0]===101);
  const isFront=e=>e.args[1]===130&&Math.abs(e.args[7]/e.args[6]-(430-t.y)*513/433/250)<1e-8;
  assert.ok(bodyLast>=0);assert.ok(tables.some(e=>!isFront(e)&&e.i>bodyLast),'tabletop must cover actor at rear collision boundary');

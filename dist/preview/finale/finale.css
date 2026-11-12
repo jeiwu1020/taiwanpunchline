@@ -1,0 +1,49 @@
+.finale-team-card{width:min(760px,100%)}
+.finale-team-selects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:left;margin:14px 0}
+.finale-team-selects label{display:grid;gap:5px;font-weight:900;font-size:14px;min-width:0}
+.finale-team-selects select{width:100%;font:inherit;background:#fff8df;border:2px solid #17353a;border-radius:6px;padding:8px}
+.finale-lineup{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.finale-lineup figure{width:68px;margin:0;padding:4px;border:2px solid #267965;border-radius:8px;background:#e6f0d3}
+.finale-lineup figure[data-team=enemy]{border-color:#a5413e;background:#f7ded3}
+.finale-lineup img{width:48px;height:48px;object-fit:contain;display:block;margin:auto}
+.finale-lineup figcaption{font-size:11px;line-height:1.4;font-weight:800}
+.finale-rules{margin:12px 0;text-align:left;background:#fff8e7;border:2px solid #17353a;border-radius:8px;padding:8px 12px}
+.finale-rules summary{cursor:pointer;font-weight:900}
+.finale-rules p{font-size:13px}
+#team-error{color:#a33328;font-weight:900;min-height:1.4em}
+#finale-prepare,#menu-home{margin:7px 4px;font-size:15px;padding:8px 12px}
+#finale-save-slot{border:2px solid #17353a;border-radius:7px;background:#f5d489;color:#17353a;font-weight:900;font-size:12px;padding:5px 8px;cursor:pointer}
+#arena-roster{display:flex;gap:4px;flex-wrap:wrap;max-width:min(500px,80vw);margin:4px auto 0;justify-content:center}
+#arena-roster span{font-size:10px;background:#fff9e9;border:2px solid #267965;border-radius:4px;padding:2px 4px;color:#17353a;line-height:1.2;white-space:nowrap}
+#arena-roster span[data-team=enemy]{border-color:#a5413e}
+#arena-roster span[data-out=true]{opacity:.5;text-decoration:line-through}
+#arena-roster i{display:block;height:3px;background:#267965;margin-top:2px;max-width:100%}
+#arena-roster span[data-team=enemy] i{background:#a5413e}
+body[data-final-battle=true] #objective{font-size:11px}
+body[data-final-battle=true] #trial-app .chapter-objective{max-width:none;text-align:center}
+body[data-final-battle=true] #trial-app #hud{grid-template-columns:1fr 64px 1fr}
+body[data-final-battle=true] .chapter-objective{pointer-events:none}
+body[data-compact=true] #arena-roster{gap:2px;margin-top:2px}
+body[data-compact=true] #arena-roster span{font-size:9px;padding:1px 3px}
+body[data-compact=true] .finale-team-card{padding:10px 16px}
+body[data-compact=true] .finale-team-selects{margin:7px 0;gap:8px}
+body[data-compact=true] .finale-lineup img{width:34px;height:34px}
+body[data-compact=true] .finale-lineup figure{width:58px}
+body[data-compact=true] .finale-rules p{font-size:12px}
+body[data-layout=portrait] .finale-team-selects{gap:6px}
+body[data-layout=portrait] .finale-team-selects label{font-size:12px}
+body[data-layout=portrait] .finale-lineup{gap:4px}
+body[data-layout=portrait] .finale-lineup figure{width:61px}
+#finale-recovery{z-index:80}
+#finale-recovery .card>button{margin:5px 0;width:100%;font-size:16px;padding:10px}
+@media(prefers-reduced-motion:reduce){.finale-lineup *{transition:none}}
+/* The shared chapter objective normally has two items. Give the seven-person
+   roster its own row so portrait play never clips the remaining five fighters. */
+body[data-final-battle=true] #trial-app .chapter-objective{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px;align-items:start}
+body[data-final-battle=true] #trial-app .chapter-objective>#route-progress,body[data-final-battle=true] #trial-app .chapter-objective>#objective{max-width:none}
+body[data-final-battle=true] #trial-app #arena-roster{grid-column:1/-1;width:100%;max-width:640px;box-sizing:border-box}
+body[data-final-battle=true] #trial-app #arena-roster span{max-width:none}
+body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
+body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster span{font-size:10px;padding:2px;box-sizing:border-box}
+body[data-final-battle=true] #trial-app #stage .chapter-objective{height:auto;max-height:none;overflow:visible}
+body[data-final-battle=true] #trial-app.cabinet.app[data-challenge-layout] .chapter-objective #arena-roster span{max-height:none;overflow:visible;text-overflow:clip}

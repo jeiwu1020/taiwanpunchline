@@ -1,5 +1,5 @@
-import {challengePhase} from '../../../challenge-flow.mjs?v=workers-background-only-20261113-r1';
-import {normalizeCarry} from '../core/model.mjs?v=workers-background-only-20261113-r1';
+import {challengePhase} from '../../../challenge-flow.mjs?v=campaign-complete-20261112-r1';
+import {normalizeCarry} from '../core/model.mjs?v=campaign-complete-20261112-r1';
 const STEPS=['route-a','miniboss-a','route-b','miniboss-b','route-c','boss-comic'];
 /** One saved operation owns the next scene. Failed writes retain the old scene. */
 export class AsyncChallengeSession{

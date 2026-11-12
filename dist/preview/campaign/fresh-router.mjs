@@ -1,11 +1,12 @@
-import {openChallengeProgress} from './fresh/progress.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
+import {openChallengeProgress} from './fresh/progress.mjs?v=campaign-complete-20261112-r1';
+import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-complete-20261112-r1';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../?challengeOverview=1'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},
  'chapter-3':{status:'ready',url:'../chapter3/?campaign=1'},
  'chapter-4':{status:'ready',url:'../chapter4/?campaign=1'},
- 'chapter-5':{status:'locked',url:null}
+ 'chapter-5':{status:'ready',url:'../chapter5/?campaign=1'},
+ 'finale-3v4':{status:'ready',url:'../finale/?campaign=1'}
 });
 const disabled=(reason,extra={})=>({enabled:false,reason,...extra});
 const reject=reason=>({accepted:false,persisted:false,reason});

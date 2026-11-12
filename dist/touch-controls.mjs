@@ -1,4 +1,4 @@
-import {logicalPointer} from './viewport-geometry.mjs?v=workers-background-only-20261113-r1';
+import {logicalPointer} from './viewport-geometry.mjs?v=campaign-complete-20261112-r1';
 export class PointerControls{
  constructor({onHold=()=>{},onAction=()=>{},onVisual=()=>{},directionMode=()=>'duel'}={}){this.directionMode=directionMode;this.onHold=onHold;this.onAction=onAction;this.onVisual=onVisual;this.owner=null;this.directions=new Set();this.buttons=new Map();this.held=new Set();this.up=false;}
  sync(){const next=new Set([...this.directions,...[...this.buttons.values()].filter(v=>v.hold).map(v=>v.action)]);for(const action of new Set([...this.held,...next]))if(this.held.has(action)!==next.has(action))this.onHold(action,next.has(action));this.held=next;}

@@ -1,7 +1,7 @@
-import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=workers-background-only-20261113-r1';
-import {Duel,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=workers-background-only-20261113-r1';
-import {CHAPTER2} from './chapter2-content.mjs?v=workers-background-only-20261113-r1';
+import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=campaign-complete-20261112-r1';
+import {Duel,GROUND} from './core.mjs?v=campaign-complete-20261112-r1';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-complete-20261112-r1';
+import {CHAPTER2} from './chapter2-content.mjs?v=campaign-complete-20261112-r1';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'wang',mobKind:'mini_mic',name:'催場隊長',pattern:[{action:'punch',name:'先驗入場章！',range:112,warning:.55,rest:.65},{action:'punch',name:'還要再蓋一個章！',range:112,warning:.85,rest:1.25}]},
  'miniboss-b':{type:'huang',mobKind:'mini_guard',name:'動線總管',pattern:[{action:'special3',name:'先把隊伍排好！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'退件，重新排！',range:145,warning:.9,rest:1.8},{action:'special1',name:'出口在另一邊！',range:190,warning:1.0,rest:1.9}]}

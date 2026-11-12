@@ -1,4 +1,4 @@
-import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=workers-background-only-20261113-r1';
+import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=campaign-complete-20261112-r1';
 export const CHALLENGE_CHAPTER='chapter-1';
 export function challengePhase(checkpoint=0){
  const point=Math.max(0,Math.min(6,Math.trunc(Number(checkpoint)||0)));
@@ -18,6 +18,11 @@ export const BOSS_DIALOGUES=[
  [{phase:4,title:'先排隊，還是先過招？',speaker:'封街總管',copy:'這條街我在指揮。要去追麥克風？先填三份申請，再排到明天。'}, {phase:4,title:'今天不抽號碼牌',speaker:'你',copy:'我不插隊。我只是要把堵住整條街的牌子挪開！'}],
  [{phase:5,title:'神麥，就在眼前',speaker:'咆哮哥',copy:'太離譜了！我才說到重點，麥克風怎麼自己飛過來了？'}, {phase:5,title:'誰贏，誰開講',speaker:'你',copy:'那就三戰兩勝。贏的人拿麥克風，輸的人先聽一下！'}]
 ];
+export const CHAPTER1_HANDOFF=Object.freeze([
+ {phase:5,title:'先贏一場，再聽一句',speaker:'咆哮哥',copy:'好，麥讓你。我還沒問完，先跟著走總可以吧？'},
+ {phase:5,title:'不是音量越大越靈',speaker:'你',copy:'先小聲一點！你剛才一喊，它封印上的燈就閃一下。這支麥好像真的會回應聲音。'},
+ {phase:5,title:'最後一道回音',speaker:'旁白',copy:'話才說完，街口最後一道音浪「啵！」地彈回來，把同一支神麥送上早市騎樓。兩人對看一眼，早餐又得外帶了。'}
+]);
 export class ChallengeSession{
  constructor({progress,characterId='wang',helperId='han',difficulty='easy',replay=false}={}){this.progress=progress;this.context=progress.context();this.characterId=characterId;this.helperId=helperId;this.difficulty=difficulty;this.checkpoint=replay?0:Math.min(5,progress.get().checkpoint||0);this.carry=null;this.finished=false;this.lastReward=null;this.attemptId=this.phase.kind==='route'?progress.beginRouteAttempt({checkpoint:this.checkpoint,restart:replay,context:this.context}):null;}
  get phase(){return challengePhase(this.finished?6:this.checkpoint);}

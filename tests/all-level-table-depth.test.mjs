@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {writeFile} from 'node:fs/promises';
+import {writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
 import {ChallengeDepthRoute} from '../dist/challenge-depth-engine.mjs';
@@ -26,7 +26,7 @@ test('main-street true Canvas pixels preserve rear occlusion without cutting a f
  const g=clean(),t=g.platforms[0];g.platforms=[t];Object.assign(g.player,{x:(t.left+t.right)/2,depth:-36});
  const canvas=createCanvas(960,540),ctx=canvas.getContext('2d'),events=[],draw=ctx.drawImage.bind(ctx);ctx.drawImage=(im,...args)=>{events.push({id:im.tag,args});return draw(im,...args);};
  const frame=depthRouteCameraFrame(960,540,g),left=frame.x-frame.width/(2*frame.zoom),top=frame.y-frame.height/(2*frame.zoom);ctx.scale(frame.zoom,frame.zoom);ctx.translate(-left,-top);paintDepthRoute(ctx,images,g,1000,frame);
- await writeFile(resolve('../evidence/main-rear-current.png'),canvas.toBuffer('image/png'));
+ await mkdir(resolve('../evidence'),{recursive:true});await writeFile(resolve('../evidence/main-rear-current.png'),canvas.toBuffer('image/png'));
  const body=events.findLastIndex(e=>e.id==='wang-parts'),tables=events.map((e,i)=>({...e,i})).filter(e=>e.id==='challenge-street-props'&&e.args[0]===101);
  const isFront=e=>e.args[1]===130&&Math.abs(e.args[7]-(430-t.y)*513/433)<1e-8;
  assert.ok(body>=0);assert.ok(tables.some(e=>!isFront(e)&&e.i>body),'real painted tabletop must cover rear actor');assert.ok(tables.some(e=>isFront(e)&&e.i>body),'real apron must cover rear actor');

@@ -1,6 +1,6 @@
 // UI projection only. All reads and writes belong to the unified progress API.
-import {XP_PER_LEVEL,MAX_XP} from './challenge-progress.mjs?v=workers-background-only-20261113-r1';
-import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=workers-background-only-20261113-r1';
+import {XP_PER_LEVEL,MAX_XP} from './challenge-progress.mjs?v=campaign-complete-20261112-r1';
+import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-complete-20261112-r1';
 export function createMainCampaignBridge(progress){
  const current=()=>{const state=progress.get();return state.document.profiles.find(p=>p.id===state.activeProfileId);};
  function get(){const state=progress.get(),profile=current(),c=profile.challenge||{},xp=c.xp||0,allowance=Math.min(35,Math.floor(xp/XP_PER_LEVEL));return {...state,...c,xp,checkpoint:c.checkpoint||0,completed:!!c.completed,profileId:state.activeProfileId,campaign:progress.readProfile()?.campaign,characters:profile.characters,unlockedCharacters:profile.unlockedCharacters,allowance,level:1+allowance,nextLevelXP:xp>=MAX_XP?null:XP_PER_LEVEL-xp%XP_PER_LEVEL,storageIssue:state.reason||((state.dirty)?'unpersisted':null)};}
@@ -9,9 +9,9 @@ export function createMainCampaignBridge(progress){
 export function campaignContinuationURL(state,profile){
  if(state.testMode)return `preview/chapter2/?test=1&profile=${encodeURIComponent(state.activeProfileId)}`;
  const chapter=profile?.campaign?.cursor?.chapterId;
- if(!['chapter-2','chapter-3','chapter-4'].includes(chapter))return null;
- const number=chapter==='chapter-4'?4:chapter==='chapter-3'?3:2;
- return `preview/chapter${number}/?campaign=1&profile=${encodeURIComponent(state.activeProfileId)}`;
+ if(!['chapter-2','chapter-3','chapter-4','chapter-5','finale-3v4'].includes(chapter))return null;
+ const page=chapter==='finale-3v4'?'finale':'chapter'+chapter.split('-')[1];
+ return `preview/${page}/?campaign=1&profile=${encodeURIComponent(state.activeProfileId)}`;
 }
 export async function prepareMainContinuation({progress,characterId,helperId,preferSavedSelection=false,confirm,choose}){
  let state=progress.get();
@@ -28,7 +28,6 @@ export async function prepareMainContinuation({progress,characterId,helperId,pre
  }
  const profile=progress.readProfile();
  if(preferSavedSelection&&profile?.campaign?.selection)({characterId,helperId}=profile.campaign.selection);
- if(['chapter-5','finale-3v4'].includes(profile?.campaign?.cursor?.chapterId))return {accepted:false,persisted:true,reason:'content-locked'};
  if(profile?.campaign?.cursor?.chapterId==='chapter-1'){
   if(!profile.campaign.chapterClears.includes('chapter-1'))return {accepted:false,persisted:true,reason:'chapter-1-incomplete'};
   const session=await AsyncChallengeSession.create({progress,characterId,helperId});if(!session.startResult.accepted||!session.startResult.persisted)return session.startResult;

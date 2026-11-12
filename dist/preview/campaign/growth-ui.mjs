@@ -1,5 +1,5 @@
-import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=workers-background-only-20261113-r1';
-import {CHARACTER_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
+import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=campaign-complete-20261112-r1';
+import {CHARACTER_IDS} from './core/catalog.mjs?v=campaign-complete-20261112-r1';
 
 const LABELS=Object.freeze({hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'});
 const EFFECTS=Object.freeze({hp:'氣勢上限 +3%',move:'移動速度 +1%',basic:'普攻傷害 +2%',defense:'承受傷害 −1.5%',special:'絕招傷害 +2%',rally:'揪團傷害 +2%',assist:'助拳傷害 +2%'});

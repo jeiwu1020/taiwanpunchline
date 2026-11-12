@@ -1,0 +1,78 @@
+{
+  "kind": "Chromium synthetic flow + real keyboard/touch, not physical-device acceptance",
+  "base": "http://127.0.0.1:4174",
+  "checks": [
+    {
+      "name": "fresh first chapter: accepted opening, two starters, real movement"
+    },
+    {
+      "name": "chapter one: two minis, BO3, new handoff comic, durable chapter-two navigation"
+    },
+    {
+      "name": "chapter two: anonymous entry keeps Boss hidden"
+    },
+    {
+      "name": "newly unlocked character takes over shared chapter progress without wake-up replay"
+    },
+    {
+      "name": "chapter 2: three routes, two minis, BO3, unlock, saved continuation"
+    },
+    {
+      "name": "chapter 3: three routes, two minis, BO3, unlock, saved continuation"
+    },
+    {
+      "name": "chapter 4: three routes, two minis, BO3, unlock, saved continuation"
+    },
+    {
+      "name": "chapter 5: three routes, two minis, BO3, unlock, saved continuation"
+    },
+    {
+      "name": "finale: seven characters, duplicate-team rejection and actual four-way keyboard play"
+    },
+    {
+      "name": "finale loss: retry and reselect preserve five chapters"
+    },
+    {
+      "name": "fallen player wins through teammates; quota failure blocks ending until verified retry"
+    },
+    {
+      "name": "ending complete survives reload and review never duplicates rewards"
+    },
+    {
+      "name": "finale portrait: ready viewport and actual touch-button hit",
+      "width": 390,
+      "height": 844,
+      "rotation": "0"
+    },
+    {
+      "name": "finale landscape: ready viewport and actual touch-button hit",
+      "width": 844,
+      "height": 390,
+      "rotation": "0"
+    },
+    {
+      "name": "finale sideways: ready viewport and actual touch-button hit",
+      "width": 390,
+      "height": 844,
+      "rotation": "90"
+    },
+    {
+      "name": "finale small-landscape: ready viewport and actual touch-button hit",
+      "width": 568,
+      "height": 320,
+      "rotation": "0"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "chapter5-street-desktop.png",
+    "finale-battle-desktop.png",
+    "finale-victory-save-blocked.png",
+    "ending-complete-desktop.png",
+    "finale-portrait.png",
+    "finale-landscape.png",
+    "finale-sideways.png",
+    "finale-small-landscape.png"
+  ],
+  "success": true
+}

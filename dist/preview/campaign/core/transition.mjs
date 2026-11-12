@@ -1,5 +1,5 @@
-import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=workers-background-only-20261113-r1';
-import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor} from './catalog.mjs?v=workers-background-only-20261113-r1';
+import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=campaign-complete-20261112-r1';
+import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-complete-20261112-r1';
 const reject=reason=>({ok:false,reason});
 function checked(input){const v=validateDocument(input);return v.ok?v.document:null;}
 function finish(d,p,extra={}){
@@ -24,13 +24,17 @@ export function startRun(input,{replayChapterId=null}={}){
  const d=checked(input);if(!d)return reject('invalid-document');const p=currentProfile(d),c=p.campaign;
  if(replayChapterId!==null&&(!chapterById(replayChapterId)||!c.chapterClears.includes(replayChapterId)))return reject('chapter-not-cleared');
  const cursor=replayChapterId?{chapterId:replayChapterId,stepId:'route-a'}:c.cursor;
- if(cursor.chapterId==='finale-3v4')return reject('finale-ready');
+ if(cursor.chapterId===FINALE_ID){
+  if(!finaleEligibility(p).ready)return reject('finale-not-ready');
+  return finish(d,p,{run:{profileId:p.id,chapterId:FINALE_ID,stepId:cursor.stepId,replay:false,finished:false,attemptId:null}});
+ }
  const run={profileId:p.id,chapterId:cursor.chapterId,stepId:cursor.stepId,replay:replayChapterId!==null,finished:false,attemptId:null};
  if(!setupAttempt(c,run,{force:true}))return reject('attempt-limit');if(run.replay)c.replayCarry=null;
  return finish(d,p,{run});
 }
 export function applyRunAction(input,previous,action){
  const d=checked(input);if(!d)return reject('invalid-document');const p=currentProfile(d),c=p.campaign;
+ if(previous?.chapterId===FINALE_ID)return applyFinaleAction(d,p,previous,action);
  if(!onlyKeys(previous,['profileId','chapterId','stepId','replay','finished','attemptId'])||previous.profileId!==p.id||!chapterById(previous.chapterId)||!STEPS.includes(previous.stepId)||typeof previous.replay!=='boolean'||previous.finished!==false)return reject('invalid-run');
  if(previous.replay?!c.chapterClears.includes(previous.chapterId):c.cursor.chapterId!==previous.chapterId||c.cursor.stepId!==previous.stepId)return reject('stale-run');
  if(!onlyKeys(action,['type','enemyId','xp','carry'])||typeof action.type!=='string')return reject('invalid-action');
@@ -86,6 +90,29 @@ export function finaleEligibility(profile){
  const c=profile?.campaign;if(!c||!CHAPTERS.every(ch=>c.chapterClears?.includes(ch.id)))return {ready:false,reason:'chapters-incomplete'};
  if(!CHARACTER_IDS.every(id=>profile.unlockedCharacters?.includes(id)))return {ready:false,reason:'characters-missing'};
  return {ready:true,characterIds:[...CHARACTER_IDS]};
+}
+
+function applyFinaleAction(d,p,previous,action){
+ const c=p.campaign;
+ if(!onlyKeys(previous,['profileId','chapterId','stepId','replay','finished','attemptId'])||previous.profileId!==p.id||!FINALE_STEPS.includes(previous.stepId)||previous.replay!==false||previous.finished!==false||previous.attemptId!==null)return reject('invalid-run');
+ if(c.cursor.chapterId!==FINALE_ID||c.cursor.stepId!==previous.stepId)return reject('stale-run');
+ if(!finaleEligibility(p).ready||!onlyKeys(action,['type','team']))return reject('invalid-finale-action');
+ const run=clone(previous);let rewardedXP=0;
+ if(action.type==='finale-start'){
+  if(run.stepId!=='team-select'||!uniqueStrings(action.team,3)||action.team.length!==3||!action.team.every(id=>p.unlockedCharacters.includes(id)))return reject('invalid-finale-team');
+  c.finale.team=[...action.team];c.selection.characterId=action.team[0];run.stepId='battle';c.carry=null;
+ }else if(action.type==='retry'){
+  if(run.stepId!=='battle')return reject('invalid-retry');
+ }else if(action.type==='finale-reselect'){
+  if(run.stepId!=='battle')return reject('not-finale-battle');run.stepId='team-select';
+ }else if(action.type==='finale-win'){
+  if(run.stepId!=='battle'||c.finale.receipt!==null)return reject('not-finale-battle');
+  c.finale.status='completed';c.finale.receipt=FINALE_RECEIPT;rewardedXP=160;award(p,rewardedXP);run.stepId='ending';
+ }else if(action.type==='story-complete'){
+  if(run.stepId!=='ending')return reject('not-story');
+  if(!c.story.seen.includes('finale:ending'))c.story.seen.push('finale:ending');run.stepId='complete';
+ }else return reject('unknown-action');
+ c.cursor={chapterId:FINALE_ID,stepId:run.stepId};return finish(d,p,{run,rewardedXP});
 }
 
 export function prepareParty(input,draft){

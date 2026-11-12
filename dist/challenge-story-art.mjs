@@ -1,7 +1,7 @@
-import {paintOpeningComic} from './challenge-opening-art.mjs?v=workers-background-only-20261113-r1';
-export {openingFrame,openingPose,storyWakingLayout} from './challenge-opening-art.mjs?v=workers-background-only-20261113-r1';
-import {drawFighterArt} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {drawChallengeMob,drawChallengePajamas} from './challenge-art.mjs?v=workers-background-only-20261113-r1';
+import {paintOpeningComic} from './challenge-opening-art.mjs?v=campaign-complete-20261112-r1';
+export {openingFrame,openingPose,storyWakingLayout} from './challenge-opening-art.mjs?v=campaign-complete-20261112-r1';
+import {drawFighterArt} from './art-render.mjs?v=campaign-complete-20261112-r1';
+import {drawChallengeMob,drawChallengePajamas} from './challenge-art.mjs?v=campaign-complete-20261112-r1';
 export function storyComposition(width,height,phase=0){
  const portrait=height/width>.8;
  return {portrait,scale:height*(portrait?.63:.70)/280,foot:height*.94,leftX:width*.26,rightX:width*.76,soloX:width*(phase===2?.60:.52)};
