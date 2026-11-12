@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createDepthChallengeRenderer,depthRouteCameraFrame,depthBackdropLayout} from '../dist/challenge-depth-render.mjs';
-import {coverage,builds,backdropTiles} from './helpers/bounded-backdrop-assertions.mjs';
+import {continuousCoverage,builds,backdropTiles} from './helpers/bounded-backdrop-assertions.mjs';
 import {sceneFixture,artImages} from './helpers/street-render-scene.mjs';
 import {finitePresentation} from './helpers/finite-backdrop-fixture.mjs';
 
@@ -17,7 +17,8 @@ function fixture(){
 // #66 retained has full-height parity tiles, raster-aligned Y bounds and X-only
 // bleed. A 256-unit Y-row assertion would reject the accepted original policy.
 // This independent expectation uses the frozen #66 source registration and
-// coverage/reserve rules; finite continues to use the original helper unchanged.
+// coverage/reserve rules. Layered finite uses the continuous-output contract;
+// legacy source rows retain the original 256-unit helper in their own tests.
 function retainedCoverage(f,bg,frame,previous=null){
  const ratio=Math.max(1,Math.min(2,2560/frame.width,1800/frame.height)),screenW=Math.ceil(frame.width*ratio),screenH=Math.ceil(frame.height*ratio),dx=screenW/frame.width*frame.backdropZoom,dy=screenH/frame.height*frame.backdropZoom;
  const signature=[frame.width,frame.height,dx,dy,bg.curbY,bg.buildingHeight].join(':'),old=previous?.signature===signature?previous:null;
@@ -59,12 +60,12 @@ for(const [width,height,touch,profilePolicy] of sizes)for(const explicitFinite o
    const beforeDraw=f.draws.length;f.renderer.draw(route,i*16.67,explicitFinite?{...frame,presentation:finitePresentation}:frame);assert.equal(f.renderer.diagnostics.policy,policy,'actual profile must select its intended allocation policy');if(builds(f)!==previousBuilds){paintedFrames++;previousBuilds=builds(f);}
    const ratio=Math.max(1,Math.min(2,2560/width,1800/height));
    if(policy==='retained')expectedRetained=retainedCoverage(f,bg,frame,expectedRetained);
-   else if(f.renderer.diagnostics.reason!=='partial'&&backdropTiles(f).length){coverage(f,bg,Math.ceil(width*ratio)/bg.width,Math.ceil(height*ratio)/bg.height);finiteCoverageChecks++;}
+   else if(f.renderer.diagnostics.reason!=='partial'&&backdropTiles(f).length){continuousCoverage(f,bg,Math.ceil(width*ratio)/bg.width,Math.ceil(height*ratio)/bg.height);finiteCoverageChecks++;}
    else assert.ok(f.draws.slice(beforeDraw).some(d=>d.image.id==='challenge-street-facade'),'pending tiles use original-art fallback without clipping');
   }
   assert.ok(paintedFrames<poses.length,'preparation converges and steady covered frames reuse it');
   if(policy==='retained')assert.ok(expectedRetained.top<=minTop+1e-7&&expectedRetained.bottom>=maxBottom-1e-7,'retained coverage preserves the complete jump traversal');
-  else assert.ok(finiteCoverageChecks>0,'finite fill converges to original row/coverage/density/budget assertions');
+  else assert.ok(finiteCoverageChecks>0,'finite fill converges to continuous world-anchor/coverage/density/budget assertions');
   assert.ok(f.textures.get('challenge-depth-sky').refreshes<8,'screen sky reuses between density epochs');
   const world=f.textures.get('challenge-depth-world');assert.equal(world.refreshes,poses.length,'animated actors still paint every frame');
  }

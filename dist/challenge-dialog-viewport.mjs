@@ -1,5 +1,5 @@
-import {challengeContentFrame} from './challenge-layout.mjs?v=post69-street-seam-cull-20261112-r1';
-import {readGameViewport,measureViewportElements} from './viewport-lifecycle.mjs?v=post69-street-seam-cull-20261112-r1';
+import {challengeContentFrame} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
+import {readGameViewport,measureViewportElements} from './viewport-lifecycle.mjs?v=workers-background-only-20261113-r1';
 // Native top-layer dialogs do not inherit the game's rotated visual viewport.
 // Follow its committed geometry instead of calculating a second rotation policy.
 export function challengeDialogFrame({width,height,rotation=0,left=0,top=0,screenWidth=width,screenHeight=height,maxWidth=980,anchor='top',fullBleed=false,safeLeft=0,safeRight=0,safeTop=0,safeBottom=0}){

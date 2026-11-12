@@ -1,4 +1,4 @@
-import {COMBAT} from './combat-rules.mjs?v=post69-street-seam-cull-20261112-r1';
+import {COMBAT} from './combat-rules.mjs?v=workers-background-only-20261113-r1';
 // V19 shared stage rules. No actor, character, health or difficulty biases.
 export const STAGE_ITEMS=Object.freeze({
  // V47 opaque artwork is about 37x36 / 38x37 world pixels in flight.

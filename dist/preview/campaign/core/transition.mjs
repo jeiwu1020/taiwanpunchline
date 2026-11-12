@@ -1,5 +1,5 @@
-import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=post69-street-seam-cull-20261112-r1';
-import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor} from './catalog.mjs?v=post69-street-seam-cull-20261112-r1';
+import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=workers-background-only-20261113-r1';
+import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor} from './catalog.mjs?v=workers-background-only-20261113-r1';
 const reject=reason=>({ok:false,reason});
 function checked(input){const v=validateDocument(input);return v.ok?v.document:null;}
 function finish(d,p,extra={}){

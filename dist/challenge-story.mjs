@@ -1,5 +1,5 @@
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=post69-street-seam-cull-20261112-r1';
-import {openingFrame} from './challenge-opening-art.mjs?v=post69-street-seam-cull-20261112-r1';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
+import {openingFrame} from './challenge-opening-art.mjs?v=workers-background-only-20261113-r1';
 // Explicit advances only. Story presentation owns no progress or save writes.
 export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion}={}){
  const root=document.createElement('dialog');root.className='challenge-story';root.setAttribute('aria-label','挑戰故事');

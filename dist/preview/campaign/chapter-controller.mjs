@@ -1,5 +1,5 @@
-import {fighterBaseStats} from '../../fighter-attributes.mjs?v=post69-street-seam-cull-20261112-r1';
-import {normalizeCarry,zeroSkills} from './core/model.mjs?v=post69-street-seam-cull-20261112-r1';
+import {fighterBaseStats} from '../../fighter-attributes.mjs?v=workers-background-only-20261113-r1';
+import {normalizeCarry,zeroSkills} from './core/model.mjs?v=workers-background-only-20261113-r1';
 // Shared encounter presentation state. Chapter modules provide content only.
 let sessionCount=0;
 export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_IDS,storyFrames,characterNames:CHARACTER_NAMES,defaultUnlocked,unlockId,nextChapterId,createRoute,createDuel}, {characterId='wang',difficulty='beginner',rng=Math.random,initialStepId='entry',unlockedIds=null,helperId=null,statsForCharacter=null,initialCarry=null}={}){

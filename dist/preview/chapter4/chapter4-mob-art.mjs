@@ -1,5 +1,5 @@
-import {drawAttachedProp} from './challenge-joints.mjs?v=post69-street-seam-cull-20261112-r1';
-import {fighterPose,solveArm} from './art-motion.mjs?v=post69-street-seam-cull-20261112-r1';
+import {drawAttachedProp} from './challenge-joints.mjs?v=workers-background-only-20261113-r1';
+import {fighterPose,solveArm} from './art-motion.mjs?v=workers-background-only-20261113-r1';
 
 // New fictional portraits, bodies and held props, generated for this chapter.
 // Original movable limbs retain the existing complete fighter skeleton.

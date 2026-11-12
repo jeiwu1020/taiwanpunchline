@@ -1,5 +1,5 @@
-import {isMobileLandscapePresentation,streetPlayerCameraProfile} from './challenge-layout.mjs?v=post69-street-seam-cull-20261112-r1';
-import {MOB_TYPES} from './challenge-content.mjs?v=post69-street-seam-cull-20261112-r1';
+import {isMobileLandscapePresentation,streetPlayerCameraProfile} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
+import {MOB_TYPES} from './challenge-content.mjs?v=workers-background-only-20261113-r1';
 // Shared, display-only challenge framing. All rectangles are in logical canvas
 // coordinates. safeRect has already consumed the OS inset, so it is never
 // applied a second time here. World collision and depth coordinates are intact.

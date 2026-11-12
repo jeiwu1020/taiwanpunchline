@@ -1,4 +1,4 @@
-import {challengeActorBounds,challengeCameraSubjects} from './challenge-camera.mjs?v=post69-street-seam-cull-20261112-r1';
+import {challengeActorBounds,challengeCameraSubjects} from './challenge-camera.mjs?v=workers-background-only-20261113-r1';
 // Display-only logical canvas geometry. Badges never become camera blockers.
 const finite=(n,fallback=0)=>Number.isFinite(n)?n:fallback;
 const clamp=(n,lo,hi)=>Math.max(lo,Math.min(hi,n));

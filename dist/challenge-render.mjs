@@ -1,8 +1,8 @@
-import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=post69-street-seam-cull-20261112-r1';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=post69-street-seam-cull-20261112-r1';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=post69-street-seam-cull-20261112-r1';
-import {DESK} from './stage-expansion.mjs?v=post69-street-seam-cull-20261112-r1';
-import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=post69-street-seam-cull-20261112-r1';
+import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=workers-background-only-20261113-r1';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=workers-background-only-20261113-r1';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=workers-background-only-20261113-r1';
+import {DESK} from './stage-expansion.mjs?v=workers-background-only-20261113-r1';
+import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=workers-background-only-20261113-r1';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function routeCameraFrame(width,height,route,options={}){
  const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',...mobileOptions}=options;

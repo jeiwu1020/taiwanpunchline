@@ -1,9 +1,9 @@
-import {setGameSelectValue} from '../../game-select.mjs?v=post69-street-seam-cull-20261112-r1';
-import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=post69-street-seam-cull-20261112-r1';
-import {saveIssueText} from '../../save-copy.mjs?v=post69-street-seam-cull-20261112-r1';
-import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=post69-street-seam-cull-20261112-r1';
-import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=post69-street-seam-cull-20261112-r1';
-import {createCampaignPlayable} from './playable-bridge.mjs?v=post69-street-seam-cull-20261112-r1';
+import {setGameSelectValue} from '../../game-select.mjs?v=workers-background-only-20261113-r1';
+import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=workers-background-only-20261113-r1';
+import {saveIssueText} from '../../save-copy.mjs?v=workers-background-only-20261113-r1';
+import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=workers-background-only-20261113-r1';
+import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=workers-background-only-20261113-r1';
+import {createCampaignPlayable} from './playable-bridge.mjs?v=workers-background-only-20261113-r1';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',

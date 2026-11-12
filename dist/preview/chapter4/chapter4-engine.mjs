@@ -1,7 +1,7 @@
-import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=post69-street-seam-cull-20261112-r1';
-import {Duel,GROUND} from './core.mjs?v=post69-street-seam-cull-20261112-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=post69-street-seam-cull-20261112-r1';
-import {CHAPTER4} from './chapter4-content.mjs?v=post69-street-seam-cull-20261112-r1';
+import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=workers-background-only-20261113-r1';
+import {Duel,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=workers-background-only-20261113-r1';
+import {CHAPTER4} from './chapter4-content.mjs?v=workers-background-only-20261113-r1';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'班表主任',pattern:[{action:'punch',name:'班表更新中！',range:112,warning:.55,rest:.65},{action:'punch',name:'還是即將抵達！',range:112,warning:.85,rest:1.25}]},
  'miniboss-b':{type:'huang',mobKind:'mini_marshal',name:'里程總監',pattern:[{action:'special3',name:'完賽證明呢！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'缺一份口渴證明！',range:145,warning:.9,rest:1.8},{action:'special1',name:'最後一公里！',range:190,warning:1.0,rest:1.9}]}

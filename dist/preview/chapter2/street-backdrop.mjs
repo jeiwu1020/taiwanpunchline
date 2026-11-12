@@ -1,4 +1,4 @@
-import {prepareStreetStaticCaches,paintCachedStreetLayer,paintCachedPaperGrain,registerStreetSourceCacheInvalidator} from '../campaign/street-static-cache.mjs?v=post69-street-seam-cull-20261112-r1';
+import {prepareStreetStaticCaches,paintCachedStreetLayer,paintCachedPaperGrain,registerStreetSourceCacheInvalidator} from '../campaign/street-static-cache.mjs?v=workers-background-only-20261113-r1';
 const sourceSurfaces=new Set();
 export function invalidateStreetBackdropSourceCaches(){for(const canvas of sourceSurfaces){canvas.width=1;canvas.height=1;}sourceSurfaces.clear();seamCache=new WeakMap();transitionCache=new WeakMap();}
 registerStreetSourceCacheInvalidator(invalidateStreetBackdropSourceCaches);

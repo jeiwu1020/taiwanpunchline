@@ -1,5 +1,5 @@
-import {openChallengeProgress} from './fresh/progress.mjs?v=post69-street-seam-cull-20261112-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=post69-street-seam-cull-20261112-r1';
+import {openChallengeProgress} from './fresh/progress.mjs?v=workers-background-only-20261113-r1';
+import {PROFILE_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../?challengeOverview=1'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},

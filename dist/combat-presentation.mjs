@@ -1,5 +1,5 @@
-import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=post69-street-seam-cull-20261112-r1';
-import {fitChallengeCamera,challengeCameraSubjects,mobileLandscapeCameraFrame,canReuseCameraFrame} from './challenge-camera.mjs?v=post69-street-seam-cull-20261112-r1';
+import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
+import {fitChallengeCamera,challengeCameraSubjects,mobileLandscapeCameraFrame,canReuseCameraFrame} from './challenge-camera.mjs?v=workers-background-only-20261113-r1';
 // Shared display-space safe zone. This does not change combat/world geometry.
 export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
  const top=portrait&&touch?140:118;

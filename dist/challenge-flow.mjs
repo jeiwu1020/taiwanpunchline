@@ -1,4 +1,4 @@
-import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=post69-street-seam-cull-20261112-r1';
+import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=workers-background-only-20261113-r1';
 export const CHALLENGE_CHAPTER='chapter-1';
 export function challengePhase(checkpoint=0){
  const point=Math.max(0,Math.min(6,Math.trunc(Number(checkpoint)||0)));

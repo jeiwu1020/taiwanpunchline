@@ -1,9 +1,9 @@
-import {CAST,GROUND} from './core.mjs?v=post69-street-seam-cull-20261112-r1';
-import {HIGH_Y} from './combat-rules.mjs?v=post69-street-seam-cull-20261112-r1';
-import {drawFighterArt,drawProp} from './art-render.mjs?v=post69-street-seam-cull-20261112-r1';
-import {drawSignatureProp} from './art-expression.mjs?v=post69-street-seam-cull-20261112-r1';
-import {moveCaption,SIGNATURE_SIZE,gazeGlyph,drawComicCaption,drawHumanGlyph,presentationFighter,nameTileOffset} from './move-readability.mjs?v=post69-street-seam-cull-20261112-r1';
-import {arrowPresentation} from './art-motion.mjs?v=post69-street-seam-cull-20261112-r1';
+import {CAST,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
+import {HIGH_Y} from './combat-rules.mjs?v=workers-background-only-20261113-r1';
+import {drawFighterArt,drawProp} from './art-render.mjs?v=workers-background-only-20261113-r1';
+import {drawSignatureProp} from './art-expression.mjs?v=workers-background-only-20261113-r1';
+import {moveCaption,SIGNATURE_SIZE,gazeGlyph,drawComicCaption,drawHumanGlyph,presentationFighter,nameTileOffset} from './move-readability.mjs?v=workers-background-only-20261113-r1';
+import {arrowPresentation} from './art-motion.mjs?v=workers-background-only-20261113-r1';
 
 // Presentation only. No Duel, live fighters, audio, asset loading or network.
 const WIDTH=800,HEIGHT=440,FLOOR=394,SETTLE=.24,MAX_DURATION=3;

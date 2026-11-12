@@ -1,17 +1,17 @@
-import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=post69-street-seam-cull-20261112-r1';
-import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=post69-street-seam-cull-20261112-r1';
+import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=workers-background-only-20261113-r1';
+import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=workers-background-only-20261113-r1';
 // Presentation adapter only. Campaign progression remains in its controller.
-import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=post69-street-seam-cull-20261112-r1';
-import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=post69-street-seam-cull-20261112-r1';
-import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=post69-street-seam-cull-20261112-r1';
-import {createSettingsStore} from '../../settings-state.mjs?v=post69-street-seam-cull-20261112-r1';
-import {mountSettingsPanel} from '../../settings-view.mjs?v=post69-street-seam-cull-20261112-r1';
-import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=post69-street-seam-cull-20261112-r1';
-import {mountGameSelects} from '../../game-select.mjs?v=post69-street-seam-cull-20261112-r1';
-import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=post69-street-seam-cull-20261112-r1';
-import {guardView,combatStatus} from '../../combat-view.mjs?v=post69-street-seam-cull-20261112-r1';
-import {renderCooldownButton} from '../../cooldown-view.mjs?v=post69-street-seam-cull-20261112-r1';
-import {renderChargeMeter} from '../../charge-view.mjs?v=post69-street-seam-cull-20261112-r1';
+import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=workers-background-only-20261113-r1';
+import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=workers-background-only-20261113-r1';
+import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
+import {createSettingsStore} from '../../settings-state.mjs?v=workers-background-only-20261113-r1';
+import {mountSettingsPanel} from '../../settings-view.mjs?v=workers-background-only-20261113-r1';
+import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=workers-background-only-20261113-r1';
+import {mountGameSelects} from '../../game-select.mjs?v=workers-background-only-20261113-r1';
+import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=workers-background-only-20261113-r1';
+import {guardView,combatStatus} from '../../combat-view.mjs?v=workers-background-only-20261113-r1';
+import {renderCooldownButton} from '../../cooldown-view.mjs?v=workers-background-only-20261113-r1';
+import {renderChargeMeter} from '../../charge-view.mjs?v=workers-background-only-20261113-r1';
 const percent=(value,max)=>Number.isFinite(value)&&max>0?Math.max(0,Math.min(100,value/max*100)):0;
 export function mountChapterInterface({document,window,cast,getCharacter,getExitState=()=>null,pauseForUI=()=>()=>{},onSound=()=>{},storage,navigate=url=>window.location.assign(url),onCameraChange=()=>{},onViewportChange=()=>{},surfaceContext=null,onSurfaceReset=()=>{},clearHold=()=>{},canUse=id=>!!cast[id],media=null,onRestart=()=>false,isBusy=()=>false,isOperationBusy=isBusy,onPrepare=null,onReturnOverview=null}){
  const $=s=>document.querySelector(s),app=document.body;

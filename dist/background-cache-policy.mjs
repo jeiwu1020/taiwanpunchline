@@ -1,4 +1,4 @@
-import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=post69-street-seam-cull-20261112-r1';
+import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
 // Presentation-only metadata. Missing/unknown touch is never treated as a phone.
 export function backgroundPresentation(width,height,options={}){
  return {width,height,touch:options.touch===true};

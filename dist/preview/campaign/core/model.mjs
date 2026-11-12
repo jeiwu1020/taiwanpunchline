@@ -1,5 +1,5 @@
-import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=post69-street-seam-cull-20261112-r1';
-import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById} from './catalog.mjs?v=post69-street-seam-cull-20261112-r1';
+import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=workers-background-only-20261113-r1';
+import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById} from './catalog.mjs?v=workers-background-only-20261113-r1';
 export const SKILLS=Object.freeze(['hp','move','basic','defense','special','rally','assist']);
 export const MAX_XP=2800,XP_PER_POINT=80,MAX_RANK=5,MAX_SERIAL=1_000_000_000,MAX_JSON_LENGTH=250_000;
 export const clone=v=>JSON.parse(JSON.stringify(v));

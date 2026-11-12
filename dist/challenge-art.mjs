@@ -1,7 +1,7 @@
-import {drawAttachedProp} from './challenge-joints.mjs?v=post69-street-seam-cull-20261112-r1';
-import {drawStreetSeamRepairs} from './street-seam-repair.mjs?v=post69-street-seam-cull-20261112-r1';
-import {drawChallengeArenaBackdrop} from './challenge-arena-backdrop.mjs?v=post69-street-seam-cull-20261112-r1';
-import {fighterPose,clamp} from './art-motion.mjs?v=post69-street-seam-cull-20261112-r1';
+import {drawAttachedProp} from './challenge-joints.mjs?v=workers-background-only-20261113-r1';
+import {drawStreetSeamRepairs} from './street-seam-repair.mjs?v=workers-background-only-20261113-r1';
+import {drawChallengeArenaBackdrop} from './challenge-arena-backdrop.mjs?v=workers-background-only-20261113-r1';
+import {fighterPose,clamp} from './art-motion.mjs?v=workers-background-only-20261113-r1';
 
 // New generated, fictional campaign characters. No politician portraits are reused.
 export const ART_FILES={

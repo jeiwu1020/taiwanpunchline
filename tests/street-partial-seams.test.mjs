@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {partialViews,streetFrame,partialStreetFixture,boundaryRows} from './helpers/street-partial-compositor.mjs';
+const rasterHash=canvas=>createHash('sha256').update(canvas.toBuffer('image/png')).digest('hex');
 
 function drain(f,frame,visit=()=>{}){
  for(let stage=0;stage<64;stage++){
@@ -56,7 +58,11 @@ test('partial frames hide all cached facades, keep sky, and use exactly one exis
 
 test('visible-ready with offscreen prefetch pending immediately resumes cached facades and converges to reuse',async t=>{
  const f=await partialStreetFixture();t.after(()=>f.dispose());let prefetch=0;
- const frame=streetFrame(partialViews.near);
+ // Complete the visible composition first, then cross only a prefetch-row
+ // boundary inside its coverage margin. Cold composition itself may need its
+ // buffer rows, so it is no longer a reliable offscreen-only pending fixture.
+ drain(f,streetFrame(partialViews.near));
+ const frame=streetFrame({...partialViews.near,top:partialViews.near.top+64});
  drain(f,frame,({bg,ready,diagnostics})=>{
   if(!ready||diagnostics.pending===0)return;
   prefetch++;assert.deepEqual(diagnostics.pendingBands,[]);
@@ -77,8 +83,8 @@ test('visible-ready with offscreen prefetch pending immediately resumes cached f
 test('reset and same-size surface loss restore partial and final raster without retaining facade fragments',async t=>{
  const f=await partialStreetFixture();t.after(()=>f.dispose());const frame=streetFrame(partialViews.far);
  let first=f.draw(frame);assert.equal(first.ready,false);f.paint(frame,first.bg);
- const firstPixels=f.actual.toBuffer('image/png');
- const settled=drain(f,frame);f.paint(frame,settled.bg);const readyPixels=f.actual.toBuffer('image/png');
+ const firstPixels=rasterHash(f.actual);
+ const settled=drain(f,frame);f.paint(frame,settled.bg);const readyPixels=rasterHash(f.actual);
  for(const invalidation of ['reset','same-size loss']){
   if(invalidation==='same-size loss')for(const canvas of f.allocated)canvas.width=canvas.width;
   if(invalidation==='reset')f.renderer.reset();else f.renderer.invalidateSurface();
@@ -86,11 +92,12 @@ test('reset and same-size surface loss restore partial and final raster without 
   assert.ok([...f.textures.values()].every(t=>t.width===1&&t.height===1));
   assert.equal(f.renderer.paintPending(f.dynamic.getContext('2d'),settled.bg),false);
   first=f.draw(frame);assert.equal(first.ready,false);f.paint(frame,first.bg);
-  assert.deepEqual(f.actual.toBuffer('image/png'),firstPixels,'partial recovery returns to the same original-art pixels');
+  assert.equal(rasterHash(f.actual),firstPixels,'partial recovery returns to the same original-art pixels');
   assert.ok(f.displays.every(d=>d.depth!==-8||!d.visible),'no stale facade fragments during recovery');
   const complete=drain(f,frame);f.paint(frame,complete.bg);
-  assert.deepEqual(f.actual.toBuffer('image/png'),readyPixels,'complete recovery preserves unchanged ready crops and pixels');
+  assert.equal(rasterHash(f.actual),readyPixels,'complete recovery preserves unchanged ready pixels');
   const live=f.allocated.filter(c=>c.width*c.height>1);
-  assert.equal(live.length,f.textures.size+3,'recovery has no extra live backing store');
+  const liveTextures=[...f.textures.values()].filter(t=>t.width*t.height>1).length;
+  assert.equal(live.length,liveTextures+3,'only live textures, the dynamic canvas and two repair masks remain');
  }
 });

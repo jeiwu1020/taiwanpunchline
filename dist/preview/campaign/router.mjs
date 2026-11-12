@@ -1,7 +1,7 @@
-import {openCampaignStore} from './core/store.mjs?v=post69-street-seam-cull-20261112-r1';
-import {migrateV1} from './core/migrate.mjs?v=post69-street-seam-cull-20261112-r1';
-import {currentProfile,deriveStats,validateDocument,MAX_JSON_LENGTH} from './core/model.mjs?v=post69-street-seam-cull-20261112-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=post69-street-seam-cull-20261112-r1';
+import {openCampaignStore} from './core/store.mjs?v=workers-background-only-20261113-r1';
+import {migrateV1} from './core/migrate.mjs?v=workers-background-only-20261113-r1';
+import {currentProfile,deriveStats,validateDocument,MAX_JSON_LENGTH} from './core/model.mjs?v=workers-background-only-20261113-r1';
+import {PROFILE_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
 
 export const CAMPAIGN_KEY='taiwanpunchline-progress-v2';
 export const ORIGINAL_KEY='taiwanpunchline-progress-v1';
@@ -22,7 +22,7 @@ export async function openContinuation({mode='preview',optIn=false,testPreview=f
  if(profileId!==undefined&&!PROFILE_IDS.includes(profileId))return disabled('invalid-profile');
  if(!storage?.getItem)return disabled('storage-unavailable');
  // A retained entry from the former v2 route must never fork adopted progress.
- try{if(storage.getItem('taiwanpunchline-progress-v3')!==null){const {openUnifiedContinuation}=await import('./unified-router.mjs?v=post69-street-seam-cull-20261112-r1');return openUnifiedContinuation({mode,optIn,testPreview,storage,locks,profileId});}}catch{return disabled('storage-unavailable');}
+ try{if(storage.getItem('taiwanpunchline-progress-v3')!==null){const {openUnifiedContinuation}=await import('./unified-router.mjs?v=workers-background-only-20261113-r1');return openUnifiedContinuation({mode,optIn,testPreview,storage,locks,profileId});}}catch{return disabled('storage-unavailable');}
  // Eligibility and first migration share the root lock; legacy v1 never receives writes.
  const lockName=`${key}:root-write`,seedKey=key+':v1-import-seed';let initializationLocked=false,legacySnapshot=null,migrationSeed=null,writeIssue=null;
  const safeStorage={
