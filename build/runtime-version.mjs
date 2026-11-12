@@ -1,1 +1,1 @@
-export const RUNTIME_VERSION='campaign-visuals-20261112-r2';
+export const RUNTIME_VERSION='campaign-boot-20261112-r3';

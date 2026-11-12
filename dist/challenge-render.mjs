@@ -1,8 +1,8 @@
-import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-visuals-20261112-r2';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=campaign-visuals-20261112-r2';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=campaign-visuals-20261112-r2';
-import {DESK} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
-import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-visuals-20261112-r2';
+import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
+import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function routeCameraFrame(width,height,route,options={}){
  const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',...mobileOptions}=options;

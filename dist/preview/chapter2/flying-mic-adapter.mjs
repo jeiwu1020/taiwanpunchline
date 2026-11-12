@@ -1,4 +1,4 @@
-import {flyingMicLayout,drawFlyingMic,createMicPlan,micRasterInfo} from './flying-mic.mjs?v=campaign-visuals-20261112-r2';
+import {flyingMicLayout,drawFlyingMic,createMicPlan,micRasterInfo} from './flying-mic.mjs?v=campaign-boot-20261112-r3';
 
 // Track the actual renderer's transformed draw rectangles, including transparent
 // crop padding. This is conservative, and includes stretched arms / held props.

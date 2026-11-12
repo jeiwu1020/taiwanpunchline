@@ -1,4 +1,4 @@
-import {CAST} from './roster.mjs?v=campaign-visuals-20261112-r2';
+import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
 const GROUND=430;
 // One world-space transform shared by visible chamber and desk collision.
 export const CHAMBER=Object.freeze({x:480,y:430,width:1400,height:1400*941/1672,floorRatio:715/941});

@@ -1,7 +1,7 @@
-import {Duel} from '../../core.mjs?v=campaign-visuals-20261112-r2';
-import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=campaign-visuals-20261112-r2';
-import {ChapterMiniDuel} from '../chapter4/chapter4-engine.mjs?v=campaign-visuals-20261112-r2';
-import {CHAPTER5} from './chapter5-content.mjs?v=campaign-visuals-20261112-r2';
+import {Duel} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {ChapterMiniDuel} from '../chapter4/chapter4-engine.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER5} from './chapter5-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'清點隊長',pattern:[{action:'punch',name:'清點第一下！',range:112,warning:.6,rest:.55},{action:'punch',name:'清點第二下！',range:112,warning:.7,rest:1.3}]},
  'miniboss-b':{type:'huang',mobKind:'mini_marshal',name:'試音總管',pattern:[{action:'special3',name:'請站在線後！',range:210,warning:1,rest:1.5},{action:'special1',name:'測試，一、二！',range:185,warning:1.1,rest:1.8}]}

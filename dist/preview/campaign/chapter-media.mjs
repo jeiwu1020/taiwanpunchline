@@ -1,10 +1,10 @@
 // Presentation only: no campaign writes, combat mutation, or new audio assets.
-import {VoiceChannels} from '../../voice-channels.mjs?v=campaign-visuals-20261112-r2';
-import {createBackgroundMusic} from '../../background-music.mjs?v=campaign-visuals-20261112-r2';
-import {playableVoice} from '../../voice-slots.mjs?v=campaign-visuals-20261112-r2';
-import {createMoveDemo} from '../../move-demo.mjs?v=campaign-visuals-20261112-r2';
-import {ART_FILES} from '../../art-render.mjs?v=campaign-visuals-20261112-r2';
-import {normalizeSettings} from '../../settings-state.mjs?v=campaign-visuals-20261112-r2';
+import {VoiceChannels} from '../../voice-channels.mjs?v=campaign-boot-20261112-r3';
+import {createBackgroundMusic} from '../../background-music.mjs?v=campaign-boot-20261112-r3';
+import {playableVoice} from '../../voice-slots.mjs?v=campaign-boot-20261112-r3';
+import {createMoveDemo} from '../../move-demo.mjs?v=campaign-boot-20261112-r3';
+import {ART_FILES} from '../../art-render.mjs?v=campaign-boot-20261112-r3';
+import {normalizeSettings} from '../../settings-state.mjs?v=campaign-boot-20261112-r3';
 
 export function createChapterMedia({document,window,getSettings=()=>({}),getImages=()=>null,canvas,onState=()=>{},onError=()=>{}}){
  const root=new URL('../../',document.baseURI||window.location.href);

@@ -5,7 +5,8 @@
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "qa:campaign": "node scripts/verify-complete-campaign.mjs",
-    "qa:chapter-visuals": "node scripts/verify-chapter-visuals.mjs"
+    "qa:chapter-visuals": "node scripts/verify-chapter-visuals.mjs",
+    "qa:boot-loading": "node scripts/verify-boot-loading.mjs"
   },
   "devDependencies": {
     "@napi-rs/canvas": "0.1.100",

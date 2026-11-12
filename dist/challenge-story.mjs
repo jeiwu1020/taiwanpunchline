@@ -1,5 +1,5 @@
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-visuals-20261112-r2';
-import {openingFrame} from './challenge-opening-art.mjs?v=campaign-visuals-20261112-r2';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {openingFrame} from './challenge-opening-art.mjs?v=campaign-boot-20261112-r3';
 // Explicit advances only. Story presentation owns no progress or save writes.
 export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion}={}){
  const root=document.createElement('dialog');root.className='challenge-story';root.setAttribute('aria-label','挑戰故事');

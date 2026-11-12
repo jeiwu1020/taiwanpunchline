@@ -1,9 +1,9 @@
-import {clone,newDocument,currentProfile,deriveStats,validateDocument,MAX_SERIAL,integer,allowance,normalizeCarry} from '../core/model.mjs?v=campaign-visuals-20261112-r2';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-visuals-20261112-r2';
-import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-visuals-20261112-r2';
-import {createChallengeProgress} from '../../../challenge-progress.mjs?v=campaign-visuals-20261112-r2';
-import {newProfileDocument} from '../../../profile-progress.mjs?v=campaign-visuals-20261112-r2';
-import {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY,SEED_KEY,parse,legacyDocument,legacySlot,legacyProjection,newEnvelope,validateEnvelope,adoptionInfo,sourceBundle,MAX_ENVELOPE_LENGTH} from './schema.mjs?v=campaign-visuals-20261112-r2';
+import {clone,newDocument,currentProfile,deriveStats,validateDocument,MAX_SERIAL,integer,allowance,normalizeCarry} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-boot-20261112-r3';
+import {createChallengeProgress} from '../../../challenge-progress.mjs?v=campaign-boot-20261112-r3';
+import {newProfileDocument} from '../../../profile-progress.mjs?v=campaign-boot-20261112-r3';
+import {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY,SEED_KEY,parse,legacyDocument,legacySlot,legacyProjection,newEnvelope,validateEnvelope,adoptionInfo,sourceBundle,MAX_ENVELOPE_LENGTH} from './schema.mjs?v=campaign-boot-20261112-r3';
 export {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY};
 /** No globals, eager write, automatic adoption, deletion or original-key rewrite. */
 export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNIFIED_KEY}={}){

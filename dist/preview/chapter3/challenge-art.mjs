@@ -1,6 +1,6 @@
-import {drawAttachedProp} from './challenge-joints.mjs?v=campaign-visuals-20261112-r2';
-import {drawChallengeArenaBackdrop} from './challenge-arena-backdrop.mjs?v=campaign-visuals-20261112-r2';
-import {fighterPose,clamp} from './art-motion.mjs?v=campaign-visuals-20261112-r2';
+import {drawAttachedProp} from './challenge-joints.mjs?v=campaign-boot-20261112-r3';
+import {drawChallengeArenaBackdrop} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
+import {fighterPose,clamp} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 
 // New generated, fictional campaign characters. No politician portraits are reused.
 export const ART_FILES={

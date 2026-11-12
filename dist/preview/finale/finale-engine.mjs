@@ -1,7 +1,7 @@
-import {Duel,CAST,GROUND} from '../../core.mjs?v=campaign-visuals-20261112-r2';
-import {COMBAT,GRAVITY} from '../../combat-rules.mjs?v=campaign-visuals-20261112-r2';
-import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-visuals-20261112-r2';
-import {RALLY} from '../../stage-expansion.mjs?v=campaign-visuals-20261112-r2';
+import {Duel,CAST,GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {COMBAT,GRAVITY} from '../../combat-rules.mjs?v=campaign-boot-20261112-r3';
+import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {RALLY} from '../../stage-expansion.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const alive=f=>f.hp>0;
 const lane=(a,b,tolerance=36)=>Math.abs((a.depth??0)-(b.depth??0))<=tolerance;

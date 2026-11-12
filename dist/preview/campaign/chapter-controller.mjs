@@ -1,5 +1,5 @@
-import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-visuals-20261112-r2';
-import {normalizeCarry,zeroSkills} from './core/model.mjs?v=campaign-visuals-20261112-r2';
+import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
+import {normalizeCarry,zeroSkills} from './core/model.mjs?v=campaign-boot-20261112-r3';
 // Shared encounter presentation state. Chapter modules provide content only.
 let sessionCount=0;
 export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_IDS,storyFrames,characterNames:CHARACTER_NAMES,defaultUnlocked,unlockId,nextChapterId,createRoute,createDuel}, {characterId='wang',difficulty='beginner',rng=Math.random,initialStepId='entry',unlockedIds=null,helperId=null,statsForCharacter=null,initialCarry=null}={}){

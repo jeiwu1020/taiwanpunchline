@@ -1,63 +1,64 @@
-import {mountCompactToolbar} from './compact-toolbar.mjs?v=campaign-visuals-20261112-r2';
-import {planSimulationFrame} from './simulation-frame.mjs?v=campaign-visuals-20261112-r2';
-import {challengeOpponentStats} from './challenge-opponent-policy.mjs?v=campaign-visuals-20261112-r2';
-import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=campaign-visuals-20261112-r2';
-import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=campaign-visuals-20261112-r2';
-import {chooseAdoptionSource,adoptionConfirmation,saveIssueText} from './save-copy.mjs?v=campaign-visuals-20261112-r2';
-import {mountCombatOverlayLayout} from './combat-overlay-layout.mjs?v=campaign-visuals-20261112-r2';
-import {createNaturalChamberBackdrop,CHAMBER_EXTENSION_ASSET} from './chamber-natural-backdrop.mjs?v=campaign-visuals-20261112-r2';
-import {canReuseCameraFrame} from './challenge-camera.mjs?v=campaign-visuals-20261112-r2';
-import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=campaign-visuals-20261112-r2';
-import {setGameSelectValue} from './game-select.mjs?v=campaign-visuals-20261112-r2';
-import {renderChargeMeter} from './charge-view.mjs?v=campaign-visuals-20261112-r2';
-import {mountGameplaySelectionGuard} from './gameplay-selection.mjs?v=campaign-visuals-20261112-r2';
-import {mountSpecialNameFit} from './special-name-fit.mjs?v=campaign-visuals-20261112-r2';
-import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=campaign-visuals-20261112-r2';
-import {challengeKeyAction} from './challenge-mode-input.mjs?v=campaign-visuals-20261112-r2';
-import {paintChallengeStory} from './challenge-story-art.mjs?v=campaign-visuals-20261112-r2';
-import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-visuals-20261112-r2';
-import {openChallengeProgress,CHALLENGE_KEY} from './preview/campaign/fresh/progress.mjs?v=campaign-visuals-20261112-r2';
-import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-visuals-20261112-r2';
-import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-bridge.mjs?v=campaign-visuals-20261112-r2';
-import {mountChallengeUI} from './challenge-ui.mjs?v=campaign-visuals-20261112-r2';
-import {challengeOpening,BOSS_DIALOGUES,CHAPTER1_HANDOFF} from './challenge-flow.mjs?v=campaign-visuals-20261112-r2';
-import {mountChallengeStory} from './challenge-story.mjs?v=campaign-visuals-20261112-r2';
-import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-visuals-20261112-r2';
-import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-visuals-20261112-r2';
-import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=campaign-visuals-20261112-r2';
-import {assistMeterView} from './assist-rules.mjs?v=campaign-visuals-20261112-r2';
-import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-visuals-20261112-r2';
-import {createAssistRenderer} from './assist-presentation.mjs?v=campaign-visuals-20261112-r2';
-import {MatchSeries,DIFFICULTY_LABELS,ROSTER_TARGETS,rosterTargetName} from './match-modes.mjs?v=campaign-visuals-20261112-r2';
-import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=campaign-visuals-20261112-r2';
-import {rallyMeterView} from './rally-meter.mjs?v=campaign-visuals-20261112-r2';
-import {mountPageZoomGuard,bindPageZoomPreference,ownsGamePageTarget} from './page-zoom-gestures.mjs?v=campaign-visuals-20261112-r2';
-import {ITEM_ART,itemActorName,chooseCarryHand,heldItemAnchor} from './item-presentation.mjs?v=campaign-visuals-20261112-r2';
-import {supporterFlagLayout} from './supporter-flags.mjs?v=campaign-visuals-20261112-r2';
-import {CHAMBER,DESK,RALLY,paintStageCrowd,supporterFormation,battleResultCopy} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
-import {shoutCaptionLayout,shoutCaptionBeat,comicAccentState,paintComicAccent} from './shout-caption.mjs?v=campaign-visuals-20261112-r2';
-import {mountTitleScreen} from './title-screen.mjs?v=campaign-visuals-20261112-r2';
-import {createBackgroundMusic} from './background-music.mjs?v=campaign-visuals-20261112-r2';
-import {createSettingsStore} from './settings-state.mjs?v=campaign-visuals-20261112-r2';
-import {mountSettingsPanel} from './settings-view.mjs?v=campaign-visuals-20261112-r2';
-import {createMoveDemo} from './move-demo.mjs?v=campaign-visuals-20261112-r2';
-import {mountBattleGestures} from './battle-gestures.mjs?v=campaign-visuals-20261112-r2';
-import {bindTouchControls} from './touch-controls.mjs?v=campaign-visuals-20261112-r2';
-import {mountGameViewport} from './game-viewport.mjs?v=campaign-visuals-20261112-r2';
-import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-visuals-20261112-r2';
-import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-visuals-20261112-r2';
-import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-visuals-20261112-r2';
-import {drawArenaBoundaries} from './arena-boundaries.mjs?v=campaign-visuals-20261112-r2';
-import {renderCooldownButton} from './cooldown-view.mjs?v=campaign-visuals-20261112-r2';
-import {VoiceChannels} from './voice-channels.mjs?v=campaign-visuals-20261112-r2';
-import {VoiceCueQueue} from './voice-cues.mjs?v=campaign-visuals-20261112-r2';
-import {playableVoice} from './voice-slots.mjs?v=campaign-visuals-20261112-r2';
-import { Duel,CAST,GROUND } from './core.mjs?v=campaign-visuals-20261112-r2';
-import {MOVE_READABILITY,moveCue,guardView,combatStatus,impactY} from './combat-view.mjs?v=campaign-visuals-20261112-r2';
-import {ART_FILES,PROP_FRAMES,drawFighterArt,fighterArtPose} from './art-render.mjs?v=campaign-visuals-20261112-r2';
-import {moveCaption,captionPosition,SIGNATURE_SIZE,fighterGazeGlyph,presentationFighter,nameTileOffset} from './move-readability.mjs?v=campaign-visuals-20261112-r2';
-import {SIGNATURE_PROP_FRAMES} from './art-expression.mjs?v=campaign-visuals-20261112-r2';
-import {activeSpitAge,retainSpitEpisode,arrowPresentation} from './art-motion.mjs?v=campaign-visuals-20261112-r2';
+import {createBootArtLoader} from './boot-art-loader.mjs?v=campaign-boot-20261112-r3';
+import {mountCompactToolbar} from './compact-toolbar.mjs?v=campaign-boot-20261112-r3';
+import {planSimulationFrame} from './simulation-frame.mjs?v=campaign-boot-20261112-r3';
+import {challengeOpponentStats} from './challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=campaign-boot-20261112-r3';
+import {chooseAdoptionSource,adoptionConfirmation,saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
+import {mountCombatOverlayLayout} from './combat-overlay-layout.mjs?v=campaign-boot-20261112-r3';
+import {createNaturalChamberBackdrop,CHAMBER_EXTENSION_ASSET} from './chamber-natural-backdrop.mjs?v=campaign-boot-20261112-r3';
+import {canReuseCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=campaign-boot-20261112-r3';
+import {setGameSelectValue} from './game-select.mjs?v=campaign-boot-20261112-r3';
+import {renderChargeMeter} from './charge-view.mjs?v=campaign-boot-20261112-r3';
+import {mountGameplaySelectionGuard} from './gameplay-selection.mjs?v=campaign-boot-20261112-r3';
+import {mountSpecialNameFit} from './special-name-fit.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {challengeKeyAction} from './challenge-mode-input.mjs?v=campaign-boot-20261112-r3';
+import {paintChallengeStory} from './challenge-story-art.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-boot-20261112-r3';
+import {openChallengeProgress,CHALLENGE_KEY} from './preview/campaign/fresh/progress.mjs?v=campaign-boot-20261112-r3';
+import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-boot-20261112-r3';
+import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-bridge.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeUI} from './challenge-ui.mjs?v=campaign-boot-20261112-r3';
+import {challengeOpening,BOSS_DIALOGUES,CHAPTER1_HANDOFF} from './challenge-flow.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeStory} from './challenge-story.mjs?v=campaign-boot-20261112-r3';
+import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-boot-20261112-r3';
+import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
+import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=campaign-boot-20261112-r3';
+import {assistMeterView} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
+import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
+import {createAssistRenderer} from './assist-presentation.mjs?v=campaign-boot-20261112-r3';
+import {MatchSeries,DIFFICULTY_LABELS,ROSTER_TARGETS,rosterTargetName} from './match-modes.mjs?v=campaign-boot-20261112-r3';
+import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=campaign-boot-20261112-r3';
+import {rallyMeterView} from './rally-meter.mjs?v=campaign-boot-20261112-r3';
+import {mountPageZoomGuard,bindPageZoomPreference,ownsGamePageTarget} from './page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
+import {ITEM_ART,itemActorName,chooseCarryHand,heldItemAnchor} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
+import {supporterFlagLayout} from './supporter-flags.mjs?v=campaign-boot-20261112-r3';
+import {CHAMBER,DESK,RALLY,paintStageCrowd,supporterFormation,battleResultCopy} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {shoutCaptionLayout,shoutCaptionBeat,comicAccentState,paintComicAccent} from './shout-caption.mjs?v=campaign-boot-20261112-r3';
+import {mountTitleScreen} from './title-screen.mjs?v=campaign-boot-20261112-r3';
+import {createBackgroundMusic} from './background-music.mjs?v=campaign-boot-20261112-r3';
+import {createSettingsStore} from './settings-state.mjs?v=campaign-boot-20261112-r3';
+import {mountSettingsPanel} from './settings-view.mjs?v=campaign-boot-20261112-r3';
+import {createMoveDemo} from './move-demo.mjs?v=campaign-boot-20261112-r3';
+import {mountBattleGestures} from './battle-gestures.mjs?v=campaign-boot-20261112-r3';
+import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
+import {mountGameViewport} from './game-viewport.mjs?v=campaign-boot-20261112-r3';
+import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
+import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-boot-20261112-r3';
+import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-boot-20261112-r3';
+import {drawArenaBoundaries} from './arena-boundaries.mjs?v=campaign-boot-20261112-r3';
+import {renderCooldownButton} from './cooldown-view.mjs?v=campaign-boot-20261112-r3';
+import {VoiceChannels} from './voice-channels.mjs?v=campaign-boot-20261112-r3';
+import {VoiceCueQueue} from './voice-cues.mjs?v=campaign-boot-20261112-r3';
+import {playableVoice} from './voice-slots.mjs?v=campaign-boot-20261112-r3';
+import { Duel,CAST,GROUND } from './core.mjs?v=campaign-boot-20261112-r3';
+import {MOVE_READABILITY,moveCue,guardView,combatStatus,impactY} from './combat-view.mjs?v=campaign-boot-20261112-r3';
+import {ART_FILES,PROP_FRAMES,drawFighterArt,fighterArtPose} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {moveCaption,captionPosition,SIGNATURE_SIZE,fighterGazeGlyph,presentationFighter,nameTileOffset} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {SIGNATURE_PROP_FRAMES} from './art-expression.mjs?v=campaign-boot-20261112-r3';
+import {activeSpitAge,retainSpitEpisode,arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 mountCompactToolbar({document});
 let selected='wang',opponent='han',rosterSide='player',difficulty='easy',rosterReady=false,duel=new Duel(),scene,started=false,counting=false,sound=true,audio,hold={},punchWait=0,countTimer;
@@ -706,7 +707,38 @@ function ellipse(g,x,y,w,h,color,stroke=true){g.fillStyle(color,1);g.fillEllipse
 function rect(g,x,y,w,h,color,r=0){g.fillStyle(color);if(r){g.fillRoundedRect(x,y,w,h,r);g.lineStyle(3,ink);g.strokeRoundedRect(x,y,w,h,r);}else{g.fillRect(x,y,w,h);g.lineStyle(3,ink);g.strokeRect(x,y,w,h);}}
 function line(g,points,width,color){g.lineStyle(width+5,ink,1);g.beginPath();g.moveTo(...points[0]);for(const p of points.slice(1))g.lineTo(...p);g.strokePath();g.lineStyle(width,color,1);g.beginPath();g.moveTo(...points[0]);for(const p of points.slice(1))g.lineTo(...p);g.strokePath();}
 class Arena extends Phaser.Scene {
- preload(){for(const [key,file] of Object.entries({...CHALLENGE_ART_FILES,...STARTER_ART_FILES}))this.load.image(key,'assets/'+file);for(const [key,file] of [['supporter-elder','elder'],['supporter-young','young'],['supporter-grandma','grandma']])this.load.image(key,'assets/supporter-'+file+'-v48.png');for(const a of Object.values(ITEM_ART))this.load.image(a.key,a.file);this.load.image('supporter-woman','assets/supporter-woman-v46.png');this.load.image('supporter-man','assets/supporter-man-v46.png');this.load.image('arena-chamber',ARENA_ASSET);this.load.image('arena-chamber-extended',CHAMBER_EXTENSION_ASSET);this.assetFailure=false;this.load.on('progress',v=>{$('#start').textContent='載入漫畫 '+Math.round(v*100)+'%';titleUI?.setReady(false,'載入漫畫 '+Math.round(v*100)+'%');});this.optionalArtFailures=new Set();this.load.on('loaderror',file=>{if(['challenge-arena-layer','challenge-arena-sky','challenge-street-facade','challenge-street-sky','challenge-street-left-repair','challenge-street-right-repair','arena-chamber-extended'].includes(file?.key)){this.optionalArtFailures.add(file.key);return;}this.assetFailure=true;});for(const [key,file] of Object.entries(ART_FILES))this.load.image(key,'assets/'+file);}
+ preload(){
+  const optional=new Set(['challenge-arena-layer','challenge-arena-sky','challenge-street-facade','challenge-street-sky','challenge-street-left-repair','challenge-street-right-repair','arena-chamber-extended']);
+  const files={...CHALLENGE_ART_FILES,...STARTER_ART_FILES,...ART_FILES,
+   ...Object.fromEntries(['elder','young','grandma'].map(name=>['supporter-'+name,'supporter-'+name+'-v48.png'])),
+   ...Object.fromEntries(['woman','man'].map(name=>['supporter-'+name,'supporter-'+name+'-v46.png']))};
+  const entries=[...Object.entries(files).map(([key,path])=>({key,url:'assets/'+path,optional:optional.has(key)})),
+   ...Object.values(ITEM_ART).map(a=>({key:a.key,url:a.file})),{key:'arena-chamber',url:ARENA_ASSET},{key:'arena-chamber-extended',url:CHAMBER_EXTENSION_ASSET,optional:true}];
+  this.assetFailure=false;this.optionalArtFailures=new Set();
+  // One asynchronous Phaser file keeps the scene gated while native image
+  // callbacks drive a four-request queue, independently of the frame loop.
+  const gate=new Phaser.Loader.File(this.load,{type:'boot-art',key:'boot-art'});
+  let completed=false;
+  gate.load=()=>this.bootArt.start();
+  this.bootArt=createBootArtLoader({entries,onChange:state=>{
+   const title=$('#title-screen');title.dataset.bootState=state.status;
+   title.dataset.bootPending=state.remaining.join(',');title.dataset.bootFailed=state.failed.join(',');
+   const retry=$('#boot-art-retry');retry.hidden=state.status!=='failed';
+   if(state.status==='ready'){
+    if(completed)return;completed=true;
+    this.optionalArtFailures=state.optionalFailures;
+    for(const [key,image]of Object.entries(state.images))this.textures.addImage(key,image);
+    titleUI?.setReady(false,'正在準備舞台…');
+    this.load.nextFile(gate,true);
+   }else{
+    const message=state.status==='failed'?'部分漫畫未能載入，請重試。':`載入漫畫 ${Math.round(state.progress*100)}%${state.retrying?' · 正在重試':''}`;
+    $('#start').textContent=message;titleUI?.setReady(false,message);
+   }
+  }});
+  $('#boot-art-retry').onclick=()=>this.bootArt.retry();
+  this.events.once('shutdown',()=>this.bootArt.dispose());
+  this.load.addFile(gate);
+ }
  create(){if(this.assetFailure){$('#start').textContent='素材載入失敗，請重整';titleUI?.setReady(false,'素材載入失敗，請重新整理再試。');$('#tip').textContent='部分漫畫素材未載入，請重新整理再試。';return;}scene=this;this.add.rectangle(480,-1000,6000,2860,0xd4cbaa).setDepth(-30);this.add.rectangle(480,1800,6000,2740,0xe6c695).setDepth(-30);this.makeBackdrop();this.dynamic=this.add.graphics();this.rigs=[this.add.container(),this.add.container()];this.chars=[];this.heads=[];this.extras=[];for(let i=0;i<2;i++){const body=this.add.graphics(),head=this.add.image(4,-75,'wang-head'),extra=this.add.graphics();this.rigs[i].add([body,head,extra]);this.chars.push(body);this.heads.push(head);this.extras.push(extra);}this.artImages=Object.fromEntries(Object.keys({...ART_FILES,...CHALLENGE_ART_FILES,...STARTER_ART_FILES}).filter(k=>!this.optionalArtFailures?.has(k)&&(!['challenge-arena-layer','challenge-arena-sky','challenge-street-facade','challenge-street-sky','challenge-street-left-repair','challenge-street-right-repair'].includes(k)||this.textures.exists(k))).map(k=>[k,this.textures.get(k).getSourceImage()]));for(const k of ['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'])this.artImages[k]=this.textures.get(k).getSourceImage();for(const a of Object.values(ITEM_ART))this.artImages[a.key]=this.textures.get(a.key).getSourceImage();this.challengeRenderer=createChallengeRenderer(this,this.artImages);this.assistRenderer=createAssistRenderer(this,this.artImages);this.artCanvases=[];this.artDisplays=[];this.spitStart=new WeakMap();this.lastArtPose=new WeakMap();this.propPool=[];this.textPool=[];this.markerPool=[];this.statusTexts=[0,1].map(()=>text(this,0,0,'',17,'#fff7e5').setOrigin(.5).setStroke('#142b32',4).setDepth(8));this.guardCache='';
  for(const [name,r] of Object.entries(PROP_FRAMES))this.textures.get('art-props').add(name,0,...r);
  this.textures.get('handshake-grip').add('clasp',0,290,65,1590,610);

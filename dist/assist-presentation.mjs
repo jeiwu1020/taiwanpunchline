@@ -1,5 +1,5 @@
-import {drawFighterArt} from './art-render.mjs?v=campaign-visuals-20261112-r2';
-import {presentationFighter} from './move-readability.mjs?v=campaign-visuals-20261112-r2';
+import {drawFighterArt} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {presentationFighter} from './move-readability.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 export function assistView(episode,{hidden=false,reducedMotion=false}={}){
  if(hidden||!episode?.actor)return null;

@@ -1,8 +1,8 @@
-import {mountChallengePreparation,downloadChallengeBackup} from './challenge-preparation.mjs?v=campaign-visuals-20261112-r2';
-import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-visuals-20261112-r2';
-import {saveIssueText} from './save-copy.mjs?v=campaign-visuals-20261112-r2';
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-visuals-20261112-r2';
-import {SKILLS,SKILL_LABELS,MAX_RANK,XP_PER_LEVEL} from './challenge-progress.mjs?v=campaign-visuals-20261112-r2';
+import {mountChallengePreparation,downloadChallengeBackup} from './challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-boot-20261112-r3';
+import {saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {SKILLS,SKILL_LABELS,MAX_RANK,XP_PER_LEVEL} from './challenge-progress.mjs?v=campaign-boot-20261112-r3';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const CHECKPOINT_LABELS=Object.freeze(['巷口','擴音隊長','市場','封街總管','造勢','咆哮哥','首章完成']);
 const effects={hp:'氣勢上限 +3%',move:'移動速度 +1%',basic:'普攻傷害 +2%',defense:'承受傷害 −1.5%',special:'絕招傷害 +2%',rally:'揪團傷害 +2%',assist:'助拳傷害 +2%'};

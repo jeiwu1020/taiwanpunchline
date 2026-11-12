@@ -1,4 +1,4 @@
-import {drawChapter4Miniboss as drawClerkRig} from '../chapter4/chapter4-mob-art.mjs?v=campaign-visuals-20261112-r2';
+import {drawChapter4Miniboss as drawClerkRig} from '../chapter4/chapter4-mob-art.mjs?v=campaign-boot-20261112-r3';
 // New chapter-five heads/vests/held objects, with the accepted shared limb rig.
 export const CHAPTER5_MINI_CROPS=Object.freeze([
  {head:[32,17,456,456],body:[532,62,471,425],prop:[1073,30,390,464]},

@@ -1,5 +1,5 @@
-import {CAST} from './roster.mjs?v=campaign-visuals-20261112-r2';
-import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
+import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
+import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 // Only decisions differ. Shared combat determines damage, health, collision,
 // cooldowns and legal input on both sides.
 export const BEGINNER_AI=Object.freeze({reaction:.75,reactionSpread:.35,decision:1.55,decisionSpread:.8,recovery:1.1,recoverySpread:.4,defenseChance:.12,specialChance:.28});

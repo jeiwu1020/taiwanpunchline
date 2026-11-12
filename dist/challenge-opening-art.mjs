@@ -1,8 +1,8 @@
-import {drawFighterArt} from './art-render.mjs?v=campaign-visuals-20261112-r2';
-import {OPENING_PAJAMA_PARTS,OPENING_PROP_PARTS} from './challenge-opening-assets.mjs?v=campaign-visuals-20261112-r2';
-import {solveArm} from './art-motion.mjs?v=campaign-visuals-20261112-r2';
-import {openingSheet} from './challenge-opening-assets.mjs?v=campaign-visuals-20261112-r2';
-export {openingSheet} from './challenge-opening-assets.mjs?v=campaign-visuals-20261112-r2';
+import {drawFighterArt} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {OPENING_PAJAMA_PARTS,OPENING_PROP_PARTS} from './challenge-opening-assets.mjs?v=campaign-boot-20261112-r3';
+import {solveArm} from './art-motion.mjs?v=campaign-boot-20261112-r3';
+import {openingSheet} from './challenge-opening-assets.mjs?v=campaign-boot-20261112-r3';
+export {openingSheet} from './challenge-opening-assets.mjs?v=campaign-boot-20261112-r3';
 
 const INK='#173239',PAPER='#fff3d3',RED='#b73c2d',GOLD='#f2bd53';
 const clamp=x=>Math.max(0,Math.min(1,x));

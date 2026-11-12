@@ -1,7 +1,7 @@
-import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=campaign-visuals-20261112-r2';
-import {Duel,GROUND} from './core.mjs?v=campaign-visuals-20261112-r2';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-visuals-20261112-r2';
-import {CHAPTER2} from './chapter2-content.mjs?v=campaign-visuals-20261112-r2';
+import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
+import {Duel,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER2} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'wang',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'punch',name:'這題是單選！',range:112,warning:.55,rest:.65},{action:'punch',name:'請勿跳過問卷！',range:112,warning:.85,rest:1.25}]},
  'miniboss-b':{type:'huang',mobKind:'mini_guard',name:'程序總管',pattern:[{action:'special3',name:'請先領取表格！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'少了一張附件！',range:145,warning:.9,rest:1.8},{action:'special1',name:'請回原窗口！',range:190,warning:1.0,rest:1.9}]}

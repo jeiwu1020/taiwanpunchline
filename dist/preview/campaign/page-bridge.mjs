@@ -1,9 +1,9 @@
-import {setGameSelectValue} from '../../game-select.mjs?v=campaign-visuals-20261112-r2';
-import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-visuals-20261112-r2';
-import {saveIssueText} from '../../save-copy.mjs?v=campaign-visuals-20261112-r2';
-import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-visuals-20261112-r2';
-import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-visuals-20261112-r2';
-import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-visuals-20261112-r2';
+import {setGameSelectValue} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
+import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-boot-20261112-r3';
+import {saveIssueText} from '../../save-copy.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-boot-20261112-r3';
+import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-boot-20261112-r3';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',

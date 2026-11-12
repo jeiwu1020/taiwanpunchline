@@ -37,11 +37,16 @@ test('retained facade stays transparent above roof and sky is one independently 
  renderer.hide();assert.ok(f.images.every(i=>!i.visible));
 });
 test('optional layered-sky load failure retains playable legacy art, required failures still block',async()=>{
- const {gameHarness}=await import('./helpers/game-harness.mjs');const h=await gameHarness(),callbacks={};
- const scene={load:{image(){},on(name,handler){callbacks[name]=handler;}}};h.ui.Arena.prototype.preload.call(scene);
- callbacks.loaderror({key:'challenge-street-facade'});callbacks.loaderror({key:'challenge-street-sky'});callbacks.loaderror({key:'challenge-street-left-repair'});callbacks.loaderror({key:'challenge-street-right-repair'});
- assert.equal(scene.assetFailure,false);assert.ok(scene.optionalArtFailures.has('challenge-street-facade'));assert.ok(scene.optionalArtFailures.has('challenge-street-sky'));
- callbacks.loaderror({key:'challenge-street-deep'});assert.equal(scene.assetFailure,true);
+ const {gameHarness}=await import('./helpers/game-harness.mjs'),{createBootArtLoader:realLoader}=await import('../dist/boot-art-loader.mjs');const requests=[];const h=await gameHarness({bootArtLoader:options=>realLoader({...options,createImage:()=>{const im={naturalWidth:1,naturalHeight:1,removeAttribute(){}};Object.defineProperty(im,'src',{set(url){requests.push([url,im]);}});return im;},setTimer:()=>0,clearTimer(){}})});
+ const scene={events:{once(){}},textures:{addImage(){}},load:{addFile(file){this.gate=file;},nextFile(){this.completed=true;}}};h.ui.Arena.prototype.preload.call(scene);scene.load.gate.load();
+ for(let i=0;i<requests.length;i++){const [url,image]=requests[i];if(/street-(facade|sky|left-repair|right-repair)|street-deep/.test(url))image.onerror();else image.onload();}
+ assert.equal(scene.load.completed,undefined,'required artwork failure must keep the scene gated');
+ assert.match(h.$('#title-screen').dataset.bootFailed,/challenge-street-deep/);
+ assert.equal(h.$('#boot-art-retry').hidden,false);
+ // Once the required image succeeds, optional failures retain the legacy art.
+ const previous=requests.length;h.$('#boot-art-retry').onclick();
+ for(let i=previous;i<requests.length;i++){const [url,image]=requests[i];if(/street-deep/.test(url))image.onload();else image.onerror();}
+ assert.equal(scene.load.completed,true);assert.ok(scene.optionalArtFailures.has('challenge-street-facade'));assert.ok(scene.optionalArtFailures.has('challenge-street-sky'));
 });
 test('actual scene creation excludes missing optional Phaser placeholders before renderer setup',async()=>{
  const {gameHarness}=await import('./helpers/game-harness.mjs');

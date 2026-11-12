@@ -1,5 +1,5 @@
-import {battleResultCopy} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
-import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
+import {battleResultCopy} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 const ease=n=>{const t=clamp(n);return t*t*(3-2*t);};
 // Only read-only visual data crosses the boundary. Nothing here steps combat,

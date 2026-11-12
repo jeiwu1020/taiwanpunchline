@@ -1,7 +1,7 @@
-import {newDocument,validateDocument,clone,integer,onlyKeys,MAX_SERIAL} from '../core/model.mjs?v=campaign-visuals-20261112-r2';
-import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-visuals-20261112-r2';
-import {migrateV1} from '../core/migrate.mjs?v=campaign-visuals-20261112-r2';
-import {newProfileDocument,validateProfileDocument} from '../../../profile-progress.mjs?v=campaign-visuals-20261112-r2';
+import {newDocument,validateDocument,clone,integer,onlyKeys,MAX_SERIAL} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {migrateV1} from '../core/migrate.mjs?v=campaign-boot-20261112-r3';
+import {newProfileDocument,validateProfileDocument} from '../../../profile-progress.mjs?v=campaign-boot-20261112-r3';
 export const UNIFIED_KEY='taiwanpunchline-progress-v3';
 export const LEGACY_KEY='taiwanpunchline-progress-v1';
 export const CAMPAIGN_KEY='taiwanpunchline-progress-v2';

@@ -1,8 +1,8 @@
 // Four-way street simulation for chapter routes and the isolated movement trial.
-import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-visuals-20261112-r2';
-import {CAST,GROUND} from './core.mjs?v=campaign-visuals-20261112-r2';
-import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
-import {RALLY} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
+import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-boot-20261112-r3';
+import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
+import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
 export const DEPTH=Object.freeze({min:-90,max:100,speed:190,hit:36,rally:48,bodyLane:38,bodyWidth:62,clearance:65,platform:36});
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const alive=f=>f.hp>0;

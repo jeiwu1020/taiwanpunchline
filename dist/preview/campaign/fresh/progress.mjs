@@ -1,7 +1,7 @@
-import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=campaign-visuals-20261112-r2';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-visuals-20261112-r2';
-import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-visuals-20261112-r2';
-import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=campaign-visuals-20261112-r2';
+import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-boot-20261112-r3';
+import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=campaign-boot-20261112-r3';
 export {CHALLENGE_KEY};
 
 /** A fresh campaign namespace. Opening is read-only; all writes require Web Locks. */

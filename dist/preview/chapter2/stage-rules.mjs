@@ -1,4 +1,4 @@
-import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
+import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 // V19 shared stage rules. No actor, character, health or difficulty biases.
 export const STAGE_ITEMS=Object.freeze({
  // V47 opaque artwork is about 37x36 / 38x37 world pixels in flight.

@@ -1,6 +1,6 @@
 // UI projection only. All reads and writes belong to the unified progress API.
-import {XP_PER_LEVEL,MAX_XP} from './challenge-progress.mjs?v=campaign-visuals-20261112-r2';
-import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-visuals-20261112-r2';
+import {XP_PER_LEVEL,MAX_XP} from './challenge-progress.mjs?v=campaign-boot-20261112-r3';
+import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-boot-20261112-r3';
 export function createMainCampaignBridge(progress){
  const current=()=>{const state=progress.get();return state.document.profiles.find(p=>p.id===state.activeProfileId);};
  function get(){const state=progress.get(),profile=current(),c=profile.challenge||{},xp=c.xp||0,allowance=Math.min(35,Math.floor(xp/XP_PER_LEVEL));return {...state,...c,xp,checkpoint:c.checkpoint||0,completed:!!c.completed,profileId:state.activeProfileId,campaign:progress.readProfile()?.campaign,characters:profile.characters,unlockedCharacters:profile.unlockedCharacters,allowance,level:1+allowance,nextLevelXP:xp>=MAX_XP?null:XP_PER_LEVEL-xp%XP_PER_LEVEL,storageIssue:state.reason||((state.dirty)?'unpersisted':null)};}
