@@ -1,0 +1,414 @@
+{
+  "source": "/workspace/scratch/1a1351aee944/punchline-post67-display-fixes-nov11/browser-qa/runs/20261111T233447562723Z-364b53c2f15d-1ff5414032/measurements/005-r5-boss-s320-move-pause.json",
+  "dataset": {
+    "titleOpen": "false",
+    "viewportReady": "true",
+    "viewportGeometryReady": "true",
+    "viewportEpoch": "1",
+    "viewportStatus": "ready",
+    "viewportReason": "",
+    "fullBleed": "false",
+    "touch": "true",
+    "nativeLandscape": "false",
+    "overlayControls": "true",
+    "layout": "landscape",
+    "compact": "true",
+    "rotation": "90",
+    "testMode": "false",
+    "surfaceGeneration": "7",
+    "viewportPainted": "true",
+    "controlOverlay": "soft",
+    "challengeLayout": "true",
+    "landscapePreview": "false",
+    "fixedCameraLayout": "true",
+    "matchFinish": "false",
+    "gameMode": "challenge",
+    "depthRoute": "false"
+  },
+  "actors": [
+    {
+      "id": "player",
+      "type": "wang",
+      "x": 679.7607794999974,
+      "y": 317.79904306220095,
+      "vy": 0,
+      "supportY": 317.79904306220095,
+      "hp": 77.36000000000001,
+      "face": 1
+    },
+    {
+      "id": "enemy",
+      "type": "huang",
+      "x": 844.7575044999978,
+      "y": 430,
+      "vy": 0,
+      "supportY": 430,
+      "hp": 95,
+      "face": -1
+    }
+  ],
+  "options": {
+    "camera": "stable",
+    "touch": true,
+    "paused": true,
+    "nativeLandscape": false,
+    "portrait": false,
+    "safeRect": {
+      "left": 0,
+      "top": 0,
+      "right": 568,
+      "bottom": 320,
+      "width": 568,
+      "height": 320
+    },
+    "occlusions": [
+      {
+        "kind": "toolbar",
+        "left": 8,
+        "top": 4,
+        "right": 560,
+        "bottom": 36,
+        "width": 552,
+        "height": 32
+      },
+      {
+        "kind": "save",
+        "left": 246.671875,
+        "top": 4,
+        "right": 350.671875,
+        "bottom": 36,
+        "width": 104,
+        "height": 32
+      },
+      {
+        "kind": "hud",
+        "left": 8,
+        "top": 40,
+        "right": 248,
+        "bottom": 88,
+        "width": 240,
+        "height": 48
+      },
+      {
+        "kind": "hud",
+        "left": 15,
+        "top": 75,
+        "right": 127,
+        "bottom": 83,
+        "width": 112,
+        "height": 8
+      },
+      {
+        "kind": "hud",
+        "left": 254,
+        "top": 40,
+        "right": 314,
+        "bottom": 88,
+        "width": 60,
+        "height": 48
+      },
+      {
+        "kind": "hud",
+        "left": 320,
+        "top": 40,
+        "right": 560,
+        "bottom": 88,
+        "width": 240,
+        "height": 48
+      },
+      {
+        "kind": "hud",
+        "left": 327,
+        "top": 75,
+        "right": 439,
+        "bottom": 83,
+        "width": 112,
+        "height": 8
+      },
+      {
+        "kind": "hud",
+        "left": 63.203125,
+        "top": 91,
+        "right": 504.796875,
+        "bottom": 106,
+        "width": 441.59375,
+        "height": 15
+      },
+      {
+        "kind": "control",
+        "left": 8,
+        "top": 202,
+        "right": 120,
+        "bottom": 314,
+        "width": 112,
+        "height": 112
+      },
+      {
+        "kind": "control",
+        "left": 446,
+        "top": 260,
+        "right": 500,
+        "bottom": 314,
+        "width": 54,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 462,
+        "top": 293,
+        "right": 484,
+        "bottom": 305,
+        "width": 22,
+        "height": 12
+      },
+      {
+        "kind": "control",
+        "left": 386,
+        "top": 260,
+        "right": 440,
+        "bottom": 314,
+        "width": 54,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 266,
+        "top": 260,
+        "right": 320,
+        "bottom": 314,
+        "width": 54,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 326,
+        "top": 260,
+        "right": 380,
+        "bottom": 314,
+        "width": 54,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 506,
+        "top": 260,
+        "right": 560,
+        "bottom": 314,
+        "width": 54,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 266,
+        "top": 200,
+        "right": 560,
+        "bottom": 254,
+        "width": 294,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 266,
+        "top": 202,
+        "right": 360,
+        "bottom": 256,
+        "width": 94,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 366,
+        "top": 200,
+        "right": 460,
+        "bottom": 254,
+        "width": 94,
+        "height": 54
+      },
+      {
+        "kind": "control",
+        "left": 466,
+        "top": 200,
+        "right": 560,
+        "bottom": 254,
+        "width": 94,
+        "height": 54
+      }
+    ],
+    "fixedCameraGeometry": {
+      "safeRect": {
+        "left": 0,
+        "top": 0,
+        "right": 568,
+        "bottom": 320,
+        "width": 568,
+        "height": 320
+      },
+      "occlusions": [
+        {
+          "kind": "toolbar",
+          "left": 8,
+          "top": 4,
+          "right": 560,
+          "bottom": 36,
+          "width": 552,
+          "height": 32
+        },
+        {
+          "kind": "save",
+          "left": 246.671875,
+          "top": 4,
+          "right": 350.671875,
+          "bottom": 36,
+          "width": 104,
+          "height": 32
+        },
+        {
+          "kind": "hud",
+          "left": 8,
+          "top": 40,
+          "right": 248,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 254,
+          "top": 40,
+          "right": 314,
+          "bottom": 88,
+          "width": 60,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 320,
+          "top": 40,
+          "right": 560,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 63.19999999999999,
+          "top": 91,
+          "right": 504.8,
+          "bottom": 106,
+          "width": 441.6,
+          "height": 15
+        },
+        {
+          "kind": "control",
+          "left": 8,
+          "top": 202,
+          "right": 120,
+          "bottom": 314,
+          "width": 112,
+          "height": 112
+        },
+        {
+          "kind": "control",
+          "left": 446,
+          "top": 260,
+          "right": 500,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 462,
+          "top": 293,
+          "right": 484,
+          "bottom": 305,
+          "width": 22,
+          "height": 12
+        },
+        {
+          "kind": "control",
+          "left": 386,
+          "top": 260,
+          "right": 440,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 260,
+          "right": 320,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 326,
+          "top": 260,
+          "right": 380,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 506,
+          "top": 260,
+          "right": 560,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 294,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 360,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 366,
+          "top": 200,
+          "right": 460,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 466,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        }
+      ],
+      "layoutKey": "compact-stable-slots-v1:challenge:false"
+    }
+  },
+  "frame": {
+    "width": 568,
+    "height": 320,
+    "x": 937.475065195295,
+    "y": 109.22761451925447,
+    "zoom": 0.5250000002180657,
+    "challengeCameraMode": "stable",
+    "cameraSafetyFit": true,
+    "controlOverlay": "soft"
+  }
+}

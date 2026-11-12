@@ -1,0 +1,42 @@
+✔ safe-area body gutters suppress double-tap zoom without locking pinch or pan (5.608075ms)
+✔ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (3.208992ms)
+✔ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (4.015106ms)
+✔ Phaser canvas touch handlers do not cancel native pinch gestures (1.374659ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (3.507731ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (3.596411ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (7.846143ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.338077ms)
+✖ direction-pad hot region explicitly rejects browser gestures, including its non-knob area (3.012744ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 192.115089
+
+✖ failing tests:
+
+test at tests/tap-zoom-v33.test.mjs:91:1
+✖ direction-pad hot region explicitly rejects browser gestures, including its non-knob area (3.012744ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'none'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:92:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'none',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

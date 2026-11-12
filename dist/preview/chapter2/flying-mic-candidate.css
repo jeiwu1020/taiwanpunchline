@@ -1,0 +1,8 @@
+/* Candidate HUD reflow only. No camera, zoom, world or input edits. */
+body[data-mic-route=true] #hud{right:calc(clamp(96px,13vw,148px) + 8px);align-items:flex-start;gap:8px}
+body[data-mic-route=true] #hud .hp-panel{width:clamp(68px,24vw,132px);flex-shrink:0}
+body[data-mic-route=true] #hud .route-panel{flex:1;min-width:0;max-width:none}
+body[data-mic-route=true] #hud .route-panel span{max-width:none;overflow-wrap:anywhere}
+body[data-mic-route=true] #hud b{white-space:normal;overflow-wrap:anywhere}
+#mic-geometry-notice{position:absolute;left:5%;right:5%;top:40%;background:#fff4daee;border:2px solid #ab442f;padding:8px 12px;border-radius:8px;color:#652719;font:700 13px/1.4 system-ui;z-index:7;pointer-events:none}
+#mic-geometry-notice[hidden]{display:none}

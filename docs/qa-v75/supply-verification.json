@@ -1,0 +1,23 @@
+{
+  "path": "/workspace/scratch/1a1351aee944/brawler-repair-nov10/generated/supply-v75/supply-stand-v75-original.png",
+  "dimensions": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "fully_transparent_pixels": 785565,
+  "fully_opaque_pixels": 867,
+  "bbox": [
+    0,
+    19,
+    1226,
+    1254
+  ],
+  "bytes": 2129072,
+  "sha256": "669a575cd9084d93339b9db6761a2470f81d92d5d7634f79c152d41366075e9f",
+  "visual_review": "Complete stand including feet; friendly cream heart, water dispenser, paper cups and buns. No text or people. Transparent gaps and outside edges. Shallow three-quarter side-view, vintage ink/watercolor style consistent with street and supporter references."
+}

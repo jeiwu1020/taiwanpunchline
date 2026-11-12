@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+date: Sat, 07 Nov 2026 14:14:17 GMT
+
+HTTP/2 200 
+date: Sat, 07 Nov 2026 14:14:17 GMT
+server: envoy
+last-modified: Sun, 15 Feb 2015 14:11:37 GMT
+etag: "345468-50f210c39b840"
+accept-ranges: bytes
+content-length: 3429480
+link: https://incompetech.com/.well-known/openapi.yaml; rel="describedby"
+cache-control: no-cache, no-store, must-revalidate
+pragma: no-cache
+expires: 0
+content-disposition: attachment
+content-type: application/octet-stream
+x-envoy-upstream-service-time: 160
+

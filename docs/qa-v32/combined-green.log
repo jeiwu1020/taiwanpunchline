@@ -1,0 +1,29 @@
+✔ desktop exposes a normal pointer-enabled guard button beside attack, without replacing crouch (19.152245ms)
+✔ displayed guard keys match real keyboard bindings and down remains only crouch (2.259701ms)
+✔ upright 320: stick stays at least 76px, inset, and inside its reserved dock (23.533313ms)
+✔ landscape 568: stick stays at least 76px, inset, and inside its reserved dock (15.271452ms)
+✔ landscape 844: stick stays at least 76px, inset, and inside its reserved dock (12.652573ms)
+✔ rotated portrait logical 844: stick stays at least 76px, inset, and inside its reserved dock (7.47862ms)
+✔ safe-area-reduced logical 480: stick stays at least 76px, inset, and inside its reserved dock (4.249244ms)
+✔ stationary guard can be held beside stick movement and released independently (1.167716ms)
+✔ desktop primary mouse press activates the shown guard and cancellation releases it (0.51076ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (3.78334ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (8.854843ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (3.206653ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (12.59553ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (1.324897ms)
+✔ early viewport rejects stale unzoomed orientation and reconciles late safe areas (1.151192ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (3.253611ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.744444ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.506214ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.323786ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.530019ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.337526ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 208.802165

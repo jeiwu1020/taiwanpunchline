@@ -1,0 +1,13 @@
+<!doctype html><meta charset="utf-8"><title>V38 title cluster QA</title>
+<style>body{margin:0;background:#263e45;color:white;font:12px system-ui}iframe{display:block;border:0;transform-origin:top left}pre{white-space:pre-wrap;font-size:10px}button{font:inherit;padding:8px}</style>
+<p>V38 production title layout and controller, no game loop/audio. <b id="fixture-action"></b></p>
+<nav><button data-size="390,844">390 portrait</button><button data-size="320,568">320 portrait</button><button data-size="844,390">844 landscape</button><button data-size="568,320">568 landscape</button><button data-size="480,320">480 landscape</button><button data-size="1180,757" data-desktop>1180 desktop</button><button data-size="800,600" data-desktop>800 desktop</button><button id="baseline">V37 baseline</button><button id="current">Current</button><button data-msg="toggle-rotate">Toggle rotation</button><button data-msg="measure">Measure</button></nav>
+<div id="holder"><iframe title="Title layout fixture"></iframe></div><pre id="fixture-report">Loading fixture</pre>
+<script>
+const f=document.querySelector('iframe');let before=false,desktop=false;f.width=390;f.height=844;
+function fit(){const scale=Math.min(1,940/f.width,600/f.height);f.style.transform='scale('+scale+')';document.querySelector('#holder').style.height=f.height*scale+'px';}
+function load(){f.src=(before?'qa-v38-title-before.local.html':'qa-v38-title-scene.local.html')+(desktop?'':'?touchPreview=1');fit();}
+for(const b of document.querySelectorAll('[data-size]'))b.onclick=()=>{[f.width,f.height]=b.dataset.size.split(',');const d=b.hasAttribute('data-desktop');if(desktop!==d){desktop=d;load();}else fit();};
+for(const b of document.querySelectorAll('[data-msg]'))b.onclick=()=>f.contentWindow.postMessage(b.dataset.msg,location.origin);
+document.querySelector('#baseline').onclick=()=>{before=true;load();};document.querySelector('#current').onclick=()=>{before=false;load();};load();
+</script>

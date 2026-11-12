@@ -1,0 +1,119 @@
+✖ stale visualViewport orientation cannot strand a returned portrait phone in landscape (2.732589ms)
+✖ viewport invalidation releases pointers immediately and only resumes after stable geometry (5.798626ms)
+✖ late safe-area and viewport changes are sampled after the first orientation frame (0.487677ms)
+✖ offset-only browser movement clears held input and updates shell and dialog together (1.50977ms)
+✖ root scroll is restored on orientation while inner settings scroll is not touched (0.384085ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.479595ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 1
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 152.147821
+
+✖ failing tests:
+
+test at tests/viewport-sync-v32.test.mjs:24:1
+✖ stale visualViewport orientation cannot strand a returned portrait phone in landscape (2.732589ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 90
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:26:113)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 90,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:29:1
+✖ viewport invalidation releases pointers immediately and only resumes after stable geometry (5.798626ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(h.clears>before)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:30:59)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:34:1
+✖ late safe-area and viewport changes are sampled after the first orientation frame (0.487677ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  90 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:36:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 90,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:39:1
+✖ offset-only browser movement clears held input and updates shell and dialog together (1.50977ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(h.clears>before)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:40:95)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:44:1
+✖ root scroll is restored on orientation while inner settings scroll is not touched (0.384085ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  60 !== 0
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:45:110)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 60,
+    expected: 0,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

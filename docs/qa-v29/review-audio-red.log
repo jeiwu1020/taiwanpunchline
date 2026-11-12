@@ -1,0 +1,49 @@
+✔ effect audition reports mute and blocked audio without pretending playback (40.029025ms)
+✔ effect audition schedules clear distinct cues and cancellation removes pending cues (5.227945ms)
+✔ audio-page rejected voice promise reports an actionable visible message (6.117592ms)
+✖ synchronous voice playback errors remain visible after the audio-button handler (7.778533ms)
+✖ muting while effect resume is pending reports mute rather than playback failure (7.770381ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 3
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 212.631675
+
+✖ failing tests:
+
+test at tests/audio-feedback-v29.test.mjs:9:1
+✖ synchronous voice playback errors remain visible after the audio-button handler (7.778533ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /未成功/. Input:
+  
+  '正在試聽：恰吉王 · 連滾帶爬。'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/audio-feedback-v29.test.mjs:9:307)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '正在試聽：恰吉王 · 連滾帶爬。',
+    expected: /未成功/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/audio-feedback-v29.test.mjs:10:1
+✖ muting while effect resume is pending reports mute rather than playback failure (7.770381ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /靜音/. Input:
+  
+  '音效播放未成功，請再按一次或重新整理。'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/audio-feedback-v29.test.mjs:10:414)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '音效播放未成功，請再按一次或重新整理。',
+    expected: /靜音/,
+    operator: 'match',
+    diff: 'simple'
+  }

@@ -1,0 +1,145 @@
+✖ table blocks ground walking from both depth directions (13.292843ms)
+✖ table blocks side and diagonal entry but leaves outside lane open (2.825476ms)
+✖ swept table motion cannot tunnel at large displacement and permits height clearance (1.262006ms)
+✔ table top remains landable and supports walking off its depth edge (1.421149ms)
+✖ adjacent higher table blocks feet below its top without trapping walk-off (1.320172ms)
+✖ enemy depth approach also respects the solid table (3.905817ms)
+✖ depth table exposes a full projected landing surface rather than a compressed sliver (0.387095ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 1
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 215.538794
+
+✖ failing tests:
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:7:1
+✖ table blocks ground walking from both depth directions (13.292843ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(sign*p.depth>=36)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:8:158)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:10:1
+✖ table blocks side and diagonal entry but leaves outside lane open (2.825476ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:11:135)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:14:1
+✖ swept table motion cannot tunnel at large displacement and permits height clearance (1.262006ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:16:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:23:1
+✖ adjacent higher table blocks feet below its top without trapping walk-off (1.320172ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 744.9999999999989
+  - 650
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:24:225)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 744.9999999999989,
+    expected: 650,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:26:1
+✖ enemy depth approach also respects the solid table (3.905817ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(e.depth<=-36)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:27:303)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:29:1
+✖ depth table exposes a full projected landing surface rather than a compressed sliver (0.387095ms)
+  AssertionError [ERR_ASSERTION]: separate front/legs and tabletop
+  
+  1 !== 2
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:32:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

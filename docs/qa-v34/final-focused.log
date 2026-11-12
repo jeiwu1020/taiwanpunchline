@@ -1,0 +1,35 @@
+✔ each protected tap cancels its native default, including repeated near-stick taps (7.655273ms)
+✔ two battle fingers stay protected through pinch moves and independent releases (2.196649ms)
+✔ a protected touch may drag outside the battle without losing its original ownership (0.371426ms)
+✔ shell-targeted empty battle space is guarded by the live physical cabinet rectangle (0.501807ms)
+✔ toolbar, menu, pause, result and outside text retain native gestures even during combat (2.310105ms)
+✔ links, text fields, editable text and opt-out regions inside the cabinet remain native (1.298008ms)
+✔ game action button descendants stay protected despite native-button exclusions (0.554965ms)
+✔ menu-origin touches never become protected by moving inside or activating combat (0.517541ms)
+✔ opening settings releases protection and closing it cannot capture an old touch (0.740989ms)
+✔ a sequence including an outside/native finger is never hijacked by a battle finger (1.268284ms)
+✔ a native contact arriving after gesturestart also releases the Safari gesture latch (0.607493ms)
+✔ explicit lifecycle reset releases a stale sequence even when settings produced no root events (0.705707ms)
+✔ Safari gesture events are scoped to their protected starting target (7.023764ms)
+✔ noncancelable events and canceled or missed touch sequences cannot poison the next tap (0.489359ms)
+✔ mount is idempotent and listeners are root-scoped, non-passive and removable (1.683886ms)
+✔ native event propagation, independent pointer controls and audio unlock remain untouched (1.271549ms)
+✔ only the locked battle cabinet suppresses all touch browser gestures (15.73533ms)
+✔ surface locking synchronizes exact combat states, never settings or text overlays (9.990284ms)
+✔ the overlay CSS and camera use the same logical overlay flag (0.67355ms)
+✔ current game pages use the approved timeless name, including share metadata and settings (2.487576ms)
+✔ V34 entry and changed dependencies use new cache keys while prior history remains (0.848797ms)
+✔ two pointer IDs keep joystick and attack independent at rotation0 (2.971668ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation0 (1.540084ms)
+✔ orientation or page interruption releases both fingers at rotation0 (0.63968ms)
+✔ two pointer IDs keep joystick and attack independent at rotation90 (1.548937ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation90 (0.463962ms)
+✔ orientation or page interruption releases both fingers at rotation90 (1.324026ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 182.479823

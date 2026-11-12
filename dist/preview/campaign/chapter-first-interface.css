@@ -1,0 +1,100 @@
+/* First chapter is the visual reference. These scoped primitives preserve its
+   exact toolbar/paper/action geometry without importing its gameplay layout. */
+#trial-app>header{z-index:30!important;padding:0;height:38px;inset:6px 12px auto;display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:center;gap:10px;filter:drop-shadow(0 1px 2px #102a32)}
+#trial-app>header .brand{display:flex;align-items:center;gap:10px;color:#fff6df;text-decoration:none;font-size:18px;font-weight:900;white-space:nowrap;border:0;border-radius:0;box-shadow:none;background:none;padding:0;pointer-events:auto}
+#trial-app>header .brand-icon{font-size:19px;background:#f5b94f;color:#152c34;padding:2px 8px;border:2px solid #fff6df;transform:rotate(-6deg);box-shadow:3px 3px 0 #07191f}
+#trial-app>header .brand span:not(.brand-icon){margin:0;color:inherit;font:inherit}
+#trial-app>header .brand small{display:none}
+#trial-app>header .toolbar{display:flex;flex-wrap:nowrap;gap:7px;width:auto;max-width:none}
+#trial-app>header .toolbar button{font-family:inherit;font-weight:400;color:#fff6df;background:#243e47;border:1px solid #607b82;border-radius:5px;min-height:30px;height:30px;min-width:44px;padding:4px 9px;font-size:11px;white-space:nowrap;box-shadow:none}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header{inset:5px 8px auto;height:60px;flex-wrap:wrap;gap:2px;justify-content:center;align-content:center}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .brand{flex:0 0 100%;justify-content:center;font-size:16px;line-height:1.1;gap:6px;max-width:none}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .brand-icon{display:inline;font-size:16px;padding:1px 4px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .brand span{display:inline}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar{display:flex;grid-template-columns:none;flex-wrap:nowrap;gap:6px;width:auto;max-width:100%}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar button{min-width:56px;height:30px;min-height:30px;padding:3px 8px;font-size:11px}
+body[data-touch="true"][data-layout="landscape"] #trial-app>header .toolbar{gap:4px}
+body[data-touch="true"][data-layout="landscape"] #trial-app>header .toolbar button{height:30px;min-height:30px;min-width:38px;padding:3px 7px;font-size:10px}
+body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header{inset:calc(env(safe-area-inset-top,0px) + 3px) calc(env(safe-area-inset-right,0px) + 10px) auto calc(env(safe-area-inset-left,0px) + 10px);height:32px}
+body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .brand{font-size:15px;gap:6px}
+body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .brand-icon{font-size:18px}
+body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .toolbar button{font-size:11px;padding:4px 8px}
+#trial-app>:is(#pause-panel,#result-panel){inset:0;padding:48px 8px 8px;display:flex;align-items:center;justify-content:center;background:#112a3226;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#trial-app>:is(#pause-panel,#result-panel)[hidden]{display:none!important}
+#trial-app :is(#pause-panel,#result-panel) .paper,.chapter-home-confirm.paper{--ink:#152c34;--paper:#fff6df;display:block;width:420px;max-width:90%;max-height:100%;padding:24px;text-align:center;color:var(--ink);background:var(--paper);background-image:none;border:3px solid var(--ink);box-shadow:7px 7px 0 #091c23;transform:rotate(-1deg);border-radius:5px;overflow:auto}
+#trial-app :is(#pause-panel,#result-panel) .paper h2,.chapter-home-confirm.paper h2{font-size:37px;line-height:1.15;margin:10px 0;padding:0;border:0;letter-spacing:normal}
+#trial-app :is(#pause-panel,#result-panel) .paper p,.chapter-home-confirm.paper p{font-size:14px;line-height:1.6;margin:8px 0}
+#trial-app :is(#pause-panel,#result-panel) .paper .menu-action,.chapter-home-confirm .menu-action{display:block;box-sizing:border-box;width:184px;max-width:100%;height:48px;min-height:48px;margin:10px auto 0;padding:6px 16px;background:#bc3f31;color:#fff6df;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-size:16px;font-weight:900;line-height:1.2;white-space:nowrap}
+#trial-app :is(#pause-panel,#result-panel) .paper .menu-action:active{transform:translate(1px,2px);box-shadow:2px 2px 0 #152c34}
+#trial-app #pause-panel #restart-match{background:#237363;color:#fff6df}
+#trial-app #pause-panel #leave,#trial-app #result-panel #result-home{background:#315f88;color:#fff6df}
+#trial-app #restart-confirm{margin:10px 0 0;padding:9px;border:2px dashed #7d4b30;border-radius:6px;background:#ffebbd}
+#trial-app #restart-confirm[hidden]{display:none!important}
+#trial-app #restart-confirm p{margin:0 0 8px;font-size:13px;line-height:1.5}
+#trial-app .restart-actions{display:flex;gap:8px;justify-content:center}
+#trial-app .restart-actions button{min-height:40px;padding:7px 12px;font-size:13px;border:2px solid #152c34;border-radius:5px;background:#fff6df;color:#152c34}
+#trial-app #restart-confirm-button{background:#f5c070}
+#chapter-action-status:empty{display:none}
+#trial-app .chapter-pause-extras{margin-top:16px;padding-top:10px;border-top:1px solid #b9b39f;text-align:left}
+#trial-app .chapter-pause-extras summary{font-size:13px;line-height:1.5;text-align:center;font-weight:700;cursor:pointer;min-height:32px}
+#trial-app .chapter-pause-extras .choose{gap:6px;margin:9px 0}
+#trial-app .chapter-pause-extras .choose button{flex:0 1 96px;min-width:0;font-size:13px;padding:4px}
+#trial-app .chapter-pause-extras .choose img{width:52px;height:52px}
+#trial-app .chapter-secondary-actions{display:flex;gap:8px;justify-content:center}
+#trial-app .chapter-secondary-actions button{min-height:40px;padding:6px 10px;font-size:13px}
+#trial-app .fiction-note{display:block;font-size:9px;opacity:.6;margin-top:15px}
+#trial-app #result-panel .eyebrow{font-size:10px;letter-spacing:2px;background:#152c34;transform:rotate(-2deg);padding:3px 8px}
+.chapter-home-confirm.paper:not([open]){display:none}
+.chapter-home-confirm.paper{position:fixed;inset:auto;left:var(--chapter-center-x);top:var(--chapter-center-y);transform:translate(-50%,-50%);max-height:calc(var(--chapter-height) - 20px)}
+.chapter-home-confirm .home-confirm-actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:14px}
+.chapter-home-confirm .menu-action{margin:0}
+.chapter-home-confirm [data-confirm]{background:#e5ae46;color:#152c34}
+body>dialog::backdrop{background:#081b20cf}
+body>dialog#help-dialog{background:#fff6df;background-image:none;border:3px solid #152c34;border-radius:14px;box-shadow:7px 7px 0 #0a2028;overflow:hidden;font-family:inherit;touch-action:pan-y;color:#152c34}
+#help-dialog button{box-shadow:none;font-family:inherit;font-weight:700;touch-action:manipulation}
+#help-dialog .settings-head{height:auto;min-height:0}
+#help-dialog .settings-head strong,#help-dialog .settings-head small{color:inherit}
+#help-dialog :is(.settings-head,.settings-nav,.settings-footer){position:relative;inset:auto;filter:none}
+#help-dialog .settings-nav{justify-content:initial}
+#help-dialog .settings-scroll p,#help-dialog .detail-scroll p{font-size:12px;line-height:1.55;margin:6px 0 12px}
+#help-dialog a{border:0;box-shadow:none;background:none;border-radius:0;text-decoration:underline;color:#087b7e}
+#help-dialog input{user-select:auto;-webkit-user-select:auto}
+body[data-sideways="true"]>dialog#help-dialog{width:var(--chapter-width)!important;max-width:calc(var(--chapter-width) - 16px)!important;max-height:calc(var(--chapter-height) - 16px)!important;overflow:hidden}
+body[data-sideways="true"]>.chapter-home-confirm.paper{max-width:min(420px,calc(var(--chapter-width) - 24px))!important;transform:translate(-50%,-50%) rotate(90deg)}
+/* First-chapter cinematic composition: full art pane + compact copy pane,
+   with chapter-specific artwork and dialogue left untouched. */
+body[data-chapter-mode="story"] #trial-app>#stage{left:8px;top:52px;width:calc(62% - 8px);height:calc(100% - 60px);border:4px solid #172f36;border-right:0;border-radius:8px 0 0 8px;overflow:hidden;background:#fff3d3}
+body[data-chapter-mode="story"] #trial-app #story-panel{position:absolute;inset:52px 8px 8px auto;width:38%;max-height:none;display:flex;overflow:hidden;border:4px solid #172f36;border-left:3px solid #173239;border-radius:0 8px 8px 0;box-shadow:6px 7px 0 #172f3680;z-index:20}
+#trial-app #story-panel[hidden]{display:none!important}
+#trial-app #story-panel .story-copy{display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0;width:100%;max-width:none;margin:0;padding:16px;border:0;border-radius:0;box-shadow:none;background:radial-gradient(#172f3612 1px,transparent 1px) 0 0/6px 6px;overflow:auto}
+#trial-app .story-copy .story-heading{display:grid;gap:12px;justify-content:normal;flex:none}
+#trial-app .story-copy #story-speaker{justify-self:start;align-self:start;font-size:14px;line-height:1.3;margin:0;padding:3px 7px;background:#f4c261;color:#172f36;transform:rotate(-3deg);border-radius:0}
+#trial-app .story-copy h2{font-size:clamp(23px,2.4vw,34px);line-height:1.25;margin:0;padding:0;border:0;letter-spacing:normal}
+#trial-app .story-copy p{font-size:18px;line-height:1.5;margin:0}
+#trial-app .story-copy .story-actions{display:grid;grid-template-columns:1fr;gap:8px;margin:0;align-items:center;flex:none}
+#trial-app .story-copy #story-count{font-size:14px;font-weight:900;color:#172f36}
+#trial-app .story-copy .primary{float:none;display:block;width:100%;min-width:0;min-height:44px;padding:7px 8px;margin:0;font-size:18px;background:#b73c2d;color:#fff7dd;border:2px solid #173239;border-radius:5px;box-shadow:2px 3px 0 #17323935}
+body[data-layout="portrait"][data-chapter-mode="story"] #trial-app>#stage{inset:70px 8px auto;width:calc(100% - 16px);height:calc(54% - 70px);border:4px solid #172f36;border-bottom:0;border-radius:8px 8px 0 0}
+body[data-layout="portrait"][data-chapter-mode="story"] #trial-app #story-panel{inset:54% 8px 8px;width:auto;border:4px solid #172f36;border-top:3px solid #173239;border-radius:0 0 8px 8px}
+body[data-layout="portrait"] #trial-app #story-panel .story-copy{padding:9px 12px;gap:6px;justify-content:space-between}
+body[data-layout="portrait"] #trial-app .story-copy .story-heading{display:flex;align-items:center;gap:9px}
+body[data-layout="portrait"] #trial-app .story-copy #story-speaker{font-size:11px;flex:none;max-width:76px}
+body[data-layout="portrait"] #trial-app .story-copy h2{font-size:19px;min-width:0}
+body[data-layout="portrait"] #trial-app .story-copy p{font-size:15px;line-height:1.4}
+body[data-layout="portrait"] #trial-app .story-copy .story-actions{display:grid;grid-template-columns:auto minmax(92px,1fr);gap:6px}
+body[data-layout="portrait"] #trial-app .story-copy #story-count{font-size:12px;white-space:nowrap}
+body[data-layout="portrait"] #trial-app .story-copy .primary{font-size:16px}
+body[data-compact="true"] #trial-app #story-panel .story-copy{padding:10px 12px;gap:10px}
+body[data-compact="true"] #trial-app .story-copy h2{font-size:23px}
+body[data-compact="true"] #trial-app .story-copy p{font-size:16px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>:is(#pause-panel,#result-panel){padding-top:70px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper{width:340px;padding:19px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper h2{font-size:30px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper p{font-size:12px}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper{width:400px;padding:10px;transform:none;max-height:96%}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper h2{font-size:25px;margin:4px}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper p{font-size:11px;margin:4px}
+/* Explicit app host keeps enhanced selectors inside the same rotated surface. */
+#trial-app>.game-select-menu{z-index:100}
+#trial-app .game-select .game-select-trigger{max-width:100%}
+#trial-app :is(.card,.story-card) [hidden]{display:none!important}

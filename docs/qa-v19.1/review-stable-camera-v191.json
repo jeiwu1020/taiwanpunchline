@@ -1,0 +1,1776 @@
+{
+  "passedCases": 252,
+  "validatedFuzzFrames": 60000,
+  "cases": [
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 298,
+      "h": 292,
+      "frames": 10000
+    },
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 370,
+      "h": 575,
+      "frames": 10000
+    },
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 326,
+      "h": 255,
+      "frames": 10000
+    },
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 1134,
+      "h": 550,
+      "frames": 10000
+    },
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 960,
+      "h": 540,
+      "frames": 10000
+    },
+    {
+      "case": "bounds_and_background_fuzz",
+      "w": 160,
+      "h": 170,
+      "frames": 10000
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "wang",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "han",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ma",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "su",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "huang",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "chen",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "wang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "wang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "wang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "wang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "wang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "han",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "han",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "han",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "han",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "han",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ma",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ma",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ma",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ma",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ma",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "su",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "su",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "su",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "su",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "su",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "huang",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "huang",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "huang",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "huang",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "huang",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "chen",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "chen",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "chen",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "chen",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "chen",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ko",
+      "w": 298,
+      "h": 292
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ko",
+      "w": 370,
+      "h": 575
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ko",
+      "w": 326,
+      "h": 255
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ko",
+      "w": 1134,
+      "h": 550
+    },
+    {
+      "case": "opening_stable_all_pairs",
+      "type": "ko",
+      "enemy": "ko",
+      "w": 960,
+      "h": 540
+    },
+    {
+      "case": "actual_scene_block_fresh_duel_resize_back",
+      "passed": true
+    }
+  ],
+  "issues": [
+    {
+      "case": "fixed_landmark_movement",
+      "beforeWidth": 2282.522167487685,
+      "afterWidth": 2282.522167487685,
+      "beforeWorldX": 23.49556650246302,
+      "afterWorldX": 23.49556650246302
+    },
+    {
+      "case": "tiny_height150",
+      "head": 90,
+      "required": 91,
+      "underHud": false
+    }
+  ]
+}

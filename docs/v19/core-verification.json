@@ -1,0 +1,111 @@
+{
+  "baseline": {
+    "tests": 855,
+    "passed": 855
+  },
+  "final": {
+    "tests": 1007,
+    "passed": 1007,
+    "failed": 0
+  },
+  "newTests": 152,
+  "review": "Independent read-only reviewer found no correctness blockers. Compared 48 seeded unaffected pre-drop traces to V18 exactly.",
+  "soakAllRoster": {
+    "rounds": 588,
+    "winners": {
+      "easy": {
+        "player": 276,
+        "enemy": 18,
+        "draw": 0
+      },
+      "normal": {
+        "player": 255,
+        "enemy": 39,
+        "draw": 0
+      }
+    },
+    "aiMoves": {
+      "rush": 221,
+      "heal": 16,
+      "counter": 14,
+      "coin": 74,
+      "arrow": 77,
+      "han_knee": 182,
+      "ma_cough": 149,
+      "ma_gaze": 136,
+      "ma_handshake": 137,
+      "su_rush": 198,
+      "su_shout": 180,
+      "su_dare": 17,
+      "huang_queue": 116,
+      "huang_shout": 197,
+      "huang_debt": 15,
+      "chen_dream": 106,
+      "chen_question": 212,
+      "chen_calm": 12,
+      "ko_name": 180,
+      "ko_resolve": 131,
+      "ko_bags": 169
+    },
+    "maxProjectiles": 3,
+    "maxQueues": 2,
+    "maxSteps": 1947,
+    "seconds": 3.94
+  },
+  "soakLegacy2000": {
+    "rounds": 2000,
+    "winners": {
+      "player": 1819,
+      "enemy": 179,
+      "draw": 2
+    },
+    "maxProjectiles": 2,
+    "maxEvents": 5,
+    "maxSteps": 1739,
+    "seconds": 8.67,
+    "heapSamples": [
+      {
+        "run": 0,
+        "heapMB": 7.2
+      },
+      {
+        "run": 250,
+        "heapMB": 7.71
+      },
+      {
+        "run": 500,
+        "heapMB": 7.72
+      },
+      {
+        "run": 750,
+        "heapMB": 7.68
+      },
+      {
+        "run": 1000,
+        "heapMB": 7.72
+      },
+      {
+        "run": 1250,
+        "heapMB": 7.74
+      },
+      {
+        "run": 1500,
+        "heapMB": 7.78
+      },
+      {
+        "run": 1750,
+        "heapMB": 7.75
+      }
+    ],
+    "finalHeapMB": 7.73
+  },
+  "scope": "Logic-only isolated copy based on V18 1c356909; no commit, deployment, preview or new Codex task.",
+  "sha256": {
+    "dist/core.mjs": "1cecc926763e8e9c902285d3d1efde36c277d5bf8ab47f03e1f8c98fb8782aa8",
+    "dist/stage-rules.mjs": "374a861cca49bae1f382de4c376763618aeebbbbaea9edfeac3c7fac8bb0a464",
+    "tests/stage-items-v19.test.mjs": "bd5768c37e471b21e6e2f768418d0bcf508edd35b2be995d215f6dfe25375b18",
+    "tests/performance-guard-v19.test.mjs": "a211a154ab71478d86354da4a33dda5a11f1e9811b5eb0271e048252dad2b111",
+    "docs/v19/core-plan.md": "69331d5fcfbf4165a54e81b76438a74f467ffe146d8f2c5c049e0aa0be465193",
+    "docs/v19/core-contract.md": "1539d82e72f51ca5c9bc877396c613896d219d074c085cdf8231307ec7d8ad9b"
+  }
+}

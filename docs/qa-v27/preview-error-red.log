@@ -1,0 +1,31 @@
+✔ independent audio preferences change real game routing and retain the approved Chen clip (45.621956ms)
+✔ quick master mute and legacy voice setting synchronize with persistent preferences (5.765541ms)
+✔ opening settings pauses battle and closing never resumes it (5.156335ms)
+✖ rejected preview audio is reported in the visible settings demo status (6.542889ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 212.617883
+
+✖ failing tests:
+
+test at tests/settings-game-v27.test.mjs:5:1
+✖ rejected preview audio is reported in the visible settings demo status (6.542889ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /語音播放未成功/. Input:
+  
+  ''
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-game-v27.test.mjs:5:299)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: /語音播放未成功/,
+    operator: 'match',
+    diff: 'simple'
+  }

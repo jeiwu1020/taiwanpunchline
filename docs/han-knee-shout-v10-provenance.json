@@ -1,0 +1,131 @@
+{
+  "asset": {
+    "path": "dist/assets/han-knee-shout-v10.webp",
+    "sha256": "991dbe5890b8cc8b9e10919e87255e90d9cf0b61ddaeff81d1d06415d5ed563d",
+    "bytes": 104842
+  },
+  "created_utc": "2026-11-06T06:46:33.737346+00:00",
+  "mode": "built-in image_gen",
+  "use_case": "identity-preserve",
+  "generation_calls": 1,
+  "prompt_file": "docs/imagegen-v10/han-knee-shout-v10-prompt.txt",
+  "prompt": "Use case: identity-preserve.\nAsset type: exact-expression variant of an existing transparent fighting-game full-body character sprite, one figure, same 3:2 canvas composition.\nEDIT TARGET: Image 1, the existing Han Kuo-yu BOTH-KNEES sprite cropped from the top-right cell of the established atlas. Image 2 is an expression reference only for how this same Han character opens his mouth to shout. Do not copy image 2's head size, image framing, head-only layout, or aggressive brow position.\nPrimary edit: Change ONLY the expression on the existing face in Image 1: his mouth must be genuinely WIDE OPEN in a shout, with a clearly visible dark oral cavity, upper and lower teeth, and tongue, like Image 2. Slightly raise both eyebrows rather than making them more furrowed. Keep him looking slightly upward and toward screen right, retaining the original head angle and overall silhouette.\nCRITICAL INVARIANTS: Preserve the character's exact identity, head scale, tall bald crown shape, ear placement, neck length and neck-to-shirt junction. Keep the original body and every other pixel/content region as unchanged as possible: navy-blue/teal suit jacket and trousers, white shirt, dark tie, left hanging arm/hand, right extended open palm, hips raised above BOTH grounded knees, both shins and black dress shoes tucked naturally BEHIND toward screen left. No change to hand gestures, knees, torso pose, garment folds or body proportions. No new limbs or props.\nComposition: One full-body cutout only. Preserve the original image's figure position, generous transparent padding, and ground contact. At a 768x512 equivalent size, floor contact stays at y480 and the character's body ground anchor is x384,y480. The original visible figure extends approximately x228..571 and y39..482. Preserve this figure size and placement. If output resolution changes, scale every coordinate uniformly with the canvas.\nIllustration style: identical detailed inked political caricature, fine hatch texture, clean black contours, warm peach skin, same colors as Image 1. The result must be the same drawn person, not a new reinterpretation or a differently styled head pasted onto the body.\nTransparency: genuinely transparent alpha outside the character. The input PNG may contain invisible RGB colors behind zero alpha: ignore those entirely. Do NOT reproduce any colored rectangles, bands, dark backdrop, glow, floor, drop shadow or checkerboard. No background, text, captions, sound effects, labels, watermark, borders or extra figures.\nSuccess is visible open-mouth shouting within the unchanged full-body kneeling pose. A closed-mouth face, smirk, small smile, or merely labelling the pose as shouting is not acceptable.\n",
+  "original_atlas": {
+    "path": "dist/assets/han-knees-v10.webp",
+    "sha256": "003c737b4b4e161e9d19c5600db73fc69526d3122775f4eba0263a558cc4b607",
+    "bytes": 571788
+  },
+  "source_cell": {
+    "path": "docs/imagegen-v10/han-knee-shout-v10-source-cell.png",
+    "sha256": "35c144a802e01a9ea1b80057654865ad9f41d4c0df4c65224f44e95f361c7165",
+    "bytes": 193856
+  },
+  "source_cell_crop_xywh": [
+    768,
+    0,
+    768,
+    512
+  ],
+  "expression_reference": {
+    "path": "dist/assets/han-shout-v9.webp",
+    "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8",
+    "bytes": 55160
+  },
+  "generated_original_path": "/workspace/scratch/1a1351aee944/generated_images/exec-42d12d5c-21f0-48b7-87e5-4d3bf553ecfc.png",
+  "preserved_generated_source": {
+    "path": "docs/imagegen-v10/han-knee-shout-v10-generated.png",
+    "sha256": "37f9a64b595689c97afae9ad76061ff45d1ab68f119fcc577602bd18b3803dee",
+    "bytes": 1412647
+  },
+  "compilation": "ImageMagick crop of original atlas top-right cell to make edit target; built-in image_gen edited that target with shout-expression reference; generated 1536x1024 output uniformly resized 50 percent to 768x512, then encoded lossless WebP. No manual or procedural face/body edits, no extra rotation or translation, alpha preserved.",
+  "sprite": {
+    "width": 768,
+    "height": 512,
+    "ground_anchor": [
+      384,
+      480
+    ],
+    "facing": "three-quarter right",
+    "alpha_bounds_xyxy": [
+      227,
+      38,
+      571,
+      483
+    ],
+    "visible_alpha_gt_16_bounds_xyxy": [
+      227,
+      38,
+      571,
+      481
+    ],
+    "estimated_neck_join": [
+      402,
+      237
+    ]
+  },
+  "comparison_to_original": {
+    "original_visible_bounds_xyxy": [
+      228,
+      39,
+      571,
+      482
+    ],
+    "new_visible_bounds_xyxy": [
+      227,
+      38,
+      571,
+      481
+    ],
+    "original_estimated_neck_join": [
+      402,
+      233
+    ],
+    "new_estimated_neck_join": [
+      402,
+      237
+    ],
+    "estimated_neck_join_delta": [
+      0,
+      4
+    ],
+    "original_head_region_bounds_xyxy": [
+      306,
+      39,
+      450,
+      240
+    ],
+    "new_head_region_bounds_xyxy": [
+      307,
+      38,
+      454,
+      240
+    ],
+    "head_region_width_original_px": 144,
+    "head_region_width_new_px": 147,
+    "head_region_width_ratio": 1.0208333333333333,
+    "note_head_region": "Head region measured inside fixed ROI [300,20,460,240]; includes neck and is not an exact face segmentation. Width increase mainly reflects open mouth/cheek contour.",
+    "body_alpha_iou_below_y245_at_alpha_gt128": 0.9702102387456942,
+    "lowest_visible_y_original_inclusive": 481,
+    "lowest_visible_y_new_inclusive": 480,
+    "extra_repositioning_applied": false
+  },
+  "visual_validation": [
+    "Inspected whole sprite on light-gray composite, then face enlarged 300 percent.",
+    "Mouth is visibly wide open with dark oral cavity, upper and lower teeth, and tongue. It is not a closed-mouth expression.",
+    "Both eyebrows visibly raised relative to the original defiant/furrowed expression.",
+    "Two knees remain grounded, hips raised, shins and shoes behind to screen left. Same open forward palm and hanging other arm.",
+    "Full-body sprite has no crop through shoulders, head-neck collar attachment is continuous.",
+    "Original atlas checksum is unchanged from its own provenance."
+  ],
+  "limitations": [
+    "Image editing redrew garment texture and small contours rather than preserving every body pixel. Body silhouette overlap below y245 is approximately 97 percent.",
+    "Head width in fixed inspection ROI increased approximately 2.1 percent; crown is approximately 1 px higher and neck junction about 4 px lower due to open-jaw expression.",
+    "Floor and overall placement remain suitable for anchor [384,480], but this is not a pixel-identical pose swap."
+  ],
+  "inspection_preview": "/workspace/shared/han-knee-shout-v10-final-inspection.png",
+  "comparison_preview": "/workspace/shared/han-knee-shout-v10-compare.png",
+  "original_atlas_modified": false,
+  "renderer_modified": false,
+  "preview_started": false,
+  "committed_or_published": false
+}

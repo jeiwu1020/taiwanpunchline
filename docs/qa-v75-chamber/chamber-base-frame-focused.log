@@ -1,0 +1,23 @@
+✔ full-stage canvas remains the same absolute layer through portrait pause and resume (4839.37417ms)
+✔ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (910.763795ms)
+✔ pause preserves the scene with a light blur rather than an opaque replacement (63.515383ms)
+✔ stage camera keeps fighters between HUD and controls at jump apex and wide separation (3.844768ms)
+✔ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (11.313183ms)
+✔ depth route uses shared full-stage safe space while retaining legacy callers (27.018919ms)
+✔ pause freezes an in-flight camera ease until resume (1.10065ms)
+✔ challenge arena paints the entire visible rectangle beyond former fixed backdrop bounds (14.205524ms)
+✔ chamber vertical extensions contain only material strips, never another auditorium (2.31902ms)
+✔ main chamber explicitly uses BASE after Phaser named crops change firstFrame (52.342808ms)
+✔ one continuous sky draw sits behind all repeated facade tiles (25.397631ms)
+✔ layered backdrop requires both complete assets and otherwise keeps old source (20.63365ms)
+✔ retained facade stays transparent above roof and sky is one independently retained image (28.30287ms)
+✔ optional layered-sky load failure retains playable legacy art, required failures still block (71.59815ms)
+✔ actual scene creation excludes missing optional Phaser placeholders before renderer setup (23.116948ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6553.647341

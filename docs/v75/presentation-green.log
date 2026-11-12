@@ -1,0 +1,14 @@
+✔ full-stage canvas remains the same absolute layer through portrait pause and resume (6589.304472ms)
+✔ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (813.691346ms)
+✔ pause preserves the scene with a light blur rather than an opaque replacement (80.964365ms)
+✔ stage camera keeps fighters between HUD and controls at jump apex and wide separation (1.988029ms)
+✔ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (16.115845ms)
+✔ depth route uses shared full-stage safe space while retaining legacy callers (27.365672ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8207.051609

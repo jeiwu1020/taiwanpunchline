@@ -1,0 +1,53 @@
+✖ all twenty-one moves have concise numeric-free purposes independent of combat hints (2.236629ms)
+✖ all actual character selections show purpose in visible copy, tooltip and accessible label (34.626473ms)
+✔ detailed move information retains each exact cooldown and mechanical damage values (1.536228ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 1
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 206.48068
+
+✖ failing tests:
+
+test at tests/move-purpose-v26.test.mjs:2:1
+✖ all twenty-one moves have concise numeric-free purposes independent of combat hints (2.236629ms)
+  AssertionError [ERR_ASSERTION]: rush
+  + actual - expected
+  
+  + 'undefined'
+  - 'string'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/move-purpose-v26.test.mjs:3:113)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'string',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/move-purpose-v26.test.mjs:5:1
+✖ all actual character selections show purpose in visible copy, tooltip and accessible label (34.626473ms)
+  AssertionError [ERR_ASSERTION]: rush
+  + actual - expected
+  
+  + '低身翻滾接近'
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/move-purpose-v26.test.mjs:9:92)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: '低身翻滾接近',
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

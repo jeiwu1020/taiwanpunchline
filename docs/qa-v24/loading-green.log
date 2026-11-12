@@ -1,0 +1,14 @@
+✔ main selection screen uses only in-game role, character and difficulty buttons (1.457138ms)
+✔ all seven portrait buttons are generated once with real labels and existing images (35.036613ms)
+✔ role cards target only their side, allow mirrors, and show both role badges (8.910789ms)
+✔ custom difficulty persists through start, replay and return to roster (6.126862ms)
+✔ hidden roster actions cannot reset a running battle or restart a countdown (3.689145ms)
+✔ loading-time roster clicks are ignored until cards have been initialized (5.380898ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 215.258553

@@ -1,0 +1,419 @@
+{
+  "wang": {
+    "tag": "從容派",
+    "color": 16100930,
+    "colorCSS": "#f5ae42",
+    "portrait": "assets/wang-laugh-head.webp",
+    "tip": "翻滾接近 → 攻擊；等對手起手，再從從容容反擊。",
+    "roast": "從容只是外表，連滾帶爬才是日常。",
+    "moves": [
+      {
+        "kind": "rush",
+        "name": "連滾帶爬",
+        "hint": "衝刺撞擊 · 近中距離",
+        "cooldown": 3.5,
+        "fictional": true
+      },
+      {
+        "kind": "counter",
+        "name": "從從容容",
+        "hint": "短暫反擊架勢 · 等對手出手",
+        "cooldown": 6,
+        "fictional": true
+      },
+      {
+        "kind": "heal",
+        "name": "喝水回氣",
+        "hint": "回復 12 氣勢 · 會被打斷",
+        "cooldown": 10,
+        "fictional": true
+      }
+    ]
+  },
+  "han": {
+    "tag": "氣勢派",
+    "color": 5687496,
+    "colorCSS": "#56c8c8",
+    "portrait": "assets/han-defiant-head.webp",
+    "tip": "金幣逼跳 → 跪步靠近再喊話；穿雲箭要預判落點。",
+    "roast": "金幣可以再賺，面子下一局再找。",
+    "moves": [
+      {
+        "kind": "coin",
+        "name": "發財金幣波",
+        "hint": "直線金幣 · 可跳過",
+        "cooldown": 3.5,
+        "fictional": true
+      },
+      {
+        "kind": "han_knee",
+        "name": "可憐哪",
+        "hint": "跪步前進後喊話 · 全程可受擊",
+        "cooldown": 5.5,
+        "word": "可憐哪",
+        "source": "https://www.youtube.com/watch?v=2pzt4XbdANM",
+        "sourceText": "https://news.tvbs.com.tw/politics/1253466",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 此連結為跪步動作；「可憐哪」來自另一次 2019/12/29 辯論，遊戲將兩個事件拼接。",
+        "fictional": true,
+        "behavior": "advance",
+        "advanceStart": 0.18,
+        "advanceEnd": 0.6,
+        "speed": 150,
+        "start": 0.62,
+        "end": 0.74,
+        "duration": 1.08,
+        "range": 170,
+        "damage": 18,
+        "knock": 60
+      },
+      {
+        "kind": "arrow",
+        "name": "一支穿雲箭",
+        "hint": "高空拋射 · 壓制遠處",
+        "cooldown": 6,
+        "fictional": true
+      }
+    ]
+  },
+  "ma": {
+    "tag": "微笑派",
+    "color": 7576534,
+    "colorCSS": "#739bd6",
+    "portrait": "assets/ma-head-v5.webp",
+    "tip": "握手震退 → 伸掌推開；掩口咳嗽分兩段，會被打斷。",
+    "roast": "握手很有禮貌，震退純屬遊戲效果。",
+    "moves": [
+      {
+        "kind": "ma_handshake",
+        "name": "死亡之握",
+        "hint": "禮貌握手 · 一般傷害，非即死",
+        "cooldown": 4,
+        "word": "謝謝指教",
+        "source": "https://news.tvbs.com.tw/politics/377788",
+        "sourceText": "https://news.tvbs.com.tw/politics/377788",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.18,
+        "end": 0.3,
+        "duration": 0.56,
+        "range": 142,
+        "damage": 14,
+        "knock": 72
+      },
+      {
+        "kind": "ma_gaze",
+        "name": "我把你當人看",
+        "hint": "注視伸掌 · 短距推開",
+        "cooldown": 5,
+        "word": "我把你當人看",
+        "source": "https://www.youtube.com/watch?v=91lkb1cF7NY",
+        "sourceText": "https://news.tvbs.com.tw/politics/300555",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 原話為 2007/12/8 住宅與原住民議題脈絡；遊戲不重現族群對象，也沒有變身效果。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.25,
+        "end": 0.38,
+        "duration": 0.72,
+        "range": 175,
+        "damage": 13,
+        "knock": 70
+      },
+      {
+        "kind": "ma_cough",
+        "name": "酷酷嫂",
+        "hint": "咳嗽聲音梗 · 掩口兩段短擊",
+        "cooldown": 5.5,
+        "word": "咳、咳",
+        "memeType": "cough",
+        "source": "https://youtu.be/R8vDOQt-V4A?t=5950",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 時間點來自 PTT 轉述，尚未聽驗；「酷酷嫂」是咳嗽聲梗，不是配偶或本人說出的三字引言。",
+        "fictional": true,
+        "behavior": "combo",
+        "duration": 0.82,
+        "range": 165,
+        "hits": [
+          {
+            "start": 0.2,
+            "end": 0.28,
+            "damage": 6,
+            "knock": 5
+          },
+          {
+            "start": 0.42,
+            "end": 0.5,
+            "damage": 7,
+            "knock": 42
+          }
+        ]
+      }
+    ]
+  },
+  "su": {
+    "tag": "震場派",
+    "color": 7056502,
+    "colorCSS": "#6bac76",
+    "portrait": "assets/su-head-v8.webp",
+    "tip": "喊話震開 → 三步衝近；招手架勢等對手出手再反擊。",
+    "roast": "喊話氣勢很足，收招還是要留點空間。",
+    "moves": [
+      {
+        "kind": "su_shout",
+        "name": "在那叫什麼",
+        "hint": "中近距喊話 · 震退對手",
+        "cooldown": 4.5,
+        "word": "在那叫什麼",
+        "source": "https://ivod.ly.gov.tw/Demand/Speech/136457",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.22,
+        "end": 0.36,
+        "duration": 0.64,
+        "range": 185,
+        "damage": 16,
+        "knock": 62
+      },
+      {
+        "kind": "su_rush",
+        "name": "衝衝衝",
+        "hint": "三步突進 · 單次撞擊",
+        "cooldown": 5,
+        "word": "衝衝衝",
+        "source": "https://finance.ftvnews.com.tw/news/detail/2017B01W0009",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 報導確認本人參與電影配音；尚未聽驗片段。",
+        "fictional": true,
+        "behavior": "rush",
+        "start": 0.18,
+        "end": 0.48,
+        "duration": 0.72,
+        "range": 118,
+        "damage": 16,
+        "knock": 45,
+        "speed": 500
+      },
+      {
+        "kind": "su_dare",
+        "name": "要試試看嘛",
+        "hint": "招手架勢 · 短暫防反",
+        "cooldown": 7,
+        "word": "要試試看嘛",
+        "source": "https://ivod.ly.gov.tw/Demand/Speech/141607",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "counter",
+        "start": 0.2,
+        "window": 0.48,
+        "duration": 0.88,
+        "damage": 18,
+        "knock": 56
+      }
+    ]
+  },
+  "huang": {
+    "tag": "追問派",
+    "color": 10388428,
+    "colorCSS": "#9e83cc",
+    "portrait": "assets/huang-head-v5.webp",
+    "tip": "喊話震開 → 空手攤掌反擊；伸掌攔停是短擊，不是永久牆。",
+    "roast": "問題問得很完整，收招也要記得留空檔。",
+    "moves": [
+      {
+        "kind": "huang_shout",
+        "name": "太離譜了",
+        "hint": "中距喊話 · 震退對手",
+        "cooldown": 5,
+        "word": "太離譜了",
+        "source": "https://kuochang.tw/quote/Beyavja1r7",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.24,
+        "end": 0.36,
+        "duration": 0.68,
+        "range": 205,
+        "damage": 16,
+        "knock": 55
+      },
+      {
+        "kind": "huang_debt",
+        "name": "我有欠你喔",
+        "hint": "攤開空手 · 短暫防反",
+        "cooldown": 6.5,
+        "word": "我有欠你喔",
+        "source": "https://kuochang.tw/quote/ybR0opawAK",
+        "sourceText": "https://www.nownews.com/news/6414244",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "counter",
+        "start": 0.14,
+        "window": 0.5,
+        "duration": 0.82,
+        "damage": 15,
+        "knock": 48
+      },
+      {
+        "kind": "huang_queue",
+        "name": "可以這樣插隊喔",
+        "hint": "伸掌攔停 · 短距推開，無持續牆",
+        "cooldown": 5.5,
+        "word": "可以這樣插隊喔",
+        "source": "https://kuochang.tw/quote/XnVa4k06oJ",
+        "sourceText": "https://news.tvbs.com.tw/politics/2488674",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 「插隊」是當事人指控，不是遊戲對事件的認定。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.24,
+        "end": 0.38,
+        "duration": 0.74,
+        "range": 175,
+        "damage": 15,
+        "knock": 78
+      }
+    ]
+  },
+  "chen": {
+    "tag": "淡定派",
+    "color": 7973000,
+    "colorCSS": "#79a888",
+    "portrait": "assets/chen-head-v8.webp",
+    "tip": "夢想紙機逼跳 → 雙掌兩問；攤掌反擊要抓出手時機。",
+    "roast": "表情還很淡定，氣勢已經先請假。",
+    "moves": [
+      {
+        "kind": "chen_dream",
+        "name": "有夢最美",
+        "hint": "紙機夢想波 · 可跳過",
+        "cooldown": 5.5,
+        "word": "有夢最美",
+        "source": "https://www.president.gov.tw/NEWS/9202",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "projectile",
+        "start": 0.3,
+        "duration": 0.72,
+        "projectileKind": "dream",
+        "speed": 350,
+        "life": 1.8,
+        "damage": 12,
+        "knock": 30
+      },
+      {
+        "kind": "chen_question",
+        "name": "阿扁錯了嗎",
+        "hint": "雙掌兩問 · 近身兩段短擊",
+        "cooldown": 4.5,
+        "word": "阿扁錯了嗎",
+        "source": "https://news.tvbs.com.tw/politics/372946",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "combo",
+        "duration": 0.76,
+        "range": 165,
+        "hits": [
+          {
+            "start": 0.18,
+            "end": 0.27,
+            "damage": 6,
+            "knock": 5
+          },
+          {
+            "start": 0.4,
+            "end": 0.5,
+            "damage": 7,
+            "knock": 35
+          }
+        ]
+      },
+      {
+        "kind": "chen_calm",
+        "name": "有那麼嚴重嗎",
+        "hint": "攤掌淡定 · 短暫反擊架勢",
+        "cooldown": 6.5,
+        "word": "有那麼嚴重嗎",
+        "source": "https://www.youtube.com/watch?v=2XE0FXgjw2s",
+        "sourceText": "https://news.pts.org.tw/article/359147",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "counter",
+        "start": 0.12,
+        "window": 0.56,
+        "duration": 0.82,
+        "damage": 13,
+        "knock": 44
+      }
+    ]
+  },
+  "ko": {
+    "tag": "冷面派",
+    "color": 7323078,
+    "colorCSS": "#6fbdc6",
+    "portrait": "assets/ko-head-v6.webp",
+    "tip": "雙袋兩段揮擊 → 舉手喊名；站穩只擋一次，仍受 2 點傷害。",
+    "roast": "袋子收得俐落，收招還是要留點空間。",
+    "moves": [
+      {
+        "kind": "ko_bags",
+        "name": "垃圾不分藍綠",
+        "hint": "雙袋兩段揮擊 · 中途可被打斷",
+        "cooldown": 4.5,
+        "word": "垃圾不分藍綠",
+        "source": "https://www.cna.com.tw/news/aloc/201611140250.aspx",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "combo",
+        "duration": 0.72,
+        "range": 155,
+        "hits": [
+          {
+            "start": 0.16,
+            "end": 0.26,
+            "damage": 7,
+            "knock": 6
+          },
+          {
+            "start": 0.38,
+            "end": 0.5,
+            "damage": 9,
+            "knock": 38
+          }
+        ]
+      },
+      {
+        "kind": "ko_name",
+        "name": "賴祥德",
+        "hint": "舉手喊名 · 口誤梗短擊",
+        "cooldown": 5,
+        "word": "賴祥德",
+        "intendedName": "賴清德",
+        "source": "https://www.youtube.com/watch?v=IM1EGVSoRek",
+        "sourceText": "https://news.tvbs.com.tw/politics/3164547",
+        "sourceMeme": "https://www.ftvnews.com.tw/news/detail/2026330p11m1",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。 原意是在喊「賴清德」；「賴祥德」是破音／口誤的迷因解讀，不是另一個人。",
+        "fictional": true,
+        "behavior": "melee",
+        "start": 0.26,
+        "end": 0.4,
+        "duration": 0.74,
+        "range": 190,
+        "damage": 15,
+        "knock": 52
+      },
+      {
+        "kind": "ko_resolve",
+        "name": "我不會屈服",
+        "hint": "站穩擋一次 · 受 2 點傷害、免該次震退、不反傷",
+        "cooldown": 7,
+        "word": "我不會屈服",
+        "source": "https://www.youtube.com/watch?v=IM1EGVSoRek",
+        "sourceText": "https://news.tvbs.com.tw/politics/3164547",
+        "sourceNote": "僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。",
+        "fictional": true,
+        "behavior": "brace",
+        "start": 0.12,
+        "window": 0.65,
+        "duration": 0.92
+      }
+    ]
+  }
+}

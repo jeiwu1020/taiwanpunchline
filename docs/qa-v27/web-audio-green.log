@@ -1,0 +1,16 @@
+✔ voice level independently scales both existing actor lanes and preview (1.880504ms)
+✔ voice multiplier clamps invalid input without changing established base balance (0.393999ms)
+✔ Web Audio voice outputs preserve independent gain on browsers that ignore media volume (0.686318ms)
+✔ missing Web Audio media-source support retains the ordinary volume fallback (0.336965ms)
+✔ independent audio preferences change real game routing and retain the approved Chen clip (46.64175ms)
+✔ quick master mute and legacy voice setting synchronize with persistent preferences (4.040799ms)
+✔ opening settings pauses battle and closing never resumes it (2.853995ms)
+✔ rejected preview audio is reported in the visible settings demo status (4.702722ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 219.015266

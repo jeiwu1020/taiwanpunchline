@@ -1,0 +1,108 @@
+{
+  "retreat": {
+    "rounds": 294,
+    "wins": 19,
+    "damage": 19254,
+    "received": 29149,
+    "hits": 2930,
+    "blocks": 1966,
+    "jumps": 1553,
+    "moves": 1166,
+    "interrupted": 1430,
+    "attackingFrames": 78961,
+    "recoveryFrames": 52137,
+    "stunFrames": 55682,
+    "observationResets": 0,
+    "frames": 294511,
+    "byCharacter": {
+      "wang": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2848
+      },
+      "han": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2742
+      },
+      "ma": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2699
+      },
+      "su": {
+        "wins": 4,
+        "rounds": 42,
+        "damage": 2752
+      },
+      "huang": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2593
+      },
+      "chen": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2793
+      },
+      "ko": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2827
+      }
+    }
+  },
+  "shorter": {
+    "rounds": 294,
+    "wins": 13,
+    "damage": 19688,
+    "received": 29201,
+    "hits": 3034,
+    "blocks": 1700,
+    "jumps": 1547,
+    "moves": 1188,
+    "interrupted": 1741,
+    "attackingFrames": 77741,
+    "recoveryFrames": 33063,
+    "stunFrames": 55687,
+    "observationResets": 0,
+    "frames": 278488,
+    "byCharacter": {
+      "wang": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2804
+      },
+      "han": {
+        "wins": 4,
+        "rounds": 42,
+        "damage": 2980
+      },
+      "ma": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2679
+      },
+      "su": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2843
+      },
+      "huang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2585
+      },
+      "chen": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2918
+      },
+      "ko": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2879
+      }
+    }
+  }
+}

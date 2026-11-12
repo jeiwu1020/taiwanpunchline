@@ -1,0 +1,14 @@
+✔ two pointer IDs keep joystick and attack independent at rotation0 (1.578583ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation0 (1.065548ms)
+✔ orientation or page interruption releases both fingers at rotation0 (0.490932ms)
+✔ two pointer IDs keep joystick and attack independent at rotation90 (0.180606ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation90 (0.213243ms)
+✔ orientation or page interruption releases both fingers at rotation90 (0.170021ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 103.414126

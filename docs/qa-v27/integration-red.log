@@ -1,0 +1,48 @@
+✖ independent audio preferences change real game routing and retain the approved Chen clip (26.583268ms)
+✖ quick master mute and legacy voice setting synchronize with persistent preferences (8.840565ms)
+✔ opening settings pauses battle and closing never resumes it (5.562443ms)
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (3.193196ms)
+✔ switching tab, character, close or stop cancels previews without starting another (0.58622ms)
+✔ reset needs confirmation and cancel changes nothing (1.21913ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.357194ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 156.183103
+
+✖ failing tests:
+
+test at tests/settings-game-v27.test.mjs:2:1
+✖ independent audio preferences change real game routing and retain the approved Chen clip (26.583268ms)
+  AssertionError [ERR_ASSERTION]: game owns preferences
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-game-v27.test.mjs:2:142)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/settings-game-v27.test.mjs:3:1
+✖ quick master mute and legacy voice setting synchronize with persistent preferences (8.840565ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(h.ui.settings)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-game-v27.test.mjs:3:136)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

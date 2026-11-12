@@ -1,0 +1,17 @@
+✔ all boss scenes paint one continuous warm sky, not an empty upper gradient (13.493166ms)
+✔ boss road continuation samples pavement at equal X/Y scale instead of stretching a 16px strip (0.89316ms)
+✔ boss facade is prepared once and unchanged camera does not rebuild its canvas every animation frame (0.871353ms)
+✔ actual boss 1 update cannot re-show hidden chamber tiles (73.118418ms)
+✔ actual boss 3 update cannot re-show hidden chamber tiles (25.569901ms)
+✔ actual boss 5 update cannot re-show hidden chamber tiles (9.916493ms)
+✔ moving boss cameras reuse prepared materials with bounded paint calls and canvas allocation (36.373478ms)
+✔ one central arena retains its world geometry and side continuation never repeats the sun (5.838704ms)
+✔ missing optional warm sky and legacy arena source still render real material without throwing (1.745701ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 381.770687

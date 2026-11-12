@@ -1,0 +1,4 @@
+0ee9bb7d32fd7ffb2bd39c29e6448e3c96ec138db285d67a644b0fd1cf4697d2  dist/challenge-arena-backdrop.mjs
+a70a0fd076ec1d8ab74916677aad92dd9fa3411ab1b7d6afd40091d5e27f5649  dist/challenge-art.mjs
+abffe080157f6aaa3bb7f727e12e4aaf709ac20e852694872627cf2a04ca6b14  dist/challenge-render.mjs
+ed0ce518ec9fe014bf94bdb677a50ced9a9afe6ee8909825ba9422e87aa78d21  dist/game.mjs

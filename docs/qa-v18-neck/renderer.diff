@@ -1,0 +1,98 @@
+--- docs/qa-v18-neck/art-render.before.txt	2026-11-06 23:14:05.264048263 +0800
++++ dist/art-render.mjs	2026-11-06 23:22:08.697330969 +0800
+@@ -2,6 +2,7 @@
+ import {expressionFor} from './art-expression.mjs?v=13';
+ import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=13';
+ import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=13';
++import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=13';
+ export const ART_FILES={
+  'handshake-grip':'handshake-v13.png',
+  'han-lotus-body':'han-lotus-body-v11.webp','ma-cough':'ma-cough-v10.webp','ma-gaze':'ma-gaze-v10.webp','signature-hands':'signature-hands-v10.webp','signature-props':'signature-props-v10.webp',
+@@ -26,7 +27,7 @@
+ }
+ function head(ctx,images,type,p,rolling=false){
+  const texture=images[type==='han'&&p.kind==='han_knee'?'han-head':type==='han'&&p.kind?expressionFor(type,p):type+'-'+(p.head==='sip'&&type!=='wang'?'head':p.head)]||images[type+'-head'];
+- ctx.save();ctx.translate(rolling?-13:0,rolling?-131:-163.8+p.bob);ctx.rotate(p.headAngle);
++ ctx.save();ctx.translate(rolling?-13:0,rolling?-131:-163.8+(p.kind==='arrow'?0:HEAD_SEAT[type])+p.bob);ctx.rotate(p.headAngle);
+  const w=type==='wang'?116.4:109;ctx.drawImage(texture,-w/2,-114,w,120);ctx.restore();
+ }
+ export function drawProp(ctx,images,name,x,y,w,h,angle=0){ctx.save();ctx.translate(x,y);ctx.rotate(angle);crop(ctx,images['art-props'],PROP_FRAMES[name],-w/2,-h/2,w,h);ctx.restore()}
+@@ -49,6 +50,7 @@
+  if(p.roll>.6){
+   ctx.translate(0,-115);ctx.rotate(p.rollAngle);ctx.translate(0,115);
+   ctx.drawImage(images['wang-roll'],-65,-148,140,140);head(ctx,images,f.type,p,true);
++  drawCollarFront(ctx,images['wang-roll'],[0,0,1254,1254],[-65,-148,140,140],'roll');
+   ctx.restore();return p;
+  }
+  if(p.roll>0){ctx.translate(0,13*p.roll);ctx.rotate(.12*p.roll);}
+@@ -60,7 +62,9 @@
+  if(p.kind==='arrow'){
+   // The two hands, drawn bow/string and jacket share one anatomically connected action cutout.
+   const recoil=p.age>.24?Math.sin(clamp((p.age-.24)/.31)*Math.PI)*2:0;
+-  ctx.drawImage(images[p.age>.24?'han-release':'han-archery'],-88-recoil,-225,261,174);head(ctx,images,f.type,p);
++  const actionBody=images[p.age>.24?'han-release':'han-archery'];
++  ctx.drawImage(actionBody,-88-recoil,-225,261,174);head(ctx,images,f.type,p);
++  drawCollarFront(ctx,actionBody,[0,0,1536,1024],[-88-recoil,-225,261,174],'arrow');
+  }else{
+   const {shoulder:farS,elbow:farE,wrist:farW}=p.farArm;
+   const kneeForearm=(a,far)=>{
+@@ -79,6 +83,7 @@
+   else joined(ctx,images['left-arms'],[offset+280,18,282,1000],farE,farW,{x:offset+410,y:60},{x:offset+405,y:674});
+   crop(ctx,atlas,crops.body,-42,-169,84,113);
+   head(ctx,images,f.type,p);
++  drawCollarFront(ctx,atlas,crops.body,[-42,-169,84,113],f.type);
+   upper(ctx,atlas,p.arm.shoulder,p.arm.elbow,29);
+   if(knee)kneeForearm(p.arm,false);
+   else if(p.kind==='heal'||spit>0)joined(ctx,images['wang-drink'],[0,0,1536,1024],p.arm.elbow,p.arm.wrist,{x:350,y:906},{x:884,y:470});
+@@ -87,11 +92,11 @@
+    joined(ctx,atlas,p.capture?[1118,0,270,336]:crops.fist,p.arm.elbow,p.arm.wrist,{x:ax,y:26},{x:ax,y:328});
+   }
+  }
+- if(p.kind==='counter')drawProp(ctx,images,'glasses',7,-228+p.bob,87,40,-.05);
++ if(p.kind==='counter')drawProp(ctx,images,'glasses',7,-228+HEAD_SEAT[f.type]+p.bob,87,40,-.05);
+  if(p.kind==='coin'&&p.age<.16)drawProp(ctx,images,'coin',p.arm.wrist.x+40,p.arm.wrist.y+1,28,29,-.15);
+  if(f.guard||f.counter>0){ctx.strokeStyle=f.counter>0?'#f5ae42aa':'#7ce1d699';ctx.lineWidth=f.counter>0?4:3;ctx.beginPath();ctx.arc(0,-135,87,-1.18,1.18);ctx.stroke();}
+  if(spit>0&&spit<.52){
+-  const u=clamp(spit/.52),growth=.4+.6*ease(u*3);ctx.save();ctx.globalAlpha=Math.sin(Math.PI*u);ctx.translate(28,-207+p.bob);ctx.rotate(p.headAngle);
++  const u=clamp(spit/.52),growth=.4+.6*ease(u*3);ctx.save();ctx.globalAlpha=Math.sin(Math.PI*u);ctx.translate(28,-207+HEAD_SEAT[f.type]+p.bob);ctx.rotate(p.headAngle);
+   crop(ctx,images['art-props'],PROP_FRAMES.water,0,-30,150*growth,95*growth);ctx.restore();
+  }
+  if(knee){ctx.restore();drawKneeArt(ctx,images,p.age);}
+--- docs/qa-v18-neck/art-roster.before.txt	2026-11-06 23:14:05.265579663 +0800
++++ dist/art-roster.mjs	2026-11-06 23:20:07.098381248 +0800
+@@ -1,5 +1,6 @@
+ import {isSignatureHand,drawSignatureHand} from './art-signature.mjs?v=13';
+ import {expressionFor,drawMoveAccent} from './art-expression.mjs?v=13';
++import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=13';
+ const config={chen:{row:0,body:[35,17,284,421],width:87,head:112,atlas:'final-costumes',upper:[349,18,207,416],near:[614,17,172,416],far:[840,17,167,416],anchors:[687,918,30,286],thigh:[1038,27,218,407],shin:[1301,16,134,323],shoe:[1301,339,218,96]},ko:{row:0,body:[27,537,298,448],width:89,head:112,atlas:'final-costumes',upper:[346,542,213,440],near:[610,542,174,438],far:[839,542,167,438],anchors:[689,916,554,819],thigh:[1031,544,225,434],shin:[1301,545,136,354],shoe:[1297,899,223,80]},ma:{row:0,body:[47,10,245,327],width:84,head:112},su:{row:342,body:[25,352,307,315],width:100,head:119},huang:{row:683,body:[48,686,251,329],width:87,head:112}};
+ export const hasRosterArt=type=>!!config[type];
+ const crop=(ctx,img,r,x,y,w,h)=>ctx.drawImage(img,...r,x,y,w,h);
+@@ -19,7 +20,8 @@
+  };
+  const arm=(a,far)=>{segment(ctx,atlas,c.upper||[365,row+10,181,326],a.shoulder,a.elbow,far?23:29,7);if(far&&hasBags)bagArm(a,true);else forearm(a,far);};
+  drawMoveAccent(ctx,images,p,'back',f.face||1);arm(p.farArm,true);crop(ctx,atlas,c.body,-c.width/2,-169,c.width,113);
+- const headImage=images[expressionFor(f.type,p,f)]||images[f.type+'-head'];ctx.save();ctx.translate(0,-163.8+p.bob);ctx.rotate(p.headAngle);ctx.drawImage(headImage,-c.head/2,-114,c.head,120);ctx.restore();
++ const headImage=images[expressionFor(f.type,p,f)]||images[f.type+'-head'];ctx.save();ctx.translate(0,-163.8+HEAD_SEAT[f.type]+p.bob);ctx.rotate(p.headAngle);ctx.drawImage(headImage,-c.head/2,-114,c.head,120);ctx.restore();
++ drawCollarFront(ctx,atlas,c.body,[-c.width/2,-169,c.width,113],f.type);
+  drawMoveAccent(ctx,images,p,'front',f.face||1);
+ 
+  segment(ctx,atlas,c.upper||[365,row+10,181,326],p.arm.shoulder,p.arm.elbow,29,7);
+--- docs/qa-v18-neck/art-signature.before.txt	2026-11-06 23:14:05.266920236 +0800
++++ dist/art-signature.mjs	2026-11-06 23:20:09.446440208 +0800
+@@ -1,3 +1,4 @@
++import {drawCollarFront} from './art-collar.mjs?v=13';
+ // Generated gesture sprites. Side labels describe the unmirrored character's anatomy.
+ const HANDS={
+  'open-right':{r:[0,0,512,440],anchor:[252,387],scale:.092},
+@@ -29,9 +30,10 @@
+  const halfKnee=62*scale,balance=lotusBalance(age,{left:{x:-halfKnee,y:0},right:{x:halfKnee,y:0}});
+  ctx.save();ctx.translate(0,balance.groundY);ctx.rotate(balance.angle);
+  ctx.drawImage(im,-origin.x*scale,-origin.y*scale,768*scale,768*scale);
+- ctx.translate(neck.x,neck.y);ctx.rotate(-balance.angle*.65+(p.shout?-.025:0));
++ ctx.save();ctx.translate(neck.x,neck.y);ctx.rotate(-balance.angle*.65+(p.shout?-.025:0));
+  const face=p.shout?images['han-shout']:images['han-head'];
+  if(face)ctx.drawImage(face,-54.5,-114,109,120);
++ ctx.restore();drawCollarFront(ctx,im,[0,0,768,768],[-origin.x*scale,-origin.y*scale,768*scale,768*scale],'lotus');
+  ctx.restore();return true;
+ }
+ 

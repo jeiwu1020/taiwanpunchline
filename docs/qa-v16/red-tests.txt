@@ -1,0 +1,114 @@
+✔ menu offers exactly seven cast IDs for both sides and two portrait cards (10.612163ms)
+✔ all selected pairings update portraits, controls and fresh duel across replay and reselect (15.291294ms)
+✔ new moves use their own metadata and never inherit Wang or Han captions (4.012055ms)
+✔ changing only opponent refreshes HUD cache key and voice lifecycle keeps epoch guards (0.520285ms)
+✖ new source links and explicit research/audio limits are present without changing Han clip (10.911785ms)
+✔ repeated start replaces countdown and returning to menu cancels the pending start (3.47926ms)
+✔ fictional attack-name banners are never labeled as a candidate quotation (4.419539ms)
+✔ Chen and Ko special events do not trigger the original Han voice player (24.3215ms)
+✔ Han uploaded voice starts at move acceptance while cough waits for its attack cue (2.553964ms)
+✔ manual sample uses the selected clip and respects mute and close lifecycle (1.94846ms)
+✔ manual preview stops on close, window blur, and hidden document even outside active duel (21.168022ms)
+✔ three catalog moves play once with catalog provenance and respect attack interruption (12.565757ms)
+✔ all nine supplied recording excerpts trigger the matching move without a delayed timer (41.138788ms)
+✖ accepted Su shout plays its uploaded file once immediately (5.63974ms)
+✖ sixteen supported slots are playable, without promoting supplied sources to authenticated originals (2.424218ms)
+✔ nine Drive clips preserve source ranges, reference links and review uncertainty (0.605604ms)
+✔ two supplied but unresolved Su recordings stay silent (0.270038ms)
+✔ new audio integration refuses unresolved slots instead of synthesizing speech (0.938085ms)
+✔ catalog source is separate from authentication and requested trims are explicit (0.413404ms)
+✔ preview menu exactly matches every available move with no unresolved option (1.580575ms)
+✔ guide distinguishes received-but-unbound clips from missing files without undefined captions (0.606505ms)
+✖ new uploaded Su shout is immediate, labeled and included in the preview menu (8.149707ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 18
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 363.251875
+
+✖ failing tests:
+
+test at tests/roster-ui.test.mjs:79:1
+✖ new source links and explicit research/audio limits are present without changing Han clip (10.911785ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(html.includes('style.css?v=16')&&html.includes('game.mjs?v=16'))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/roster-ui.test.mjs:86:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/roster-ui.test.mjs:175:1
+✖ accepted Su shout plays its uploaded file once immediately (5.63974ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/roster-ui.test.mjs:175:397)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/voice-slots.test.mjs:3:1
+✖ sixteen supported slots are playable, without promoting supplied sources to authenticated originals (2.424218ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  15 !== 16
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/voice-slots.test.mjs:3:182)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 15,
+    expected: 16,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/voice-slots.test.mjs:11:1
+✖ new uploaded Su shout is immediate, labeled and included in the preview menu (8.149707ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(v)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/voice-slots.test.mjs:11:131)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,68 @@
+{
+  "tool": "built-in image_gen",
+  "source_unchanged_sha256": "c761e84bb280f27cc5d81b47aecb0fcf7d111f8a68aa06adef2af32dde8cfadf",
+  "outputs": [
+    {
+      "file": "/workspace/scratch/1a1351aee944/brawler-repair-nov10/generated/street-facade-v75/generation-original.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixels": 310322,
+      "opaque_pixels": 0,
+      "alpha_250_to_254_pixels": 1226818,
+      "edge_or_partial_pixels": 35724,
+      "top_band_alpha_extrema": [
+        0,
+        1
+      ],
+      "sun_center": [
+        40,
+        30,
+        15,
+        0
+      ],
+      "road_alpha_extrema": [
+        250,
+        254
+      ],
+      "sha256": "c565eec30a683847c9d8432e2346e57082e6f04025c43a883634b37dc117f725"
+    },
+    {
+      "file": "/workspace/scratch/1a1351aee944/brawler-repair-nov10/generated/street-facade-v75/generation-alpha-correction.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "transparent_pixels": 307870,
+      "opaque_pixels": 0,
+      "alpha_250_to_254_pixels": 1231170,
+      "edge_or_partial_pixels": 33824,
+      "top_band_alpha_extrema": [
+        0,
+        1
+      ],
+      "sun_center": [
+        29,
+        20,
+        6,
+        0
+      ],
+      "road_alpha_extrema": [
+        251,
+        254
+      ],
+      "sha256": "82ae8834c767f1e005f80cbdb0370f42445bc0fd417289c2da9cf0c94ca795b0"
+    }
+  ]
+}

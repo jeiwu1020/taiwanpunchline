@@ -1,0 +1,53 @@
+[
+  {
+    "viewport": [
+      1200,
+      750
+    ],
+    "playerX": 1100,
+    "playerY": 430,
+    "depth": 0,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "cache": [
+      [
+        2406,
+        1500
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      592
+    ],
+    "playerX": 1800,
+    "playerY": 430,
+    "depth": 0,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "cache": [
+      [
+        1494,
+        1184
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      592
+    ],
+    "playerX": 1800,
+    "playerY": 250,
+    "depth": -90,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "cache": [
+      [
+        1494,
+        1184
+      ]
+    ]
+  }
+]

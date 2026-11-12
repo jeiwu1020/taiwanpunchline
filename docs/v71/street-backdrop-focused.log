@@ -1,0 +1,35 @@
+✔ every street mob seats its head behind its own textured collar across moving poses (10.144882ms)
+✔ both captains draw separate generated head and vest art instead of enlarged street heads (1.627036ms)
+✔ background API paints an upward or downward extended viewport without uncovered pixels (5.750111ms)
+✔ sky extension is atmospheric colour, never stretched edge pixels or a second sun (0.326059ms)
+✔ road extension uses the final line-free asphalt edge and joins the last source row (0.243195ms)
+✔ adjacent horizontal tiles meet at the same source edge with alternating reflection (0.404155ms)
+✔ tile reflection remains world-anchored as the camera crosses positive and negative tile boundaries (0.323314ms)
+✔ arena background selects its own scene and missing textures fail safely (0.200581ms)
+✔ generated table and sign preserve bottom-centre registration at requested collision size (1.120728ms)
+✔ all registered project-bound art has a real runtime asset on disk (0.530384ms)
+✔ depth route camera uses projected foot coordinates and keeps jump heads in frame (1.751102ms)
+✔ projection retains foot-plane depth independently of jump height (0.989081ms)
+✔ the camera and ground apply exactly the same horizontal translation (0.432367ms)
+✔ depth ordering includes props, actors, helpers, projectiles and rally on their foot planes (2.14994ms)
+✔ mob labels retain a 16px screen floor and contrast independently of world zoom (0.346539ms)
+✔ ordinary route camera remains unchanged (0.242814ms)
+✔ paint path uses original character/prop art and labels every live mob at screen legibility (16.708351ms)
+✔ painted pavement is invariant in world space across camera movement and jump pan (0.632798ms)
+✔ a fighter standing on a table paints its support shadow on top of the generated table (0.992737ms)
+✔ clustered mob names and health bars stagger without overlap and stay inside the viewport (0.652447ms)
+✔ label stagger is stable across mob array order and tiny movement with shared slot memory (0.252568ms)
+✔ labels near viewport corners are clamped as a complete name and health block (0.159058ms)
+✔ horizontal camera movement reuses painted street backdrop while all actors animate (24.102815ms)
+✔ viewport changes repaint cached backdrop without changing foreground resolution (3.319481ms)
+✔ retained tiles stay world anchored and mirror by absolute tile index (1.510682ms)
+✔ crossing many world tiles reuses a bounded cache and refreshes replacement source art (9.85347ms)
+✔ neighboring retained tiles overlap their filtered edges without shifting world interiors (1.44896ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 177.545322

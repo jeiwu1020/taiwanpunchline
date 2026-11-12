@@ -1,0 +1,16 @@
+{
+  "asset": "/workspace/scratch/1a1351aee944/brawler-repair-nov10/generated/street-sky-v75/street-sky-v75-raw.png",
+  "method": "Built-in image_gen only; no API or paid fallback used",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGB",
+  "alpha_extrema": null,
+  "opaque": true,
+  "size_bytes": 3253702,
+  "sha256": "a88d5174c1b5050d3e9aef096c33635e6a08dd1083ea6df2c2ab0274661559fd",
+  "visual_verification": "Verified generated output: continuous full-frame sky and scattered clouds; dusty lavender upper sky blending peach and golden lower sky; fine engraved hatching and subtle paper texture; no sun, moon, stars, buildings, mountains, trees, ground, water, text, logo, frame, or transparent regions. Clouds distributed throughout the frame, including center for portrait cropping.",
+  "source_reference": "candidate/dist/assets/challenge/street-deep-v2.webp inspected visually for warm hand-engraved palette/style only; not supplied as an edit target.",
+  "prompt": "prompt.txt"
+}

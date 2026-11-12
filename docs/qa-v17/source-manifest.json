@@ -1,0 +1,60 @@
+{
+  "source": {
+    "library_file_id": "libfile_97e83d63fb908191bac01aed00856db5",
+    "file_id": "file_00000000ef5081f48dcc4f6048d08582",
+    "version": 0,
+    "filename": "死亡之握 你已經死了.mp4",
+    "local_path": "/workspace/shared/handshake-voice-v17/死亡之握 你已經死了.mp4",
+    "sha256": "80102f4651a6a95cadbce289d063a378070eda9e93e457d7e94ae9f451f0a95a",
+    "audio_duration_seconds": 13.354646,
+    "container_duration_seconds": 13.414933,
+    "observed_public_context_url": "https://www.facebook.com/reel/1169812469747550"
+  },
+  "requested_phrase": "死亡之握，你已經死了",
+  "outputs": [
+    {
+      "path": "/workspace/shared/handshake-voice-v17/ma-death-grip-full-phrase-candidate-v17.mp3",
+      "sha256": "32930a69fb3feda5b23363d58369a0183a147d2fa091beabdc306c072b55225b",
+      "size_bytes": 68126,
+      "source_cut_seconds": [
+        8.15,
+        12.35
+      ],
+      "nominal_decoded_duration_seconds": 4.2,
+      "mp3_container_duration_seconds": 4.231837,
+      "true_peak_dbfs": -3.6,
+      "integrated_lufs": -20.2,
+      "metadata_tags": []
+    },
+    {
+      "path": "/workspace/shared/handshake-voice-v17/ma-death-grip-long-review-v17.mp3",
+      "sha256": "97446b3884827776043a4c77170bc1bd9d8e65326eba766f49913d6c270e89a3",
+      "size_bytes": 94039,
+      "source_cut_seconds": [
+        7.55,
+        13.354646
+      ],
+      "nominal_decoded_duration_seconds": 5.804646,
+      "mp3_container_duration_seconds": 5.851429,
+      "true_peak_dbfs": -3.5,
+      "integrated_lufs": -21.9,
+      "metadata_tags": []
+    }
+  ],
+  "processing": {
+    "continuous_source_selection": true,
+    "splicing_or_speech_synthesis": false,
+    "gain_db": -6,
+    "format": "MP3 128 kbps mono 44100 Hz",
+    "fade_in_seconds": 0.02,
+    "fade_out_seconds": 0.04,
+    "preserved_background_audio": true,
+    "source_recording_metadata_removed": true
+  },
+  "evidence": {
+    "visual_context": "At source t=9.3 seconds, printed text held in video reads 死亡之握~~~你已經死了; page account label is 馬英九. This is contextual metadata, not facial or voice authentication.",
+    "audio_localization": "Unprompted offline Base and Tiny ASR on whole source and independent crops localize phonetically similar phrase to approximately 8.44–12.15 seconds; main candidate retains 8.15–12.35 seconds. Base crop 7.55–12.10 transcribes 死亡之惑,你一定死了 at 8.85–11.41.",
+    "uncertainty": "ASR does not establish the exact requested wording: 握/惑/亡 and 已經/一定 differ. No human listening or biometric speaker authentication was performed. Use as reviewable continuous candidate, not fully verified verbatim speech; longer candidate is provided for boundary review.",
+    "scope": "No repository, preview, deployment, or V16 publication changes were made."
+  }
+}

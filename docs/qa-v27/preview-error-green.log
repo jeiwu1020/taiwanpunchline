@@ -1,0 +1,19 @@
+✔ independent audio preferences change real game routing and retain the approved Chen clip (33.090486ms)
+✔ quick master mute and legacy voice setting synchronize with persistent preferences (4.901311ms)
+✔ opening settings pauses battle and closing never resumes it (4.965726ms)
+✔ rejected preview audio is reported in the visible settings demo status (6.120134ms)
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (4.098079ms)
+✔ switching tab, character, close or stop cancels previews without starting another (1.790855ms)
+✔ reset needs confirmation and cancel changes nothing (0.448921ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.547135ms)
+✔ changing character updates the still illustration without playing audio (0.500887ms)
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (2.114951ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.548266ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 168.694862

@@ -1,0 +1,151 @@
+✔ horizontal camera movement reuses painted street backdrop while all actors animate (46.710879ms)
+✖ viewport changes repaint cached backdrop without changing foreground resolution (8.370785ms)
+✔ retained tiles stay world anchored and mirror by absolute tile index (1.840366ms)
+✔ crossing many world tiles reuses a bounded cache and refreshes replacement source art (22.693023ms)
+✔ neighboring retained tiles overlap their filtered edges without shifting world interiors (5.700747ms)
+✖ 150 frames of lane travel reuse one fixed world raster without resizing (3.353762ms)
+✖ jumping from the table and landing retain covered, world-anchored art in either start state (1.012366ms)
+✖ coverage escape repaints once at full density, then nearby travel reuses it (0.500109ms)
+✖ viewport, density, geometry and source changes each invalidate the retained coverage (0.491517ms)
+✖ actor canvas keeps painting at its original resolution during lane travel (25.101248ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 4
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 389.630786
+
+✖ failing tests:
+
+test at tests/street-backdrop-cache-v71.test.mjs:17:1
+✖ viewport changes repaint cached backdrop without changing foreground resolution (8.370785ms)
+  AssertionError [ERR_ASSERTION]: normal jump-pan stays inside retained world coverage
+
+  3 !== 2
+
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v71.test.mjs:23:74)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/street-backdrop-cache-v73.test.mjs:14:1
+✖ 150 frames of lane travel reuse one fixed world raster without resizing (3.353762ms)
+  AssertionError [ERR_ASSERTION]: camera travel cannot move the cached art in world space
+  + actual - expected
+
+  + -124.14014998125123
+  - -124.50000000000006
+         ^
+
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:21:11)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: -124.14014998125123,
+    expected: -124.50000000000006,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/street-backdrop-cache-v73.test.mjs:28:1
+✖ jumping from the table and landing retain covered, world-anchored art in either start state (1.012366ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+
+  + -116.51041553586532
+  - -116.50000000000009
+          ^
+
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:33:142)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: -116.51041553586532,
+    expected: -116.50000000000009,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/street-backdrop-cache-v73.test.mjs:38:1
+✖ coverage escape repaints once at full density, then nearby travel reuses it (0.500109ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  3 !== 2
+
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:44:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/street-backdrop-cache-v73.test.mjs:49:1
+✖ viewport, density, geometry and source changes each invalidate the retained coverage (0.491517ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+  1 !== 2
+
+      at rebuild (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:51:59)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:52:40)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/street-backdrop-cache-v73.test.mjs:60:1
+✖ actor canvas keeps painting at its original resolution during lane travel (25.101248ms)
+  AssertionError [ERR_ASSERTION]: only the static street may skip painting
+
+  60 !== 1
+
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v73-integrated/tests/street-backdrop-cache-v73.test.mjs:65:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 60,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

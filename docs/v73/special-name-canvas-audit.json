@@ -1,0 +1,649 @@
+{
+  "measurement": "Native Skia Canvas with registered Noto Sans CJK Bold. Browser font fallback may differ; browser QA remains required.",
+  "fontPath": "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+  "minimumSize": 12,
+  "horizontalPadding": 1,
+  "safetyWidth": 1,
+  "results": [
+    {
+      "mode": "portrait D",
+      "viewports": [
+        "320x568",
+        "360x640",
+        "375x667",
+        "390x844",
+        "430x932"
+      ],
+      "cardWidth": 110,
+      "availableWidth": 102,
+      "maxSize": 18,
+      "names": [
+        {
+          "character": "wang",
+          "name": "連滾帶爬",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "從從容容",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "喝水回氣",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "發財金幣波",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "可憐哪",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "一支穿雲箭",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "死亡之握",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "我把你當人看",
+          "fontSize": 16.8,
+          "nativeWidth": 100.781,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "酷酷嫂",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "在那叫什麼",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "衝衝衝",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "要試試看嘛",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "太離譜了",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "我有欠你喔",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "可以這樣插隊喔",
+          "fontSize": 14.4,
+          "nativeWidth": 100.735,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有夢最美",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "阿扁錯了嗎",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有這麼嚴重嗎",
+          "fontSize": 16.8,
+          "nativeWidth": 100.781,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "垃圾不分藍綠",
+          "fontSize": 16.8,
+          "nativeWidth": 100.781,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "賴祥德",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "我不會屈服",
+          "fontSize": 18,
+          "nativeWidth": 89.999,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "mode": "native landscape / CSS-sideways",
+      "viewports": [
+        "568x320",
+        "650x320",
+        "844x390",
+        "320x568 rotated",
+        "390x844 rotated"
+      ],
+      "cardWidth": 94,
+      "availableWidth": 86,
+      "maxSize": 18,
+      "names": [
+        {
+          "character": "wang",
+          "name": "連滾帶爬",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "從從容容",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "喝水回氣",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "發財金幣波",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "可憐哪",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "一支穿雲箭",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "死亡之握",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "我把你當人看",
+          "fontSize": 14.1,
+          "nativeWidth": 84.562,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "酷酷嫂",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "在那叫什麼",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "衝衝衝",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "要試試看嘛",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "太離譜了",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "我有欠你喔",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "可以這樣插隊喔",
+          "fontSize": 12.1,
+          "nativeWidth": 84.656,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有夢最美",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "阿扁錯了嗎",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有這麼嚴重嗎",
+          "fontSize": 14.1,
+          "nativeWidth": 84.562,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "垃圾不分藍綠",
+          "fontSize": 14.1,
+          "nativeWidth": 84.562,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "賴祥德",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "我不會屈服",
+          "fontSize": 17,
+          "nativeWidth": 85,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "mode": "compact desktop minimum special column",
+      "viewports": [
+        "container near 736px breakpoint"
+      ],
+      "cardWidth": 96,
+      "availableWidth": 88,
+      "maxSize": 18,
+      "names": [
+        {
+          "character": "wang",
+          "name": "連滾帶爬",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "從從容容",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "喝水回氣",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "發財金幣波",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "可憐哪",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "一支穿雲箭",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "死亡之握",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "我把你當人看",
+          "fontSize": 14.5,
+          "nativeWidth": 86.999,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "酷酷嫂",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "在那叫什麼",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "衝衝衝",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "要試試看嘛",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "太離譜了",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "我有欠你喔",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "可以這樣插隊喔",
+          "fontSize": 12.4,
+          "nativeWidth": 86.734,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有夢最美",
+          "fontSize": 18,
+          "nativeWidth": 72,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "阿扁錯了嗎",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有這麼嚴重嗎",
+          "fontSize": 14.5,
+          "nativeWidth": 86.999,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "垃圾不分藍綠",
+          "fontSize": 14.5,
+          "nativeWidth": 86.999,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "賴祥德",
+          "fontSize": 18,
+          "nativeWidth": 54,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "我不會屈服",
+          "fontSize": 17.4,
+          "nativeWidth": 86.954,
+          "overflow": false
+        }
+      ]
+    },
+    {
+      "mode": "1200px desktop",
+      "viewports": [
+        "1200x750"
+      ],
+      "cardWidth": 163.33,
+      "availableWidth": 155,
+      "maxSize": 20,
+      "names": [
+        {
+          "character": "wang",
+          "name": "連滾帶爬",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "從從容容",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "wang",
+          "name": "喝水回氣",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "發財金幣波",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "可憐哪",
+          "fontSize": 20,
+          "nativeWidth": 60,
+          "overflow": false
+        },
+        {
+          "character": "han",
+          "name": "一支穿雲箭",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "死亡之握",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "我把你當人看",
+          "fontSize": 20,
+          "nativeWidth": 120,
+          "overflow": false
+        },
+        {
+          "character": "ma",
+          "name": "酷酷嫂",
+          "fontSize": 20,
+          "nativeWidth": 60,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "在那叫什麼",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "衝衝衝",
+          "fontSize": 20,
+          "nativeWidth": 60,
+          "overflow": false
+        },
+        {
+          "character": "su",
+          "name": "要試試看嘛",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "太離譜了",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "我有欠你喔",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "huang",
+          "name": "可以這樣插隊喔",
+          "fontSize": 20,
+          "nativeWidth": 140,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有夢最美",
+          "fontSize": 20,
+          "nativeWidth": 80,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "阿扁錯了嗎",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        },
+        {
+          "character": "chen",
+          "name": "有這麼嚴重嗎",
+          "fontSize": 20,
+          "nativeWidth": 120,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "垃圾不分藍綠",
+          "fontSize": 20,
+          "nativeWidth": 120,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "賴祥德",
+          "fontSize": 20,
+          "nativeWidth": 60,
+          "overflow": false
+        },
+        {
+          "character": "ko",
+          "name": "我不會屈服",
+          "fontSize": 20,
+          "nativeWidth": 100,
+          "overflow": false
+        }
+      ]
+    }
+  ]
+}

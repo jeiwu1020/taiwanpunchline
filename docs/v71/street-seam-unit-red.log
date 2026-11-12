@@ -1,0 +1,33 @@
+✔ horizontal camera movement reuses painted street backdrop while all actors animate (58.425534ms)
+✔ viewport changes repaint cached backdrop without changing foreground resolution (7.665251ms)
+✔ retained tiles stay world anchored and mirror by absolute tile index (9.709033ms)
+✔ crossing many world tiles reuses a bounded cache and refreshes replacement source art (21.538452ms)
+✖ neighboring retained tiles overlap their filtered edges without shifting world interiors (1.626536ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 470.238483
+
+✖ failing tests:
+
+test at tests/street-backdrop-cache-v71.test.mjs:47:1
+✖ neighboring retained tiles overlap their filtered edges without shifting world interiors (1.626536ms)
+  AssertionError [ERR_ASSERTION]: at least one display pixel of overlap protects fractional texture edges
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawl-v71-refine/tests/street-backdrop-cache-v71.test.mjs:51:41)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

@@ -1,0 +1,9 @@
+{
+  "scope": "New su_shout, before the later user-selected su_rush and su_dare additions",
+  "su_shout_preview": {"duration": 2.38, "paused": false, "currentTime": 0.006198, "expectedSource": "assets/voice/su-shout-user-upload-v16.mp3"},
+  "su_shout_mobile_action": {"duration": 2.38, "paused": false, "currentTime": 0.270689, "pauseStopped": true, "pauseResetTime": 0},
+  "muteStoppedAndReset": true,
+  "noBodyOverflowAt": [[320,568],[390,844],[667,375]],
+  "desktopKeyboard": "Not verified in first pass: browser Runtime.evaluate protocol timeout before selector resolution. Did not claim this as an application failure.",
+  "cleanup": "Own tab184 closed; official preview stopped and confirmed stopped."
+}

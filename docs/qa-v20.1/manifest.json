@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "source": {
+    "file": "/workspace/shared/chen-dream-voice-v20/source.mp4",
+    "sha256": "f91d8890364ca64bbf5441917f0285ba5651fd35e07b6ab9781f6dd3e075b23f",
+    "audio_sample_rate": 48000,
+    "analysis_mono_method": "Explicit arithmetic average 0.5*left + 0.5*right, matching original PCM rendering scale"
+  },
+  "previous": {
+    "filename": "chen-dream-user-candidate-v20.mp3",
+    "sha256": "7127fe4719fd207a26f38b863fd1fdd96360d935fea4c1837ff8fb0a9e672afb",
+    "start_seconds": 7.02,
+    "end_seconds": 9.62,
+    "decoded_seconds": 2.6
+  },
+  "target": {
+    "character_key": "chen",
+    "move_label": "有夢最美",
+    "candidate_filename": "chen-dream-user-candidate-v201.mp3"
+  },
+  "cut": {
+    "timeline": "Source audio stream time; start inclusive, end exclusive",
+    "start_seconds": 7.048,
+    "end_seconds": 9.62,
+    "duration_seconds": 2.572,
+    "start_sample_at_48000": 338304,
+    "end_sample_exclusive_at_48000": 461760,
+    "extra_lead_trim_seconds": 0.028,
+    "extra_lead_trim_samples": 1344,
+    "lead_to_first_above_minus38db_ms": 11.395833,
+    "first_nonzero_source_time_seconds": 7.049333333333333,
+    "rationale": "Remove 28 ms of exact digital silence while leaving the full low-level onset intact. New 5 ms fade-in ends before source exceeds -100 dBFS. Keep the original end and all PCM samples after the requested cut exactly unchanged."
+  },
+  "processing": {
+    "channels": 1,
+    "sample_rate": 48000,
+    "constant_gain_db": -5.4,
+    "fade_in_ms": 5,
+    "fade_out_ms": 15,
+    "fade_out_start_seconds_from_new_cut": 2.557,
+    "codec": "libmp3lame",
+    "bitrate_kbps": 128,
+    "denoise": false,
+    "time_stretch": false,
+    "voice_synthesis_or_cloning": false,
+    "recording_metadata_removed": true
+  },
+  "verification": {
+    "wav": {
+      "sample_rate": 48000,
+      "channels": 1,
+      "samples_per_channel": 123456,
+      "decoded_seconds": 2.572,
+      "peak_dbfs": -5.571,
+      "rms_dbfs": -19.428,
+      "clipped_samples": 0
+    },
+    "mp3_decoded": {
+      "sample_rate": 48000,
+      "channels": 1,
+      "samples_per_channel": 123456,
+      "decoded_seconds": 2.572,
+      "peak_dbfs": -5.999,
+      "rms_dbfs": -19.872,
+      "clipped_samples": 0
+    },
+    "mp3_ffprobe_container_duration_seconds": 2.616,
+    "mp3_format_tags": {},
+    "mp3_stream_tags": [
+      {}
+    ],
+    "pcm_exact_comparison": {
+      "old_samples": 124800,
+      "new_samples": 123456,
+      "removed_samples": 1344,
+      "removed_pcm_samples_are_all_zero": true,
+      "source_samples_in_removed_interval_are_all_zero": true,
+      "differing_aligned_samples": 0,
+      "max_absolute_difference_pcm_units": 0,
+      "tail_and_main_speech_samples_exactly_preserved": true
+    },
+    "decoded_mp3_comparison": {
+      "alignment_samples": 1344,
+      "pearson_correlation": 0.9996030481164144,
+      "difference_rms_dbfs": -50.87462537780706,
+      "signal_to_difference_db": 31.001726210843643,
+      "explanation": "Both are lossy MP3 encodings. Shifting the file start moves frame boundaries. PCM inputs match exactly after the requested cut; decoded MP3 samples are not expected to be identical."
+    },
+    "source_first_sample_threshold_times_seconds": {
+      "-120": 7.050270833,
+      "-100": 7.0531875,
+      "-90": 7.0533125,
+      "-80": 7.0546875,
+      "-70": 7.054833333,
+      "-60": 7.0560625,
+      "-50": 7.056958333,
+      "-45": 7.057229167,
+      "-40": 7.059375,
+      "-38": 7.059395833,
+      "-30": 7.0595
+    },
+    "source_segment_levels": [
+      {
+        "label": "removed all-zero lead",
+        "start_seconds": 7.02,
+        "end_seconds": 7.048,
+        "samples": 1344,
+        "nonzero_samples": 0,
+        "peak_dbfs": null,
+        "rms_dbfs": null,
+        "fft_bin_width_hz": 35.714285714285715,
+        "below_150hz_rms_dbfs": null,
+        "from_150_to_3500hz_rms_dbfs": null
+      },
+      {
+        "label": "new 5 ms fade-in interval",
+        "start_seconds": 7.048,
+        "end_seconds": 7.053,
+        "samples": 240,
+        "nonzero_samples": 176,
+        "peak_dbfs": -105.48861755167965,
+        "rms_dbfs": -115.77964515203959,
+        "fft_bin_width_hz": 200.0,
+        "below_150hz_rms_dbfs": -128.2605057130772,
+        "from_150_to_3500hz_rms_dbfs": -121.32875769290561
+      },
+      {
+        "label": "low-level onset ramp",
+        "start_seconds": 7.053,
+        "end_seconds": 7.059396,
+        "samples": 307,
+        "nonzero_samples": 307,
+        "peak_dbfs": -39.242181799272565,
+        "rms_dbfs": -50.009528953717805,
+        "fft_bin_width_hz": 156.35179153094464,
+        "below_150hz_rms_dbfs": -56.044242670884124,
+        "from_150_to_3500hz_rms_dbfs": -51.403972914183754
+      },
+      {
+        "label": "strong initial sound",
+        "start_seconds": 7.059396,
+        "end_seconds": 7.1,
+        "samples": 1949,
+        "nonzero_samples": 1949,
+        "peak_dbfs": -2.387154061250386,
+        "rms_dbfs": -11.144791004009868,
+        "fft_bin_width_hz": 24.628014366341713,
+        "below_150hz_rms_dbfs": -18.447612907451994,
+        "from_150_to_3500hz_rms_dbfs": -12.053956156070928
+      }
+    ],
+    "low_frequency_note": "The removed interval is exact digital zero, including its low-frequency content. No denoising or high-pass filtering was applied. Band estimates in sub-10 ms windows have coarse frequency resolution; do not interpret them as proof of a word boundary.",
+    "evidence_image": "lead-trim-comparison.png"
+  },
+  "limitations": {
+    "direct_listening_verified": false,
+    "biometric_speaker_identification_performed": false,
+    "word_level_linguistic_onset_verified": false,
+    "comment": "Acoustic waveform and sample comparisons only. No independent audition, word-level phonetic verification, or speaker biometric verification. The -38 dBFS threshold is a reproducible acoustic marker, not the first nonzero sample or guaranteed linguistic onset."
+  },
+  "outputs": {
+    "chen-dream-user-candidate-v201.mp3": {
+      "bytes": 42240,
+      "sha256": "fef9b40261b220e8066693292cd83089b9db885102b11c741cbb5369a4ccbc7a"
+    },
+    "chen-dream-user-candidate-v201.wav": {
+      "bytes": 246990,
+      "sha256": "8480e92c4a5beb93b73a39a15ce5b3e0292ac2d1cbdf10aedd9e4d7f2731e250"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+/* All gameplay overlays share Safari's explicit selection policy. Native form
+   fields and the separate settings/readable dialogs remain usable. */
+.cabinet,.cabinet *,.control-deck,.control-deck *,.challenge-story,.challenge-story *,.challenge-dialog,.challenge-dialog *{
+ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}
+.cabinet input,.cabinet textarea,.cabinet select,.cabinet [contenteditable]:not([contenteditable=false]),
+.challenge-dialog input,.challenge-dialog textarea,.challenge-dialog select,[data-native-selection]{
+ -webkit-user-select:text;user-select:text;-webkit-touch-callout:default;
+}
+/* A distinct horizontal track remains visible even when an older button
+   background rule overrides the full-button fill. It uses actual charge. */
+.app .basic .assist-button,.app .basic .rally-button{position:relative;padding-bottom:9px}
+.app .basic .charge-track{display:block;position:absolute;left:5px;right:5px;bottom:3px;height:6px;border:1px solid #f6efd5;border-radius:3px;background:#142e35;overflow:hidden;pointer-events:none;z-index:2}
+.app .basic .charge-fill{display:block;width:100%;height:100%;background:#b8f67c;transform:scaleX(0);transform-origin:left}
+.app .basic .assist-button .charge-fill{background:#eed0ff}
+.app .basic .rally-button .charge-track{border-color:#c8efb4}
+/* The existing tenths countdown is retained. Add its unit directly to the
+   numeric dial, as narrow layouts deliberately hide the separate unit label. */
+.app .specials .cooling .cooldown-value::after{content:'s';font-size:.6em;margin-left:1px}
+.app .broadcast{background:#15343bf2;color:#fff5d9;border:2px solid #ffe7a1;border-radius:9px;padding:8px 14px;box-shadow:0 3px 0 #102a32,0 0 0 2px #fff5d933;text-shadow:none;opacity:1;line-height:1.4}
+/* Extra jump belongs to four-way street only; VS layout stays unchanged. */
+#challenge-jump{display:none}
+.app[data-depth-route=true] #challenge-jump{display:flex;background:#81bfd8;color:#142f37;border-color:#c5edff}
+.app[data-depth-route=true][data-touch=false] .touch-aux{gap:6px}
+.app[data-depth-route=true][data-touch=true] .touch-aux{flex-direction:column;gap:6px;align-items:center}
+.app[data-depth-route=true][data-touch=true] .touch-aux button{height:44px;min-height:44px;min-width:44px;padding:2px;gap:0}
+.app[data-depth-route=true][data-touch=true] .touch-aux .guard-hint{display:none}
+.app[data-depth-route=true][data-touch=true] .touch-aux button span{font-size:16px;line-height:18px}
+.app[data-depth-route=true][data-touch=true] .touch-aux button kbd{position:static;display:block;font-size:9px;line-height:11px}
+.app[data-depth-route=true][data-touch=true][data-layout=portrait] .cabinet{grid-template-rows:minmax(0,1fr) 202px}
+.app[data-depth-route=true][data-touch=true][data-layout=portrait] .control-deck{grid-template-rows:84px 98px}
+.app[data-depth-route=true][data-touch=true][data-overlay-controls=true] .control-deck{height:98px}

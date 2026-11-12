@@ -1,0 +1,21 @@
+✔ waking rotates a reclining torso upright while arm and blanket move independently (2.32481ms)
+✔ reduced motion uses a fixed finished illustration in all four shots (1.554272ms)
+✔ opening layout gives portrait art most of the panel and keeps landscape controls alongside (0.499777ms)
+✔ waking keeps the reclining head, seated head, feet and lifted blanket inside every frame (0.26479ms)
+✔ generated opening selects distinct full-body getting-up states and then holds (1.892016ms)
+✔ all seven opening assets resolve independently without substituting another face (0.553727ms)
+✔ reduced motion freezes completed generated poses and camera (1.155772ms)
+✔ panel layout contains exactly the current complete scene in every orientation (2.377221ms)
+✔ opening painter uses the selected generated sheet and exact measured full-panel source bounds (0.898679ms)
+✔ every preloaded opening asset exists as an actual WebP raster (8.751695ms)
+✔ single scene camera visibly settles and restarts with each waking pose (0.222321ms)
+✔ transitions draw one complete pose rather than stacking different anatomy (1.884661ms)
+✔ boss face-off has no rectangular half-scene color overlay (7.477258ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 222.32574

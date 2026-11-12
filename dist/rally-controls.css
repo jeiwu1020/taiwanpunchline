@@ -1,0 +1,50 @@
+/* Same-size action pair; meter is the button itself, never an extra HUD row. */
+.basic .rally-button{position:relative;isolation:isolate;overflow:hidden;touch-action:none;background:linear-gradient(to top,#7df3bd 0%,#7df3bd var(--charge,0%),#465f64 var(--charge,0%),#465f64 100%)!important;color:#fff8df}
+.basic .rally-button span,.basic .rally-button small,.basic .rally-button kbd{position:relative;z-index:1;text-shadow:0 1px 2px #14323b}
+.basic .rally-button.ready{background:#7df3bd!important;color:#082c26;box-shadow:0 0 0 2px #ffe7a0,0 3px 0 #17323b}
+.basic .rally-button.ready span,.basic .rally-button.ready small{text-shadow:none}
+.basic .rally-button:disabled{opacity:1;cursor:default}
+.app[data-touch="false"] .basic{width:138px;gap:6px}.app[data-touch="false"] .basic button{width:66px;height:44px;flex:0 0 66px}
+.app[data-touch="false"] .specials{min-width:0}.app[data-touch="false"] .specials button{padding-left:4px;padding-right:4px}
+.app[data-touch="true"][data-layout] .control-deck{grid-template-columns:64px minmax(0,1fr) 114px 54px}
+.app[data-touch="true"][data-layout] .basic{display:flex;width:114px;gap:6px}
+.app[data-touch="true"][data-layout] .basic button{width:54px;min-width:54px;max-width:54px;height:54px;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;padding:2px;gap:2px;flex:none;pointer-events:auto}
+.app[data-touch="true"][data-overlay-controls="true"] .control-deck{grid-template-columns:84px minmax(0,1fr) 114px 54px}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:64px minmax(0,1fr) 114px 54px;grid-template-rows:78px 60px}
+.app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1/-1;grid-row:1}
+#rally-warning{position:absolute;z-index:15;left:50%;top:70px;transform:translateX(-50%);background:#fff0b9;color:#69291a;border-radius:5px;font-size:11px;font-weight:900;white-space:nowrap;pointer-events:none}#rally-warning:empty{display:none}
+/* V48: reserve the FULL 84px stick hit area, not a 60px row/64px column.
+   Explicit rows prevent the joystick from intruding into special buttons. */
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 192px}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:84px minmax(0,1fr) 114px 54px;grid-template-rows:78px 88px;gap:8px 4px;padding:8px 4px;align-content:center}
+.app[data-touch="true"][data-layout="portrait"] .touch-pad{grid-column:1;grid-row:2;align-self:center;width:84px;height:88px}
+.app[data-touch="true"][data-layout="portrait"] #touch-stick{width:84px;height:84px;flex:none}
+.app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1/-1;grid-row:1;height:78px;align-self:stretch}
+.app[data-touch="true"][data-layout="portrait"] .basic{grid-column:3;grid-row:2;align-self:center}
+.app[data-touch="true"][data-layout="portrait"] .touch-aux{grid-column:4;grid-row:2;align-self:center}
+/* Both primary actions share text rows; charge always sits BELOW the name. */
+.app[data-touch="false"] .basic button{display:grid;grid-template-columns:1fr;grid-template-rows:18px 10px 10px;align-content:center;justify-items:center;gap:0;padding:1px}
+.app[data-touch="false"] .basic button span{grid-row:1;font-size:17px;line-height:18px;display:block}
+.app[data-touch="false"] .basic button small{grid-row:2;font-size:8px;line-height:10px;display:block;margin:0}
+.app[data-touch="false"] .basic button kbd{grid-row:3;position:static;display:block;font-size:10px;line-height:10px;opacity:1;margin:0}
+.app[data-touch="true"][data-layout] .basic button span{font-size:17px;line-height:20px;display:block}
+.app[data-touch="true"][data-layout] .basic button small{font-size:8px;line-height:10px;display:block;margin:0}
+
+.basic .rally-button .rally-label{font-weight:900;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 1px 2px #092931,1px 0 1px #092931}
+.basic .rally-button.ready .rally-label{color:#082c26;text-shadow:none}
+.app[data-touch="false"] .basic .rally-button .rally-label{font-size:10px;line-height:10px}
+.app[data-touch="true"][data-layout] .basic .rally-button .rally-label{font-size:12px;line-height:12px}
+
+@keyframes rally-ready-glow{0%,100%{box-shadow:0 0 0 2px #b6f7d8,0 3px 0 #17323b}50%{box-shadow:0 0 0 3px #e2fff0,0 0 10px 2px #7df3bd88,0 3px 0 #17323b}}
+.basic .rally-button.ready{animation:rally-ready-glow 1.8s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.basic .rally-button.ready{animation:none;box-shadow:0 0 0 3px #e2fff0,0 3px 0 #17323b}}
+
+/* V54: mobile control-deck color rules must not override the ready green state.
+   Labels stay readable when the fill passes behind them; state is not color-only. */
+.app[data-touch] .basic .rally-button{color:#fff8df;opacity:1;border-color:#b6f7d8}
+.app[data-touch] .basic .rally-button:not(.ready) span,
+.app[data-touch] .basic .rally-button:not(.ready) .rally-label{background:#173e36;border-radius:3px;padding-inline:2px;color:#fff8df;text-shadow:none}
+.app[data-touch] .basic .rally-button.ready{color:#082c26;background:#7df3bd!important;border-color:#e2fff0}
+.app[data-touch] .basic .rally-button.ready span,
+.app[data-touch] .basic .rally-button.ready .rally-label,
+.app[data-touch] .basic .rally-button.ready kbd{color:#082c26;background:transparent;text-shadow:none;opacity:1}

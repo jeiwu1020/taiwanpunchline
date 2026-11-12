@@ -1,0 +1,15 @@
+{
+  "messageId": "Sentinel_96124fb44b64819187359c63211e4724",
+  "targetDb": -20,
+  "fadeMs": 5,
+  "endExclusive": true,
+  "pending": [],
+  "selections": [
+    {
+      "slot": "ko_name",
+      "sourceId": "ko-name-user-v2-original",
+      "start": 5.177,
+      "end": 6.219
+    }
+  ]
+}

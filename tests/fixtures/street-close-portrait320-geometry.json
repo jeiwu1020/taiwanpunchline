@@ -1,0 +1,197 @@
+{
+  "provenance": {
+    "commit": "b69b631538199e0bed976301aeac7d221d6ab4fd",
+    "tree": "a01c7573ba644b880acc338567fffeb9c53a686e",
+    "capture": "013-r7-11-portrait320.json",
+    "captureSha256": "b6cf2066f4d2f68bcacd3b507d5ee1fc9c7db05487ab3468a089465e8091e50d",
+    "source": "Recorded Chromium #68 street DOM, 320×568. Geometry-only extraction, not a physical-phone measurement or VS DOM capture."
+  },
+  "frame": {
+    "width": 320,
+    "height": 568,
+    "rotation": 0
+  },
+  "cameraSafety": {
+    "safeRect": {
+      "left": 0,
+      "top": 0,
+      "right": 320,
+      "bottom": 568,
+      "width": 320,
+      "height": 568
+    },
+    "occlusions": [
+      {
+        "kind": "toolbar",
+        "left": 8,
+        "top": 5,
+        "right": 312,
+        "bottom": 49,
+        "width": 304,
+        "height": 44
+      },
+      {
+        "kind": "save",
+        "left": 56,
+        "top": 5,
+        "right": 100,
+        "bottom": 49,
+        "width": 44,
+        "height": 44
+      },
+      {
+        "kind": "hud",
+        "left": 8,
+        "top": 70,
+        "right": 124,
+        "bottom": 134,
+        "width": 116,
+        "height": 64
+      },
+      {
+        "kind": "hud",
+        "left": 14,
+        "top": 102,
+        "right": 118,
+        "bottom": 110,
+        "width": 104,
+        "height": 8
+      },
+      {
+        "kind": "hud",
+        "left": 130,
+        "top": 70,
+        "right": 190,
+        "bottom": 134,
+        "width": 60,
+        "height": 64
+      },
+      {
+        "kind": "hud",
+        "left": 196,
+        "top": 70,
+        "right": 312,
+        "bottom": 134,
+        "width": 116,
+        "height": 64
+      },
+      {
+        "kind": "hud",
+        "left": 202,
+        "top": 102,
+        "right": 306,
+        "bottom": 110,
+        "width": 104,
+        "height": 8
+      },
+      {
+        "kind": "hud",
+        "left": 23.6640625,
+        "top": 140,
+        "right": 296.3359375,
+        "bottom": 160,
+        "width": 272.671875,
+        "height": 20
+      },
+      {
+        "kind": "control",
+        "left": 8,
+        "top": 461,
+        "right": 80,
+        "bottom": 533,
+        "width": 72,
+        "height": 72
+      },
+      {
+        "kind": "control",
+        "left": 202,
+        "top": 500,
+        "right": 254,
+        "bottom": 552,
+        "width": 52,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 217,
+        "top": 531.5,
+        "right": 239,
+        "bottom": 543.5,
+        "width": 22,
+        "height": 12
+      },
+      {
+        "kind": "control",
+        "left": 260,
+        "top": 442,
+        "right": 312,
+        "bottom": 494,
+        "width": 52,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 144,
+        "top": 500,
+        "right": 196,
+        "bottom": 552,
+        "width": 52,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 202,
+        "top": 442,
+        "right": 254,
+        "bottom": 494,
+        "width": 52,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 260,
+        "top": 500,
+        "right": 312,
+        "bottom": 552,
+        "width": 52,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 86,
+        "top": 384,
+        "right": 312,
+        "bottom": 494,
+        "width": 226,
+        "height": 110
+      },
+      {
+        "kind": "control",
+        "left": 86,
+        "top": 442,
+        "right": 196,
+        "bottom": 494,
+        "width": 110,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 86,
+        "top": 384,
+        "right": 196,
+        "bottom": 436,
+        "width": 110,
+        "height": 52
+      },
+      {
+        "kind": "control",
+        "left": 202,
+        "top": 384,
+        "right": 312,
+        "bottom": 436,
+        "width": 110,
+        "height": 52
+      }
+    ]
+  }
+}

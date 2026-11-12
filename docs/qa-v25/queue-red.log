@@ -1,0 +1,89 @@
+✔ formal mode unchanged: wang/wang (30.718419ms)
+✔ formal mode unchanged: wang/han (30.961882ms)
+✔ formal mode unchanged: wang/ma (28.547828ms)
+✔ formal mode unchanged: wang/su (17.540905ms)
+✔ formal mode unchanged: wang/huang (24.271751ms)
+✔ formal mode unchanged: wang/chen (29.286362ms)
+✔ formal mode unchanged: wang/ko (29.119107ms)
+✔ formal mode unchanged: han/wang (17.941137ms)
+✔ formal mode unchanged: han/han (15.62666ms)
+✔ formal mode unchanged: han/ma (13.739389ms)
+✔ formal mode unchanged: han/su (15.112415ms)
+✔ formal mode unchanged: han/huang (18.853232ms)
+✔ formal mode unchanged: han/chen (17.290052ms)
+✔ formal mode unchanged: han/ko (16.316006ms)
+✔ formal mode unchanged: ma/wang (17.383799ms)
+✔ formal mode unchanged: ma/han (21.794784ms)
+✔ formal mode unchanged: ma/ma (10.672517ms)
+✔ formal mode unchanged: ma/su (16.557466ms)
+✔ formal mode unchanged: ma/huang (11.777109ms)
+✔ formal mode unchanged: ma/chen (16.808124ms)
+✔ formal mode unchanged: ma/ko (17.579106ms)
+✔ formal mode unchanged: su/wang (17.931924ms)
+✔ formal mode unchanged: su/han (22.140753ms)
+✔ formal mode unchanged: su/ma (16.365485ms)
+✔ formal mode unchanged: su/su (30.014221ms)
+✔ formal mode unchanged: su/huang (14.916557ms)
+✔ formal mode unchanged: su/chen (13.830743ms)
+✔ formal mode unchanged: su/ko (13.583721ms)
+✔ formal mode unchanged: huang/wang (13.473529ms)
+✔ formal mode unchanged: huang/han (11.627418ms)
+✔ formal mode unchanged: huang/ma (13.148602ms)
+✔ formal mode unchanged: huang/su (12.101895ms)
+✔ formal mode unchanged: huang/huang (10.45593ms)
+✔ formal mode unchanged: huang/chen (12.042047ms)
+✔ formal mode unchanged: huang/ko (15.62693ms)
+✔ formal mode unchanged: chen/wang (15.012508ms)
+✔ formal mode unchanged: chen/han (21.120629ms)
+✔ formal mode unchanged: chen/ma (18.288537ms)
+✔ formal mode unchanged: chen/su (14.962084ms)
+✔ formal mode unchanged: chen/huang (20.44944ms)
+✔ formal mode unchanged: chen/chen (20.227905ms)
+✔ formal mode unchanged: chen/ko (14.089854ms)
+✔ formal mode unchanged: ko/wang (16.890265ms)
+✔ formal mode unchanged: ko/han (10.690513ms)
+✔ formal mode unchanged: ko/ma (10.308983ms)
+✔ formal mode unchanged: ko/su (10.012839ms)
+✔ formal mode unchanged: ko/huang (10.755349ms)
+✔ formal mode unchanged: ko/chen (10.452715ms)
+✔ formal mode unchanged: ko/ko (10.937776ms)
+✔ warm-up failed escape chance is sampled once per received hit, not every frame (0.539502ms)
+✔ warm-up successful hit escape is not selected again during the same stun (0.185222ms)
+✔ warm-up gets 0.55 to 0.80 seconds after an action and does not chase during breathing (1.958775ms)
+✔ Chen question copy describes high/low attacks without pretending there are two voice lines (0.907182ms)
+✔ drinking uses the exact supplied file with honest source uncertainty (0.924417ms)
+✔ warm-up buffered jump does not resume chasing inside action recovery (0.619539ms)
+✔ current guide no longer calls the supplied drinking audio synthesized (0.930496ms)
+✔ an accepted drinking move routes the user file immediately to the correct actor (32.406182ms)
+✖ queue short candidate follows the user-confirmed near-two-second endpoint without authenticating it (0.744563ms)
+ℹ tests 58
+ℹ suites 0
+ℹ pass 57
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 989.792124
+
+✖ failing tests:
+
+test at tests/warmup-audio-v25.test.mjs:54:1
+✖ queue short candidate follows the user-confirmed near-two-second endpoint without authenticating it (0.744563ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /huang-queue-user-end-v25\.mp3$/. Input:
+  
+  'assets/voice/huang-cut-in-line-v14.mp3'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/warmup-audio-v25.test.mjs:55:46)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'assets/voice/huang-cut-in-line-v14.mp3',
+    expected: /huang-queue-user-end-v25\.mp3$/,
+    operator: 'match',
+    diff: 'simple'
+  }

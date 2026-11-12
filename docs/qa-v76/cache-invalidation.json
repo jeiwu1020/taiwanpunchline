@@ -1,0 +1,23 @@
+{
+  "release": "v76",
+  "entry": "game.mjs?v=246",
+  "css": "combat-presentation-v75.css?v=76",
+  "modules": [
+    "challenge-arena-backdrop.mjs",
+    "challenge-art.mjs",
+    "challenge-backdrop-cache.mjs",
+    "challenge-depth-render.mjs",
+    "challenge-render.mjs",
+    "challenge-story-art.mjs",
+    "game.mjs",
+    "street-trial.mjs"
+  ],
+  "importers_updated": [
+    "challenge-render.mjs",
+    "street-trial.mjs",
+    "challenge-backdrop-cache.mjs",
+    "game.mjs",
+    "challenge-depth-render.mjs",
+    "challenge-story-art.mjs"
+  ]
+}

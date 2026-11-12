@@ -1,0 +1,21 @@
+✔ wider camera keeps both actors plus head and ground in usable area (2.346752ms)
+✔ background covers viewport on every aspect ratio with its floor registered to ground (0.464349ms)
+✔ ambient particles are bounded deterministic and reduced motion is stationary (1.76079ms)
+✔ both funny item glyphs use bounded primitive drawing without images or text (0.805121ms)
+✔ idle player stays visually fixed while AI approaches 1134x550 (6.296727ms)
+✔ idle player stays visually fixed while AI approaches 298x292 (2.107122ms)
+✔ idle player stays visually fixed while AI approaches 370x575 (2.384349ms)
+✔ idle player stays visually fixed while AI approaches 326x255 (1.95344ms)
+✔ world backdrop is not glued to horizontal camera center (0.286972ms)
+✔ camera pans only at view boundary and keeps both actors visible across a round (0.332851ms)
+✔ background landmarks retain world position and scale during jumps and edge panning (0.279911ms)
+✔ jump camera returns smoothly to its standing zoom after landing (0.835237ms)
+✔ camera also eases outward when spare framing margin permits it (0.360893ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 167.826805

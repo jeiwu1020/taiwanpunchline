@@ -1,0 +1,65 @@
+/* V29 touch dock. Logical layout follows viewport-boot, so rotated portrait
+   and native landscape share the same rules, regardless of media orientation. */
+.app[data-touch="true"][data-layout] .cabinet{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 104px}
+.app[data-touch="true"][data-layout] .stage-wrap{position:relative;inset:auto;min-width:0;min-height:0}
+.app[data-touch="true"][data-layout] .control-deck{position:relative;inset:auto;display:grid;grid-template-columns:84px minmax(0,1fr) 96px;grid-template-rows:1fr;gap:8px;padding:6px 8px;align-items:center;align-content:stretch;border:0;border-top:2px solid #71928e;background:linear-gradient(180deg,#1f4149,#122e36);color:#fff4db;pointer-events:auto;container-type:inline-size;min-width:0;min-height:0;z-index:3}
+.app[data-touch="true"][data-layout] .movement{display:none}
+.app[data-touch="true"][data-layout] .control-deck kbd{display:none}
+.app[data-touch="true"][data-layout] .control-deck button{pointer-events:auto;min-height:44px;touch-action:none;border:2px solid #829d97;box-shadow:0 2px 0 #071d24;color:#fff5df;transform:none}
+.app[data-touch="true"][data-layout] .control-deck button.held{background:#9e542f;border-color:#ffe0a0;box-shadow:inset 0 0 0 1px #ffe0a0;filter:brightness(1.1)}
+.app[data-touch="true"][data-layout] .touch-pad{position:relative;inset:auto;display:flex;grid-column:1;grid-row:1;flex-direction:column;align-items:center;justify-content:center;gap:2px;pointer-events:auto;min-width:0}
+.app[data-touch="true"][data-layout] #touch-stick{width:78px;height:78px;border-color:#a4b9a6;background:radial-gradient(circle,#3f6361,#173941);box-shadow:inset 0 0 0 7px #0b283738}
+.app[data-touch="true"][data-layout] .stick-cross{font-size:65px;color:#e2eed16b}
+.app[data-touch="true"][data-layout] #touch-knob{left:calc(50% - 20px);top:calc(50% - 20px);background:#78988a;border-color:#fff2bd;box-shadow:0 3px 0 #071d24}
+.app[data-touch="true"][data-layout] .touch-pad>small{font-size:9px;line-height:11px;color:#d9e7d4;background:none;padding:0;white-space:nowrap}
+.app[data-touch="true"][data-layout] .touch-aux{position:relative;inset:auto;display:flex;grid-column:3;grid-row:1;gap:6px;align-self:start;justify-content:center;pointer-events:auto}
+.app[data-touch="true"][data-layout] .touch-aux button{width:44px;height:44px;min-width:44px;padding:2px;border-radius:12px;background:#31545b;font-size:17px;font-weight:900}
+.app[data-touch="true"][data-layout] .basic{position:relative;inset:auto;display:flex;grid-column:3;grid-row:1;align-self:end;width:100%;justify-content:center}
+.app[data-touch="true"][data-layout] .basic .punch{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:5px;width:94px;min-width:44px;height:42px;min-height:44px;border-radius:12px;background:#ad5835;border-color:#f3b67c;padding:2px}
+.app[data-touch="true"][data-layout] .basic span{font-size:18px;line-height:1.1}
+.app[data-touch="true"][data-layout] .basic small{font-size:9px;line-height:1.1}
+.app[data-touch="true"][data-layout] .specials{position:relative;inset:auto;display:grid;grid-column:2;grid-row:1;grid-template-columns:repeat(3,minmax(0,1fr));flex-direction:row;gap:6px;width:auto;min-width:0;align-self:stretch;pointer-events:auto}
+.app[data-touch="true"][data-layout] .specials button{display:grid;grid-template-columns:minmax(0,1fr) 32px;grid-template-rows:auto minmax(0,1fr);gap:2px 4px;width:100%;min-width:0;min-height:44px;height:100%;flex:none;padding:5px;border-radius:11px;background:#31565b;text-align:center;overflow:hidden}
+.app[data-touch="true"][data-layout] .specials button:nth-child(2){background:#344f50}
+.app[data-touch="true"][data-layout] .specials button:nth-child(3){background:#4b4b4a}
+.app[data-touch="true"][data-layout] .specials .move-copy{display:contents;padding:0}
+.app[data-touch="true"][data-layout] .specials strong{display:block;grid-column:1 / -1;grid-row:1;align-self:center;font-size:14px;font-size:clamp(14px,2.2cqw,16px);line-height:1.12;white-space:normal;overflow-wrap:anywhere;color:#fff6dc}
+.app[data-touch="true"][data-layout] .specials small{display:block;grid-column:1;grid-row:2;align-self:center;font-size:10px;line-height:1.16;margin:0;white-space:normal;overflow-wrap:anywhere;color:#e9e9d6;opacity:1;text-align:left}
+.app[data-touch="true"][data-layout] .specials button.cooling small{opacity:.85}
+.app[data-touch="true"][data-layout] .specials .cooldown{grid-column:2;grid-row:2;width:32px;height:32px;font-size:11px;align-self:center}
+.app[data-touch="true"][data-layout] .cooldown-label{display:none}
+.app[data-touch="true"][data-layout] .specials button:not(.cooling) .cooldown-value{font-size:21px}
+.app[data-touch="true"][data-layout] .broadcast{max-width:80%;font-size:13px;bottom:7px;white-space:normal;text-align:center}
+/* Menu, pause, and result screens use the full cabinet and cannot click through. */
+.app[data-touch="true"][data-layout] .cabinet:has(.screen:not(.hidden)){grid-template-rows:minmax(0,1fr)}
+.app[data-touch="true"][data-layout] .stage-wrap:has(.screen:not(.hidden))~.control-deck{display:none;visibility:hidden}
+/* Rotation off has exactly the same gesture/actions, arranged below the arena. */
+.app[data-touch="true"][data-layout="portrait"]{padding:6px 8px;grid-template-rows:64px minmax(0,1fr);gap:6px}
+.app[data-touch="true"][data-layout="portrait"] .under{display:none}
+.app[data-touch="true"][data-layout="portrait"] header{flex-wrap:wrap;gap:2px;justify-content:center;align-content:center}
+.app[data-touch="true"][data-layout="portrait"] .brand{font-size:16px;line-height:1.1}
+.app[data-touch="true"][data-layout="portrait"] .brand-icon{font-size:16px;padding:1px 4px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar{gap:6px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar button{min-height:36px;min-width:56px;font-size:11px;padding:4px 8px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar #help{font-size:11px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar #help:after{content:none}
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 216px}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:88px minmax(0,1fr) 64px;grid-template-rows:94px 98px;gap:6px;padding:8px}
+.app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1 / -1;grid-row:1}
+.app[data-touch="true"][data-layout="portrait"] .specials button{padding:5px 4px;column-gap:3px}
+.app[data-touch="true"][data-layout="portrait"] .touch-pad{grid-column:1;grid-row:2}
+.app[data-touch="true"][data-layout="portrait"] #touch-stick{width:82px;height:82px}
+.app[data-touch="true"][data-layout="portrait"] .touch-aux{grid-column:2;grid-row:2;align-self:center}
+.app[data-touch="true"][data-layout="portrait"] .basic{grid-column:3;grid-row:2;align-self:center}
+.app[data-touch="true"][data-layout="portrait"] .basic .punch{width:64px;height:64px;min-width:64px;border-radius:50%;flex-direction:column;gap:1px}
+.app[data-touch="true"][data-layout="portrait"] .dom-hud{top:6px;left:6px;right:6px;gap:3px 5px;grid-template-columns:minmax(0,1fr) 40px minmax(0,1fr)}
+.app[data-touch="true"][data-layout="portrait"] .hud-side{min-width:0;padding:3px 5px}
+.app[data-touch="true"][data-layout="portrait"] .hud-name{font-size:13px;gap:3px}
+.app[data-touch="true"][data-layout="portrait"] .hud-name small{font-size:7px}
+.app[data-touch="true"][data-layout="portrait"] .timer strong{font-size:21px}
+.app[data-touch="true"][data-layout="portrait"] .timer small{font-size:7px}
+@container (min-width:650px){
+ .app[data-touch="true"][data-layout] .specials button{grid-template-columns:minmax(0,1fr) 36px;column-gap:7px;padding:7px 10px}
+ .app[data-touch="true"][data-layout] .specials small{font-size:11px;line-height:1.25}
+ .app[data-touch="true"][data-layout] .specials .cooldown{width:36px;height:36px;font-size:12px}
+}

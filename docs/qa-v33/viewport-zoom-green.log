@@ -1,0 +1,31 @@
+✔ safe-area body gutters suppress double-tap zoom without locking pinch or pan (10.14239ms)
+✔ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (12.475122ms)
+✔ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (5.114683ms)
+✔ Phaser canvas touch handlers do not cancel native pinch gestures (1.892546ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (8.389689ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (10.321933ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (5.332894ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.373298ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (5.093002ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (11.952275ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (3.549007ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (15.859858ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (2.019012ms)
+✔ early viewport rejects stale unzoomed orientation and reconciles late safe areas (2.042807ms)
+✔ first paint marks only physical touch landscape for overlay controls (5.007566ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (7.907617ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.917325ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.473355ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.536857ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.539311ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.493784ms)
+✔ boot-to-mounted handoff resamples late viewport changes before accepting input (0.530879ms)
+✔ overlay flag distinguishes physical landscape from rotated portrait and portrait pinch (3.348413ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 290.508998

@@ -1,0 +1,163 @@
+✖ only the locked battle cabinet suppresses all touch browser gestures (19.462148ms)
+✖ surface locking synchronizes exact combat states, never settings or text overlays (2.446368ms)
+✖ the overlay CSS and camera use the same logical overlay flag (0.898387ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (5.222698ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (11.092617ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (3.595622ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (10.518759ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (2.495119ms)
+✔ early viewport rejects stale unzoomed orientation and reconciles late safe areas (1.945383ms)
+✔ first paint marks only physical touch landscape for overlay controls (3.987627ms)
+✖ V34 first paint enables identical overlays for rotated and native landscape only (2.70078ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (4.372792ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.594422ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.520684ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.480575ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.613219ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (2.513511ms)
+✔ boot-to-mounted handoff resamples late viewport changes before accepting input (2.24395ms)
+✔ overlay flag distinguishes physical landscape from rotated portrait and portrait pinch (1.211266ms)
+✖ V34 overlay follows rotation, repeated direction changes, and safe areas without becoming desktop or upright (3.225349ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 15
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.690801
+
+✖ failing tests:
+
+test at tests/battle-surface-v34.test.mjs:7:1
+✖ only the locked battle cabinet suppresses all touch browser gestures (19.462148ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'none'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/battle-surface-v34.test.mjs:10:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'none',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/battle-surface-v34.test.mjs:15:1
+✖ surface locking synchronizes exact combat states, never settings or text overlays (2.446368ms)
+  AssertionError [ERR_ASSERTION]: production state boundary exists
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/battle-surface-v34.test.mjs:17:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/battle-surface-v34.test.mjs:29:1
+✖ the overlay CSS and camera use the same logical overlay flag (0.898387ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /data-overlay-controls="true"/. Input:
+  
+  '/* V33 trial: actual unrotated touch landscape only. The physical safe-area\n' +
+    '   shell still owns screen insets; portrait/rotated/desktop keep the V32 dock. */\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .cabinet{position:relative;grid-template-rows:minmax(0,1fr)}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .stage-wrap{grid-column:1;grid-row:1}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .control-deck{position:absolute;inset:auto;left:14px;right:14px;bottom:6px;height:84px;display:grid;grid-template-columns:84px minmax(0,1fr) 54px 54px;grid-template-rows:minmax(0,1fr);gap:6px;align-items:end;padding:0;border:0;background:transparent;box-shadow:none;pointer-events:none}\n' +
+    '/* Empty space, including space between cards, must not consume pointer hits. */\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .touch-pad,.app[data-touch="true"][data-native-landscape="true"] .specials,.app[data-touch="true"][data-native-landscape="true"] .basic,.app[data-touch="true"][data-native-landscape="true"] .touch-aux{pointer-events:none;align-self:end}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] #touch-stick{width:84px;height:84px;pointer-events:auto;background:radial-gradient(circle,#3f6361e8,#173941d9)}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .control-deck button{pointer-events:auto}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials{height:60px;align-items:stretch}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials button{height:60px;min-height:60px;padding:2px;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 26px;gap:1px;background:#31565be8}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials button:nth-child(2){background:#344f50e8}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials button:nth-child(3){background:#4b4b4ae8}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials strong{grid-column:1;grid-row:1;font-size:12px;line-height:1;align-self:center}\n' +
+    '/* Narrow overlays prioritize the complete move name and live cooldown.\n' +
+    '   Full purposes remain in settings and return when the control area is wide. */\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials small{display:none}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .specials .cooldown{grid-column:1;grid-row:2;width:26px;height:26px;justify-self:center;align-self:center}\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .basic .punch,.app[data-touch="true"][data-native-landscape="true"] .touch-aux button{width:54px;height:54px}\n' +
+    '/* Keep transient battle copy above the overlay, without moving the HUD. */\n' +
+    '.app[data-touch="true"][data-native-landscape="true"] .broadcast{bottom:94px}\n' +
+    '/* The nearest container is the deck: 600px means about 644px safe app width. */\n' +
+    '@container(min-width:600px){\n' +
+    ' .app[data-touch="true"][data-native-landscape="true"] .specials button{grid-template-columns:minmax(0,1fr) 26px}\n' +
+    ' .app[data-touch="true"][data-native-landscape="true"] .specials strong{grid-column:1 / -1;font-size:14px}\n' +
+    ' .app[data-touch="true"][data-native-landscape="true"] .specials small{display:block;grid-column:1;grid-row:2;font-size:9px;line-height:1.1}\n' +
+    ' .app[data-touch="true"][data-native-landscape="true"] .specials .cooldown{grid-column:2}\n' +
+    '}\n'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/battle-surface-v34.test.mjs:31:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '/* V33 trial: actual unrotated touch landscape only. The physical safe-area\n   shell still owns screen insets; portrait/rotated/desktop keep the V32 dock. */\n.app[data-touch="true"][data-native-landscape="true"] .cabinet{position:relative;grid-template-rows:minmax(0,1fr)}\n.app[data-touch="true"][data-native-landscape="true"] .stage-wrap{grid-column:1;grid-row:1}\n.app[data-touch="true"][data-native-landscape="true"] .control-deck{position:absolute;inset:auto;left:14px;right:14px;bottom:6px;height:84px;display:grid;grid-template-columns:84px minmax(0,1fr) 54px 54px;grid-template-rows:minmax(0,1fr);gap:6px;align-items:end;padding:0;border:0;background:transparent;box-shadow:none;pointer-events:none}\n/* Empty space, including space between cards, must not consume pointer hits. */\n.app[data-touch="true"][data-native-landscape="true"] .touch-pad,.app[data-touch="true"][data-native-landscape="true"] .specials,.app[data-touch="true"][data-native-landscape="true"] .basic,.app[data-touch="true"][data-native-landscape="true"] .touch-aux{pointer-events:none;align-self:end}\n.app[data-touch="true"][data-native-landscape="true"] #touch-stick{width:84px;height:84px;pointer-events:auto;background:radial-gradient(circle,#3f6361e8,#173941d9)}\n.app[data-touch="true"][data-native-landscape="true"] .control-deck button{pointer-events:auto}\n.app[data-touch="true"][data-native-landscape="true"] .specials{height:60px;align-items:stretch}\n.app[data-touch="true"][data-native-landscape="true"] .specials button{height:60px;min-height:60px;padding:2px;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 26px;gap:1px;background:#31565be8}\n.app[data-touch="true"][data-native-landscape="true"] .specials button:nth-child(2){background:#344f50e8}\n.app[data-touch="true"][data-native-landscape="true"] .specials button:nth-child(3){background:#4b4b4ae8}\n.app[data-touch="true"][data-native-landscape="true"] .specials strong{grid-column:1;grid-row:1;font-size:12px;line-height:1;align-self:center}\n/* Narrow overlays prioritize the complete move name and live cooldown.\n   Full purposes remain in settings and return when the control area is wide. */\n.app[data-touch="true"][data-native-landscape="true"] .specials small{display:none}\n.app[data-touch="true"][data-native-landscape="true"] .specials .cooldown{grid-column:1;grid-row:2;width:26px;height:26px;justify-self:center;align-self:center}\n.app[data-touch="true"][data-native-landscape="true"] .basic .punch,.app[data-touch="true"][data-native-landscape="true"] .touch-aux button{width:54px;height:54px}\n/* Keep transient battle copy above the overlay, without moving the HUD. */\n.app[data-touch="true"][data-native-landscape="true"] .broadcast{bottom:94px}\n/* The nearest container is the deck: 600px means about 644px safe app width. */\n@container(min-width:600px){\n .app[data-touch="true"][data-native-landscape="true"] .specials button{grid-template-columns:minmax(0,1fr) 26px}\n .app[data-touch="true"][data-native-landscape="true"] .specials strong{grid-column:1 / -1;font-size:14px}\n .app[data-touch="true"][data-native-landscape="true"] .specials small{display:block;grid-column:1;grid-row:2;font-size:9px;line-height:1.1}\n .app[data-touch="true"][data-native-landscape="true"] .specials .cooldown{grid-column:2}\n}\n',
+    expected: /data-overlay-controls="true"/,
+    operator: 'match',
+    diff: 'simple'
+  }
+
+test at tests/viewport-boot-v29.test.mjs:74:1
+✖ V34 first paint enables identical overlays for rotated and native landscape only (2.70078ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'true'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-boot-v29.test.mjs:76:33)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'true',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:64:1
+✖ V34 overlay follows rotation, repeated direction changes, and safe areas without becoming desktop or upright (3.225349ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:65:51)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

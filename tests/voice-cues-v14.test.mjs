@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {VoiceCueQueue}from'../dist/voice-cues.mjs';
+const clips={han_knee:{cue:.62},ma_cough:{cue:0}};
+const queue=()=>new VoiceCueQueue(k=>clips[k]||null);
+test('unavailable sources stay silent and zero-cue clips are immediate',()=>{const q=queue();assert.equal(q.schedule({},'unavailable'),false);assert.equal(q.schedule({},'ma_cough'),true);assert.equal(q.pending.length,0)});
+test('generic delayed cue waits for its configured attack age and plays once',()=>{const q=queue(),f={attack:{kind:'han_knee',age:0}};assert.equal(q.schedule(f,'han_knee'),false);f.attack.age=.61;assert.equal(q.ready().length,0);f.attack.age=.62;assert.equal(q.ready().length,1);assert.equal(q.ready().length,0)});
+test('interrupt, replacement, and lifecycle clearing cancel delayed voice',()=>{for(const mode of ['interrupt','replace','clear']){const q=queue(),f={attack:{kind:'han_knee',age:0}};q.schedule(f,'han_knee');if(mode==='interrupt')f.attack=null;else if(mode==='replace')f.attack={kind:'han_knee',age:.7};else q.clear();assert.equal(q.ready().length,0);assert.equal(q.pending.length,0)}});
+test('simultaneous opponents keep separate cast identity',()=>{const q=queue(),a={attack:{kind:'han_knee',age:0}},b={attack:{kind:'han_knee',age:0}};q.schedule(a,'han_knee');q.schedule(b,'han_knee');a.attack=null;b.attack.age=.63;assert.deepEqual(q.ready(),[{f:b,kind:'han_knee'}])});

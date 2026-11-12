@@ -1,0 +1,22 @@
+✔ held crouch plants the foot root and suppresses voluntary movement until released (5.119337ms)
+✔ back plus crouch guards using raw directions without sliding or bypassing attack restrictions (1.169332ms)
+✔ successful jump exits crouch, stays standing in the air, then holding down crouches again (5.581226ms)
+✔ landing reports a short visual countdown without moving the foot root (1.651712ms)
+✔ basic and special attacks exit crouch and cannot be cancelled by holding down (27.507787ms)
+✔ crouch cannot clear stun or shorten its remaining duration (0.613834ms)
+✔ holding crouch preserves the 0.15-second input buffer and late basic-to-special cancel window (0.931631ms)
+✔ each fighter cycles only accepted basic attacks and restarts after an idle gap (8.351855ms)
+✔ all three cosmetic variants keep basic damage, reach and timing (2.062056ms)
+✔ V13 crouch ducks high coin, while mid punch and ground arrow retain their hits (6.619245ms)
+✔ back plus crouch keeps the existing reduced guard damage (1.030237ms)
+✔ S and down-arrow are held inputs and releasing either alias preserves the other (4.64578ms)
+✔ held touch crouch releases on pointer cancel and lost capture (4.925702ms)
+✔ pause and blur clear active crouch, and keys pressed while paused do not rearm it (4.754199ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 227.342798

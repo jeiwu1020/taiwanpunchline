@@ -1,0 +1,6 @@
+{
+  "baseline": "f823dc19995fc86569bbd75a2ba6178dedf6b0f8",
+  "rounds": 196,
+  "result": "identical",
+  "coverage": "All 49 pairings, both legacy difficulties, seeds 4 and 18. Every frame: HP, XY, attack, AI wait/recovery, projectile/obstacle/item counts. Assists omitted."
+}

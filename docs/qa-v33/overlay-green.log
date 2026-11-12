@@ -1,0 +1,14 @@
+✔ native landscape reclaims the dock while empty overlay space passes pointer hits through (28.669113ms)
+✔ native touch targets stay reachable at narrow and safe-area-reduced landscape widths (46.305373ms)
+✔ rotated portrait and upright portrait retain their original reserved docks (3.8989ms)
+✔ overlay framing adds real safe fight height and larger near fighters in both camera modes (9.647479ms)
+✔ head, feet and left stick stay separate through near, far, edge and jumping frames (11.706064ms)
+✔ non-native framing is an exact passthrough and never mutates fighters (1.282585ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 278.082399

@@ -1,0 +1,8 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createCanvas} from '@napi-rs/canvas';import {paintCachedStreetLayer,streetStaticCacheDiagnostics,invalidateStreetStaticCaches} from '../dist/preview/campaign/street-static-cache.mjs';
+for(const dpr of [1,2,3])test(`finite street rows retain current full density, not far coverage times future zoom, DPR ${dpr}`,()=>{
+ const canvas=createCanvas(390*dpr,844*dpr),ctx=canvas.getContext('2d'),image=createCanvas(1536,1024),allocated=[],identity={};canvas.ownerDocument={createElement(){const c=createCanvas(1,1);allocated.push(c);return c;}};ctx.setTransform(dpr,0,0,dpr,0,0);ctx.drawImage=()=>{};let paints=0,density=0;
+ const frame={presentation:{width:844,height:390,touch:true},zoom:.4,backdropZoom:390/440,left:0,base:700,backdropScene:identity},paint=brush=>{paints++;density=brush.getTransform().d;},options={image,frame,width:390,height:844,curb:700};
+ assert.equal(paintCachedStreetLayer(ctx,options,paint),true);assert.ok(density>=dpr*frame.zoom&&density-dpr*frame.zoom<=.025,'initial precise source density');
+ frame.zoom=390/440;frame.left=140;assert.equal(paintCachedStreetLayer(ctx,options,paint),true);assert.ok(density>=dpr*frame.zoom,'nearer view regenerates at adequate native density');
+ const after=paints;for(let i=0;i<120;i++){frame.left++;paintCachedStreetLayer(ctx,options,paint);}assert.equal(paints,after,'covered motion reuses strips');assert.ok(streetStaticCacheDiagnostics(ctx).pixels<16*1024*1024);assert.ok(allocated.every(c=>c.height<=2048),'fixed world strips, not far-height rasters');invalidateStreetStaticCaches(ctx);
+});

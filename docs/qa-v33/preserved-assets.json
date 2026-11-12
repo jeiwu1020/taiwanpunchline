@@ -1,0 +1,419 @@
+{
+  "base": "0ff9d48fa06e8dd612688babf355774a4a55a55d",
+  "assets_verified": 101,
+  "changed_existing_production": [
+    "dist/art.html",
+    "dist/game-viewport.mjs",
+    "dist/game.mjs",
+    "dist/index.html",
+    "dist/mobile-game.css",
+    "dist/moves.html",
+    "dist/viewport-boot.js"
+  ],
+  "assets": [
+    {
+      "path": "dist/assets/arena-chamber-v19.webp",
+      "sha256": "0cc49ade2a4f5a2e3ec0d789d4804ebfa70186a86c0533866f34d294b5a9d076"
+    },
+    {
+      "path": "dist/assets/chen-head-v6.webp",
+      "sha256": "65f667a4bd0944659f67406bc781e020ca96ec64ed289cb37857d9b5cd09146e"
+    },
+    {
+      "path": "dist/assets/chen-head-v7.webp",
+      "sha256": "73e47a9ef3a906cb8a0ca9b2b6ffd2a48e93fbafb8b76c1bb2f986eebb43cb50"
+    },
+    {
+      "path": "dist/assets/chen-head-v8.webp",
+      "sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb"
+    },
+    {
+      "path": "dist/assets/chen-step-v9.webp",
+      "sha256": "bb73d37f42989a710c78c5bda308e249179c81cefcb1d36882459c2baa489b21"
+    },
+    {
+      "path": "dist/assets/chen-wave-v9.webp",
+      "sha256": "e5288271bda84bcc85aafb7cbfcc9758e833fe739ca0f6b355767ee885cbeb27"
+    },
+    {
+      "path": "dist/assets/final-costumes-v6.webp",
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706"
+    },
+    {
+      "path": "dist/assets/han-aim-v9.webp",
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3"
+    },
+    {
+      "path": "dist/assets/han-archery-v3.webp",
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755"
+    },
+    {
+      "path": "dist/assets/han-defiant-head.webp",
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3"
+    },
+    {
+      "path": "dist/assets/han-knee-shout-v10.webp",
+      "sha256": "991dbe5890b8cc8b9e10919e87255e90d9cf0b61ddaeff81d1d06415d5ed563d"
+    },
+    {
+      "path": "dist/assets/han-knees-v10.webp",
+      "sha256": "003c737b4b4e161e9d19c5600db73fc69526d3122775f4eba0263a558cc4b607"
+    },
+    {
+      "path": "dist/assets/han-lotus-body-v11.webp",
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b"
+    },
+    {
+      "path": "dist/assets/han-parts-v3.webp",
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7"
+    },
+    {
+      "path": "dist/assets/han-release-v3.webp",
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325"
+    },
+    {
+      "path": "dist/assets/han-shock-head.webp",
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e"
+    },
+    {
+      "path": "dist/assets/han-shout-v9.webp",
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8"
+    },
+    {
+      "path": "dist/assets/handshake-v13.png",
+      "sha256": "a51f37e629092813296152aa0f7d4609d5368946701826d833769df58c561082"
+    },
+    {
+      "path": "dist/assets/huang-head-v5.webp",
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0"
+    },
+    {
+      "path": "dist/assets/huang-press-v9.webp",
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b"
+    },
+    {
+      "path": "dist/assets/huang-shout-v9.webp",
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd"
+    },
+    {
+      "path": "dist/assets/ko-bags-v6.webp",
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b"
+    },
+    {
+      "path": "dist/assets/ko-counter-v9.webp",
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a"
+    },
+    {
+      "path": "dist/assets/ko-head-v6.webp",
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff"
+    },
+    {
+      "path": "dist/assets/ko-sweep-v9.webp",
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905"
+    },
+    {
+      "path": "dist/assets/left-arms-v3.webp",
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab"
+    },
+    {
+      "path": "dist/assets/limbs-v4.webp",
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00"
+    },
+    {
+      "path": "dist/assets/ma-cough-v10.webp",
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43"
+    },
+    {
+      "path": "dist/assets/ma-counter-v9.webp",
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+    },
+    {
+      "path": "dist/assets/ma-gaze-v10.webp",
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964"
+    },
+    {
+      "path": "dist/assets/ma-head-v5.webp",
+      "sha256": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8"
+    },
+    {
+      "path": "dist/assets/ma-run-v9.webp",
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483"
+    },
+    {
+      "path": "dist/assets/move-accents-v9.webp",
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d"
+    },
+    {
+      "path": "dist/assets/music/CREDITS.txt",
+      "sha256": "3b32aef90f3809777f7d08d0f37ca0dc65eae0e244db62e040b0275a43d0f7e7"
+    },
+    {
+      "path": "dist/assets/music/fluffing-a-duck-menu-v28.mp3",
+      "sha256": "4e98e0496266253171dcefe1733196bc31ee8149f71eedf8ebfc3e0ec05f46c6"
+    },
+    {
+      "path": "dist/assets/music/originals/fluffing-a-duck.mp3",
+      "sha256": "cb23b1833c35e391de10d998d6a40cfc760565ce31d23014c86025523ca8239b"
+    },
+    {
+      "path": "dist/assets/music/originals/run-amok.mp3",
+      "sha256": "12ee736658e7aab114f57a8edb034e8dafce37e01bdacd788b486377c4bd4d24"
+    },
+    {
+      "path": "dist/assets/music/run-amok-battle-v28.mp3",
+      "sha256": "e8546677700d4f9400c09009d50246d7fa3a17f9b5814ca4be87689b8b61a4c6"
+    },
+    {
+      "path": "dist/assets/props-v3.webp",
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225"
+    },
+    {
+      "path": "dist/assets/roster-costumes-v5.webp",
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab"
+    },
+    {
+      "path": "dist/assets/roster-props-v5.webp",
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9"
+    },
+    {
+      "path": "dist/assets/signature-hands-v10.webp",
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9"
+    },
+    {
+      "path": "dist/assets/signature-props-v10.webp",
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa"
+    },
+    {
+      "path": "dist/assets/su-head-v5.webp",
+      "sha256": "0841e64dcc6985a99b640823eb755e3618baed0c6b0975d1f2f37f9bef00df6d"
+    },
+    {
+      "path": "dist/assets/su-head-v7.webp",
+      "sha256": "84091e55338450fe2fa97083fea5c7a9d4ed1c47935264065a03a4ac8c1ce5ce"
+    },
+    {
+      "path": "dist/assets/su-head-v8.webp",
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503"
+    },
+    {
+      "path": "dist/assets/su-shout-v9.webp",
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e"
+    },
+    {
+      "path": "dist/assets/su-slam-v9.webp",
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67"
+    },
+    {
+      "path": "dist/assets/voice/arrow-user-selected-v31.wav",
+      "sha256": "27ae6fed3138133bed97c684623b80ed2755cfb575365240bf0e0692c07e259e"
+    },
+    {
+      "path": "dist/assets/voice/chen-calm-user-selected-v31.wav",
+      "sha256": "9aad1607439f37a1cd94ba16b088f6093d28257d6514da5d1bf449b81889cbaf"
+    },
+    {
+      "path": "dist/assets/voice/chen-dream-user-candidate-v20.mp3",
+      "sha256": "7127fe4719fd207a26f38b863fd1fdd96360d935fea4c1837ff8fb0a9e672afb"
+    },
+    {
+      "path": "dist/assets/voice/chen-dream-user-candidate-v201.mp3",
+      "sha256": "fef9b40261b220e8066693292cd83089b9db885102b11c741cbb5369a4ccbc7a"
+    },
+    {
+      "path": "dist/assets/voice/chen-dream-user-confirmed-v26.mp3",
+      "sha256": "4f31d0cb1f9eff429b06fb19863d9dad464a2ad5a06fc3718944bf2cbbdae9a9"
+    },
+    {
+      "path": "dist/assets/voice/chen-dream-user-selected-v31.wav",
+      "sha256": "53b6344f2a1a4cce8036c25fdd2d81b907b9ff06aea26585c0020c041e418b24"
+    },
+    {
+      "path": "dist/assets/voice/chen-question-user-selected-v31.wav",
+      "sha256": "eb66183269a59e790dfa62ebc348ce2f3a14388901c4125af4e09dab8a25da1b"
+    },
+    {
+      "path": "dist/assets/voice/coin-user-selected-v31.wav",
+      "sha256": "a04a78a1bc69ca9ce9885a16dd6a9a72f9aa8e3bd447d6199ae85d572433ec67"
+    },
+    {
+      "path": "dist/assets/voice/counter-user-selected-v31.wav",
+      "sha256": "0a2b98036b035bd96bf0e992d00aa4c1f4c3302c6ba02e1d0c82a7ccd00cd96f"
+    },
+    {
+      "path": "dist/assets/voice/han-fa-da-cai-20190513.mp3",
+      "sha256": "eda509cd3c4847a52237c88dbdcfc71cfa660aeb06375000d290504bf8ab4492"
+    },
+    {
+      "path": "dist/assets/voice/han-knee-user-selected-v31.wav",
+      "sha256": "ebc0cfd83e322b615dcb155b9833c10c49c9727b878ae953cda73aa83193d8cd"
+    },
+    {
+      "path": "dist/assets/voice/heal-user-selected-v31.wav",
+      "sha256": "2b7e8cf8957e305c981cdb18729e05dc9f413785cfcf07a443224c7b7aa81eec"
+    },
+    {
+      "path": "dist/assets/voice/huang-cut-in-line-v14.mp3",
+      "sha256": "ab2b8bbfbb2523f2d4fc90c6e758cb1057e8a7290981e5c4911df625d1c1c270"
+    },
+    {
+      "path": "dist/assets/voice/huang-debt-user-selected-v31.wav",
+      "sha256": "2f6765a53dc978c645e61a379400eaac49380e9847992619305fc93730786c13"
+    },
+    {
+      "path": "dist/assets/voice/huang-owe-you-v14.mp3",
+      "sha256": "9a3b363c6350a07a8d80f0450b5d4059bb6b149c4279d69b3d6759a28f9223ab"
+    },
+    {
+      "path": "dist/assets/voice/huang-owe-you-v15.mp3",
+      "sha256": "4d2acd3a4d56ad4f1604b042ca08ad7118afc021bd7e850473f91c60d3091ef5"
+    },
+    {
+      "path": "dist/assets/voice/huang-queue-user-end-v25.mp3",
+      "sha256": "2e4c88dba4f5abf87392090361ea150d8e19f4984f1eee0b75cf754201fc064d"
+    },
+    {
+      "path": "dist/assets/voice/huang-queue-user-selected-v31.wav",
+      "sha256": "109f302c355d0162a080f1b7b3d508bb75426061eb715103e645b23c579dcc3c"
+    },
+    {
+      "path": "dist/assets/voice/huang-shout-user-selected-v31.wav",
+      "sha256": "04fb3cf6f05bb06901dfc12740efdcbac4be5ad81cc6732e40842c1b0afe3a05"
+    },
+    {
+      "path": "dist/assets/voice/huang-too-outrageous-v14.mp3",
+      "sha256": "c28c4c4a244fa9c03829627d17bec8218b057b686082cc47efc497e5c8449219"
+    },
+    {
+      "path": "dist/assets/voice/huang-too-outrageous-v15.mp3",
+      "sha256": "1f23c5aa31586c17fdcbda619e375b2741c9287eacc344a5f96828e8a76f6128"
+    },
+    {
+      "path": "dist/assets/voice/ko-bags-user-selected-v31.wav",
+      "sha256": "cac7c3998478bcc6da11e8d2723a9365415a662964d273113c20e14ef71c9448"
+    },
+    {
+      "path": "dist/assets/voice/ko-name-user-selected-v32.wav",
+      "sha256": "bfbd2b9b8159501a340b7af27244fc00b332a646ddf9912d64ef77bb68b11865"
+    },
+    {
+      "path": "dist/assets/voice/ko-resolve-user-selected-v31.wav",
+      "sha256": "daf633866e360e61b4106ddfd63498644e26d3f043017e164f6c05ba18f9e85a"
+    },
+    {
+      "path": "dist/assets/voice/ma-cough-user-selected-v31.wav",
+      "sha256": "a57589aa069fd4ff2fe1e33c3747105176be68be7f733ccd64f249fc9e0e1f57"
+    },
+    {
+      "path": "dist/assets/voice/ma-gaze-user-selected-v31.wav",
+      "sha256": "13324a70f01fe960c179b9beaa68d9cdc88c02c4b374d54f149bc6855d56e7f8"
+    },
+    {
+      "path": "dist/assets/voice/ma-handshake-user-candidate-v17.mp3",
+      "sha256": "32930a69fb3feda5b23363d58369a0183a147d2fa091beabdc306c072b55225b"
+    },
+    {
+      "path": "dist/assets/voice/ma-handshake-user-selected-v31.wav",
+      "sha256": "2281668716d37e6444c6201e25a8e47c13aed3c0f1d23aed888f5198d39ae493"
+    },
+    {
+      "path": "dist/assets/voice/rush-user-selected-v31.wav",
+      "sha256": "c5e4018abd3e55a5acc68196625914111d1e879b39b9a2bacac9ba4f46c08412"
+    },
+    {
+      "path": "dist/assets/voice/su-dare-user-selected-v16.mp3",
+      "sha256": "239c8001b38b2fb51595a0933080eeffa736bf7121097f99012baba82b8da12b"
+    },
+    {
+      "path": "dist/assets/voice/su-dare-user-selected-v31.wav",
+      "sha256": "86a816cfe5c3f9eadee725e07fe06f05a508ff3d5459b4a5741db4215155a954"
+    },
+    {
+      "path": "dist/assets/voice/su-rush-user-selected-v16.mp3",
+      "sha256": "08f0cb2ca2516725dddc9d7a644352d029b9d911c64b8477bbbffe48a921a058"
+    },
+    {
+      "path": "dist/assets/voice/su-rush-user-selected-v31.wav",
+      "sha256": "2b1036be709ad4cac6f64c314cff3e3d9afe03a21336e6f94f673b943e4bd871"
+    },
+    {
+      "path": "dist/assets/voice/su-shout-user-selected-v31.wav",
+      "sha256": "1f30559b553a5c32f55395300fa74e290c3f88a05892c83065a7de9688b4f12e"
+    },
+    {
+      "path": "dist/assets/voice/su-shout-user-upload-v16.mp3",
+      "sha256": "fdb8f4f101d8a6a3856b76b2568f55da2ece3f6a1f8aec85c6c193e7889ec834"
+    },
+    {
+      "path": "dist/assets/voice/user-arrow-candidate-v15.mp3",
+      "sha256": "fec4921af4416e81890ed67eec93d0f90284cf2bd47df17fe1ec8035fa925b11"
+    },
+    {
+      "path": "dist/assets/voice/user-chen-calm-candidate-v15.mp3",
+      "sha256": "6525b094680e5e4a17dd763f9cbdd9c286b89dad6920de335e508c76c3251d8f"
+    },
+    {
+      "path": "dist/assets/voice/user-chen-question-candidate-v15.mp3",
+      "sha256": "bb4d4eb51599020675ab149704de3731153c77afec44fda148cd522abfff123e"
+    },
+    {
+      "path": "dist/assets/voice/user-cough-full-v14.mp3",
+      "sha256": "7e7de6c9ecf305068198f66c7c0738ff05c0d0b575274f14e99e2746814cd57e"
+    },
+    {
+      "path": "dist/assets/voice/user-counter-candidate-v15.mp3",
+      "sha256": "0b00e467bd129098de163049638d2b12a21d073dc176ac207991b77ad74938c3"
+    },
+    {
+      "path": "dist/assets/voice/user-ke-lian-na-v14.mp3",
+      "sha256": "e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b"
+    },
+    {
+      "path": "dist/assets/voice/user-ko-bags-candidate-v15.mp3",
+      "sha256": "f77534e506a79f93dd9068c2ec19d98fabb4550871beffab5811767bcb3f75fb"
+    },
+    {
+      "path": "dist/assets/voice/user-ko-name-candidate-v15.mp3",
+      "sha256": "17862a984268430866c45f638d71fb751cacd5bec377a1424f0c6056f56fcbfe"
+    },
+    {
+      "path": "dist/assets/voice/user-ko-resolve-candidate-v15.mp3",
+      "sha256": "d5cc05bbf3be746801d9409ff86816f78f29b56587a918c62ecdeb6b2824e71d"
+    },
+    {
+      "path": "dist/assets/voice/user-ma-gaze-candidate-v15.mp3",
+      "sha256": "e6cf5ef52a95faef11d774f5fdb13e2f7a8b9a9b07dc2410fe30e6b49ce8fbe6"
+    },
+    {
+      "path": "dist/assets/voice/user-rush-candidate-v15.mp3",
+      "sha256": "1eaa197eddacd76115ef19550b73e540e3f3b6f85ba132d2fac6c74925b32a79"
+    },
+    {
+      "path": "dist/assets/voice/wang-drink-user-v25.mp3",
+      "sha256": "2a4627f3a434ee1a1983af9765557e6db0bd11c5c214d0bfa7b51b6618bda96f"
+    },
+    {
+      "path": "dist/assets/wang-drink-v3.webp",
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f"
+    },
+    {
+      "path": "dist/assets/wang-laugh-head.webp",
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28"
+    },
+    {
+      "path": "dist/assets/wang-parts-v3.webp",
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4"
+    },
+    {
+      "path": "dist/assets/wang-roll-v3.webp",
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d"
+    },
+    {
+      "path": "dist/assets/wang-shock-head.webp",
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1"
+    },
+    {
+      "path": "dist/assets/wang-sip-v3.webp",
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55"
+    }
+  ]
+}

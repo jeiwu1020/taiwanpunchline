@@ -1,0 +1,35 @@
+✔ opening uses separately articulated constant-length arm bones and moving blanket (3.749105ms)
+✔ production opening consumes raster rig and props instead of storyboard scenes (2.141752ms)
+✔ articulated reduced-motion presentation is fixed for every story beat (10.488976ms)
+✖ waking and changing use the empty room rather than duplicate baked beds (11.138699ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 220.613369
+
+✖ failing tests:
+
+test at tests/challenge-opening-rig-v75.test.mjs:29:1
+✖ waking and changing use the empty room rather than duplicate baked beds (11.138699ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(calls.some(([img])=>img===empty))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-rig-v75.test.mjs:32:123)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

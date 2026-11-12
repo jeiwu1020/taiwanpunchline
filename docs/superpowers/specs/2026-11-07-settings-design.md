@@ -1,0 +1,7 @@
+# V27 game settings
+
+The user approved consolidating the long help page into an in-game settings entry: independent effects and voice volume/mute; controls and view; character moves with one-shot animation and voice, purpose, key and cooldown, expandable numeric detail; about/source history retained; saved preferences and confirmed reset. The game must remain usable sideways and must not overlap audio or keep held controls active behind the dialog.
+
+Chosen approach: retain the existing rotated native dialog and add four compact sections. Reuse the current art renderer for isolated move demonstrations, leaving battle mechanics untouched. Keep the toolbar's quick master sound and pause controls; rotation and camera live under controls/view. Retain the complete prior help/source content under an expandable history section, preserving links and caveats. No music player or empty music control is added until a track is selected. No campaign/progression or second-stage battle interruption changes.
+
+Implementation choices: volume defaults preserve current mix; browser local storage is best-effort and never blocks play. Reset uses an explicit inline confirmation and affects these preferences only. Closing, changing sections/characters, visibility loss and entering gameplay stop preview sound/animation. Closing settings leaves an active battle paused until the player chooses to continue.

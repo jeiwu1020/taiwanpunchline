@@ -1,0 +1,21 @@
+#campaign-entry{margin-top:12px;padding-top:12px;border-top:1px solid #9e8867;font-size:13px;line-height:1.55}
+#campaign-entry p{margin:6px 0}#campaign-entry label{display:block}#campaign-entry button{min-height:44px;margin-top:7px}
+#campaign-bar{position:absolute;bottom:4px;left:8px;right:8px;z-index:12;display:flex;flex-wrap:wrap;align-items:center;gap:5px;padding:4px 7px;border-radius:8px;color:#fff6dc;background:#173239e6;font-size:12px;line-height:1.4;max-height:35%;overflow:auto}
+#campaign-bar[hidden],#campaign-bar [hidden]{display:none!important}
+#campaign-bar button,#campaign-bar a,#campaign-bar select{font:inherit;min-height:44px;padding:6px 9px;color:#173239;background:#fff3d3;border:1px solid #173239;border-radius:5px;text-decoration:none;touch-action:manipulation}
+#campaign-save-state{flex:1 1 180px}#campaign-menu-status{font-weight:700}
+#campaign-bar.campaign-bar-inline{position:static;max-height:none;margin-top:8px;text-align:left;flex-shrink:0;overflow:visible}
+.continuation-choice-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin-top:8px;border-radius:8px;background:#173239;color:#fff3d3;font-weight:700;text-decoration:none}
+.continuation-choice-link[hidden]{display:none!important}
+#campaign-bar.campaign-bar-combat{top:58px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);max-width:85%;width:max-content;max-height:none;font-size:11px;pointer-events:none;padding:3px 6px}
+#campaign-bar.campaign-bar-combat #campaign-save-state{flex:initial}
+
+#campaign-helper-label{display:flex;flex-wrap:wrap;align-items:center;gap:4px;max-width:100%}#campaign-helper{max-width:100%;min-height:44px}
+
+/* A completed chapter must have its own exit inside the foreground card. */
+.continuation-complete-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;position:relative;z-index:1;flex-shrink:0;margin-top:12px}
+.continuation-complete-actions[hidden]{display:none!important}
+.continuation-complete-actions .continuation-choice-link{margin-top:0;text-align:center;justify-content:center;min-width:150px;max-width:100%}
+.continuation-complete-actions .continuation-home-link{background:#315f88;color:#fff6df}
+.continuation-complete-actions [aria-disabled="true"]{opacity:.55;cursor:not-allowed;pointer-events:none}
+#choice-panel #choice-copy:focus{outline:3px solid #e5ae46;outline-offset:4px}

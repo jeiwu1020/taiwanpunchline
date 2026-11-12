@@ -1,0 +1,32 @@
+✔ independent audio preferences change real game routing and retain the approved Chen clip (41.564021ms)
+✔ quick master mute and legacy voice setting synchronize with persistent preferences (6.826415ms)
+✔ opening settings pauses battle and closing never resumes it (5.888496ms)
+✔ rejected preview audio is reported in the visible settings demo status (5.731415ms)
+✖ starting muted still unlocks shared audio for later user unmute (14.703265ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 226.996697
+
+✖ failing tests:
+
+test at tests/settings-game-v27.test.mjs:6:1
+✖ starting muted still unlocks shared audio for later user unmute (14.703265ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(resumed>0)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-game-v27.test.mjs:6:356)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

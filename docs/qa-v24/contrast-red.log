@@ -1,0 +1,34 @@
+✔ main selection screen uses only in-game role, character and difficulty buttons (0.934608ms)
+✔ all seven portrait buttons are generated once with real labels and existing images (20.434055ms)
+✔ role cards target only their side, allow mirrors, and show both role badges (6.233945ms)
+✔ custom difficulty persists through start, replay and return to roster (4.962087ms)
+✔ hidden roster actions cannot reset a running battle or restart a countdown (7.121532ms)
+✔ loading-time roster clicks are ignored until cards have been initialized (3.566525ms)
+✖ difficulty selection has a visible non-color checkmark as well as pressed semantics (4.181647ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 157.450661
+
+✖ failing tests:
+
+test at tests/roster-picker-v24.test.mjs:57:1
+✖ difficulty selection has a visible non-color checkmark as well as pressed semantics (4.181647ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  '' !== '✓'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:58:37)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '',
+    expected: '✓',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

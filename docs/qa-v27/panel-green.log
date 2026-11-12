@@ -1,0 +1,10 @@
+✔ settings has four reachable sections and keeps legacy source history (1.449799ms)
+✔ move information covers all21 with purpose, bindings, cooldown and numeric details (4.399689ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 178.979041

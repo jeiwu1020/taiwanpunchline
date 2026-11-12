@@ -1,0 +1,246 @@
+{
+  "asset": {
+    "path": "dist/assets/han-knees-v10.webp",
+    "sha256": "003c737b4b4e161e9d19c5600db73fc69526d3122775f4eba0263a558cc4b607",
+    "bytes": 571788
+  },
+  "created_utc": "2026-11-06T06:35:42.812141+00:00",
+  "mode": "built-in image_gen",
+  "use_case": "identity-preserve",
+  "generation_calls": 1,
+  "prompt_file": "docs/imagegen-v10/han-knees-v10-prompt.txt",
+  "prompt": "Use case: identity-preserve.\nAsset type: production 2D fighting-game character sprite atlas, four complete figures in a clean 2-by-2 layout on real transparent alpha, landscape 1536x1024.\nInput images: image 1 is the established Han Kuo-yu face identity reference. Image 2 is the existing illustrated suit/material/hand style reference; it is a parts sheet, do NOT copy its layout. Image 3 is the current complete character reference for body proportions, navy blue-teal suit, white shirt, tie, and black dress shoes. Use only this same Han character in all four poses. Preserve face recognition and established detailed inked political-caricature illustration, bold clean outlines, fine crosshatching, warm peach skin, tall bald crown with short dark side hair, narrow eyes, broad wrinkled cheeks. Head large like the standing reference, compact adult body, anatomically coherent two arms and two legs.\nPrimary request: a comic but physically plausible KNEE-WALK sequence facing screen RIGHT, consistent three-quarter right orientation. Four separate full-body cutouts. Exactly one complete character per quadrant, none cropped, generous transparent gutters. Fixed character scale, same head size and same clothes across frames. No visible grid or dividers.\nTOP LEFT: LOWERING. One knee (the rear/right leg knee) reaches the floor; the other leg bends in front with its foot flat on the same floor to the right. The grounded knee has its shin extending backward to the LEFT with its foot naturally behind him. Torso leans slightly forward, arms naturally balancing.\nTOP RIGHT: UPRIGHT ON BOTH KNEES. Both knees distinctly touch the same floor level, hips ABOVE knees, torso upright. Thighs extend up from knees to hips, shins and heels naturally trailing BEHIND to screen LEFT. Not sitting on heels, not squatting. One open palm ahead of him and other arm counterbalances. Comic determined face.\nBOTTOM LEFT: KNEE-WALK STEP. Still upright and supported by knees rather than soles, one knee shifted a small distance ahead toward screen RIGHT, the trailing knee behind. Opposite arm moves forward for balance, other arm back. Both lower legs bend backward under body with black shoes trailing screen LEFT. Clearly distinct from the both-knees pose, no backward feet.\nBOTTOM RIGHT: RISING. The forward foot planted flat to screen RIGHT, rear knee on floor with foot naturally trailing to LEFT, front thigh angled upward as he pushes up. One palm braces on HIS OWN forward thigh, other hand balances freely. Hips higher and torso leaning forward, distinguishable from lowering.\nAnatomy constraints: every thigh, knee, shin, ankle and shoe must connect in a plausible human direction. Exactly two arms, two hands, two legs, two shoes per figure, normal fingers. No third foot, duplicated hand, fused shins, kneecap behind body, bent backwards leg, squat pretending to kneel, sitting-on-heels pose or amputated appearance. This is a comic deliberate move, not a medical disability.\nPlacement constraints: character center at about x=384 and x=1152; shared floor contact y=470 for upper row and y=980 for lower row. Grounded knee and planted shoe are on each row's floor line. Allow different heights from different poses, keep head size constant. All extremities inside each cell, no pose overlaps another.\nFinish: actual transparent background, no painted checkerboard, no background, no floor, no cast shadow, no outlines around cells, no props, text, labels, watermark, motion lines, or logos. Match the references rather than generic cartoon art.\n",
+  "generation_original_path": "/workspace/scratch/1a1351aee944/generated_images/exec-2a6d44ce-b96b-44e5-b130-05e9427ab315.png",
+  "preserved_source": {
+    "path": "docs/imagegen-v10/han-knees-v10-source.png",
+    "sha256": "bcf6889adef7575d4a1dfb408bd8acc1470bbc9f649c718407a021bd1a0b73b5",
+    "bytes": 2034781
+  },
+  "generator_inputs": [
+    {
+      "path": "dist/assets/han-defiant-head.webp",
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3",
+      "bytes": 40086
+    },
+    {
+      "path": "dist/assets/han-parts-v3.webp",
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7",
+      "bytes": 1360702
+    },
+    {
+      "path": "docs/imagegen-v10/han-standing-v9-reference.png",
+      "sha256": "6aea5dcc1aed673dd43e04e79f15dfb05091637668a23a33cb15b5b51178e354",
+      "bytes": 62105
+    }
+  ],
+  "additional_inspected_reference": {
+    "path": "dist/assets/han-shout-v9.webp",
+    "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8",
+    "bytes": 55160
+  },
+  "standing_reference_origin": {
+    "path": "/workspace/shared/fighter-v9-grid-final.png",
+    "crop_xywh": [
+      8,
+      460,
+      292,
+      339
+    ],
+    "operation": "ImageMagick crop only"
+  },
+  "atlas": {
+    "width": 1536,
+    "height": 1024,
+    "layout": "2x2",
+    "cell_width": 768,
+    "cell_height": 512,
+    "format": "lossless WebP",
+    "alpha_preserved": true,
+    "facing": "three-quarter right",
+    "ground_y_per_cell": 480
+  },
+  "frames": [
+    {
+      "id": "lowering",
+      "cell": [
+        0,
+        0,
+        768,
+        512
+      ],
+      "alpha_bounds_local_xyxy": [
+        175,
+        39,
+        583,
+        481
+      ],
+      "visible_bounds_alpha_gt_16_local_xyxy": [
+        176,
+        40,
+        580,
+        481
+      ],
+      "ground_anchor_local": [
+        384,
+        480
+      ],
+      "ground_anchor_global": [
+        384,
+        480
+      ],
+      "raw_crop_xywh": [
+        200,
+        5,
+        466,
+        498
+      ],
+      "compiled_scale": 0.9,
+      "compiled_offset_global": [
+        168,
+        36
+      ]
+    },
+    {
+      "id": "both_knees",
+      "cell": [
+        768,
+        0,
+        768,
+        512
+      ],
+      "alpha_bounds_local_xyxy": [
+        226,
+        36,
+        573,
+        484
+      ],
+      "visible_bounds_alpha_gt_16_local_xyxy": [
+        228,
+        39,
+        571,
+        482
+      ],
+      "ground_anchor_local": [
+        384,
+        480
+      ],
+      "ground_anchor_global": [
+        1152,
+        480
+      ],
+      "raw_crop_xywh": [
+        920,
+        5,
+        393,
+        498
+      ],
+      "compiled_scale": 0.9,
+      "compiled_offset_global": [
+        990,
+        36
+      ]
+    },
+    {
+      "id": "knee_step",
+      "cell": [
+        0,
+        512,
+        768,
+        512
+      ],
+      "alpha_bounds_local_xyxy": [
+        146,
+        30,
+        585,
+        481
+      ],
+      "visible_bounds_alpha_gt_16_local_xyxy": [
+        149,
+        30,
+        584,
+        481
+      ],
+      "ground_anchor_local": [
+        384,
+        480
+      ],
+      "ground_anchor_global": [
+        384,
+        992
+      ],
+      "raw_crop_xywh": [
+        168,
+        505,
+        495,
+        510
+      ],
+      "compiled_scale": 0.9,
+      "compiled_offset_global": [
+        144,
+        538
+      ]
+    },
+    {
+      "id": "rising_half_kneel",
+      "cell": [
+        768,
+        512,
+        768,
+        512
+      ],
+      "alpha_bounds_local_xyxy": [
+        195,
+        26,
+        577,
+        483
+      ],
+      "visible_bounds_alpha_gt_16_local_xyxy": [
+        196,
+        30,
+        577,
+        481
+      ],
+      "ground_anchor_local": [
+        384,
+        480
+      ],
+      "ground_anchor_global": [
+        1152,
+        992
+      ],
+      "raw_crop_xywh": [
+        884,
+        502,
+        435,
+        511
+      ],
+      "compiled_scale": 0.9,
+      "compiled_offset_global": [
+        958,
+        538
+      ]
+    }
+  ],
+  "compilation": "ImageMagick only: crop four raw source rectangles, uniformly resize each to 90 percent, composite on transparent 1536x1024 canvas at listed offsets, encode lossless WebP. No generated anatomy or facial content was painted or procedurally modified. Alpha preserved.",
+  "inspection_preview": "/workspace/shared/han-knees-v10-final-inspection.png",
+  "visual_validation": [
+    "Inspected on a light gray composite to verify genuinely transparent background and absence of visible generated glow.",
+    "Same recognizable Han face, bald crown, warm skin, blue-navy suit, white shirt, dark tie and black dress shoes across frames.",
+    "Exactly two arms and two legs per pose; no visible extra or disconnected limbs.",
+    "Both-knees pose keeps hips above knees and heels behind body; it is not a squat or sitting-on-heels pose.",
+    "Knee step has one knee advanced and two shins trailing behind.",
+    "Full figures fit within 768x512 cells with gutters; row ground contact is approximately y480, with about 1-2px antialias tolerance."
+  ],
+  "limitations": [
+    "The knee-step is a comparatively wide knee stride, not a subtle alternating two-phase shuffle.",
+    "Arms balance but are not an exact mirrored gait pair between both-knees and knee-step poses.",
+    "Rising frame remains a supported half-kneel, not a fully standing pose; blend to the existing standing character for completion.",
+    "Faces retain the established defiant smirk rather than a strongly strained expression.",
+    "Generated alpha includes tiny low-opacity edge noise; provided visible bounds use alpha greater than 16, while lossless output preserves generated alpha."
+  ],
+  "suggested_runtime_usage": "Use lowering for entry, both_knees and knee_step for knee travel, rising_half_kneel for exit blended into existing standing. Draw each full cell using anchor [384,480] and a consistent scale. Face right as authored; mirror the entire sprite only when needed.",
+  "original_assets_modified": false,
+  "code_modified": false,
+  "preview_started": false,
+  "committed_or_published": false
+}

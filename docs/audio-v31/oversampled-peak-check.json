@@ -1,0 +1,102 @@
+[
+  {
+    "slot": "coin",
+    "fourTimesResampledPeak": 0.4798997640609741,
+    "belowFullScale": true
+  },
+  {
+    "slot": "ma_cough",
+    "fourTimesResampledPeak": 0.458504855632782,
+    "belowFullScale": true
+  },
+  {
+    "slot": "han_knee",
+    "fourTimesResampledPeak": 0.61572265625,
+    "belowFullScale": true
+  },
+  {
+    "slot": "rush",
+    "fourTimesResampledPeak": 0.61029052734375,
+    "belowFullScale": true
+  },
+  {
+    "slot": "counter",
+    "fourTimesResampledPeak": 0.4877516031265259,
+    "belowFullScale": true
+  },
+  {
+    "slot": "huang_shout",
+    "fourTimesResampledPeak": 0.5444309711456299,
+    "belowFullScale": true
+  },
+  {
+    "slot": "huang_debt",
+    "fourTimesResampledPeak": 0.6323462724685669,
+    "belowFullScale": true
+  },
+  {
+    "slot": "huang_queue",
+    "fourTimesResampledPeak": 0.71954345703125,
+    "belowFullScale": true
+  },
+  {
+    "slot": "su_dare",
+    "fourTimesResampledPeak": 0.41850581765174866,
+    "belowFullScale": true
+  },
+  {
+    "slot": "chen_calm",
+    "fourTimesResampledPeak": 0.4125170409679413,
+    "belowFullScale": true
+  },
+  {
+    "slot": "ko_bags",
+    "fourTimesResampledPeak": 0.5102595090866089,
+    "belowFullScale": true
+  },
+  {
+    "slot": "ko_resolve",
+    "fourTimesResampledPeak": 0.390045166015625,
+    "belowFullScale": true
+  },
+  {
+    "slot": "chen_question",
+    "fourTimesResampledPeak": 0.40145447850227356,
+    "belowFullScale": true
+  },
+  {
+    "slot": "ma_gaze",
+    "fourTimesResampledPeak": 0.333133339881897,
+    "belowFullScale": true
+  },
+  {
+    "slot": "arrow",
+    "fourTimesResampledPeak": 0.800800085067749,
+    "belowFullScale": true
+  },
+  {
+    "slot": "su_shout",
+    "fourTimesResampledPeak": 0.487639844417572,
+    "belowFullScale": true
+  },
+  {
+    "slot": "su_rush",
+    "fourTimesResampledPeak": 0.4891844689846039,
+    "belowFullScale": true
+  },
+  {
+    "slot": "ma_handshake",
+    "fourTimesResampledPeak": 0.569944441318512,
+    "belowFullScale": true
+  },
+  {
+    "slot": "chen_dream",
+    "fourTimesResampledPeak": 0.425933837890625,
+    "belowFullScale": true
+  },
+  {
+    "slot": "heal",
+    "fourTimesResampledPeak": 0.60107421875,
+    "belowFullScale": true
+  }
+]

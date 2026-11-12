@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>V39 signature contact sheet</title><style>body{margin:0;background:#e6e5d9;font:16px system-ui;color:#203d42}nav{padding:10px;display:flex;gap:14px}canvas{display:block;width:1400px;height:1140px}a{color:inherit}</style><nav><span id="status">Loading</span><a href="?type=ma">Ma</a><a href="?type=su">Su</a><a href="?type=huang">Huang</a><a href="?type=chen">Chen</a><a href="?type=ko">Ko</a><a id="flip">Flip</a></nav><canvas width="1400" height="1140" aria-label="V39 all three moves at four animation beats"></canvas><script type="module">
+import {loadArtImages,drawFighterArt} from './art-render.mjs';
+import {CAST} from './core.mjs';
+import {drawHumanGlyph,gazeGlyph,presentationFighter} from './move-readability.mjs';
+import {drawSignatureProp} from './art-expression.mjs';
+const params=new URLSearchParams(location.search),type=params.get('type')||'ma',face=params.get('face')==='-1'?-1:1,images=await loadArtImages(),canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
+document.querySelector('#flip').href=`?type=${type}&face=${-face}`;
+const ages={ma:[[.12,.30,.54,.72],[.16,.25,.34,.58],[.08,.24,.48,.76]],su:[[.12,.34,.43,.66],[.17,.37,.57,.77],[.26,.45,.68,.85]],huang:[[.12,.31,.41,.67],[.12,.3,.47,.66],[.12,.22,.30,.62]],chen:[[.12,.26,.31,.60],[.12,.22,.47,.66],[.1,.28,.46,.68]],ko:[[.10,.2,.45,.68],[.12,.3,.39,.66],[.08,.17,.28,.40]]};
+ctx.fillStyle='#e6e5d9';ctx.fillRect(0,0,1400,1140);
+for(const [row,m]of CAST[type].moves.entries())for(const[col,age]of ages[type][row].entries()){
+ ctx.save();ctx.translate(col*350,row*380);ctx.strokeStyle='#b8c3b8';ctx.strokeRect(0,0,350,380);ctx.fillStyle='#203d42';ctx.font='bold 17px system-ui';ctx.fillText(`${m.name} · ${age.toFixed(2)}s`,12,24);
+ let outcome='pending',outcomeAge=0;if(m.kind==='ma_handshake'&&age>m.end)outcome='whiff';if(m.kind==='su_dare'&&age>.5)outcome='whiff';
+ const f={type,y:430,face,move:0,attack:{kind:m.kind,age},performance:{kind:m.kind,age,actionDuration:m.duration,duration:m.duration+.28,outcome,outcomeAge}};
+ ctx.translate(face>0?143:207,355);ctx.scale(face*1.05,1.05);drawFighterArt(ctx,images,presentationFighter(f),0);
+ if(m.kind==='huang_queue'&&age>=m.start)drawSignatureProp(ctx,images,'queue',110,-37,92,74);
+ if(m.kind==='chen_dream'&&age>=m.start)drawSignatureProp(ctx,images,'dream',60+Math.min(120,(age-m.start)*350),-252,92,59);
+ ctx.restore();if(m.kind==='ma_gaze')drawHumanGlyph(ctx,gazeGlyph(age),col*350+(face>0?143:207),row*380+355,face);
+}
+document.querySelector('#status').textContent=`${type} ${face===1?'right':'left'} · 12 frames ready`;
+</script>

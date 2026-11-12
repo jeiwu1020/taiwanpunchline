@@ -1,0 +1,86 @@
+/* V30: HUD is outside the fight canvas, so the camera fits only actual action. */
+.app .stage-wrap{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:64px minmax(0,1fr);min-height:0}
+.app #game{position:relative;inset:auto;grid-column:1;grid-row:2;min-height:0;min-width:0}
+.app .dom-hud,.app[data-touch="true"][data-layout] .dom-hud{position:relative;inset:auto;grid-column:1;grid-row:1;grid-template-columns:minmax(0,1fr) 48px minmax(0,1fr);grid-template-rows:minmax(0,1fr) 12px;gap:2px 8px;padding:3px 5px;background:#1b3941;z-index:2;min-height:0}
+.app .hud-side{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:18px 5px 11px;gap:1px 5px;min-width:0;padding:3px 7px;border-width:1px;box-shadow:none;border-radius:5px}
+.app .hud-name{grid-column:1 / -1;grid-row:1;min-width:0;font-size:17px;line-height:18px;gap:5px}
+.app .hud-name>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app .hud-name b{font-size:12px}.app .hud-name small{font-size:8px}
+.app .hp-track{grid-column:1 / -1;grid-row:2;height:5px;margin:0}
+.app .guard-row{grid-column:1;grid-row:3;min-height:0;margin:0;justify-content:flex-start;gap:5px}
+.app .guard-row small{font-size:8px;line-height:10px}.app .guard-pips i{width:12px;height:4px}
+.app .hud-status{grid-column:2;grid-row:3;min-height:0;max-width:155px;font-size:8px;line-height:10px}
+.app .timer{grid-column:2;grid-row:1;border-width:1px}.app .timer strong{font-size:24px}.app .timer small{font-size:7px}
+.app #item-status{grid-column:1 / -1;grid-row:2;align-self:center;height:12px;line-height:11px;padding:0 5px;font-size:8px;border:0;background:transparent;color:#eee8d1}
+.app #item-status.has-item{background:#ffdf7b;color:#3d311e}
+.app .stage-wrap:has(.screen:not(.hidden)) .dom-hud{visibility:hidden}
+/* Desktop favors the stage; keyboard actions and clickable move cards remain. */
+.app[data-touch="false"]{padding:6px 12px;grid-template-rows:34px minmax(0,1fr);gap:4px}
+.app[data-touch="false"] .under{display:none}
+.app[data-touch="false"] .brand{font-size:18px}.app[data-touch="false"] .brand-icon{font-size:19px}.app[data-touch="false"] .brand small{display:none}
+.app[data-touch="false"] .toolbar button{min-height:30px;padding:4px 9px;font-size:11px}
+.app[data-touch="false"] .cabinet{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 62px;border-width:2px}
+.app[data-touch="false"] .stage-wrap{position:relative;inset:auto}
+.app[data-touch="false"] .control-deck{position:relative;inset:auto;display:flex;flex-wrap:nowrap;gap:8px;padding:7px 10px;border-left:0;border-top:2px solid #17363d;min-height:0}
+.app[data-touch="false"] .movement{display:flex;flex:none;width:auto;gap:4px}
+.app[data-touch="false"] .movement button{width:40px;min-width:32px;height:44px}
+.app[data-touch="false"] .movement span{font-size:20px}.app[data-touch="false"] .movement small{font-size:8px}
+.app[data-touch="false"] .basic{position:relative;inset:auto;display:flex;width:66px;flex:none}
+.app[data-touch="false"] .basic button{width:66px;height:44px}.app[data-touch="false"] .basic span{font-size:17px}.app[data-touch="false"] .basic small{font-size:9px}
+.app[data-touch="false"] .specials{position:relative;inset:auto;display:flex;flex-direction:row;flex:1;gap:6px;width:auto}
+.app[data-touch="false"] .specials button{width:auto;min-width:0;flex:1;height:44px;min-height:44px;padding:3px 7px;grid-template-columns:minmax(0,1fr) 30px;grid-template-rows:1fr}
+.app[data-touch="false"] .specials .move-copy{grid-row:1}.app[data-touch="false"] .specials strong{font-size:14px}.app[data-touch="false"] .specials small{font-size:9px;margin-top:2px}
+.app[data-touch="false"] .specials .cooldown{width:30px;height:30px;grid-row:1}.app[data-touch="false"] .specials .cooldown-label{display:none}
+/* Both native landscape and rotated portrait use this identical short dock. */
+.app[data-touch="true"][data-layout="landscape"]{padding:4px 6px;grid-template-rows:32px minmax(0,1fr);gap:4px}
+.app[data-touch="true"][data-layout="landscape"] header{min-height:0}
+.app[data-touch="true"][data-layout="landscape"] .toolbar button{min-height:30px;height:30px;padding:3px 7px}
+.app[data-touch="true"][data-layout] .cabinet{border-width:2px;grid-template-rows:minmax(0,1fr) 70px}
+.app[data-touch="true"][data-layout] .stage-wrap{grid-template-rows:54px minmax(0,1fr)}
+.app[data-touch="true"][data-layout] .hud-side{grid-template-rows:14px 4px 8px;padding:2px 5px;gap:1px 4px}
+.app[data-touch="true"][data-layout] .hud-name{font-size:13px;line-height:14px;gap:4px}
+.app[data-touch="true"][data-layout] .hud-name b{font-size:10px}.app[data-touch="true"][data-layout] .hud-name small{font-size:7px}
+.app[data-touch="true"][data-layout] .hp-track{height:4px;margin:0}
+.app[data-touch="true"][data-layout] .guard-row{min-height:0;margin:0;gap:4px}
+.app[data-touch="true"][data-layout] .guard-row small,.app[data-touch="true"][data-layout] .hud-status{font-size:7px;line-height:8px}
+.app[data-touch="true"][data-layout] .hud-status{max-width:112px}
+.app[data-touch="true"][data-layout] .timer strong{font-size:20px}
+.app[data-touch="true"][data-layout] .control-deck{grid-template-columns:64px minmax(0,1fr) 54px 54px;grid-template-rows:minmax(0,1fr);gap:6px;padding:4px 6px;align-items:center}
+.app[data-touch="true"][data-layout] .touch-pad{grid-column:1;grid-row:1;gap:0}
+.app[data-touch="true"][data-layout] #touch-stick{width:56px;height:56px;box-shadow:inset 0 0 0 5px #0b283738}
+.app[data-touch="true"][data-layout] .stick-cross{font-size:48px}
+.app[data-touch="true"][data-layout] #touch-knob{width:30px;height:30px;left:calc(50% - 15px);top:calc(50% - 15px)}
+.app[data-touch="true"][data-layout] .touch-pad>small{display:none}
+.app[data-touch="true"][data-layout] .specials{grid-column:2;grid-row:1;gap:5px;min-height:0}
+.app[data-touch="true"][data-layout] .specials button{min-height:44px;height:100%;min-width:0;padding:3px 4px;grid-template-columns:minmax(0,1fr) 26px;grid-template-rows:auto minmax(0,1fr);gap:1px 3px;border-radius:8px}
+.app[data-touch="true"][data-layout] .specials strong{font-size:14px;line-height:1.05}
+.app[data-touch="true"][data-layout] .specials small{font-size:9px;line-height:1.1;margin:0}
+.app[data-touch="true"][data-layout] .specials .cooldown{width:26px;height:26px;font-size:10px}
+.app[data-touch="true"][data-layout] .specials button:not(.cooling) .cooldown-value{font-size:18px}
+.app[data-touch="true"][data-layout] .basic{grid-column:3;grid-row:1;align-self:center;justify-content:center}
+.app[data-touch="true"][data-layout] .basic .punch{width:54px;min-width:48px;height:54px;min-height:48px;padding:2px;flex-direction:column;border-radius:12px;gap:2px}
+.app[data-touch="true"][data-layout] .basic span{font-size:17px}.app[data-touch="true"][data-layout] .basic small{font-size:8px}
+.app[data-touch="true"][data-layout] .touch-aux{grid-column:4;grid-row:1;align-self:center;justify-content:center;gap:0}
+.app[data-touch="true"][data-layout] .touch-aux button{width:54px;height:54px;min-width:48px;min-height:48px;border-radius:12px;font-size:20px}
+/* Upright fallback keeps the same actions below the stage in two compact rows. */
+.app[data-touch="true"][data-layout="portrait"]{padding:4px 6px;grid-template-rows:52px minmax(0,1fr);gap:4px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar button{min-height:30px;height:30px;padding:3px 8px}
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 160px}
+.app[data-touch="true"][data-layout="portrait"] .stage-wrap{grid-template-rows:60px minmax(0,1fr)}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:64px minmax(0,1fr) 54px 54px;grid-template-rows:78px 60px;gap:6px;padding:6px}
+.app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1 / -1;grid-row:1}
+.app[data-touch="true"][data-layout="portrait"] .touch-pad{grid-row:2}.app[data-touch="true"][data-layout="portrait"] .basic{grid-row:2}.app[data-touch="true"][data-layout="portrait"] .touch-aux{grid-row:2}
+.app[data-touch="true"][data-layout="portrait"] .hud-status{max-width:65px}
+/* Wider phones can show a little more label and cooldown detail. */
+@container(min-width:650px){.app[data-touch="true"][data-layout] .specials strong{font-size:16px}.app[data-touch="true"][data-layout] .specials small{font-size:10px}.app[data-touch="true"][data-layout] .specials .cooldown{width:30px;height:30px}}
+/* An active status must not squeeze the three guard pips on a 320px phone. */
+.app[data-touch="true"][data-layout="portrait"] .stage-wrap{grid-template-rows:64px minmax(0,1fr)}
+.app[data-touch="true"][data-layout="portrait"] .hud-side{grid-template-rows:14px 4px 8px 8px}
+.app[data-touch="true"][data-layout="portrait"] .guard-row{grid-column:1 / -1}
+.app[data-touch="true"][data-layout="portrait"] .guard-row small{white-space:nowrap}
+.app[data-touch="true"][data-layout="portrait"] .hud-status{grid-column:1 / -1;grid-row:4;max-width:none}
+/* Safe-area-reduced narrow landscape needs one extra text line, not clipping. */
+.app{container-type:inline-size}
+@container(max-width:520px){.app[data-touch="true"][data-layout="landscape"] .cabinet{grid-template-rows:minmax(0,1fr) 82px}}
+.app[data-touch="false"] .basic button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
+.app[data-touch="false"] .basic span,.app[data-touch="false"] .basic small{white-space:nowrap}

@@ -1,0 +1,980 @@
+[
+  {
+    "label": "窄直向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 597,
+            "height": 56,
+            "left": 16,
+            "right": 72,
+            "top": 541,
+            "width": 56,
+            "x": 16,
+            "y": 541
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 624,
+            "height": 52,
+            "left": 194,
+            "right": 246,
+            "top": 572,
+            "width": 52,
+            "x": 194,
+            "y": 572
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 566,
+            "height": 52,
+            "left": 252,
+            "right": 304,
+            "top": 514,
+            "width": 52,
+            "x": 252,
+            "y": 514
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 624,
+            "height": 52,
+            "left": 136,
+            "right": 188,
+            "top": 572,
+            "width": 52,
+            "x": 136,
+            "y": 572
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 566,
+            "height": 52,
+            "left": 194,
+            "right": 246,
+            "top": 514,
+            "width": 52,
+            "x": 194,
+            "y": 514
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 624,
+            "height": 52,
+            "left": 252,
+            "right": 304,
+            "top": 572,
+            "width": 52,
+            "x": 252,
+            "y": 572
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 566,
+            "height": 52,
+            "left": 78,
+            "right": 188,
+            "top": 514,
+            "width": 110,
+            "x": 78,
+            "y": 514
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 508,
+            "height": 52,
+            "left": 78,
+            "right": 188,
+            "top": 456,
+            "width": 110,
+            "x": 78,
+            "y": 456
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 508,
+            "height": 52,
+            "left": 194,
+            "right": 304,
+            "top": 456,
+            "width": 110,
+            "x": 194,
+            "y": 456
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "太離譜了",
+          "w": 102
+        },
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "90.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "我有欠你喔",
+          "w": 102
+        },
+        {
+          "css": "14.4px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "14.4",
+            "nameFitTextWidth": "100.80",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "可以這樣插隊喔",
+          "w": 102
+        }
+      ],
+      "overlaps": []
+    }
+  },
+  {
+    "label": "360直向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 717,
+            "height": 96,
+            "left": 16,
+            "right": 112,
+            "top": 621,
+            "width": 96,
+            "x": 16,
+            "y": 621
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 234,
+            "right": 286,
+            "top": 672,
+            "width": 52,
+            "x": 234,
+            "y": 672
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 292,
+            "right": 344,
+            "top": 614,
+            "width": 52,
+            "x": 292,
+            "y": 614
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 176,
+            "right": 228,
+            "top": 672,
+            "width": 52,
+            "x": 176,
+            "y": 672
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 234,
+            "right": 286,
+            "top": 614,
+            "width": 52,
+            "x": 234,
+            "y": 614
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 292,
+            "right": 344,
+            "top": 672,
+            "width": 52,
+            "x": 292,
+            "y": 672
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 118,
+            "right": 228,
+            "top": 614,
+            "width": 110,
+            "x": 118,
+            "y": 614
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 608,
+            "height": 52,
+            "left": 118,
+            "right": 228,
+            "top": 556,
+            "width": 110,
+            "x": 118,
+            "y": 556
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 608,
+            "height": 52,
+            "left": 234,
+            "right": 344,
+            "top": 556,
+            "width": 110,
+            "x": 234,
+            "y": 556
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "太離譜了",
+          "w": 102
+        },
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "90.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "我有欠你喔",
+          "w": 102
+        },
+        {
+          "css": "14.4px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "14.4",
+            "nameFitTextWidth": "100.80",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "可以這樣插隊喔",
+          "w": 102
+        }
+      ],
+      "overlaps": []
+    }
+  },
+  {
+    "label": "寬直向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 839,
+            "height": 100,
+            "left": 16,
+            "right": 116,
+            "top": 739,
+            "width": 100,
+            "x": 16,
+            "y": 739
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 844,
+            "height": 52,
+            "left": 304,
+            "right": 356,
+            "top": 792,
+            "width": 52,
+            "x": 304,
+            "y": 792
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 786,
+            "height": 52,
+            "left": 362,
+            "right": 414,
+            "top": 734,
+            "width": 52,
+            "x": 362,
+            "y": 734
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 844,
+            "height": 52,
+            "left": 246,
+            "right": 298,
+            "top": 792,
+            "width": 52,
+            "x": 246,
+            "y": 792
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 786,
+            "height": 52,
+            "left": 304,
+            "right": 356,
+            "top": 734,
+            "width": 52,
+            "x": 304,
+            "y": 734
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 844,
+            "height": 52,
+            "left": 362,
+            "right": 414,
+            "top": 792,
+            "width": 52,
+            "x": 362,
+            "y": 792
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 786,
+            "height": 52,
+            "left": 188,
+            "right": 298,
+            "top": 734,
+            "width": 110,
+            "x": 188,
+            "y": 734
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 728,
+            "height": 52,
+            "left": 188,
+            "right": 298,
+            "top": 676,
+            "width": 110,
+            "x": 188,
+            "y": 676
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 728,
+            "height": 52,
+            "left": 304,
+            "right": 414,
+            "top": 676,
+            "width": 110,
+            "x": 304,
+            "y": 676
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "太離譜了",
+          "w": 102
+        },
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "90.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "我有欠你喔",
+          "w": 102
+        },
+        {
+          "css": "14.4px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "14.4",
+            "nameFitTextWidth": "100.80",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "可以這樣插隊喔",
+          "w": 102
+        }
+      ],
+      "overlaps": []
+    }
+  },
+  {
+    "label": "手機直向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 719,
+            "height": 100,
+            "left": 16,
+            "right": 116,
+            "top": 619,
+            "width": 100,
+            "x": 16,
+            "y": 619
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 264,
+            "right": 316,
+            "top": 672,
+            "width": 52,
+            "x": 264,
+            "y": 672
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 322,
+            "right": 374,
+            "top": 614,
+            "width": 52,
+            "x": 322,
+            "y": 614
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 206,
+            "right": 258,
+            "top": 672,
+            "width": 52,
+            "x": 206,
+            "y": 672
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 264,
+            "right": 316,
+            "top": 614,
+            "width": 52,
+            "x": 264,
+            "y": 614
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 724,
+            "height": 52,
+            "left": 322,
+            "right": 374,
+            "top": 672,
+            "width": 52,
+            "x": 322,
+            "y": 672
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 666,
+            "height": 52,
+            "left": 148,
+            "right": 258,
+            "top": 614,
+            "width": 110,
+            "x": 148,
+            "y": 614
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 608,
+            "height": 52,
+            "left": 148,
+            "right": 258,
+            "top": 556,
+            "width": 110,
+            "x": 148,
+            "y": 556
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 608,
+            "height": 52,
+            "left": 264,
+            "right": 374,
+            "top": 556,
+            "width": 110,
+            "x": 264,
+            "y": 556
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "太離譜了",
+          "w": 102
+        },
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "90.00",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "我有欠你喔",
+          "w": 102
+        },
+        {
+          "css": "14.4px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "14.4",
+            "nameFitTextWidth": "100.80",
+            "nameFitWidth": "102"
+          },
+          "h": 20,
+          "text": "可以這樣插隊喔",
+          "w": 102
+        }
+      ],
+      "overlaps": []
+    }
+  },
+  {
+    "label": "手機橫向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 376,
+            "height": 112,
+            "left": 20,
+            "right": 132,
+            "top": 264,
+            "width": 112,
+            "x": 20,
+            "y": 264
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 376,
+            "height": 54,
+            "left": 710,
+            "right": 764,
+            "top": 322,
+            "width": 54,
+            "x": 710,
+            "y": 322
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 376,
+            "height": 54,
+            "left": 650,
+            "right": 704,
+            "top": 322,
+            "width": 54,
+            "x": 650,
+            "y": 322
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 376,
+            "height": 54,
+            "left": 530,
+            "right": 584,
+            "top": 322,
+            "width": 54,
+            "x": 530,
+            "y": 322
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 376,
+            "height": 54,
+            "left": 590,
+            "right": 644,
+            "top": 322,
+            "width": 54,
+            "x": 590,
+            "y": 322
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 376,
+            "height": 54,
+            "left": 770,
+            "right": 824,
+            "top": 322,
+            "width": 54,
+            "x": 770,
+            "y": 322
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 316,
+            "height": 54,
+            "left": 530,
+            "right": 624,
+            "top": 262,
+            "width": 94,
+            "x": 530,
+            "y": 262
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 316,
+            "height": 54,
+            "left": 630,
+            "right": 724,
+            "top": 262,
+            "width": 94,
+            "x": 630,
+            "y": 262
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 316,
+            "height": 54,
+            "left": 730,
+            "right": 824,
+            "top": 262,
+            "width": 94,
+            "x": 730,
+            "y": 262
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "太離譜了",
+          "w": 86
+        },
+        {
+          "css": "17px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "17",
+            "nameFitTextWidth": "85.00",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "我有欠你喔",
+          "w": 86
+        },
+        {
+          "css": "12.1px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "12.1",
+            "nameFitTextWidth": "84.70",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "可以這樣插隊喔",
+          "w": 86
+        }
+      ],
+      "overlaps": []
+    }
+  },
+  {
+    "label": "小橫向",
+    "data": {
+      "items": [
+        {
+          "id": "touch-stick",
+          "r": {
+            "bottom": 306,
+            "height": 112,
+            "left": 20,
+            "right": 132,
+            "top": 194,
+            "width": 112,
+            "x": 20,
+            "y": 194
+          }
+        },
+        {
+          "id": "防守按住K",
+          "r": {
+            "bottom": 306,
+            "height": 54,
+            "left": 434,
+            "right": 488,
+            "top": 252,
+            "width": 54,
+            "x": 434,
+            "y": 252
+          }
+        },
+        {
+          "id": "challenge-jump",
+          "r": {
+            "bottom": 306,
+            "height": 54,
+            "left": 374,
+            "right": 428,
+            "top": 252,
+            "width": 54,
+            "x": 374,
+            "y": 252
+          }
+        },
+        {
+          "id": "揪團集氣中L",
+          "r": {
+            "bottom": 306,
+            "height": 54,
+            "left": 254,
+            "right": 308,
+            "top": 252,
+            "width": 54,
+            "x": 254,
+            "y": 252
+          }
+        },
+        {
+          "id": "助拳可登場H",
+          "r": {
+            "bottom": 306,
+            "height": 54,
+            "left": 314,
+            "right": 368,
+            "top": 252,
+            "width": 54,
+            "x": 314,
+            "y": 252
+          }
+        },
+        {
+          "id": "攻擊按住連打J",
+          "r": {
+            "bottom": 306,
+            "height": 54,
+            "left": 494,
+            "right": 548,
+            "top": 252,
+            "width": 54,
+            "x": 494,
+            "y": 252
+          }
+        },
+        {
+          "id": "U太離譜了喊話推遠，拉開距離✓就緒",
+          "r": {
+            "bottom": 246,
+            "height": 54,
+            "left": 254,
+            "right": 348,
+            "top": 192,
+            "width": 94,
+            "x": 254,
+            "y": 192
+          }
+        },
+        {
+          "id": "I我有欠你喔擋開近身，反彈直線道具✓就緒",
+          "r": {
+            "bottom": 246,
+            "height": 54,
+            "left": 354,
+            "right": 448,
+            "top": 192,
+            "width": 94,
+            "x": 354,
+            "y": 192
+          }
+        },
+        {
+          "id": "O可以這樣插隊喔放下排隊線，攔住前進✓就緒",
+          "r": {
+            "bottom": 246,
+            "height": 54,
+            "left": 454,
+            "right": 548,
+            "top": 192,
+            "width": 94,
+            "x": 454,
+            "y": 192
+          }
+        }
+      ],
+      "names": [
+        {
+          "css": "18px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "18",
+            "nameFitTextWidth": "72.00",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "太離譜了",
+          "w": 86
+        },
+        {
+          "css": "17px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "17",
+            "nameFitTextWidth": "85.00",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "我有欠你喔",
+          "w": 86
+        },
+        {
+          "css": "12.1px",
+          "fit": {
+            "nameFitOverflow": "false",
+            "nameFitSize": "12.1",
+            "nameFitTextWidth": "84.70",
+            "nameFitWidth": "86"
+          },
+          "h": 18,
+          "text": "可以這樣插隊喔",
+          "w": 86
+        }
+      ],
+      "overlaps": []
+    }
+  }
+]

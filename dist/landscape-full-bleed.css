@@ -1,0 +1,19 @@
+/* Physical phone landscape paints edge to edge. Only interactive/readable
+   content is inset; existing HUD typography and rotated/portrait layouts stay. */
+#viewport-shell>.app[data-full-bleed="true"]{position:relative;display:block;padding:0;gap:0;max-width:none;margin:0}
+#viewport-shell .app[data-full-bleed="true"] .cabinet{position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:0;overflow:hidden}
+#viewport-shell .app[data-full-bleed="true"]>header{position:absolute;inset:calc(var(--landscape-safe-top) + 6px) calc(var(--landscape-safe-right) + 12px) auto calc(var(--landscape-safe-left) + 12px);height:38px;z-index:9;pointer-events:none}
+#viewport-shell .app[data-full-bleed="true"]>header a,
+#viewport-shell .app[data-full-bleed="true"]>header button{pointer-events:auto}
+#viewport-shell .app[data-full-bleed="true"] .title-screen{padding:calc(var(--landscape-safe-top) + 49px) calc(var(--landscape-safe-right) + 12px) calc(var(--landscape-safe-bottom) + 7px) calc(var(--landscape-safe-left) + 12px)}
+#viewport-shell .app[data-full-bleed="true"] .under{display:none}
+#viewport-shell .app[data-full-bleed="true"][data-landscape-preview="false"] .dom-hud{top:calc(var(--landscape-safe-top) + 48px);left:calc(var(--landscape-safe-left) + 8px);right:calc(var(--landscape-safe-right) + 8px)}
+#viewport-shell .app[data-full-bleed="true"] .control-deck{left:calc(var(--landscape-safe-left) + 8px);right:calc(var(--landscape-safe-right) + 8px);bottom:calc(var(--landscape-safe-bottom) + 6px)}
+#viewport-shell .app[data-full-bleed="true"] .screen{padding-left:calc(var(--landscape-safe-left) + 12px);padding-right:calc(var(--landscape-safe-right) + 12px);padding-bottom:calc(var(--landscape-safe-bottom) + 8px);padding-top:calc(var(--landscape-safe-top) + 48px);box-sizing:border-box}
+/* Preserve the already approved street toolbar positions, without applying
+   its compact HUD text rules to VS, bosses or selection. */
+#viewport-shell .app[data-full-bleed="true"][data-landscape-preview="true"]>header{inset:calc(var(--landscape-safe-top) + 3px) calc(var(--landscape-safe-right) + 10px) auto calc(var(--landscape-safe-left) + 10px);height:32px}
+/* Growth dialogs can also be hosted outside the main shell. */
+html body>.campaign-growth-dialog{inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);max-width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 16px);max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)}
+
+#viewport-shell .app[data-full-bleed="true"][data-title-open="true"]>header .brand{color:#17313a;text-shadow:none}

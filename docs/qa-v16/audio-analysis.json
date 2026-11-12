@@ -1,0 +1,70 @@
+{
+  "status": "ready_for_integration",
+  "library": {
+    "library_file_id": "libfile_60c281e96e70819190e474a58266373b",
+    "file_id": "file_0000000066cc81fbb36baefddb0bb1fd",
+    "filename": "在那叫什麼.mp4",
+    "version": 0,
+    "source_path": "/workspace/shared/voice-su-shout-v16/source/在那叫什麼.mp4",
+    "size_bytes": 8568316,
+    "sha256": "ea3d535afb754da475ebe1ad45ff694292e879c9998e88feafc46f491a20d300",
+    "identity_xattrs_applied": true
+  },
+  "source": {
+    "container_duration_seconds": 6.832466,
+    "audio_stream_duration_seconds": 6.783979,
+    "decoded_duration_seconds": 6.784,
+    "decoded_samples": 325632,
+    "codec": "AAC LC",
+    "sample_rate": 48000,
+    "channels": 2,
+    "waveform_first_over_minus60_dbfs_seconds": 4.006583333333333,
+    "waveform_last_over_minus60_dbfs_seconds": 6.284958333333333,
+    "silencedetect_threshold_dbfs": -40,
+    "leading_silence_seconds": 4.010396,
+    "trailing_silence_start_seconds": 6.280396
+  },
+  "trim": {
+    "continuous": true,
+    "source_start_seconds": 3.96,
+    "source_end_exclusive_seconds": 6.34,
+    "source_start_sample_48khz": 190080,
+    "source_end_exclusive_sample_48khz": 304320,
+    "samples": 114240,
+    "duration_seconds": 2.38
+  },
+  "output": {
+    "path": "/workspace/shared/voice-su-shout-v16/su-shout-user-upload-v16.mp3",
+    "size_bytes": 39168,
+    "sha256": "fdb8f4f101d8a6a3856b76b2568f55da2ece3f6a1f8aec85c6c193e7889ec834",
+    "codec": "MP3",
+    "sample_rate": 48000,
+    "channels": 1,
+    "bitrate": 128000,
+    "container_duration_seconds": 2.424,
+    "decoded_duration_seconds": 2.38,
+    "decoded_samples": 114240,
+    "decoded_sample_peak_dbfs": -3.7104698832853256,
+    "decoded_rms_dbfs": -18.050476636397345,
+    "decoded_clipped_samples": 0,
+    "ffprobe_tags_absent": true
+  },
+  "transforms": [
+    "Extract original audio only; no synthesis or voice cloning",
+    "Arithmetic stereo-to-mono downmix",
+    "Continuous trim 3.960 <= t < 6.340 seconds",
+    "Gain -3 dB",
+    "5 ms fade in and fade out entirely within original silence",
+    "Strip metadata; omit ID3v1/ID3v2; retain technical Xing gapless duration header",
+    "Encode 128 kbps MP3 at 48 kHz"
+  ],
+  "evidence": {
+    "filename": "在那叫什麼.mp4",
+    "embedded_source_title": "(1179) 蘇貞昌 在那叫什麼【政治迷因】 - YouTube 和其他 5 個頁面 - 個人 - Microsoft​ Edge",
+    "source_frame_path": "/workspace/shared/voice-su-shout-v16/source-frame-4.6.png",
+    "waveform_path": "/workspace/shared/voice-su-shout-v16/waveform.png",
+    "phrase_transcription": "NOT_VERIFIED",
+    "limits": "No human listening claimed. Visible source page search and embedded title match the user description, but visible frame subtitles do not transcribe the requested phrase. Local ASR produced no reliable result (PyAV API incompatibility, followed by process termination). All detected audible waveform retained. No claim that title/image proves speaker identity, rights, original provenance, or authenticity."
+  },
+  "scope": "No repository edits, deployment, preview, paid generation, synthetic speech, or external upload. Original Library item unchanged."
+}

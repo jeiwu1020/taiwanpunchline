@@ -1,0 +1,23 @@
+diff --git a/dist/challenge-backdrop-cache.mjs b/dist/challenge-backdrop-cache.mjs
+index b85e341..9dc3118 100644
+--- a/dist/challenge-backdrop-cache.mjs
++++ b/dist/challenge-backdrop-cache.mjs
+@@ -129,6 +129,9 @@ export function createDepthBackdropRenderer(scene,images){
+    const sky=images['challenge-street-sky'];if(skyTexture.width!==skyWidth||skyTexture.height!==skyHeight||skySource!==sky){skyTexture.setSize(skyWidth,skyHeight);const ctx=skyTexture.getContext();ctx.clearRect(0,0,skyWidth,skyHeight);drawChallengeSky(ctx,sky,{width:skyWidth,top:0,bottom:skyHeight});skyTexture.refresh();skySource=sky;stats.lastBuildPixels+=skyWidth*skyHeight;}
+    skyDisplay.setPosition(bg.camera,bg.top).setDisplaySize(bg.width,bg.height).setVisible(true);
+   }
++  // Partial rows share one continuous dynamic facade. Separate band clips or
++  // cached/pending joins can expose the sky at fractional projected edges.
++  if(!ready){for(const display of displays)display.setVisible(false);return false;}
+   let used=0;
+   for(let index=Math.floor(bg.camera/tileWidth);index*tileWidth<bg.camera+bg.width;index++)for(let row=first;row<=last;row++){
+    if(pendingBands.some(b=>b.row===row))continue;
+@@ -142,7 +145,7 @@ export function createDepthBackdropRenderer(scene,images){
+  }
+  function paintPending(ctx,bg){
+   if(stats.reason!=='partial')return false;
+-  ctx.save();ctx.translate(bg.camera,0);for(const band of pendingBands)drawChallengeBackdrop(ctx,images,{...bg,top:band.top,bottom:band.bottom,height:band.bottom-band.top,facadeOnly:true});ctx.restore();return true;
++  ctx.save();ctx.translate(bg.camera,0);drawChallengeBackdrop(ctx,images,{...bg,facadeOnly:true});ctx.restore();return true;
+  }
+  return {draw,paintPending,hide,reset,invalidateSurface,get diagnostics(){return {...stats,policy,policySwitches,budgetScope:policy==='finite'?'managed-surfaces':'static-tiles-and-sky',pendingBands:pendingBands.map(b=>({...b})),tiles:pool.filter(s=>s.id!==null).length};}};
+ }

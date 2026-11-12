@@ -1,0 +1,19 @@
+/* V72: comic choosers share the app/dialog rotation. Hidden sources only hold state. */
+.app{position:relative}
+.game-select{display:inline-flex;vertical-align:middle;max-width:100%;min-width:0}
+.game-select[hidden],.game-select>select[hidden],.game-select-menu[hidden],.game-select-option[hidden]{display:none!important}
+.game-select .game-select-trigger{display:flex;align-items:center;justify-content:space-between;gap:12px;box-sizing:border-box;min-height:44px;min-width:78px;max-width:100%;margin:0;padding:7px 11px;border:2px solid #17313a;border-radius:5px;background:#fff6df;color:#17313a;box-shadow:2px 3px 0 #17313a70;font:800 14px/1.25 system-ui,"PingFang TC",sans-serif;text-align:left;cursor:pointer;touch-action:manipulation}
+.game-select .game-select-trigger[aria-expanded="true"]{background:#ffe5a4;border-color:#ae3c30;box-shadow:2px 3px 0 #17313a}
+.game-select .game-select-trigger:disabled{opacity:.5;cursor:not-allowed}
+.game-select .game-select-value{display:block;min-width:0;max-width:none!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:inherit!important;color:inherit!important}
+.game-select .game-select-arrow{flex:none;font:inherit!important;color:#ae3c30!important}
+.game-select-menu{box-sizing:border-box;z-index:90;display:flex;flex-direction:column;gap:5px;margin:0;padding:6px;border:2px solid #17313a;border-radius:6px;background:#f0ead6;color:#17313a;box-shadow:4px 5px 0 #17313a80;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ae3c30 #e5d7b5;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.game-select-menu .game-select-option{box-sizing:border-box;display:flex;flex-shrink:0;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;margin:0;padding:8px 10px;border:2px solid #17313a;border-radius:4px;background:#fffaf0;color:#17313a;box-shadow:1px 2px 0 #17313a35;font:800 14px/1.35 system-ui,"PingFang TC",sans-serif;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer;touch-action:inherit}
+.game-select-menu .game-select-option[aria-selected="true"]{background:#ffe5a4;border-color:#ae3c30}
+.game-select-menu .game-select-option[aria-selected="true"]::after{content:'✓';color:#ae3c30;flex:none}
+.game-select-menu .game-select-option:hover:not(:disabled){background:#ffefc6}
+.game-select-menu .game-select-option:disabled{opacity:.45;cursor:not-allowed}
+.game-select .game-select-trigger:focus-visible,.game-select-menu .game-select-option:focus-visible{outline:3px solid #bd4232;outline-offset:2px}
+.game-select-menu[data-rotation="90"],.game-select-menu[data-rotation="-90"]{touch-action:none}
+#settings-legacy .voice-preview .game-select{flex:1 1 240px;max-width:100%}
+#settings-legacy .voice-preview .game-select-trigger{width:100%}

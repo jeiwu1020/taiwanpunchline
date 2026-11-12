@@ -1,0 +1,97 @@
+✔ normal waits after first seeing a slow attack, then can defend (5.140002ms)
+✔ easy waits after first seeing a slow attack, then can defend (1.324996ms)
+✔ a new jab lands before an unprepared normal AI can visually react (1.14821ms)
+✔ normal cannot instantly choose a counter stance from fresh attack input (0.706464ms)
+✔ easy cannot instantly choose a counter stance from fresh attack input (0.221854ms)
+✔ normal gives a newly visible projectile its own first-observation delay (1.257154ms)
+✔ normal gives a newly visible queue its own first-observation delay (1.632198ms)
+✔ easy gives a newly visible projectile its own first-observation delay (0.553193ms)
+✔ easy gives a newly visible queue its own first-observation delay (0.437118ms)
+✔ a replacement attack must earn a new observation delay (0.630269ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (1.025054ms)
+✔ normal leaves a real post-punch gap even when the decision timer is ready (2.114245ms)
+✔ normal leaves a real post-special2 gap even when the decision timer is ready (1.742344ms)
+✔ easy leaves a real post-punch gap even when the decision timer is ready (2.053323ms)
+✔ easy leaves a real post-special2 gap even when the decision timer is ready (1.576073ms)
+✔ normal starts a fresh gap when its action is interrupted and does not refund cooldown (0.817812ms)
+✔ easy starts a fresh gap when its action is interrupted and does not refund cooldown (0.394745ms)
+✔ pause and hitstop do not burn the pending observation delay (0.647986ms)
+✔ normal honors the long end of the sampled first-observation delay (0.808257ms)
+✔ easy honors the long end of the sampled first-observation delay (1.76626ms)
+✔ an old cast newly entering observation cannot reuse its total animation age as reaction time (0.908038ms)
+✔ a threat leaving perception range and returning must be observed again (1.013106ms)
+✔ round restart cannot inherit a completed observation deadline or a recovery gap (0.741127ms)
+✔ normal leaves a recovery opening after its rejection stance is consumed (0.74344ms)
+✔ easy leaves a recovery opening after its rejection stance is consumed (0.641015ms)
+✔ an AI recovery guard can be punished by a player grab (1.309102ms)
+✔ pause and hitstop preserve the full remaining post-action opening (1.105735ms)
+✖ normal can retreat and guard during recovery while follow-up attacks wait (1.482263ms)
+✖ easy can retreat and guard during recovery while follow-up attacks wait (1.087728ms)
+✖ an actual block during recovery cannot make a buffered punch skip its remaining gap (1.540239ms)
+ℹ tests 30
+ℹ suites 0
+ℹ pass 27
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 173.616676
+
+✖ failing tests:
+
+test at tests/ai-timing-v18.test.mjs:118:43
+✖ normal can retreat and guard during recovery while follow-up attacks wait (1.482263ms)
+  AssertionError [ERR_ASSERTION]: recovery must not freeze movement
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:122:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:118:43
+✖ easy can retreat and guard during recovery while follow-up attacks wait (1.087728ms)
+  AssertionError [ERR_ASSERTION]: recovery must not freeze movement
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:122:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:126:1
+✖ an actual block during recovery cannot make a buffered punch skip its remaining gap (1.540239ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:130:43)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

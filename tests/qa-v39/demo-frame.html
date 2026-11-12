@@ -1,0 +1,4 @@
+<!doctype html><meta charset="utf-8"><title>V39 actual move-demo renderer</title><style>body{margin:0;background:#edf0e4;font:16px system-ui}canvas{width:100%;max-width:1200px;display:block}</style><p id="status">Loading actual move-demo module</p><canvas width="1200" height="660"></canvas><script type="module">
+import {loadArtImages} from './art-render.mjs';import {createMoveDemo} from './move-demo.mjs';
+let tick;const images=await loadArtImages(),demo=createMoveDemo({canvas:document.querySelector('canvas'),images,requestFrame:callback=>(tick=callback,1),cancelFrame(){}});demo.play('ko','ko_name');tick(0);tick(420);document.querySelector('#status').textContent='Actual move-demo: 賴祥德 at 0.42s';
+</script>

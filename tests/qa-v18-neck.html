@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><title>V18 Neck and Collar Review</title>
+<style>body{margin:0;background:#e4e4d0;font:14px system-ui;color:#263c3a}header{padding:10px}canvas{display:block}a{margin-right:14px}#status{font-weight:bold}</style>
+<header>頸部／衣領檢查 <span id="status">載入中</span><div id="links"></div></header><canvas id="sheet"></canvas>
+<script type="module">
+// Copy this file into dist/ for the official static preview. It also works when
+// a project-root test server exposes tests/ and dist/ alongside one another.
+const root=location.pathname.includes('/tests/')?'../dist/':'./';
+const [{CAST},{loadArtImages,drawFighterArt},{kneePresentation,lotusBalance}]=await Promise.all([
+ import(root+'core.mjs'),import(root+'art-render.mjs'),import(root+'art-signature.mjs')]);
+const q=new URLSearchParams(location.search),type=q.get('type')||'wang',mode=q.get('mode')||'basic',images=await loadArtImages(root+'assets/');
+const base={type,y:430,face:1,move:0,guard:false,stun:0,reaction:0};
+const basic=[['站姿',{},0],['蹲姿',{crouch:true,crouchBlend:1},0],['跳躍',{y:370,vy:-100},.2],['受擊左傾',{reaction:.38},.14],['受擊右傾',{reaction:.10},.42],['步行',{move:1},.115],['防禦',{guard:true},.15],['踢腿',{attack:{kind:'punch',age:.16,variant:'kick'}},.16]];
+const special=CAST[type].moves.flatMap(m=>{const duration=m.duration||.8;const times=[.04,m.start||.2,(m.hits?.[1]?.start??m.end??m.start??duration*.5)+.015,duration*.85];if(m.kind==='han_knee')times.splice(0,4,.119,.32,.7,.981);return times.map(age=>[m.name+' '+age.toFixed(3)+'s',{attack:{kind:m.kind,age}},age]);});
+const poses=(mode==='special'?special:basic).flatMap(p=>[1,-1].map(face=>({name:p[0]+(face<0?' ←':' →'),f:{...base,...p[1],face},time:p[2]*1000})));
+function neckFocus(p){
+ if(p.kind==='han_knee'&&kneePresentation(p.actualAge).blend===1){const scale=122/599,halfKnee=62*scale,b=lotusBalance(p.actualAge,{left:{x:-halfKnee,y:0},right:{x:halfKnee,y:0}});return{x:4*scale*Math.cos(b.angle)+122*Math.sin(b.angle),y:b.groundY+4*scale*Math.sin(b.angle)-122*Math.cos(b.angle)};}
+ if(p.roll>.6)return{x:-13*Math.cos(p.rollAngle)+16*Math.sin(p.rollAngle),y:-115-13*Math.sin(p.rollAngle)-16*Math.cos(p.rollAngle)};
+ return{x:p.bodyX,y:p.bodyY-160};
+}
+const w=360,h=295,cols=4,rows=Math.ceil(poses.length/cols),canvas=document.querySelector('canvas');canvas.width=cols*w;canvas.height=rows*h;const ctx=canvas.getContext('2d');ctx.fillStyle='#e4e4d0';ctx.fillRect(0,0,canvas.width,canvas.height);
+for(const [i,p] of poses.entries()){const x=i%cols*w,y=Math.floor(i/cols)*h;ctx.save();ctx.translate(x,y);ctx.strokeStyle='#b8c2ad';ctx.strokeRect(0,0,w,h);ctx.fillStyle='#233a35';ctx.font='bold 14px system-ui';ctx.fillText(CAST[type].name+' '+p.name,10,20);ctx.save();ctx.beginPath();ctx.rect(0,28,112,h-28);ctx.clip();ctx.translate(55,h-18);ctx.scale(p.f.face*.70,.70);const pose=drawFighterArt(ctx,images,p.f,p.time),focus=neckFocus(pose);ctx.restore();ctx.save();ctx.beginPath();ctx.rect(114,28,w-115,h-29);ctx.clip();ctx.translate(232-2*p.f.face*focus.x,220-2*focus.y);ctx.scale(p.f.face*2,2);drawFighterArt(ctx,images,p.f,p.time,{shadow:false});ctx.restore();ctx.restore();}
+document.querySelector('#status').textContent=CAST[type].name+' / '+mode+' / '+poses.length+' poses';
+document.querySelector('#links').innerHTML=Object.keys(CAST).map(t=>`<a href="?type=${t}&mode=${mode}">${CAST[t].name}</a>`).join('')+`<a href="?type=${type}&mode=basic">基本</a><a href="?type=${type}&mode=special">招式</a>`;
+window.qaReady=true;
+</script>

@@ -1,0 +1,18 @@
+/* V26: keep the same actions and cooldowns, make every purpose readable. */
+.app .specials small{display:block;white-space:normal;overflow-wrap:anywhere;font-size:10px;line-height:1.2;margin-top:3px}
+.app[data-touch="true"][data-layout="landscape"] .specials{gap:6px}
+.app[data-touch="true"][data-layout="landscape"] .specials button{width:86px;min-width:86px;height:84px;border-radius:12px;grid-template-rows:minmax(0,1fr) 20px;padding:5px}
+.app[data-touch="true"][data-layout="landscape"] .specials .move-copy{align-self:center;min-width:0}
+.app[data-touch="true"][data-layout="landscape"] .specials small{display:block;font-size:9px;line-height:1.15;margin-top:3px;color:#f9efcf}
+.app[data-touch="true"][data-layout="landscape"] .specials strong{font-size:11px;line-height:1.08}
+.app[data-touch="true"][data-layout="landscape"] .specials .cooldown{width:20px;height:20px}
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 182px}
+.app[data-touch="true"][data-layout="portrait"] .specials button{height:94px}
+.app[data-touch="true"][data-layout="portrait"] .specials .move-copy{align-self:center}
+.app[data-touch="true"][data-layout="portrait"] .specials small{font-size:9px;line-height:1.15}
+/* Narrow non-touch windows use the same extra space for the two-line copy. */
+@media(max-width:760px) and (orientation:portrait){
+ .app:not([data-touch="true"]) .cabinet{grid-template-rows:minmax(0,1fr) 182px}
+ .app:not([data-touch="true"]) .specials button{height:94px}
+ .app:not([data-touch="true"]) .specials small{font-size:9px;line-height:1.15}
+}

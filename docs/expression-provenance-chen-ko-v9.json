@@ -1,0 +1,166 @@
+{
+  "generated_at_utc": "2026-11-06T05:22:00.796767+00:00",
+  "generation_mode": "built-in image_gen; one call per variant",
+  "transparent_background": true,
+  "requested_dimensions": [
+    1254,
+    1254
+  ],
+  "conversion": "Pillow PNG to WebP with lossless=True, exact=True; no resizing, cropping, compositing or manual pixel edits",
+  "prompt_manifest": "docs/expression-prompts-chen-ko-v9.json",
+  "base_assets_modified": false,
+  "assets": [
+    {
+      "asset": "dist/assets/chen-wave-v9.webp",
+      "source_png": "/workspace/scratch/1a1351aee944/generated_images/exec-fa7e9066-0ac7-46bd-ba2d-1a3573eb406b.png",
+      "source_png_sha256": "2165014897f96f782da3bf19f52a20f7a5137a0f76b1e29c98940fb5c81730e6",
+      "asset_sha256": "540b9a1c438d67d2f9d83a1f298c10c87ae593a5d1a8441dfd3fa918e311ebb6",
+      "reference": "dist/assets/chen-head-v8.webp",
+      "reference_sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        11,
+        1206,
+        1254
+      ],
+      "alpha128_bbox": [
+        126,
+        15,
+        1137,
+        1248
+      ],
+      "reference_alpha128_bbox": [
+        128,
+        18,
+        1136,
+        1246
+      ],
+      "silhouette_alpha128_iou": 0.99364,
+      "lossless_rgba_identical": true,
+      "visual_review": "Distinct calm speaking mouth and lifted skeptical brow. The opening is wider than a minimal speaking slit, but is conversational rather than a shout. Face, gold glasses, hair and short neck closely match the reference."
+    },
+    {
+      "asset": "dist/assets/chen-step-v9.webp",
+      "source_png": "/workspace/scratch/1a1351aee944/generated_images/exec-00084eb6-9b1d-4cf8-b9ad-c87427bba147.png",
+      "source_png_sha256": "c916609ec04caf300a41d6e509d36698f853d7326f1494f53ce2577fc3e77886",
+      "asset_sha256": "951a5d53da7cdd7a310c74b91a455471d90a1c53d46da168dfd9958f0e942059",
+      "reference": "dist/assets/chen-head-v8.webp",
+      "reference_sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        13,
+        1192,
+        1254
+      ],
+      "alpha128_bbox": [
+        126,
+        16,
+        1135,
+        1247
+      ],
+      "reference_alpha128_bbox": [
+        128,
+        18,
+        1136,
+        1246
+      ],
+      "silhouette_alpha128_iou": 0.98714,
+      "lossless_rgba_identical": true,
+      "visual_review": "Clearly distinct focused closed mouth, lowered brows and open forward-looking eyes. Face, gold glasses, hair and short neck closely match the reference."
+    },
+    {
+      "asset": "dist/assets/ko-sweep-v9.webp",
+      "source_png": "/workspace/scratch/1a1351aee944/generated_images/exec-4b92f3a9-a46c-4d19-a8fc-cf44e07b1887.png",
+      "source_png_sha256": "cfbcd4102a5002e5de1d9968934ce6e4b938d2ff1ffe7fc671e1a48a8b561d60",
+      "asset_sha256": "ee9b58506badf4771a61de206fd59772273ba851047de84fca5f5ef558ee141b",
+      "reference": "dist/assets/ko-head-v6.webp",
+      "reference_sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        3,
+        1208,
+        1254
+      ],
+      "alpha128_bbox": [
+        121,
+        13,
+        1124,
+        1244
+      ],
+      "reference_alpha128_bbox": [
+        120,
+        17,
+        1124,
+        1244
+      ],
+      "silhouette_alpha128_iou": 0.98325,
+      "lossless_rgba_identical": true,
+      "visual_review": "Clear gritted teeth and exertion brows. Ko identity, gray hair, rectangular glasses, moles and short neck are retained."
+    },
+    {
+      "asset": "dist/assets/ko-counter-v9.webp",
+      "source_png": "/workspace/scratch/1a1351aee944/generated_images/exec-4733538e-466d-4cb0-b66f-ab125d401d5e.png",
+      "source_png_sha256": "8d8409053c51d06d889d1d73b666459506e85971c51a8fedfe20ad310bac2145",
+      "asset_sha256": "63ff3eae3bea64c4f2ff4200749ccd2167c731fa31a522a94af8ea4c04d24f4e",
+      "reference": "dist/assets/ko-head-v6.webp",
+      "reference_sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        11,
+        1128,
+        1254
+      ],
+      "alpha128_bbox": [
+        116,
+        15,
+        1124,
+        1245
+      ],
+      "reference_alpha128_bbox": [
+        120,
+        17,
+        1124,
+        1244
+      ],
+      "silhouette_alpha128_iou": 0.98333,
+      "lossless_rgba_identical": true,
+      "visual_review": "Clear one-sided raised brow and small questioning open mouth. Ko identity, gray hair, rectangular glasses, moles and short neck are retained."
+    }
+  ]
+}

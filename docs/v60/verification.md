@@ -1,0 +1,4 @@
+# V60 menu palette
+Baseline #37 /015cec2740d7b3e7b0bcdb61838169fabfeebcf3 preserved with backup-before-colors-v60 and complete V59 archive stored/retrieved in Space.
+Continue uses teal #237363, home amber #e5ae46, character selection blue #315f88, restart purple #73518e. Function colors are consistent between home and pause menus. All five relevant menu actions and restart use184x48px dimensions, comic dark outlines/shadows and16px labels. Amber uses dark text; other colors use warm white. No action logic changed.
+2108 automated tests passed, diff check clean. Actual Chrome preview inspected320x740 portrait,667x375 landscape, and desktop. Measured restart/continue/selection equal184x48px and verified matching computed colors. Restart still opens its confirmation, cancel leaves match intact; selection cancellation returns to pause. Desktop browser mobile-size simulation, not physical iOS.

@@ -1,0 +1,34 @@
+✔ all twenty-one moves have concise numeric-free purposes independent of combat hints (1.91905ms)
+✔ all actual character selections show purpose in visible copy, tooltip and accessible label (30.324737ms)
+✔ detailed move information retains each exact cooldown and mechanical damage values (0.893954ms)
+✔ purpose presentation is loaded after legacy mobile rules that hid explanations (0.217149ms)
+✖ the user-confirmed Chen crop is the selected byte-identical candidate and retains the original (2.815698ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 165.189329
+
+✖ failing tests:
+
+test at tests/move-purpose-v26.test.mjs:25:1
+✖ the user-confirmed Chen crop is the selected byte-identical candidate and retains the original (2.815698ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'assets/voice/chen-dream-user-candidate-v201.mp3'
+  - 'assets/voice/chen-dream-user-confirmed-v26.mp3'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/move-purpose-v26.test.mjs:27:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'assets/voice/chen-dream-user-candidate-v201.mp3',
+    expected: 'assets/voice/chen-dream-user-confirmed-v26.mp3',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

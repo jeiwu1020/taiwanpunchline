@@ -1,0 +1,115 @@
+{
+  "scope": "Real production draw functions and native Canvas pixels. Not browser, phone, GPU or FPS measurement.",
+  "baseline": "7362f532b2c93ad929d8ba3cc177b5cee50df68d",
+  "originalSceneChangedChannelValuesAboveEdgeAA": 0,
+  "visiblePixelsInvariantAcrossBottom": [
+    1600,
+    2400
+  ],
+  "grainBefore": {
+    "horizontal": 9.960666023166024,
+    "vertical": 0.28924710424710426
+  },
+  "grainAfter": {
+    "horizontal": 7.151525096525097,
+    "vertical": 9.47657335907336
+  },
+  "benchmarks": [
+    {
+      "name": "before",
+      "viewport": [
+        828,
+        272
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        1246,
+        1755
+      ],
+      "firstBuildMs": 24.668,
+      "reuseP95Ms": 0.0099
+    },
+    {
+      "name": "after",
+      "viewport": [
+        828,
+        272
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        1246,
+        1755
+      ],
+      "firstBuildMs": 36.236,
+      "reuseP95Ms": 0.0154
+    },
+    {
+      "name": "before",
+      "viewport": [
+        390,
+        592
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        1494,
+        2637
+      ],
+      "firstBuildMs": 42.92,
+      "reuseP95Ms": 0.0026
+    },
+    {
+      "name": "after",
+      "viewport": [
+        390,
+        592
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        1494,
+        2637
+      ],
+      "firstBuildMs": 43.445,
+      "reuseP95Ms": 0.0021
+    },
+    {
+      "name": "before",
+      "viewport": [
+        1200,
+        750
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        2406,
+        3841
+      ],
+      "firstBuildMs": 95.595,
+      "reuseP95Ms": 0.0021
+    },
+    {
+      "name": "after",
+      "viewport": [
+        1200,
+        750
+      ],
+      "frames": 150,
+      "refreshes": 1,
+      "resizes": 1,
+      "texture": [
+        2406,
+        3841
+      ],
+      "firstBuildMs": 119.454,
+      "reuseP95Ms": 0.0018
+    }
+  ]
+}

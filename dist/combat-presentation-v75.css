@@ -1,0 +1,105 @@
+/* One stable scene fills the available safe-area shell. HUD and controls never
+   reserve canvas rows, including while pause/result overlays are displayed. */
+#viewport-shell>.app[data-title-open="false"]{position:relative;display:block;max-width:none;margin:0;padding:0;gap:0}
+#viewport-shell .app[data-title-open="false"] .cabinet,
+#viewport-shell .app[data-title-open="false"] .stage-wrap,
+#viewport-shell .app[data-title-open="false"] #game{
+ position:absolute!important;inset:0;width:100%;height:100%;min-width:0;min-height:0;display:block;
+ grid-template-columns:none!important;grid-template-rows:none!important;border:0;border-radius:0;
+}
+/* Only the app toolbar overlays combat. Nested dialog headers must retain
+   their natural height so titles never occupy the same space as their tabs. */
+#viewport-shell .app[data-title-open="false"] > header{
+ position:absolute;inset:6px 12px auto;z-index:6;height:38px;min-height:0;
+ background:transparent;pointer-events:none;filter:drop-shadow(0 1px 2px #102a32);
+}
+#viewport-shell .app[data-title-open="false"] > header a,
+#viewport-shell .app[data-title-open="false"] > header button{pointer-events:auto}
+#viewport-shell .app[data-title-open="false"] .under{display:none}
+#viewport-shell .app[data-title-open="false"] .dom-hud{
+ position:absolute;inset:48px 8px auto;display:grid;height:64px;
+ grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+ padding:0;gap:6px;background:transparent;pointer-events:none;
+}
+#viewport-shell .app[data-title-open="false"] .dom-hud .timer{height:64px;min-width:0;overflow:hidden}
+#viewport-shell .app[data-title-open="false"] .dom-hud #timer{
+ font-family:ui-monospace,monospace;font-size:20px;line-height:24px;letter-spacing:-.5px;
+ display:block;max-width:100%;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+#viewport-shell .app[data-title-open="false"] .dom-hud #match-score{font-size:9px;line-height:12px;letter-spacing:0;white-space:normal}
+#viewport-shell .app[data-title-open="false"] .control-deck{
+ position:absolute;inset:auto 8px 6px;display:grid!important;border:0;background:transparent;box-shadow:none;
+ pointer-events:none;z-index:3;
+}
+#viewport-shell .app[data-title-open="false"] .control-deck button,
+#viewport-shell .app[data-title-open="false"] #touch-stick{pointer-events:auto;touch-action:none}
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) .control-deck{visibility:hidden;display:grid;pointer-events:none}
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) .control-deck button,
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) #touch-stick{pointer-events:none}
+#viewport-shell .app[data-title-open="false"] #pause-screen{background:#112a3226;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#viewport-shell .app[data-title-open="false"] .screen{padding-top:48px}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] > header{inset:5px 8px auto;height:60px;align-content:center}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .dom-hud{top:70px}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .screen{padding-top:70px}
+/* The 52px portrait controls retain their established arrangement. Only the
+   opaque dock disappears; empty cells pass through to the scene. */
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .control-deck{left:0;right:0;height:188px}
+
+/* Face-off cards center through the shared visual-viewport binding, unlike the
+   full-height cinematic opening. Constrain artwork first, never the next button. */
+.challenge-story[data-cinematic="false"][data-layout] .story-panel{
+ height:min(420px,calc(var(--challenge-logical-height) - 8px));min-height:0;
+}
+.challenge-story[data-cinematic="false"][data-layout] .story-panel canvas{
+ width:100%;height:100%;max-height:100%;min-height:0;aspect-ratio:auto;object-fit:contain;
+}
+.challenge-story[data-cinematic="false"][data-layout] .story-copy{
+ display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;
+}
+.challenge-story[data-cinematic="false"][data-layout] .story-heading{flex:0 0 auto}
+.challenge-story[data-cinematic="false"][data-layout] .story-copy p{min-height:0;overflow:auto}
+.challenge-story[data-cinematic="false"][data-layout] .story-actions{flex:0 0 auto;margin-top:auto}
+.challenge-story[data-cinematic="false"][data-layout="portrait"] .story-panel{
+ height:min(660px,calc(var(--challenge-logical-height) - 8px));grid-template-rows:minmax(0,1fr) minmax(0,auto);
+}
+.challenge-story[data-cinematic="false"][data-compact="true"][data-layout="landscape"] .story-panel{
+ height:min(330px,calc(var(--challenge-logical-height) - 8px));
+}
+
+/* Presentation overlays never reserve HUD width or intercept input. */
+#viewport-shell .app[data-title-open="false"] #broadcast[data-placed="true"]{
+ left:var(--feedback-left);bottom:var(--feedback-bottom);width:max-content;max-width:var(--feedback-width);
+ transform:translateX(-50%);white-space:normal;overflow-wrap:anywhere;text-align:center;
+}
+#viewport-shell .app .route-mic-overlay{position:absolute;z-index:4;pointer-events:none}
+#viewport-shell .app .route-mic-overlay[hidden],
+#viewport-shell .app[data-title-open="true"] .route-mic-overlay{display:none}
+#viewport-shell .app:has(.screen:not(.hidden)) .route-mic-overlay{visibility:hidden}
+
+/* Approved native landscape layout: full-bleed scene, safe interactive overlays. */
+
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"]>header{inset:calc(var(--landscape-safe-top) + 3px) calc(var(--landscape-safe-right) + 10px) auto calc(var(--landscape-safe-left) + 10px);height:32px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .brand{font-size:15px;gap:6px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .brand-icon{font-size:18px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .brand small{display:none}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .toolbar button{padding:4px 8px;font-size:11px;min-height:30px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud{top:calc(var(--landscape-safe-top) + 38px);left:calc(var(--landscape-safe-left) + 8px);right:calc(var(--landscape-safe-right) + 8px);height:40px;grid-template-rows:40px;gap:6px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hud-side{height:40px;grid-template-rows:18px 7px 7px;gap:1px;padding:2px 6px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hud-name{height:18px;font-size:16px;line-height:18px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hud-name small{font-size:9px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hud-name b{font-size:11px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hp-track{height:7px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .guard-row small{font-size:8px;line-height:8px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .guard-pips i{height:3px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .hud-status{font-size:8px;line-height:8px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud .timer{height:40px;gap:0}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud #timer{font-size:20px;line-height:22px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud #match-score{font-size:8px;line-height:10px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .dom-hud #item-status{font-size:9px;line-height:11px;margin-top:2px}
+#viewport-shell .app[data-title-open="false"][data-landscape-preview="true"] .control-deck{left:calc(var(--landscape-safe-left) + 8px);right:calc(var(--landscape-safe-right) + 8px);bottom:calc(var(--landscape-safe-bottom) + 6px)}
+
+/* Portrait hints overlay variable scene art, so they need their own ink plate. */
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] #item-status{
+ height:auto;min-height:18px;font-size:10px;line-height:14px;padding:2px 7px;background:#17353a;color:#fff6df;border:1px solid #fff6df88;border-radius:4px;text-shadow:none;
+}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] #item-status.has-item{background:#ffdf7b;color:#3d311e;border-color:#8c5e23;}

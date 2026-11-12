@@ -1,0 +1,113 @@
+{
+  "generated_utc": "2026-11-06T13:34:54.860174+00:00",
+  "downloaded": [
+    {
+      "id": "huang-too-outrageous",
+      "speaker": "黃國昌",
+      "requested_title": "太離譜了",
+      "page_title": "太離譜了",
+      "source_page": "https://kuochang.tw/quote/Beyavja1r7",
+      "media_url": "https://kuochang.tw/share/quote/voice/Beyavja1r7.mp3",
+      "cited_original": "https://www.youtube.com/watch?v=FSOPhmCI72c",
+      "page_publication_date": "2017-03-26",
+      "file": "huang-too-outrageous-full.mp3",
+      "page_text": "太離譜了，真的太離譜了",
+      "notes": "Browser media element reported 3.714195 seconds; MP3 container duration includes encoder padding.",
+      "absolute_path": "/workspace/shared/voice-added-research/huang-too-outrageous-full.mp3",
+      "sha256": "1011b0f2eea66bb8e37900b28b13d00a778defe2384d68bc0cfa00cffbbf132b",
+      "bytes": 64261,
+      "duration_seconds": 3.761633,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "decode_validation": "passed",
+      "acquisition": "Downloaded from public audio/source src explicitly present on the supplied site. No stream extraction, cookies, proxy, DRM or access bypass.",
+      "verification": "File and provenance verified. Wording comes from the public page, not independent listening. Speaker identity and original authenticity are not independently authenticated.",
+      "rights": "Unknown. Site labels audio as 原聲 and footer as Copyleft, but no verified license covering underlying recording/reuse was obtained."
+    },
+    {
+      "id": "huang-owe-you",
+      "speaker": "黃國昌",
+      "requested_title": "我有欠你喔",
+      "page_title": "我有欠你喔",
+      "source_page": "https://kuochang.tw/quote/ybR0opawAK",
+      "media_url": "https://kuochang.tw/share/quote/voice/ybR0opawAK.mp3",
+      "cited_original": "https://www.threads.net/@jeankuo329/post/C6Ndff_yqws",
+      "page_publication_date": "2024-04-26",
+      "file": "huang-owe-you-full.mp3",
+      "page_text": "我有、我我有欠你喔？",
+      "notes": "Page text includes stutters and pointing emoji; simplified here, not independently transcribed from audio.",
+      "absolute_path": "/workspace/shared/voice-added-research/huang-owe-you-full.mp3",
+      "sha256": "b6be496721b008359dd6fd26c0aeb6d145a9a1256cf685fd068cddd5e9c0151c",
+      "bytes": 55580,
+      "duration_seconds": 2.533878,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "decode_validation": "passed",
+      "acquisition": "Downloaded from public audio/source src explicitly present on the supplied site. No stream extraction, cookies, proxy, DRM or access bypass.",
+      "verification": "File and provenance verified. Wording comes from the public page, not independent listening. Speaker identity and original authenticity are not independently authenticated.",
+      "rights": "Unknown. Site labels audio as 原聲 and footer as Copyleft, but no verified license covering underlying recording/reuse was obtained."
+    },
+    {
+      "id": "huang-cut-in-line",
+      "speaker": "黃國昌",
+      "requested_title": "可以這樣插隊喔",
+      "page_title": "可以這樣插隊喔！",
+      "source_page": "https://kuochang.tw/quote/XnVa4k06oJ",
+      "media_url": "https://kuochang.tw/share/quote/voice/XnVa4k06oJ.mp3",
+      "cited_original": "https://www.threads.net/@huangjie_official/post/C7DIWErygs1",
+      "page_publication_date": "2024-05-17",
+      "file": "huang-cut-in-line-full.mp3",
+      "page_text": "可以這樣插隊喔，蛤，可以這樣插隊喔（重複）",
+      "notes": "Full source is a repeated sequence. Trim one occurrence only after listening or ASR-assisted timing review.",
+      "absolute_path": "/workspace/shared/voice-added-research/huang-cut-in-line-full.mp3",
+      "sha256": "a9be12fc9cd7d2bb66d64e2eaab3ad757371471fb7f1b30f659d282465999a88",
+      "bytes": 302437,
+      "duration_seconds": 13.056,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        }
+      ],
+      "decode_validation": "passed",
+      "acquisition": "Downloaded from public audio/source src explicitly present on the supplied site. No stream extraction, cookies, proxy, DRM or access bypass.",
+      "verification": "File and provenance verified. Wording comes from the public page, not independent listening. Speaker identity and original authenticity are not independently authenticated.",
+      "rights": "Unknown. Site labels audio as 原聲 and footer as Copyleft, but no verified license covering underlying recording/reuse was obtained."
+    }
+  ],
+  "unacquired": [
+    {
+      "requested_title": "有這麼嚴重嗎",
+      "speaker": "陳水扁",
+      "provided_url": "https://www.youtube.com/watch?v=jfKym0Zjbtw",
+      "status": "No actual audio file obtained. Search open throttled; exact video-ID search returned no results. Existing browser became unresponsive. Exact audio wording unverified."
+    },
+    {
+      "requested_title": "垃圾不分藍綠",
+      "speaker": "柯文哲",
+      "provided_url": "https://youtu.be/LTNjR34kFRM?t=33",
+      "status": "No actual audio file obtained. Search open failed; exact video-ID search returned no results. Existing browser became unresponsive. 33-second user timestamp is a lead, not independently verified."
+    },
+    {
+      "requested_title": "我不會屈服",
+      "speaker": "柯文哲 (requested lead)",
+      "provided_url": "https://www.youtube.com/watch?v=YhemGL_KdIk",
+      "status": "No actual audio file obtained. Search open throttled; exact video-ID search returned no results. Phrase occurrence/speaker/timing unverified."
+    }
+  ],
+  "blockers": [
+    "Browser research tab 140 had Page.getFrameTree, Page.enable and DOMSnapshot timeouts. No browser restart or additional research tabs attempted.",
+    "Direct fetch of quote?q=我有欠 returned HTTP 403; no retry or bypass of that route. Alternate public detail pages were discovered through indexed site listings, then downloaded successfully using their ordinary public URLs."
+  ]
+}

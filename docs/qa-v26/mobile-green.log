@@ -1,0 +1,12 @@
+✔ all twenty-one moves have concise numeric-free purposes independent of combat hints (1.57209ms)
+✔ all actual character selections show purpose in visible copy, tooltip and accessible label (36.497744ms)
+✔ detailed move information retains each exact cooldown and mechanical damage values (1.071909ms)
+✔ purpose presentation is loaded after legacy mobile rules that hid explanations (0.295543ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 181.221587

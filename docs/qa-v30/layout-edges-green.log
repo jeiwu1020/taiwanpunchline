@@ -1,0 +1,13 @@
+✔ natural boundary markers use unchanged world limits and sit outside the idle feet (2.491255ms)
+✔ boundary decoration is fixed world geometry and never changes fighters (0.775548ms)
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (5.64285ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (1.416068ms)
+✔ upright and desktop save stage space without eliminating required controls (1.376029ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 188.370295

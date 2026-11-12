@@ -1,0 +1,30 @@
+✔ every street mob seats its head behind its own textured collar across moving poses (7.010589ms)
+✔ both captains draw separate generated head and vest art instead of enlarged street heads (1.268884ms)
+✔ background API paints an upward or downward extended viewport without uncovered pixels (4.506091ms)
+✔ sky extension is atmospheric colour, never stretched edge pixels or a second sun (0.282513ms)
+✔ road extension uses the final line-free asphalt edge and joins the last source row (0.276505ms)
+✔ adjacent horizontal tiles meet at the same source edge with alternating reflection (0.179409ms)
+✔ tile reflection remains world-anchored as the camera crosses positive and negative tile boundaries (0.215844ms)
+✔ arena background selects its own scene and missing textures fail safely (0.132499ms)
+✔ generated table and sign preserve bottom-centre registration at requested collision size (0.978148ms)
+✔ all registered project-bound art has a real runtime asset on disk (0.607381ms)
+✔ depth route camera uses projected foot coordinates and keeps jump heads in frame (1.80577ms)
+✔ projection retains foot-plane depth independently of jump height (0.987962ms)
+✔ the camera and ground apply exactly the same horizontal translation (0.364537ms)
+✔ depth ordering includes props, actors, helpers, projectiles and rally on their foot planes (2.245299ms)
+✔ mob labels retain a 16px screen floor and contrast independently of world zoom (0.325398ms)
+✔ ordinary route camera remains unchanged (0.214882ms)
+✔ paint path uses original character/prop art and labels every live mob at screen legibility (16.222622ms)
+✔ painted pavement is invariant in world space across camera movement and jump pan (0.670106ms)
+✔ a fighter standing on a table paints its support shadow on top of the generated table (0.801262ms)
+✔ clustered mob names and health bars stagger without overlap and stay inside the viewport (0.764457ms)
+✔ label stagger is stable across mob array order and tiny movement with shared slot memory (0.388002ms)
+✔ labels near viewport corners are clamped as a complete name and health block (0.63309ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 146.812707

@@ -1,0 +1,23 @@
+✔ effect audition reports mute and blocked audio without pretending playback (32.616058ms)
+✔ effect audition schedules clear distinct cues and cancellation removes pending cues (4.41486ms)
+✔ audio-page rejected voice promise reports an actionable visible message (3.043825ms)
+✔ move workspace opens details as a separate layer and never scrolls the main actions on play (3.660361ms)
+✔ audio page offers all21 voice selections without native dropdowns (4.598389ms)
+✔ audio page explains mute and failed effect attempts (1.271309ms)
+✔ HTML contains one-screen workspace and isolated accessible detail layer (1.486666ms)
+✔ native and rotated landscape reserve a separate controls row rather than placing buttons over fighters (6.611019ms)
+✔ rotation off reuses touch stick, guard, jump and attack below arena even at 320px wide (3.174226ms)
+✔ touch move labels and cooldown discs are larger while purpose stays visible (0.566052ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (3.446587ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (9.290537ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (2.820877ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (14.202288ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (1.810822ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 165.288369

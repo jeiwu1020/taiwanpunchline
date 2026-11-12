@@ -1,0 +1,68 @@
+✖ V30 phone dock uses one short row with attack and stationary guard side by side (1.40014ms)
+✖ HUD is a separate grid row and actual canvas has no HUD overlay reserve (0.253213ms)
+✖ upright and desktop save stage space without eliminating required controls (0.270137ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 136.96721
+
+✖ failing tests:
+
+test at tests/compact-fight-v30.test.mjs:8:1
+✖ V30 phone dock uses one short row with attack and stationary guard side by side (1.40014ms)
+  Error: ENOENT: no such file or directory, open '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+      at readFileSync (node:fs:483:20)
+      at read (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:5:16)
+      at css (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:7:49)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:9:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+  }
+
+test at tests/compact-fight-v30.test.mjs:16:1
+✖ HUD is a separate grid row and actual canvas has no HUD overlay reserve (0.253213ms)
+  Error: ENOENT: no such file or directory, open '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+      at readFileSync (node:fs:483:20)
+      at read (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:5:16)
+      at css (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:7:49)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:17:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+  }
+
+test at tests/compact-fight-v30.test.mjs:22:1
+✖ upright and desktop save stage space without eliminating required controls (0.270137ms)
+  Error: ENOENT: no such file or directory, open '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+      at readFileSync (node:fs:483:20)
+      at read (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:5:16)
+      at css (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:7:49)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:23:15)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'open',
+    path: '/workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/dist/interface-v30.css'
+  }

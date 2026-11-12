@@ -1,0 +1,2768 @@
+{
+  "version": 1,
+  "exclude": [
+    {
+      "path": "assets/challenge/arena-v2.png",
+      "bytes": 4120211,
+      "sha256": "413bf3c4e3573fe84f111880cbe922840d0fbbae9f8dc8424f9876b8e16f52cc",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/bedroom-v1.png",
+      "bytes": 3324613,
+      "sha256": "d32464a2d3562dd247cdfda9bb7a4347d889e41b9b48d5e6ecb4d3ad1c2cbc26",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/captain-atlas-v2.png",
+      "bytes": 3123518,
+      "sha256": "d21a7d1e20770283e0568c29ee767d636cbdaed2dbe83f9674ebba23c3bef211",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/mob-atlas-v1.png",
+      "bytes": 2541001,
+      "sha256": "a04ce2cfaf2b4e7358db2dbc6c89fda2c4561ddc9d33392c2713787b47ff4406",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/chen-sheet.png",
+      "bytes": 4332080,
+      "sha256": "34e5eb460436571a3f93661b881fd06769c5040e903696bede43e45871e7d64f",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/han-sheet.png",
+      "bytes": 4208671,
+      "sha256": "ea4c70513f909fd137561b33d2863584f191191fd15ab5b174c487cba72a5537",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/huang-sheet.png",
+      "bytes": 4125943,
+      "sha256": "6ff5fe91e6f6033e4f14a53f00789738f812415b4afdfc60a2ba874ad19bdf82",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/ko-sheet.png",
+      "bytes": 4383986,
+      "sha256": "5c3147f08f429b7e5e5d5a397358dc1ee30eac58b47af009ad451a094b4bceeb",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/ma-sheet.png",
+      "bytes": 4125604,
+      "sha256": "138eee7a73e7405b9820422ee251c25d2db1663e2262ea066ae17ba731d80d54",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/su-sheet.png",
+      "bytes": 4082689,
+      "sha256": "2530c7e86e179bba383fc7341782ba1bd4882220aeb2aa8a70ba2d5ee4c30f3e",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/opening-v74/wang-sheet.png",
+      "bytes": 4301214,
+      "sha256": "684d56e2a1d7d9da8a5004b3e349cce7c2bcf9f92c9b8e4d6eb617b0c482153b",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/pajamas-v1.png",
+      "bytes": 2609473,
+      "sha256": "4e4c520d69c48802d8b5746d18bb5048814250b70fac32ea644abf6275bee299",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/street-deep-v2.png",
+      "bytes": 3863940,
+      "sha256": "0036f904d4cccb4bb38e309f567f61e59bc5353e45fac212e8499496f8452729",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/street-facade-v75-original.png",
+      "bytes": 3177809,
+      "sha256": "c565eec30a683847c9d8432e2346e57082e6f04025c43a883634b37dc117f725",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/street-props-v2.png",
+      "bytes": 1890454,
+      "sha256": "46f33cf54bada445882dc7a8d198200fb1f97f8168b5c23a91813da73cb95a36",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/street-sky-v75-original.png",
+      "bytes": 3253702,
+      "sha256": "a88d5174c1b5050d3e9aef096c33635e6a08dd1083ea6df2c2ab0274661559fd",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/challenge/supply-stand-v75-original.png",
+      "bytes": 2129072,
+      "sha256": "669a575cd9084d93339b9db6761a2470f81d92d5d7634f79c152d41366075e9f",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/chen-head-v6.webp",
+      "bytes": 1645422,
+      "sha256": "65f667a4bd0944659f67406bc781e020ca96ec64ed289cb37857d9b5cd09146e",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/chen-head-v7.webp",
+      "bytes": 1661178,
+      "sha256": "73e47a9ef3a906cb8a0ca9b2b6ffd2a48e93fbafb8b76c1bb2f986eebb43cb50",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/han-knee-shout-v10.webp",
+      "bytes": 104842,
+      "sha256": "991dbe5890b8cc8b9e10919e87255e90d9cf0b61ddaeff81d1d06415d5ed563d",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/han-knees-v10.webp",
+      "bytes": 571788,
+      "sha256": "003c737b4b4e161e9d19c5600db73fc69526d3122775f4eba0263a558cc4b607",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/icons/icon-v57-16.png",
+      "bytes": 946,
+      "sha256": "66758077ddbe4103c6f60716bc9bb7471189d9f509d03fbd42796b8591d6cf81",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/icons/icon-v57-48.png",
+      "bytes": 4774,
+      "sha256": "99cf46de348b494f8a33dc0dfcdf32bd932294423e818384cb8cbb79bbc04535",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/su-head-v5.webp",
+      "bytes": 1461358,
+      "sha256": "0841e64dcc6985a99b640823eb755e3618baed0c6b0975d1f2f37f9bef00df6d",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "assets/su-head-v7.webp",
+      "bytes": 1583720,
+      "sha256": "84091e55338450fe2fa97083fea5c7a9d4ed1c47935264065a03a4ac8c1ce5ce",
+      "reasons": [
+        "reviewed-unused-root"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter2/assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png"
+    },
+    {
+      "path": "preview/chapter2/assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/flying-mic-props.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png"
+    },
+    {
+      "path": "preview/chapter2/assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-aim-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-archery-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-defiant-head.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-release-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-head-v5.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-press-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-arms-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-hand-back-v36.png"
+    },
+    {
+      "path": "preview/chapter2/assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/limbs-v4.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/move-accents-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/props-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/right-hand-point-v37.png"
+    },
+    {
+      "path": "preview/chapter2/assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-costumes-v5.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-props-v5.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-hands-v10.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-props-v10.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-head-v8.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-slam-v9.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-man-v46.png"
+    },
+    {
+      "path": "preview/chapter2/assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-woman-v46.png"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-drink-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-laugh-head.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-roll-v3.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter2/assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-sip-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png"
+    },
+    {
+      "path": "preview/chapter3/assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/chapter2/chapter2-assembly-square-v1.png",
+      "bytes": 4104419,
+      "sha256": "143f8b0bed2c69ba08bfddcf6285e48bc8ddd4484b030161eeecb30f69c78426",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png"
+    },
+    {
+      "path": "preview/chapter3/assets/chapter2/chapter2-market-arcade-v1.png",
+      "bytes": 4024510,
+      "sha256": "ddf6bb06e0392377c7369c83e3869027b6f4095f808d22f45d8e7a34a802477a",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png"
+    },
+    {
+      "path": "preview/chapter3/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "bytes": 3213573,
+      "sha256": "984d8933babe81a6f2888ae3af599cfd280ab9f4fa1c0d81278361f165bd7af8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png"
+    },
+    {
+      "path": "preview/chapter3/assets/chapter2/chapter2-temple-lane-v1.png",
+      "bytes": 4095092,
+      "sha256": "7a3eff2fcf9c9b033d7b17980e5480172b0fc839b35a126625ca461a4af28ed9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png"
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-civic-arcade-seam-r1.png",
+      "bytes": 3016289,
+      "sha256": "de990509ddafca0295d0bbf981f4afc5478b5d98757adaa80c0a5660ae17c65b",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-civic-arcade-sky-r1.png",
+      "bytes": 3483877,
+      "sha256": "98ad35605b9cb62dec1a8bb9f6850258bc4dea2ab24f5e041d331278bcf6dcb7",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-civic-plaza-seam-r1.png",
+      "bytes": 3233318,
+      "sha256": "4a553bdc1500fcc7f0e398c0d9f80def200346ad2b073aef288300e4655b4ef6",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-civic-plaza-sky-r1.png",
+      "bytes": 3675998,
+      "sha256": "e900a1ca8a10d6fac5fb5102075171a1a5d7f05526bb5ba3be58b2c82eca674c",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-parade-street-seam-r1.png",
+      "bytes": 3040078,
+      "sha256": "715810a8f0fc0919bdefc80bea1111e767bd0f2bbc44059a80624b3eb03216d9",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/chapter3/chapter3-parade-street-sky-r1.png",
+      "bytes": 3537613,
+      "sha256": "d7c25f95e4f9cae51d8a371376ec815cab218902ecc680c55fa05a32c3f7c8ca",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter3/assets/final-costumes-v6.webp",
+      "bytes": 1654678,
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/final-costumes-v6.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-aim-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-archery-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-defiant-head.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-release-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-head-v5.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-press-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/ko-bags-v6.webp",
+      "bytes": 1417780,
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-bags-v6.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/ko-counter-v9.webp",
+      "bytes": 71070,
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-counter-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/ko-head-v6.webp",
+      "bytes": 1724774,
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-head-v6.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/ko-sweep-v9.webp",
+      "bytes": 72760,
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-sweep-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-arms-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-hand-back-v36.png"
+    },
+    {
+      "path": "preview/chapter3/assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/limbs-v4.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/move-accents-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/props-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/right-hand-point-v37.png"
+    },
+    {
+      "path": "preview/chapter3/assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-costumes-v5.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-props-v5.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-hands-v10.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-props-v10.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-head-v8.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-slam-v9.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-man-v46.png"
+    },
+    {
+      "path": "preview/chapter3/assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-woman-v46.png"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-drink-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-laugh-head.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-roll-v3.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter3/assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-sip-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png"
+    },
+    {
+      "path": "preview/chapter4/assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/chapter2/chapter2-assembly-square-v1.png",
+      "bytes": 4104419,
+      "sha256": "143f8b0bed2c69ba08bfddcf6285e48bc8ddd4484b030161eeecb30f69c78426",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png"
+    },
+    {
+      "path": "preview/chapter4/assets/chapter2/chapter2-market-arcade-v1.png",
+      "bytes": 4024510,
+      "sha256": "ddf6bb06e0392377c7369c83e3869027b6f4095f808d22f45d8e7a34a802477a",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png"
+    },
+    {
+      "path": "preview/chapter4/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "bytes": 3213573,
+      "sha256": "984d8933babe81a6f2888ae3af599cfd280ab9f4fa1c0d81278361f165bd7af8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png"
+    },
+    {
+      "path": "preview/chapter4/assets/chapter2/chapter2-temple-lane-v1.png",
+      "bytes": 4095092,
+      "sha256": "7a3eff2fcf9c9b033d7b17980e5480172b0fc839b35a126625ca461a4af28ed9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png"
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-citygate-ceremony-seam-r1.png",
+      "bytes": 2902465,
+      "sha256": "342734dafc9bd9e81bccdd28434b9b948d1eb7f1d092fe94cff79f8315ec9181",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-citygate-ceremony-sky-r1.png",
+      "bytes": 3380618,
+      "sha256": "2b3acbbe2a508a524e411cf08cb2c4d51c197995bde10eef019c0ae6b3aa3219",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-civic-arcade-seam-r1.png",
+      "bytes": 2906922,
+      "sha256": "4b6049ea8d1acfd53f632dd38f5face4c844ca3422601ed136a266bb27c235cb",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-civic-arcade-sky-r1.png",
+      "bytes": 3344409,
+      "sha256": "d6922064c50fe460074df5620b3da9e97394a74dd6dde2af6a038854ef6c2e0c",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-riverside-run-seam-r1.png",
+      "bytes": 3206422,
+      "sha256": "f5eb1d17929315e1354ddd1271f12164a2faefdc733a2cfd2d0c9f06de36f2b8",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/chapter4-riverside-run-sky-r1.png",
+      "bytes": 3622688,
+      "sha256": "82c0bfd705c9095d9f46e2e6aac9a50c030eb4d2c411514bdc4d0ed7ad113b9b",
+      "reasons": [
+        "superseded-r1"
+      ],
+      "canonicalDistPath": null
+    },
+    {
+      "path": "preview/chapter4/assets/chapter4/sound-truck-v1.png",
+      "bytes": 1949386,
+      "sha256": "a572debabbcfc00e3e9243538a444bf02cb6931d637b52ec3731adacb4537e3f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "preview/chapter3/assets/chapter3/sound-truck-v1.png"
+    },
+    {
+      "path": "preview/chapter4/assets/final-costumes-v6.webp",
+      "bytes": 1654678,
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/final-costumes-v6.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-aim-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-archery-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-defiant-head.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-release-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/han-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-head-v5.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-press-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/huang-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ko-bags-v6.webp",
+      "bytes": 1417780,
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-bags-v6.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ko-counter-v9.webp",
+      "bytes": 71070,
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-counter-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ko-head-v6.webp",
+      "bytes": 1724774,
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-head-v6.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ko-sweep-v9.webp",
+      "bytes": 72760,
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ko-sweep-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-arms-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/left-hand-back-v36.png"
+    },
+    {
+      "path": "preview/chapter4/assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/limbs-v4.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ma-cough-v10.webp",
+      "bytes": 223266,
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ma-cough-v10.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ma-counter-v9.webp",
+      "bytes": 57898,
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ma-counter-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ma-gaze-v10.webp",
+      "bytes": 216188,
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ma-gaze-v10.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ma-head-v5.webp",
+      "bytes": 1450494,
+      "sha256": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ma-head-v5.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/ma-run-v9.webp",
+      "bytes": 59850,
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/ma-run-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/move-accents-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/props-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/right-hand-point-v37.png"
+    },
+    {
+      "path": "preview/chapter4/assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-costumes-v5.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/roster-props-v5.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-hands-v10.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/signature-props-v10.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-head-v8.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-shout-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/su-slam-v9.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-man-v46.png"
+    },
+    {
+      "path": "preview/chapter4/assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/supporter-woman-v46.png"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-drink-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-laugh-head.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-parts-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-roll-v3.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-shock-head.webp"
+    },
+    {
+      "path": "preview/chapter4/assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55",
+      "reasons": [
+        "sha256-identical-canonical"
+      ],
+      "canonicalDistPath": "assets/wang-sip-v3.webp"
+    }
+  ],
+  "equivalentAliases": [
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/mob-atlas-v1.webp",
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp",
+      "siteRootRelativeURL": "/assets/challenge/mob-atlas-v1.webp",
+      "documentRelativeURL": "../../assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/opening-props-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png",
+      "siteRootRelativeURL": "/assets/challenge/opening-props-v75.png",
+      "documentRelativeURL": "../../assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/street-props-v2.webp",
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp",
+      "siteRootRelativeURL": "/assets/challenge/street-props-v2.webp",
+      "documentRelativeURL": "../../assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/supply-stand-v75.webp",
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp",
+      "siteRootRelativeURL": "/assets/challenge/supply-stand-v75.webp",
+      "documentRelativeURL": "../../assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/flying-mic-props.png",
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png",
+      "siteRootRelativeURL": "/assets/challenge/opening-props-v75.png",
+      "documentRelativeURL": "../../assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-aim-v9.webp",
+      "canonicalDistPath": "assets/han-aim-v9.webp",
+      "siteRootRelativeURL": "/assets/han-aim-v9.webp",
+      "documentRelativeURL": "../../assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-archery-v3.webp",
+      "canonicalDistPath": "assets/han-archery-v3.webp",
+      "siteRootRelativeURL": "/assets/han-archery-v3.webp",
+      "documentRelativeURL": "../../assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-defiant-head.webp",
+      "canonicalDistPath": "assets/han-defiant-head.webp",
+      "siteRootRelativeURL": "/assets/han-defiant-head.webp",
+      "documentRelativeURL": "../../assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-lotus-body-v11.webp",
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp",
+      "siteRootRelativeURL": "/assets/han-lotus-body-v11.webp",
+      "documentRelativeURL": "../../assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-parts-v3.webp",
+      "canonicalDistPath": "assets/han-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/han-parts-v3.webp",
+      "documentRelativeURL": "../../assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-release-v3.webp",
+      "canonicalDistPath": "assets/han-release-v3.webp",
+      "siteRootRelativeURL": "/assets/han-release-v3.webp",
+      "documentRelativeURL": "../../assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-shock-head.webp",
+      "canonicalDistPath": "assets/han-shock-head.webp",
+      "siteRootRelativeURL": "/assets/han-shock-head.webp",
+      "documentRelativeURL": "../../assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/han-shout-v9.webp",
+      "canonicalDistPath": "assets/han-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/han-shout-v9.webp",
+      "documentRelativeURL": "../../assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/huang-head-v5.webp",
+      "canonicalDistPath": "assets/huang-head-v5.webp",
+      "siteRootRelativeURL": "/assets/huang-head-v5.webp",
+      "documentRelativeURL": "../../assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/huang-press-v9.webp",
+      "canonicalDistPath": "assets/huang-press-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-press-v9.webp",
+      "documentRelativeURL": "../../assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/huang-shout-v9.webp",
+      "canonicalDistPath": "assets/huang-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-shout-v9.webp",
+      "documentRelativeURL": "../../assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/left-arms-v3.webp",
+      "canonicalDistPath": "assets/left-arms-v3.webp",
+      "siteRootRelativeURL": "/assets/left-arms-v3.webp",
+      "documentRelativeURL": "../../assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/left-hand-back-v36.png",
+      "canonicalDistPath": "assets/left-hand-back-v36.png",
+      "siteRootRelativeURL": "/assets/left-hand-back-v36.png",
+      "documentRelativeURL": "../../assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/limbs-v4.webp",
+      "canonicalDistPath": "assets/limbs-v4.webp",
+      "siteRootRelativeURL": "/assets/limbs-v4.webp",
+      "documentRelativeURL": "../../assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/move-accents-v9.webp",
+      "canonicalDistPath": "assets/move-accents-v9.webp",
+      "siteRootRelativeURL": "/assets/move-accents-v9.webp",
+      "documentRelativeURL": "../../assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/props-v3.webp",
+      "canonicalDistPath": "assets/props-v3.webp",
+      "siteRootRelativeURL": "/assets/props-v3.webp",
+      "documentRelativeURL": "../../assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/right-hand-point-v37.png",
+      "canonicalDistPath": "assets/right-hand-point-v37.png",
+      "siteRootRelativeURL": "/assets/right-hand-point-v37.png",
+      "documentRelativeURL": "../../assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/roster-costumes-v5.webp",
+      "canonicalDistPath": "assets/roster-costumes-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-costumes-v5.webp",
+      "documentRelativeURL": "../../assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/roster-props-v5.webp",
+      "canonicalDistPath": "assets/roster-props-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-props-v5.webp",
+      "documentRelativeURL": "../../assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/signature-hands-v10.webp",
+      "canonicalDistPath": "assets/signature-hands-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-hands-v10.webp",
+      "documentRelativeURL": "../../assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/signature-props-v10.webp",
+      "canonicalDistPath": "assets/signature-props-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-props-v10.webp",
+      "documentRelativeURL": "../../assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/su-head-v8.webp",
+      "canonicalDistPath": "assets/su-head-v8.webp",
+      "siteRootRelativeURL": "/assets/su-head-v8.webp",
+      "documentRelativeURL": "../../assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/su-shout-v9.webp",
+      "canonicalDistPath": "assets/su-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/su-shout-v9.webp",
+      "documentRelativeURL": "../../assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/su-slam-v9.webp",
+      "canonicalDistPath": "assets/su-slam-v9.webp",
+      "siteRootRelativeURL": "/assets/su-slam-v9.webp",
+      "documentRelativeURL": "../../assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/supporter-man-v46.png",
+      "canonicalDistPath": "assets/supporter-man-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-man-v46.png",
+      "documentRelativeURL": "../../assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/supporter-woman-v46.png",
+      "canonicalDistPath": "assets/supporter-woman-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-woman-v46.png",
+      "documentRelativeURL": "../../assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-drink-v3.webp",
+      "canonicalDistPath": "assets/wang-drink-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-drink-v3.webp",
+      "documentRelativeURL": "../../assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-laugh-head.webp",
+      "canonicalDistPath": "assets/wang-laugh-head.webp",
+      "siteRootRelativeURL": "/assets/wang-laugh-head.webp",
+      "documentRelativeURL": "../../assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-parts-v3.webp",
+      "canonicalDistPath": "assets/wang-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-parts-v3.webp",
+      "documentRelativeURL": "../../assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-roll-v3.webp",
+      "canonicalDistPath": "assets/wang-roll-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-roll-v3.webp",
+      "documentRelativeURL": "../../assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-shock-head.webp",
+      "canonicalDistPath": "assets/wang-shock-head.webp",
+      "siteRootRelativeURL": "/assets/wang-shock-head.webp",
+      "documentRelativeURL": "../../assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/wang-sip-v3.webp",
+      "canonicalDistPath": "assets/wang-sip-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-sip-v3.webp",
+      "documentRelativeURL": "../../assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/mob-atlas-v1.webp",
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp",
+      "siteRootRelativeURL": "/assets/challenge/mob-atlas-v1.webp",
+      "documentRelativeURL": "../../assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/opening-props-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png",
+      "siteRootRelativeURL": "/assets/challenge/opening-props-v75.png",
+      "documentRelativeURL": "../../assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/street-props-v2.webp",
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp",
+      "siteRootRelativeURL": "/assets/challenge/street-props-v2.webp",
+      "documentRelativeURL": "../../assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/supply-stand-v75.webp",
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp",
+      "siteRootRelativeURL": "/assets/challenge/supply-stand-v75.webp",
+      "documentRelativeURL": "../../assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chapter2/chapter2-assembly-square-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "bytes": 4104419,
+      "sha256": "143f8b0bed2c69ba08bfddcf6285e48bc8ddd4484b030161eeecb30f69c78426"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chapter2/chapter2-market-arcade-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "bytes": 4024510,
+      "sha256": "ddf6bb06e0392377c7369c83e3869027b6f4095f808d22f45d8e7a34a802477a"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "bytes": 3213573,
+      "sha256": "984d8933babe81a6f2888ae3af599cfd280ab9f4fa1c0d81278361f165bd7af8"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chapter2/chapter2-temple-lane-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "bytes": 4095092,
+      "sha256": "7a3eff2fcf9c9b033d7b17980e5480172b0fc839b35a126625ca461a4af28ed9"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/final-costumes-v6.webp",
+      "canonicalDistPath": "assets/final-costumes-v6.webp",
+      "siteRootRelativeURL": "/assets/final-costumes-v6.webp",
+      "documentRelativeURL": "../../assets/final-costumes-v6.webp",
+      "bytes": 1654678,
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-aim-v9.webp",
+      "canonicalDistPath": "assets/han-aim-v9.webp",
+      "siteRootRelativeURL": "/assets/han-aim-v9.webp",
+      "documentRelativeURL": "../../assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-archery-v3.webp",
+      "canonicalDistPath": "assets/han-archery-v3.webp",
+      "siteRootRelativeURL": "/assets/han-archery-v3.webp",
+      "documentRelativeURL": "../../assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-defiant-head.webp",
+      "canonicalDistPath": "assets/han-defiant-head.webp",
+      "siteRootRelativeURL": "/assets/han-defiant-head.webp",
+      "documentRelativeURL": "../../assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-lotus-body-v11.webp",
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp",
+      "siteRootRelativeURL": "/assets/han-lotus-body-v11.webp",
+      "documentRelativeURL": "../../assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-parts-v3.webp",
+      "canonicalDistPath": "assets/han-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/han-parts-v3.webp",
+      "documentRelativeURL": "../../assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-release-v3.webp",
+      "canonicalDistPath": "assets/han-release-v3.webp",
+      "siteRootRelativeURL": "/assets/han-release-v3.webp",
+      "documentRelativeURL": "../../assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-shock-head.webp",
+      "canonicalDistPath": "assets/han-shock-head.webp",
+      "siteRootRelativeURL": "/assets/han-shock-head.webp",
+      "documentRelativeURL": "../../assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/han-shout-v9.webp",
+      "canonicalDistPath": "assets/han-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/han-shout-v9.webp",
+      "documentRelativeURL": "../../assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/huang-head-v5.webp",
+      "canonicalDistPath": "assets/huang-head-v5.webp",
+      "siteRootRelativeURL": "/assets/huang-head-v5.webp",
+      "documentRelativeURL": "../../assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/huang-press-v9.webp",
+      "canonicalDistPath": "assets/huang-press-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-press-v9.webp",
+      "documentRelativeURL": "../../assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/huang-shout-v9.webp",
+      "canonicalDistPath": "assets/huang-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-shout-v9.webp",
+      "documentRelativeURL": "../../assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ko-bags-v6.webp",
+      "canonicalDistPath": "assets/ko-bags-v6.webp",
+      "siteRootRelativeURL": "/assets/ko-bags-v6.webp",
+      "documentRelativeURL": "../../assets/ko-bags-v6.webp",
+      "bytes": 1417780,
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ko-counter-v9.webp",
+      "canonicalDistPath": "assets/ko-counter-v9.webp",
+      "siteRootRelativeURL": "/assets/ko-counter-v9.webp",
+      "documentRelativeURL": "../../assets/ko-counter-v9.webp",
+      "bytes": 71070,
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ko-head-v6.webp",
+      "canonicalDistPath": "assets/ko-head-v6.webp",
+      "siteRootRelativeURL": "/assets/ko-head-v6.webp",
+      "documentRelativeURL": "../../assets/ko-head-v6.webp",
+      "bytes": 1724774,
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ko-sweep-v9.webp",
+      "canonicalDistPath": "assets/ko-sweep-v9.webp",
+      "siteRootRelativeURL": "/assets/ko-sweep-v9.webp",
+      "documentRelativeURL": "../../assets/ko-sweep-v9.webp",
+      "bytes": 72760,
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/left-arms-v3.webp",
+      "canonicalDistPath": "assets/left-arms-v3.webp",
+      "siteRootRelativeURL": "/assets/left-arms-v3.webp",
+      "documentRelativeURL": "../../assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/left-hand-back-v36.png",
+      "canonicalDistPath": "assets/left-hand-back-v36.png",
+      "siteRootRelativeURL": "/assets/left-hand-back-v36.png",
+      "documentRelativeURL": "../../assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/limbs-v4.webp",
+      "canonicalDistPath": "assets/limbs-v4.webp",
+      "siteRootRelativeURL": "/assets/limbs-v4.webp",
+      "documentRelativeURL": "../../assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/move-accents-v9.webp",
+      "canonicalDistPath": "assets/move-accents-v9.webp",
+      "siteRootRelativeURL": "/assets/move-accents-v9.webp",
+      "documentRelativeURL": "../../assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/props-v3.webp",
+      "canonicalDistPath": "assets/props-v3.webp",
+      "siteRootRelativeURL": "/assets/props-v3.webp",
+      "documentRelativeURL": "../../assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/right-hand-point-v37.png",
+      "canonicalDistPath": "assets/right-hand-point-v37.png",
+      "siteRootRelativeURL": "/assets/right-hand-point-v37.png",
+      "documentRelativeURL": "../../assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/roster-costumes-v5.webp",
+      "canonicalDistPath": "assets/roster-costumes-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-costumes-v5.webp",
+      "documentRelativeURL": "../../assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/roster-props-v5.webp",
+      "canonicalDistPath": "assets/roster-props-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-props-v5.webp",
+      "documentRelativeURL": "../../assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/signature-hands-v10.webp",
+      "canonicalDistPath": "assets/signature-hands-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-hands-v10.webp",
+      "documentRelativeURL": "../../assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/signature-props-v10.webp",
+      "canonicalDistPath": "assets/signature-props-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-props-v10.webp",
+      "documentRelativeURL": "../../assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/su-head-v8.webp",
+      "canonicalDistPath": "assets/su-head-v8.webp",
+      "siteRootRelativeURL": "/assets/su-head-v8.webp",
+      "documentRelativeURL": "../../assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/su-shout-v9.webp",
+      "canonicalDistPath": "assets/su-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/su-shout-v9.webp",
+      "documentRelativeURL": "../../assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/su-slam-v9.webp",
+      "canonicalDistPath": "assets/su-slam-v9.webp",
+      "siteRootRelativeURL": "/assets/su-slam-v9.webp",
+      "documentRelativeURL": "../../assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/supporter-man-v46.png",
+      "canonicalDistPath": "assets/supporter-man-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-man-v46.png",
+      "documentRelativeURL": "../../assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/supporter-woman-v46.png",
+      "canonicalDistPath": "assets/supporter-woman-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-woman-v46.png",
+      "documentRelativeURL": "../../assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-drink-v3.webp",
+      "canonicalDistPath": "assets/wang-drink-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-drink-v3.webp",
+      "documentRelativeURL": "../../assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-laugh-head.webp",
+      "canonicalDistPath": "assets/wang-laugh-head.webp",
+      "siteRootRelativeURL": "/assets/wang-laugh-head.webp",
+      "documentRelativeURL": "../../assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-parts-v3.webp",
+      "canonicalDistPath": "assets/wang-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-parts-v3.webp",
+      "documentRelativeURL": "../../assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-roll-v3.webp",
+      "canonicalDistPath": "assets/wang-roll-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-roll-v3.webp",
+      "documentRelativeURL": "../../assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-shock-head.webp",
+      "canonicalDistPath": "assets/wang-shock-head.webp",
+      "siteRootRelativeURL": "/assets/wang-shock-head.webp",
+      "documentRelativeURL": "../../assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/wang-sip-v3.webp",
+      "canonicalDistPath": "assets/wang-sip-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-sip-v3.webp",
+      "documentRelativeURL": "../../assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/mob-atlas-v1.webp",
+      "canonicalDistPath": "assets/challenge/mob-atlas-v1.webp",
+      "siteRootRelativeURL": "/assets/challenge/mob-atlas-v1.webp",
+      "documentRelativeURL": "../../assets/challenge/mob-atlas-v1.webp",
+      "bytes": 617348,
+      "sha256": "0ac78ae8e95416036e00eef6ee2446a478ba83b40f1a3a8b03a2a0b07dfd9094"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/opening-props-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-props-v75.png",
+      "siteRootRelativeURL": "/assets/challenge/opening-props-v75.png",
+      "documentRelativeURL": "../../assets/challenge/opening-props-v75.png",
+      "bytes": 2323174,
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/street-props-v2.webp",
+      "canonicalDistPath": "assets/challenge/street-props-v2.webp",
+      "siteRootRelativeURL": "/assets/challenge/street-props-v2.webp",
+      "documentRelativeURL": "../../assets/challenge/street-props-v2.webp",
+      "bytes": 416940,
+      "sha256": "ba36af321f6f8de08084a2d02bde072241ce0190964b80d6d6ea7eab0f1fe9f0"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/supply-stand-v75.webp",
+      "canonicalDistPath": "assets/challenge/supply-stand-v75.webp",
+      "siteRootRelativeURL": "/assets/challenge/supply-stand-v75.webp",
+      "documentRelativeURL": "../../assets/challenge/supply-stand-v75.webp",
+      "bytes": 1450352,
+      "sha256": "c8e7b85c36cdbc78de6915b8ba7fca379c3ddd6d14eef35d1c22e8a7c6439e75"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chapter2/chapter2-assembly-square-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-assembly-square-v1.png",
+      "bytes": 4104419,
+      "sha256": "143f8b0bed2c69ba08bfddcf6285e48bc8ddd4484b030161eeecb30f69c78426"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chapter2/chapter2-market-arcade-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-market-arcade-v1.png",
+      "bytes": 4024510,
+      "sha256": "ddf6bb06e0392377c7369c83e3869027b6f4095f808d22f45d8e7a34a802477a"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-miniboss-atlas-v1.png",
+      "bytes": 3213573,
+      "sha256": "984d8933babe81a6f2888ae3af599cfd280ab9f4fa1c0d81278361f165bd7af8"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chapter2/chapter2-temple-lane-v1.png",
+      "canonicalDistPath": "preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "siteRootRelativeURL": "/preview/chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "documentRelativeURL": "../chapter2/assets/chapter2/chapter2-temple-lane-v1.png",
+      "bytes": 4095092,
+      "sha256": "7a3eff2fcf9c9b033d7b17980e5480172b0fc839b35a126625ca461a4af28ed9"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chapter4/sound-truck-v1.png",
+      "canonicalDistPath": "preview/chapter3/assets/chapter3/sound-truck-v1.png",
+      "siteRootRelativeURL": "/preview/chapter3/assets/chapter3/sound-truck-v1.png",
+      "documentRelativeURL": "../chapter3/assets/chapter3/sound-truck-v1.png",
+      "bytes": 1949386,
+      "sha256": "a572debabbcfc00e3e9243538a444bf02cb6931d637b52ec3731adacb4537e3f"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/final-costumes-v6.webp",
+      "canonicalDistPath": "assets/final-costumes-v6.webp",
+      "siteRootRelativeURL": "/assets/final-costumes-v6.webp",
+      "documentRelativeURL": "../../assets/final-costumes-v6.webp",
+      "bytes": 1654678,
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-aim-v9.webp",
+      "canonicalDistPath": "assets/han-aim-v9.webp",
+      "siteRootRelativeURL": "/assets/han-aim-v9.webp",
+      "documentRelativeURL": "../../assets/han-aim-v9.webp",
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-archery-v3.webp",
+      "canonicalDistPath": "assets/han-archery-v3.webp",
+      "siteRootRelativeURL": "/assets/han-archery-v3.webp",
+      "documentRelativeURL": "../../assets/han-archery-v3.webp",
+      "bytes": 1374884,
+      "sha256": "d749b9d4ebd277a63567ad36b3d743a85dc290041509dcb9c7ca5919df8ef755"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-defiant-head.webp",
+      "canonicalDistPath": "assets/han-defiant-head.webp",
+      "siteRootRelativeURL": "/assets/han-defiant-head.webp",
+      "documentRelativeURL": "../../assets/han-defiant-head.webp",
+      "bytes": 40086,
+      "sha256": "d01397dfa7d6bcc7172c7c73e09edc64e18ba8e760518153d1da4c340f3d38f3"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-lotus-body-v11.webp",
+      "canonicalDistPath": "assets/han-lotus-body-v11.webp",
+      "siteRootRelativeURL": "/assets/han-lotus-body-v11.webp",
+      "documentRelativeURL": "../../assets/han-lotus-body-v11.webp",
+      "bytes": 281490,
+      "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-parts-v3.webp",
+      "canonicalDistPath": "assets/han-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/han-parts-v3.webp",
+      "documentRelativeURL": "../../assets/han-parts-v3.webp",
+      "bytes": 1360702,
+      "sha256": "e4022886af1e7404206cf8780c0e9459275ecfa986f57c600f4cb807cecfddc7"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-release-v3.webp",
+      "canonicalDistPath": "assets/han-release-v3.webp",
+      "siteRootRelativeURL": "/assets/han-release-v3.webp",
+      "documentRelativeURL": "../../assets/han-release-v3.webp",
+      "bytes": 1212852,
+      "sha256": "3b6a1c50fa107957a67e05c602d73843e5f30aab433be8982aadc3765b05a325"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-shock-head.webp",
+      "canonicalDistPath": "assets/han-shock-head.webp",
+      "siteRootRelativeURL": "/assets/han-shock-head.webp",
+      "documentRelativeURL": "../../assets/han-shock-head.webp",
+      "bytes": 30486,
+      "sha256": "aae73036f713adbc080b8920b3f3143bff548f892f4dc48bbaafacbe1d3e091e"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/han-shout-v9.webp",
+      "canonicalDistPath": "assets/han-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/han-shout-v9.webp",
+      "documentRelativeURL": "../../assets/han-shout-v9.webp",
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/huang-head-v5.webp",
+      "canonicalDistPath": "assets/huang-head-v5.webp",
+      "siteRootRelativeURL": "/assets/huang-head-v5.webp",
+      "documentRelativeURL": "../../assets/huang-head-v5.webp",
+      "bytes": 1580928,
+      "sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/huang-press-v9.webp",
+      "canonicalDistPath": "assets/huang-press-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-press-v9.webp",
+      "documentRelativeURL": "../../assets/huang-press-v9.webp",
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/huang-shout-v9.webp",
+      "canonicalDistPath": "assets/huang-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/huang-shout-v9.webp",
+      "documentRelativeURL": "../../assets/huang-shout-v9.webp",
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ko-bags-v6.webp",
+      "canonicalDistPath": "assets/ko-bags-v6.webp",
+      "siteRootRelativeURL": "/assets/ko-bags-v6.webp",
+      "documentRelativeURL": "../../assets/ko-bags-v6.webp",
+      "bytes": 1417780,
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ko-counter-v9.webp",
+      "canonicalDistPath": "assets/ko-counter-v9.webp",
+      "siteRootRelativeURL": "/assets/ko-counter-v9.webp",
+      "documentRelativeURL": "../../assets/ko-counter-v9.webp",
+      "bytes": 71070,
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ko-head-v6.webp",
+      "canonicalDistPath": "assets/ko-head-v6.webp",
+      "siteRootRelativeURL": "/assets/ko-head-v6.webp",
+      "documentRelativeURL": "../../assets/ko-head-v6.webp",
+      "bytes": 1724774,
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ko-sweep-v9.webp",
+      "canonicalDistPath": "assets/ko-sweep-v9.webp",
+      "siteRootRelativeURL": "/assets/ko-sweep-v9.webp",
+      "documentRelativeURL": "../../assets/ko-sweep-v9.webp",
+      "bytes": 72760,
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/left-arms-v3.webp",
+      "canonicalDistPath": "assets/left-arms-v3.webp",
+      "siteRootRelativeURL": "/assets/left-arms-v3.webp",
+      "documentRelativeURL": "../../assets/left-arms-v3.webp",
+      "bytes": 1144414,
+      "sha256": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/left-hand-back-v36.png",
+      "canonicalDistPath": "assets/left-hand-back-v36.png",
+      "siteRootRelativeURL": "/assets/left-hand-back-v36.png",
+      "documentRelativeURL": "../../assets/left-hand-back-v36.png",
+      "bytes": 910346,
+      "sha256": "80408fb050fb3c4809fe21a29f0e0433982f6ae6a3f898ac69bd0d0fee877b2d"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/limbs-v4.webp",
+      "canonicalDistPath": "assets/limbs-v4.webp",
+      "siteRootRelativeURL": "/assets/limbs-v4.webp",
+      "documentRelativeURL": "../../assets/limbs-v4.webp",
+      "bytes": 1318782,
+      "sha256": "15b115166e6c31bc175f733232767a7fde306a8bc774a95c9b0aa5f6f40fef00"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ma-cough-v10.webp",
+      "canonicalDistPath": "assets/ma-cough-v10.webp",
+      "siteRootRelativeURL": "/assets/ma-cough-v10.webp",
+      "documentRelativeURL": "../../assets/ma-cough-v10.webp",
+      "bytes": 223266,
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ma-counter-v9.webp",
+      "canonicalDistPath": "assets/ma-counter-v9.webp",
+      "siteRootRelativeURL": "/assets/ma-counter-v9.webp",
+      "documentRelativeURL": "../../assets/ma-counter-v9.webp",
+      "bytes": 57898,
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ma-gaze-v10.webp",
+      "canonicalDistPath": "assets/ma-gaze-v10.webp",
+      "siteRootRelativeURL": "/assets/ma-gaze-v10.webp",
+      "documentRelativeURL": "../../assets/ma-gaze-v10.webp",
+      "bytes": 216188,
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ma-head-v5.webp",
+      "canonicalDistPath": "assets/ma-head-v5.webp",
+      "siteRootRelativeURL": "/assets/ma-head-v5.webp",
+      "documentRelativeURL": "../../assets/ma-head-v5.webp",
+      "bytes": 1450494,
+      "sha256": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/ma-run-v9.webp",
+      "canonicalDistPath": "assets/ma-run-v9.webp",
+      "siteRootRelativeURL": "/assets/ma-run-v9.webp",
+      "documentRelativeURL": "../../assets/ma-run-v9.webp",
+      "bytes": 59850,
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/move-accents-v9.webp",
+      "canonicalDistPath": "assets/move-accents-v9.webp",
+      "siteRootRelativeURL": "/assets/move-accents-v9.webp",
+      "documentRelativeURL": "../../assets/move-accents-v9.webp",
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/props-v3.webp",
+      "canonicalDistPath": "assets/props-v3.webp",
+      "siteRootRelativeURL": "/assets/props-v3.webp",
+      "documentRelativeURL": "../../assets/props-v3.webp",
+      "bytes": 1366686,
+      "sha256": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/right-hand-point-v37.png",
+      "canonicalDistPath": "assets/right-hand-point-v37.png",
+      "siteRootRelativeURL": "/assets/right-hand-point-v37.png",
+      "documentRelativeURL": "../../assets/right-hand-point-v37.png",
+      "bytes": 1708239,
+      "sha256": "f74c588b0bfff139a0472e63e7a18f03e1d27e30ca9da0da27e77e90145ef0c0"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/roster-costumes-v5.webp",
+      "canonicalDistPath": "assets/roster-costumes-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-costumes-v5.webp",
+      "documentRelativeURL": "../../assets/roster-costumes-v5.webp",
+      "bytes": 1822126,
+      "sha256": "be22e5276725d9a89c38a3eec16f316d42c709ab6e9f52b73514af14c55423ab"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/roster-props-v5.webp",
+      "canonicalDistPath": "assets/roster-props-v5.webp",
+      "siteRootRelativeURL": "/assets/roster-props-v5.webp",
+      "documentRelativeURL": "../../assets/roster-props-v5.webp",
+      "bytes": 1528030,
+      "sha256": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/signature-hands-v10.webp",
+      "canonicalDistPath": "assets/signature-hands-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-hands-v10.webp",
+      "documentRelativeURL": "../../assets/signature-hands-v10.webp",
+      "bytes": 810126,
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/signature-props-v10.webp",
+      "canonicalDistPath": "assets/signature-props-v10.webp",
+      "siteRootRelativeURL": "/assets/signature-props-v10.webp",
+      "documentRelativeURL": "../../assets/signature-props-v10.webp",
+      "bytes": 995824,
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/su-head-v8.webp",
+      "canonicalDistPath": "assets/su-head-v8.webp",
+      "siteRootRelativeURL": "/assets/su-head-v8.webp",
+      "documentRelativeURL": "../../assets/su-head-v8.webp",
+      "bytes": 1348140,
+      "sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/su-shout-v9.webp",
+      "canonicalDistPath": "assets/su-shout-v9.webp",
+      "siteRootRelativeURL": "/assets/su-shout-v9.webp",
+      "documentRelativeURL": "../../assets/su-shout-v9.webp",
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/su-slam-v9.webp",
+      "canonicalDistPath": "assets/su-slam-v9.webp",
+      "siteRootRelativeURL": "/assets/su-slam-v9.webp",
+      "documentRelativeURL": "../../assets/su-slam-v9.webp",
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/supporter-man-v46.png",
+      "canonicalDistPath": "assets/supporter-man-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-man-v46.png",
+      "documentRelativeURL": "../../assets/supporter-man-v46.png",
+      "bytes": 2716630,
+      "sha256": "759102f7ba10717398e6aca4f922b49cc24b0e9acbb274eac6a09cd6992f5187"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/supporter-woman-v46.png",
+      "canonicalDistPath": "assets/supporter-woman-v46.png",
+      "siteRootRelativeURL": "/assets/supporter-woman-v46.png",
+      "documentRelativeURL": "../../assets/supporter-woman-v46.png",
+      "bytes": 2342397,
+      "sha256": "b55273ab0473244fd71b3bb2e7043a7ccea33ac14da3409950614165cbf6a56f"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-drink-v3.webp",
+      "canonicalDistPath": "assets/wang-drink-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-drink-v3.webp",
+      "documentRelativeURL": "../../assets/wang-drink-v3.webp",
+      "bytes": 1000958,
+      "sha256": "0e2ace0126c8eeca7d5a45c692a20a1f6c8b573ce87577710775d61ddc45ee9f"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-laugh-head.webp",
+      "canonicalDistPath": "assets/wang-laugh-head.webp",
+      "siteRootRelativeURL": "/assets/wang-laugh-head.webp",
+      "documentRelativeURL": "../../assets/wang-laugh-head.webp",
+      "bytes": 57812,
+      "sha256": "408f7a63b04d685be0b8f5c458c0134a86ee073a4db2a6472bc189c6f72edc28"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-parts-v3.webp",
+      "canonicalDistPath": "assets/wang-parts-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-parts-v3.webp",
+      "documentRelativeURL": "../../assets/wang-parts-v3.webp",
+      "bytes": 1276226,
+      "sha256": "cdff2c44bf4e2a9fa94b551a3206f17d94b4c09fe0caf11297172952b9b71ea4"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-roll-v3.webp",
+      "canonicalDistPath": "assets/wang-roll-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-roll-v3.webp",
+      "documentRelativeURL": "../../assets/wang-roll-v3.webp",
+      "bytes": 1483822,
+      "sha256": "b86eb06764d2bd795ac8cdd106b96a5fd4c49913bb06011874d622664ce4f19d"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-shock-head.webp",
+      "canonicalDistPath": "assets/wang-shock-head.webp",
+      "siteRootRelativeURL": "/assets/wang-shock-head.webp",
+      "documentRelativeURL": "../../assets/wang-shock-head.webp",
+      "bytes": 54302,
+      "sha256": "354d2f2408cdf2747132302bc7b2e0e6eafc9167bc24263e0f8534d3764c58f1"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/wang-sip-v3.webp",
+      "canonicalDistPath": "assets/wang-sip-v3.webp",
+      "siteRootRelativeURL": "/assets/wang-sip-v3.webp",
+      "documentRelativeURL": "../../assets/wang-sip-v3.webp",
+      "bytes": 1531620,
+      "sha256": "033db83e0df04e988e06c86747925c48cd1eec502a60b5ba0caee57f59bc9a55"
+    }
+  ],
+  "previouslyMissingCharacterAliases": [
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/opening-bedroom-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-bedroom-v75.png",
+      "sha256": "57f27f84f43aadd8c359377e2e821b256879ed93b28f7e241bf08d96b070977c"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/challenge/opening-pajamas-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-pajamas-v75.png",
+      "sha256": "8fb2211064febeea14e1258512a0d9e828fb9aa56416860c2f4a43fdc1997975"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/chen-head-v8.webp",
+      "canonicalDistPath": "assets/chen-head-v8.webp",
+      "sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/chen-step-v9.webp",
+      "canonicalDistPath": "assets/chen-step-v9.webp",
+      "sha256": "bb73d37f42989a710c78c5bda308e249179c81cefcb1d36882459c2baa489b21"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/chen-wave-v9.webp",
+      "canonicalDistPath": "assets/chen-wave-v9.webp",
+      "sha256": "e5288271bda84bcc85aafb7cbfcc9758e833fe739ca0f6b355767ee885cbeb27"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/final-costumes-v6.webp",
+      "canonicalDistPath": "assets/final-costumes-v6.webp",
+      "sha256": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/handshake-v13.png",
+      "canonicalDistPath": "assets/handshake-v13.png",
+      "sha256": "a51f37e629092813296152aa0f7d4609d5368946701826d833769df58c561082"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ko-bags-v6.webp",
+      "canonicalDistPath": "assets/ko-bags-v6.webp",
+      "sha256": "de6a285671763f775d6c780f9a7178aa1927d1bc62bac5b0d1c830ffc33d073b"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ko-counter-v9.webp",
+      "canonicalDistPath": "assets/ko-counter-v9.webp",
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ko-head-v6.webp",
+      "canonicalDistPath": "assets/ko-head-v6.webp",
+      "sha256": "b7be03633fbdef0162bc687828b9d26d793906bf8a9e0ad83191810ca5dd08ff"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ko-sweep-v9.webp",
+      "canonicalDistPath": "assets/ko-sweep-v9.webp",
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ma-cough-v10.webp",
+      "canonicalDistPath": "assets/ma-cough-v10.webp",
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ma-counter-v9.webp",
+      "canonicalDistPath": "assets/ma-counter-v9.webp",
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ma-gaze-v10.webp",
+      "canonicalDistPath": "assets/ma-gaze-v10.webp",
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ma-head-v5.webp",
+      "canonicalDistPath": "assets/ma-head-v5.webp",
+      "sha256": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8"
+    },
+    {
+      "originalDistPath": "preview/chapter2/assets/ma-run-v9.webp",
+      "canonicalDistPath": "assets/ma-run-v9.webp",
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/opening-bedroom-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-bedroom-v75.png",
+      "sha256": "57f27f84f43aadd8c359377e2e821b256879ed93b28f7e241bf08d96b070977c"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/challenge/opening-pajamas-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-pajamas-v75.png",
+      "sha256": "8fb2211064febeea14e1258512a0d9e828fb9aa56416860c2f4a43fdc1997975"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chen-head-v8.webp",
+      "canonicalDistPath": "assets/chen-head-v8.webp",
+      "sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chen-step-v9.webp",
+      "canonicalDistPath": "assets/chen-step-v9.webp",
+      "sha256": "bb73d37f42989a710c78c5bda308e249179c81cefcb1d36882459c2baa489b21"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/chen-wave-v9.webp",
+      "canonicalDistPath": "assets/chen-wave-v9.webp",
+      "sha256": "e5288271bda84bcc85aafb7cbfcc9758e833fe739ca0f6b355767ee885cbeb27"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/handshake-v13.png",
+      "canonicalDistPath": "assets/handshake-v13.png",
+      "sha256": "a51f37e629092813296152aa0f7d4609d5368946701826d833769df58c561082"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ma-cough-v10.webp",
+      "canonicalDistPath": "assets/ma-cough-v10.webp",
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ma-counter-v9.webp",
+      "canonicalDistPath": "assets/ma-counter-v9.webp",
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ma-gaze-v10.webp",
+      "canonicalDistPath": "assets/ma-gaze-v10.webp",
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ma-head-v5.webp",
+      "canonicalDistPath": "assets/ma-head-v5.webp",
+      "sha256": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8"
+    },
+    {
+      "originalDistPath": "preview/chapter3/assets/ma-run-v9.webp",
+      "canonicalDistPath": "assets/ma-run-v9.webp",
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/opening-bedroom-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-bedroom-v75.png",
+      "sha256": "57f27f84f43aadd8c359377e2e821b256879ed93b28f7e241bf08d96b070977c"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/challenge/opening-pajamas-v75.png",
+      "canonicalDistPath": "assets/challenge/opening-pajamas-v75.png",
+      "sha256": "8fb2211064febeea14e1258512a0d9e828fb9aa56416860c2f4a43fdc1997975"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chen-head-v8.webp",
+      "canonicalDistPath": "assets/chen-head-v8.webp",
+      "sha256": "889201b102184029a7bc7e94773b9af774467cf8c53ab98eec97886b6f3364cb"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chen-step-v9.webp",
+      "canonicalDistPath": "assets/chen-step-v9.webp",
+      "sha256": "bb73d37f42989a710c78c5bda308e249179c81cefcb1d36882459c2baa489b21"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/chen-wave-v9.webp",
+      "canonicalDistPath": "assets/chen-wave-v9.webp",
+      "sha256": "e5288271bda84bcc85aafb7cbfcc9758e833fe739ca0f6b355767ee885cbeb27"
+    },
+    {
+      "originalDistPath": "preview/chapter4/assets/handshake-v13.png",
+      "canonicalDistPath": "assets/handshake-v13.png",
+      "sha256": "a51f37e629092813296152aa0f7d4609d5368946701826d833769df58c561082"
+    }
+  ]
+}

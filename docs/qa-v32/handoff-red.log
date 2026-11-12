@@ -1,0 +1,38 @@
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (1.930117ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.375882ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.2583ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.232993ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.403493ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.211381ms)
+✖ boot-to-mounted handoff resamples late viewport changes before accepting input (0.90498ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 98.283139
+
+✖ failing tests:
+
+test at tests/viewport-sync-v32.test.mjs:52:1
+✖ boot-to-mounted handoff resamples late viewport changes before accepting input (0.90498ms)
+  AssertionError [ERR_ASSERTION]: mount keeps an inherited orientation transition gated
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:53:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

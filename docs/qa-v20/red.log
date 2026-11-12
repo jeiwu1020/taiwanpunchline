@@ -1,0 +1,79 @@
+✔ menu offers exactly seven cast IDs for both sides and two portrait cards (12.514833ms)
+✔ all selected pairings update portraits, controls and fresh duel across replay and reselect (14.714279ms)
+✔ new moves use their own metadata and never inherit Wang or Han captions (4.082183ms)
+✔ changing only opponent refreshes HUD cache key (0.86912ms)
+✔ new source links and explicit research/audio limits are present without changing Han clip (0.750872ms)
+✔ repeated start replaces countdown and returning to menu cancels the pending start (2.797186ms)
+✔ fictional attack-name banners are never labeled as a candidate quotation (1.537608ms)
+✔ Chen and Ko special events do not trigger the original Han voice player (10.114535ms)
+✔ Han uploaded voice starts at move acceptance while cough waits for its attack cue (1.876779ms)
+✔ manual sample uses the selected clip and respects mute and close lifecycle (1.800965ms)
+✔ manual preview stops on close, window blur, and hidden document even outside active duel (25.605654ms)
+✔ three catalog moves play once with catalog provenance and respect attack interruption (6.011061ms)
+✔ all nine supplied recording excerpts trigger the matching move without a delayed timer (20.031524ms)
+✔ accepted Su shout plays its uploaded file once immediately (2.046314ms)
+✔ user-selected Su rush and dare clips each play once on acceptance (4.022573ms)
+✔ accepted handshake plays its uploaded phrase once without waiting for hit (2.153626ms)
+✖ accepted Chen dream plays once at acceptance on the proper actor lane (3.195346ms)
+✔ nineteen supported slots are playable, without promoting supplied sources to authenticated originals (4.134612ms)
+✔ nine Drive clips preserve source ranges, reference links and review uncertainty (0.346092ms)
+✔ user-selected Su recording cuts are playable with supplied provenance (0.223917ms)
+✔ new audio integration refuses unresolved slots instead of synthesizing speech (0.974969ms)
+✔ catalog source is separate from authentication and requested trims are explicit (0.370409ms)
+✔ preview menu exactly matches every available move with no unresolved option (1.371096ms)
+✔ guide has no stale unresolved-Su state or undefined captions (0.995861ms)
+✔ new uploaded Su shout is immediate, labeled and included in the preview menu (0.512052ms)
+✔ handshake uses the complete uploaded phrase without claiming speaker authentication (3.337581ms)
+✖ uploaded Chen dream phrase is immediate and retains source uncertainty (6.678527ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 25
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 316.709937
+
+✖ failing tests:
+
+test at tests/roster-ui.test.mjs:182:1
+✖ accepted Chen dream plays once at acceptance on the proper actor lane (3.195346ms)
+  AssertionError [ERR_ASSERTION]: player
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/roster-ui.test.mjs:182:485)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/voice-slots.test.mjs:15:1
+✖ uploaded Chen dream phrase is immediate and retains source uncertainty (6.678527ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(v)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/voice-slots.test.mjs:15:127)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

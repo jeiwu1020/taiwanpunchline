@@ -1,0 +1,88 @@
+TAP version 13
+# Subtest: new records contain three independent multi-character saves, starters only
+ok 1 - new records contain three independent multi-character saves, starters only
+  ---
+  duration_ms: 1.66949
+  type: 'test'
+  ...
+# Subtest: existing slot progress and extension fields survive switching and reloading
+ok 2 - existing slot progress and extension fields survive switching and reloading
+  ---
+  duration_ms: 0.706478
+  type: 'test'
+  ...
+# Subtest: test access is memory-only, excludes progress/rank writes and does not unlock saves
+ok 3 - test access is memory-only, excludes progress/rank writes and does not unlock saves
+  ---
+  duration_ms: 0.432478
+  type: 'test'
+  ...
+# Subtest: bad or future data is never erased or silently overwritten
+ok 4 - bad or future data is never erased or silently overwritten
+  ---
+  duration_ms: 0.328352
+  type: 'test'
+  ...
+# Subtest: missing/denied storage remains usable and snapshots cannot mutate the store
+ok 5 - missing/denied storage remains usable and snapshots cannot mutate the store
+  ---
+  duration_ms: 0.251967
+  type: 'test'
+  ...
+# Subtest: future character data survives normalization but does not become playable
+ok 6 - future character data survives normalization but does not become playable
+  ---
+  duration_ms: 0.198507
+  type: 'test'
+  ...
+# Subtest: five discrete Chen taps activate once; four, other characters, reset and timeout do not
+ok 7 - five discrete Chen taps activate once; four, other characters, reset and timeout do not
+  ---
+  duration_ms: 0.255623
+  type: 'test'
+  ...
+# Subtest: fresh game guards all four roster targets in both battle and training
+ok 8 - fresh game guards all four roster targets in both battle and training
+  ---
+  duration_ms: 41.136705
+  type: 'test'
+  ...
+# Subtest: test roster permits all characters and exit sanitizes locked selections without settings loss
+ok 9 - test roster permits all characters and exit sanitizes locked selections without settings loss
+  ---
+  duration_ms: 7.257278
+  type: 'test'
+  ...
+# Subtest: profile controls only switch on home; changing slot exits test mode
+ok 10 - profile controls only switch on home; changing slot exits test mode
+  ---
+  duration_ms: 4.657956
+  type: 'test'
+  ...
+# Subtest: UI locks images and names and explicitly restores hit targets disabled by previous poster CSS
+ok 11 - UI locks images and names and explicitly restores hit targets disabled by previous poster CSS
+  ---
+  duration_ms: 0.628261
+  type: 'test'
+  ...
+# Subtest: switching profiles retains newer progress from another tab
+ok 12 - switching profiles retains newer progress from another tab
+  ---
+  duration_ms: 0.195342
+  type: 'test'
+  ...
+# Subtest: loading poster masks locked names before game modules initialize
+ok 13 - loading poster masks locked names before game modules initialize
+  ---
+  duration_ms: 0.286299
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 141.56323

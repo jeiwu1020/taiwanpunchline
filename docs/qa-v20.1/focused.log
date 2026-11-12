@@ -1,0 +1,37 @@
+✔ tighter Chen recording decodes continuously to its full declared range (407.193448ms)
+✔ menu offers exactly seven cast IDs for both sides and two portrait cards (20.455959ms)
+✔ all selected pairings update portraits, controls and fresh duel across replay and reselect (52.033449ms)
+✔ new moves use their own metadata and never inherit Wang or Han captions (2.990274ms)
+✔ changing only opponent refreshes HUD cache key (0.564671ms)
+✔ new source links and explicit research/audio limits are present without changing Han clip (0.528937ms)
+✔ repeated start replaces countdown and returning to menu cancels the pending start (2.145301ms)
+✔ fictional attack-name banners are never labeled as a candidate quotation (1.80594ms)
+✔ Chen and Ko special events do not trigger the original Han voice player (13.354754ms)
+✔ Han uploaded voice starts at move acceptance while cough waits for its attack cue (2.490501ms)
+✔ manual sample uses the selected clip and respects mute and close lifecycle (1.956136ms)
+✔ manual preview stops on close, window blur, and hidden document even outside active duel (13.779894ms)
+✔ three catalog moves play once with catalog provenance and respect attack interruption (6.504646ms)
+✔ all nine supplied recording excerpts trigger the matching move without a delayed timer (13.887697ms)
+✔ accepted Su shout plays its uploaded file once immediately (1.694893ms)
+✔ user-selected Su rush and dare clips each play once on acceptance (3.824861ms)
+✔ accepted handshake plays its uploaded phrase once without waiting for hit (1.61992ms)
+✔ accepted Chen dream plays once at acceptance on the proper actor lane (2.815591ms)
+✔ twenty supported slots are playable, without promoting supplied sources to authenticated originals (5.230097ms)
+✔ nine Drive clips preserve source ranges, reference links and review uncertainty (0.437539ms)
+✔ user-selected Su recording cuts are playable with supplied provenance (0.281885ms)
+✔ new audio integration refuses unresolved slots instead of synthesizing speech (0.441405ms)
+✔ catalog source is separate from authentication and requested trims are explicit (0.334103ms)
+✔ preview menu exactly matches every available move with no unresolved option (1.334579ms)
+✔ guide has no stale unresolved-Su state or undefined captions (0.441205ms)
+✔ new uploaded Su shout is immediate, labeled and included in the preview menu (0.396527ms)
+✔ handshake uses the complete uploaded phrase without claiming speaker authentication (9.335331ms)
+✔ uploaded Chen dream phrase is immediate and retains source uncertainty (0.575807ms)
+✔ Chen dream revised lead is tighter without cutting into the first detected onset (0.425861ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 688.98168

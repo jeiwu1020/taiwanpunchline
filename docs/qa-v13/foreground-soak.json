@@ -1,0 +1,1 @@
+{"case":"soak","t":0,"hp":[44,68],"guard":[3,2],"shots":[],"events":["jump","hit","move:ma_gaze","hit","block","hit"],"rounds":9,"frames":9189,"fps":59.2,"median":58.2,"samples":593,"range":[50.6,60.5],"objects":27,"pool":4}

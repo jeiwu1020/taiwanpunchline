@@ -1,0 +1,127 @@
+✖ full-stage canvas remains the same absolute layer through portrait pause and resume (1172.781031ms)
+✖ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (541.487021ms)
+✖ pause preserves the scene with a light blur rather than an opaque replacement (163.573424ms)
+✖ stage camera keeps fighters between HUD and controls at jump apex and wide separation (0.603463ms)
+✖ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (33.542308ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3738.329622
+
+✖ failing tests:
+
+test at tests/combat-presentation-v75.test.mjs:12:1
+✖ full-stage canvas remains the same absolute layer through portrait pause and resume (1172.781031ms)
+  AssertionError [ERR_ASSERTION]: {"width":320,"height":568,"portrait":true} .cabinet
+  + actual - expected
+  
+  + 'relative'
+  - 'absolute'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:15:94)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'relative',
+    expected: 'absolute',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/combat-presentation-v75.test.mjs:20:1
+✖ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (541.487021ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'clamp(19px,4vw,32px)'
+  - '20px'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:22:39)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'clamp(19px,4vw,32px)',
+    expected: '20px',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/combat-presentation-v75.test.mjs:27:1
+✖ pause preserves the scene with a light blur rather than an opaque replacement (163.573424ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + '#112a32a8'
+  - '#112a3226'
+            ^
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:28:101)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '#112a32a8',
+    expected: '#112a3226',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/combat-presentation-v75.test.mjs:30:1
+✖ stage camera keeps fighters between HUD and controls at jump apex and wide separation (0.603463ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:31:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/combat-presentation-v75.test.mjs:47:1
+✖ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (33.542308ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:51:66)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

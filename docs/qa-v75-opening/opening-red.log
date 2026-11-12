@@ -1,0 +1,116 @@
+✔ generated opening selects distinct full-body getting-up states and then holds (1.184692ms)
+✔ all seven opening assets resolve independently without substituting another face (0.423159ms)
+✔ reduced motion freezes completed generated poses and camera (1.111487ms)
+✖ panel layout contains exactly the current complete scene in every orientation (2.626266ms)
+✖ opening painter uses the selected generated sheet and exact measured full-panel source bounds (0.723837ms)
+✔ every preloaded opening asset exists as an actual WebP raster (8.317395ms)
+✖ single scene camera visibly settles and restarts with each waking pose (7.555917ms)
+✖ transitions draw one complete pose rather than stacking different anatomy (1.0904ms)
+✖ boss face-off has no rectangular half-scene color overlay (4.22955ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 4
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 421.90763
+
+✖ failing tests:
+
+test at tests/challenge-opening-generated-v74.test.mjs:30:1
+✖ panel layout contains exactly the current complete scene in every orientation (2.626266ms)
+  AssertionError [ERR_ASSERTION]: only the current scene is visible
+  
+  4 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:34:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/challenge-opening-generated-v74.test.mjs:42:1
+✖ opening painter uses the selected generated sheet and exact measured full-panel source bounds (0.723837ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  4 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:47:83)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/challenge-opening-generated-v74.test.mjs:62:1
+✖ single scene camera visibly settles and restarts with each waking pose (7.555917ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(first.camera>=.06)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:64:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/challenge-opening-generated-v74.test.mjs:66:1
+✖ transitions draw one complete pose rather than stacking different anatomy (1.0904ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  4 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:71:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 4,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/challenge-story-tint-v75.test.mjs:4:1
+✖ boss face-off has no rectangular half-scene color overlay (4.22955ms)
+  TypeError [Error]: ctx.closePath is not a function
+      at drawCollarFront (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/dist/art-collar.mjs?v=18:26:95)
+      at drawFighterArt (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/dist/art-render.mjs?v=74:120:3)
+      at actor (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/dist/challenge-story-art.mjs:18:339)
+      at paintChallengeStory (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/dist/challenge-story-art.mjs:19:11)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-story-tint-v75.test.mjs:6:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)

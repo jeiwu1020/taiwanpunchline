@@ -1,0 +1,6 @@
+eda509cd3c4847a52237c88dbdcfc71cfa660aeb06375000d290504bf8ab4492  dist/assets/voice/han-fa-da-cai-20190513.mp3
+ab2b8bbfbb2523f2d4fc90c6e758cb1057e8a7290981e5c4911df625d1c1c270  dist/assets/voice/huang-cut-in-line-v14.mp3
+9a3b363c6350a07a8d80f0450b5d4059bb6b149c4279d69b3d6759a28f9223ab  dist/assets/voice/huang-owe-you-v14.mp3
+c28c4c4a244fa9c03829627d17bec8218b057b686082cc47efc497e5c8449219  dist/assets/voice/huang-too-outrageous-v14.mp3
+7e7de6c9ecf305068198f66c7c0738ff05c0d0b575274f14e99e2746814cd57e  dist/assets/voice/user-cough-full-v14.mp3
+e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b  dist/assets/voice/user-ke-lian-na-v14.mp3

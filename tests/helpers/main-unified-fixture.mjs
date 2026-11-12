@@ -1,0 +1,2 @@
+export function memoryStorage(initial={}){const entries=new Map(Object.entries(initial));return {getItem:key=>entries.get(key)??null,setItem:(key,value)=>entries.set(key,String(value)),entries};}
+export function memoryLocks(){const tails=new Map();return {request(name,options,fn){if(typeof options==='function')fn=options;const next=(tails.get(name)||Promise.resolve()).then(fn);tails.set(name,next.catch(()=>{}));return next;}};}

@@ -1,0 +1,855 @@
+{
+  "version": 1,
+  "gameVersion": "V29",
+  "slots": [
+    {
+      "id": "coin",
+      "label": "高雄發大財",
+      "character": "韓國瑜",
+      "currentFile": "han-fa-da-cai-20190513.mp3",
+      "provenance": "既有議會原片私人測試片段",
+      "variants": [
+        {
+          "id": "coin-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/han-fa-da-cai-20190513.mp3",
+          "sha256": "eda509cd3c4847a52237c88dbdcfc71cfa660aeb06375000d290504bf8ab4492",
+          "duration": 1.28,
+          "sourceFile": "han-fa-da-cai-20190513.mp3",
+          "sourceRange": null,
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 1
+        }
+      ],
+      "defaultVariant": "coin-current"
+    },
+    {
+      "id": "ma_cough",
+      "label": "死亡之咳（酷酷嫂）",
+      "character": "馬英九",
+      "currentFile": "user-cough-full-v14.mp3",
+      "provenance": "使用者提供「死亡之咳.mp3」；未獨立聽驗或核實原始來源。保留全長 7.34 秒，修復編碼並降低音量，未剪接新發言。",
+      "variants": [
+        {
+          "id": "ma_cough-current",
+          "label": "已修復完整上傳音檔（遊戲目前版）",
+          "kind": "current",
+          "url": "audio/user-cough-full-v14.mp3",
+          "sha256": "7e7de6c9ecf305068198f66c7c0738ff05c0d0b575274f14e99e2746814cd57e",
+          "duration": 7.340408163265306,
+          "sourceFile": "user-cough-full-v14.mp3",
+          "sourceRange": null,
+          "note": "原始 MP3 含有損壞封包；此為既有修復編碼、降低音量的完整 7.34 秒版本，不是未加工原檔。秒數從本檔 0 開始。",
+          "sampleRate": 44100,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "ma_cough-current"
+    },
+    {
+      "id": "han_knee",
+      "label": "可憐哪",
+      "character": "韓國瑜",
+      "currentFile": "user-ke-lian-na-v14.mp3",
+      "provenance": "使用者提供「可憐哪.mp3」；未獨立聽驗或核實發言者。保留全長約 0.57 秒；招式成功接受後立即播放，不再等待膝行動畫。",
+      "variants": [
+        {
+          "id": "han_knee-current",
+          "label": "完整上傳原檔（與遊戲相同）",
+          "kind": "original",
+          "url": "audio/user-ke-lian-na-v14.mp3",
+          "sha256": "e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b",
+          "duration": 0.5672291666666667,
+          "sourceFile": "user-ke-lian-na-v14.mp3",
+          "sourceRange": null,
+          "note": "使用者上傳完整音檔，與遊戲版本完全相同；秒數從這個檔案的開頭算起。",
+          "originalFileSha256": "e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "han_knee-current"
+    },
+    {
+      "id": "rush",
+      "label": "連滾帶爬",
+      "character": "王世堅",
+      "currentFile": "user-rush-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／從從容容  連滾帶爬.mp4，取 15.64–18.02 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "rush-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/counter-rush-original.wav",
+          "sha256": "86182076d2d03ea5e8f503cf4c6615c749c19fc1ab67edaa91c5e2a79872c910",
+          "originalFileSha256": "176102f0f1da9a09b535e2208df519e51240b6099a54ae6c6e1b5299db3449b9",
+          "sourceFile": "從從容容  連滾帶爬.mp4",
+          "duration": 21.205333333333332,
+          "initialRange": {
+            "start": 15.64,
+            "end": 18.02
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "rush-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-rush-candidate-v15.mp3",
+          "sha256": "1eaa197eddacd76115ef19550b73e540e3f3b6f85ba132d2fac6c74925b32a79",
+          "duration": 2.38,
+          "sourceFile": "從從容容  連滾帶爬.mp4",
+          "sourceRange": {
+            "start": 15.64,
+            "end": 18.02
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "rush-original"
+    },
+    {
+      "id": "counter",
+      "label": "從從容容",
+      "character": "王世堅",
+      "currentFile": "user-counter-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／從從容容  連滾帶爬.mp4，取 8.65–13.15 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。保留完整前後文句，未硬切四字。",
+      "variants": [
+        {
+          "id": "counter-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/counter-rush-original.wav",
+          "sha256": "86182076d2d03ea5e8f503cf4c6615c749c19fc1ab67edaa91c5e2a79872c910",
+          "originalFileSha256": "176102f0f1da9a09b535e2208df519e51240b6099a54ae6c6e1b5299db3449b9",
+          "sourceFile": "從從容容  連滾帶爬.mp4",
+          "duration": 21.205333333333332,
+          "initialRange": {
+            "start": 8.65,
+            "end": 13.15
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "counter-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-counter-candidate-v15.mp3",
+          "sha256": "0b00e467bd129098de163049638d2b12a21d073dc176ac207991b77ad74938c3",
+          "duration": 4.5,
+          "sourceFile": "從從容容  連滾帶爬.mp4",
+          "sourceRange": {
+            "start": 8.65,
+            "end": 13.15
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "counter-original"
+    },
+    {
+      "id": "huang_shout",
+      "label": "太離譜了",
+      "character": "黃國昌",
+      "currentFile": "huang-too-outrageous-v15.mp3",
+      "provenance": "依使用者要求保留第一段發話，約 1.35 秒，移除後面重複句；以波形停頓輔助分段，未獨立聽驗或認證說話者。",
+      "variants": [
+        {
+          "id": "huang_shout-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/huang-too-outrageous-v15.mp3",
+          "sha256": "1f23c5aa31586c17fdcbda619e375b2741c9287eacc344a5f96828e8a76f6128",
+          "duration": 1.35,
+          "sourceFile": "huang-too-outrageous-v15.mp3",
+          "sourceRange": {
+            "start": 0.2,
+            "end": 1.55
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 44100,
+          "channels": 2
+        },
+        {
+          "id": "huang-too-outrageous-v14",
+          "label": "較長保留版（3.71 秒）",
+          "kind": "retained",
+          "url": "audio/huang-too-outrageous-v14.mp3",
+          "sha256": "c28c4c4a244fa9c03829627d17bec8218b057b686082cc47efc497e5c8449219",
+          "sourceFile": "huang-too-outrageous-v14.mp3",
+          "note": "既有較長保留版本，仍可能已降音量；不是未加工原始錄影。秒數從本檔 0 開始。",
+          "duration": 3.7141950113378686,
+          "sampleRate": 44100,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "huang_shout-current"
+    },
+    {
+      "id": "huang_debt",
+      "label": "我有欠你喔",
+      "character": "黃國昌",
+      "currentFile": "huang-owe-you-v15.mp3",
+      "provenance": "依使用者要求移除前兩次起頭聲，保留後段約 1.15 秒；以波形與辨識序列輔助定位，未獨立聽驗或認證完整用字與說話者。",
+      "variants": [
+        {
+          "id": "huang_debt-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/huang-owe-you-v15.mp3",
+          "sha256": "4d2acd3a4d56ad4f1604b042ca08ad7118afc021bd7e850473f91c60d3091ef5",
+          "duration": 1.1518820861678005,
+          "sourceFile": "huang-owe-you-v15.mp3",
+          "sourceRange": {
+            "start": 1.35,
+            "end": 2.501882
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 44100,
+          "channels": 2
+        },
+        {
+          "id": "huang-owe-you-v14",
+          "label": "較長保留版（2.50 秒）",
+          "kind": "retained",
+          "url": "audio/huang-owe-you-v14.mp3",
+          "sha256": "9a3b363c6350a07a8d80f0450b5d4059bb6b149c4279d69b3d6759a28f9223ab",
+          "sourceFile": "huang-owe-you-v14.mp3",
+          "note": "既有較長保留版本，仍可能已降音量；不是未加工原始錄影。秒數從本檔 0 開始。",
+          "duration": 2.5018820861678006,
+          "sampleRate": 44100,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "huang_debt-current"
+    },
+    {
+      "id": "huang_queue",
+      "label": "可以這樣插隊喔",
+      "character": "黃國昌",
+      "currentFile": "huang-queue-user-end-v25.mp3",
+      "provenance": "依使用者試聽前 4 秒後指出「差不多是第二秒之前結束」，取原檔 0.00–1.98 秒近似短版，結尾落在低能量區並用 20 毫秒淡出；保留原檔可回復。未獨立聽驗句尾或認證說話者，仍請使用者確認「蛤」完整保留。",
+      "variants": [
+        {
+          "id": "huang_queue-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/huang-queue-user-end-v25.mp3",
+          "sha256": "2e4c88dba4f5abf87392090361ea150d8e19f4984f1eee0b75cf754201fc064d",
+          "duration": 1.98,
+          "sourceFile": "huang-queue-user-end-v25.mp3",
+          "sourceRange": {
+            "start": 0,
+            "end": 1.98
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "huang-cut-in-line-v14",
+          "label": "較長保留版（13 秒）",
+          "kind": "retained",
+          "url": "audio/huang-cut-in-line-v14.mp3",
+          "sha256": "ab2b8bbfbb2523f2d4fc90c6e758cb1057e8a7290981e5c4911df625d1c1c270",
+          "sourceFile": "huang-cut-in-line-v14.mp3",
+          "note": "既有較長保留版本，仍可能已降音量；不是未加工原始錄影。秒數從本檔 0 開始。",
+          "duration": 13.027416666666667,
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "huang_queue-current"
+    },
+    {
+      "id": "su_dare",
+      "label": "要試試看嘛",
+      "character": "蘇貞昌",
+      "currentFile": "su-dare-user-selected-v16.mp3",
+      "provenance": "依使用者指定僅取原錄影第一秒（0.00–1.00 秒），連續保留、不延長或拼接。檔名／字幕為「嗎」，遊戲暫沿用「嘛」。使用者提供音檔，未獨立聽驗或認證發言者與來源。",
+      "variants": [
+        {
+          "id": "su_dare-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/su_dare-original-float32.wav",
+          "sha256": "b8fb8ec6dcf910494af398bc364247301bda82bba08955f4f3750aa8cc6d7c73",
+          "originalFileSha256": "c6d54af5d5220fef991e49e58e39ed98d599349e9c2e04de3b6b223accd89f10",
+          "sourceFile": "要試試看嗎.mp4",
+          "duration": 13.354666666666667,
+          "initialRange": {
+            "start": 0,
+            "end": 1
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。 使用 32 位元浮點 WAV 保留原訊號峰值。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "su_dare-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/su-dare-user-selected-v16.mp3",
+          "sha256": "239c8001b38b2fb51595a0933080eeffa736bf7121097f99012baba82b8da12b",
+          "duration": 1,
+          "sourceFile": "要試試看嗎.mp4",
+          "sourceRange": {
+            "start": 0,
+            "end": 1
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "su_dare-original"
+    },
+    {
+      "id": "chen_calm",
+      "label": "有這麼嚴重嗎",
+      "character": "陳水扁",
+      "currentFile": "user-chen-calm-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／有這麼嚴重嗎.mp4，取 7.14–8.88 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "chen_calm-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/chen_calm-original.wav",
+          "sha256": "522a6438f3fb804734d8bde1b0e36814f44e9cf1a825f3d73e0357b35904c585",
+          "originalFileSha256": "4016156f71471b5c5818975df696b2a5b9d71cc997bf5d747859cd3878e48f88",
+          "sourceFile": "有這麼嚴重嗎.mp4",
+          "duration": 10.261333333333333,
+          "initialRange": {
+            "start": 7.14,
+            "end": 8.88
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "chen_calm-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-chen-calm-candidate-v15.mp3",
+          "sha256": "6525b094680e5e4a17dd763f9cbdd9c286b89dad6920de335e508c76c3251d8f",
+          "duration": 1.74,
+          "sourceFile": "有這麼嚴重嗎.mp4",
+          "sourceRange": {
+            "start": 7.14,
+            "end": 8.88
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "chen_calm-original"
+    },
+    {
+      "id": "ko_bags",
+      "label": "垃圾不分藍綠",
+      "character": "柯文哲",
+      "currentFile": "user-ko-bags-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／垃圾不分藍綠.mp4，取 6.55–7.84 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。字首定位約有 0.1 秒不確定性。",
+      "variants": [
+        {
+          "id": "ko_bags-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/ko_bags-original.wav",
+          "sha256": "88230e1a9275614e69ebba4b59020a9ae6186f14ba65196fb85f07ed36cf55b0",
+          "originalFileSha256": "7976834261a24b39ed6b759b78be135b580200f2d73500c5394b0c132aed6c46",
+          "sourceFile": "垃圾不分藍綠.mp4",
+          "duration": 9.664,
+          "initialRange": {
+            "start": 6.55,
+            "end": 7.84
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "ko_bags-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-ko-bags-candidate-v15.mp3",
+          "sha256": "f77534e506a79f93dd9068c2ec19d98fabb4550871beffab5811767bcb3f75fb",
+          "duration": 1.29,
+          "sourceFile": "垃圾不分藍綠.mp4",
+          "sourceRange": {
+            "start": 6.55,
+            "end": 7.84
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "ko_bags-original"
+    },
+    {
+      "id": "ko_resolve",
+      "label": "我不會屈服",
+      "character": "柯文哲",
+      "currentFile": "user-ko-resolve-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／賴祥德  我不會屈服.mp4，取 11.15–13.35 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "ko_resolve-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/ko_name-ko_resolve-original-float32.wav",
+          "sha256": "83a3ae5515e66b36f8dec28ab4cbdd3cd92dc7bc0e85d9faac664ecb936ac5b3",
+          "originalFileSha256": "73f1219054284ecf464667f55eec9228f8090dbce32f6920e2e23112aaf4e430",
+          "sourceFile": "賴祥德  我不會屈服.mp4",
+          "duration": 16.448,
+          "initialRange": {
+            "start": 11.15,
+            "end": 13.35
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。 使用 32 位元浮點 WAV 保留原訊號峰值。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "ko_resolve-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-ko-resolve-candidate-v15.mp3",
+          "sha256": "d5cc05bbf3be746801d9409ff86816f78f29b56587a918c62ecdeb6b2824e71d",
+          "duration": 2.2,
+          "sourceFile": "賴祥德  我不會屈服.mp4",
+          "sourceRange": {
+            "start": 11.15,
+            "end": 13.35
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "ko_resolve-original"
+    },
+    {
+      "id": "ko_name",
+      "label": "賴祥德",
+      "character": "柯文哲",
+      "currentFile": "user-ko-name-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／賴祥德  我不會屈服.mp4，取 5.55–7.15 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。 新增使用者提供「賴祥德v2.mp4」完整錄影音軌，保留 48 kHz 雙聲道浮點音訊，不裁切、不調整音量、不代選切點；未獨立聽驗或認證說話者與權利。",
+      "variants": [
+        {
+          "id": "ko-name-user-v2-original",
+          "label": "新上傳 v2｜完整音軌・待重選區間",
+          "kind": "original",
+          "url": "audio/ko-name-user-v2-original-float32.wav",
+          "sha256": "acb162f0ecc3899e0bab75a940244d67290414c1a1135e903d2738e9fabb4cb3",
+          "originalFileSha256": "647e6fc4b26bbc72b9358d64142c05d6d043ed09641c3e340339ac3f35b9113b",
+          "sourceFile": "賴祥德v2.mp4",
+          "duration": 9.322666666666667,
+          "initialRange": null,
+          "sampleRate": 48000,
+          "channels": 2,
+          "note": "使用者新上傳「賴祥德v2.mp4」完整音軌，約 9.323 秒。未裁切、未調音量；秒數以新檔開頭為 0。舊檔切點不適用，請重新選取並試聽確認。"
+        },
+        {
+          "id": "ko_name-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/ko_name-ko_resolve-original-float32.wav",
+          "sha256": "83a3ae5515e66b36f8dec28ab4cbdd3cd92dc7bc0e85d9faac664ecb936ac5b3",
+          "originalFileSha256": "73f1219054284ecf464667f55eec9228f8090dbce32f6920e2e23112aaf4e430",
+          "sourceFile": "賴祥德  我不會屈服.mp4",
+          "duration": 16.448,
+          "initialRange": {
+            "start": 5.55,
+            "end": 7.15
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。 使用 32 位元浮點 WAV 保留原訊號峰值。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "ko_name-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-ko-name-candidate-v15.mp3",
+          "sha256": "17862a984268430866c45f638d71fb751cacd5bec377a1424f0c6056f56fcbfe",
+          "duration": 1.6,
+          "sourceFile": "賴祥德  我不會屈服.mp4",
+          "sourceRange": {
+            "start": 5.55,
+            "end": 7.15
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "ko-name-user-v2-original",
+      "sourceUpdateNotice": "已新增「新上傳 v2」來源。既有進度保留；若顯示舊來源，請在「編輯來源」切換至新上傳 v2，再重新選取區間。"
+    },
+    {
+      "id": "chen_question",
+      "label": "阿扁錯了嗎",
+      "character": "陳水扁",
+      "currentFile": "user-chen-question-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／阿扁錯了嗎.mp4，取 7.7–9.55 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "chen_question-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/chen_question-original.wav",
+          "sha256": "056c02624a33e4b2265378c5070e982a2b65f6017f1107c4a3fbae22bca01990",
+          "originalFileSha256": "acf790cc2859c82ea26ca60ff6ed6276c3465a83930a7e1cd47ce54f0190e5d3",
+          "sourceFile": "阿扁錯了嗎.mp4",
+          "duration": 14.4,
+          "initialRange": {
+            "start": 7.7,
+            "end": 9.55
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "chen_question-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-chen-question-candidate-v15.mp3",
+          "sha256": "bb4d4eb51599020675ab149704de3731153c77afec44fda148cd522abfff123e",
+          "duration": 1.85,
+          "sourceFile": "阿扁錯了嗎.mp4",
+          "sourceRange": {
+            "start": 7.7,
+            "end": 9.55
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "chen_question-original"
+    },
+    {
+      "id": "ma_gaze",
+      "label": "我把你當人看",
+      "character": "馬英九",
+      "currentFile": "user-ma-gaze-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／我把你當人看.mp4，取 5.05–6.27 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "ma_gaze-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/ma_gaze-original.wav",
+          "sha256": "3a2eb8952f9a08cad221ca8c192f4f5bf99979ca3de4a5b03eae70443d942ec3",
+          "originalFileSha256": "05df226d5bdf474864884bedde45fb7f04b1f17147f636880f54d99a6340d717",
+          "sourceFile": "我把你當人看.mp4",
+          "duration": 9.450666666666667,
+          "initialRange": {
+            "start": 5.05,
+            "end": 6.27
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "ma_gaze-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-ma-gaze-candidate-v15.mp3",
+          "sha256": "e6cf5ef52a95faef11d774f5fdb13e2f7a8b9a9b07dc2410fe30e6b49ce8fbe6",
+          "duration": 1.22,
+          "sourceFile": "我把你當人看.mp4",
+          "sourceRange": {
+            "start": 5.05,
+            "end": 6.27
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "ma_gaze-original"
+    },
+    {
+      "id": "arrow",
+      "label": "一支穿雲箭",
+      "character": "韓國瑜",
+      "currentFile": "user-arrow-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／一支穿雲箭.mp4，取 7.85–9.9 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "variants": [
+        {
+          "id": "arrow-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/arrow-original.wav",
+          "sha256": "e4c8c0be80e675a6abaa5c45e0968862731ce6ce3959b43714f60ec9c9f81e53",
+          "originalFileSha256": "b2bf3c77a41f238253893d88d8f8b439bbe802b2c352c2125d09f0a8f565aa09",
+          "sourceFile": "一支穿雲箭.mp4",
+          "duration": 11.754666666666667,
+          "initialRange": {
+            "start": 7.85,
+            "end": 9.9
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "arrow-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/user-arrow-candidate-v15.mp3",
+          "sha256": "fec4921af4416e81890ed67eec93d0f90284cf2bd47df17fe1ec8035fa925b11",
+          "duration": 2.05,
+          "sourceFile": "一支穿雲箭.mp4",
+          "sourceRange": {
+            "start": 7.85,
+            "end": 9.9
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "arrow-original"
+    },
+    {
+      "id": "su_shout",
+      "label": "在那叫什麼",
+      "character": "蘇貞昌",
+      "currentFile": "su-shout-user-upload-v16.mp3",
+      "provenance": "使用者提供「在那叫什麼.mp4」，取 3.96–6.34 秒連續音軌，約 2.38 秒，去除前後靜音並降低 3 dB；招式成功接受後立即播放。未獨立聽驗或認證發言者與來源。",
+      "variants": [
+        {
+          "id": "su_shout-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/su_shout-original.wav",
+          "sha256": "23a1be377fe3c99e488c08f083afe6bcdc6e4b4140a63b80e1ee63c9c2bbbea7",
+          "originalFileSha256": "ea3d535afb754da475ebe1ad45ff694292e879c9998e88feafc46f491a20d300",
+          "sourceFile": "在那叫什麼.mp4",
+          "duration": 6.784,
+          "initialRange": {
+            "start": 3.96,
+            "end": 6.34
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "su_shout-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/su-shout-user-upload-v16.mp3",
+          "sha256": "fdb8f4f101d8a6a3856b76b2568f55da2ece3f6a1f8aec85c6c193e7889ec834",
+          "duration": 2.38,
+          "sourceFile": "在那叫什麼.mp4",
+          "sourceRange": {
+            "start": 3.96,
+            "end": 6.34
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 1
+        }
+      ],
+      "defaultVariant": "su_shout-original"
+    },
+    {
+      "id": "su_rush",
+      "label": "衝衝衝",
+      "character": "蘇貞昌",
+      "currentFile": "su-rush-user-selected-v16.mp3",
+      "provenance": "依使用者指定「約 12 秒到 14 秒多」取原錄影 12.00–14.90 秒，約 2.90 秒，尾端短淡出，依指定範圍截斷後續音訊。使用者提供音檔，未獨立聽驗或認證發言者與來源。",
+      "variants": [
+        {
+          "id": "su_rush-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/su_rush-original.wav",
+          "sha256": "6a5d4ffc71e735869bd51230863e85b9ebb33ba0c6df237f0b55b394ecd9a88c",
+          "originalFileSha256": "ff5084c887447982edd7e7632883845a231c1d8ce6efff3e93ba0277aa4e698f",
+          "sourceFile": "衝衝衝.mp4",
+          "duration": 15.808,
+          "initialRange": {
+            "start": 12,
+            "end": 14.9
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "su_rush-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/su-rush-user-selected-v16.mp3",
+          "sha256": "08f0cb2ca2516725dddc9d7a644352d029b9d911c64b8477bbbffe48a921a058",
+          "duration": 2.9,
+          "sourceFile": "衝衝衝.mp4",
+          "sourceRange": {
+            "start": 12,
+            "end": 14.9
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "su_rush-original"
+    },
+    {
+      "id": "ma_handshake",
+      "label": "死亡之握，你已經死了",
+      "character": "馬英九",
+      "currentFile": "ma-handshake-user-candidate-v17.mp3",
+      "provenance": "使用者提供「死亡之握 你已經死了.mp4」，取 8.15–12.35 秒連續片段，約 4.20 秒，保留句首句尾餘裕。畫面紙張可見完整目標句；離線辨識有同音字差異，未獨立聽驗或認證發言者。降低 6 dB，未拼接或仿聲。",
+      "variants": [
+        {
+          "id": "ma_handshake-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/ma_handshake-original.wav",
+          "sha256": "e4a20782fa794a71d97743fedb8cf0b42faad93cbcba27f05517166ccb5457fd",
+          "originalFileSha256": "80102f4651a6a95cadbce289d063a378070eda9e93e457d7e94ae9f451f0a95a",
+          "sourceFile": "死亡之握 你已經死了.mp4",
+          "duration": 13.354666666666667,
+          "initialRange": {
+            "start": 8.15,
+            "end": 12.35
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "ma_handshake-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/ma-handshake-user-candidate-v17.mp3",
+          "sha256": "32930a69fb3feda5b23363d58369a0183a147d2fa091beabdc306c072b55225b",
+          "duration": 4.2,
+          "sourceFile": "死亡之握 你已經死了.mp4",
+          "sourceRange": {
+            "start": 8.15,
+            "end": 12.35
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 44100,
+          "channels": 1
+        }
+      ],
+      "defaultVariant": "ma_handshake-original"
+    },
+    {
+      "id": "chen_dream",
+      "label": "有夢最美",
+      "character": "陳水扁",
+      "currentFile": "chen-dream-user-confirmed-v26.mp3",
+      "provenance": "使用者提供錄影；使用者試聽並確認採用本候選：從前版音檔 0.800 秒起保留至原結尾，對應錄影 7.848–9.620 秒，約 1.772 秒。僅裁掉開頭並以 5 毫秒淡入避免切點雜音，未拼接、變聲或仿聲；舊音檔保留可回復。使用者確認的是剪輯起點，尚未獨立認證發言者、原始來源與再利用權利。",
+      "variants": [
+        {
+          "id": "chen_dream-original",
+          "label": "完整錄影音軌（可重選前後範圍）",
+          "kind": "original",
+          "url": "audio/chen_dream-original.wav",
+          "sha256": "0c1f54673918d9abcb1c65858e4d9e592212721e1e06cdc4657896235ea48315",
+          "originalFileSha256": "f91d8890364ca64bbf5441917f0285ba5651fd35e07b6ab9781f6dd3e075b23f",
+          "sourceFile": "(1179) 20210321 專訪路寒袖詩人-台灣詞神 _ 有夢上水 第十二集 陳水扁主持 - YouTube 和其他 21 個頁面 - 個人 - Microsoft​ Edge 2026-11-07 00-50-39.mp4",
+          "duration": 11.882666666666667,
+          "initialRange": {
+            "start": 7.848,
+            "end": 9.62
+          },
+          "note": "使用者上傳錄影的完整音軌；未裁切、未調整音量。秒數對應原錄影。綠色範圍先帶入遊戲目前切點，仍需你確認。",
+          "sampleRate": 48000,
+          "channels": 2
+        },
+        {
+          "id": "chen_dream-current",
+          "label": "遊戲目前片段",
+          "kind": "current",
+          "url": "audio/chen-dream-user-confirmed-v26.mp3",
+          "sha256": "4f31d0cb1f9eff429b06fb19863d9dad464a2ad5a06fc3718944bf2cbbdae9a9",
+          "duration": 1.772,
+          "sourceFile": "使用者提供的有夢上水錄影",
+          "sourceRange": {
+            "start": 7.848,
+            "end": 9.62
+          },
+          "note": "目前遊戲使用版本；秒數以這個音檔的開頭為 0。",
+          "sampleRate": 48000,
+          "channels": 1
+        },
+        {
+          "id": "chen-dream-user-candidate-v201",
+          "label": "前版（尚未刪除 0.8 秒）",
+          "kind": "retained",
+          "url": "audio/chen-dream-user-candidate-v201.mp3",
+          "sha256": "fef9b40261b220e8066693292cd83089b9db885102b11c741cbb5369a4ccbc7a",
+          "sourceFile": "chen-dream-user-candidate-v201.mp3",
+          "note": "既有較長保留版本，仍可能已降音量；不是未加工原始錄影。秒數從本檔 0 開始。",
+          "duration": 2.572,
+          "sampleRate": 48000,
+          "channels": 1
+        },
+        {
+          "id": "chen-dream-user-candidate-v20",
+          "label": "更早候選片段",
+          "kind": "retained",
+          "url": "audio/chen-dream-user-candidate-v20.mp3",
+          "sha256": "7127fe4719fd207a26f38b863fd1fdd96360d935fea4c1837ff8fb0a9e672afb",
+          "sourceFile": "chen-dream-user-candidate-v20.mp3",
+          "note": "既有較長保留版本，仍可能已降音量；不是未加工原始錄影。秒數從本檔 0 開始。",
+          "duration": 2.6,
+          "sampleRate": 48000,
+          "channels": 1
+        }
+      ],
+      "defaultVariant": "chen_dream-original"
+    },
+    {
+      "id": "heal",
+      "label": "喝水回氣",
+      "character": "王世堅",
+      "currentFile": "wang-drink-user-v25.mp3",
+      "provenance": "依使用者要求接入「喝水.mp3」原檔，約 2.14 秒，不裁切、不拼接、不變聲。已驗證可解碼與檔案雜湊，未獨立聽驗或核對網站內容、發言者與權利。",
+      "variants": [
+        {
+          "id": "heal-current",
+          "label": "完整上傳原檔（與遊戲相同）",
+          "kind": "original",
+          "url": "audio/wang-drink-user-v25.mp3",
+          "sha256": "2a4627f3a434ee1a1983af9765557e6db0bd11c5c214d0bfa7b51b6618bda96f",
+          "duration": 2.0988333333333333,
+          "sourceFile": "喝水.mp3",
+          "sourceRange": null,
+          "note": "使用者上傳完整音檔，與遊戲版本完全相同；秒數從這個檔案的開頭算起。",
+          "originalFileSha256": "2a4627f3a434ee1a1983af9765557e6db0bd11c5c214d0bfa7b51b6618bda96f",
+          "sampleRate": 48000,
+          "channels": 2
+        }
+      ],
+      "defaultVariant": "heal-current"
+    }
+  ]
+}

@@ -1,0 +1,481 @@
+{
+  "provenance": "r3 8c476b6, Desktop Chromium 568x320 root Boss trace frames 33 and 34. The changed HUD element is #item-status by selector/order; exact text at the transition was not captured. This fixture is not physical-phone evidence.",
+  "before": {
+    "time": 187168.59999999404,
+    "frame": {
+      "width": 568,
+      "height": 320,
+      "x": 412.8707163210401,
+      "y": 231.42259546351386,
+      "zoom": 0.6250000004361316,
+      "challengeCameraMode": "stable",
+      "cameraSafetyFit": true,
+      "controlOverlay": "soft"
+    },
+    "playerFixedCamera": {
+      "version": 2,
+      "geometryKey": "[2,568,320,0,0,568,320,[[2,0,566,94,false],[2,196,126,320,true],[260,194,566,320,true],[273,85,295,99,false]]]",
+      "zoom": 0.6250000004361316,
+      "anchor": {
+        "x": 140.49999990754011,
+        "y": 281.50000013083945
+      },
+      "pose": {
+        "x": 183.2707163333216,
+        "displayY": 425.82259553720263
+      },
+      "follow": {
+        "left": 90.4999998726496,
+        "right": 190.49999994243063,
+        "clamped": false
+      }
+    },
+    "actors": [
+      {
+        "id": "player",
+        "type": "wang",
+        "x": 183.2707163333216,
+        "y": 425.82259553720263,
+        "vy": 568.2145000000038,
+        "supportY": 430,
+        "hp": 68.12,
+        "face": 1
+      },
+      {
+        "id": "enemy",
+        "type": "huang",
+        "x": 364.7728886666538,
+        "y": 317.79904306220095,
+        "vy": 0,
+        "supportY": 317.79904306220095,
+        "hp": 81.56,
+        "face": -1
+      }
+    ],
+    "options": {
+      "camera": "stable",
+      "touch": true,
+      "paused": false,
+      "safeRect": {
+        "left": 0,
+        "top": 0,
+        "right": 568,
+        "bottom": 320,
+        "width": 568,
+        "height": 320
+      },
+      "occlusions": [
+        {
+          "kind": "toolbar",
+          "left": 8,
+          "top": 4,
+          "right": 560,
+          "bottom": 36,
+          "width": 552,
+          "height": 32
+        },
+        {
+          "kind": "save",
+          "left": 246.671875,
+          "top": 4,
+          "right": 350.671875,
+          "bottom": 36,
+          "width": 104,
+          "height": 32
+        },
+        {
+          "kind": "hud",
+          "left": 8,
+          "top": 40,
+          "right": 248,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 15,
+          "top": 75,
+          "right": 127,
+          "bottom": 83,
+          "width": 112,
+          "height": 8
+        },
+        {
+          "kind": "hud",
+          "left": 254,
+          "top": 40,
+          "right": 314,
+          "bottom": 88,
+          "width": 60,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 320,
+          "top": 40,
+          "right": 560,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 327,
+          "top": 75,
+          "right": 439,
+          "bottom": 83,
+          "width": 112,
+          "height": 8
+        },
+        {
+          "kind": "hud",
+          "left": 279,
+          "top": 91,
+          "right": 289,
+          "bottom": 93,
+          "width": 10,
+          "height": 2
+        },
+        {
+          "kind": "control",
+          "left": 8,
+          "top": 202,
+          "right": 120,
+          "bottom": 314,
+          "width": 112,
+          "height": 112
+        },
+        {
+          "kind": "control",
+          "left": 446,
+          "top": 260,
+          "right": 500,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 462,
+          "top": 293,
+          "right": 484,
+          "bottom": 305,
+          "width": 22,
+          "height": 12
+        },
+        {
+          "kind": "control",
+          "left": 386,
+          "top": 260,
+          "right": 440,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 260,
+          "right": 320,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 326,
+          "top": 260,
+          "right": 380,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 506,
+          "top": 260,
+          "right": 560,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 294,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 360,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 366,
+          "top": 200,
+          "right": 460,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 466,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        }
+      ]
+    }
+  },
+  "after": {
+    "time": 187239,
+    "frame": {
+      "width": 568,
+      "height": 320,
+      "x": 456.6040497292364,
+      "y": 221.42857139059532,
+      "zoom": 0.5250000002180657,
+      "challengeCameraMode": "stable",
+      "cameraSafetyFit": true,
+      "controlOverlay": "soft"
+    },
+    "playerFixedCamera": {
+      "version": 2,
+      "geometryKey": "[2,568,320,0,0,568,320,[[2,0,566,94,false],[2,196,126,320,true],[209.109375,85,358.890625,112,false],[260,194,566,260,true],[260,254,386,320,true],[380,256,446,320,true],[440,254,566,320,true]]]",
+      "zoom": 0.5250000002180657,
+      "anchor": {
+        "x": 140.49999990754011,
+        "y": 269.5000000654197
+      },
+      "pose": {
+        "x": 183.2707163333216,
+        "displayY": 430
+      },
+      "follow": {
+        "left": 98.49999989009486,
+        "right": 182.4999999249854,
+        "clamped": false
+      }
+    },
+    "actors": [
+      {
+        "id": "player",
+        "type": "wang",
+        "x": 183.2707163333216,
+        "y": 430,
+        "vy": 0,
+        "supportY": 430,
+        "hp": 68.12,
+        "face": 1
+      },
+      {
+        "id": "enemy",
+        "type": "huang",
+        "x": 364.7728886666538,
+        "y": 317.79904306220095,
+        "vy": 0,
+        "supportY": 317.79904306220095,
+        "hp": 81.56,
+        "face": -1
+      }
+    ],
+    "options": {
+      "camera": "stable",
+      "touch": true,
+      "paused": false,
+      "safeRect": {
+        "left": 0,
+        "top": 0,
+        "right": 568,
+        "bottom": 320,
+        "width": 568,
+        "height": 320
+      },
+      "occlusions": [
+        {
+          "kind": "toolbar",
+          "left": 8,
+          "top": 4,
+          "right": 560,
+          "bottom": 36,
+          "width": 552,
+          "height": 32
+        },
+        {
+          "kind": "save",
+          "left": 246.671875,
+          "top": 4,
+          "right": 350.671875,
+          "bottom": 36,
+          "width": 104,
+          "height": 32
+        },
+        {
+          "kind": "hud",
+          "left": 8,
+          "top": 40,
+          "right": 248,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 15,
+          "top": 75,
+          "right": 127,
+          "bottom": 83,
+          "width": 112,
+          "height": 8
+        },
+        {
+          "kind": "hud",
+          "left": 254,
+          "top": 40,
+          "right": 314,
+          "bottom": 88,
+          "width": 60,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 320,
+          "top": 40,
+          "right": 560,
+          "bottom": 88,
+          "width": 240,
+          "height": 48
+        },
+        {
+          "kind": "hud",
+          "left": 327,
+          "top": 75,
+          "right": 439,
+          "bottom": 83,
+          "width": 112,
+          "height": 8
+        },
+        {
+          "kind": "hud",
+          "left": 215.109375,
+          "top": 91,
+          "right": 352.890625,
+          "bottom": 106,
+          "width": 137.78125,
+          "height": 15
+        },
+        {
+          "kind": "control",
+          "left": 8,
+          "top": 202,
+          "right": 120,
+          "bottom": 314,
+          "width": 112,
+          "height": 112
+        },
+        {
+          "kind": "control",
+          "left": 446,
+          "top": 260,
+          "right": 500,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 462,
+          "top": 293,
+          "right": 484,
+          "bottom": 305,
+          "width": 22,
+          "height": 12
+        },
+        {
+          "kind": "control",
+          "left": 386,
+          "top": 262,
+          "right": 440,
+          "bottom": 316,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 260,
+          "right": 320,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 326,
+          "top": 260,
+          "right": 380,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 506,
+          "top": 260,
+          "right": 560,
+          "bottom": 314,
+          "width": 54,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 294,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 266,
+          "top": 200,
+          "right": 360,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 366,
+          "top": 200,
+          "right": 460,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        },
+        {
+          "kind": "control",
+          "left": 466,
+          "top": 200,
+          "right": 560,
+          "bottom": 254,
+          "width": 94,
+          "height": 54
+        }
+      ]
+    }
+  }
+}

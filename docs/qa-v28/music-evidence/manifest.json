@@ -1,0 +1,89 @@
+{
+  "prepared_utc": "2026-11-07T14:16:43.006167+00:00",
+  "license_evidence": "evidence/licenses.html and per-track page rendering source",
+  "catalog_evidence": "evidence/selected-tracks.json; original full evidence/pieces.json",
+  "tracks": [
+    {
+      "title": "Run Amok",
+      "composer": "Kevin MacLeod",
+      "usage": "Battle",
+      "isrc": "USUAN1400024",
+      "original": "originals/run-amok.mp3",
+      "processed": "processed/run-amok-battle-v28.mp3",
+      "source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3",
+      "source_range_seconds": [
+        0.8,
+        104.85
+      ],
+      "decoded_duration_seconds": 104.05,
+      "sample_rate_hz": 44100,
+      "decoded_samples_per_channel": 4588605,
+      "fades": [
+        {
+          "type": "in",
+          "start": 0,
+          "duration": 0.005
+        },
+        {
+          "type": "out",
+          "start": 103.9,
+          "duration": 0.15
+        }
+      ],
+      "track_page": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400024",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "channels": 2,
+      "encoding": "MP3, libmp3lame, stereo 192 kbit/s, Xing gapless metadata",
+      "original_sha256": "12ee736658e7aab114f57a8edb034e8dafce37e01bdacd788b486377c4bd4d24",
+      "original_bytes": 3429480,
+      "processed_sha256": "e8546677700d4f9400c09009d50246d7fa3a17f9b5814ca4be87689b8b61a4c6",
+      "processed_bytes": 2499264,
+      "original_probe_duration_seconds": 107.102063
+    },
+    {
+      "title": "Fluffing a Duck",
+      "composer": "Kevin MacLeod",
+      "usage": "All non-battle screens",
+      "isrc": "USUAN1100768",
+      "original": "originals/fluffing-a-duck.mp3",
+      "processed": "processed/fluffing-a-duck-menu-v28.mp3",
+      "source": "https://incompetech.com/music/royalty-free/mp3-royaltyfree/Fluffing%20a%20Duck.mp3",
+      "source_range_seconds": [
+        0,
+        31.46
+      ],
+      "decoded_duration_seconds": 31.46,
+      "sample_rate_hz": 48000,
+      "decoded_samples_per_channel": 1510080,
+      "fades": [
+        {
+          "type": "in",
+          "start": 0,
+          "duration": 0.01
+        },
+        {
+          "type": "out",
+          "start": 30.95,
+          "duration": 0.51
+        }
+      ],
+      "track_page": "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100768",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "channels": 2,
+      "encoding": "MP3, libmp3lame, stereo 192 kbit/s, Xing gapless metadata",
+      "original_sha256": "cb23b1833c35e391de10d998d6a40cfc760565ce31d23014c86025523ca8239b",
+      "original_bytes": 2696840,
+      "processed_sha256": "4e98e0496266253171dcefe1733196bc31ee8149f71eedf8ebfc3e0ec05f46c6",
+      "processed_bytes": 756586,
+      "original_probe_duration_seconds": 67.368
+    }
+  ],
+  "limitations": [
+    "Offline decoded PCM/level validation only; no actual listening or browser playback validation by this worker.",
+    "Functional repeat candidates, not compositionally seamless loops.",
+    "Fluffing a Duck first rendition selection inferred from official two-version catalog note and new onset at approximately 31.475 s; final reverb before that onset was faded.",
+    "WebAudio decoded buffer lengths should be used as loop endpoints. MP3 container duration can include encoder padding."
+  ]
+}

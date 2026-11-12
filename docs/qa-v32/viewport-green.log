@@ -1,0 +1,24 @@
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (2.431343ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.647771ms)
+✔ camera labels explain both persisted modes and dialog uses logical layout for the full-screen gallery (0.414171ms)
+✔ scene mounting releases the early viewport listeners before owning layout changes (0.367905ms)
+✔ short landscape galleries use compact chrome above the old 360px cutoff (0.390618ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (4.124013ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (7.146694ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (1.685349ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (13.738015ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (1.83783ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (2.588561ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.471606ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.428122ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.308869ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.394723ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.218498ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 145.241828

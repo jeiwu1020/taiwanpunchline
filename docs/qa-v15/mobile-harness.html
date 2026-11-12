@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>V15 audio QA</title><style>body{margin:8px;font:14px sans-serif}iframe{display:block;border:1px solid #555;width:390px;height:700px}button{margin:4px}pre{white-space:pre-wrap}</style><button onclick="v.style.width='320px';v.style.height='568px'">320 × 568</button><button onclick="v.style.width='390px';v.style.height='844px'">390 × 844</button><button onclick="v.style.width='667px';v.style.height='375px'">667 × 375</button><pre id="trace">Waiting for audio input</pre><iframe id="v" title="音訊手機驗收" src="./"></iframe><script>
+const out=document.querySelector('#trace'),frame=document.querySelector('#v');let lines=[];
+frame.addEventListener('load',()=>{const doc=frame.contentDocument;let at=null;
+ doc.addEventListener('keydown',e=>{if(e.code==='KeyI'&&doc.querySelector('#player-select').value==='han'){at=performance.now();lines.push('Han I input');out.textContent=lines.join('\n');}},true);
+ doc.querySelector('[data-action="special2"]').addEventListener('pointerdown',()=>{if(doc.querySelector('#player-select').value==='han'){at=performance.now();lines.push('Han special2 pointer');out.textContent=lines.join('\n');}},true);
+ for(const type of ['play','playing'])doc.querySelector('#move-voice').addEventListener(type,e=>{if(at!==null&&e.target.currentSrc.includes('ke-lian')){lines.push(type+' after '+(performance.now()-at).toFixed(1)+'ms');out.textContent=lines.slice(-8).join('\n');}});
+});
+</script>

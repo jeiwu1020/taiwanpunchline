@@ -1,0 +1,61 @@
+✖ effect audition reports mute and blocked audio without pretending playback (24.723859ms)
+✖ effect audition schedules clear distinct cues and cancellation removes pending cues (5.046948ms)
+✖ audio-page rejected voice promise reports an actionable visible message (2.296346ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 0
+ℹ fail 3
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118.93005
+
+✖ failing tests:
+
+test at tests/audio-feedback-v29.test.mjs:2:1
+✖ effect audition reports mute and blocked audio without pretending playback (24.723859ms)
+  evalmachine.<anonymous>:263
+  globalThis.ui={testSoundEffects,stopEffects,initializeRoster,showMenu,startGame,pauseGame,result,Arena,playConfiguredVoice,drainVoiceCues,stopVoice,primeVoice,get duel(){return duel;},get settings(){return typeof settingsStore==="undefined"?undefined:settingsStore;},setScene(){scene={};},activate(){sound=true;voiceEnabled=true;duel.status="active";}};
+                 ^
+  
+  ReferenceError: testSoundEffects is not defined
+      at evalmachine.<anonymous>:263:16
+      at Script.runInContext (node:vm:149:12)
+      at Script.runInNewContext (node:vm:154:17)
+      at Object.runInNewContext (node:vm:310:38)
+      at gameHarness (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/helpers/game-harness.mjs:32:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/audio-feedback-v29.test.mjs:2:101)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/audio-feedback-v29.test.mjs:3:1
+✖ effect audition schedules clear distinct cues and cancellation removes pending cues (5.046948ms)
+  evalmachine.<anonymous>:263
+  globalThis.ui={testSoundEffects,stopEffects,initializeRoster,showMenu,startGame,pauseGame,result,Arena,playConfiguredVoice,drainVoiceCues,stopVoice,primeVoice,get duel(){return duel;},get settings(){return typeof settingsStore==="undefined"?undefined:settingsStore;},setScene(){scene={};},activate(){sound=true;voiceEnabled=true;duel.status="active";}};
+                 ^
+  
+  ReferenceError: testSoundEffects is not defined
+      at evalmachine.<anonymous>:263:16
+      at Script.runInContext (node:vm:149:12)
+      at Script.runInNewContext (node:vm:154:17)
+      at Object.runInNewContext (node:vm:310:38)
+      at gameHarness (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/helpers/game-harness.mjs:32:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/audio-feedback-v29.test.mjs:3:110)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/audio-feedback-v29.test.mjs:4:1
+✖ audio-page rejected voice promise reports an actionable visible message (2.296346ms)
+  evalmachine.<anonymous>:263
+  globalThis.ui={testSoundEffects,stopEffects,initializeRoster,showMenu,startGame,pauseGame,result,Arena,playConfiguredVoice,drainVoiceCues,stopVoice,primeVoice,get duel(){return duel;},get settings(){return typeof settingsStore==="undefined"?undefined:settingsStore;},setScene(){scene={};},activate(){sound=true;voiceEnabled=true;duel.status="active";}};
+                 ^
+  
+  ReferenceError: testSoundEffects is not defined
+      at evalmachine.<anonymous>:263:16
+      at Script.runInContext (node:vm:149:12)
+      at Script.runInNewContext (node:vm:154:17)
+      at Object.runInNewContext (node:vm:310:38)
+      at gameHarness (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/helpers/game-harness.mjs:32:5)
+      at async TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/audio-feedback-v29.test.mjs:4:98)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

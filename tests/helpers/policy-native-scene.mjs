@@ -1,0 +1,8 @@
+import assert from 'node:assert/strict';
+import {createCanvas} from '@napi-rs/canvas';
+export function nativeScene(){
+ const allocated=[],textures=new Map(),displays=[],document={createElement(){const c=createCanvas(1,1);c.ownerDocument=document;allocated.push(c);return c;}};
+ const scene={textures:{createCanvas(key,w,h){const c=document.createElement();c.width=w;c.height=h;const t={get width(){return c.width},get height(){return c.height},getCanvas:()=>c,getContext:()=>c.getContext('2d'),setSize(w,h=w){if(w===this.width&&h===this.height)return this;c.width=w;c.height=h;this.refresh();return this;},refresh(){return this;}};assert.ok(!textures.has(key),'unique texture key');textures.set(key,t);return t;}},add:{image(x,y,key){const d={x,y,key,visible:true,setOrigin(){return this;},setDepth(v){this.depth=v;return this;},setVisible(v){this.visible=v;return this;},setPosition(x,y){this.x=x;this.y=y;return this;},setDisplaySize(w,h){this.width=w;this.height=h;return this;},setTexture(key){this.key=key;return this;},setFlipX(f){this.flip=f;return this;},setCrop(x,y,w,h){this.crop=arguments.length?[x,y,w,h]:null;return this;}};displays.push(d);return d;}}};
+ function composite(ctx,bg,z){ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);ctx.save();ctx.scale(z,z);ctx.translate(-bg.camera,-bg.top);for(const d of [...displays].filter(v=>v.visible).sort((a,b)=>a.depth-b.depth)){const c=textures.get(d.key).getCanvas(),[x,y,w,h]=d.crop||[0,0,c.width,c.height],sx=d.width/c.width,sy=d.height/c.height;ctx.save();ctx.translate(d.flip?d.x+d.width:d.x,d.y);if(d.flip)ctx.scale(-1,1);ctx.drawImage(c,x,y,w,h,x*sx,y*sy,w*sx,h*sy);ctx.restore();}ctx.restore();}
+ return {scene,allocated,textures,composite};
+}

@@ -1,0 +1,17 @@
+✔ VS and street both keep five equal action targets without competing cells (751.888651ms)
+✔ desktop and logical landscape specials occupy the bottom center between movement and actions (216.184911ms)
+✔ 650px landscape uses two action rows rather than shrinking labels or overlapping the center (133.58535ms)
+✔ portrait preserves its existing action cells and 320px dock budget (28.930842ms)
+✔ every special retains a readable key and seconds in separate cells below the complete name (115.282846ms)
+✔ special cooldown uses a bottom-up ready fill and readable seconds rather than a pie (12.93569ms)
+✔ desktop reserves the measured dock height without querying its own cabinet size (114.656097ms)
+✔ 568px native and sideways landscape keep complete controls inside the cabinet (76.630013ms)
+✔ compact rally status keeps three readable characters on one unpadded line (31.83264ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1594.961552

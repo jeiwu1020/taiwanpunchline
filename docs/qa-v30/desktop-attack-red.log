@@ -1,0 +1,41 @@
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (5.173387ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (1.969752ms)
+✔ upright and desktop save stage space without eliminating required controls (0.650916ms)
+✔ short desktop keeps move cards horizontal despite inherited landscape styles (0.34716ms)
+✔ historical sources and version notes remain byte-identical to V29 (0.818322ms)
+✔ upright status gets its own row so armor cannot wrap the guard label over HP (1.1309ms)
+✔ extra narrow logical landscape reserves enough height for long names and purposes (0.329283ms)
+✖ short desktop attack text stays stacked and readable instead of inheriting a squeezed row (1.478371ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.187725
+
+✖ failing tests:
+
+test at tests/compact-fight-v30.test.mjs:35:1
+✖ short desktop attack text stays stacked and readable instead of inheriting a squeezed row (1.478371ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'column'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:35:110)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'column',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

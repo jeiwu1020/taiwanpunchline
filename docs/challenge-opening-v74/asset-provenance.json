@@ -1,0 +1,97 @@
+{
+  "generator": "built-in image_gen.imagegen",
+  "encoding": "WebP quality 91, method 6, no resizing/cropping",
+  "assets": [
+    {
+      "character": "wang",
+      "master": "dist/assets/challenge/opening-v74/wang-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/wang-sheet.webp",
+      "size": [
+        724,
+        2172
+      ],
+      "masterSha256": "684d56e2a1d7d9da8a5004b3e349cce7c2bcf9f92c9b8e4d6eb617b0c482153b",
+      "runtimeSha256": "375612082fdcbac46c3923a494c49d870a45cf6280b0746604d05362d17876d2",
+      "runtimeBytes": 851132,
+      "generationMetadata": "docs/challenge-opening-v74/wang-generation.json"
+    },
+    {
+      "character": "han",
+      "master": "dist/assets/challenge/opening-v74/han-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/han-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "ea4c70513f909fd137561b33d2863584f191191fd15ab5b174c487cba72a5537",
+      "runtimeSha256": "90772c929417d997bf90e6c4427ffe2f14dd31733dbc48a28b26231d60c3ed96",
+      "runtimeBytes": 834232,
+      "generationMetadata": "docs/challenge-opening-v74/han-generation.json"
+    },
+    {
+      "character": "ma",
+      "master": "dist/assets/challenge/opening-v74/ma-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/ma-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "138eee7a73e7405b9820422ee251c25d2db1663e2262ea066ae17ba731d80d54",
+      "runtimeSha256": "174803dcace680467302dd4da7de1094c45359420cf1562184f7aeca7a1febbb",
+      "runtimeBytes": 823768,
+      "generationMetadata": "docs/challenge-opening-v74/ma-generation.json"
+    },
+    {
+      "character": "su",
+      "master": "dist/assets/challenge/opening-v74/su-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/su-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "2530c7e86e179bba383fc7341782ba1bd4882220aeb2aa8a70ba2d5ee4c30f3e",
+      "runtimeSha256": "3aa142dd1d3b3b9cb0935a1ee43a5e2e31b55ee8ad8a927e2d376dd56e2ac899",
+      "runtimeBytes": 826378,
+      "generationMetadata": "docs/challenge-opening-v74/su-generation.json"
+    },
+    {
+      "character": "huang",
+      "master": "dist/assets/challenge/opening-v74/huang-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/huang-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "6ff5fe91e6f6033e4f14a53f00789738f812415b4afdfc60a2ba874ad19bdf82",
+      "runtimeSha256": "e423cb7a9534449903da747111826e394674effe48fd4e884bf73e94c30d839e",
+      "runtimeBytes": 816788,
+      "generationMetadata": "docs/challenge-opening-v74/huang-generation.json"
+    },
+    {
+      "character": "chen",
+      "master": "dist/assets/challenge/opening-v74/chen-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/chen-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "34e5eb460436571a3f93661b881fd06769c5040e903696bede43e45871e7d64f",
+      "runtimeSha256": "1434383d09b0bd58441be09715aac5a8fd92dac92d820afa1ef54fd9a1a1f226",
+      "runtimeBytes": 852674,
+      "generationMetadata": "docs/challenge-opening-v74/chen-generation.json"
+    },
+    {
+      "character": "ko",
+      "master": "dist/assets/challenge/opening-v74/ko-sheet.png",
+      "runtime": "dist/assets/challenge/opening-v74/ko-sheet.webp",
+      "size": [
+        1254,
+        1254
+      ],
+      "masterSha256": "5c3147f08f429b7e5e5d5a397358dc1ee30eac58b47af009ad451a094b4bceeb",
+      "runtimeSha256": "55dd78918f110f28cc9e1d3fd9f8316650dc0020ebe184b5a74b4d7590d89406",
+      "runtimeBytes": 900774,
+      "generationMetadata": "docs/challenge-opening-v74/ko-generation.json"
+    }
+  ]
+}

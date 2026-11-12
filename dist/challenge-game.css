@@ -1,0 +1,47 @@
+.challenge-story{padding:0;border:4px solid #172f36;background:#fff5dc;color:#172f36;width:min(980px,96vw);max-width:96vw;max-height:94dvh;border-radius:10px;box-shadow:6px 7px 0 #172f3680;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;font-family:inherit;user-select:none;-webkit-user-select:none}
+.challenge-story::backdrop{background:#142b32df}.story-panel{display:grid;grid-template-columns:1.4fr 1fr;align-items:stretch}.story-panel canvas{display:block;width:100%;height:100%;max-height:65dvh;object-fit:cover;background:#d4c6a1}.story-copy{padding:24px;background:radial-gradient(#172f3612 1px,transparent 1px) 0 0/6px 6px}.story-copy small{font-size:16px;font-weight:900;background:#f4c261;padding:4px 9px;display:inline-block;transform:rotate(-3deg)}.story-copy h2{font-size:clamp(25px,4vw,39px);line-height:1.2;margin:18px 0}.story-copy p{font-size:18px;line-height:1.65}.story-actions{display:flex;align-items:center;gap:16px;justify-content:space-between;margin-top:20px}.story-actions button{font-family:inherit;font-size:18px;font-weight:900;min-height:48px;min-width:130px;cursor:pointer}.story-actions span{font-weight:900}.challenge-story::-webkit-scrollbar{width:9px}.challenge-story::-webkit-scrollbar-thumb{background:#bd4733;border:2px solid #fff5dc;border-radius:8px}
+.control-deck [data-action=assist]{background-image:linear-gradient(to top,#87cf8c var(--assist-charge,100%),transparent var(--assist-charge,100%));background-color:#e5e4cf}.control-deck [data-action=assist].ready{background-color:#a7df8e}
+.app[data-game-mode=challenge] .dom-hud .timer strong{font-size:clamp(19px,4vw,32px)}
+@media(max-width:650px){.story-panel{grid-template-columns:1fr}.story-panel canvas{height:29dvh;object-fit:cover}.story-copy{padding:15px 19px}.story-copy h2{margin:12px 0;font-size:25px}.story-copy p{font-size:17px;line-height:1.5}.story-actions{margin-top:12px}}
+@media(max-height:500px) and (min-width:651px){.story-copy{padding:14px 18px}.story-copy h2{font-size:24px;margin:9px 0}.story-copy p{font-size:16px;line-height:1.5}.story-actions{margin-top:9px}.story-panel canvas{max-height:90dvh}}
+
+/* Hidden round actions must win over later cabinet/menu button layouts. */
+#result button[hidden]{display:none!important}
+
+/* V73 opening: the painting owns the frame; copy is a compact comic caption.
+   Logical layout attributes also cover CSS-rotated phones. Boss panels keep
+   their established layout above. Canvas pixels match the allocated art box. */
+.challenge-story[data-cinematic="true"]{height:calc(var(--story-frame-height) + 8px);overflow:hidden;border-radius:8px}
+.challenge-story[data-cinematic="true"][data-layout] .story-panel{height:var(--story-frame-height);min-height:0;grid-template-columns:minmax(0,1fr) var(--story-copy-width);grid-template-rows:minmax(0,1fr)}
+.challenge-story[data-cinematic="true"][data-layout] .story-panel canvas{display:block;width:100%;height:100%;min-height:0;max-height:none;aspect-ratio:auto;object-fit:contain;border:0;background:#fff3d3}
+.challenge-story[data-cinematic="true"][data-layout] .story-copy{padding:16px;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:14px;border-left:3px solid #173239}
+.challenge-story[data-cinematic="true"][data-layout] .story-heading{display:grid;gap:12px}
+.challenge-story[data-cinematic="true"][data-layout] .story-copy small{font-size:14px;line-height:1.3;justify-self:start;align-self:flex-start;margin:0;padding:3px 7px}
+.challenge-story[data-cinematic="true"][data-layout] .story-copy h2{font-size:clamp(23px,2.4vw,34px);line-height:1.25;margin:0}
+.challenge-story[data-cinematic="true"][data-layout] .story-copy p{font-size:18px;line-height:1.5;margin:0}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0;align-items:center}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions>span{font-size:14px;grid-column:1/-1}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions button{min-width:0;min-height:44px;padding:7px 8px;font-size:15px;border:2px solid #173239;border-radius:5px;background:#fff8e7;box-shadow:2px 3px 0 #17323935;color:#173239;touch-action:manipulation}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions [data-story-next]{grid-column:1/-1;background:#b73c2d;color:#fff7dd;font-size:18px}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions button:focus-visible{outline:3px solid #b73c2d;outline-offset:3px}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-panel{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) var(--story-copy-height)}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-copy{border-left:0;border-top:3px solid #173239;padding:9px 12px;gap:6px;justify-content:space-between}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-heading{display:flex;align-items:center;gap:9px}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-copy small{font-size:11px;flex:none;max-width:76px}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-copy h2{font-size:19px;line-height:1.25;min-width:0}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-copy p{font-size:15px;line-height:1.4}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-actions{grid-template-columns:auto minmax(92px,1fr) 49px 49px;gap:6px}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-actions>span{grid-column:auto;font-size:12px;white-space:nowrap}
+.challenge-story[data-cinematic="true"][data-layout="portrait"] .story-actions [data-story-next]{grid-column:auto;font-size:16px}
+.challenge-story[data-cinematic="true"][data-compact="true"][data-layout="landscape"] .story-copy{padding:10px 12px;gap:10px}
+.challenge-story[data-cinematic="true"][data-compact="true"][data-layout="landscape"] .story-copy h2{font-size:23px}
+.challenge-story[data-cinematic="true"][data-compact="true"][data-layout="landscape"] .story-copy p{font-size:16px}
+.challenge-story[data-cinematic="true"][data-layout] .story-actions [data-story-replay],.challenge-story[data-cinematic="true"][data-layout] .story-actions [data-story-skip]{white-space:nowrap;padding-inline:3px}
+
+/* Saved-scene recovery owns one action row, not the ordinary comic page count.
+   Zero-minimum tracks keep both 44px actions inside short/rotated captions. */
+.challenge-story[data-display-recovery][data-layout] .story-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;min-width:0}
+.challenge-story[data-display-recovery="retry"][data-layout] .story-actions,.challenge-story[data-display-recovery="return"][data-layout] .story-actions{grid-template-columns:minmax(0,1fr)}
+.challenge-story[data-display-recovery][data-layout] .story-actions>span{display:none}
+.challenge-story[data-display-recovery][data-layout] .story-actions>[data-story-next],.challenge-story[data-display-recovery][data-layout] .story-actions>[data-story-return]{grid-column:auto;box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:7px 8px;font-size:16px;line-height:1.25}
+.challenge-story[data-display-recovery][data-layout] .story-actions button[hidden]{display:none}

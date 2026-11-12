@@ -1,0 +1,25 @@
+<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>挑戰素材 QA 聯絡表</title>
+<style>body{margin:0;background:#182e32;color:#fff3cf;font:16px system-ui}h1,p{margin:14px 20px}canvas{display:block;width:100%;height:auto;background:#ede1bd}#status{color:#f2c36d}</style>
+<h1>挑戰素材 QA：站立／出拳／蹲下</h1><p id="status">載入正式渲染器與素材…</p><canvas id="actors" width="1500" height="1280"></canvas>
+<h1>天空補圖、柏油延伸、生成桌子與招牌</h1><canvas id="street" width="1500" height="670"></canvas>
+<h1>小 Boss 專用街角廣場</h1><canvas id="arena" width="1500" height="670"></canvas>
+<script type="module">
+const base=new URL(location.pathname.includes('/tests/')?'../dist/':'./',location.href);
+const art=await import(new URL('challenge-art.mjs?v=68',base));
+const images=Object.fromEntries(await Promise.all(Object.entries(art.ART_FILES).map(([key,file])=>new Promise((resolve,reject)=>{const image=new Image();image.onload=()=>resolve([key,image]);image.onerror=()=>reject(new Error(file));image.src=new URL('assets/'+file,base);}))));
+const canvas=document.querySelector('#actors'),ctx=canvas.getContext('2d');ctx.fillStyle='#ede1bd';ctx.fillRect(0,0,1500,1280);
+const kinds=['mic','flyer','guard','mini_mic','mini_guard'];
+for(let state=0;state<3;state++)for(let i=0;i<kinds.length;i++){
+ const x=150+i*300,y=350+state*410;ctx.save();ctx.translate(x,y);ctx.scale(1.15,1.15);
+ art.drawChallengeMob(ctx,images,{mobKind:kinds[i],y:430,...(state===1?{attack:{kind:'punch',age:.15}}:state===2?{crouch:true,crouchBlend:1}: {})},150);ctx.restore();
+ ctx.fillStyle='#142e37';ctx.font='20px system-ui';ctx.fillText(kinds[i]+' · '+['站立','出拳','蹲下'][state],x-115,y+34);
+}
+for(const arena of [false,true]){
+ const c=document.querySelector(arena?'#arena':'#street'),g=c.getContext('2d');
+ art.drawChallengeBackdrop(g,images,{width:1500,height:670,curbY:480,buildingHeight:400,camera:0,arena});
+ art.drawChallengeStreetProp(g,images,'table',{x:830,y:590,width:280,height:116});
+ art.drawChallengeStreetProp(g,images,'sign',{x:1100,y:590,width:100,height:114});
+ g.save();g.translate(500,590);art.drawChallengeMob(g,images,{mobKind:arena?'mini_mic':'mic',y:430},150);g.restore();
+}
+document.querySelector('#status').textContent='全部素材已載入。請檢查頸部沒有透明裂縫、衣領不壓住下巴、小 Boss 頭身明顯不同，以及道路與人／桌／牌的比例。';window.challengeArtReady=true;
+</script></html>

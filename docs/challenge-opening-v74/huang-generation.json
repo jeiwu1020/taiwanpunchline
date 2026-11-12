@@ -1,0 +1,14 @@
+{
+  "tool": "builtin image_gen",
+  "prompt": "Use case: illustration-story. Create a production opening comic raster sheet. SINGLE SQUARE overall image, exactly 2 columns by 3 equal rows, six equal LANDSCAPE 3:2 panels touching edge to edge, no gutters or borders. Read left-to-right top-to-bottom. Reference 1 is this sheet's hero's face, reference 2 is the costume atlas, reference 3 bedroom setting, reference 4 street setting, reference 5 completed comic for style/layout ONLY, do not copy that bald hero. Render coherent complete persons, never pasted heads. Detailed satirical ink caricature, warm watercolor, fine hatching matching references. Keep recognizable face consistent in all six scenes. Same modest Taiwan bedroom, cream tiled walls, barred window, green curtains and green door, blue blanket, warm dawn.\nPanel 1 top left: hero asleep in blue striped pajamas under blue blanket, red twin-bell alarm beside bed, small TV showing glowing magical gold microphone above Taiwan silhouette.\nPanel 2 top right: hero halfway rising using elbow, startled, quilt thrown back; still same pajamas.\nPanel 3 middle left: hero now fully seated upright on bed edge wearing same pajamas, one hand pressing top of red alarm, full pajama legs and slippers visible.\nPanel 4 middle right: hero in original daytime suit, waist-up fastening jacket and grabbing brown paper breakfast bag.\nPanel 5 bottom left: full hero bursting out green bedroom doorway carrying breakfast bag, chasing escaping floating gold mic.\nPanel 6 bottom right: full hero running after floating gold mic on Taiwan dawn breakfast street carrying bag.\nLarge expressive hero in each panel but keep full hands and full feet inside the panel wherever shown; minimum 6 percent safe margin around extremities in panels 3,5,6. No extra people, no text, captions, lettering, extra limbs, cut-off feet, pasted parts. Each panel stays strictly inside its assigned half-width/third-height rectangle.\nHero HUANG: angular long face, thick swept black hair with gray temples and tousled side part, black rectangular eyeglasses, furrowed brows, lively determined expression, matching reference 1. Keep glasses recognizable. Day outfit is atlas BOTTOM ROW: CHARCOAL GRAY suit, white shirt, BURGUNDY dark red tie, black dress shoes.",
+  "source_references": [
+    "/workspace/scratch/1a1351aee944/brawl-v74-repair/dist/assets/huang-head-v5.webp",
+    "/workspace/scratch/1a1351aee944/brawl-v74-repair/dist/assets/roster-costumes-v5.webp",
+    "/workspace/scratch/1a1351aee944/brawl-v74-repair/dist/assets/challenge/bedroom-v1.webp",
+    "/workspace/scratch/1a1351aee944/brawl-v74-repair/dist/assets/challenge/street-v1.webp",
+    "/workspace/scratch/1a1351aee944/generated_images/exec-3ecc9026-3374-47a0-a7ab-4c2e8a1a47c1.png"
+  ],
+  "output_original_path": "/workspace/scratch/1a1351aee944/generated_images/exec-54a5eb96-bef9-472e-bf01-282ff333104f.png",
+  "width": 1254,
+  "height": 1254
+}

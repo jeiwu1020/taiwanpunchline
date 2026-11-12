@@ -1,0 +1,37 @@
+✔ idle player stays visually fixed while AI approaches 1134x550 (6.422426ms)
+✔ idle player stays visually fixed while AI approaches 298x292 (2.248975ms)
+✔ idle player stays visually fixed while AI approaches 370x575 (2.047973ms)
+✔ idle player stays visually fixed while AI approaches 326x255 (1.532567ms)
+✔ world backdrop is not glued to horizontal camera center (0.283046ms)
+✔ camera pans only at view boundary and keeps both actors visible across a round (0.281204ms)
+✔ background landmarks retain world position and scale during jumps and edge panning (0.28586ms)
+✔ jump camera returns smoothly to its standing zoom after landing (0.944462ms)
+✖ camera also eases outward when spare framing margin permits it (0.789428ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.167229
+
+✖ failing tests:
+
+test at tests/idle-camera-v191.test.mjs:14:1
+✖ camera also eases outward when spare framing margin permits it (0.789428ms)
+  AssertionError [ERR_ASSERTION]: outward motion should interpolate while safe
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/idle-camera-v191.test.mjs:14:281)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

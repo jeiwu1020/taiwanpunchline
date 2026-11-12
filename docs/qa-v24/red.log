@@ -1,0 +1,87 @@
+✖ main selection screen uses only in-game role, character and difficulty buttons (2.527318ms)
+✖ all seven portrait buttons are generated once with real labels and existing images (40.659737ms)
+✖ role cards target only their side, allow mirrors, and show both role badges (4.505074ms)
+✖ custom difficulty persists through start, replay and return to roster (3.590515ms)
+✖ hidden roster actions cannot reset a running battle or restart a countdown (5.080423ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 0
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 207.627296
+
+✖ failing tests:
+
+test at tests/roster-picker-v24.test.mjs:7:1
+✖ main selection screen uses only in-game role, character and difficulty buttons (2.527318ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /<select\b/. Input:
+  
+  '<div id="menu" class="screen menu"><div class="menu-copy"><span class="eyebrow">本節目純屬虛構 · 請勿認真模仿</span><h1>吵架，<em>吵成動作片。</em></h1><p>這次不是比政見，是看誰先破防。</p></div><div class="matchup" aria-label="目前對戰組合"><div class="matchup-card player" id="player-card"><span class="matchup-role">你上場</span><img id="player-portrait" src="assets/wang-laugh-head.webp" alt="恰吉王原創諷刺漫畫"><div><small id="player-tag">從容派</small><strong id="player-name">恰吉王</strong><span id="player-moves">連滾帶爬 · 從從容容 · 喝水回氣</span></div></div><b class="matchup-vs" aria-hidden="true">VS</b><div class="matchup-card opponent" id="opponent-card"><span class="matchup-role">AI 對手</span><img id="opponent-portrait" src="assets/han-defiant-head.webp" alt="韓國魚原創諷刺漫畫"><div><small id="opponent-tag">氣勢派</small><strong id="opponent-name">韓國魚</strong><span id="opponent-moves">發財金幣波 · 可憐哪 · 一支穿雲箭</span></div></div></div><div class="roster-selectors"><label class="roster-field"><span>你</span><select id="player-select" aria-label="選擇你的角色"><option value="wang">恰吉王</option></select></label><label class="roster-field"><span>AI</span><select id="opponent-select" aria-label="選擇 AI 對手"><option value="han">韓國魚</option></select></label></div><div class="start-row"><select id="difficulty" aria-label="選擇難度"><option value="easy">輕鬆熱身</option><option value="normal">正式開吵</option></select><button id="start" class="primary" disabled>上 場 開 吵 <span>→</span></button></div><p class="menu-tip">蹲躲高招，跳過地面，別把三格防守用光。<a href="art.html">慢看招式美術 →</a></p></div>\n'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:9:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '<div id="menu" class="screen menu"><div class="menu-copy"><span class="eyebrow">本節目純屬虛構 · 請勿認真模仿</span><h1>吵架，<em>吵成動作片。</em></h1><p>這次不是比政見，是看誰先破防。</p></div><div class="matchup" aria-label="目前對戰組合"><div class="matchup-card player" id="player-card"><span class="matchup-role">你上場</span><img id="player-portrait" src="assets/wang-laugh-head.webp" alt="恰吉王原創諷刺漫畫"><div><small id="player-tag">從容派</small><strong id="player-name">恰吉王</strong><span id="player-moves">連滾帶爬 · 從從容容 · 喝水回氣</span></div></div><b class="matchup-vs" aria-hidden="true">VS</b><div class="matchup-card opponent" id="opponent-card"><span class="matchup-role">AI 對手</span><img id="opponent-portrait" src="assets/han-defiant-head.webp" alt="韓國魚原創諷刺漫畫"><div><small id="opponent-tag">氣勢派</small><strong id="opponent-name">韓國魚</strong><span id="opponent-moves">發財金幣波 · 可憐哪 · 一支穿雲箭</span></div></div></div><div class="roster-selectors"><label class="roster-field"><span>你</span><select id="player-select" aria-label="選擇你的角色"><option value="wang">恰吉王</option></select></label><label class="roster-field"><span>AI</span><select id="opponent-select" aria-label="選擇 AI 對手"><option value="han">韓國魚</option></select></label></div><div class="start-row"><select id="difficulty" aria-label="選擇難度"><option value="easy">輕鬆熱身</option><option value="normal">正式開吵</option></select><button id="start" class="primary" disabled>上 場 開 吵 <span>→</span></button></div><p class="menu-tip">蹲躲高招，跳過地面，別把三格防守用光。<a href="art.html">慢看招式美術 →</a></p></div>\n',
+    expected: /<select\b/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/roster-picker-v24.test.mjs:15:1
+✖ all seven portrait buttons are generated once with real labels and existing images (40.659737ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   'wang',
+  -   'han',
+  -   'ma',
+  -   'su',
+  -   'huang',
+  -   'chen',
+  -   'ko'
+  - ]
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:18:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [
+      'wang',  'han',
+      'ma',    'su',
+      'huang', 'chen',
+      'ko'
+    ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/roster-picker-v24.test.mjs:22:1
+✖ role cards target only their side, allow mirrors, and show both role badges (4.505074ms)
+  TypeError [Error]: h.$(...).onclick is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:24:20)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/roster-picker-v24.test.mjs:34:1
+✖ custom difficulty persists through start, replay and return to roster (3.590515ms)
+  TypeError [Error]: h.$(...).onclick is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:35:72)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+
+test at tests/roster-picker-v24.test.mjs:42:1
+✖ hidden roster actions cannot reset a running battle or restart a countdown (5.080423ms)
+  TypeError [Error]: h.$(...).onclick is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:44:20)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

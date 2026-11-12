@@ -1,0 +1,7 @@
+{
+  "source": "V39 counter interruption; first divergence from V38 at frame 1549 is Wang's 12-damage counter canceling Su rush and applying its existing 22-pixel knockback and 0.16-second stun.",
+  "evidence": "docs/v39/combat-trace-diff.json",
+  "traces": {
+    "wang/su": "40230c26a93d699193eecaf831ca84f4e2c4a6bef4d27000d25ea473fa0eec16"
+  }
+}

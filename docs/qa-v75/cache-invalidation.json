@@ -1,0 +1,31 @@
+{
+  "release": "v75",
+  "entry": "game.mjs?v=245",
+  "modules": [
+    "art-render.mjs",
+    "art-view.mjs",
+    "assist-presentation.mjs",
+    "challenge-art.mjs",
+    "challenge-backdrop-cache.mjs",
+    "challenge-depth-engine.mjs",
+    "challenge-depth-render.mjs",
+    "challenge-dialog-viewport.mjs",
+    "challenge-engine.mjs",
+    "challenge-opening-art.mjs",
+    "challenge-opening-assets.mjs",
+    "challenge-render.mjs",
+    "challenge-story-art.mjs",
+    "challenge-story.mjs",
+    "challenge-ui.mjs",
+    "combat-presentation.mjs",
+    "core.mjs",
+    "game.mjs",
+    "item-collision.mjs",
+    "move-demo.mjs",
+    "page-zoom-gestures.mjs",
+    "street-trial-engine.mjs",
+    "street-trial-view.mjs",
+    "street-trial.mjs"
+  ],
+  "last_pass_changed": []
+}

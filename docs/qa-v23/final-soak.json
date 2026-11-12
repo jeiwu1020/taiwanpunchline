@@ -1,0 +1,42 @@
+{
+  "rounds": 588,
+  "winners": {
+    "easy": {
+      "player": 272,
+      "enemy": 22,
+      "draw": 0
+    },
+    "normal": {
+      "player": 222,
+      "enemy": 71,
+      "draw": 1
+    }
+  },
+  "aiMoves": {
+    "rush": 211,
+    "heal": 9,
+    "counter": 21,
+    "coin": 80,
+    "arrow": 78,
+    "han_knee": 179,
+    "ma_cough": 138,
+    "ma_gaze": 135,
+    "ma_handshake": 129,
+    "su_rush": 186,
+    "su_shout": 167,
+    "su_dare": 16,
+    "huang_queue": 124,
+    "huang_shout": 190,
+    "huang_debt": 17,
+    "chen_dream": 113,
+    "chen_question": 198,
+    "chen_calm": 18,
+    "ko_name": 186,
+    "ko_resolve": 127,
+    "ko_bags": 162
+  },
+  "maxProjectiles": 3,
+  "maxQueues": 2,
+  "maxSteps": 2047,
+  "seconds": 4.23
+}

@@ -1,0 +1,373 @@
+[
+  {
+    "key": "wang",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "連滾帶爬",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "從從容容",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "喝水回氣",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "han",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "發財金幣波",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "54.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "可憐哪",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "一支穿雲箭",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "ma",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "死亡之握",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "16.8",
+          "nameFitTextWidth": "100.80",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "16.8px",
+        "text": "我把你當人看",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "54.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "酷酷嫂",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "su",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "在那叫什麼",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "54.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "衝衝衝",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "要試試看嘛",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "huang",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "太離譜了",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "我有欠你喔",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "14.4",
+          "nameFitTextWidth": "100.80",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "14.4px",
+        "text": "可以這樣插隊喔",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "chen",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "有夢最美",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "阿扁錯了嗎",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "16.8",
+          "nameFitTextWidth": "100.80",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "16.8px",
+        "text": "有這麼嚴重嗎",
+        "w": 102
+      }
+    ]
+  },
+  {
+    "key": "ko",
+    "names": [
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "16.8",
+          "nameFitTextWidth": "100.80",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "16.8px",
+        "text": "垃圾不分藍綠",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "54.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "賴祥德",
+        "w": 102
+      },
+      {
+        "button": [
+          110,
+          52
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "102"
+        },
+        "h": 20,
+        "size": "18px",
+        "text": "我不會屈服",
+        "w": 102
+      }
+    ]
+  }
+]

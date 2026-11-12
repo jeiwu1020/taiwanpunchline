@@ -1,0 +1,9 @@
+{
+  "method": "Built-in image_gen; transparent original PNG",
+  "file": "dist/assets/handshake-v13.png",
+  "sha256": "a51f37e629092813296152aa0f7d4609d5368946701826d833769df58c561082",
+  "reference": "dist/assets/roster-props-v5.webp",
+  "purpose": "Two physically clasped right hands, short navy cuffs, connect the two actors actual wrist endpoints during the true grounded grab.",
+  "prompt": "Two adult men right hands in a conventional handshake, opposite forearms horizontal, clear anatomical grip, exactly five fingers per hand; warm peach skin, satirical newspaper-cartoon thick ink outlines and light crosshatching, transparent background, no other props, text, bodies or effects. Reference is visual style only.",
+  "inspection": "Viewed generated PNG. Central clasp has opposed thumbs and wrapping fingers, with horizontal cuffs. Composite normal/mirrored in-game anatomy still requires independent review."
+}

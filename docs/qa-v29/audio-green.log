@@ -1,0 +1,20 @@
+✔ effect audition reports mute and blocked audio without pretending playback (30.302854ms)
+✔ effect audition schedules clear distinct cues and cancellation removes pending cues (4.696474ms)
+✔ audio-page rejected voice promise reports an actionable visible message (3.460045ms)
+✔ move workspace opens details as a separate layer and never scrolls the main actions on play (2.185482ms)
+✔ audio page offers all21 voice selections without native dropdowns (3.119585ms)
+✔ audio page explains mute and failed effect attempts (1.36003ms)
+✔ HTML contains one-screen workspace and isolated accessible detail layer (0.577719ms)
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (4.459184ms)
+✔ switching tab, character, close or stop cancels previews without starting another (1.842739ms)
+✔ reset needs confirmation and cancel changes nothing (0.689824ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.5577ms)
+✔ changing character updates the still illustration without playing audio (0.588395ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 151.778372

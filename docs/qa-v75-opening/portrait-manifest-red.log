@@ -1,0 +1,59 @@
+✔ su uses its new V8 portrait in menu and game (2.358584ms)
+✔ chen uses its new V8 portrait in menu and game (0.299512ms)
+✖ approved default portraits and original non-target art assets are retained (3.213592ms)
+✔ V13 adds one generated clasp without replacing approved faces (0.422222ms)
+✔ V36 adds dorsal left hand without changing original atlas assets (0.444349ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 318.390238
+
+✖ failing tests:
+
+test at tests/portrait-refresh.test.mjs:9:1
+✖ approved default portraits and original non-target art assets are retained (3.213592ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  ... Skipped lines
+  
+    {
+      'art-limbs': 'limbs-v4.webp',
+      'art-props': 'props-v3.webp',
+      'final-costumes': 'final-costumes-v6.webp',
+      'han-archery': 'han-archery-v3.webp',
+  ...
+      'ma-head': 'ma-head-v5.webp',
+  +   'opening-bedroom-v75': 'challenge/opening-bedroom-v75.png',
+  +   'opening-pajamas-v75': 'challenge/opening-pajamas-v75.png',
+  +   'opening-props-v75': 'challenge/opening-props-v75.png',
+  -   'opening-chen': 'challenge/opening-v74/chen-sheet.webp',
+  -   'opening-han': 'challenge/opening-v74/han-sheet.webp',
+  -   'opening-huang': 'challenge/opening-v74/huang-sheet.webp',
+  -   'opening-ko': 'challenge/opening-v74/ko-sheet.webp',
+  -   'opening-ma': 'challenge/opening-v74/ma-sheet.webp',
+  -   'opening-su': 'challenge/opening-v74/su-sheet.webp',
+  -   'opening-wang': 'challenge/opening-v74/wang-sheet.webp',
+      'roster-costumes': 'roster-costumes-v5.webp',
+      'roster-props': 'roster-props-v5.webp',
+      'wang-drink': 'wang-drink-v3.webp',
+      'wang-head': 'wang-laugh-head.webp',
+      'wang-parts': 'wang-parts-v3.webp',
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/portrait-refresh.test.mjs:9:405)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: { 'opening-pajamas-v75': 'challenge/opening-pajamas-v75.png', 'opening-props-v75': 'challenge/opening-props-v75.png', 'opening-bedroom-v75': 'challenge/opening-bedroom-v75.png', 'ko-head': 'ko-head-v6.webp', 'final-costumes': 'final-costumes-v6.webp', 'ko-bags': 'ko-bags-v6.webp', 'ma-head': 'ma-head-v5.webp', 'huang-head': 'huang-head-v5.webp', 'roster-costumes': 'roster-costumes-v5.webp', 'roster-props': 'roster-props-v5.webp', 'art-limbs': 'limbs-v4.webp', 'wang-parts': 'wang-parts-v3.webp', 'han-parts': 'han-parts-v3.webp', 'left-arms': 'left-arms-v3.webp', 'wang-drink': 'wang-drink-v3.webp', 'wang-sip': 'wang-sip-v3.webp', 'wang-roll': 'wang-roll-v3.webp', 'han-archery': 'han-archery-v3.webp', 'han-release': 'han-release-v3.webp', 'art-props': 'props-v3.webp', 'wang-head': 'wang-laugh-head.webp', 'wang-shock': 'wang-shock-head.webp', 'han-head': 'han-defiant-head.webp', 'han-shock': 'han-shock-head.webp' },
+    expected: { 'opening-wang': 'challenge/opening-v74/wang-sheet.webp', 'opening-han': 'challenge/opening-v74/han-sheet.webp', 'opening-ma': 'challenge/opening-v74/ma-sheet.webp', 'opening-su': 'challenge/opening-v74/su-sheet.webp', 'opening-huang': 'challenge/opening-v74/huang-sheet.webp', 'opening-chen': 'challenge/opening-v74/chen-sheet.webp', 'opening-ko': 'challenge/opening-v74/ko-sheet.webp', 'ko-head': 'ko-head-v6.webp', 'final-costumes': 'final-costumes-v6.webp', 'ko-bags': 'ko-bags-v6.webp', 'ma-head': 'ma-head-v5.webp', 'huang-head': 'huang-head-v5.webp', 'roster-costumes': 'roster-costumes-v5.webp', 'roster-props': 'roster-props-v5.webp', 'art-limbs': 'limbs-v4.webp', 'wang-parts': 'wang-parts-v3.webp', 'han-parts': 'han-parts-v3.webp', 'left-arms': 'left-arms-v3.webp', 'wang-drink': 'wang-drink-v3.webp', 'wang-sip': 'wang-sip-v3.webp', 'wang-roll': 'wang-roll-v3.webp', 'han-archery': 'han-archery-v3.webp', 'han-release': 'han-release-v3.webp', 'art-props': 'props-v3.webp', 'wang-head': 'wang-laugh-head.webp', 'wang-shock': 'wang-shock-head.webp', 'han-head': 'han-defiant-head.webp', 'han-shock': 'han-shock-head.webp' },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

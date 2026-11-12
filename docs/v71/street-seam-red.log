@@ -1,0 +1,71 @@
+[
+  {
+    "viewport": [
+      1200,
+      750
+    ],
+    "playerX": 1100,
+    "playerY": 430,
+    "depth": 0,
+    "minAlpha": 148,
+    "badPixels": 746,
+    "cache": [
+      [
+        2402,
+        1500
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      592
+    ],
+    "playerX": 1800,
+    "playerY": 430,
+    "depth": 0,
+    "minAlpha": 187,
+    "badPixels": 588,
+    "cache": [
+      [
+        1490,
+        1184
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      592
+    ],
+    "playerX": 1800,
+    "playerY": 250,
+    "depth": -90,
+    "minAlpha": 187,
+    "badPixels": 588,
+    "cache": [
+      [
+        1490,
+        1184
+      ]
+    ]
+  }
+]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: retained tile coverage must stay opaque at 1200×750 x=1100 y=430
+
+148 !== 255
+
+    at file:///workspace/scratch/1a1351aee944/brawl-v71-refine/scripts/check-street-seams-v71.mjs:28:36 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 148,
+  expected: 255,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.1

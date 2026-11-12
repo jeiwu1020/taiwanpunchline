@@ -1,0 +1,435 @@
+✖ normal waits after first seeing a slow attack, then can defend (5.044385ms)
+✖ easy waits after first seeing a slow attack, then can defend (0.740099ms)
+✖ a new jab lands before an unprepared normal AI can visually react (2.211477ms)
+✖ normal cannot instantly choose a counter stance from fresh attack input (0.504737ms)
+✖ easy cannot instantly choose a counter stance from fresh attack input (0.725127ms)
+✖ normal gives a newly visible projectile its own first-observation delay (1.341762ms)
+✖ normal gives a newly visible queue its own first-observation delay (1.013821ms)
+✖ easy gives a newly visible projectile its own first-observation delay (0.588212ms)
+✖ easy gives a newly visible queue its own first-observation delay (1.032258ms)
+✖ a replacement attack must earn a new observation delay (2.695312ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (0.896044ms)
+✖ normal leaves a real post-punch gap even when the decision timer is ready (1.558588ms)
+✖ normal leaves a real post-special2 gap even when the decision timer is ready (1.267722ms)
+✖ easy leaves a real post-punch gap even when the decision timer is ready (1.017767ms)
+✖ easy leaves a real post-special2 gap even when the decision timer is ready (1.381322ms)
+✖ normal starts a fresh gap when its action is interrupted and does not refund cooldown (0.713851ms)
+✖ easy starts a fresh gap when its action is interrupted and does not refund cooldown (0.67353ms)
+✖ pause and hitstop do not burn the pending observation delay (0.505819ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 1
+ℹ fail 17
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 223.208416
+
+✖ failing tests:
+
+test at tests/ai-timing-v18.test.mjs:11:86
+✖ normal waits after first seeing a slow attack, then can defend (5.044385ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.067s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:12:54)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:11:86
+✖ easy waits after first seeing a slow attack, then can defend (0.740099ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.067s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:12:54)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:17:1
+✖ a new jab lands before an unprepared normal AI can visually react (2.211477ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  98 !== 94
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:19:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 98,
+    expected: 94,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:24:43
+✖ normal cannot instantly choose a counter stance from fresh attack input (0.504737ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+  
+  'counter'
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:26:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'counter',
+    expected: 'counter',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:24:43
+✖ easy cannot instantly choose a counter stance from fresh attack input (0.725127ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be strictly unequal to:
+  
+  'counter'
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:26:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'counter',
+    expected: 'counter',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:30:84
+✖ normal gives a newly visible projectile its own first-observation delay (1.341762ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.208s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:33:78)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:30:84
+✖ normal gives a newly visible queue its own first-observation delay (1.013821ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.337s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:33:78)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:30:84
+✖ easy gives a newly visible projectile its own first-observation delay (0.588212ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.208s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:33:78)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:30:84
+✖ easy gives a newly visible queue its own first-observation delay (1.032258ms)
+  AssertionError [ERR_ASSERTION]: no reaction at 0.337s
+  
+  true !== false
+  
+      at quiet (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:8:107)
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:33:78)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:38:1
+✖ a replacement attack must earn a new observation delay (2.695312ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:40:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:51:105
+✖ normal leaves a real post-punch gap even when the decision timer is ready (1.558588ms)
+  AssertionError [ERR_ASSERTION]: no follow-up at 0.008s
+  + actual - expected
+  
+  + {
+  +   age: 0.008333333333333333,
+  +   castId: 2,
+  +   erased: [],
+  +   fired: false,
+  +   hit: false,
+  +   idx: -1,
+  +   kind: 'punch',
+  +   strikes: [],
+  +   variant: 'right'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:55:69)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'punch', age: 0.008333333333333333, fired: false, hit: false, idx: -1, castId: 2, strikes: [], erased: [], variant: 'right' },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:51:105
+✖ normal leaves a real post-special2 gap even when the decision timer is ready (1.267722ms)
+  AssertionError [ERR_ASSERTION]: no follow-up at 0.008s
+  + actual - expected
+  
+  + {
+  +   age: 0.008333333333333333,
+  +   castId: 2,
+  +   erased: [],
+  +   fired: false,
+  +   hit: false,
+  +   idx: -1,
+  +   kind: 'punch',
+  +   strikes: [],
+  +   variant: 'left'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:55:69)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'punch', age: 0.008333333333333333, fired: false, hit: false, idx: -1, castId: 2, strikes: [], erased: [], variant: 'left' },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:51:105
+✖ easy leaves a real post-punch gap even when the decision timer is ready (1.017767ms)
+  AssertionError [ERR_ASSERTION]: no follow-up at 0.008s
+  + actual - expected
+  
+  + {
+  +   age: 0.008333333333333333,
+  +   castId: 2,
+  +   erased: [],
+  +   fired: false,
+  +   hit: false,
+  +   idx: -1,
+  +   kind: 'punch',
+  +   strikes: [],
+  +   variant: 'right'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:55:69)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'punch', age: 0.008333333333333333, fired: false, hit: false, idx: -1, castId: 2, strikes: [], erased: [], variant: 'right' },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:51:105
+✖ easy leaves a real post-special2 gap even when the decision timer is ready (1.381322ms)
+  AssertionError [ERR_ASSERTION]: no follow-up at 0.008s
+  + actual - expected
+  
+  + {
+  +   age: 0.008333333333333333,
+  +   castId: 2,
+  +   erased: [],
+  +   fired: false,
+  +   hit: false,
+  +   idx: -1,
+  +   kind: 'punch',
+  +   strikes: [],
+  +   variant: 'left'
+  + }
+  - null
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:55:69)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: { kind: 'punch', age: 0.008333333333333333, fired: false, hit: false, idx: -1, castId: 2, strikes: [], erased: [], variant: 'left' },
+    expected: null,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:60:43
+✖ normal starts a fresh gap when its action is interrupted and does not refund cooldown (0.713851ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:63:62)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:60:43
+✖ easy starts a fresh gap when its action is interrupted and does not refund cooldown (0.67353ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:63:62)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:70:1
+✖ pause and hitstop do not burn the pending observation delay (0.505819ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:73:32)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

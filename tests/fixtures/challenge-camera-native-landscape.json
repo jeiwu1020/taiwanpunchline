@@ -1,0 +1,175 @@
+{
+  "source": "Browser DOM capture: chapter2-before-sideways-fix.json, first native 844x390 street observation. Compact shared HUD/control geometry, not physical-device evidence.",
+  "width": 844,
+  "height": 390,
+  "safeRect": {
+    "left": 0,
+    "top": 0,
+    "right": 844,
+    "bottom": 390,
+    "width": 844,
+    "height": 390
+  },
+  "occlusions": [
+    {
+      "kind": "toolbar",
+      "left": 8,
+      "top": 4,
+      "right": 836,
+      "bottom": 36,
+      "width": 828,
+      "height": 32
+    },
+    {
+      "kind": "save",
+      "left": 504.34375,
+      "top": 4,
+      "right": 608.34375,
+      "bottom": 36,
+      "width": 104,
+      "height": 32
+    },
+    {
+      "kind": "hud",
+      "left": 8,
+      "top": 40,
+      "right": 386,
+      "bottom": 88,
+      "width": 378,
+      "height": 48
+    },
+    {
+      "kind": "hud",
+      "left": 15,
+      "top": 99,
+      "right": 379,
+      "bottom": 107,
+      "width": 364,
+      "height": 8
+    },
+    {
+      "kind": "hud",
+      "left": 392,
+      "top": 40,
+      "right": 452,
+      "bottom": 88,
+      "width": 60,
+      "height": 48
+    },
+    {
+      "kind": "objective",
+      "left": 8,
+      "top": 94,
+      "right": 836,
+      "bottom": 112,
+      "width": 828,
+      "height": 18
+    },
+    {
+      "kind": "control",
+      "left": 8,
+      "top": 272,
+      "right": 120,
+      "bottom": 384,
+      "width": 112,
+      "height": 112
+    },
+    {
+      "kind": "control",
+      "left": 722,
+      "top": 330,
+      "right": 776,
+      "bottom": 384,
+      "width": 54,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 738,
+      "top": 363,
+      "right": 760,
+      "bottom": 375,
+      "width": 22,
+      "height": 12
+    },
+    {
+      "kind": "control",
+      "left": 662,
+      "top": 330,
+      "right": 716,
+      "bottom": 384,
+      "width": 54,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 542,
+      "top": 330,
+      "right": 596,
+      "bottom": 384,
+      "width": 54,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 602,
+      "top": 330,
+      "right": 656,
+      "bottom": 384,
+      "width": 54,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 782,
+      "top": 330,
+      "right": 836,
+      "bottom": 384,
+      "width": 54,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 524,
+      "top": 270,
+      "right": 818,
+      "bottom": 324,
+      "width": 294,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 524,
+      "top": 270,
+      "right": 618,
+      "bottom": 324,
+      "width": 94,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 624,
+      "top": 270,
+      "right": 718,
+      "bottom": 324,
+      "width": 94,
+      "height": 54
+    },
+    {
+      "kind": "control",
+      "left": 724,
+      "top": 270,
+      "right": 818,
+      "bottom": 324,
+      "width": 94,
+      "height": 54
+    }
+  ],
+  "hudBottom": 112,
+  "lowerLane": {
+    "top": 270,
+    "left": 128,
+    "right": 516,
+    "bottom": 382
+  }
+}

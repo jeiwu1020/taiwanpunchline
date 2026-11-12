@@ -1,0 +1,62 @@
+✔ table blocks ground walking from both depth directions (23.071648ms)
+✔ table blocks side and diagonal entry but leaves outside lane open (3.676863ms)
+✔ swept table motion cannot tunnel at large displacement and permits height clearance (0.435012ms)
+✔ table top remains landable and supports walking off its depth edge (3.973136ms)
+✔ adjacent higher table blocks feet below its top without trapping walk-off (4.078601ms)
+✔ enemy depth approach also respects the solid table (10.488762ms)
+✔ depth table exposes a full projected landing surface rather than a compressed sliver (0.407389ms)
+✔ generated supply cutout is registered and bottom-centred without changing pickup (0.356842ms)
+✔ a ground-level jump crosses the solid edge and lands on the table (2.685489ms)
+✔ both side edges and enemy horizontal approach are solid (6.500142ms)
+✔ rear-half table occupants render after their entire landing surface (19.150364ms)
+✖ knockback cannot push a stunned enemy through either table side (4.254544ms)
+✖ restored below-top penetration exits to nearest boundary without moving tabletop occupants (2.106678ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 11
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 340.986372
+
+✖ failing tests:
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:50:1
+✖ knockback cannot push a stunned enemy through either table side (4.254544ms)
+  AssertionError [ERR_ASSERTION]: forced displacement is clipped immediately
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:51:359)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:53:1
+✖ restored below-top penetration exits to nearest boundary without moving tabletop occupants (2.106678ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1045 !== 1040
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:54:123)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1045,
+    expected: 1040,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

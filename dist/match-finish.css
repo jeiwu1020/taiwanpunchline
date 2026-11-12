@@ -1,0 +1,18 @@
+/* Keep the final body action legible. Only the winner beat occupies center stage. */
+.match-finish{position:absolute;inset:0;z-index:14;display:grid;place-items:center;pointer-events:auto;touch-action:none;background:linear-gradient(180deg,#10263232 0,transparent 28%,transparent 76%,#10263238 100%);font-weight:950;text-align:center;color:#ffe19a;text-shadow:2px 3px 0 #112b34,-1px -1px 0 #112b34;overflow:hidden}
+.match-finish.hidden{display:none}
+#finish-cue{position:absolute;top:max(66px,12%);font-size:clamp(23px,4.3vw,42px);letter-spacing:.1em}
+#finish-winner{max-width:92%;padding:12px 24px;border-block:2px solid #ffdf7ab3;background:linear-gradient(90deg,transparent,#12323bdd 18%,#12323bdd 82%,transparent);font-size:clamp(25px,4.8vw,49px);line-height:1.25;letter-spacing:.045em}
+#finish-winner[hidden],#finish-cue[hidden]{display:none}
+.app[data-match-finish=true] .control-deck{opacity:.72}
+.app[data-match-finish=true] .broadcast{display:none}
+@media (prefers-reduced-motion:reduce){.match-finish{background:none}.match-finish *{animation:none!important;transition:none!important}}
+
+.app[data-overlay-controls=true] #finish-cue{top:62px;font-size:23px}
+
+/* Game presentation is not an editable document. Keep this scoped: settings,
+   dialog links, inputs and normal page text retain native selection behavior. */
+.match-finish,.match-finish *,#result,#result *,.dom-hud,.dom-hud *,
+.broadcast,.broadcast *,.countdown,.countdown *{
+ -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}

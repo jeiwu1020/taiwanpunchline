@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const source=fs.readFileSync('/workspace/scratch/1a1351aee944/parliament-art-spike/dist/game.mjs','utf8');
+const handlers=source.slice(source.indexOf('const keys='),source.indexOf('function text(scene,'));
+const helpers=source.split('\n').filter(l=>l.startsWith('function clearHold()')||l.startsWith('function syncHold(')).join('\n');
+const windows={},documents={},buttons=['left','right','crouch','guard','punch'].map(action=>({dataset:{hold:action},listeners:{},classList:{add(){},remove(){},toggle(){}},setPointerCapture(){},addEventListener(name,fn){this.listeners[name]=fn;}}));
+const ctx=vm.createContext({window:{addEventListener:(name,fn)=>windows[name]=fn},document:{hidden:false,addEventListener:(name,fn)=>documents[name]=fn},$$:s=>s==='.held'?buttons:buttons,duel:{status:'active',player:{},press(){}},stopVoice(){},pauseGame(){},resumeGame(){}});
+vm.runInContext(`let hold={},started=true,punchWait=0;const heldKeys=new Set(),heldPointers=new Map();${helpers}\n${handlers}\nthis.state=()=>({hold:{...hold},keys:[...heldKeys],pointers:[...heldPointers]});this.clear=clearHold;`,ctx);
+const e=(code,extra={})=>({code,target:{closest:()=>null,tagName:'CANVAS'},preventDefault(){},repeat:false,...extra});
+const right=buttons.find(b=>b.dataset.hold==='right');
+const checks=[];const check=(label)=>{assert.equal(!!ctx.state().hold.right,false,label);checks.push({label,state:JSON.parse(JSON.stringify(ctx.state()))});};
+check('opening');
+windows.keydown(e('ArrowRight'));assert.equal(ctx.state().hold.right,true);windows.keyup(e('ArrowRight'));check('keyboard keyup');
+windows.keydown(e('ArrowRight'));windows.keydown(e('KeyD'));windows.keyup(e('ArrowRight'));assert.equal(ctx.state().hold.right,true);windows.keyup(e('KeyD'));check('two mapped keys individually released');
+windows.keydown(e('ArrowRight'));windows.keyup(e('ArrowRight',{target:{closest:()=>({}),tagName:'SELECT'}}));check('keyup on select still clears');
+for(const event of ['pointerup','pointercancel','lostpointercapture']){right.listeners.pointerdown(e('',{pointerId:1}));assert.equal(ctx.state().hold.right,true);right.listeners[event](e('',{pointerId:1}));check(event);}
+windows.keydown(e('ArrowRight'));right.listeners.pointerdown(e('',{pointerId:1}));windows.keyup(e('ArrowRight'));assert.equal(ctx.state().hold.right,true);right.listeners.pointerup(e('',{pointerId:1}));check('keyboard plus touch combined release');
+windows.keydown(e('ArrowRight'));right.listeners.pointerdown(e('',{pointerId:1}));windows.blur();check('window blur');
+windows.keydown(e('ArrowRight'));right.listeners.pointerdown(e('',{pointerId:1}));ctx.document.hidden=true;documents.visibilitychange();check('document hidden');ctx.document.hidden=false;
+windows.keydown(e('ArrowRight'));right.listeners.pointerdown(e('',{pointerId:1}));ctx.clear();check('start/restart/menu clearHold helper');
+console.log(JSON.stringify({passed:checks.length,checks},null,2));

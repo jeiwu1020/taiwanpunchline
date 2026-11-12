@@ -1,0 +1,11 @@
+Use case: stylized-concept.
+Asset type: transparent standalone game prop sprite for a Taiwanese side-scrolling street brawler, a friendly neighborhood snack and water replenishment stand.
+Primary request: one complete compact low street supply table with warm worn wooden tabletop, sturdy four legs, faded sage-green cloth draped over front, a compact turquoise insulated water dispenser with small spigot on top and a few neat cream paper cups, and a shallow bamboo basket of golden steamed buns. Friendly small cream heart emblem centered on the cloth, no medical cross. Readable chunky silhouette and restrained details at small game scale.
+Style: hand-painted vintage Taiwanese comic illustration, warm golden sunset lighting, dark teal/brown ink contour lines, fine pencil cross-hatching, slightly grainy watercolor paper texture within the object only. Weathered wood and muted mint/teal, cream and warm amber match nostalgic Taiwanese tiled-house street scenery. Not photorealistic, not 3D plastic, not pixel art.
+Composition: isolated single full asset, mostly front-facing horizontal tabletop with a small visible right side and gently visible top plane, shallow three-quarter view suited to a side-view street scene, NOT overhead or steep isometric. Entire stand and all four feet visible with generous transparent margin. Main body compact, nearly square proportions including supplies; no canopy, no tall sign or pole. Bottom feet share a believable ground plane. No detached props.
+Background: genuine transparent alpha everywhere outside the object, including between legs, no solid rectangle, no scenic backdrop, no ground tile, no baked cast shadow.
+Constraints: no people, faces, hands, anatomy, lettering, labels, numbers, logos, watermarks or UI; no text anywhere. Preserve clean edges and complete uncropped stand.
+
+Generation: built-in image_gen only; transparent_background=true. No paid/API/CLI fallback authorized or used.
+Reference pixels inspected: baseline/dist/assets/challenge/street-deep-v2.png; baseline/dist/assets/challenge/street-props-v2.png; baseline/dist/assets/supporter-grandma-v48.png.
+Existing renderer inspected: baseline/dist/challenge-depth-render.mjs drawSupply.

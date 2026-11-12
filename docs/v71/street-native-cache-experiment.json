@@ -1,0 +1,60 @@
+{
+  "scope": "Native Skia CPU drawing, not browser or Phaser frame timing; real assets and production paint function.",
+  "results": [
+    {
+      "cached": false,
+      "cacheBuilds": 0,
+      "cacheSize": null,
+      "viewport": [
+        1200,
+        750
+      ],
+      "texture": [
+        2400,
+        1500
+      ],
+      "pixels": 3600000,
+      "actors": 6,
+      "frames": 120,
+      "drawMs": {
+        "mean": 46.454,
+        "p50": 43.121,
+        "p95": 59.48
+      },
+      "backdropDrawImageMs": {
+        "mean": 18.551,
+        "p50": 17.761,
+        "p95": 22.464
+      }
+    },
+    {
+      "cached": true,
+      "cacheBuilds": 1,
+      "cacheSize": [
+        2402,
+        1601
+      ],
+      "viewport": [
+        1200,
+        750
+      ],
+      "texture": [
+        2400,
+        1500
+      ],
+      "pixels": 3600000,
+      "actors": 6,
+      "frames": 120,
+      "drawMs": {
+        "mean": 52.962,
+        "p50": 49.682,
+        "p95": 75.3
+      },
+      "backdropDrawImageMs": {
+        "mean": 25.119,
+        "p50": 23.767,
+        "p95": 34.665
+      }
+    }
+  ]
+}

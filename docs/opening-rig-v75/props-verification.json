@@ -1,0 +1,146 @@
+{
+  "tool": "Built-in image_gen only; no paid/API fallback",
+  "source": "/workspace/scratch/1a1351aee944/generated_images/exec-9d267bf8-9937-46f2-8534-9343769f2a5e.png",
+  "atlas": "/workspace/scratch/1a1351aee944/brawler-repair-nov10/generated/opening-props-v75/atlas.png",
+  "dimensions": [
+    1536,
+    1024
+  ],
+  "mode": "RGBA",
+  "alpha_extrema": [
+    0,
+    254
+  ],
+  "fully_transparent_fraction": 0.616858164469401,
+  "alpha_under_10_fraction": 0.6764678955078125,
+  "grid": "Uniform 3 columns x 2 rows; 512x512 cells",
+  "cells": [
+    {
+      "name": "blanket",
+      "cell": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        13,
+        114,
+        512,
+        444
+      ],
+      "global_alpha16_bbox": [
+        13,
+        114,
+        512,
+        444
+      ]
+    },
+    {
+      "name": "pillow",
+      "cell": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        34,
+        147,
+        473,
+        391
+      ],
+      "global_alpha16_bbox": [
+        546,
+        147,
+        985,
+        391
+      ]
+    },
+    {
+      "name": "bed",
+      "cell": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        16,
+        146,
+        486,
+        397
+      ],
+      "global_alpha16_bbox": [
+        1040,
+        146,
+        1510,
+        397
+      ]
+    },
+    {
+      "name": "clock",
+      "cell": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        111,
+        46,
+        417,
+        471
+      ],
+      "global_alpha16_bbox": [
+        111,
+        558,
+        417,
+        983
+      ]
+    },
+    {
+      "name": "breakfast",
+      "cell": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        82,
+        35,
+        413,
+        465
+      ],
+      "global_alpha16_bbox": [
+        594,
+        547,
+        925,
+        977
+      ]
+    },
+    {
+      "name": "microphone",
+      "cell": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "local_alpha16_bbox": [
+        165,
+        34,
+        351,
+        472
+      ],
+      "global_alpha16_bbox": [
+        1189,
+        546,
+        1375,
+        984
+      ]
+    }
+  ],
+  "visual_verification": "Six complete separate matching editorial engraved raster props. No grid, labels, people, or clipping. Genuine alpha exists. Requested 15% padding not met in every cell, especially blanket and bed; consumer should use measured bounding boxes and add transparent presentation padding. Nonzero near-transparent fringe exists (alpha 1 pixels), so threshold-16 bounds supplied. Source left unchanged."
+}

@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>V51 supporter flag attachment QA</title>
+<style>body{margin:24px;background:#ece3cf;color:#17323b;font:15px system-ui}h1{font-size:21px}p{max-width:900px}.grid{display:grid;grid-template-columns:repeat(7,160px);gap:4px}.card{background:#f8f0dd;border:1px solid #afa58c;text-align:center}canvas{display:block;width:160px;height:310px}h2{font-size:16px;margin:10px 0 0}</style>
+<h1>V51 · 七角色旗幟 / 左右鏡像實圖</h1>
+<p>上：桌面 15px 粗體。下：直式手機 13px 粗體。兩組均使用實際透明圖片與正式旗幟幾何，旗桿從高舉的拳頭向上，字不穿過臉。金色／青色保留隊伍區別，不加「玩家／AI」。</p><div class="grid"></div>
+<script type="module">
+import {supporterFlagLayout} from './supporter-flags.mjs?v=post69-street-seam-cull-20261112-r1';
+import {CAST} from './roster.mjs?v=post69-street-seam-cull-20261112-r1';
+const image=new Image();image.src='./assets/supporter-woman-v46.png';await image.decode();
+for(const {name} of Object.values(CAST)){
+ const card=document.createElement('section');card.className='card';const title=document.createElement('h2');title.textContent=name;card.append(title);const canvas=document.createElement('canvas');canvas.width=320;canvas.height=620;card.append(canvas);document.querySelector('.grid').append(card);const c=canvas.getContext('2d');c.scale(2,2);
+ for(const [row,width,h,rotation] of [[0,960,72,.14],[1,390,60,0]])for(const [x,direction,color] of [[40,1,'#ffc85a'],[120,-1,'#76e0eb']]){
+  const m={x,y:142+row*142,height:h,direction,rotation:rotation*direction,name};
+  c.save();c.translate(m.x,m.y);c.rotate(m.rotation);c.scale(direction*h/image.height,h/image.height);c.drawImage(image,-image.width/2,-image.height);c.restore();
+  const f=supporterFlagLayout(m,{x:width/2,y:155,width,height:310,zoom:1});
+  c.lineWidth=2;c.strokeStyle='#17323b';c.beginPath();c.moveTo(f.grip.x,f.grip.y);c.lineTo(f.poleTop.x,f.poleTop.y);c.stroke();c.beginPath();c.roundRect(f.x-f.width/2,f.y-f.height/2,f.width,f.height,3);c.fillStyle=color;c.fill();c.lineWidth=1.5;c.stroke();c.fillStyle='#17323b';c.font=`bold ${f.fontSize}px system-ui`;c.textAlign='center';c.textBaseline='middle';c.fillText(f.text,f.x,f.y);
+ }
+ c.fillStyle='#66736c';c.font='11px system-ui';c.textAlign='center';c.fillText('桌面 · 輕微前傾',80,26);c.fillText('直式手機 · 靜止',80,175);
+}
+document.body.dataset.ready='true';
+</script>

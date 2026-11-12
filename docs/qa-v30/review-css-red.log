@@ -1,0 +1,35 @@
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (5.161135ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (1.749955ms)
+✔ upright and desktop save stage space without eliminating required controls (1.675806ms)
+✖ short desktop keeps move cards horizontal despite inherited landscape styles (1.37915ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 3
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 169.580583
+
+✖ failing tests:
+
+test at tests/compact-fight-v30.test.mjs:29:1
+✖ short desktop keeps move cards horizontal despite inherited landscape styles (1.37915ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== 'row'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:29:97)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'row',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,39 @@
+✔ desktop exposes a normal pointer-enabled guard button beside attack, without replacing crouch (21.194924ms)
+✔ displayed guard keys match real keyboard bindings and down remains only crouch (1.985598ms)
+✔ upright 320: stick stays at least 76px, inset, and inside its reserved dock (20.291536ms)
+✔ landscape 568: stick stays at least 76px, inset, and inside its reserved dock (13.275806ms)
+✔ landscape 844: stick stays at least 76px, inset, and inside its reserved dock (8.631633ms)
+✔ rotated portrait logical 844: stick stays at least 76px, inset, and inside its reserved dock (6.746223ms)
+✔ safe-area-reduced logical 480: stick stays at least 76px, inset, and inside its reserved dock (7.599061ms)
+✔ stationary guard can be held beside stick movement and released independently (1.019358ms)
+✔ desktop primary mouse press activates the shown guard and cancellation releases it (0.813886ms)
+✔ safe portrait game uses swapped logical dimensions and native landscape does not rotate (2.892851ms)
+✔ clockwise portrait pointers map visual movement back into game directions (0.39458ms)
+✔ independent fingers retain directions and attacks until their own release; cancel clears all (0.922685ms)
+✔ classic camera tracks midpoint and pushes in when opponents approach (1.637336ms)
+✔ classic camera recovers after a jump and keeps all body bounds under HUD (7.981267ms)
+✔ pointer DOM bindings invert portrait axes, retain second finger and clear on all lifecycle exits (2.079004ms)
+✔ classic camera background covers complete viewport at both world edges and jumps (1.674941ms)
+✔ classic backdrop has fixed world geometry while the camera follows and eases across a jump (20.020437ms)
+✔ two pointer IDs keep joystick and attack independent at rotation0 (2.183077ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation0 (1.153986ms)
+✔ orientation or page interruption releases both fingers at rotation0 (0.398996ms)
+✔ two pointer IDs keep joystick and attack independent at rotation90 (0.345438ms)
+✔ guard works at rest and joystick up emits exactly one jump at rotation90 (0.566042ms)
+✔ orientation or page interruption releases both fingers at rotation90 (0.262976ms)
+✔ safe-area body gutters suppress double-tap zoom without locking pinch or pan (7.947989ms)
+✔ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (4.514093ms)
+✔ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (5.876464ms)
+✔ Phaser canvas touch handlers do not cancel native pinch gestures (3.145842ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (7.426362ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (4.976422ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (7.272166ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.344937ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 249.688545

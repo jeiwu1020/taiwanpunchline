@@ -1,0 +1,42 @@
+✔ only the locked battle cabinet suppresses all touch browser gestures (21.827687ms)
+✔ surface locking synchronizes exact combat states, never settings or text overlays (11.081729ms)
+✔ the overlay CSS and camera use the same logical overlay flag (0.617538ms)
+✔ held crouch plants the foot root and suppresses voluntary movement until released (4.577067ms)
+✔ back plus crouch guards using raw directions without sliding or bypassing attack restrictions (1.153576ms)
+✔ successful jump exits crouch, stays standing in the air, then holding down crouches again (6.158282ms)
+✔ landing reports a short visual countdown without moving the foot root (1.557148ms)
+✔ basic and special attacks exit crouch and cannot be cancelled by holding down (33.81397ms)
+✔ crouch cannot clear stun or shorten its remaining duration (1.015923ms)
+✔ holding crouch preserves the 0.15-second input buffer and late basic-to-special cancel window (0.897579ms)
+✔ each fighter cycles only accepted basic attacks and restarts after an idle gap (7.751182ms)
+✔ all three cosmetic variants keep basic damage, reach and timing (2.705847ms)
+✔ V13 crouch ducks high coin, while mid punch and ground arrow retain their hits (6.984907ms)
+✔ back plus crouch keeps the existing reduced guard damage (1.205431ms)
+✔ S and down-arrow are held inputs and releasing either alias preserves the other (5.730462ms)
+✔ held touch crouch releases on pointer cancel and lost capture (5.594102ms)
+✔ pause and blur clear active crouch, and keys pressed while paused do not rearm it (6.409401ms)
+✔ menu offers seven portrait buttons and two selectable role cards (9.462328ms)
+✔ all selected pairings update portraits, controls and fresh duel across replay and reselect (33.536262ms)
+✔ new moves use their own metadata and never inherit Wang or Han captions (3.306841ms)
+✔ changing only opponent refreshes HUD cache key (0.431054ms)
+✔ new source links and explicit research/audio limits are present without changing Han clip (0.412646ms)
+✔ repeated start replaces countdown and returning to menu cancels the pending start (2.58549ms)
+✔ fictional attack-name banners are never labeled as a candidate quotation (2.749296ms)
+✔ Chen and Ko special events do not trigger the original Han voice player (14.327038ms)
+✔ Han and cough voices both start on accepted moves (2.276436ms)
+✔ manual sample uses the selected clip and respects mute and close lifecycle (1.580103ms)
+✔ manual preview stops on close, window blur, and hidden document even outside active duel (19.809576ms)
+✔ three catalog moves play immediately with catalog provenance, even if later interrupted (10.091983ms)
+✔ all nine supplied recording excerpts trigger the matching move without a delayed timer (29.498878ms)
+✔ accepted Su shout plays its uploaded file once immediately (5.203028ms)
+✔ user-selected Su rush and dare clips each play once on acceptance (4.185972ms)
+✔ accepted handshake plays its uploaded phrase once without waiting for hit (3.179374ms)
+✔ accepted Chen dream plays once at acceptance on the proper actor lane (4.196653ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 326.017685

@@ -1,0 +1,160 @@
+{
+  "asset": {
+    "path": "dist/assets/han-lotus-body-v11.webp",
+    "sha256": "24647bc8a6a97a247415c5e6fba5f04a47e9f02e0d2d0a00273a978a1d3ebe6b",
+    "bytes": 281490
+  },
+  "created_utc": "2026-11-06T07:30:56.497495+00:00",
+  "mode": "built-in image_gen only, transparent_background=true; no API/CLI fallback",
+  "generation_calls": 2,
+  "source_originals": [
+    {
+      "status": "First result, superseded because knees and leg bundle were too wide/horizontal",
+      "path": "docs/imagegen-v11/han-lotus-body-v11-first-generated.png",
+      "sha256": "a5d0fd309dae077f15e806de35e13d052a3cd034fa5bce3253a1d46a23c31490",
+      "bytes": 1539620,
+      "generation_original_path": "/workspace/scratch/1a1351aee944/generated_images/exec-9c058fd2-7a89-4395-824e-fcbba26281a4.png",
+      "prompt_file": "docs/imagegen-v11/han-lotus-body-v11-prompt.txt",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "status": "Selected corrected final, knees brought within shoulder span and folded legs more upright",
+      "path": "docs/imagegen-v11/han-lotus-body-v11-generated.png",
+      "sha256": "ed9a9edd391486f53178634b0287462d1e67a5ad00fc058ff81898944d3b85c4",
+      "bytes": 1364910,
+      "generation_original_path": "/workspace/scratch/1a1351aee944/generated_images/exec-8d97d63c-18da-4005-aa0d-e1627a5213e0.png",
+      "prompt_file": "docs/imagegen-v11/han-lotus-body-v11-correction-prompt.txt",
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  ],
+  "references": [
+    {
+      "role": "Established style, clothes and compact character proportions",
+      "path": "docs/imagegen-v10/han-standing-v9-reference.png",
+      "sha256": "6aea5dcc1aed673dd43e04e79f15dfb05091637668a23a33cb15b5b51178e354",
+      "bytes": 62105
+    },
+    {
+      "role": "Pose construction only: seated crossed legs",
+      "path": "/workspace/shared/han-knee-v11-reference/han-original-seated-crossleg-mirror.jpg",
+      "sha256": "90b312ac5eb5c30946f86756adfaf9078e792eb395b2f132d45a9f203ed041e0",
+      "bytes": 62150,
+      "page_url": "https://www.mirrormedia.mg/story/20191225edi011",
+      "image_url": "https://v3-statics.mirrormedia.mg/images/20191225132038-c0aa647765e1f36a90ca427007a47015-w800.jpg"
+    },
+    {
+      "role": "Pose construction only: hips raised, knees supporting, one fingertip support",
+      "path": "/workspace/shared/han-knee-v11-reference/han-original-raised-crossleg-mirror.png",
+      "sha256": "23cc428717a0d206a7f422d4a3dad7b7ff9dbf73bb0edf9f09302a7a988e3b71",
+      "bytes": 3244748,
+      "page_url": "https://www.mirrormedia.mg/story/20200710inv002",
+      "image_url": "https://v3-statics.mirrormedia.mg/images/20200710100304-9ebd29ad59294da790b86dfb98ebe31a.png"
+    },
+    {
+      "role": "Corrective pose reference: upright hips, compact crossed legs, both hands off ground",
+      "path": "/workspace/shared/han-knee-v11-reference/han-original-upright-handshake-dailyview.jpg",
+      "sha256": "f15f9e327cf72c96c116b4661a81956da64516a4c424a6da9cdb4b090906b4c1",
+      "bytes": 188114,
+      "page_url": "https://dailyview.tw/popular/detail/7391",
+      "image_url": "https://2024-dailyview.s3.ap-northeast-1.amazonaws.com/Content/ueditor/net/upload/2019-12-25/00ecb555-4e62-4cba-91f0-1389457f7a40.png"
+    }
+  ],
+  "not_used_as_generation_inputs": [
+    "dist/assets/han-knees-v10.webp",
+    "dist/assets/han-knee-shout-v10.webp"
+  ],
+  "additional_inspected_style_assets": [
+    "dist/assets/han-defiant-head.webp",
+    "dist/assets/han-parts-v3.webp"
+  ],
+  "compilation": "Selected generated original uniformly resized from 1254x1254 to 768x768 with ImageMagick and losslessly encoded to WebP. No manual painting, anatomy reshaping, clipping, tinting or per-part transforms. Alpha is preserved through the standard resize; no threshold cleanup was applied.",
+  "sprite": {
+    "width": 768,
+    "height": 768,
+    "facing": "three-quarter right",
+    "headless": true,
+    "alpha_bounds_xyxy": [
+      59,
+      50,
+      745,
+      709
+    ],
+    "visible_bounds_alpha_gt_16_xyxy": [
+      180,
+      96,
+      685,
+      705
+    ],
+    "opaque_bounds_alpha_gt_128_xyxy": [
+      181,
+      96,
+      685,
+      704
+    ],
+    "fully_transparent_pixel_percent": 70.50001356336806,
+    "neck_attach_xy": [
+      375,
+      104
+    ],
+    "hip_center_xy": [
+      366,
+      517
+    ],
+    "screen_left_knee_contact_xy": [
+      309,
+      703
+    ],
+    "screen_right_knee_contact_xy": [
+      433,
+      703
+    ],
+    "neutral_ground_anchor_xy": [
+      371,
+      703
+    ],
+    "screen_left_shoe_center_xy": [
+      286,
+      590
+    ],
+    "screen_right_shoe_center_xy": [
+      454,
+      584
+    ],
+    "screen_left_knee_contact_alpha_gt_128_x_extent_at_y703": [
+      297,
+      320
+    ],
+    "screen_right_knee_contact_alpha_gt_128_x_extent_at_y703": [
+      421,
+      445
+    ],
+    "measurement_note": "Knee bottom y and contact runs are measured at alpha>128. Neck, hip and shoe landmarks are visual estimates for rigging. Coordinates are in full 768x768 canvas. Neck attach should be hidden under the existing head lower-neck edge; no extra visible neck needs drawing."
+  },
+  "visual_validation": [
+    "Inspected both generated originals and final WebP on a light-gray composite.",
+    "Selected final has exactly two arms, two hands, two knees and two shoes. Both hands balance above ground.",
+    "No head and no long neck; a short clean collar opening is available for existing head attachment.",
+    "Both legs remain folded across the front. Both shoes are raised off ground against the opposite folded leg; no extended shins or feet trail backward.",
+    "Two compact knee bottoms form the lowest main silhouette; their y positions match. The center notch between knees is transparent.",
+    "Lower-body width is contained within the upper torso/shoulder span rather than the first version wide frog-like spread.",
+    "Blue-teal suit, white shirt, dark tie, black shoes and crosshatched ink style match established character references.",
+    "No visible background, cast shadow, text, watermark, props, loose parts or photographic pixels."
+  ],
+  "limitations": [
+    "Original video playback could not be observed by the researcher. Shape and raised-knee support are based on three verified stills. Alternating knee gait timing, roll and travel are animation interpretations, not verified frame-by-frame reconstruction.",
+    "Balancing arm poses and suit clothing deliberately differ from the original stage photo; the game uses its established character identity and clothes.",
+    "Shoe on screen left shows its sole strongly; shoe on screen right is more of an upper/side view. Both remain visibly folded in front.",
+    "Generated alpha includes tiny low-opacity pixels outside the visible figure. Use alpha>16 visible bounds for visual sizing, not nonzero-alpha bounds.",
+    "This is a single stable body pose; entry/exit transitions and dynamic knee-ground locking remain the renderer responsibility."
+  ],
+  "suggested_runtime_usage": "Render one invariant folded-leg body with existing head or shout head attached at neck_attach_xy. To walk, rock the whole body mildly and translate to lock the chosen knee contact to the floor, alternating screen-left/right support. Do not swap in ordinary kneeling anatomy or distort/unfold the leg assembly. Ground anchor at neutral is [371,703].",
+  "inspection_preview": "/workspace/shared/han-lotus-body-v11-inspection.png",
+  "code_modified_by_asset_worker": false,
+  "committed_or_published_by_asset_worker": false
+}

@@ -1,0 +1,55 @@
+<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Street render performance probe</title>
+<style>body{margin:0;background:#102e32;color:#fff5df;font:15px system-ui}h1,p,pre{margin:12px 20px}pre{white-space:pre-wrap}#game{width:1200px;height:750px;max-width:100%;overflow:hidden}button{font:inherit;padding:10px;margin:10px}</style>
+<h1>Street rendering: identical scene, unchanged art resolution</h1><p id="status">Loading real Phaser Canvas renderer and project art…</p><pre id="report"></pre><div id="game"></div><details><summary>Full measurements</summary><pre id="raw"></pre></details>
+<script src="../dist/vendor/phaser.min.js"></script><script type="module">
+import {createDepthChallengeRenderer,depthRouteCameraFrame,paintDepthRoute} from '../dist/challenge-depth-render.mjs';
+import {ChallengeRoute} from '../dist/challenge-engine.mjs';
+import {ART_FILES as fighterArt} from '../dist/art-render.mjs';
+import {ART_FILES as streetArt} from '../dist/challenge-art.mjs';
+const WIDTH=1200,HEIGHT=750,WARMUP=90,SAMPLES=360;
+const results=[],report=document.querySelector('#report'),status=document.querySelector('#status');
+const summarize=values=>{const s=[...values].sort((a,b)=>a-b);return {mean:+(s.reduce((a,b)=>a+b,0)/s.length).toFixed(3),p50:s[Math.floor(s.length*.5)],p95:s[Math.floor(s.length*.95)],max:s.at(-1)};};
+// Exact pre-change canvas factory from commit 8a44af7. The default paint path is unchanged.
+function createBaselineDepthRenderer(scene,images){
+ const key='challenge-depth-world',texture=scene.textures.createCanvas(key,1,1),display=scene.add.image(0,0,key).setOrigin(0).setDepth(-7).setVisible(false);
+ let size='';const labelSlots=new Map();
+ return {hide(){display.setVisible(false);},draw(route,time,frame,options={}){
+  const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;
+  // Render at twice CSS resolution (bounded on large desktop views), rather
+  // than enlarging a fixed low-resolution mob or text texture with the camera.
+  const ratio=Math.max(1,Math.min(2,2560/frame.width,1800/frame.height)),pw=Math.ceil(frame.width*ratio),ph=Math.ceil(frame.height*ratio),stamp=pw+':'+ph;
+  if(stamp!==size){texture.setSize(pw,ph);size=stamp;}
+  const ctx=texture.getContext();ctx.clearRect(0,0,pw,ph);ctx.fillStyle='#efd8af';ctx.fillRect(0,0,pw,ph);ctx.save();ctx.scale(pw/width,ph/height);ctx.translate(-left,-top);
+  paintDepthRoute(ctx,images,route,time,frame,{...options,labelSlots});ctx.restore();texture.refresh();display.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
+ }};
+}
+
+class Probe extends Phaser.Scene{
+ preload(){for(const [key,file]of Object.entries({...fighterArt,...streetArt}))this.load.image(key,'../dist/assets/'+file);}
+ create(){
+  this.images=Object.fromEntries(Object.keys({...fighterArt,...streetArt}).map(k=>[k,this.textures.get(k).getSourceImage()]));
+  this.route=new ChallengeRoute('wang','easy',()=>.2);this.route.depthMode=true;this.route.player.x=1100;this.route.spawn();
+  this.route.enemies.forEach((f,i)=>{f.x=1150+i*65;f.depth=-50+i*40;});
+  this.index=-1;this.begin();
+ }
+ begin(){
+  if(this.routeRenderer){this.routeRenderer.hide();this.children.removeAll(true);this.textures.remove('challenge-depth-world');if(this.textures.exists('challenge-depth-backdrop'))this.textures.remove('challenge-depth-backdrop');}
+  this.index++;
+  if(this.index===4){status.textContent='Complete. Four alternating runs avoid a one-off warmup result. No gameplay, assets, resolution or animation cadence changed. Candidate caches the backdrop; foreground still paints every frame.';this.scene.pause();window.performanceProbeResults=results;return;}
+  const cached=this.index%2===1;
+  this.routeRenderer=(cached?createDepthChallengeRenderer:createBaselineDepthRenderer)(this,this.images);
+  this.count=0;this.drawTimes=[];this.frameTimes=[];this.last=0;
+  this.label=cached?'retained backdrop (candidate)':'full repaint (baseline)';status.textContent=`Run ${this.index+1}/4: ${this.label}. ${SAMPLES} measured frames after ${WARMUP} warmup frames.`;
+ }
+ update(time,delta){
+  this.count++;const t=this.count*1000/60;this.route.player.x=1100+Math.sin(t*.00035)*150;
+  this.route.player.move=1;this.route.enemies.forEach((f,i)=>{f.move=1;f.x=1150+i*65+Math.sin(t*.0007+i)*30;});
+  const frame=depthRouteCameraFrame(WIDTH,HEIGHT,this.route),cam=this.cameras.main;cam.setZoom(frame.zoom);cam.centerOn(frame.x,frame.y);
+  const start=performance.now();this.routeRenderer.draw(this.route,t,frame);const end=performance.now();
+  if(this.count>WARMUP){this.drawTimes.push(end-start);if(this.last)this.frameTimes.push(start-this.last);}
+  this.last=start;
+  if(this.count>=WARMUP+SAMPLES){const texture=this.textures.get('challenge-depth-world'),attributes=texture.getContext().getContextAttributes?.();results.push({run:this.index+1,label:this.label,dpr:devicePixelRatio,viewport:[WIDTH,HEIGHT],texture:[texture.width,texture.height],context:attributes,backdropTexture:this.textures.exists('challenge-depth-backdrop')?[this.textures.get('challenge-depth-backdrop').width,this.textures.get('challenge-depth-backdrop').height]:null,actors:1+this.route.enemies.length,drawMs:summarize(this.drawTimes),frameMs:summarize(this.frameTimes),over25ms:this.frameTimes.filter(t=>t>25).length,samples:this.drawTimes.length});report.textContent=results.map(r=>`Run ${r.run} ${r.label}: draw median ${r.drawMs.p50.toFixed(2)} ms / p95 ${r.drawMs.p95.toFixed(2)} ms; frame p95 ${r.frameMs.p95.toFixed(2)} ms; >25ms ${r.over25ms}/${r.samples}; readback ${r.context?.willReadFrequently}; DPR ${r.dpr}; texture ${r.texture.join('×')}; actors ${r.actors}`).join('\n');document.querySelector('#raw').textContent=JSON.stringify(results,null,2);this.begin();}
+ }
+}
+new Phaser.Game({type:Phaser.CANVAS,parent:'game',width:WIDTH,height:HEIGHT,backgroundColor:'#efd8af',antialias:true,roundPixels:false,scene:Probe,audio:{noAudio:true},fps:{target:60,forceSetTimeOut:false},render:{powerPreference:'low-power'}});
+</script></html>

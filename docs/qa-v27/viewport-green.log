@@ -1,0 +1,10 @@
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (2.210127ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.691781ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 143.297264

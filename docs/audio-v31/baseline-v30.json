@@ -1,0 +1,403 @@
+{
+  "commit": "e248af9d6947c306c7b66baf3044be00cc953680",
+  "slots": {
+    "coin": {
+      "src": "assets/voice/han-fa-da-cai-20190513.mp3",
+      "originalVerified": true,
+      "label": "高雄發大財",
+      "speaker": "韓國瑜",
+      "rights": "未確認再利用權",
+      "status": "既有議會原片私人測試片段",
+      "source": "https://ivod.kcc.gov.tw/watch/107/201905KCC0301S1080513101426VIDEOmp4?start=1817",
+      "sha256": "eda509cd3c4847a52237c88dbdcfc71cfa660aeb06375000d290504bf8ab4492"
+    },
+    "ma_cough": {
+      "src": "assets/voice/user-cough-full-v14.mp3",
+      "originalVerified": false,
+      "userProvided": true,
+      "decoded": true,
+      "label": "死亡之咳（酷酷嫂）",
+      "speaker": "使用者指定對應馬英九，未獨立認證",
+      "cue": 0.2,
+      "rights": "未確認再利用權",
+      "status": "使用者提供「死亡之咳.mp3」；未獨立聽驗或核實原始來源。保留全長 7.34 秒，修復編碼並降低音量，未剪接新發言。",
+      "reference": "https://www.youtube.com/watch?v=R8vDOQt-V4A&t=5950s",
+      "referenceNote": "馬英九東吳演講咳嗽候選；未確認上傳檔出自此片",
+      "sha256": "7e7de6c9ecf305068198f66c7c0738ff05c0d0b575274f14e99e2746814cd57e"
+    },
+    "han_knee": {
+      "src": "assets/voice/user-ke-lian-na-v14.mp3",
+      "originalVerified": false,
+      "userProvided": true,
+      "decoded": true,
+      "label": "可憐哪",
+      "speaker": "使用者指定對應韓國瑜，未獨立認證",
+      "cue": 0,
+      "rights": "未確認再利用權",
+      "status": "使用者提供「可憐哪.mp3」；未獨立聽驗或核實發言者。保留全長約 0.57 秒；招式成功接受後立即播放，不再等待膝行動畫。",
+      "sha256": "e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b"
+    },
+    "rush": {
+      "src": "assets/voice/user-rush-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "連滾帶爬",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／從從容容  連滾帶爬.mp4，取 15.64–18.02 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "從從容容  連滾帶爬.mp4",
+      "sourceRange": {
+        "start": 15.64,
+        "end": 18.02
+      },
+      "reference": "https://www.youtube.com/watch?v=d8fKRcTP2Tg&t=499s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "1eaa197eddacd76115ef19550b73e540e3f3b6f85ba132d2fac6c74925b32a79"
+    },
+    "counter": {
+      "src": "assets/voice/user-counter-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "從從容容",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／從從容容  連滾帶爬.mp4，取 8.65–13.15 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。保留完整前後文句，未硬切四字。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "從從容容  連滾帶爬.mp4",
+      "sourceRange": {
+        "start": 8.65,
+        "end": 13.15
+      },
+      "reference": "https://www.youtube.com/watch?v=d8fKRcTP2Tg&t=499s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "0b00e467bd129098de163049638d2b12a21d073dc176ac207991b77ad74938c3"
+    },
+    "huang_shout": {
+      "src": "assets/voice/huang-too-outrageous-v15.mp3",
+      "originalVerified": false,
+      "catalogProvided": true,
+      "decoded": true,
+      "label": "太離譜了",
+      "speaker": "黃國昌（依語錄站標示，未獨立認證）",
+      "cue": 0.1,
+      "source": "https://kuochang.tw/quote/Beyavja1r7",
+      "rights": "未確認底層影音再利用權",
+      "status": "依使用者要求保留第一段發話，約 1.35 秒，移除後面重複句；以波形停頓輔助分段，未獨立聽驗或認證說話者。",
+      "sourceRange": {
+        "start": 0.2,
+        "end": 1.55
+      },
+      "reviewNeeded": true,
+      "sha256": "1f23c5aa31586c17fdcbda619e375b2741c9287eacc344a5f96828e8a76f6128"
+    },
+    "huang_debt": {
+      "src": "assets/voice/huang-owe-you-v15.mp3",
+      "originalVerified": false,
+      "catalogProvided": true,
+      "decoded": true,
+      "label": "我有欠你喔",
+      "speaker": "黃國昌（依語錄站標示，未獨立認證）",
+      "cue": 0,
+      "source": "https://kuochang.tw/quote/ybR0opawAK",
+      "rights": "未確認底層影音再利用權",
+      "status": "依使用者要求移除前兩次起頭聲，保留後段約 1.15 秒；以波形與辨識序列輔助定位，未獨立聽驗或認證完整用字與說話者。",
+      "sourceRange": {
+        "start": 1.35,
+        "end": 2.501882
+      },
+      "reviewNeeded": true,
+      "sha256": "4d2acd3a4d56ad4f1604b042ca08ad7118afc021bd7e850473f91c60d3091ef5"
+    },
+    "huang_queue": {
+      "src": "assets/voice/huang-queue-user-end-v25.mp3",
+      "originalVerified": false,
+      "catalogProvided": true,
+      "decoded": true,
+      "label": "可以這樣插隊喔",
+      "speaker": "黃國昌（依語錄站標示，未獨立認證）",
+      "cue": 0,
+      "source": "https://kuochang.tw/quote/XnVa4k06oJ",
+      "rights": "未確認底層影音再利用權",
+      "status": "依使用者試聽前 4 秒後指出「差不多是第二秒之前結束」，取原檔 0.00–1.98 秒近似短版，結尾落在低能量區並用 20 毫秒淡出；保留原檔可回復。未獨立聽驗句尾或認證說話者，仍請使用者確認「蛤」完整保留。",
+      "sourceRange": {
+        "start": 0,
+        "end": 1.98
+      },
+      "reviewNeeded": true,
+      "sha256": "2e4c88dba4f5abf87392090361ea150d8e19f4984f1eee0b75cf754201fc064d"
+    },
+    "su_dare": {
+      "src": "assets/voice/su-dare-user-selected-v16.mp3",
+      "originalVerified": false,
+      "label": "要試試看嘛",
+      "rights": "未確認再利用權",
+      "status": "依使用者指定僅取原錄影第一秒（0.00–1.00 秒），連續保留、不延長或拼接。檔名／字幕為「嗎」，遊戲暫沿用「嘛」。使用者提供音檔，未獨立聽驗或認證發言者與來源。",
+      "userProvided": true,
+      "decoded": true,
+      "received": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "sourceFile": "要試試看嗎.mp4",
+      "sourceRange": {
+        "start": 0,
+        "end": 1
+      },
+      "requestedTime": null,
+      "sha256": "239c8001b38b2fb51595a0933080eeffa736bf7121097f99012baba82b8da12b"
+    },
+    "chen_calm": {
+      "src": "assets/voice/user-chen-calm-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "有這麼嚴重嗎",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／有這麼嚴重嗎.mp4，取 7.14–8.88 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "有這麼嚴重嗎.mp4",
+      "sourceRange": {
+        "start": 7.14,
+        "end": 8.88
+      },
+      "reference": "https://www.youtube.com/watch?v=jfKym0Zjbtw",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "6525b094680e5e4a17dd763f9cbdd9c286b89dad6920de335e508c76c3251d8f"
+    },
+    "ko_bags": {
+      "src": "assets/voice/user-ko-bags-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "垃圾不分藍綠",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／垃圾不分藍綠.mp4，取 6.55–7.84 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。字首定位約有 0.1 秒不確定性。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "垃圾不分藍綠.mp4",
+      "sourceRange": {
+        "start": 6.55,
+        "end": 7.84
+      },
+      "reference": "https://www.youtube.com/watch?v=LTNjR34kFRM&t=33s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "f77534e506a79f93dd9068c2ec19d98fabb4550871beffab5811767bcb3f75fb"
+    },
+    "ko_resolve": {
+      "src": "assets/voice/user-ko-resolve-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "我不會屈服",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／賴祥德  我不會屈服.mp4，取 11.15–13.35 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "賴祥德  我不會屈服.mp4",
+      "sourceRange": {
+        "start": 11.15,
+        "end": 13.35
+      },
+      "reference": "https://www.youtube.com/watch?v=YhemGL_KdIk",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "d5cc05bbf3be746801d9409ff86816f78f29b56587a918c62ecdeb6b2824e71d"
+    },
+    "ko_name": {
+      "src": "assets/voice/user-ko-name-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "賴祥德",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／賴祥德  我不會屈服.mp4，取 5.55–7.15 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "賴祥德  我不會屈服.mp4",
+      "sourceRange": {
+        "start": 5.55,
+        "end": 7.15
+      },
+      "reference": "https://www.youtube.com/watch?v=YhemGL_KdIk",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "17862a984268430866c45f638d71fb751cacd5bec377a1424f0c6056f56fcbfe"
+    },
+    "chen_question": {
+      "src": "assets/voice/user-chen-question-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "阿扁錯了嗎",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／阿扁錯了嗎.mp4，取 7.7–9.55 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "阿扁錯了嗎.mp4",
+      "sourceRange": {
+        "start": 7.7,
+        "end": 9.55
+      },
+      "reference": "https://www.youtube.com/watch?v=wtkstRQdHkA&t=60s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "bb4d4eb51599020675ab149704de3731153c77afec44fda148cd522abfff123e"
+    },
+    "ma_gaze": {
+      "src": "assets/voice/user-ma-gaze-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "我把你當人看",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／我把你當人看.mp4，取 5.05–6.27 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "我把你當人看.mp4",
+      "sourceRange": {
+        "start": 5.05,
+        "end": 6.27
+      },
+      "reference": "https://www.youtube.com/watch?v=OnkeWLCezVQ&t=7s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "e6cf5ef52a95faef11d774f5fdb13e2f7a8b9a9b07dc2410fe30e6b49ce8fbe6"
+    },
+    "arrow": {
+      "src": "assets/voice/user-arrow-candidate-v15.mp3",
+      "originalVerified": false,
+      "label": "一支穿雲箭",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供 Captures.zip／一支穿雲箭.mp4，取 7.85–9.9 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。",
+      "userProvided": true,
+      "decoded": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "一支穿雲箭.mp4",
+      "sourceRange": {
+        "start": 7.85,
+        "end": 9.9
+      },
+      "reference": "https://www.youtube.com/watch?v=M8Xq14fSpX0&t=16s",
+      "referenceNote": "先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利",
+      "sha256": "fec4921af4416e81890ed67eec93d0f90284cf2bd47df17fe1ec8035fa925b11"
+    },
+    "su_shout": {
+      "src": "assets/voice/su-shout-user-upload-v16.mp3",
+      "originalVerified": false,
+      "label": "在那叫什麼",
+      "source": null,
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "使用者提供「在那叫什麼.mp4」，取 3.96–6.34 秒連續音軌，約 2.38 秒，去除前後靜音並降低 3 dB；招式成功接受後立即播放。未獨立聽驗或認證發言者與來源。",
+      "userProvided": true,
+      "decoded": true,
+      "received": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "在那叫什麼.mp4",
+      "sourceRange": {
+        "start": 3.96,
+        "end": 6.34
+      },
+      "reference": "https://www.youtube.com/shorts/cbciI75MegY",
+      "referenceNote": "先前指定的候選參考；本次實際音訊來自新上傳錄影，未核實與此連結的關係",
+      "speaker": "使用者指定對應蘇貞昌，未獨立認證",
+      "sha256": "fdb8f4f101d8a6a3856b76b2568f55da2ece3f6a1f8aec85c6c193e7889ec834"
+    },
+    "su_rush": {
+      "src": "assets/voice/su-rush-user-selected-v16.mp3",
+      "originalVerified": false,
+      "label": "衝衝衝",
+      "source": "https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link",
+      "requestedTime": null,
+      "rights": "未確認再利用權",
+      "status": "依使用者指定「約 12 秒到 14 秒多」取原錄影 12.00–14.90 秒，約 2.90 秒，尾端短淡出，依指定範圍截斷後續音訊。使用者提供音檔，未獨立聽驗或認證發言者與來源。",
+      "userProvided": true,
+      "decoded": true,
+      "received": true,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "衝衝衝.mp4",
+      "sourceRange": {
+        "start": 12,
+        "end": 14.9
+      },
+      "reference": "https://www.youtube.com/shorts/1Vw_joOXrzw",
+      "referenceNote": "先前指定影片參考；本版音訊來自使用者提供錄影，未核實與此連結的關係",
+      "sha256": "08f0cb2ca2516725dddc9d7a644352d029b9d911c64b8477bbbffe48a921a058"
+    },
+    "ma_handshake": {
+      "src": "assets/voice/ma-handshake-user-candidate-v17.mp3",
+      "label": "死亡之握，你已經死了",
+      "userProvided": true,
+      "decoded": true,
+      "originalVerified": false,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "死亡之握 你已經死了.mp4",
+      "sourceRange": {
+        "start": 8.15,
+        "end": 12.35
+      },
+      "rights": "未確認再利用權",
+      "speaker": "使用者指定對應馬英九，未獨立認證",
+      "reference": "https://www.facebook.com/reel/1169812469747550",
+      "referenceNote": "使用者錄影畫面中的頁面網址及帳號標示，未獨立認證原始來源",
+      "status": "使用者提供「死亡之握 你已經死了.mp4」，取 8.15–12.35 秒連續片段，約 4.20 秒，保留句首句尾餘裕。畫面紙張可見完整目標句；離線辨識有同音字差異，未獨立聽驗或認證發言者。降低 6 dB，未拼接或仿聲。",
+      "sha256": "32930a69fb3feda5b23363d58369a0183a147d2fa091beabdc306c072b55225b"
+    },
+    "chen_dream": {
+      "src": "assets/voice/chen-dream-user-confirmed-v26.mp3",
+      "label": "有夢最美",
+      "userProvided": true,
+      "decoded": true,
+      "originalVerified": false,
+      "reviewNeeded": false,
+      "cue": 0,
+      "sourceFile": "使用者提供的有夢上水錄影",
+      "sourceRange": {
+        "start": 7.848,
+        "end": 9.62
+      },
+      "rights": "未確認再利用權",
+      "speaker": "使用者指定對應陳水扁，未獨立認證",
+      "status": "使用者提供錄影；使用者試聽並確認採用本候選：從前版音檔 0.800 秒起保留至原結尾，對應錄影 7.848–9.620 秒，約 1.772 秒。僅裁掉開頭並以 5 毫秒淡入避免切點雜音，未拼接、變聲或仿聲；舊音檔保留可回復。使用者確認的是剪輯起點，尚未獨立認證發言者、原始來源與再利用權利。",
+      "sha256": "4f31d0cb1f9eff429b06fb19863d9dad464a2ad5a06fc3718944bf2cbbdae9a9"
+    },
+    "heal": {
+      "src": "assets/voice/wang-drink-user-v25.mp3",
+      "label": "喝水回氣",
+      "userProvided": true,
+      "decoded": true,
+      "originalVerified": false,
+      "reviewNeeded": true,
+      "cue": 0,
+      "sourceFile": "喝水.mp3",
+      "reference": "https://memes.tw/sound?q=%E7%8E%8B%E4%B8%96",
+      "referenceNote": "使用者提供的來源參考；未核對上傳檔與網站內容是否一致",
+      "rights": "未確認再利用權",
+      "speaker": "使用者指定對應王世堅，未獨立認證",
+      "status": "依使用者要求接入「喝水.mp3」原檔，約 2.14 秒，不裁切、不拼接、不變聲。已驗證可解碼與檔案雜湊，未獨立聽驗或核對網站內容、發言者與權利。",
+      "sha256": "2a4627f3a434ee1a1983af9765557e6db0bd11c5c214d0bfa7b51b6618bda96f"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+✔ normal waits after first seeing a slow attack, then can defend (5.97287ms)
+✔ easy waits after first seeing a slow attack, then can defend (2.475012ms)
+✔ a new jab lands before an unprepared normal AI can visually react (1.828866ms)
+✔ normal cannot instantly choose a counter stance from fresh attack input (0.679357ms)
+✔ easy cannot instantly choose a counter stance from fresh attack input (0.388277ms)
+✔ normal gives a newly visible projectile its own first-observation delay (1.955787ms)
+✔ normal gives a newly visible queue its own first-observation delay (2.359778ms)
+✔ easy gives a newly visible projectile its own first-observation delay (0.690474ms)
+✔ easy gives a newly visible queue its own first-observation delay (0.701581ms)
+✔ a replacement attack must earn a new observation delay (0.785798ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (0.647178ms)
+✔ normal leaves a real post-punch gap even when the decision timer is ready (2.425537ms)
+✔ normal leaves a real post-special2 gap even when the decision timer is ready (1.598256ms)
+✔ easy leaves a real post-punch gap even when the decision timer is ready (3.775748ms)
+✔ easy leaves a real post-special2 gap even when the decision timer is ready (9.29275ms)
+✔ normal starts a fresh gap when its action is interrupted and does not refund cooldown (1.840763ms)
+✔ easy starts a fresh gap when its action is interrupted and does not refund cooldown (1.543804ms)
+✔ pause and hitstop do not burn the pending observation delay (2.039223ms)
+✔ normal honors the long end of the sampled first-observation delay (1.048125ms)
+✔ easy honors the long end of the sampled first-observation delay (1.467309ms)
+✔ an old cast newly entering observation cannot reuse its total animation age as reaction time (0.884528ms)
+✔ a threat leaving perception range and returning must be observed again (1.677126ms)
+✔ round restart cannot inherit a completed observation deadline or a recovery gap (3.523868ms)
+✔ normal leaves a recovery opening after its rejection stance is consumed (2.803789ms)
+✔ easy leaves a recovery opening after its rejection stance is consumed (2.173727ms)
+✔ an AI recovery guard can be punished by a player grab (3.060557ms)
+✔ pause and hitstop preserve the full remaining post-action opening (1.419045ms)
+✔ normal can retreat and guard during recovery while follow-up attacks wait (1.51482ms)
+✔ easy can retreat and guard during recovery while follow-up attacks wait (0.731125ms)
+✔ an actual block during recovery cannot make a buffered punch skip its remaining gap (1.330432ms)
+✔ recovery retreat is the same with or without a fresh unseen opponent attack (2.706322ms)
+✔ recovery guard uses the same pips and can be broken then hit (1.896548ms)
+✔ recovery retreat preserves a legitimately selected projectile crouch on the next frame (1.901725ms)
+✔ explicit mature guard survives recovery retreat and the transition out of recovery (1.406566ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 251.377218

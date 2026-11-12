@@ -1,0 +1,142 @@
+[
+  {
+    "id": "wang",
+    "slot": 1,
+    "face": -1,
+    "difficulty": "easy",
+    "hash": "9a11a598d48041e403cd2a3d2fec927b7190385909af79916bcb32406dc9310e"
+  },
+  {
+    "id": "wang",
+    "slot": 1,
+    "face": -1,
+    "difficulty": "normal",
+    "hash": "9a11a598d48041e403cd2a3d2fec927b7190385909af79916bcb32406dc9310e"
+  },
+  {
+    "id": "wang",
+    "slot": 1,
+    "face": 1,
+    "difficulty": "easy",
+    "hash": "6108c0854e91517b19465ceee425db8d73f72a752610d7230dad487c139716ff"
+  },
+  {
+    "id": "wang",
+    "slot": 1,
+    "face": 1,
+    "difficulty": "normal",
+    "hash": "6108c0854e91517b19465ceee425db8d73f72a752610d7230dad487c139716ff"
+  },
+  {
+    "id": "wang",
+    "slot": 2,
+    "face": -1,
+    "difficulty": "easy",
+    "hash": "c8c96c396d693c1c180a1d838f13dd23aa63a534e74d63a2aa78e5a20dc1130a"
+  },
+  {
+    "id": "wang",
+    "slot": 2,
+    "face": -1,
+    "difficulty": "normal",
+    "hash": "c8c96c396d693c1c180a1d838f13dd23aa63a534e74d63a2aa78e5a20dc1130a"
+  },
+  {
+    "id": "wang",
+    "slot": 2,
+    "face": 1,
+    "difficulty": "easy",
+    "hash": "93138bd04a0a7cea9183ea70a8ffd2f682503c7ba2d4798dfbc364b8039605a6"
+  },
+  {
+    "id": "wang",
+    "slot": 2,
+    "face": 1,
+    "difficulty": "normal",
+    "hash": "93138bd04a0a7cea9183ea70a8ffd2f682503c7ba2d4798dfbc364b8039605a6"
+  },
+  {
+    "id": "wang",
+    "slot": 3,
+    "face": -1,
+    "difficulty": "easy",
+    "hash": "d6ff8006899e5851915daf5d15e30c0abc0ccac5724920622696320e03652980"
+  },
+  {
+    "id": "wang",
+    "slot": 3,
+    "face": -1,
+    "difficulty": "normal",
+    "hash": "d6ff8006899e5851915daf5d15e30c0abc0ccac5724920622696320e03652980"
+  },
+  {
+    "id": "wang",
+    "slot": 3,
+    "face": 1,
+    "difficulty": "easy",
+    "hash": "5d4db9176627b23e46887b52b88c7d2fcf3e9986b34c707c0d735c648540b98b"
+  },
+  {
+    "id": "wang",
+    "slot": 3,
+    "face": 1,
+    "difficulty": "normal",
+    "hash": "5d4db9176627b23e46887b52b88c7d2fcf3e9986b34c707c0d735c648540b98b"
+  },
+  {
+    "id": "han",
+    "slot": 1,
+    "face": -1,
+    "difficulty": "easy",
+    "hash": "10851fa8cac5e86cd56a19c9c65b7cff76526857ebc93d82c6687e82d4b16944"
+  },
+  {
+    "id": "han",
+    "slot": 1,
+    "face": -1,
+    "difficulty": "normal",
+    "hash": "10851fa8cac5e86cd56a19c9c65b7cff76526857ebc93d82c6687e82d4b16944"
+  },
+  {
+    "id": "han",
+    "slot": 1,
+    "face": 1,
+    "difficulty": "easy",
+    "hash": "04bc62ce1ebc5d192d7b552d4ec4a89ab129a2d06f2223444184ab8c559200db"
+  },
+  {
+    "id": "han",
+    "slot": 1,
+    "face": 1,
+    "difficulty": "normal",
+    "hash": "04bc62ce1ebc5d192d7b552d4ec4a89ab129a2d06f2223444184ab8c559200db"
+  },
+  {
+    "id": "han",
+    "slot": 3,
+    "face": -1,
+    "difficulty": "easy",
+    "hash": "09e25c2e069b943aa3d662d57504d0826c9b6f4e443cb728a5f55590f5184389"
+  },
+  {
+    "id": "han",
+    "slot": 3,
+    "face": -1,
+    "difficulty": "normal",
+    "hash": "09e25c2e069b943aa3d662d57504d0826c9b6f4e443cb728a5f55590f5184389"
+  },
+  {
+    "id": "han",
+    "slot": 3,
+    "face": 1,
+    "difficulty": "easy",
+    "hash": "038b780b656a2b93b1c100996711bf9eb4da48ad8d9c1ea58596ae8d3bee5ca9"
+  },
+  {
+    "id": "han",
+    "slot": 3,
+    "face": 1,
+    "difficulty": "normal",
+    "hash": "038b780b656a2b93b1c100996711bf9eb4da48ad8d9c1ea58596ae8d3bee5ca9"
+  }
+]

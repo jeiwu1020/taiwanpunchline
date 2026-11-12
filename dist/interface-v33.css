@@ -1,0 +1,28 @@
+/* V34: both rotated portrait and native touch landscape share this overlay.
+   The physical shell owns safe areas; upright portrait and desktop keep their docks. */
+.app[data-touch="true"][data-overlay-controls="true"] .cabinet{position:relative;grid-template-rows:minmax(0,1fr)}
+.app[data-touch="true"][data-overlay-controls="true"] .stage-wrap{grid-column:1;grid-row:1}
+.app[data-touch="true"][data-overlay-controls="true"] .control-deck{position:absolute;inset:auto;left:14px;right:14px;bottom:6px;height:84px;display:grid;grid-template-columns:84px minmax(0,1fr) 54px 54px;grid-template-rows:minmax(0,1fr);gap:6px;align-items:end;padding:0;border:0;background:transparent;box-shadow:none;pointer-events:none}
+/* Empty space, including space between cards, must not consume pointer hits. */
+.app[data-touch="true"][data-overlay-controls="true"] .touch-pad,.app[data-touch="true"][data-overlay-controls="true"] .specials,.app[data-touch="true"][data-overlay-controls="true"] .basic,.app[data-touch="true"][data-overlay-controls="true"] .touch-aux{pointer-events:none;align-self:end}
+.app[data-touch="true"][data-overlay-controls="true"] #touch-stick{width:84px;height:84px;pointer-events:auto;background:radial-gradient(circle,#3f6361e8,#173941d9)}
+.app[data-touch="true"][data-overlay-controls="true"] .control-deck button{pointer-events:auto}
+.app[data-touch="true"][data-overlay-controls="true"] .specials{height:60px;align-items:stretch}
+.app[data-touch="true"][data-overlay-controls="true"] .specials button{height:60px;min-height:60px;padding:2px;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 26px;gap:1px;background:#31565be8}
+.app[data-touch="true"][data-overlay-controls="true"] .specials button:nth-child(2){background:#344f50e8}
+.app[data-touch="true"][data-overlay-controls="true"] .specials button:nth-child(3){background:#4b4b4ae8}
+.app[data-touch="true"][data-overlay-controls="true"] .specials strong{grid-column:1;grid-row:1;font-size:12px;line-height:1;align-self:center}
+/* Narrow overlays prioritize the complete move name and live cooldown.
+   Full purposes remain in settings and return when the control area is wide. */
+.app[data-touch="true"][data-overlay-controls="true"] .specials small{display:none}
+.app[data-touch="true"][data-overlay-controls="true"] .specials .cooldown{grid-column:1;grid-row:2;width:26px;height:26px;justify-self:center;align-self:center}
+.app[data-touch="true"][data-overlay-controls="true"] .basic .punch,.app[data-touch="true"][data-overlay-controls="true"] .touch-aux button{width:54px;height:54px}
+/* Keep transient battle copy above the overlay, without moving the HUD. */
+.app[data-touch="true"][data-overlay-controls="true"] .broadcast{bottom:94px}
+/* The nearest container is the deck: 600px means about 644px safe app width. */
+@container(min-width:600px){
+ .app[data-touch="true"][data-overlay-controls="true"] .specials button{grid-template-columns:minmax(0,1fr) 26px}
+ .app[data-touch="true"][data-overlay-controls="true"] .specials strong{grid-column:1 / -1;font-size:14px}
+ .app[data-touch="true"][data-overlay-controls="true"] .specials small{display:block;grid-column:1;grid-row:2;font-size:9px;line-height:1.1}
+ .app[data-touch="true"][data-overlay-controls="true"] .specials .cooldown{grid-column:2}
+}

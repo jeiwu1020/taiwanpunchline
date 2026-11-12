@@ -1,0 +1,196 @@
+{
+  "size": [
+    1254,
+    1254
+  ],
+  "mode": "RGBA",
+  "alpha_zero_fraction": 0.15110752450213544,
+  "alpha_quantiles": [
+    0.0,
+    1.0,
+    1.0,
+    2.0,
+    253.0,
+    253.0,
+    255.0
+  ],
+  "warning": "Transparent low-alpha colored fringe persists after imagegen refinement. No programmatic editing performed. Core component bounds below use alpha>128.",
+  "cells": [
+    {
+      "name": "torso",
+      "row": 1,
+      "col": 1,
+      "core_bbox": [
+        91,
+        70,
+        250,
+        276
+      ]
+    },
+    {
+      "name": "left-upper-sleeve",
+      "row": 1,
+      "col": 2,
+      "core_bbox": [
+        408,
+        87,
+        539,
+        260
+      ]
+    },
+    {
+      "name": "right-upper-sleeve",
+      "row": 1,
+      "col": 3,
+      "core_bbox": [
+        716,
+        88,
+        848,
+        263
+      ]
+    },
+    {
+      "name": "left-forearm-sleeve",
+      "row": 1,
+      "col": 4,
+      "core_bbox": [
+        1034,
+        84,
+        1140,
+        265
+      ]
+    },
+    {
+      "name": "right-forearm-sleeve",
+      "row": 2,
+      "col": 1,
+      "core_bbox": [
+        107,
+        380,
+        225,
+        579
+      ]
+    },
+    {
+      "name": "left-relaxed-hand",
+      "row": 2,
+      "col": 2,
+      "core_bbox": [
+        415,
+        384,
+        554,
+        579
+      ]
+    },
+    {
+      "name": "right-relaxed-hand",
+      "row": 2,
+      "col": 3,
+      "core_bbox": [
+        702,
+        385,
+        836,
+        579
+      ]
+    },
+    {
+      "name": "left-reaching-palm-down-hand",
+      "row": 2,
+      "col": 4,
+      "core_bbox": [
+        983,
+        400,
+        1196,
+        537
+      ]
+    },
+    {
+      "name": "left-thigh",
+      "row": 3,
+      "col": 1,
+      "core_bbox": [
+        91,
+        686,
+        242,
+        877
+      ]
+    },
+    {
+      "name": "right-thigh",
+      "row": 3,
+      "col": 2,
+      "core_bbox": [
+        411,
+        686,
+        553,
+        876
+      ]
+    },
+    {
+      "name": "left-shin",
+      "row": 3,
+      "col": 3,
+      "core_bbox": [
+        726,
+        689,
+        837,
+        871
+      ]
+    },
+    {
+      "name": "right-shin",
+      "row": 3,
+      "col": 4,
+      "core_bbox": [
+        1034,
+        691,
+        1141,
+        872
+      ]
+    },
+    {
+      "name": "left-slipper",
+      "row": 4,
+      "col": 1,
+      "core_bbox": [
+        72,
+        1032,
+        252,
+        1137
+      ]
+    },
+    {
+      "name": "right-slipper",
+      "row": 4,
+      "col": 2,
+      "core_bbox": [
+        382,
+        1032,
+        566,
+        1133
+      ]
+    },
+    {
+      "name": "folded-blue-cloth",
+      "row": 4,
+      "col": 3,
+      "core_bbox": [
+        680,
+        1024,
+        870,
+        1147
+      ]
+    },
+    {
+      "name": "right-reaching-hand",
+      "row": 4,
+      "col": 4,
+      "core_bbox": [
+        990,
+        1018,
+        1188,
+        1135
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+✔ remaining filled area shrinks at true full, half, final fraction and zero endpoints (1.192212ms)
+✔ invalid, negative and overflow cooldown data never produce NaN or overdraw (0.737885ms)
+✔ button renders numeric time, accessible remaining and distinct ready state without live countdown spam (32.830668ms)
+✔ selection and replay initialize all three cooldowns using the actual selected move metadata (7.57089ms)
+✔ all twenty-one moves have concise numeric-free purposes independent of combat hints (1.278229ms)
+✔ all actual character selections show purpose in visible copy, tooltip and accessible label (26.592353ms)
+✔ detailed move information retains each exact cooldown and mechanical damage values (1.126696ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 201.373342

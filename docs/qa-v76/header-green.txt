@@ -1,0 +1,29 @@
+✔ challenge panels anchor eight logical pixels below the same viewport top at every rotation (2.066555ms)
+✔ changing a dialog content height cannot recenter its top edge (2.589746ms)
+✔ the corner close stays above scrolling pages and outside compact header columns (32.063132ms)
+✔ touch portrait rotation uses landscape dimensions and the visual shell logical top (2.160241ms)
+✔ desktop dialog retains bounded width and logical portrait is not compact (0.420487ms)
+✔ viewport binding syncs committed app geometry and cleans every observer/listener (0.945696ms)
+✔ challenge headings retain flow and pointer access at {"width":320,"height":568,"portrait":true} (1481.884458ms)
+✔ challenge headings retain flow and pointer access at {"width":360,"height":740,"portrait":true} (628.69095ms)
+✔ challenge headings retain flow and pointer access at {"width":375,"height":667,"portrait":true} (743.081203ms)
+✔ challenge headings retain flow and pointer access at {"width":390,"height":844,"portrait":true} (866.660336ms)
+✔ challenge headings retain flow and pointer access at {"width":430,"height":932,"portrait":true} (793.91454ms)
+✔ challenge headings retain flow and pointer access at {"width":568,"height":320} (729.977675ms)
+✔ challenge headings retain flow and pointer access at {"width":844,"height":390} (813.596044ms)
+✔ challenge headings retain flow and pointer access at {"width":390,"height":844,"sideways":true,"rotation":90} (821.407582ms)
+✔ challenge headings retain flow and pointer access at {"width":390,"height":844,"sideways":true,"rotation":-90} (813.394764ms)
+✔ challenge headings retain flow and pointer access at {"width":1200,"height":800,"touch":false} (736.687562ms)
+✔ center anchor uses the visible shell midpoint at every rotation and desktop offset (1.676535ms)
+✔ centered native modal transforms around its own center, independent of content height (4.696209ms)
+✔ only non-cinematic face-offs center; opening, next and reopening preserve correct anchors (291.8963ms)
+✔ boss cards bound artwork while retaining action buttons across logical layouts (1960.004664ms)
+✔ centered bounded cards stay inside shell for short phones and both sideways directions (2.584948ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 9562.832033

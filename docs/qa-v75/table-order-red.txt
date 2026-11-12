@@ -1,0 +1,38 @@
+✔ table blocks ground walking from both depth directions (9.636892ms)
+✔ table blocks side and diagonal entry but leaves outside lane open (2.395831ms)
+✔ swept table motion cannot tunnel at large displacement and permits height clearance (0.617229ms)
+✔ table top remains landable and supports walking off its depth edge (2.882055ms)
+✔ adjacent higher table blocks feet below its top without trapping walk-off (1.735747ms)
+✔ enemy depth approach also respects the solid table (5.605749ms)
+✔ depth table exposes a full projected landing surface rather than a compressed sliver (0.410746ms)
+✔ generated supply cutout is registered and bottom-centred without changing pickup (0.448659ms)
+✔ a ground-level jump crosses the solid edge and lands on the table (2.525405ms)
+✔ both side edges and enemy horizontal approach are solid (3.313767ms)
+✖ rear-half table occupants render after their entire landing surface (21.358873ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 271.479971
+
+✖ failing tests:
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:47:1
+✖ rear-half table occupants render after their entire landing surface (21.358873ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(list.findIndex(i=>i.kind==='platform'&&i.value===t)<list.findIndex(i=>i.value===g.player))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:48:225)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

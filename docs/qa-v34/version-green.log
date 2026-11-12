@@ -1,0 +1,10 @@
+✔ current game pages use the approved timeless name, including share metadata and settings (2.414302ms)
+✔ V34 entry and changed dependencies use new cache keys while prior history remains (1.042499ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 138.930789

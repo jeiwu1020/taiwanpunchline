@@ -1,0 +1,21 @@
+✔ wang seats the unchanged portrait behind its own front collar (6.439772ms)
+✔ han seats the unchanged portrait behind its own front collar (1.557787ms)
+✔ ma seats the unchanged portrait behind its own front collar (1.323291ms)
+✔ su seats the unchanged portrait behind its own front collar (0.762073ms)
+✔ huang seats the unchanged portrait behind its own front collar (0.718387ms)
+✔ chen seats the unchanged portrait behind its own front collar (0.62795ms)
+✔ ko seats the unchanged portrait behind its own front collar (0.788393ms)
+✔ rush 0.32 has the same collar sandwich on its integrated action body (0.619317ms)
+✔ arrow 0.2 has the same collar sandwich on its integrated action body (0.597063ms)
+✔ arrow 0.4 has the same collar sandwich on its integrated action body (0.729283ms)
+✔ han_knee 0.32 has the same collar sandwich on its integrated action body (0.797647ms)
+✔ han_knee 0.7 has the same collar sandwich on its integrated action body (0.354516ms)
+✔ collar placement mirrors with the torso across hit, crouch and every special, without changing arm poses (35.504786ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.860381

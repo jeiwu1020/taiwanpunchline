@@ -1,0 +1,21 @@
+/* V32: use the existing held-guard control on both mouse and touch screens. */
+.app[data-touch="false"] .movement{order:0}
+.app[data-touch="false"] .basic{order:1}
+.app[data-touch="false"] .touch-aux{display:flex;position:relative;inset:auto;order:2;flex:none;align-self:center;pointer-events:auto}
+.app[data-touch="false"] .specials{order:3}
+.app[data-touch="false"] .touch-aux button{display:flex;flex-direction:column;align-items:center;justify-content:center;width:76px;height:44px;padding:2px 4px;background:#d9ece4;gap:1px}
+.app[data-touch="false"] .touch-aux span{font-size:17px;font-weight:900;line-height:19px}
+.app[data-touch="false"] .touch-aux kbd{position:static;font-size:9px;line-height:11px;opacity:.85;white-space:nowrap}
+.app[data-touch="false"] .guard-hint{display:none}
+/* The larger stick stays inside a dedicated dock: no controls cover fighters.
+   Logical layout selectors also cover rotated phones without viewport transforms. */
+.app[data-touch="true"][data-layout] .cabinet{grid-template-rows:minmax(0,1fr) 98px}
+.app[data-touch="true"][data-layout] .control-deck{grid-template-columns:92px minmax(0,1fr) 54px 54px;padding:4px 14px}
+.app[data-touch="true"][data-layout] #touch-stick{width:84px;height:84px;box-shadow:inset 0 0 0 6px #0b283738}
+.app[data-touch="true"][data-layout] .stick-cross{font-size:70px}
+.app[data-touch="true"][data-layout] #touch-knob{width:40px;height:40px;left:calc(50% - 20px);top:calc(50% - 20px)}
+.app[data-touch="true"][data-layout] .touch-aux button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:17px;line-height:1.1}
+.app[data-touch="true"][data-layout] .guard-hint{display:block;font-size:9px;line-height:1.1}
+/* Upright fallback gives all three moves their own row above the thumb controls. */
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 184px}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-rows:78px 86px;padding:6px 14px}

@@ -1,0 +1,304 @@
+✖ wang seats the unchanged portrait behind its own front collar (4.0517ms)
+✖ han seats the unchanged portrait behind its own front collar (2.545538ms)
+✖ ma seats the unchanged portrait behind its own front collar (0.867565ms)
+✖ su seats the unchanged portrait behind its own front collar (0.302539ms)
+✖ huang seats the unchanged portrait behind its own front collar (0.511765ms)
+✖ chen seats the unchanged portrait behind its own front collar (0.452526ms)
+✖ ko seats the unchanged portrait behind its own front collar (0.502462ms)
+✖ rush 0.32 has the same collar sandwich on its integrated action body (0.585127ms)
+✖ arrow 0.2 has the same collar sandwich on its integrated action body (0.734774ms)
+✖ arrow 0.4 has the same collar sandwich on its integrated action body (0.647842ms)
+✖ han_knee 0.32 has the same collar sandwich on its integrated action body (0.780222ms)
+✖ han_knee 0.7 has the same collar sandwich on its integrated action body (0.332023ms)
+✖ collar placement mirrors with the torso across hit, crouch and every special, without changing arm poses (1.754258ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 0
+ℹ fail 13
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 165.507386
+
+✖ failing tests:
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ wang seats the unchanged portrait behind its own front collar (4.0517ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ han seats the unchanged portrait behind its own front collar (2.545538ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ ma seats the unchanged portrait behind its own front collar (0.867565ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ su seats the unchanged portrait behind its own front collar (0.302539ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ huang seats the unchanged portrait behind its own front collar (0.511765ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ chen seats the unchanged portrait behind its own front collar (0.452526ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:14:37
+✖ ko seats the unchanged portrait behind its own front collar (0.502462ms)
+  AssertionError [ERR_ASSERTION]: collar redraw must be limited to its measured front edge
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:24:277
+✖ rush 0.32 has the same collar sandwich on its integrated action body (0.585127ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'wang-roll'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:25:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'wang-roll',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:24:277
+✖ arrow 0.2 has the same collar sandwich on its integrated action body (0.734774ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'han-archery'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:25:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'han-archery',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:24:277
+✖ arrow 0.4 has the same collar sandwich on its integrated action body (0.647842ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'han-release'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:25:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'han-release',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:24:277
+✖ han_knee 0.32 has the same collar sandwich on its integrated action body (0.780222ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'han-lotus-body'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:25:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'han-lotus-body',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:24:277
+✖ han_knee 0.7 has the same collar sandwich on its integrated action body (0.332023ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'han-lotus-body'
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:25:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'han-lotus-body',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/neck-collar-v18.test.mjs:27:1
+✖ collar placement mirrors with the torso across hit, crouch and every special, without changing arm poses (1.754258ms)
+  AssertionError [ERR_ASSERTION]: wang has exactly one front collar
+  
+  0 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-neck/tests/neck-collar-v18.test.mjs:30:117)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 0,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

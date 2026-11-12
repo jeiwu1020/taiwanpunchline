@@ -1,0 +1,23 @@
+/* Unlocks reuse the existing portraits, poster and comic controls. */
+.title-character[data-locked="true"] img,.roster-option[data-locked="true"] img,
+#settings-characters button[data-locked="true"] img{filter:brightness(0) drop-shadow(2px 3px 0 #162e3540)}
+.title-character[data-locked="true"]::before{background:#b4b5aa}
+#title-screen .title-character[role="button"]{pointer-events:auto;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.title-character[role="button"]:focus-visible{outline:3px solid #b53d2f;outline-offset:3px;border-radius:8px}
+.roster-option[data-locked="true"]{opacity:1;cursor:not-allowed;background:radial-gradient(ellipse at 50% 35%,#89978e,#243a3c);border-color:#83928c}
+.roster-option[data-locked="true"] strong{color:#ece4d0}
+.profile-controls{display:flex;gap:5px;align-items:center;justify-content:center;flex-wrap:wrap;margin:0 0 6px}
+.profile-controls .profile-label{font-size:12px;font-weight:800;margin-right:3px}
+.profile-controls button{border:2px solid #162e35;border-radius:4px;background:#fff7e5;color:#162e35;font:inherit;font-size:12px;font-weight:800;line-height:1.2;padding:6px 9px;min-height:34px;box-shadow:2px 2px 0 #162e35;white-space:nowrap}
+.profile-controls button[aria-pressed="true"]{background:#f4bf5e}
+.profile-controls #profile-test-exit{background:#795ba2;color:#fff7e5}
+.profile-note{font-size:11px;line-height:1.3;margin:0 0 5px;color:#425c5c}
+.profile-note[data-warning="true"]{color:#a4342c;font-weight:800}
+#profile-test-badge{display:inline-block;color:#e5b7ff;font-size:inherit;font-weight:900;line-height:inherit;white-space:nowrap}
+.app[data-test-mode="true"] #brand-title{display:none}
+#profile-test-badge[hidden],#profile-test-exit[hidden]{display:none}
+.app[data-test-mode="true"] .cabinet{border-color:#b98ddf}
+.app[data-test-mode="true"] .brand small{color:#e5b7ff;letter-spacing:1px}
+@container title-poster (max-height:450px){.profile-controls{margin-bottom:4px;gap:4px}.profile-controls button{min-height:28px;padding:3px 8px}.profile-note{font-size:10px;margin-bottom:3px}.title-screen .title-disclaimer{font-size:10px}.title-audio-status{font-size:10px}}
+@media(max-width:380px){.profile-controls .profile-label{display:none}.profile-controls button{font-size:11px;padding-inline:7px}}
+

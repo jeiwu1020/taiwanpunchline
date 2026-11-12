@@ -1,0 +1,7 @@
+Use case: background-extraction.
+Asset type: transparent PNG façade layer for a side-scrolling Taiwan street game.
+Input image 1 is the EDIT TARGET, not merely a style reference. Keep its exact canvas size 1536 x 1024, exact framing, every object's position and scale, and original image content.
+Primary request: Remove ONLY the open sky, including ALL sunset gradients, sun, clouds and sky texture, to true fully transparent alpha. Follow the irregular skyline precisely: keep every mountain ridge, radio tower, tree canopy, leaf, rooftop, water tank, utility pole and wire as opaque foreground. Remove sky visible through gaps between these features too.
+Everything below the skyline must remain opaque: all mountain and vegetation detail, all buildings, façades, street shops, scooter, plants, sidewalk, curb, and the ENTIRE road foreground to the bottom edge. The curb remains at y=715 pixels. Retain exactly all road texture, cracks, white road stripes, bottom edge line and manhole cover. Do not make the road transparent.
+Style: preserve the target's original warm, intricately engraved Taiwan comic illustration without redrawing or restyling.
+Invariants: identical 1536 x 1024 composition, no cropping, no repositioning, no scaling, no changes to preserved foreground, no new objects or text. Only sky pixels become transparent. Output real RGBA transparency, not a white or checkerboard painted background. No sun and no clouds remain anywhere.

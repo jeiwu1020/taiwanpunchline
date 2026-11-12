@@ -1,0 +1,21 @@
+/* Production prologue: same top-layer/rotation contract as existing stories. */
+.challenge-story.starter-opening{padding:4px;border:3px solid #173239;background:#fff3d3;color:#173239;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;box-sizing:border-box;}
+.starter-opening::backdrop{background:#10252de6}
+.starter-opening .starter-panel{display:block;position:relative;min-width:0;line-height:0}
+.starter-opening .starter-panel canvas{display:block;max-width:100%;max-height:none;object-fit:contain;touch-action:pan-y}
+.starter-opening .starter-controls{position:sticky;bottom:-4px;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:64px;padding:8px 4px;background:#fff3d3;border-top:2px solid #173239;box-sizing:border-box;}
+.starter-opening .starter-controls button{min-height:44px;min-width:44px;padding:8px 10px;font-size:15px;line-height:1.2;white-space:nowrap;touch-action:manipulation;}
+.starter-opening [data-starter-next]{flex:1}
+.starter-opening [data-starter-count]{font-size:12px;line-height:1.2;white-space:nowrap;}
+.starter-opening .starter-transcript{position:absolute;top:0;left:0;margin:0;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}
+.challenge-dialog .challenge-review-opening{display:block;margin:10px auto 0;min-height:44px;}
+@media(max-width:360px){.starter-opening [data-starter-count]{display:none}.starter-opening .starter-controls{gap:4px}.starter-opening .starter-controls button{padding:8px;font-size:14px}}
+
+/* Every comic control shares the same ink shape; color communicates emphasis. */
+.starter-opening .starter-controls button{font-family:inherit;font-weight:900;border:2px solid #173239;border-radius:5px;background:#fff8e7;color:#173239;box-shadow:2px 3px 0 #17323955;transform:none}
+.starter-opening .starter-controls [data-starter-next]{background:#b73c2d;color:#fff7dd}
+.starter-opening .starter-controls button:active{transform:translate(1px,2px);box-shadow:1px 1px 0 #17323955}
+.starter-opening .starter-controls button:focus-visible{outline:3px solid #b73c2d;outline-offset:2px}
+.starter-opening[data-one-page="true"]{overflow:hidden}
+.starter-opening[data-one-page="true"] .starter-panel{display:flex;justify-content:center}
+.starter-opening[data-one-page="true"] .starter-controls{position:relative;bottom:auto;flex-wrap:nowrap}

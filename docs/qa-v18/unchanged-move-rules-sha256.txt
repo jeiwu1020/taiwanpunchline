@@ -1,0 +1,2 @@
+e7fcd2ed255f230d4225abc83ab1347cd1df5e59e6d26fc7cbd8e38bd30fc0d3  dist/roster.mjs
+174c8070128702eb8cf9596aa66497fa7a18c7c464b2b4dfb41ebb207b4c044e  dist/combat-rules.mjs

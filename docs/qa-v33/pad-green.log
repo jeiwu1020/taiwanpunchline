@@ -1,0 +1,17 @@
+✔ safe-area body gutters suppress double-tap zoom without locking pinch or pan (6.466906ms)
+✔ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (3.286406ms)
+✔ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (4.556772ms)
+✔ Phaser canvas touch handlers do not cancel native pinch gestures (2.845749ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (8.311256ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (6.18268ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (6.059589ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.248545ms)
+✔ direction-pad hot region explicitly rejects browser gestures, including its non-knob area (1.467916ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 199.433135

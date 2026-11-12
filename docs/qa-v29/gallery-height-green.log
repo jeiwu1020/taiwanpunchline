@@ -1,0 +1,13 @@
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (3.47707ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.591519ms)
+✔ camera labels explain both persisted modes and dialog uses logical layout for the full-screen gallery (0.781248ms)
+✔ scene mounting releases the early viewport listeners before owning layout changes (0.792464ms)
+✔ short landscape galleries use compact chrome above the old 360px cutoff (0.34679ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 118.550901

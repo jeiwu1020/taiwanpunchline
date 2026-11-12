@@ -1,0 +1,214 @@
+{
+  "baseline": {
+    "rounds": 294,
+    "wins": 116,
+    "damage": 24965,
+    "received": 26756,
+    "hits": 3939,
+    "blocks": 2303,
+    "jumps": 1439,
+    "moves": 1458,
+    "interrupted": 1677,
+    "attackingFrames": 100802,
+    "recoveryFrames": 0,
+    "stunFrames": 53505,
+    "observationResets": 0,
+    "frames": 301562,
+    "byCharacter": {
+      "wang": {
+        "wins": 28,
+        "rounds": 42,
+        "damage": 3916
+      },
+      "han": {
+        "wins": 13,
+        "rounds": 42,
+        "damage": 3580
+      },
+      "ma": {
+        "wins": 5,
+        "rounds": 42,
+        "damage": 3197
+      },
+      "su": {
+        "wins": 6,
+        "rounds": 42,
+        "damage": 3129
+      },
+      "huang": {
+        "wins": 14,
+        "rounds": 42,
+        "damage": 3569
+      },
+      "chen": {
+        "wins": 29,
+        "rounds": 42,
+        "damage": 3862
+      },
+      "ko": {
+        "wins": 21,
+        "rounds": 42,
+        "damage": 3712
+      }
+    }
+  },
+  "initial": {
+    "rounds": 294,
+    "wins": 1,
+    "damage": 16286,
+    "received": 29394,
+    "hits": 2490,
+    "blocks": 1091,
+    "jumps": 1647,
+    "moves": 897,
+    "interrupted": 1191,
+    "attackingFrames": 65640,
+    "recoveryFrames": 44656,
+    "stunFrames": 54875,
+    "observationResets": 0,
+    "frames": 269216,
+    "byCharacter": {
+      "wang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2344
+      },
+      "han": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2483
+      },
+      "ma": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2301
+      },
+      "su": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2195
+      },
+      "huang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2128
+      },
+      "chen": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2372
+      },
+      "ko": {
+        "wins": 1,
+        "rounds": 42,
+        "damage": 2463
+      }
+    }
+  },
+  "noRecovery": {
+    "rounds": 294,
+    "wins": 18,
+    "damage": 19750,
+    "received": 29114,
+    "hits": 3089,
+    "blocks": 1089,
+    "jumps": 1607,
+    "moves": 1187,
+    "interrupted": 1913,
+    "attackingFrames": 78252,
+    "recoveryFrames": 53147,
+    "stunFrames": 54265,
+    "observationResets": 0,
+    "frames": 269697,
+    "byCharacter": {
+      "wang": {
+        "wins": 4,
+        "rounds": 42,
+        "damage": 3184
+      },
+      "han": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2817
+      },
+      "ma": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2552
+      },
+      "su": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2837
+      },
+      "huang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2645
+      },
+      "chen": {
+        "wins": 5,
+        "rounds": 42,
+        "damage": 2999
+      },
+      "ko": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2716
+      }
+    }
+  },
+  "offenseOnly": {
+    "rounds": 294,
+    "wins": 0,
+    "damage": 16173,
+    "received": 29400,
+    "hits": 2496,
+    "blocks": 1104,
+    "jumps": 1626,
+    "moves": 800,
+    "interrupted": 1184,
+    "attackingFrames": 62899,
+    "recoveryFrames": 44632,
+    "stunFrames": 55029,
+    "observationResets": 0,
+    "frames": 260657,
+    "byCharacter": {
+      "wang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2384
+      },
+      "han": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2461
+      },
+      "ma": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2127
+      },
+      "su": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2459
+      },
+      "huang": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2189
+      },
+      "chen": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2250
+      },
+      "ko": {
+        "wins": 0,
+        "rounds": 42,
+        "damage": 2303
+      }
+    }
+  }
+}

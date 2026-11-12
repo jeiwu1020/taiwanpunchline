@@ -1,0 +1,50 @@
+{
+  "version": 16,
+  "automated": {
+    "command": "npm test",
+    "passed": 686,
+    "failed": 0,
+    "skipped": 0
+  },
+  "audio": {
+    "su_shout": {
+      "range": [
+        3.96,
+        6.34
+      ],
+      "duration": 2.38
+    },
+    "su_rush": {
+      "range": [
+        12,
+        14.9
+      ],
+      "duration": 2.9,
+      "cutChosenByUser": true
+    },
+    "su_dare": {
+      "range": [
+        0,
+        1
+      ],
+      "duration": 1,
+      "cutChosenByUser": true
+    }
+  },
+  "unchanged": "17 preexisting voice files, core, roster, combat rules, all art modules match the recorded V15 SHA256 manifest.",
+  "semanticLimits": "No independent listening or speaker/rights authentication; new shout preserves the entire non-silent source region. Later two cuts follow the user's listening-selected times.",
+  "firstBrowserPass": "su_shout mobile action, preview, pause/mute and mobile dimensions verified; desktop keyboard attempt hit a browser protocol timeout. See browser-first-pass.json.",
+  "finalBrowserPass": {
+    "result": "Passed focused checks with the documented limits",
+    "previewOptions": 18,
+    "su_shout": "Mobile preview and actual action verified in first pass, duration2.38s",
+    "su_rush": "Correct asset assigned from actual mobile action; decoded playback reached2.90s without error",
+    "su_dare": "Preview reached1.00s; fresh desktop keyboard O action assigned the correct file and playback reached1.00s",
+    "lifecycle": "Pause reset currentTime to0; mute stopped audio in first pass",
+    "applicationConsoleErrors": [],
+    "cleanup": "Own tabs184 and192 closed; official preview stopped and confirmed stopped. Temporary wrapper moved out of dist.",
+    "limit": "Media-state/decoder checks do not claim independent audible listening. Earlier desktop protocol timeout was avoided on the final fresh tab."
+  },
+  "publication": "Validated and ready for owner-private publication; native deployment result recorded separately.",
+  "independentReview": "Initial single-slot review passed685 tests; expanded review passed686 tests, verified both later MP3 hashes/source ranges/decoded durations and18menu options. All17 old sound files, core/roster/combat/art unchanged."
+}

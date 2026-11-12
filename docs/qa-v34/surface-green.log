@@ -1,0 +1,36 @@
+✔ only the locked battle cabinet suppresses all touch browser gestures (28.979629ms)
+✔ surface locking synchronizes exact combat states, never settings or text overlays (14.270083ms)
+✔ the overlay CSS and camera use the same logical overlay flag (0.538846ms)
+✔ logical touch landscape reclaims the dock while empty overlay space passes pointer hits through (21.941337ms)
+✔ overlay touch targets stay reachable at narrow and safe-area-reduced landscape widths (42.870985ms)
+✔ upright portrait and desktop retain their original reserved docks (2.15249ms)
+✔ overlay framing adds real safe fight height and larger near fighters in both camera modes (1.417109ms)
+✔ head, feet and left stick stay separate through near, far, edge and jumping frames (3.930919ms)
+✔ non-overlay framing is an exact passthrough and never mutates fighters (1.086376ms)
+✔ a wide overlay deck restores complete purposes beside the same live cooldown (0.639713ms)
+✔ overlay backdrop stays fixed in world space through movement and jumping (0.462307ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (4.561728ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (10.971911ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (3.102935ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (15.394419ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (2.027656ms)
+✔ early viewport rejects stale unzoomed orientation and reconciles late safe areas (1.704374ms)
+✔ first paint marks only physical touch landscape for overlay controls (4.126403ms)
+✔ V34 first paint enables identical overlays for rotated and native landscape only (7.203848ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (3.35117ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.692204ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.596235ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.4641ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.613903ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.542682ms)
+✔ boot-to-mounted handoff resamples late viewport changes before accepting input (0.475959ms)
+✔ overlay flag distinguishes physical landscape from rotated portrait and portrait pinch (2.335554ms)
+✔ V34 overlay follows rotation, repeated direction changes, and safe areas without becoming desktop or upright (0.981052ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 225.196347

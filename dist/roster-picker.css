@@ -1,0 +1,93 @@
+/* Selection stays inside the game. Large heads use the available card area,
+   rather than a physical vh cap that shrinks them on rotated phones. */
+.cabinet:has(#menu:not(.hidden)){grid-template-columns:1fr;grid-template-rows:minmax(0,1fr)}
+.stage-wrap:has(#menu:not(.hidden)) .dom-hud{visibility:hidden}
+.stage-wrap:has(#menu:not(.hidden))~.control-deck{display:none}
+#menu{container-type:inline-size;display:grid;grid-template-rows:auto minmax(148px,1fr) minmax(176px,1fr) 48px;align-content:center;justify-content:stretch;align-items:center;gap:14px;padding:20px clamp(12px,3%,42px);overflow:auto;background:radial-gradient(ellipse at 50% 30%,#28565b,#132d37 80%);color:var(--paper)}
+#menu.hidden{display:none}
+.selection-heading{text-align:center}
+.selection-heading .eyebrow{display:block;background:none;font-size:11px;color:#e4c58b;letter-spacing:3px}
+.selection-heading h1{font-size:32px;line-height:1.2;letter-spacing:-1px;margin:5px 0 0}
+.selection-heading h1 em{color:#ffc66b;font-style:normal}
+#menu .matchup{width:min(940px,100%);justify-self:center;height:100%;max-height:228px;gap:32px;margin:0}
+#menu .matchup-card{height:100%;min-height:44px;width:100%;color:var(--ink);display:flex;flex-direction:row;justify-content:center;align-items:center;gap:16px;padding:20px 16px 10px;transform:none;text-align:left;border:3px solid #59757b;border-radius:10px;box-shadow:0 4px 0 #081c22;transition:border-color .1s,box-shadow .1s;background:color-mix(in srgb,var(--cast-color) 26%,var(--paper))}
+#menu .matchup-card[aria-pressed="true"]{border-color:#ffe297;box-shadow:0 0 0 2px #d69c3a,0 4px 0 #081c22;background:color-mix(in srgb,var(--cast-color) 63%,var(--paper))}
+#menu .matchup-card img{height:100%;max-height:188px;width:154px;min-height:0;flex:none;align-self:center;object-fit:contain}
+#menu .matchup-copy{display:block;min-width:0}
+#menu .matchup-copy small{font-size:12px;display:block}
+#menu .matchup-copy strong{font-size:30px;display:block;white-space:nowrap;line-height:1.2}
+#menu .matchup-copy>span{display:block;font-size:12px;line-height:1.5;margin-top:6px}
+#menu .matchup-role{font-size:12px;top:6px;right:7px;border:0;border-radius:4px;padding:3px 7px;background:#18363e;color:#fff1ca}
+#menu .matchup-vs{color:#ffc66b;text-shadow:2px 2px 0 #071f26;font-size:25px}
+.roster-picker{width:min(1080px,100%);justify-self:center;min-height:0;height:100%;max-height:244px;display:flex;flex-direction:column;gap:7px}
+#roster-instruction{font-size:14px;font-weight:700;color:#f3dfb5;text-align:center;margin:0;line-height:20px;flex:none}
+#roster-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px;min-height:0;flex:1}
+.roster-option{position:relative;min-width:44px;min-height:44px;padding:8px 5px 6px;border:2px solid #719096;border-radius:10px;color:var(--paper);background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--portrait-color) 44%,#15313a),#132b33 85%);box-shadow:0 3px 0 #081b22;display:grid;grid-template-rows:minmax(0,1fr) 22px;align-items:center;justify-items:center;gap:3px;overflow:hidden;transition:border-color .12s,background-color .12s}
+.roster-option img{width:100%;height:100%;max-height:none;min-height:0;min-width:0;object-fit:contain;pointer-events:none;filter:drop-shadow(1px 3px 0 #0005)}
+.roster-option strong{font-size:15px;line-height:22px;white-space:nowrap}
+.roster-option[aria-pressed="true"]{border-color:#ffe8a4;box-shadow:inset 0 0 0 2px #c98b35,0 0 11px #f3bf5760;background:radial-gradient(ellipse at 50% 35%,color-mix(in srgb,var(--portrait-color) 72%,#274147),#1c3d44 90%)}
+.roster-option[aria-pressed="true"] strong{color:#ffe8a4}
+.roster-badge{position:absolute;left:4px;top:4px;z-index:1;border-radius:4px;font-size:11px;line-height:17px;min-width:20px;text-align:center;font-weight:900;background:#f4be59;color:#182e35;padding:0 4px;box-shadow:0 1px 2px #071c2366}
+.roster-badge:empty{display:none}
+.roster-option[data-opponent="true"][data-player="false"] .roster-badge{background:#79d9d4}
+#menu .start-row{width:min(650px,100%);max-width:none;justify-self:center;height:48px;min-height:44px;margin:0;display:flex;gap:12px}
+.difficulty-picker{display:flex;gap:4px;flex:1;min-width:0;background:#0b252d;padding:2px;border-radius:6px}
+.difficulty-picker button{min-width:44px;min-height:44px;flex:1;padding:4px 7px;font-size:13px;font-weight:700;white-space:nowrap;color:#d1dfe1;border:1px solid #698389;border-radius:4px;background:#233f48}
+.difficulty-picker button[aria-pressed="true"]{color:#132b33;background:#f4d69c;border-color:#ffe3af;box-shadow:inset 0 -3px 0 #ca9d5b}
+#menu .start-row .primary{flex:1;min-width:100px;min-height:44px;padding:6px 10px;font-size:17px;box-shadow:3px 3px 0 #071c23}
+.difficulty-mark{display:inline-block;width:1em;margin-right:4px;font-weight:900}
+/* A narrow upright desktop gets the same two-row portrait gallery. Touch
+   landscape overrides this to keep all seven faces in one generous row. */
+@container (max-width:700px){
+ #roster-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+ .roster-option{padding:4px 2px;grid-template-rows:minmax(0,1fr) 18px;gap:2px}
+ .roster-option strong{font-size:13px;line-height:18px}
+ #menu .matchup-card img{width:112px}
+ #menu .matchup-copy>span{display:none}
+}
+/* Short desktop windows retain the same single-screen choices. */
+@media (max-height:540px) and (min-width:701px){
+ .app[data-touch="false"] #menu{grid-template-rows:minmax(78px,.9fr) minmax(110px,1.1fr) 44px;padding:8px 14px;gap:6px}
+ .app[data-touch="false"] .selection-heading{display:none}
+ .app[data-touch="false"] #menu .matchup{max-height:118px}
+ .app[data-touch="false"] #menu .matchup-card{padding:6px 12px;gap:10px}
+ .app[data-touch="false"] #menu .matchup-card img{width:100px;max-height:100px}
+ .app[data-touch="false"] #menu .matchup-copy small,.app[data-touch="false"] #menu .matchup-copy>span{display:none}
+ .app[data-touch="false"] #menu .matchup-copy strong{font-size:24px}
+ .app[data-touch="false"] #menu .start-row{height:44px}
+}
+.app[data-touch="true"][data-layout="landscape"] #menu{padding:8px 12px;grid-template-rows:minmax(78px,.9fr) minmax(110px,1.1fr) 44px;gap:6px;overflow:auto}
+.app[data-touch="true"][data-layout="landscape"] .selection-heading{display:none}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup{max-height:124px;width:min(850px,100%);gap:26px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-card{padding:5px 10px;gap:10px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-card img{max-height:108px;width:108px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-copy strong{font-size:25px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-copy small,.app[data-touch="true"][data-layout="landscape"] #menu .matchup-copy>span{display:none}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-role{font-size:11px;top:4px;right:5px;padding:2px 5px}
+.app[data-touch="true"][data-layout="landscape"] .roster-picker{max-height:210px;gap:4px}
+.app[data-touch="true"][data-layout="landscape"] #roster-instruction{font-size:12px;line-height:18px}
+.app[data-touch="true"][data-layout="landscape"] #roster-grid{grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.app[data-touch="true"][data-layout="landscape"] .roster-option{padding:4px 2px;grid-template-rows:minmax(0,1fr) 18px;gap:2px}
+.app[data-touch="true"][data-layout="landscape"] .roster-option strong{font-size:13px;line-height:18px}
+.app[data-touch="true"][data-layout="landscape"] #menu .start-row{height:44px;min-height:44px;width:min(650px,100%);gap:8px}
+.app[data-touch="true"][data-layout="landscape"] .difficulty-picker{padding:0}
+.app[data-touch="true"][data-layout="landscape"] #menu .start-row .primary{font-size:16px}
+.app[data-touch="true"][data-compact="true"] #menu{padding:6px 10px;gap:6px;grid-template-rows:minmax(78px,.9fr) minmax(110px,1.1fr) 44px}
+.app[data-touch="true"][data-compact="true"] #menu .matchup-card img{max-height:82px;width:88px}
+.app[data-touch="true"][data-compact="true"] #menu .matchup-copy strong{font-size:23px}
+.app[data-touch="true"][data-compact="true"] .roster-badge{left:2px;top:2px;padding:0 3px}
+.app[data-touch="true"][data-layout="portrait"] #menu{padding:10px;grid-template-rows:auto minmax(126px,1fr) minmax(190px,1.45fr) 92px;gap:8px}
+.app[data-touch="true"][data-layout="portrait"] .selection-heading .eyebrow{display:none}
+.app[data-touch="true"][data-layout="portrait"] .selection-heading h1{font-size:24px;margin:0}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup{gap:20px;max-height:230px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-card{padding:20px 4px 4px;gap:2px;display:grid;grid-template-rows:minmax(0,1fr) 26px;justify-items:center;text-align:center}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-card img{width:100%;max-width:144px;max-height:164px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-copy strong{font-size:23px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-copy small,.app[data-touch="true"][data-layout="portrait"] #menu .matchup-copy>span{display:none}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-role{font-size:11px;top:4px;right:4px;padding:2px 5px}
+.app[data-touch="true"][data-layout="portrait"] .roster-picker{max-height:300px;gap:5px}
+.app[data-touch="true"][data-layout="portrait"] #roster-instruction{font-size:13px;line-height:18px}
+.app[data-touch="true"][data-layout="portrait"] #roster-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.app[data-touch="true"][data-layout="portrait"] .roster-option{padding:4px 2px;grid-template-rows:minmax(0,1fr) 18px;gap:2px}
+.app[data-touch="true"][data-layout="portrait"] .roster-option strong{font-size:13px;line-height:18px}
+.app[data-touch="true"][data-layout="portrait"] #menu .start-row{flex-direction:column;height:92px;gap:4px}

@@ -1,0 +1,29 @@
+# V18 actor voice lanes and circular cooldowns
+
+## Behavior
+- Two fixed HTML media elements: player uses the historical `move-voice` element, enemy uses the historical `han-voice` element. The IDs no longer select a clip. Either lane can play any `playableVoice(kind)` file, including a mirror matchup's original Han coin and V17 handshake. Metadata, clip contents and source/provenance are unchanged.
+- Each actor owns at most one phrase. While `play()` is pending or a phrase is playing, newly accepted moves from that actor skip speech, including delayed cues. No backlog is made. The other actor can speak independently. Player/preview gain is 0.68 and enemy gain is 0.46, making the player about 3.4 dB louder. Native source files are not changed.
+- A delayed cue accepted while the actor is free retains its configured attack-age delay and attack-identity cancellation. If the lane becomes busy before the cue, that cue is consumed and skipped. Already speaking phrases continue through hits and attack completion.
+- Pending promises, synchronous throws, rejected play attempts, `error` and `ended` are guarded per lane. Old callbacks cannot clear or report over a new attempt. A failed attempt releases its lane. Gesture-time silent priming covers both fixed media elements without creating a third player; priming is expendable if a real phrase arrives.
+- Pause, replay, reselect, mute, voice disable, blur, hidden document, result, preview stop/sample change and help close stop both lanes and clear delayed cues. Preview first stops game speech, uses only the player media element, and excludes game requests until it ends/stops.
+- Cooldown truth remains `Duel.player.cooldowns[i]` divided by the selected move's actual `cooldown`. A shrinking SVG arc shows time remaining, with numeric tenths rounded upward so a still-positive cooldown never reads 0.0 or ready. At zero it changes to a full teal ring, checkmark and the text `就緒`. These distinguish completion without color alone.
+- Control labels expose whole-second remaining time or cooldown completion. The timer is not a live region; DOM text and attributes are cached, and accessible labels update at most once per second. No animated transition/spinner is used, including reduced-motion preference.
+
+## Layout
+- Three existing U/I/O controls remain. Touch controls are at least 44px. Long move names wrap.
+- Portrait keeps names above a compact numeric ring. A 320px-wide layout has a 158px control deck.
+- Regular landscape retains the side deck. At 360px height or below, the side deck is 220px wide and places four movement buttons on one row, preserving 44px controls without clipping the third special.
+- 761–1050px widths above 500px high wrap specials onto their own row instead of squeezing long names beside the basic controls.
+
+## Verification and limits
+- Test-first red: initial voice integration 7 failures / 1 existing lifecycle pass; busy-at-acceptance delayed cue failed before the acceptance guard; cooldown behavior 4 failures; short-landscape budget failed at 298px required versus 255px available before the one-row movement fix.
+- Final `npm test`: 704/704 passed. New tests include 10 voice integration cases, 4 cooldown renderer cases and 4 markup/layout budget cases. Existing roster and crouch VM harnesses import the new real helpers; legacy assertions were adjusted only for intentional lane/busy behavior.
+- Peak checks decoded all existing audio files plus the read-only V17 handshake as float32, then resampled to 192 kHz. The largest measured resampled peak was 0.760351 (the cough); with gains 0.68 + 0.46 the conservative two-voice sum bound is 0.866801, about -1.24 dBFS. The old 0.82 + 0.82 bound would exceed full scale. See `docs/v18/audio-peak-check.json`, which includes file hashes. These are approximate inter-sample measurements, not certified true-peak, perceived-loudness or hardware measurements. The bound excludes simultaneous synthesized effects and platform output processing; there is no master limiter. Browsers that ignore media-element volume (notably some iOS versions) require actual-device checks before claiming the same output bound.
+- Layout tests evaluate selected CSS declaration budgets, not browser-painted geometry. No browser, shared preview, deployment, commit or push was run by this worker. Browser text rendering, actual audible overlap/volume, iOS autoplay behavior and final V17/V18 integration must be checked by the parent.
+- Deterministic QA page: `tests/qa-voice-cooldown-v18.html`. Serve from the repository root, outside production `dist`. It uses the production controller, real configured audio, and the production cooldown renderer. Buttons: 玩家句, AI句, 同角再發, 單句試聽, 停止. Visible state includes each lane's busy/paused/src and accepted/skipped counts. It uses the V17 handshake when available, otherwise the existing long cough. It stops on blur/hidden. Four rows show full, half, near-zero and ready states across real Huang move controls at any viewport.
+
+## Merge without reverting V17
+1. Review `delivery/v18-voice-ui.patch`, then apply with `git apply --unidiff-zero` to the main checkout. Zero-context hunks preserve the newer import cache query versions and V17 status lines. The patch deliberately excludes `dist/index.html` because its long lines also contain V17 metadata.
+2. Run `node <this worker copy>/delivery/apply-v18-voice-html.mjs <target>/dist/index.html`. It only replaces special-button content and three interaction help phrases. Counts, cache versions, V17 prose, preview entries, audio src, source/provenance and roster remain untouched.
+3. Bump game/style/new module cache versions consistently with the parent's final version. Update release prose at integration time, keeping V17 source facts.
+4. Run the merged full suite and use the QA page plus actual game for phone/landscape/desktop verification. Do not copy this older V16 index or voice metadata wholesale over V17.

@@ -1,0 +1,108 @@
+[
+  {
+    "label": "電腦",
+    "names": [
+      {
+        "button": [
+          163,
+          64
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "20",
+          "nameFitTextWidth": "80.00",
+          "nameFitWidth": "155"
+        },
+        "h": 20,
+        "size": "20px",
+        "text": "太離譜了",
+        "w": 155
+      },
+      {
+        "button": [
+          163,
+          64
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "20",
+          "nameFitTextWidth": "100.00",
+          "nameFitWidth": "155"
+        },
+        "h": 20,
+        "size": "20px",
+        "text": "我有欠你喔",
+        "w": 155
+      },
+      {
+        "button": [
+          163,
+          64
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "20",
+          "nameFitTextWidth": "140.00",
+          "nameFitWidth": "155"
+        },
+        "h": 20,
+        "size": "20px",
+        "text": "可以這樣插隊喔",
+        "w": 155
+      }
+    ]
+  },
+  {
+    "label": "窄電腦",
+    "names": [
+      {
+        "button": [
+          161,
+          54
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "72.00",
+          "nameFitWidth": "153"
+        },
+        "h": 18,
+        "size": "18px",
+        "text": "太離譜了",
+        "w": 153
+      },
+      {
+        "button": [
+          161,
+          54
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "90.00",
+          "nameFitWidth": "153"
+        },
+        "h": 18,
+        "size": "18px",
+        "text": "我有欠你喔",
+        "w": 153
+      },
+      {
+        "button": [
+          161,
+          54
+        ],
+        "fit": {
+          "nameFitOverflow": "false",
+          "nameFitSize": "18",
+          "nameFitTextWidth": "126.00",
+          "nameFitWidth": "153"
+        },
+        "h": 18,
+        "size": "18px",
+        "text": "可以這樣插隊喔",
+        "w": 153
+      }
+    ]
+  }
+]

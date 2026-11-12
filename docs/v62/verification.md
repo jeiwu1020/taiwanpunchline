@@ -1,0 +1,3 @@
+# V62 result action and palette correction
+Includes the unpublished V61 palette correction requested by the user. Result action reselect is now a solid primary menu-action, labelled 重新選角, using the identical #315f88 selection blue shared by home/pause selection actions. The existing fresh-result-input gate and selection handler are unchanged. Shared184x48px sizing and16px typography apply. Baseline #38 remains tagged and available in full V60 backup.
+2109 regression tests passed, including result lifecycle/fresh input and the new markup/color assertion. No gameplay changes. This small style extension relies on the existing verified menu-button geometry; no new physical-device claim.

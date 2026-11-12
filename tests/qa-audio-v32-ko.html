@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8"><title>V32 audio verification</title><h1>V32 browser audio verification</h1><button id="run">Decode and play new ko_name clip</button><p id="status">Ready</p><pre id="results"></pre><audio id="voice" controls></audio><script type="module">
+import {playableVoice} from './voice-slots.mjs?v=32';
+import {V32_VOICE_SELECTIONS} from './voice-selections-v32.mjs';
+const status=document.querySelector('#status'),log=document.querySelector('#results'),media=document.querySelector('#voice');
+const results=[];document.querySelector('#run').onclick=async()=>{
+ const ctx=new AudioContext();await ctx.resume();const src=ctx.createMediaElementSource(media),gain=ctx.createGain(),analyser=ctx.createAnalyser();src.connect(gain);gain.gain.value=.68;gain.connect(analyser);analyser.connect(ctx.destination);
+ try{for(const [kind,v] of Object.entries(V32_VOICE_SELECTIONS)){
+  status.textContent='Checking '+kind;const clip=playableVoice(kind);if(!clip||clip.src!==v.src)throw Error('Routing '+kind);
+  const response=await fetch(clip.src);if(!response.ok)throw Error('Fetch '+response.status);
+  const bytes=await response.arrayBuffer(),hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),x=>x.toString(16).padStart(2,'0')).join('');if(hash!==v.sha256)throw Error('Hash '+kind);
+  const decoder=new OfflineAudioContext(v.selection.channels,1,v.selection.sampleRate),buf=await decoder.decodeAudioData(bytes.slice());if(buf.length!==v.selection.frames.end-v.selection.frames.start)throw Error('Length '+kind);
+  media.src=clip.src;await media.play();let maximum=0;
+  await new Promise((resolve,reject)=>{const samples=new Float32Array(analyser.fftSize),timer=setInterval(()=>{analyser.getFloatTimeDomainData(samples);for(const x of samples)maximum=Math.max(maximum,Math.abs(x));},20);media.onended=()=>{clearInterval(timer);resolve();};media.onerror=()=>{clearInterval(timer);reject(Error('Media error '+kind));};});
+  if(maximum<.0001)throw Error('Silent graph '+kind);
+  results.push({kind,hash,frames:buf.length,duration:buf.duration,peakAtOutput:maximum,playedToEnd:true});log.textContent=JSON.stringify(results,null,2);
+ }status.textContent='PASS: 1 clip decoded, exact hashes/ranges, audible output graph and ended playback';}
+ catch(e){status.textContent='FAIL: '+e.message;}
+};
+</script>

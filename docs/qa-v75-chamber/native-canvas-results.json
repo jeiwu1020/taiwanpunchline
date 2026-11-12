@@ -1,0 +1,226 @@
+[
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "dynamic",
+    "pose": "stand",
+    "tiles": 79,
+    "ceiling": 72,
+    "floor": 6,
+    "minAlpha": 175,
+    "blankPixels": 0,
+    "image": "chamber-320x568-dynamic-stand.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "dynamic",
+    "pose": "jump",
+    "tiles": 110,
+    "ceiling": 104,
+    "floor": 5,
+    "minAlpha": 173,
+    "blankPixels": 0,
+    "image": "chamber-320x568-dynamic-jump.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "stable",
+    "pose": "stand",
+    "tiles": 118,
+    "ceiling": 112,
+    "floor": 5,
+    "minAlpha": 173,
+    "blankPixels": 0,
+    "image": "chamber-320x568-stable-stand.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "stable",
+    "pose": "jump",
+    "tiles": 118,
+    "ceiling": 112,
+    "floor": 5,
+    "minAlpha": 173,
+    "blankPixels": 0,
+    "image": "chamber-320x568-stable-jump.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "dynamic",
+    "pose": "stand",
+    "tiles": 112,
+    "ceiling": 104,
+    "floor": 7,
+    "minAlpha": 173,
+    "blankPixels": 0,
+    "image": "chamber-390x844-dynamic-stand.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "dynamic",
+    "pose": "jump",
+    "tiles": 143,
+    "ceiling": 136,
+    "floor": 6,
+    "minAlpha": 173,
+    "blankPixels": 0,
+    "image": "chamber-390x844-dynamic-jump.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "stable",
+    "pose": "stand",
+    "tiles": 205,
+    "ceiling": 200,
+    "floor": 4,
+    "minAlpha": 175,
+    "blankPixels": 0,
+    "image": "chamber-390x844-stable-stand.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "stable",
+    "pose": "jump",
+    "tiles": 205,
+    "ceiling": 200,
+    "floor": 4,
+    "minAlpha": 175,
+    "blankPixels": 0,
+    "image": "chamber-390x844-stable-jump.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "dynamic",
+    "pose": "stand",
+    "tiles": 3,
+    "ceiling": 0,
+    "floor": 0,
+    "minAlpha": 225,
+    "blankPixels": 0,
+    "image": "chamber-844x390-dynamic-stand.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "dynamic",
+    "pose": "jump",
+    "tiles": 261,
+    "ceiling": 252,
+    "floor": 6,
+    "minAlpha": 175,
+    "blankPixels": 0,
+    "image": "chamber-844x390-dynamic-jump.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "stable",
+    "pose": "stand",
+    "tiles": 3,
+    "ceiling": 0,
+    "floor": 0,
+    "minAlpha": 236,
+    "blankPixels": 0,
+    "image": "chamber-844x390-stable-stand.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "stable",
+    "pose": "jump",
+    "tiles": 226,
+    "ceiling": 220,
+    "floor": 3,
+    "minAlpha": 174,
+    "blankPixels": 0,
+    "image": "chamber-844x390-stable-jump.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "dynamic",
+    "pose": "stand",
+    "tiles": 1,
+    "ceiling": 0,
+    "floor": 0,
+    "minAlpha": 255,
+    "blankPixels": 0,
+    "image": "chamber-1280x800-dynamic-stand.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "dynamic",
+    "pose": "jump",
+    "tiles": 53,
+    "ceiling": 50,
+    "floor": 0,
+    "minAlpha": 174,
+    "blankPixels": 0,
+    "image": "chamber-1280x800-dynamic-jump.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "stable",
+    "pose": "stand",
+    "tiles": 9,
+    "ceiling": 8,
+    "floor": 0,
+    "minAlpha": 192,
+    "blankPixels": 0,
+    "image": "chamber-1280x800-stable-stand.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "stable",
+    "pose": "jump",
+    "tiles": 43,
+    "ceiling": 40,
+    "floor": 0,
+    "minAlpha": 174,
+    "blankPixels": 0,
+    "image": "chamber-1280x800-stable-jump.png"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "viewport": [
+      1200,
+      750
+    ],
+    "frames": 7,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "refreshes": 1,
+    "resizes": 1,
+    "texture": [
+      [
+        2406,
+        3841
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      1920,
+      1080
+    ],
+    "frames": 7,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "refreshes": 1,
+    "resizes": 1,
+    "texture": [
+      [
+        1965,
+        3352
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      390,
+      592
+    ],
+    "frames": 7,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "refreshes": 1,
+    "resizes": 1,
+    "texture": [
+      [
+        1494,
+        2638
+      ]
+    ]
+  },
+  {
+    "viewport": [
+      844,
+      354
+    ],
+    "frames": 7,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "refreshes": 1,
+    "resizes": 1,
+    "texture": [
+      [
+        1638,
+        2301
+      ]
+    ]
+  }
+]

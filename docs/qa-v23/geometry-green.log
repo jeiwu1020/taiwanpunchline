@@ -1,0 +1,47 @@
+✔ wider camera keeps both actors plus head and ground in usable area (2.244438ms)
+✔ background covers viewport on every aspect ratio with its floor registered to ground (0.578169ms)
+✔ ambient particles are bounded deterministic and reduced motion is stationary (2.41656ms)
+✔ both funny item glyphs use bounded primitive drawing without images or text (0.805874ms)
+✔ idle player stays visually fixed while AI approaches 1134x550 (14.905216ms)
+✔ idle player stays visually fixed while AI approaches 298x292 (1.867484ms)
+✔ idle player stays visually fixed while AI approaches 370x575 (9.013331ms)
+✔ idle player stays visually fixed while AI approaches 326x255 (4.958675ms)
+✔ world backdrop is not glued to horizontal camera center (0.257838ms)
+✔ camera pans only at view boundary and keeps both actors visible across a round (0.311818ms)
+✔ background landmarks retain world position and scale during jumps and edge panning (0.280612ms)
+✔ jump camera returns smoothly to its standing zoom after landing (4.320197ms)
+✔ camera also eases outward when spare framing margin permits it (0.453816ms)
+✔ safe portrait game uses swapped logical dimensions and native landscape does not rotate (10.255186ms)
+✔ clockwise portrait pointers map visual movement back into game directions (0.381721ms)
+✔ independent fingers retain directions and attacks until their own release; cancel clears all (0.76917ms)
+✔ classic camera tracks midpoint and pushes in when opponents approach (0.780076ms)
+✔ classic camera recovers after a jump and keeps all body bounds under HUD (5.122194ms)
+✔ pointer DOM bindings invert portrait axes, retain second finger and clear on all lifecycle exits (12.025376ms)
+✖ classic camera background covers complete viewport at both world edges and jumps (18.767051ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 19
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 351.472111
+
+✖ failing tests:
+
+test at tests/landscape-touch-v23.test.mjs:64:1
+✖ classic camera background covers complete viewport at both world edges and jumps (18.767051ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(bg.x-bg.width/2<=c.x-w/2/c.zoom)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-camera-touch-nov7/tests/landscape-touch-v23.test.mjs:68:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

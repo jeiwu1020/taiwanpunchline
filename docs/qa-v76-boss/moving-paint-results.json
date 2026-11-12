@@ -1,0 +1,134 @@
+[
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "dynamic",
+    "minCalls": 10,
+    "maxCalls": 12,
+    "meanCalls": 10.201680672268907,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "camera": "stable",
+    "minCalls": 10,
+    "maxCalls": 10,
+    "meanCalls": 10,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "dynamic",
+    "minCalls": 10,
+    "maxCalls": 12,
+    "meanCalls": 10.638655462184873,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "camera": "stable",
+    "minCalls": 10,
+    "maxCalls": 10,
+    "meanCalls": 10,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      430,
+      932
+    ],
+    "camera": "dynamic",
+    "minCalls": 10,
+    "maxCalls": 12,
+    "meanCalls": 10.605042016806722,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      430,
+      932
+    ],
+    "camera": "stable",
+    "minCalls": 10,
+    "maxCalls": 10,
+    "meanCalls": 10,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "dynamic",
+    "minCalls": 14,
+    "maxCalls": 41,
+    "meanCalls": 32.04201680672269,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "camera": "stable",
+    "minCalls": 11,
+    "maxCalls": 44,
+    "meanCalls": 31.33613445378151,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      568,
+      320
+    ],
+    "camera": "dynamic",
+    "minCalls": 18,
+    "maxCalls": 47,
+    "meanCalls": 37.294117647058826,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      568,
+      320
+    ],
+    "camera": "stable",
+    "minCalls": 18,
+    "maxCalls": 44,
+    "meanCalls": 35.9327731092437,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "dynamic",
+    "minCalls": 8,
+    "maxCalls": 11,
+    "meanCalls": 9.436974789915967,
+    "canvases": 5
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "camera": "stable",
+    "minCalls": 0,
+    "maxCalls": 8,
+    "meanCalls": 6.38655462184874,
+    "canvases": 5
+  }
+]

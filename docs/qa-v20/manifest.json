@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "source": {
+    "file": "source.mp4",
+    "library_file_id": "libfile_c4f4cdf9b10881919a7294bc99d35c71",
+    "sha256": "f91d8890364ca64bbf5441917f0285ba5651fd35e07b6ab9781f6dd3e075b23f",
+    "container_duration_seconds": 11.931833,
+    "audio_duration_seconds": 11.882646,
+    "audio_sample_rate": 48000,
+    "audio_channels": 2
+  },
+  "target": {
+    "character_key": "chen",
+    "move_label": "有夢最美",
+    "candidate_filename": "chen-dream-user-candidate-v20.mp3"
+  },
+  "phrase_assessment": {
+    "visible_video_title_phrase": "有夢上水",
+    "likely_language": "Taiwanese Hokkien",
+    "likely_literal_phrase": "有夢上水",
+    "confidence": "Supported contextual/phonetic inference; not independently verified verbatim transcription",
+    "rationale": "Visible title explicitly names 有夢上水. Unprompted Mandarin Whisper base/small cropped output phonetically approximates 五班熊水 / 伍邦雄帥. These are ASR errors compatible with Taiwanese u-bang-siong-sui, not reliable word identification. No spoken-phrase subtitles are visible. User move label 有夢最美 is separate from the probable literal Taiwanese phrase.",
+    "direct_listening_verified": false,
+    "biometric_speaker_identification_performed": false,
+    "rights_verified": false
+  },
+  "cut": {
+    "timeline": "Seconds from source audio stream zero, not YouTube program time",
+    "start_seconds": 7.02,
+    "end_seconds": 9.62,
+    "duration_seconds": 2.6,
+    "start_sample_at_48000": 336960,
+    "end_sample_exclusive_at_48000": 461760,
+    "first_above_minus38db_sample_time_seconds": 7.059396,
+    "principal_first_utterance_end_approx_seconds": 9.45,
+    "next_separate_vocal_burst_approx_seconds": [
+      10.35,
+      10.74
+    ],
+    "rationale": "Preserves the entire isolated first continuous utterance and its low-level decay. ~39 ms lead before detected onset and ~170 ms after principal tail. Excludes long preceding digital silence and a distinct later burst after ~0.9 s gap. No internal word-level splice or guessed word cutoff.",
+    "linguistic_boundary_precision": "Acoustic cut is sample-exact; the phrase-to-word segmentation remains approximate."
+  },
+  "processing": {
+    "source_decode": "ffmpeg AAC decode",
+    "channels": "stereo-to-mono",
+    "sample_rate": 48000,
+    "constant_gain_db": -5.4,
+    "fade_in_ms": 5,
+    "fade_out_ms": 15,
+    "time_stretch": false,
+    "denoise": false,
+    "voice_synthesis_or_cloning": false,
+    "codec": "libmp3lame",
+    "bitrate_kbps": 128,
+    "recording_metadata_removed": true,
+    "id3v2_version": 0,
+    "write_id3v1": false,
+    "notes": "Constant gain reduction produces decoded MP3 peak near -6 dBFS for the existing mix. Ramps lie in the short low-level margins, not the main spoken syllables."
+  },
+  "verification": {
+    "wav": {
+      "sample_rate": 48000,
+      "channels": 1,
+      "samples_per_channel": 124800,
+      "decoded_seconds": 2.6,
+      "peak_dbfs": -5.571,
+      "rms_dbfs": -19.475,
+      "clipped_samples": 0
+    },
+    "mp3_decoded": {
+      "sample_rate": 48000,
+      "channels": 1,
+      "samples_per_channel": 124800,
+      "decoded_seconds": 2.6,
+      "peak_dbfs": -6.003,
+      "rms_dbfs": -19.92,
+      "clipped_samples": 0
+    },
+    "mp3_ffprobe_container_duration_seconds": 2.64,
+    "mp3_format_tags": {},
+    "mp3_stream_tags": [
+      {}
+    ],
+    "silence_and_waveform": "waveform-spectrogram.png",
+    "visible_frames": [
+      "source-frame-8.2.jpg",
+      "phrase-frames.jpg",
+      "trailer-frames.jpg"
+    ],
+    "asr_files": [
+      "asr-full.json",
+      "asr-crops.json"
+    ],
+    "caution": "Full-file ASR hallucinated over the initial silence. Tiny output was unusable. Only cropped base/small timing is considered, with waveform crosscheck. Playback listening was unavailable to this worker."
+  },
+  "outputs": {
+    "chen-dream-user-candidate-v20.mp3": {
+      "bytes": 42624,
+      "sha256": "7127fe4719fd207a26f38b863fd1fdd96360d935fea4c1837ff8fb0a9e672afb"
+    },
+    "chen-dream-user-candidate-v20.wav": {
+      "bytes": 249678,
+      "sha256": "dc73a38bf8733d38f8cc985de3d57d1e236b22d4467402b941723f888a2a4ae3"
+    }
+  }
+}

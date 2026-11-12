@@ -1,0 +1,35 @@
+✔ normal waits after first seeing a slow attack, then can defend (7.30914ms)
+✔ easy waits after first seeing a slow attack, then can defend (3.072762ms)
+✔ a new jab lands before an unprepared normal AI can visually react (1.809604ms)
+✔ normal cannot instantly choose a counter stance from fresh attack input (0.638675ms)
+✔ easy cannot instantly choose a counter stance from fresh attack input (0.353874ms)
+✔ normal gives a newly visible projectile its own first-observation delay (2.119712ms)
+✔ normal gives a newly visible queue its own first-observation delay (3.114734ms)
+✔ easy gives a newly visible projectile its own first-observation delay (0.648249ms)
+✔ easy gives a newly visible queue its own first-observation delay (0.817495ms)
+✔ a replacement attack must earn a new observation delay (0.871316ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (0.889624ms)
+✔ normal leaves a real post-punch gap even when the decision timer is ready (4.659403ms)
+✔ normal leaves a real post-special2 gap even when the decision timer is ready (4.845158ms)
+✔ easy leaves a real post-punch gap even when the decision timer is ready (1.261691ms)
+✔ easy leaves a real post-special2 gap even when the decision timer is ready (2.341096ms)
+✔ normal starts a fresh gap when its action is interrupted and does not refund cooldown (0.770874ms)
+✔ easy starts a fresh gap when its action is interrupted and does not refund cooldown (0.556841ms)
+✔ pause and hitstop do not burn the pending observation delay (3.59512ms)
+✔ normal honors the long end of the sampled first-observation delay (1.273093ms)
+✔ easy honors the long end of the sampled first-observation delay (1.752387ms)
+✔ an old cast newly entering observation cannot reuse its total animation age as reaction time (0.821451ms)
+✔ a threat leaving perception range and returning must be observed again (1.63508ms)
+✔ round restart cannot inherit a completed observation deadline or a recovery gap (3.233744ms)
+✔ normal leaves a recovery opening after its rejection stance is consumed (2.534188ms)
+✔ easy leaves a recovery opening after its rejection stance is consumed (2.143828ms)
+✔ an AI recovery opening can actually be punished by a player jab (2.701531ms)
+✔ pause and hitstop preserve the full remaining post-action opening (2.334607ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.24833

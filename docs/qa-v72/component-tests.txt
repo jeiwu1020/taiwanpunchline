@@ -1,0 +1,30 @@
+✔ all six shipped select surfaces load the shared game chooser, including art and legacy audio (3.835381ms)
+✔ native control becomes hidden and unfocusable; the labeled trigger is the only tab stop (94.278186ms)
+✔ choosing dispatches original input/change once, preserves the source ID and restores focus (40.456344ms)
+✔ keyboard arrows, Home/End, Enter and Space move or commit without leaking gameplay keys (21.890346ms)
+✔ Escape cancels only the chooser; Tab closes at the trigger so normal focus order continues (15.118389ms)
+✔ pointer outside and focus leaving dismiss without changing selection or stealing focus (16.536752ms)
+✔ disabled options and groups cannot be selected, while typing finds an enabled option (16.496421ms)
+✔ programmatic training changes sync immediately without firing change; disabled controls close (14.210711ms)
+✔ dynamic move options, new selects and removed controls are reconciled without duplicates (16.253227ms)
+✔ closing a screen, details section or modal closes the chooser before a later reopen (31.581512ms)
+✔ the popup stays in the app/dialog transform; rotation and resize cancel stale touch geometry (16.043133ms)
+✔ sideways touch drag scrolls logical Y, never selects the release option, and the next tap works (27.45827ms)
+✔ destroy restores native semantics and removes all chooser observers and listeners (11.041808ms)
+✔ logical rect conversion handles both side turns, borders and visual scaling (1.844231ms)
+✔ popup geometry clamps long lists and short rotated panels without escaping logical bounds (0.483955ms)
+✔ training value assignments explicitly refresh choosers and the gameplay keyboard excludes them (0.56763ms)
+✔ hidden options are excluded from keyboard navigation and cannot be committed (11.919431ms)
+✔ fieldsets disable the replacement trigger and form reset refreshes the selected value (13.018537ms)
+✔ dialog cancellation dismisses the open list before closing the surrounding modal (10.192446ms)
+✔ the actual game and art documents enhance every source and do not write settings or saves (125.199839ms)
+✔ scrolled modal placement subtracts the border once and keeps the popup within visible content (10.460658ms)
+✔ removing the source select directly disposes the chooser without resurrecting the control (11.943747ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 987.52903

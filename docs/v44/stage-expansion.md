@@ -1,0 +1,9 @@
+# V44: chamber desk and rally prototype
+
+Rollback: Sites #21 / 9a5cd38047902c885b7570d6b53d8630f8613a47, local tag backup-before-stage-v44.
+
+The existing chamber image is fixed at 1400 world units. Its front desk pixels 493–1180, y581 map to one-way collision. Walking below is allowed; descending lands, walking off falls, jumping again works. Feet use the current support surface, not absolute floor height. Mirrored peripheral chamber tiles prevent exposed empty margins during camera tracking. No image generation or paid assets.
+
+Each fighter earns 2.5 meter per unblocked damage, capped at 24/contact and 100 total. Full meter enables the HUD crowd button or L. Activation spends all meter, has .3s recovery and .95s warning. A single 18-damage floor wave can be blocked (existing guard rules), jumped, or avoided on the desk. Crowd damage earns no meter. AI uses the same meter/action and responds to visible warnings. Generic small cheering silhouettes use each character's color and render behind the fighters. Both crowds can appear together. Existing move audio and caption timing remain unchanged.
+
+Tests: focused physics, independent charge, block/no-charge, full-meter consumption, telegraph, jump and desk evasion, simultaneous activation, pause, reset, feet pose and low-height separation. Full suite includes updated V44 deterministic traces; V24/V39 fixtures preserved. Ground-only jump tests now explicitly use the outer floor. Browser QA uses actual app in a viewport iframe and deterministic fixture rendering production crowd and fighter code. Tested desktop/phone-sized landscape, portrait/90-degree display, jump input, HUD and simultaneous crowd composition. Not physical-device testing. Detailed balance still needs user playtesting; low-polygon crowd is an intentional generic prototype, not custom supporter art.

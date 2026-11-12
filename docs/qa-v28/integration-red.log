@@ -1,0 +1,86 @@
+✖ music preferences preserve V27 settings and are independently normalized (1.953729ms)
+✖ music slider and mute update only music preferences (1.283014ms)
+✖ game music selects battle and settings/menu without changing paused combat (31.599598ms)
+✖ new music controls and attribution do not erase original history (4.873387ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 0
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 202.038908
+
+✖ failing tests:
+
+test at tests/music-integration-v28.test.mjs:2:1
+✖ music preferences preserve V27 settings and are independently normalized (1.953729ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 0.22
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/music-integration-v28.test.mjs:2:164)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 0.22,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/music-integration-v28.test.mjs:3:1
+✖ music slider and mute update only music preferences (1.283014ms)
+  TypeError [Error]: $(...).oninput is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/music-integration-v28.test.mjs:3:303)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+
+test at tests/music-integration-v28.test.mjs:4:1
+✖ game music selects battle and settings/menu without changing paused combat (31.599598ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'menu'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/music-integration-v28.test.mjs:4:128)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'menu',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/music-integration-v28.test.mjs:5:1
+✖ new music controls and attribution do not erase original history (4.873387ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(h.includes('id="'+id+'"'))
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/music-integration-v28.test.mjs:5:249)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

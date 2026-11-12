@@ -1,0 +1,18 @@
+{
+  "method": "Cloud Chromium through parent-owned CUA, real bundled Phaser CANVAS renderer, alternating full-repaint baseline and retained-backdrop candidate; visible report transcribed by parent",
+  "viewport": [1200, 750],
+  "foregroundTexture": [2400, 1500],
+  "backdropTexture": [2402, 1500],
+  "dpr": 1,
+  "actors": 6,
+  "warmupFramesPerRun": 90,
+  "measuredFramesPerRun": 360,
+  "runs": [
+    {"kind": "baseline", "drawMedianMs": 24.4, "drawP95Ms": 45.7, "frameP95Ms": 72.2, "framesOver25ms": 360},
+    {"kind": "retainedBackdrop", "drawMedianMs": 0.6, "drawP95Ms": 0.8, "frameP95Ms": 31.0, "framesOver25ms": 134},
+    {"kind": "baseline", "drawMedianMs": 19.8, "drawP95Ms": 24.8, "frameP95Ms": 39.8, "framesOver25ms": 360},
+    {"kind": "retainedBackdrop", "drawMedianMs": 0.7, "drawP95Ms": 0.8, "frameP95Ms": 29.7, "framesOver25ms": 130}
+  ],
+  "visualReview": "Parent reports no obvious seams; original mirrored-world layout matches.",
+  "limits": "Controlled moving-camera art probe, not a complete game or user-desktop FPS measurement. Draw time is synchronous Canvas command time; frame intervals include composition and scheduling. Vertical camera pan, zoom or viewport changes rebuild the retained tile. Hardware and browser affect results. This does not establish a 60 FPS guarantee."
+}

@@ -1,0 +1,9 @@
+# Landscape touch comparison candidate
+
+The owner approved a switchable experiment: the complete phone game rotates 90 degrees while its viewport is portrait; it renders normally when the viewport is landscape. Desktop is unrotated. The existing private v22 Site must remain unchanged. Preserve generated character/background assets. Restore the older midpoint-following, proximity-dependent 1.45 maximum zoom with bidirectional easing, while bounding characters below the current HUD on short displays. The v22 camera remains selectable for comparison.
+
+Use a fixed safe viewport shell and an explicit untransformed logical game size. Do not rely on orientation lock/fullscreen or use Phaser RESIZE against rotated client bounds. Ordinary DOM buttons continue to use browser hit testing; the directional thumbstick inverse-rotates screen coordinates. Support two concurrent pointers, cancellation, lost capture, blur, pagehide, hidden and orientation/size changes without stuck input. Native keyboard controls remain available. Mobile control design follows Taiwanfighter's thumbstick and circular action/auxiliary buttons, but maps only this game's existing actions.
+
+The selected approach is CSS rotation of the full app with transformed-size-independent layout. Alternatives were a true portrait game with bottom controls (superseded by the owner) and OS orientation locking (unreliable on iOS). Mobile users can turn the side-rotation experiment off. Use visualViewport geometry and physical safe-area padding outside the transformed shell. Keep the help dialog separately aligned with the same shell; native select popups may be rendered by the OS in its own orientation and remain functional.
+
+Do not publish. Deliver source, patch, tests and screenshots for parent-controlled comparison delivery. Move/voice changes are owned by a separate worker and merged only after isolated validation.

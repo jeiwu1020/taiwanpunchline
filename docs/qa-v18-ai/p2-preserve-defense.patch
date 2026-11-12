@@ -1,0 +1,40 @@
+--- a/dist/core.mjs
++++ b/dist/core.mjs
+@@ -302,7 +302,9 @@
+   // Recovery delays the next offensive action, not legal movement/defense.
+   // This small retreat is triggered by OUR action ending, never fresh input
+   // from the opponent. Ordinary retreat guard still loses to grabs/guard break.
+-  if(this.aiRecovery>0&&dist<170)this.aiInput={left:dir>0,right:dir<0};
++  // Only replace movement: an already-earned guard/crouch lasts for its
++  // defense window, including the frame when offensive recovery expires.
++  if(this.aiRecovery>0&&dist<170)this.aiInput={...this.aiInput,left:dir>0,right:dir<0};
+   if(this.aiBufferedDefense==='punch'&&this.aiRecovery>0){this.aiInput={guard:true};return;}
+   if(this.aiBufferedDefense){
+    const response=this.aiBufferedDefense;this.aiBufferedDefense=null;this.aiWait=Math.min(this.aiWait,easy?.35:.12);
+--- a/tests/ai-timing-v18.test.mjs
++++ b/tests/ai-timing-v18.test.mjs
+@@ -141,3 +141,24 @@
+  g.enemy.guardPips=1;g.player.x=g.enemy.x-110;g.press('punch');tick(g,.36);g.press('punch');tick(g,.16);
+  assert.ok(g.events.some(e=>e.type==='guardBreak'&&e.f===g.enemy));assert.equal(g.enemy.hp,92);assert.ok(g.events.some(e=>e.type==='hit'&&e.to===g.enemy));
+ });
++
++// P2 review regression: recovery direction updates must not erase a matured
++// defense selected on the previous frame. This uses real attack/projectile
++// lifecycles, not synthetic AI input or a manually assigned defense timer.
++test('recovery retreat preserves a legitimately selected projectile crouch on the next frame',()=>{
++ const g=new Duel('chen','normal',()=>0,'ma');g.player.x=400;g.enemy.x=560;g.aiWait=10;
++ g.request(g.enemy,'special2');tick(g,.30);g.press('special1');
++ for(let n=0;n<90&&!g.enemy.crouch;n++)g.step(DT,{},true);
++ assert.equal(g.enemy.crouch,true);assert.ok(g.aiRecovery>DT);const blend=g.enemy.crouchBlend;
++ assert.ok(g.elapsed>=.76,'the first-observation deadline must still elapse');
++ g.step(DT,{},true);assert.equal(g.enemy.crouch,true);assert.ok(g.enemy.crouchBlend>blend,'lowering continues instead of restarting');assert.equal(g.enemy.attack,null);
++});
++
++test('explicit mature guard survives recovery retreat and the transition out of recovery',()=>{
++ const g=new Duel('su','normal',()=>0,'ma');g.player.x=400;g.enemy.x=560;g.aiWait=10;
++ g.request(g.enemy,'special2');tick(g,.56);g.press('special3');
++ for(let n=0;n<90&&!(g.aiDefense>0&&g.aiInput.guard);n++)g.step(DT,{},true);
++ assert.ok(g.aiRecovery>0);assert.ok(g.aiDefense>.25);assert.equal(g.enemy.guard,true);
++ for(let n=0;n<30&&g.aiRecovery>0;n++){g.step(DT,{},true);assert.equal(g.enemy.guard,true);assert.equal(g.enemy.attack,null);}
++ assert.equal(g.aiRecovery,0);assert.ok(g.aiDefense>0);assert.equal(g.enemy.guard,true,'explicit guard lasts beyond the movement-only recovery fallback');
++});

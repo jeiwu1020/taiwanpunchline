@@ -1,0 +1,122 @@
+{
+  "process": "ImageMagick texture-size compilation from original generated PNG: 512px square heads, WebP quality88. Accents retain1536x1024. Not lossless; originals retained.",
+  "textures": [
+    {
+      "file": "dist/assets/huang-press-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 67780,
+      "sha256": "1db1e10a1abd28467feefcac6270fcbed0157bac3e9c0c7c473a639f5648790b"
+    },
+    {
+      "file": "dist/assets/chen-wave-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 55252,
+      "sha256": "e5288271bda84bcc85aafb7cbfcc9758e833fe739ca0f6b355767ee885cbeb27"
+    },
+    {
+      "file": "dist/assets/huang-shout-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 66750,
+      "sha256": "25a96ecd667ff89eebd53d1595de92256d10db9022ecad3c92e1ae6f799f10dd"
+    },
+    {
+      "file": "dist/assets/ma-run-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 59850,
+      "sha256": "f2cb108bd994121d2d6692383a07ea5210e384901f56763ac015f3b2a3917483"
+    },
+    {
+      "file": "dist/assets/su-slam-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 49838,
+      "sha256": "c706709c494d1829ae3eb3a9e8c0306c055e57c03582baebaff0f2d5b0833b67"
+    },
+    {
+      "file": "dist/assets/ma-counter-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 57898,
+      "sha256": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+    },
+    {
+      "file": "dist/assets/su-shout-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 51444,
+      "sha256": "270feb8ea0c845924602f95169d8e2ba78ce7eb8e5fe35f6a60c271f6cfbae8e"
+    },
+    {
+      "file": "dist/assets/han-shout-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 55160,
+      "sha256": "1cc8abff3da5450a0632614db5cd8900547b9dd33ef25097421c98157f4ed1f8"
+    },
+    {
+      "file": "dist/assets/chen-step-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 55162,
+      "sha256": "bb73d37f42989a710c78c5bda308e249179c81cefcb1d36882459c2baa489b21"
+    },
+    {
+      "file": "dist/assets/han-aim-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 54468,
+      "sha256": "3201592b00f87a03c73dd99f787f636ef91c42066c8db942faa9922a0c9e7cc3"
+    },
+    {
+      "file": "dist/assets/ko-sweep-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 72760,
+      "sha256": "f1533389dbc3566055d9611430a156d806d5ef14711c1615ef40b8756b408905"
+    },
+    {
+      "file": "dist/assets/move-accents-v9.webp",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "bytes": 324472,
+      "sha256": "c6d874aa5a5d0df91267b31637f0614ded4499699e6be0bff64cbb198eb4f05d"
+    },
+    {
+      "file": "dist/assets/ko-counter-v9.webp",
+      "dimensions": [
+        512,
+        512
+      ],
+      "bytes": 71070,
+      "sha256": "4a9258778a6f1dbcc198afacde0f4f502135eaf2310b5a057b4b8f0931b7d16a"
+    }
+  ]
+}

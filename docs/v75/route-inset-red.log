@@ -1,0 +1,30 @@
+✔ full-stage canvas remains the same absolute layer through portrait pause and resume (5341.286987ms)
+✔ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (811.034325ms)
+✔ pause preserves the scene with a light blur rather than an opaque replacement (58.874022ms)
+✔ stage camera keeps fighters between HUD and controls at jump apex and wide separation (2.665044ms)
+✔ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (17.460169ms)
+✖ depth route uses shared full-stage safe space while retaining legacy callers (19.997332ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6771.997592
+
+✖ failing tests:
+
+test at tests/combat-presentation-v75.test.mjs:55:1
+✖ depth route uses shared full-stage safe space while retaining legacy callers (19.997332ms)
+  AssertionError [ERR_ASSERTION]: 320x568: walkable street clears controls
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:63:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

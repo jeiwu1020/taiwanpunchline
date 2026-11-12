@@ -1,0 +1,18 @@
+{
+  "sourceRendererCommit": "7362f532b2c93ad929d8ba3cc177b5cee50df68d",
+  "generation": "Built-in image_gen only. Generated originals unchanged; runtime uses measured padded source rectangles.",
+  "files": [
+    {
+      "path": "dist/assets/challenge/opening-pajamas-v75.png",
+      "sha256": "8fb2211064febeea14e1258512a0d9e828fb9aa56416860c2f4a43fdc1997975"
+    },
+    {
+      "path": "dist/assets/challenge/opening-props-v75.png",
+      "sha256": "1d9f9629bdd20747ce531dea693b5c90f5ad906ba0285e50cc5792ff856d0d6f"
+    },
+    {
+      "path": "dist/assets/challenge/opening-bedroom-v75.png",
+      "sha256": "57f27f84f43aadd8c359377e2e821b256879ed93b28f7e241bf08d96b070977c"
+    }
+  ]
+}

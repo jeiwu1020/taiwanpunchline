@@ -1,0 +1,31 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+const base=readFileSync('dist/index.html','utf8'),source=readFileSync('dist/game.mjs','utf8');
+const bar='<aside id="qa-bar" style="position:fixed;z-index:99;left:8px;bottom:4px;background:#fff9df;color:#173139;padding:5px;font:12px system-ui"><select id="qa-case"><option value="grab">握手抓防</option><option value="duck">高幣蹲躲</option><option value="reflect">拒收反射</option><option value="plane">紙機折返</option><option value="queue">排隊擋衝</option><option value="armor">硬扛接拳</option><option value="break">三格破防</option><option value="word">落字緩速</option><option value="soak">前景連續對局</option></select><button id="qa-run">開始情境</button><button id="qa-flip">交換左右</button><button id="qa-step">再走0.1秒</button><span id="qa-done" hidden>已定格</span><output id="qa-state">Ready</output></aside>';
+writeFileSync('dist/combat-qa.html',base.replace('game.mjs?v=13','combat-qa.mjs').replace('<main class="app">',bar+'<main class="app">'));
+const init=`
+let qaMode='',qaElapsed=0,qaFlip=false,qaFrozen=false,qaEnd=0,qaStages=new Set(),qaLog=[],qaRounds=0,qaFrames=0,qaTick=0,qaMin=Infinity,qaMax=0,qaStepNo=0,qaFps=[]; 
+const qaConfigs={grab:['ma','wang',.44,120],duck:['han','wang',.72,280],reflect:['huang','han',.77,300],plane:['chen','ko',1.74,500],queue:['huang','su',.48,190],armor:['ko','su',.55,110],break:['wang','su',.39,120],word:['ko','wang',.90,200]};
+function qaStart(){qaMode=$('#qa-case').value;$('#qa-done').hidden=true;qaElapsed=0;qaFrozen=false;qaStages=new Set();qaLog=[];qaFrames=0;qaRounds=0;qaMin=Infinity;qaMax=0;qaStepNo=0;qaFps=[];stopVoice();clearHold();sound=false;
+ const c=qaConfigs[qaMode]||['wang','han',60,440];selected=c[0];opponent=c[1];qaEnd=c[2];duel=new Duel(selected,'normal',()=>.5,opponent);duel.player.x=qaFlip?700:260;duel.enemy.x=duel.player.x+(qaFlip?-1:1)*c[3];if(duel.enemy.x<68){duel.player.x=800;duel.enemy.x=800-c[3];}duel.player.face=qaFlip?-1:1;duel.enemy.face=-duel.player.face;started=true;counting=false;setupMoves();$$('.screen').forEach(e=>e.classList.add('hidden'));$('#countdown').classList.add('hidden');$('#pause').disabled=false;$('#help').disabled=false;$('#broadcast').classList.add('hidden');scene.guardCache='';scene.hudCache='';if(qaMode==='break'){duel.player.guardPips=2;hold={guard:true};}$('#game').focus({preventScroll:true});if(qaMode!=='soak'){while(qaElapsed<qaEnd){qaBefore(1/120);duel.step(1/120,hold,false,qaMode==='duck'||qaMode==='plane'?{crouch:true}:qaMode==='grab'?{guard:true}:{});}qaFrozen=true;$('#qa-done').hidden=false;for(const e of duel.events.splice(0))scene.event(e);}}
+$('#qa-run').onclick=qaStart;$('#qa-flip').onclick=()=>{qaFlip=!qaFlip;qaStart()};$('#qa-step').onclick=()=>{qaEnd=qaElapsed+.1;qaFrozen=false;};
+function qaBefore(dt){if(!qaMode)return false;if(qaMode==='soak'){qaStepNo++;const dx=duel.enemy.x-duel.player.x;hold={left:Math.abs(dx)>115&&dx<0,right:Math.abs(dx)>115&&dx>0,punch:qaStepNo%240>35,crouch:qaStepNo%240<=35};if(qaStepNo%37===0)duel.press('special'+(1+Math.floor(qaStepNo/37)%3));if(qaStepNo%131===0)duel.press('jump');return false;}if(qaFrozen)return true;qaElapsed+=dt;
+ const once=(key,at,fn)=>{if(qaElapsed>=at&&!qaStages.has(key)){qaStages.add(key);fn()}};
+ if(qaMode==='grab'){once('a',.01,()=>duel.press('special1'));duel.enemy.guard=true;}
+ if(qaMode==='duck')once('a',.17,()=>duel.press('special1'));
+ if(qaMode==='reflect'){once('b',.01,()=>duel.request(duel.enemy,'special1'));once('a',.35,()=>duel.press('special2'));}
+ if(qaMode==='plane')once('a',.01,()=>duel.press('special1'));
+ if(qaMode==='queue'){once('a',.01,()=>duel.press('special3'));once('b',.35,()=>duel.request(duel.enemy,'special2'));}
+ if(qaMode==='armor'){once('a',.01,()=>duel.press('special3'));once('b',.40,()=>duel.request(duel.enemy,'punch'));once('c',.48,()=>duel.press('punch'));}
+ if(qaMode==='break')once('b',.01,()=>duel.request(duel.enemy,'special1'));
+ if(qaMode==='word')once('a',.01,()=>duel.press('special2'));
+ return false;}
+`;
+let s=source.replace("const ink=0x142b32,paper=0xfff7e5;",()=>"const ink=0x142b32,paper=0xfff7e5;"+init);
+s=s.replace("function pauseGame(){if(duel.status!=='active')return;","function pauseGame(){if(qaMode||duel.status!=='active')return;");
+s=s.replace("function result(){stopVoice();clearHold();", "function result(){if(qaMode==='soak'){qaRounds++;selected=['wang','han','ma','su','huang','chen','ko'][qaRounds%7];opponent=['ko','chen','huang','su','ma','han','wang'][qaRounds%7];duel=new Duel(selected,'normal',Math.random,opponent);started=true;setupMoves();return;}stopVoice();clearHold();");
+s=s.replace("const dt=Math.min(delta/1000,.1);", "let dt=Math.min(delta/1000,.1);if(qaBefore(dt))dt=0;");
+s=s.replace('duel.step(dt/n,hold);',"duel.step(dt/n,hold,!qaMode||qaMode==='soak',qaMode==='duck'||qaMode==='plane'?{crouch:true}:qaMode==='grab'?{guard:true}:{});");
+s=s.replace("event(e){", "event(e){if(qaMode)qaLog.push(e.type+(e.kind?':'+e.kind:''));");
+s=s.replace('const fs=[duel.player,duel.enemy];',`if(qaMode){qaFrames++;if(qaMode!=='soak'&&qaElapsed>=qaEnd){qaFrozen=true;$('#qa-done').hidden=false;}if(time-qaTick>250){const fps=this.game.loop.actualFps;if(qaFrames>120)qaFps.push(fps);qaMin=Math.min(qaMin,fps);qaMax=Math.max(qaMax,fps);$('#qa-state').textContent=JSON.stringify({case:qaMode,t:+qaElapsed.toFixed(2),hp:[duel.player.hp,duel.enemy.hp],guard:[duel.player.guardPips,duel.enemy.guardPips],shots:duel.projectiles.map(p=>({kind:p.kind,phase:p.phase,x:Math.round(p.x),y:Math.round(p.y)})),events:qaLog.slice(-6),rounds:qaRounds,frames:qaFrames,fps:+fps.toFixed(1),median:qaFps.length?+qaFps.slice().sort((a,b)=>a-b)[Math.floor(qaFps.length/2)].toFixed(1):null,samples:qaFps.length,range:[+qaMin.toFixed(1),+qaMax.toFixed(1)],objects:this.children.length,pool:this.propPool.length});qaTick=time;}}const fs=[duel.player,duel.enemy];`);
+writeFileSync('dist/combat-qa.mjs',s);
+for(const [name,w,h,src]of [['mobile-qa',320,568,'./'],['mobile-combat-qa',320,568,'combat-qa.html'],['landscape-qa',667,375,'./']])writeFileSync('dist/'+name+'.html','<!doctype html><meta charset="utf-8"><title>'+name+'</title><style>body{margin:0;background:#33484c;display:flex;justify-content:center}iframe{border:0;width:'+w+'px;height:'+h+'px}</style><iframe src="'+src+'" title="'+w+'px game preview"></iframe>');

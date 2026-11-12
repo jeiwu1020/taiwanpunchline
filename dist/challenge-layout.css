@@ -1,0 +1,191 @@
+/* One content frame for all four chapters. Viewport geometry is the sole
+   owner of physical safe areas; CSS consumes only remaining logical insets. */
+:root{--challenge-safe-top:0px;--challenge-safe-right:0px;--challenge-safe-bottom:0px;--challenge-safe-left:0px}
+.challenge-save-slot{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:104px;height:32px;min-width:104px;max-width:104px;flex-shrink:0;overflow:hidden;white-space:nowrap;line-height:1.2;font-size:11px;color:#fff6df;pointer-events:auto;contain:size layout}
+.challenge-save-slot [hidden]{display:none!important}
+.challenge-save-slot :is(span,button){box-sizing:border-box;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:inherit;margin:0}
+.challenge-save-slot button{width:100%;height:32px;min-height:32px;padding:4px 6px;border:1px solid #f2c675;border-radius:5px;background:#5b3329;color:#fff6df;box-shadow:none;touch-action:manipulation}
+/* Status stays in its own toolbar cell, not above the HUD or in a moving card. */
+#trial-app.cabinet.app[data-challenge-layout]>header,
+#viewport-shell>.app[data-game-mode="challenge"]>header{display:grid;grid-template-columns:minmax(0,1fr) 104px auto;align-items:center;gap:8px;flex-wrap:nowrap;padding:0;min-width:0}
+#trial-app.cabinet.app[data-challenge-layout]>header{position:absolute;inset:calc(var(--challenge-safe-top) + 6px) calc(var(--challenge-safe-right) + 8px) auto calc(var(--challenge-safe-left) + 8px);height:38px}
+#trial-app.cabinet.app[data-challenge-layout]>header .brand,
+#viewport-shell>.app[data-game-mode="challenge"]>header .brand{min-width:0;overflow:hidden;text-overflow:ellipsis}
+#trial-app.cabinet.app[data-challenge-layout]>header .toolbar,
+#viewport-shell>.app[data-game-mode="challenge"]>header .toolbar{display:flex;flex-wrap:nowrap;width:auto;max-width:none;gap:4px;justify-content:flex-end}
+/* Touch scenes share one stage and overlay-control coordinate system. Desktop
+   keeps the original chapter-one cabinet and character rendering budget. */
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"]{display:block;position:relative;padding:0;gap:0}
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"]>.cabinet{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;border-radius:0}
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"] .stage-wrap{position:absolute;inset:0;width:100%;height:100%}
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"]>header{position:absolute;inset:calc(var(--challenge-safe-top) + 6px) calc(var(--challenge-safe-right) + 8px) auto calc(var(--challenge-safe-left) + 8px);height:38px;z-index:30}
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"] .under{display:none}
+#trial-app.cabinet.app[data-challenge-layout] #hud.dom-hud,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"] .dom-hud{inset:calc(var(--challenge-safe-top) + 48px) calc(var(--challenge-safe-right) + 8px) auto calc(var(--challenge-safe-left) + 8px);height:64px;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:6px;padding:0}
+#trial-app.cabinet.app[data-challenge-layout] #hud :is(.hud-side,.timer),
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"] .dom-hud :is(.hud-side,.timer){min-width:0;height:64px}
+#trial-app.cabinet.app[data-challenge-layout] .chapter-objective{top:calc(var(--challenge-safe-top) + 117px);left:calc(var(--challenge-safe-left) + 8px);right:calc(var(--challenge-safe-right) + 8px);max-height:36px;overflow:hidden}
+#trial-app.cabinet.app[data-challenge-layout] #controls.control-deck,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"] .control-deck{position:absolute;inset:auto calc(var(--challenge-safe-right) + 8px) calc(var(--challenge-safe-bottom) + 6px) calc(var(--challenge-safe-left) + 8px);background:transparent;border:0;padding:0;z-index:10}
+#trial-app.cabinet.app[data-challenge-layout] #controls .touch-pad{padding-bottom:0}
+/* Preserve the #67 portrait toolbar on non-touch chapter 2–4 pages. */
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header{height:38px;grid-template-columns:56px 62px minmax(0,1fr);grid-template-rows:32px;column-gap:4px;row-gap:0;align-content:center}
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header .brand{grid-column:1;grid-row:1;justify-self:start;font-size:14px;line-height:20px;gap:0}
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header .brand-icon{display:none}
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header .challenge-save-slot{grid-column:2;grid-row:1;width:62px;min-width:62px;max-width:62px;font-size:10px;padding:3px 2px}
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header .toolbar{grid-column:3;grid-row:1;gap:3px;min-width:0;align-items:center}
+#trial-app.cabinet.app[data-challenge-layout]:not([data-touch="true"])[data-layout="portrait"]>header .toolbar button{min-width:30px;min-height:32px;height:32px;padding:3px 3px;font-size:10px;letter-spacing:0;white-space:nowrap}
+/* Only touch portrait substitutes compact visual labels; semantic text stays. */
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header{height:44px;grid-template-columns:44px 44px minmax(0,1fr);grid-template-rows:44px;column-gap:4px;row-gap:0;align-content:center}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .brand,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .brand{grid-column:1;grid-row:1;justify-self:stretch;justify-content:center;min-width:44px;min-height:44px;height:44px;font-size:14px;line-height:20px;gap:4px;overflow:visible}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .brand-icon,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .brand-icon{display:inline-block;flex-shrink:0;box-sizing:border-box;width:30px;height:32px;font-size:21px;line-height:28px;text-align:center;padding:0}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .brand > span:not(.brand-icon),
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .brand > span:not(.brand-icon){display:none}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .toolbar,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .toolbar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-column:3;grid-row:1;width:100%;gap:3px;min-width:0;align-items:center}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .toolbar button,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .toolbar button{min-width:44px;min-height:44px;height:44px;width:100%;padding:3px 0;font-size:0;letter-spacing:0;white-space:nowrap}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .toolbar button[data-short-label],
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .toolbar button[data-short-label]{font-size:0}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .toolbar button[data-short-label]::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .toolbar button[data-short-label]::after{content:attr(data-short-label);font-size:12px;line-height:1.2;letter-spacing:0;white-space:nowrap}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header #campaign-bar.challenge-save-slot,
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot{grid-column:2;grid-row:1;box-sizing:border-box;width:44px;min-width:44px;max-width:44px;height:44px;min-height:44px;max-height:44px;font-size:0;padding:0;gap:0}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot::after{font-size:12px;line-height:1.2;white-space:nowrap}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="saved"]::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="saved"]::after{content:'已保存'}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="busy"]::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="busy"]::after{content:'保存中'}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="error"]::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="error"]::after{content:'需處理'}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="preview"]::after,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .challenge-save-slot[data-status="preview"]::after{content:'不保存'}
+@media(min-width:390px){
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header{grid-template-columns:104px 44px minmax(0,1fr)}
+#trial-app.cabinet.app[data-challenge-layout][data-touch="true"][data-layout="portrait"]>header .brand > span:not(.brand-icon),
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"]>header .brand > span:not(.brand-icon){display:block}
+}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"] #hud.dom-hud,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"] .dom-hud{top:calc(var(--challenge-safe-top) + 70px)}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"] .chapter-objective{top:calc(var(--challenge-safe-top) + 138px)}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"] #controls.control-deck,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="portrait"] .control-deck{height:188px;left:8px;right:8px;padding-bottom:0}
+/* Readable in-app panels use the same safe content rectangle and scroll body. */
+#trial-app.cabinet.app[data-challenge-layout]>.overlay{inset:0;padding:calc(var(--challenge-safe-top) + 48px) calc(var(--challenge-safe-right) + 8px) calc(var(--challenge-safe-bottom) + 8px) calc(var(--challenge-safe-left) + 8px);overflow:auto;overscroll-behavior:contain}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"]>.overlay{padding-top:calc(var(--challenge-safe-top) + 70px)}
+#trial-app.cabinet.app[data-challenge-layout] .overlay :is(.card,.paper){max-height:100%;overflow:auto;min-height:0}
+#trial-app.cabinet.app[data-challenge-layout] :is(#pause-panel,#result-panel) .paper{transform:none}
+#trial-app.cabinet.app[data-challenge-layout] .chapter-recovery-panel{max-width:100%;overflow-wrap:anywhere}
+/* Story panes remain in content-safe bounds instead of overriding with 8px. */
+body[data-chapter-mode="story"] #trial-app.cabinet.app[data-challenge-layout]>#stage{left:calc(var(--challenge-safe-left) + 8px);top:calc(var(--challenge-safe-top) + 52px);width:calc(var(--challenge-content-width) * .62 - 8px);height:calc(var(--challenge-content-height) - 60px)}
+body[data-chapter-mode="story"] #trial-app.cabinet.app[data-challenge-layout] #story-panel{inset:calc(var(--challenge-safe-top) + 52px) calc(var(--challenge-safe-right) + 8px) calc(var(--challenge-safe-bottom) + 8px) auto;width:calc(var(--challenge-content-width) * .38);max-height:none}
+body[data-chapter-mode="story"][data-layout="portrait"] #trial-app.cabinet.app[data-challenge-layout]>#stage{left:calc(var(--challenge-safe-left) + 8px);top:calc(var(--challenge-safe-top) + 70px);width:calc(var(--challenge-content-width) - 16px);height:calc(var(--challenge-content-height) * .54 - 70px)}
+body[data-chapter-mode="story"][data-layout="portrait"] #trial-app.cabinet.app[data-challenge-layout] #story-panel{inset:calc(var(--challenge-safe-top) + var(--challenge-content-height) * .54) calc(var(--challenge-safe-right) + 8px) calc(var(--challenge-safe-bottom) + 8px) calc(var(--challenge-safe-left) + 8px);width:auto}
+#trial-app.cabinet.app[data-challenge-layout] #story-panel .story-copy{min-height:0;overflow-y:auto;justify-content:safe center;overscroll-behavior:contain}
+/* Native dialogs live outside the app; the shared frame supplies their center. */
+html body>dialog:is(.campaign-growth-dialog,.chapter-home-confirm){position:fixed!important;inset:auto!important;margin:0!important;left:var(--challenge-center-x)!important;top:var(--challenge-center-y)!important;transform:translate(-50%,-50%) rotate(var(--challenge-rotation,0deg))!important;max-width:calc(var(--challenge-content-width,100vw) - 16px)!important;max-height:calc(var(--challenge-content-height,100dvh) - 16px)!important;overflow:auto}
+html body[data-sideways="true"]>dialog{left:var(--challenge-center-x)!important;top:var(--challenge-center-y)!important;max-width:calc(var(--challenge-content-width) - 16px)!important;max-height:calc(var(--challenge-content-height) - 16px)!important}
+html body[data-sideways="true"]>dialog#help-dialog{max-width:calc(var(--challenge-content-width) - 16px)!important;max-height:calc(var(--challenge-content-height) - 16px)!important}
+.challenge-preparation-overlay{box-sizing:border-box;padding:0;overflow:hidden;color:#173239;background:#fff5dc;border:3px solid #173239;border-radius:10px;box-shadow:6px 7px 0 #172f3680;font-family:inherit;overscroll-behavior:contain}
+.challenge-preparation-overlay:not([open]){display:none}
+.challenge-preparation-overlay::backdrop{background:#081b20cf}
+.challenge-preparation-panel{box-sizing:border-box;max-height:calc(var(--challenge-logical-height,var(--challenge-content-height,100dvh)) - 6px);min-height:0;overflow-y:auto;padding:16px 20px;overscroll-behavior:contain;touch-action:pan-y pinch-zoom}
+.challenge-preparation-panel :is(h2,h3){margin:4px 0 12px;line-height:1.3}
+.challenge-preparation-panel p{font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+.challenge-preparation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.challenge-preparation-grid label{display:grid;gap:6px;min-width:0;font-weight:700}
+.challenge-preparation-panel :is(button,select){min-height:44px;max-width:100%;min-width:0;padding:8px 12px;font:inherit;border:2px solid #173239;border-radius:6px;box-shadow:none;touch-action:manipulation;background:#fff9e9;color:#173239}
+.challenge-preparation-panel .preparation-skill-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:9px 0;border-top:1px dashed #17323955}
+.challenge-preparation-panel #challengePreparationScope{padding:10px;border:2px dashed #9b522c;background:#ffedbf}
+.challenge-preparation-panel #preparationConfirm{background:#b73c2d;color:#fff5dc;font-weight:800}
+.challenge-preparation-panel :is(footer,.preparation-actions){display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:14px;padding-bottom:4px}
+.challenge-recovery-panel{box-sizing:border-box;max-width:100%;margin:12px 0;padding:12px;border:2px dashed #9b522c;background:#ffedbf;color:#173239;text-align:left;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.challenge-recovery-panel :is(button,a){display:inline-block;min-height:44px;margin:5px 5px 0 0;padding:7px 10px;font:inherit;line-height:1.4;max-width:100%;white-space:normal;touch-action:manipulation}
+.challenge-recovery-panel[hidden]{display:none!important}
+.challenge-preparation-overlay[data-layout="portrait"] .challenge-preparation-grid{grid-template-columns:1fr}
+.challenge-preparation-overlay[data-compact="true"] .challenge-preparation-panel{padding:10px 14px}
+.challenge-preparation-overlay[data-compact="true"] .challenge-preparation-panel :is(h2,h3){margin-bottom:8px;font-size:22px}
+/* Neutralize historical absolute/inline bar variants after its move to header. */
+#campaign-bar.challenge-save-slot,#campaign-bar.challenge-save-slot.campaign-bar-combat{position:static;inset:auto;transform:none;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;box-sizing:border-box;width:104px;min-width:104px;max-width:104px;height:32px;min-height:32px;max-height:32px;overflow:hidden;margin:0;padding:3px 5px;pointer-events:auto;font-size:11px;line-height:1.2;flex-shrink:0}
+#campaign-bar.challenge-save-slot #campaign-save-state{display:block;flex:0 1 auto;min-width:0;margin:0;padding:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:inherit;color:inherit}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="landscape"]>header .toolbar,
+#viewport-shell>.app[data-game-mode="challenge"][data-layout="landscape"]>header .toolbar{grid-column:3}
+button.challenge-save-slot{border:1px solid #607b82;border-radius:5px;background:#243e47;color:#fff6df;box-shadow:none;padding:3px 5px;touch-action:manipulation}
+button.challenge-save-slot[data-status="error"],#campaign-bar.challenge-save-slot[data-status="error"]{border-color:#f2c675;background:#5b3329;color:#fff6df}
+/* Logical compact landscape, identical whether native or CSS-rotated. These
+   budgets keep useful combat height instead of asking the camera to shrink. */
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"]>header,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"]>header{top:calc(var(--challenge-safe-top) + 4px);height:32px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud.dom-hud,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud{top:calc(var(--challenge-safe-top) + 40px);height:48px;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr)}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud :is(.hud-side,.timer),
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud :is(.hud-side,.timer){height:48px;min-height:0;padding:2px 5px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .hud-name,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .hud-name{grid-column:1;grid-row:1;height:15px;min-height:0;align-items:center;font-size:13px;line-height:15px;gap:4px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .hp-track,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .hp-track{grid-column:1;grid-row:2;height:5px;margin:0}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .guard-row,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .guard-row{grid-column:1;grid-row:3;min-height:8px;height:8px;margin:0}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .guard-row small,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .guard-row small{font-size:8px;line-height:8px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .hud-status,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .hud-status{grid-column:1;grid-row:4;display:block;min-height:8px;height:8px;margin:0;font-size:8px;line-height:8px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] .chapter-objective{top:calc(var(--challenge-safe-top) + 94px);height:18px;max-height:18px;font-size:10px;line-height:14px}
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] .chapter-objective :is(b,span){white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:18px}
+#challengeRecoveryPanel[data-floating="true"]{position:absolute;top:calc(var(--challenge-safe-top) + 48px);left:calc((100% + var(--challenge-safe-left) - var(--challenge-safe-right)) / 2);right:auto;bottom:auto;transform:translateX(-50%);z-index:45;width:min(600px,calc(var(--challenge-content-width,100%) - 24px));max-height:calc(var(--challenge-content-height,100%) - 64px);margin:0;overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;box-shadow:0 0 0 100vmax #102a32aa;touch-action:pan-y pinch-zoom}
+
+.challenge-save-slot[hidden]{display:none!important}
+/* All four compact HUD children own explicit tracks. Otherwise the older
+   24/11/11 desktop tracks survive the smaller outer frame and push guard out. */
+#trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .hud-side,
+#viewport-shell>.app[data-game-mode="challenge"][data-touch="true"][data-layout="landscape"][data-compact="true"] .dom-hud .hud-side{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:15px 5px 8px 8px;gap:1px;align-content:start;border-width:2px}
+/* Bound native dialogs may anchor at the logical top, not the shell center.
+   Their own rotated placement must beat the legacy centered-dialog rule. */
+html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challenge-dialog-left)!important;top:var(--challenge-dialog-top)!important}
+
+/* Pause inspection shares menu-action geometry; amber distinguishes inspection. */
+#pause-screen #challenge-inspect-button.menu-action,#trial-app #pause-panel #leave.menu-action{background:#e5ae46;color:#152c34}
+/* Instruction text follows the entire HUD, never an implicit grid row inside
+   the timer. The measured rectangle remains part of shared camera avoidance. */
+#viewport-shell>.app[data-touch="true"][data-layout="portrait"] .dom-hud #item-status{position:absolute;top:calc(100% + 6px);left:50%;right:auto;bottom:auto;transform:translateX(-50%);grid-area:auto;margin:0;width:max-content;max-width:100%;height:auto}
+#viewport-shell>.app[data-touch="true"][data-layout="portrait"] .dom-hud #item-status:empty{display:none}
+
+/* Camera overlap is opt-in through the shared logical profile. Only fills are
+   translucent: glyphs/ink edges and the original target geometry remain intact.
+   The extra profile specificity also beats later-chapter #controls palettes. */
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck button{background:rgba(255,244,218,.76);color:#17353a;border-color:#17353a;opacity:1;filter:none;text-shadow:0 1px 0 #fff5dc}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .punch{background:rgba(223,102,80,.8);color:#17353a}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck [data-hold="guard"]{background:rgba(244,212,119,.78)}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck #challenge-jump{background:rgba(139,200,227,.78)}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .specials button{background:linear-gradient(to top,rgba(240,205,130,.8) 0%,rgba(240,205,130,.8) var(--cooldown-ready,100%),rgba(255,246,219,.72) var(--cooldown-ready,100%),rgba(255,246,219,.72) 100%);opacity:1;filter:none}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .rally-button{background:linear-gradient(to top,rgba(153,217,119,.82) 0%,rgba(153,217,119,.82) var(--charge,0%),rgba(226,236,208,.72) var(--charge,0%),rgba(226,236,208,.72) 100%)!important}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .assist-button{background:linear-gradient(to top,rgba(219,179,223,.82) 0%,rgba(219,179,223,.82) var(--assist-charge,0%),rgba(238,225,239,.72) var(--assist-charge,0%),rgba(238,225,239,.72) 100%)!important}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck #touch-stick{background:radial-gradient(circle,rgba(255,237,183,.65) 30%,rgba(234,198,142,.65) 31%,rgba(255,240,200,.65) 68%);border-color:#17353a;opacity:1}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck #touch-knob{background:rgba(239,187,86,.88);border-color:#17353a;opacity:1}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .stick-cross{color:#17353a;opacity:1}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck :is(.guard-hint,.cooldown-value,.rally-label,.assist-label,kbd){color:#17353a;opacity:1;text-shadow:0 1px 0 #fff5dc}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck button:is(.held,.key-pressed,:active){background:rgba(255,225,147,.92);box-shadow:0 2px 0 #17353a,inset 0 0 0 2px #fff5dc;filter:none}
+.app[data-touch][data-layout][data-overlay-controls][data-control-overlay="soft"] .control-deck .specials button.cooling{border-color:#69462c;box-shadow:0 4px 0 #17353a,inset 0 0 0 1px #69462c}
+/* Chapter 2–4 give this glyph an ID-scoped tint; keep its ink opaque too. */
+#trial-app[data-control-overlay="soft"] .control-deck .stick-cross{color:#17353a;opacity:1}
+
+/* Stable compact landscape reserves readable text before it appears. Other
+   camera modes keep their original dynamic text layout. Full text remains in
+   the live region/DOM; one visual line ellipsizes rather than growing into play.
+   challenge-layout.mjs uses this same 80% / 15px / 3px item-slot contract. */
+:is(#viewport-shell>.app,#trial-app,.app)[data-fixed-camera-layout="true"][data-touch][data-layout] .dom-hud #item-status{
+ box-sizing:border-box;display:block;position:absolute;left:50%;right:auto;
+ top:100%;bottom:auto;transform:translateX(-50%);grid-area:auto;margin:3px 0 0;
+ width:80%;max-width:80%;height:15px;min-height:15px;max-height:15px;
+ padding:1px 5px;font-size:10px;line-height:13px;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis;contain:size layout;
+}
+:is(#viewport-shell>.app,#trial-app,.app)[data-fixed-camera-layout="true"][data-touch][data-layout] .dom-hud #item-status:empty{display:block;opacity:0}
+:is(#viewport-shell>.app,#trial-app,.app)[data-fixed-camera-layout="true"] .dom-hud :is(.hud-side,.timer){overflow:hidden}
+:is(#viewport-shell>.app,#trial-app,.app)[data-fixed-camera-layout="true"] .dom-hud .hud-status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

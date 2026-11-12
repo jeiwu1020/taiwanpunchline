@@ -1,0 +1,58 @@
+{
+  "phase": "final production helper after duplicated-edge bleed",
+  "browser": "Cloud Chromium, DPR1",
+  "viewport": [
+    1200,
+    750
+  ],
+  "foreground": [
+    2400,
+    1500
+  ],
+  "actors": 6,
+  "warmupFrames": 90,
+  "measuredFrames": 360,
+  "source": "Visible #raw report read through CUA",
+  "runs": [
+    {
+      "run": 1,
+      "baseline": true,
+      "drawMedianMs": 25.0,
+      "drawP95Ms": 42.5,
+      "frameP95Ms": 73.6,
+      "over25ms": 360
+    },
+    {
+      "run": 2,
+      "baseline": false,
+      "drawMedianMs": 0.7,
+      "drawP95Ms": 1.1,
+      "frameP95Ms": 29.5,
+      "over25ms": 129,
+      "backdropTexture": [
+        2406,
+        1500
+      ]
+    },
+    {
+      "run": 3,
+      "baseline": true,
+      "drawMedianMs": 19.8,
+      "drawP95Ms": 26.4,
+      "frameP95Ms": 43.6,
+      "over25ms": 360
+    },
+    {
+      "run": 4,
+      "baseline": false,
+      "drawMedianMs": 0.7,
+      "drawP95Ms": 0.9,
+      "frameP95Ms": 29.6,
+      "over25ms": 135,
+      "backdropTexture": [
+        2406,
+        1500
+      ]
+    }
+  ]
+}

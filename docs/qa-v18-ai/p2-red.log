@@ -1,0 +1,86 @@
+✔ normal waits after first seeing a slow attack, then can defend (12.20604ms)
+✔ easy waits after first seeing a slow attack, then can defend (5.10629ms)
+✔ a new jab lands before an unprepared normal AI can visually react (4.405812ms)
+✔ normal cannot instantly choose a counter stance from fresh attack input (0.88794ms)
+✔ easy cannot instantly choose a counter stance from fresh attack input (0.526134ms)
+✔ normal gives a newly visible projectile its own first-observation delay (2.841891ms)
+✔ normal gives a newly visible queue its own first-observation delay (12.344168ms)
+✔ easy gives a newly visible projectile its own first-observation delay (0.697534ms)
+✔ easy gives a newly visible queue its own first-observation delay (0.732356ms)
+✔ a replacement attack must earn a new observation delay (3.11259ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (0.905137ms)
+✔ normal leaves a real post-punch gap even when the decision timer is ready (4.475092ms)
+✔ normal leaves a real post-special2 gap even when the decision timer is ready (1.538172ms)
+✔ easy leaves a real post-punch gap even when the decision timer is ready (6.51707ms)
+✔ easy leaves a real post-special2 gap even when the decision timer is ready (10.212349ms)
+✔ normal starts a fresh gap when its action is interrupted and does not refund cooldown (3.796472ms)
+✔ easy starts a fresh gap when its action is interrupted and does not refund cooldown (2.090661ms)
+✔ pause and hitstop do not burn the pending observation delay (2.537842ms)
+✔ normal honors the long end of the sampled first-observation delay (0.883655ms)
+✔ easy honors the long end of the sampled first-observation delay (1.270308ms)
+✔ an old cast newly entering observation cannot reuse its total animation age as reaction time (1.416339ms)
+✔ a threat leaving perception range and returning must be observed again (1.168203ms)
+✔ round restart cannot inherit a completed observation deadline or a recovery gap (2.756212ms)
+✔ normal leaves a recovery opening after its rejection stance is consumed (2.497471ms)
+✔ easy leaves a recovery opening after its rejection stance is consumed (1.141203ms)
+✔ an AI recovery guard can be punished by a player grab (1.915302ms)
+✔ pause and hitstop preserve the full remaining post-action opening (1.269267ms)
+✔ normal can retreat and guard during recovery while follow-up attacks wait (1.3245ms)
+✔ easy can retreat and guard during recovery while follow-up attacks wait (0.791916ms)
+✔ an actual block during recovery cannot make a buffered punch skip its remaining gap (1.120421ms)
+✔ recovery retreat is the same with or without a fresh unseen opponent attack (2.326844ms)
+✔ recovery guard uses the same pips and can be broken then hit (1.427445ms)
+✖ recovery retreat preserves a legitimately selected projectile crouch on the next frame (2.778545ms)
+✖ explicit mature guard survives recovery retreat and the transition out of recovery (1.041403ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 32
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 303.978725
+
+✖ failing tests:
+
+test at tests/ai-timing-v18.test.mjs:148:1
+✖ recovery retreat preserves a legitimately selected projectile crouch on the next frame (2.778545ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:154:28)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/ai-timing-v18.test.mjs:157:1
+✖ explicit mature guard survives recovery retreat and the transition out of recovery (1.041403ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  false !== true
+  
+      at TestContext.<anonymous> (file:///workspace/shared/parliament-v18-core/tests/ai-timing-v18.test.mjs:162:66)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

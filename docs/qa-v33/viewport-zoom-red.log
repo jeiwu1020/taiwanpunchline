@@ -1,0 +1,157 @@
+✖ safe-area body gutters suppress double-tap zoom without locking pinch or pan (7.440006ms)
+✖ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (6.379448ms)
+✖ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (4.872069ms)
+✖ Phaser canvas touch handlers do not cancel native pinch gestures (3.781738ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (13.250754ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (13.973939ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (10.112204ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.306908ms)
+✔ blocking bootstrap resolves portrait touch layout synchronously without Phaser or loaded images (3.801056ms)
+✔ first frame agrees with safe-area geometry for compact, native landscape, tablet and visual viewport offsets (9.00587ms)
+✔ stored version 1 rotation-off is honored before the first game content, without modifying storage (2.85132ms)
+✔ corrupt, unsupported and inaccessible settings safely keep the visible default rotation (12.630991ms)
+✔ bootstrap keeps sizing during image preload then releases resize ownership to scene mount (2.251244ms)
+✔ early viewport rejects stale unzoomed orientation and reconciles late safe areas (1.975453ms)
+✖ first paint marks only physical touch landscape for overlay controls (3.681522ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (2.961181ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.841548ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.640865ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.569892ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.501362ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.570373ms)
+✔ boot-to-mounted handoff resamples late viewport changes before accepting input (0.72662ms)
+✖ overlay flag distinguishes physical landscape from rotated portrait and portrait pinch (1.958217ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 17
+ℹ fail 6
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 225.221304
+
+✖ failing tests:
+
+test at tests/tap-zoom-v33.test.mjs:24:1
+✖ safe-area body gutters suppress double-tap zoom without locking pinch or pan (7.440006ms)
+  AssertionError [ERR_ASSERTION]: body gutters must suppress double-tap zoom while allowing native pan and pinch; got auto
+      at expectManipulation (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:18:9)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:27:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tap-zoom-v33.test.mjs:30:1
+✖ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (6.379448ms)
+  AssertionError [ERR_ASSERTION]: game shell must suppress double-tap zoom while allowing native pan and pinch; got auto
+      at expectManipulation (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:18:9)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:31:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tap-zoom-v33.test.mjs:34:1
+✖ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (4.872069ms)
+  AssertionError [ERR_ASSERTION]: battle canvas must suppress double-tap zoom while allowing native pan and pinch; got none
+      at expectManipulation (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:18:9)
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:35:2)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/tap-zoom-v33.test.mjs:38:1
+✖ Phaser canvas touch handlers do not cancel native pinch gestures (3.781738ms)
+  AssertionError [ERR_ASSERTION]: native canvas gestures must not be preventDefault-ed by Phaser
+  + actual - expected
+  
+  + undefined
+  - false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/tap-zoom-v33.test.mjs:49:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/viewport-boot-v29.test.mjs:68:1
+✖ first paint marks only physical touch landscape for overlay controls (3.681522ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'false'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-boot-v29.test.mjs:69:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'false',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/viewport-sync-v32.test.mjs:58:1
+✖ overlay flag distinguishes physical landscape from rotated portrait and portrait pinch (1.958217ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'false'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-v32-touch-fix/tests/viewport-sync-v32.test.mjs:59:20)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'false',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

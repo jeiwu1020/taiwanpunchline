@@ -1,0 +1,162 @@
+[
+  {
+    "kind": "coin",
+    "hash": "a04a78a1bc69ca9ce9885a16dd6a9a72f9aa8e3bd447d6199ae85d572433ec67",
+    "frames": 45312,
+    "duration": 0.944,
+    "peakAtOutput": 0.3234488368034363,
+    "playedToEnd": true
+  },
+  {
+    "kind": "ma_cough",
+    "hash": "a57589aa069fd4ff2fe1e33c3747105176be68be7f733ccd64f249fc9e0e1f57",
+    "frames": 292692,
+    "duration": 6.637006802721088,
+    "peakAtOutput": 0.3077929615974426,
+    "playedToEnd": true
+  },
+  {
+    "kind": "han_knee",
+    "hash": "ebc0cfd83e322b615dcb155b9833c10c49c9727b878ae953cda73aa83193d8cd",
+    "frames": 27216,
+    "duration": 0.567,
+    "peakAtOutput": 0.4060967266559601,
+    "playedToEnd": true
+  },
+  {
+    "kind": "rush",
+    "hash": "c5e4018abd3e55a5acc68196625914111d1e879b39b9a2bacac9ba4f46c08412",
+    "frames": 114240,
+    "duration": 2.38,
+    "peakAtOutput": 0.4137546420097351,
+    "playedToEnd": true
+  },
+  {
+    "kind": "counter",
+    "hash": "0a2b98036b035bd96bf0e992d00aa4c1f4c3302c6ba02e1d0c82a7ccd00cd96f",
+    "frames": 143088,
+    "duration": 2.981,
+    "peakAtOutput": 0.3298558294773102,
+    "playedToEnd": true
+  },
+  {
+    "kind": "huang_shout",
+    "hash": "04fb3cf6f05bb06901dfc12740efdcbac4be5ad81cc6732e40842c1b0afe3a05",
+    "frames": 57903,
+    "duration": 1.3129931972789115,
+    "peakAtOutput": 0.3700280785560608,
+    "playedToEnd": true
+  },
+  {
+    "kind": "huang_debt",
+    "hash": "2f6765a53dc978c645e61a379400eaac49380e9847992619305fc93730786c13",
+    "frames": 50798,
+    "duration": 1.1518820861678005,
+    "peakAtOutput": 0.2942938208580017,
+    "playedToEnd": true
+  },
+  {
+    "kind": "huang_queue",
+    "hash": "109f302c355d0162a080f1b7b3d508bb75426061eb715103e645b23c579dcc3c",
+    "frames": 95040,
+    "duration": 1.98,
+    "peakAtOutput": 0.43124642968177795,
+    "playedToEnd": true
+  },
+  {
+    "kind": "su_dare",
+    "hash": "86a816cfe5c3f9eadee725e07fe06f05a508ff3d5459b4a5741db4215155a954",
+    "frames": 42144,
+    "duration": 0.878,
+    "peakAtOutput": 0.19227616488933563,
+    "playedToEnd": true
+  },
+  {
+    "kind": "chen_calm",
+    "hash": "9aad1607439f37a1cd94ba16b088f6093d28257d6514da5d1bf449b81889cbaf",
+    "frames": 60432,
+    "duration": 1.259,
+    "peakAtOutput": 0.2803768515586853,
+    "playedToEnd": true
+  },
+  {
+    "kind": "ko_bags",
+    "hash": "cac7c3998478bcc6da11e8d2723a9365415a662964d273113c20e14ef71c9448",
+    "frames": 61920,
+    "duration": 1.29,
+    "peakAtOutput": 0.3454447090625763,
+    "playedToEnd": true
+  },
+  {
+    "kind": "ko_resolve",
+    "hash": "daf633866e360e61b4106ddfd63498644e26d3f043017e164f6c05ba18f9e85a",
+    "frames": 88224,
+    "duration": 1.838,
+    "peakAtOutput": 0.265066921710968,
+    "playedToEnd": true
+  },
+  {
+    "kind": "chen_question",
+    "hash": "eb66183269a59e790dfa62ebc348ce2f3a14388901c4125af4e09dab8a25da1b",
+    "frames": 67200,
+    "duration": 1.4,
+    "peakAtOutput": 0.27236688137054443,
+    "playedToEnd": true
+  },
+  {
+    "kind": "ma_gaze",
+    "hash": "13324a70f01fe960c179b9beaa68d9cdc88c02c4b374d54f149bc6855d56e7f8",
+    "frames": 55776,
+    "duration": 1.162,
+    "peakAtOutput": 0.22653985023498535,
+    "playedToEnd": true
+  },
+  {
+    "kind": "arrow",
+    "hash": "27ae6fed3138133bed97c684623b80ed2755cfb575365240bf0e0692c07e259e",
+    "frames": 82608,
+    "duration": 1.721,
+    "peakAtOutput": 0.5430237650871277,
+    "playedToEnd": true
+  },
+  {
+    "kind": "su_shout",
+    "hash": "1f30559b553a5c32f55395300fa74e290c3f88a05892c83065a7de9688b4f12e",
+    "frames": 72672,
+    "duration": 1.514,
+    "peakAtOutput": 0.33064204454421997,
+    "playedToEnd": true
+  },
+  {
+    "kind": "su_rush",
+    "hash": "2b1036be709ad4cac6f64c314cff3e3d9afe03a21336e6f94f673b943e4bd871",
+    "frames": 113616,
+    "duration": 2.367,
+    "peakAtOutput": 0.3122706413269043,
+    "playedToEnd": true
+  },
+  {
+    "kind": "ma_handshake",
+    "hash": "2281668716d37e6444c6201e25a8e47c13aed3c0f1d23aed888f5198d39ae493",
+    "frames": 126960,
+    "duration": 2.645,
+    "peakAtOutput": 0.38405051827430725,
+    "playedToEnd": true
+  },
+  {
+    "kind": "chen_dream",
+    "hash": "53b6344f2a1a4cce8036c25fdd2d81b907b9ff06aea26585c0020c041e418b24",
+    "frames": 89280,
+    "duration": 1.86,
+    "peakAtOutput": 0.28965339064598083,
+    "playedToEnd": true
+  },
+  {
+    "kind": "heal",
+    "hash": "2b7e8cf8957e305c981cdb18729e05dc9f413785cfcf07a443224c7b7aa81eec",
+    "frames": 95224,
+    "duration": 1.9838333333333333,
+    "peakAtOutput": 0.40746521949768066,
+    "playedToEnd": true
+  }
+]

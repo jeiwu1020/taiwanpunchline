@@ -1,0 +1,36 @@
+✔ waking rotates a reclining torso upright while arm and blanket move independently (2.285273ms)
+✔ reduced motion uses a fixed finished illustration in all four shots (1.888433ms)
+✔ opening layout gives portrait art most of the panel and keeps landscape controls alongside (0.434834ms)
+✔ waking keeps the reclining head, seated head, feet and lifted blanket inside every frame (0.501324ms)
+✔ generated opening selects distinct full-body getting-up states and then holds (1.618247ms)
+✔ all seven opening assets resolve independently without substituting another face (1.135704ms)
+✔ reduced motion freezes completed generated poses and camera (4.434335ms)
+✔ panel layout contains exactly the current complete scene in every orientation (3.000992ms)
+✔ missing animated assets show a loading prompt, never old storyboard panels (1.581574ms)
+✔ retained original storyboard assets remain actual WebP rasters (56.358873ms)
+✔ single scene camera visibly settles and restarts with each waking pose (0.524296ms)
+✔ opening uses separately articulated constant-length arm bones and moving blanket (5.033707ms)
+✔ production opening consumes raster rig and props instead of storyboard scenes (2.052198ms)
+✔ articulated reduced-motion presentation is fixed for every story beat (10.521831ms)
+✔ waking and changing use the empty room rather than duplicate baked beds (2.007838ms)
+✔ opening advances through news, waking, wardrobe and chase for each playable portrait (3.699106ms)
+✔ each panel and replay restart the animation without completing or writing progress (309.614208ms)
+✔ skip finishes once and stale controls cannot finish a closed story again (37.17894ms)
+✔ closing abandons completion, then reopening owns a single frame loop (17.336461ms)
+✔ reduced motion is forwarded from the existing OS preference and canvas description tracks shot (25.066199ms)
+✔ replay, every next and skip leave existing browser save slots byte-for-byte unchanged (51.674037ms)
+✔ short landscape cinematic frame wins the loaded CSS cascade and footer labels stay on one line (990.912205ms)
+✔ boss face-off has no rectangular half-scene color overlay (9.407792ms)
+✔ su uses its new V8 portrait in menu and game (1.345929ms)
+✔ chen uses its new V8 portrait in menu and game (0.251863ms)
+✔ approved default portraits and original non-target art assets are retained (1.159519ms)
+✔ V13 adds one generated clasp without replacing approved faces (0.261201ms)
+✔ V36 adds dorsal left hand without changing original atlas assets (0.18331ms)
+ℹ tests 28
+ℹ suites 0
+ℹ pass 28
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2496.69148

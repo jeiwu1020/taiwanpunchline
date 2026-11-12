@@ -1,0 +1,10 @@
+✔ new audio integration refuses unresolved slots instead of synthesizing speech (0.882435ms)
+✔ catalog audio keeps public source provenance separate from speaker authentication (0.330914ms)
+ℹ tests 678
+ℹ suites 0
+ℹ pass 678
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2823.044396

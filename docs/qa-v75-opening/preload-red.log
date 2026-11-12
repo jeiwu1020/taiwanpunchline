@@ -1,0 +1,61 @@
+✔ generated opening selects distinct full-body getting-up states and then holds (1.010818ms)
+✖ all seven opening assets resolve independently without substituting another face (2.405673ms)
+✔ reduced motion freezes completed generated poses and camera (2.359656ms)
+✔ panel layout contains exactly the current complete scene in every orientation (1.180991ms)
+✖ missing animated assets show a loading prompt, never old storyboard panels (1.039088ms)
+✔ retained original storyboard assets remain actual WebP rasters (18.491644ms)
+✔ single scene camera visibly settles and restarts with each waking pose (0.317068ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 5
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 199.24427
+
+✖ failing tests:
+
+test at tests/challenge-opening-generated-v74.test.mjs:17:1
+✖ all seven opening assets resolve independently without substituting another face (2.405673ms)
+  AssertionError [ERR_ASSERTION]: legacy storyboards are retained but never preloaded
+  + actual - expected
+  
+  + 'challenge/opening-v74/wang-sheet.webp'
+  - undefined
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:21:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'challenge/opening-v74/wang-sheet.webp',
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/challenge-opening-generated-v74.test.mjs:42:1
+✖ missing animated assets show a loading prompt, never old storyboard panels (1.039088ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-opening-generated-v74.test.mjs:46:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

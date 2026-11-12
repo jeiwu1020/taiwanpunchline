@@ -1,0 +1,16 @@
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (3.621388ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (1.99516ms)
+✔ upright and desktop save stage space without eliminating required controls (0.344566ms)
+✔ short desktop keeps move cards horizontal despite inherited landscape styles (0.338667ms)
+✔ historical sources and version notes remain byte-identical to V29 (0.946109ms)
+✔ upright status gets its own row so armor cannot wrap the guard label over HP (0.743602ms)
+✔ extra narrow logical landscape reserves enough height for long names and purposes (0.44945ms)
+✔ short desktop attack text stays stacked and readable instead of inheriting a squeezed row (0.356103ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 142.642184

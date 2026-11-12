@@ -1,0 +1,491 @@
+{
+  "version": "v10",
+  "status": "completed",
+  "generation_mode": "Built-in image_gen exclusively. No API or CLI fallback.",
+  "generated_at_utc": "2026-11-06T06:51:20.562Z",
+  "scope": "New art and provenance only. No renderer, UI, tests, Han knee assets, commits or deployment were changed by this worker.",
+  "conversion": "ImageMagick lossless WebP encoding. Ma heads were resized to 512x512. Atlases retain native 1536x1024. No programmatic anatomy editing, mirroring, painting, masking or compositing.",
+  "visual_reference_inspection": [
+    "dist/assets/ma-head-v5.webp",
+    "dist/assets/ma-counter-v9.webp",
+    "dist/assets/chen-head-v8.webp",
+    "dist/assets/huang-head-v5.webp",
+    "dist/assets/ko-head-v6.webp",
+    "dist/assets/su-head-v8.webp",
+    "dist/assets/final-costumes-v6.webp",
+    "dist/assets/limbs-v4.webp",
+    "dist/assets/left-arms-v3.webp",
+    "dist/assets/props-v3.webp",
+    "dist/assets/roster-props-v5.webp",
+    "/workspace/shared/fighter-v9-grid-final.png"
+  ],
+  "handedness_convention": "Subject's own anatomical side. Upright palm facing viewer: right hand thumb is image-right; left hand thumb is image-left. Upright dorsal right hand: thumb is image-left.",
+  "handedness_reference": "https://commons.wikimedia.org/wiki/File:Right_Hand_Palm.png",
+  "assets": [
+    {
+      "file": "dist/assets/ma-cough-v10.webp",
+      "original": "docs/signature-v10-originals/ma-cough-v10.png",
+      "selected_job": "ma-cough-v10",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox_over_one_percent": [
+        57,
+        3,
+        380,
+        509
+      ],
+      "review": "Same Ma identity, hair silhouette, three-quarter right-facing head and warm ink style. Eyes tightly squeezed; small pursed cough opening; strained cheeks. No added torso or extended neck. Short original underside-of-jaw skin remains, so this is not literally zero skin below the chin.",
+      "sha256": "d684a40574e852b5a534883e2e2a52d977b9674cdd66d286ae4305b492384d43",
+      "original_sha256": "7acd4d70496ec857477d6fd3c88d93739d09506c2ff534820d6a74fddd32291b",
+      "bytes": 223266
+    },
+    {
+      "file": "dist/assets/ma-gaze-v10.webp",
+      "original": "docs/signature-v10-originals/ma-gaze-v10.png",
+      "selected_job": "ma-gaze-v10",
+      "dimensions": [
+        512,
+        512
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "alpha_bbox_over_one_percent": [
+        59,
+        4,
+        378,
+        508
+      ],
+      "review": "Same Ma identity, hair and angle. Viewer-left brow is raised, eyes look screen-right, lips narrowly parted. Serious/curious rather than smiling. Original short underside-of-jaw skin remains.",
+      "sha256": "a8891462de3bc9ea2ead9b045d0a238b4a8cc88eb0cb14e94c449b8e71027964",
+      "original_sha256": "f2e417609367d2c0addc62073b6230c638085fd59e9bde17d1cea6e9be8c263a",
+      "bytes": 216188
+    },
+    {
+      "file": "dist/assets/signature-hands-v10.webp",
+      "original": "docs/signature-v10-originals/signature-hands-v10.png",
+      "selected_job": "signature-hands-v10-alpha-clean",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "cell_width": 512,
+        "cell_height": 512
+      },
+      "anchors_precision": "Approximate visually inspected pixel centers in each untrimmed 512px cell, not mechanically inferred rig joints.",
+      "cells": [
+        {
+          "index": 0,
+          "name": "right_open_palm",
+          "source_arm_side": "right",
+          "view": "palmar",
+          "thumb_direction": "image-right",
+          "wrist": [
+            252,
+            387
+          ],
+          "sleeve_base": [
+            252,
+            496
+          ],
+          "alpha_bbox_over_one_percent": [
+            147,
+            13,
+            267,
+            496
+          ],
+          "review": "Four distinct upright fingers plus thumb; relaxed open palm. Different creases/detail from left cell. No programmatic mirroring."
+        },
+        {
+          "index": 1,
+          "name": "left_open_palm",
+          "source_arm_side": "left",
+          "view": "palmar",
+          "thumb_direction": "image-left",
+          "wrist": [
+            256,
+            388
+          ],
+          "sleeve_base": [
+            257,
+            496
+          ],
+          "alpha_bbox_over_one_percent": [
+            96,
+            12,
+            273,
+            497
+          ],
+          "review": "Four distinct upright fingers plus thumb; independent left palm. Not a dorsal right hand labeled left."
+        },
+        {
+          "index": 2,
+          "name": "right_two_finger_beckon",
+          "source_arm_side": "right",
+          "view": "three-quarter palmar",
+          "thumb_direction": "base on image-right",
+          "wrist": [
+            269,
+            370
+          ],
+          "sleeve_base": [
+            270,
+            496
+          ],
+          "alpha_bbox_over_one_percent": [
+            102,
+            78,
+            260,
+            430
+          ],
+          "review": "Index and middle curl inward; ring and little folded; thumb relaxed at right. Five digits distinguishable. Motion toward chest still needs animation; static art alone can also read as preparing a pinch."
+        },
+        {
+          "index": 3,
+          "name": "right_index_point_upright",
+          "source_arm_side": "right",
+          "view": "palmar",
+          "thumb_direction": "base on image-right, crossing folded fingers",
+          "wrist": [
+            258,
+            373
+          ],
+          "sleeve_base": [
+            259,
+            488
+          ],
+          "alpha_bbox_over_one_percent": [
+            159,
+            18,
+            205,
+            481
+          ],
+          "review": "Index points UP in source. Renderer must rotate the complete sprite around the wrist to point outward. Thumb and three folded fingers are distinguishable. Earlier horizontal pointing attempts were rejected for ambiguous or wrong laterality/finger order."
+        },
+        {
+          "index": 4,
+          "name": "right_cough_cover_forearm",
+          "source_arm_side": "right",
+          "view": "dorsal",
+          "thumb_direction": "image-left of dorsal hand",
+          "wrist": [
+            282,
+            193
+          ],
+          "elbow_attachment": [
+            80,
+            452
+          ],
+          "sleeve_base": [
+            80,
+            452
+          ],
+          "alpha_bbox_over_one_percent": [
+            3,
+            22,
+            442,
+            484
+          ],
+          "review": "Right dorsal hand with curled knuckles, thumb on radial/image-left side; suited forearm extends diagonally toward lower-left elbow. Hand should be placed in front of cough mouth, not behind face. Some curled distal finger surfaces are naturally occluded."
+        },
+        {
+          "index": 5,
+          "name": "left_paper_plane_grip",
+          "source_arm_side": "left",
+          "view": "three-quarter palmar",
+          "thumb_direction": "base on image-left, thumb crossing toward upper-right pinch",
+          "wrist": [
+            133,
+            371
+          ],
+          "sleeve_base": [
+            67,
+            457
+          ],
+          "alpha_bbox_over_one_percent": [
+            4,
+            70,
+            465,
+            435
+          ],
+          "review": "Thumb and index pinch plane; remaining three digits curve naturally on right side. One rear fingertip is partly hidden by pinch/plane. Identity based on palm creases and thumb base, not label. Pose is three-quarter and should be reviewed in rig context."
+        }
+      ],
+      "transparency_review": "Final background-extraction image_gen pass reduced the two known-empty 80x512 left-border strips to max alpha 1/255 (0.00392157). Alpha >1% bboxes are isolated within all six cells. Transparent background and no visible baked drop shadow; tiny near-zero alpha residue remains, so this is not mathematically pristine alpha. The alpha cleanup slightly softened fine hatching.",
+      "sha256": "14a257caa122089c257b2687e1019b531a13c51116e15d0db4b4dd85bb484fd9",
+      "original_sha256": "4dee5b2c0bad2d375ef32836569a682665ce8a2f33e6eb5573c0455bf8cb320d",
+      "bytes": 810126
+    },
+    {
+      "file": "dist/assets/signature-props-v10.webp",
+      "original": "docs/signature-v10-originals/signature-props-v10.png",
+      "selected_job": "signature-props-v10",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "grid": {
+        "columns": 3,
+        "rows": 2,
+        "cell_width": 512,
+        "cell_height": 512
+      },
+      "cells": [
+        {
+          "index": 0,
+          "name": "dream_paper_plane",
+          "alpha_bbox_over_one_percent": [
+            57,
+            123,
+            421,
+            291
+          ],
+          "anchor": [
+            270,
+            270
+          ],
+          "review": "White paper airplane with three pastel dream stars; points upper-right."
+        },
+        {
+          "index": 1,
+          "name": "red_queue_rope_posts",
+          "alpha_bbox_over_one_percent": [
+            34,
+            119,
+            444,
+            320
+          ],
+          "anchor": [
+            256,
+            437
+          ],
+          "review": "Exactly two short brass queue posts and one red drooping rope; anchor is bottom center."
+        },
+        {
+          "index": 2,
+          "name": "lectern_blank_slide_stack",
+          "alpha_bbox_over_one_percent": [
+            65,
+            75,
+            372,
+            408
+          ],
+          "anchor": [
+            250,
+            481
+          ],
+          "review": "Compact wood lectern with three blank cream sheets/boards on sloped top; no text or microphone. Anchor is bottom center."
+        },
+        {
+          "index": 3,
+          "name": "broken_edge_speaking_burst",
+          "alpha_bbox_over_one_percent": [
+            50,
+            73,
+            431,
+            377
+          ],
+          "anchor": [
+            258,
+            252
+          ],
+          "review": "Blank cream burst with jagged edge and down-left tail. Single closed contour rather than physically separated broken segments."
+        },
+        {
+          "index": 4,
+          "name": "oval_question_bubble",
+          "alpha_bbox_over_one_percent": [
+            42,
+            90,
+            426,
+            351
+          ],
+          "anchor": [
+            256,
+            251
+          ],
+          "review": "Cream oval question bubble with down-left tail and dark teal question mark."
+        },
+        {
+          "index": 5,
+          "name": "jagged_question_bubble",
+          "alpha_bbox_over_one_percent": [
+            30,
+            58,
+            432,
+            392
+          ],
+          "anchor": [
+            246,
+            244
+          ],
+          "review": "Pale mint jagged question bubble, down-right tail and dark teal question mark."
+        }
+      ],
+      "transparency_review": "Real alpha transparency; known-empty sampled positions had alpha zero. Low-alpha source residue can exist; no visible ground shadow was observed.",
+      "sha256": "3eb76e1ff2fc6dafde8c35f77dfcdeb176fb495ef948794d5069d661fdf9d6fa",
+      "original_sha256": "d6439100dfbe944b3ac5f7b23e6b5607966edff24b21eba8c977f675b8ee4397",
+      "bytes": 995824
+    }
+  ],
+  "generation_attempts": [
+    {
+      "id": "ma-cough-v10",
+      "prompt": "Use case: identity-preserve. Asset type: transparent fighting-game interchangeable head sprite. Edit target: image 1 is the exact Ma Ying-jeou caricature identity and three-quarter right-facing silhouette to preserve; image 2 is supporting expression/style reference only. Create ONE head of the same man at the instant of a restrained cough: both eyes squeezed tightly shut, brows tense, cheeks strained and slightly drawn inward, lips pursed around a small dark cough opening, absolutely not a smile or yell. Preserve the same swept black-and-gray hair, mature broad face, nose, ears, angular jaw, warm peach skin, detailed black ink hatching, warm hand-colored satirical newspaper caricature aesthetic. Keep the original head angle, identity, proportions and hair silhouette. Composition: isolated head centered within a square transparent canvas with generous tiny clear margin, all hair and chin visible. Terminate directly beneath the jaw; no neck column, collar, torso, body, hand, prop, effect, border, text, ground shadow or background. Genuine alpha transparency; no checkerboard paint. Change expression only, not identity.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-counter-v9.webp"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-80442206-b085-40d6-b8dc-741472f5f9a1.png",
+      "generated_original_sha256": "7acd4d70496ec857477d6fd3c88d93739d09506c2ff534820d6a74fddd32291b",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-counter-v9.webp": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+      }
+    },
+    {
+      "id": "ma-gaze-v10",
+      "prompt": "Use case: identity-preserve. Asset type: transparent fighting-game interchangeable head sprite. Edit target: image 1 is the exact Ma Ying-jeou caricature identity and three-quarter right-facing silhouette to preserve; image 2 is supporting linework/style reference only, do not copy its grin. Create ONE serious, calmly scrutinizing head of this same man: gaze directed toward screen right, eyes open and focused, only his viewer-left eyebrow lifted in a skeptical arch, the other brow neutral, lips very slightly parted with a narrow dark opening. Not angry, not laughing, not smiling broadly. Preserve swept black-and-gray hair, mature broad face, nose, ears, angular jaw, warm peach skin, detailed black ink hatching and hand-colored satirical newspaper caricature aesthetic. Keep original head angle, identity, proportions, hair silhouette. Composition: isolated head centered within a square transparent canvas with a little clear margin, all hair and chin visible. Terminate directly beneath the jaw; no neck column, collar, torso, body, hand, prop, effect, border, text, ground shadow or background. Genuine alpha transparency; no checkerboard paint. Change facial expression only.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-counter-v9.webp"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-19c5a2a9-bf35-4b52-8cb6-7949fcc0cf2f.png",
+      "generated_original_sha256": "f2e417609367d2c0addc62073b6230c638085fd59e9bde17d1cea6e9be8c263a",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-counter-v9.webp": "654646cebd0a81089ff8d94633e3f9f8b4985bb49101395ced01178ac9295ed4"
+      }
+    },
+    {
+      "id": "signature-hands-v10",
+      "prompt": "Use case: precise-object-edit. Asset type: 2D game hand gesture sprite atlas derived from the supplied limb sheets. Image 1 and 2 are edit targets for replacing the existing repetitive hands with six distinct anatomical gestures, while retaining their bold black contour, fine ink crosshatching, colored-pencil texture, peach tan skin, shirt cuff, and charcoal suiting. Image 3 supports skin hue/style only; DO NOT depict any face. Create a landscape 1536 by 1024 transparent atlas with EXACTLY six isolated sprites, three columns and two rows of equal 512-square cells. All sprites have ample empty padding, no overlapping across cells, no grid lines or labels. Top row left: anatomically RIGHT open hand, PALM toward viewer, fingers pointing up, thumb on VIEWER LEFT, four relaxed slightly separated fingers with natural finger lengths; short white cuff and charcoal sleeve ending at cell bottom center. Top row middle: anatomically LEFT open hand, PALM toward viewer, fingers pointing up, thumb on VIEWER RIGHT, four relaxed fingers with natural lengths; visibly a proper independent left hand, not a dorsal right hand; short white cuff and charcoal sleeve at bottom center. Top row right: anatomically RIGHT two-finger beckoning gesture, index and middle fingers curved back toward the palm, ring and little fingers naturally folded, thumb relaxed against them; slightly three-quarter palm-up view, wrist and short cuff at bottom center. Bottom row left: anatomically RIGHT hand pointing horizontally toward screen right with ONE index finger straight, other three fingers naturally folded and thumb resting on them, back/side of hand visible, wrist and charcoal cuff entering from cell left. Bottom row middle: anatomically RIGHT bent forearm and a relaxed closed hand held in a polite cough-cover gesture, BACK of hand and natural knuckles visible, four curled fingers and one thumb only, fingertip/nail slivers only as anatomically visible; the hand is near upper right and sleeve extends diagonally down-left to an elbow attachment at bottom left. No mouth, no face. Bottom row right: anatomically LEFT hand naturally holding a SMALL white folded paper airplane between thumb and bent index finger, remaining three fingers relaxed, airplane points screen right; white shirt cuff and short neutral charcoal sleeve from bottom-left. The paper plane is complete and not fused to fingers. Cohesive caricature-game drawing with anatomically credible joints, each hand exactly five digits, correct thumb side, no extra fingers, no disconnected digits, no gloves, no jewelry. True alpha transparency around every sprite. NO ambient glow, no baked background, no drop shadows, no gradients outside silhouettes, no watermark, no text.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/left-arms-v3.webp",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/final-costumes-v6.webp",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-305e3cef-b2c8-4b07-aca8-34ef1bd0e0e5.png",
+      "generated_original_sha256": "83ca437e4194f73e13a6fb359a2cc810f4e9d732526271bddc36d0395128548d",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/left-arms-v3.webp": "cf10a5f28d3185679ab9b571b658f07c8ce1bd222f3e2c07cefa9f2585779eab",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/final-costumes-v6.webp": "b1673bab81449d000a5c23c7b1164fbbe3016319fd60b879ff00e4e8c37da706",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/ma-head-v5.webp": "1ab366129893c1ef544fc277b30c8c854b6086c9a1f17ad52daf5e1c914e5fc8"
+      }
+    },
+    {
+      "id": "signature-props-v10",
+      "prompt": "Use case: precise-object-edit. Asset type: transparent game prop atlas. Edit the supplied prop atlas concept into six NEW isolated props retaining the same bold black hand-inked contours, fine crosshatching and warm colored-pencil satirical comic aesthetic. Produce a landscape 1536 by 1024 transparent canvas, exactly THREE COLUMNS and TWO ROWS, six equal 512-square cells, generous clear padding inside each cell, no visible grid. TOP LEFT: one simple white folded paper airplane pointed screen-right/up, with only three tiny pastel dream stars just behind it in cream yellow, pale pink and mint; all contained in that cell. TOP MIDDLE: a red velvet queue rope drooping between exactly two short brass queue posts with round bases, compact readable front three-quarter view. TOP RIGHT: a small wooden lectern with a slightly tilted stack of three blank cream presentation boards/pages on its top; no writing, no logos, no microphone, clear warm wood construction. BOTTOM LEFT: a small cream comic speaking burst with irregular broken jagged edging and a short tail aimed down-left, empty interior. BOTTOM MIDDLE: a cream oval speech bubble with one dark-teal question mark, tail down-left, lightly hand-hatched edge. BOTTOM RIGHT: a distinct pale mint jagged question bubble with a dark-teal question mark, tail down-right. Props are separate with complete silhouettes, no people or hands. TRUE transparent background, no ground shadows, no glow, no baked gradient or checkerboard. Except the two specified question-mark glyphs, absolutely no text or numbers. Each prop belongs wholly within its own equal-size cell.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/roster-props-v5.webp",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/props-v3.webp"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-aa7f76d0-4559-475d-a4a6-f6bb344f9938.png",
+      "generated_original_sha256": "d6439100dfbe944b3ac5f7b23e6b5607966edff24b21eba8c977f675b8ee4397",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/roster-props-v5.webp": "68f6fb6b0892117026b4813306e9f5edd16c4fa243d3f975f388ab13cc3af5a9",
+        "/workspace/scratch/1a1351aee944/parliament-art-spike/dist/assets/props-v3.webp": "6c3b7a9d187848c045cffdc4b27c416b0ef5eaeae570963e6e90ec6497a6b225"
+      }
+    },
+    {
+      "id": "signature-hands-v10-corrected",
+      "prompt": "Use case: precise-object-edit. Edit this same 1536x1024, 3-column by 2-row transparent game hand atlas. Preserve the exact ink-and-colored-pencil art style, peach skin, charcoal cuff clothing, six-cell geometry and general sprite scale. CORRECT ANATOMICAL HANDEDNESS carefully, using the person's own right/left, not the observer's. For upright fingers and a palm facing the viewer: a RIGHT hand has the thumb on the IMAGE RIGHT, a LEFT hand has the thumb on the IMAGE LEFT. For an upright BACK OF RIGHT HAND facing viewer the thumb is on IMAGE LEFT. Keep exactly five digits per hand. Cell top-left must be a RIGHT palm, four fingers up, thumb on IMAGE RIGHT. Cell top-middle must be a separately drawn LEFT palm, four fingers up, thumb on IMAGE LEFT; retain realistic distinctive creases instead of copying/mirroring a texture. Cell top-right must be a RIGHT hand, palm and flexion creases toward viewer in slight three-quarter view, thumb base on IMAGE RIGHT, index and middle fingers curled inward in a beckoning gesture, ring and little fingers folded naturally; no V-sign, no extra digits. Cell bottom-left must be a RIGHT pointing hand with forearm entering from left, index pointing screen right, three other fingers folded, thumb anatomically over them; back/side of hand visible. Cell bottom-middle must be a bent RIGHT forearm with the BACK of its loosely closed hand facing the viewer for covering a cough. Hand near upper-right of cell, elbow/sleeve attachment near lower-left. Thumb belongs on the radial/LEFT side of the dorsal right hand rather than the current image-right side. Natural curled fingers, no palm creases on this dorsal hand, no extra finger. Cell bottom-right must be a LEFT hand pinching the small white paper airplane between thumb and index finger, plane points screen right, remaining three fingers naturally relaxed. Show palm-side flexion creases and base of thumb on IMAGE LEFT to make its left identity legible. This hand is not a mirrored right hand pasted into a left sleeve. No face, mouth, body or extra prop. All six silhouettes fully inside their equal 512x512 cells with clear padding. Transparent alpha background only, no glow, no background gradients, no grid, no labels, no shadows, no text.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/generated_images/exec-305e3cef-b2c8-4b07-aca8-34ef1bd0e0e5.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-23c28901-a955-451e-9615-82195eaf945b.png",
+      "generated_original_sha256": "a54019ce2cb5f85454117b4ec599f7853d635392e3098c5192a122d6fe35624d",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/generated_images/exec-305e3cef-b2c8-4b07-aca8-34ef1bd0e0e5.png": "83ca437e4194f73e13a6fb359a2cc810f4e9d732526271bddc36d0395128548d"
+      }
+    },
+    {
+      "id": "signature-hands-v10-final",
+      "prompt": "Use case: precise-object-edit. Edit ONLY THE BOTTOM-LEFT CELL of this 3-column by 2-row hand sprite atlas, preserving the five other hand sprites, their exact position, identity, drawing, clothes, and every other detail unchanged. The bottom-left pointing hand has an occluded thumb and uncertain laterality. Replace it with an unmistakable ANATOMICAL RIGHT HAND in a PALMAR/THREE-QUARTER PALMAR view: the forearm enters horizontally from the image left; the wrist stays at about x133,y766; the INDEX finger points horizontally toward image right; the palm flexion creases are visible, rather than dorsal tendon lines; the thumb is visibly on the LOWER edge of this horizontal right-hand palm, relaxed and laid naturally across the curled middle finger, not disappearing; exactly the other THREE fingers (middle, ring, little) are naturally folded toward the palm. Anatomically natural finger lengths and knuckle construction, one thumb, four fingers, no extra digits and no impossible joints. Do not confuse palm with back of hand: fingers point right, thumb on LOWER side, making this a right palmar pointing hand. Same warm peach skin, black fine ink hatching, satirical colored-pencil style, white cuff and neutral charcoal sleeve. Maintain all six 512x512 cells and full 1536x1024 canvas. Keep the existing top-left RIGHT palm with thumb image-right, top-middle LEFT palm with thumb image-left, top-right right-palm two-finger beckon, bottom-middle right DORSAL cough fist thumb image-left, and bottom-right LEFT palm holding the white plane. Truly transparent alpha background, no glow, no shadows, no labels or text. Do not change anything outside bottom-left cell.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/generated_images/exec-23c28901-a955-451e-9615-82195eaf945b.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-e13e1db4-65b4-4653-a0c9-8bab8646ab84.png",
+      "generated_original_sha256": "bea0f81bbb1943b6f6ae7d8f618b2e000722e5e513c6095885cee6998c30a13d",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/generated_images/exec-23c28901-a955-451e-9615-82195eaf945b.png": "a54019ce2cb5f85454117b4ec599f7853d635392e3098c5192a122d6fe35624d"
+      }
+    },
+    {
+      "id": "signature-hands-v10-point-correction",
+      "prompt": "Use case: precise-object-edit. Change ONLY bottom-left sprite in this exact 1536x1024 atlas. Do not change the other five cells. The current bottom-left palm has left-handed finger order. Replace its hand with the SAME ANATOMICAL RIGHT PALM shown in TOP-LEFT, rotated CLOCKWISE 90 degrees, and then curl the middle, ring and little fingers to make a pointing gesture. This means the INDEX finger extends horizontally toward IMAGE RIGHT at the LOWER EDGE of the four-finger knuckle row, while the folded MIDDLE, RING and LITTLE fingers are stacked ABOVE that extended index. The THUMB originates below the palm/index and bends comfortably across the near side of the curled fingers. Forearm still enters from IMAGE LEFT, wrist center about x133,y766. Palm creases are visible. Do not put the curled fingers below the index again, that would be the wrong hand for this palm view. Precisely one thumb plus four fingers, natural joints, correct human right-hand structure, no extra finger. Same warm peach skin, ink crosshatching, white shirt cuff and charcoal sleeve. Keep hand entirely in bottom-left 512-square cell, keep the atlas dimensions and existing alpha transparency. All other five sprites remain unchanged. No glow, no background, no text.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/generated_images/exec-e13e1db4-65b4-4653-a0c9-8bab8646ab84.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-71219891-5c13-47f0-a262-b9543056b219.png",
+      "generated_original_sha256": "6dc3d05a96e8c5dcd1c17ab27679dee0615afcc469c1e575049b84217491a222",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/generated_images/exec-e13e1db4-65b4-4653-a0c9-8bab8646ab84.png": "bea0f81bbb1943b6f6ae7d8f618b2e000722e5e513c6095885cee6998c30a13d"
+      }
+    },
+    {
+      "id": "signature-hands-v10-point-upright",
+      "prompt": "Use case: precise-object-edit. Edit ONLY THE BOTTOM-LEFT CELL of this hand sprite atlas. Keep the other FIVE sprites exactly as they are. Replace the bottom-left horizontal pointing hand with a clearly recognizable upright RIGHT-HAND pointing gesture, PALM toward viewer, similar to the classic index-pointing-UP gesture. Right wrist and short charcoal suit cuff enter from BOTTOM CENTER of that cell. Right INDEX finger extends straight UP, at the UPPER RIGHT side of the palm, naturally the finger nearest the thumb. Middle, ring and little fingers are folded into the palm on the LEFT side of the extended index, all three distinct. RIGHT THUMB is on the IMAGE RIGHT side of the palm and gently crosses over the curled middle finger. Palm creases and thumb mound visible. Exactly one thumb and four fingers. Do not extend the little finger. Do not point horizontally. Do not mirror into a left hand. Use the TOP-LEFT right open palm as the anatomical reference, simply curl its middle, ring and little fingers while keeping its index pointing up. Hand and sleeve entirely inside bottom-left 512x512 cell with generous padding. Parent game will rotate this upright sprite to point outward. Same detailed satirical black ink/color-pencil style, warm peach skin, white cuff, charcoal suit. Preserve complete 1536x1024 transparent alpha atlas and the other five sprites. No background, glow, shadow, labels, text.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/generated_images/exec-23c28901-a955-451e-9615-82195eaf945b.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-4d7daadb-5213-4486-af2f-8b77fc6a886f.png",
+      "generated_original_sha256": "b9fc35573c347fc4168c90e8ff35ffd514c09417ca3edbb2fb946e7f0ab7020b",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/generated_images/exec-23c28901-a955-451e-9615-82195eaf945b.png": "a54019ce2cb5f85454117b4ec599f7853d635392e3098c5192a122d6fe35624d"
+      }
+    },
+    {
+      "id": "signature-hands-v10-alpha-clean",
+      "prompt": "Use case: background-extraction. This is a transparent cutout cleanup, not a redesign. Preserve these exact six game hand illustrations pixel-faithfully in the same positions, sizes and gestures on the same 1536x1024 canvas. Remove ALL remaining colored haze, blurred glows, gradients and stray marks BETWEEN and OUTSIDE their silhouettes, replacing every background region with completely clear alpha=0. Keep skin, ink outlines, shirt cuffs, suit fabric and the paper plane fully intact and opaque inside the silhouettes. Keep naturally antialiased edges immediately around the actual hand/sleeve/plane contours only. Absolutely no surrounding glow, shadow, semi-transparent colored cloud, noise, vignette, background color, ground, extra texture, grid or text. Do not change hand anatomy or move the six sprites. The two palms and the pointing finger remain as drawn. Output a real clean transparent PNG cutout atlas.",
+      "references": [
+        "/workspace/scratch/1a1351aee944/generated_images/exec-4d7daadb-5213-4486-af2f-8b77fc6a886f.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/scratch/1a1351aee944/generated_images/exec-7d87cb70-0101-4ee3-a265-beedd13947d2.png",
+      "generated_original_sha256": "4dee5b2c0bad2d375ef32836569a682665ce8a2f33e6eb5573c0455bf8cb320d",
+      "reference_sha256": {
+        "/workspace/scratch/1a1351aee944/generated_images/exec-4d7daadb-5213-4486-af2f-8b77fc6a886f.png": "b9fc35573c347fc4168c90e8ff35ffd514c09417ca3edbb2fb946e7f0ab7020b"
+      }
+    }
+  ],
+  "attempt_reviews": {
+    "signature-hands-v10": "Rejected for wrongly specified right/left thumb conventions. Do not use this first atlas.",
+    "signature-hands-v10-corrected": "Correct open palms, beckon, dorsal cough and plane grip. Pointing hand remained ambiguous due to occluded thumb.",
+    "signature-hands-v10-final": "Rejected pointing-cell laterality; palmar horizontal finger order was not trustworthy.",
+    "signature-hands-v10-point-correction": "Rejected pointing cell: extended digit read as little finger, not index.",
+    "signature-hands-v10-point-upright": "Accepted anatomy with upright right index, but low-opacity background residue reached 4-5% in empty borders; superseded by alpha-clean pass.",
+    "signature-hands-v10-alpha-clean": "Selected final hand atlas. All hand gestures visually retained; background residue in measured empty-border strips reduced to 1/255."
+  },
+  "limitations": [
+    "No in-game rig integration or game-scale screenshot was performed by this art-only worker. Parent must verify wrist overlap, forearm rotation, face occlusion and left/right use in actual poses.",
+    "Head assets intentionally keep source identity and short original underside-of-jaw skin; no extended neck/body was added.",
+    "No anatomical perfection claim: occluded fingertips and joints in curl/pinch poses require contextual visual review."
+  ]
+}

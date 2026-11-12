@@ -1,0 +1,55 @@
+{
+  "p2": {
+    "rounds": 294,
+    "wins": 17,
+    "damage": 19548,
+    "received": 29134,
+    "hits": 2971,
+    "blocks": 2161,
+    "jumps": 1505,
+    "moves": 1166,
+    "interrupted": 1440,
+    "attackingFrames": 79424,
+    "recoveryFrames": 52531,
+    "stunFrames": 55713,
+    "observationResets": 0,
+    "frames": 295155,
+    "byCharacter": {
+      "wang": {
+        "wins": 5,
+        "rounds": 42,
+        "damage": 2886
+      },
+      "han": {
+        "wins": 2,
+        "rounds": 42,
+        "damage": 2740
+      },
+      "ma": {
+        "wins": 1,
+        "rounds": 42,
+        "damage": 2679
+      },
+      "su": {
+        "wins": 1,
+        "rounds": 42,
+        "damage": 2758
+      },
+      "huang": {
+        "wins": 1,
+        "rounds": 42,
+        "damage": 2633
+      },
+      "chen": {
+        "wins": 4,
+        "rounds": 42,
+        "damage": 2955
+      },
+      "ko": {
+        "wins": 3,
+        "rounds": 42,
+        "damage": 2897
+      }
+    }
+  }
+}

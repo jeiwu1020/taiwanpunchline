@@ -1,0 +1,43 @@
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (21.509067ms)
+✔ switching tab, character, close or stop cancels previews without starting another (1.848376ms)
+✔ reset needs confirmation and cancel changes nothing (0.90536ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (5.752238ms)
+✖ changing character updates the still illustration without playing audio (5.862018ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 381.872858
+
+✖ failing tests:
+
+test at tests/settings-view.test.mjs:8:1
+✖ changing character updates the still illustration without playing audio (5.862018ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + undefined
+  - {
+  -   still: [
+  -     'chen',
+  -     'chen_dream'
+  -   ]
+  - }
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-view.test.mjs:8:131)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { still: [ 'chen', 'chen_dream' ] },
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

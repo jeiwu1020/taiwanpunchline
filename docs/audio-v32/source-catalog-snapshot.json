@@ -1,0 +1,29 @@
+{
+  "slots": [
+    {
+      "id": "ko_name",
+      "label": "賴祥德",
+      "character": "柯文哲",
+      "currentFile": "user-ko-name-candidate-v15.mp3",
+      "provenance": "使用者提供 Captures.zip／賴祥德  我不會屈服.mp4，取 5.55–7.15 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。 新增使用者提供「賴祥德v2.mp4」完整錄影音軌，保留 48 kHz 雙聲道浮點音訊，不裁切、不調整音量、不代選切點；未獨立聽驗或認證說話者與權利。",
+      "variants": [
+        {
+          "id": "ko-name-user-v2-original",
+          "label": "新上傳 v2｜完整音軌・待重選區間",
+          "kind": "original",
+          "url": "audio/ko-name-user-v2-original-float32.wav",
+          "sha256": "acb162f0ecc3899e0bab75a940244d67290414c1a1135e903d2738e9fabb4cb3",
+          "originalFileSha256": "647e6fc4b26bbc72b9358d64142c05d6d043ed09641c3e340339ac3f35b9113b",
+          "sourceFile": "賴祥德v2.mp4",
+          "duration": 9.322666666666667,
+          "initialRange": null,
+          "sampleRate": 48000,
+          "channels": 2,
+          "note": "使用者新上傳「賴祥德v2.mp4」完整音軌，約 9.323 秒。未裁切、未調音量；秒數以新檔開頭為 0。舊檔切點不適用，請重新選取並試聽確認。"
+        }
+      ],
+      "defaultVariant": "ko-name-user-v2-original",
+      "sourceUpdateNotice": "已新增「新上傳 v2」來源。既有進度保留；若顯示舊來源，請在「編輯來源」切換至新上傳 v2，再重新選取區間。"
+    }
+  ]
+}

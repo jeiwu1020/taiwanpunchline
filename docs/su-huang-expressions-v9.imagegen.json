@@ -1,0 +1,159 @@
+{
+  "version": 9,
+  "generator": "built-in image_gen.imagegen",
+  "intent": "identity-preserve",
+  "generation_calls": 4,
+  "generated_at": "2026-11-06",
+  "transparent_background": true,
+  "requested_size": [
+    1254,
+    1254
+  ],
+  "postprocessing": "Format conversion only with Pillow WEBP lossless=True, exact=True. No cropping, resizing, compositing or pixel edits.",
+  "variants": [
+    {
+      "key": "su_shout",
+      "target": "dist/assets/su-shout-v9.webp",
+      "input": "dist/assets/su-head-v8.webp",
+      "png": "/workspace/scratch/1a1351aee944/generated_images/exec-85028cb6-d2a1-4c5b-879a-eb88ef03a2cc.png",
+      "review": "Identity, facing angle and warm crosshatched style are strongly retained. Mouth reads as angry open shout. Chin extends lower for the open mouth; the visible neck is shorter, but its low attachment endpoint stays near the reference.",
+      "prompt": "Use case: identity-preserve. Asset type: replaceable transparent 2D fighting-game head sprite. Input image: the attached su-head-v8.webp is the exact edit target and approved identity/style, not loose inspiration. Edit ONLY facial expression into an energetic angry shout: recognizably Su, eyebrows lowered and drawn inward, eyes open and looking forward toward screen-right, mouth wide open yelling with teeth and tongue visible. It must read as forceful yelling, never smiling or laughing. Preserve the bald domed scalp, sparse black-gray side hair, thin silver eyeglasses, ear/nose shapes, wrinkles, warm skin palette, dark ink contours and fine crosshatched editorial caricature rendering exactly. Preserve the same facing-right three-quarter angle, head scale and position, near-square 1254 x 1254 pixel canvas, tightly framed full scalp and entire chin, and the same short neck cutout attachment endpoint centered low in the frame as the source. Head and short bare neck only. Do not add body, shoulders, clothing, hands, props, motion effects, lettering or text. Genuinely transparent RGBA background; keep transparency. Do not crop any part of scalp, ear, chin, glasses or neck. Match existing silhouette and framing as closely as expression anatomy allows.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nontransparent_bbox": [
+        0,
+        0,
+        1240,
+        1254
+      ],
+      "mostly_opaque_bbox": [
+        122,
+        9,
+        1100,
+        1252
+      ],
+      "transparent_pixels": 689109,
+      "partially_transparent_pixels": 883174,
+      "source_sha256": "e9d4cc991d8a9b21ec87957a611e2fcce5888b8221aed5d56f57734acf2dc490",
+      "reference_sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503",
+      "target_sha256": "ff2aa8372093bfb347f316125a6a12251dbf34880a72f3eb550331933d0f075a",
+      "target_size_bytes": 1380808,
+      "roundtrip_rgba_identical": true
+    },
+    {
+      "key": "su_slam",
+      "target": "dist/assets/su-slam-v9.webp",
+      "input": "dist/assets/su-head-v8.webp",
+      "png": "/workspace/scratch/1a1351aee944/generated_images/exec-9d90fa0f-ecd7-4493-a8bc-319b091741d0.png",
+      "review": "Identity, angle, scale and silhouette are strongly retained. Both eyes are open and teeth visibly clenched; this reads as a determined grimace, not laughter. Neck and framing closely match the reference.",
+      "prompt": "Use case: identity-preserve. Asset type: replaceable transparent 2D fighting-game head sprite. Input image: attached su-head-v8.webp is the exact approved edit target, identity and rendering style. Change ONLY facial expression to a determined clenched-teeth grimace for a powerful table-slam move. Brows pulled down and inward, both eyes OPEN with an intense forward stare toward screen-right; lips parted narrowly to show strongly clenched upper and lower teeth. The mouth must feel tense and forceful with downturned corners, NOT a happy smile, NOT closed-eye laughter, NOT shouting. Preserve exact identity: bald domed scalp, sparse black-gray side hair, thin silver glasses, ear and nose shapes, wrinkles, warm skin palette, heavy ink contours and fine crosshatched editorial caricature. Match the exact facing-right three-quarter head angle, scale and position, square 1254 x 1254 canvas, full scalp/ear/glasses/chin, and identical short bare-neck cutout and low centered attachment endpoint. Head plus short neck only. No body, shoulders, clothing, hands, props, text, lettering or effects. Truly transparent RGBA backdrop; preserve alpha and do not introduce a colored background. Avoid identity, silhouette, perspective or framing drift.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nontransparent_bbox": [
+        0,
+        0,
+        1253,
+        1254
+      ],
+      "mostly_opaque_bbox": [
+        123,
+        8,
+        1093,
+        1251
+      ],
+      "transparent_pixels": 698335,
+      "partially_transparent_pixels": 873907,
+      "source_sha256": "308af688d78842df8c1fb1f443d48a984b35673f3199c81ff22e42e21fc0d6eb",
+      "reference_sha256": "afff8ac5fb11b098a5befb231a511f4c2fe9925d0368d36f17190926003b0503",
+      "target_sha256": "c5e4308da3b6e1654abbb5babf3cbac426365778e7701e6e94db3d83e5e4fd7b",
+      "target_size_bytes": 1340020,
+      "roundtrip_rgba_identical": true
+    },
+    {
+      "key": "huang_shout",
+      "target": "dist/assets/huang-shout-v9.webp",
+      "input": "dist/assets/huang-head-v5.webp",
+      "png": "/workspace/scratch/1a1351aee944/generated_images/exec-21f1ee75-0700-4f65-ada0-f50b611cd65d.png",
+      "review": "Hair, glasses, angle and warm ink style strongly retain the approved identity. Mouth is distinctly larger and more forceful than the default. Open-mouth anatomy lowers the chin and shortens visible neck; attachment endpoint remains close. Fine skin marks are slightly redistributed.",
+      "prompt": "Use case: identity-preserve. Asset type: transparent swappable 2D fighting-game character head sprite. Input image: huang-head-v5.webp is the exact approved edit target. Change ONLY Huang's facial expression into a wide-open angry exclamation shout: noticeably larger open mouth than the source, lowered sharply drawn-in eyebrows, both eyes open and focused ahead toward screen-right, teeth and tongue visible in an emphatic forceful yelling mouth. Preserve Huang's exact recognizability, distinctive swept voluminous salt-and-pepper black hair shape, rectangular black eyeglasses, skin marks, nose, long angular jaw, warm skin palette, fine pen crosshatching and bold contours of this editorial caricature. Preserve exact facing-right three-quarter view, scale, position and framing. Canvas 1254 x 1254 pixels. Include the whole head from hair tips to chin plus the SAME short bare neck attachment ending low and centered at the same position as the input. Avoid lengthening the head or changing skull shape beyond mouth-opening anatomy. Genuinely transparent RGBA background. No shoulders, clothing, body, hands, props, effects, text or extra objects. Never crop hair/ear/chin/glasses/neck; no identity or angle drift.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nontransparent_bbox": [
+        0,
+        0,
+        1222,
+        1254
+      ],
+      "mostly_opaque_bbox": [
+        99,
+        10,
+        1093,
+        1238
+      ],
+      "transparent_pixels": 669829,
+      "partially_transparent_pixels": 902529,
+      "source_sha256": "a8315e726cfaed3706307d0eafb3631cb4776223565c84446eed93c10f61610f",
+      "reference_sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0",
+      "target_sha256": "f66f7dea4a429c8449614744e7821fd30170586e10222ec9b1c2a8fa22517256",
+      "target_size_bytes": 1501434,
+      "roundtrip_rgba_identical": true
+    },
+    {
+      "key": "huang_press",
+      "target": "dist/assets/huang-press-v9.webp",
+      "input": "dist/assets/huang-head-v5.webp",
+      "png": "/workspace/scratch/1a1351aee944/generated_images/exec-db171604-0cde-48aa-8dae-b55acc89ee04.png",
+      "review": "Skeptical raised brow and tightly pursed closed lips read clearly. Approved hair/glasses identity, framing, angle and neck are closely retained. Fine skin marks and cheek lines differ slightly; no clear identity drift.",
+      "prompt": "Use case: identity-preserve. Asset type: transparent swappable 2D fighting-game head sprite. Input image: attached huang-head-v5.webp is the exact approved edit target and identity/style. Change ONLY expression into intense skepticism for a press move: tightly pursed and compressed CLOSED lips, no visible teeth or tongue; one eyebrow visibly raised while the other lowers in a questioning furrow; eyes open with a strong forward stare toward screen-right. Expression should read as stern skeptical scrutiny, not shouting, smiling, sad or sleepy. Preserve exactly the same Huang likeness, angular long jaw, distinctive swept voluminous black-and-gray hair silhouette, rectangular black glasses, nose/ear proportions, skin marks, warm skin tone, dark ink outlines and fine crosshatched editorial caricature texture. Preserve the source's precise facing-right three-quarter angle, head scale, position, complete hair/scalp/ear/chin/glasses and short bare neck cutout attachment ending low and centered in the same location. Square 1254 x 1254 pixels and genuinely transparent RGBA background. Head with short neck only; no body/shoulders/clothes/hands/props/text or effects. No silhouette or perspective drift, no accidental crop.",
+      "actual_size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nontransparent_bbox": [
+        0,
+        0,
+        1224,
+        1254
+      ],
+      "mostly_opaque_bbox": [
+        99,
+        9,
+        1093,
+        1236
+      ],
+      "transparent_pixels": 682976,
+      "partially_transparent_pixels": 889226,
+      "source_sha256": "97097432897786468f395198cb2e15f49ca329711dbd61644996af7171fd3a95",
+      "reference_sha256": "c2d473844f1dbaae678868a929913f3ef8394a662ed004f6fa3f23e5caa73ee0",
+      "target_sha256": "99b57c3357b09245b7859c8ea0418577d5d9602cf6171a2510a8c52632c7dcfa",
+      "target_size_bytes": 1525424,
+      "roundtrip_rgba_identical": true
+    }
+  ]
+}

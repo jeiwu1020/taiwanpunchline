@@ -1,0 +1,58 @@
+{
+  "messageId": "Sentinel_96124fb44b64819187359c63211e4724",
+  "dsp": "Exact voice-studio audio-core.mjs; native-rate decoding; 50 ms gated RMS; linked-channel 5 ms lookahead sample-peak limiter, -1 dBFS; 80 ms release; 5 ms fades; PCM16 WAV",
+  "limitation": "Source MP3 decoding uses ffmpeg; browser decoder may differ microscopically. No transcoding after DSP. Sample peak limiting is not a true-peak guarantee.",
+  "pending": [],
+  "clips": [
+    {
+      "slot": "ko_name",
+      "sourceId": "ko-name-user-v2-original",
+      "start": 5.177,
+      "end": 6.219,
+      "label": "賴祥德",
+      "sourceUrl": "audio/ko-name-user-v2-original-float32.wav",
+      "sourceFile": "賴祥德v2.mp4",
+      "sourceSha256": "acb162f0ecc3899e0bab75a940244d67290414c1a1135e903d2738e9fabb4cb3",
+      "originalFileSha256": "647e6fc4b26bbc72b9358d64142c05d6d043ed09641c3e340339ac3f35b9113b",
+      "upstreamRange": null,
+      "output": "assets/voice/ko-name-user-selected-v32.wav",
+      "outputSha256": "bfbd2b9b8159501a340b7af27244fc00b332a646ddf9912d64ef77bb68b11865",
+      "sampleRate": 48000,
+      "channels": 2,
+      "sourceFrames": 447488,
+      "frames": {
+        "start": 248496,
+        "end": 298512
+      },
+      "outputFrames": 50016,
+      "duration": 1.042,
+      "targetDb": -20,
+      "fadeMs": 5,
+      "gainDb": -2.512449608508909,
+      "limiterReductionDb": 0,
+      "before": {
+        "peak": 0.6199390888214111,
+        "peakDb": -4.153019587076009,
+        "rms": 0.12754157181297096,
+        "activeRms": 0.1335434157739979,
+        "activeDb": -17.48755039149109
+      },
+      "after": {
+        "peak": 0.46422287821769714,
+        "peakDb": -6.665469201821609,
+        "rms": 0.09550033088622234,
+        "activeRms": 0.09999508874605584,
+        "activeDb": -20.000426596573142
+      },
+      "afterPcm16": {
+        "peak": 0.4642333984375,
+        "peakDb": -6.665272364403462,
+        "rms": 0.09549884309935608,
+        "activeRms": 0.09999353250650682,
+        "activeDb": -20.000561777513823
+      },
+      "endClampedSeconds": 0,
+      "dspSha256": "120bad416f1ca4912b5010a2345ee0f9b75726c13ada01cce52edfd9351d6718"
+    }
+  ]
+}

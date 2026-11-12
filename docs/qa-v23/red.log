@@ -1,0 +1,103 @@
+✖ safe portrait game uses swapped logical dimensions and native landscape does not rotate (2.25179ms)
+✖ clockwise portrait pointers map visual movement back into game directions (0.442601ms)
+✖ independent fingers retain directions and attacks until their own release; cancel clears all (0.817802ms)
+✖ classic camera tracks midpoint and pushes in when opponents approach (1.125275ms)
+✔ classic camera recovers after a jump and keeps all body bounds under HUD (3.102191ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 1
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 154.628294
+
+✖ failing tests:
+
+test at tests/landscape-touch-v23.test.mjs:6:1
+✖ safe portrait game uses swapped logical dimensions and native landscape does not rotate (2.25179ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-camera-touch-nov7/tests/landscape-touch-v23.test.mjs:7:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/landscape-touch-v23.test.mjs:15:1
+✖ clockwise portrait pointers map visual movement back into game directions (0.442601ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-camera-touch-nov7/tests/landscape-touch-v23.test.mjs:16:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/landscape-touch-v23.test.mjs:22:1
+✖ independent fingers retain directions and attacks until their own release; cancel clears all (0.817802ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'undefined'
+  - 'function'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-camera-touch-nov7/tests/landscape-touch-v23.test.mjs:23:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'undefined',
+    expected: 'function',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/landscape-touch-v23.test.mjs:31:1
+✖ classic camera tracks midpoint and pushes in when opponents approach (1.125275ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  480 !== 304
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-camera-touch-nov7/tests/landscape-touch-v23.test.mjs:35:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 480,
+    expected: 304,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

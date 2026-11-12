@@ -1,0 +1,104 @@
+/* Settings stays inside the existing viewport-rotated native dialog. */
+#help-dialog{height:670px;padding:0;overflow:hidden;border:3px solid #152c34;border-radius:14px;background:#fff6df;color:#152c34}
+#help-dialog[open]{display:flex;flex-direction:column}
+.settings-head{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;background:#193940;color:#fff6df;flex-shrink:0}
+.settings-head strong{font-size:18px}.settings-head small{font-size:10px;opacity:.8;margin-left:8px}
+.settings-head button{width:36px;height:32px;border:1px solid #9caeab;border-radius:7px;color:#fff6df;background:#284950;font-size:23px;line-height:1}
+.settings-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:7px 9px;border-bottom:1px solid #c1bda6;flex-shrink:0}
+.settings-nav button{min-height:36px;border:1px solid #85938b;background:#eee7cf;color:#17363d;border-radius:6px;font-size:12px;font-weight:700;padding:5px 2px}
+.settings-nav button[aria-pressed="true"]{background:#f5b94f;border:2px solid #17363d}
+.settings-scroll{overflow:auto;overscroll-behavior:contain;touch-action:pan-y;min-height:0;flex:1;padding:12px;container-type:inline-size}
+.settings-pane[hidden],#settings-reset-confirm[hidden]{display:none!important}
+.settings-pane h2{font-size:19px;margin:0 0 8px}.settings-pane h3{font-size:15px;margin:14px 0 7px}.settings-pane p{font-size:12px;line-height:1.55;margin:6px 0 12px}
+.settings-audio-row{padding:12px;background:#f1ead5;border:1px solid #aab3a2;border-radius:8px;margin:9px 0}.settings-audio-row>div{display:flex;align-items:center;justify-content:space-between;gap:12px}.settings-audio-row label{font-size:13px}.settings-audio-row input[type="range"]{width:100%;margin:14px 0 3px;accent-color:#25635f;touch-action:pan-x}.settings-audio-row input[type="checkbox"],#settings-master-muted{width:18px;height:18px;vertical-align:middle;accent-color:#25635f}.settings-audio-row output{font-variant-numeric:tabular-nums;font-weight:bold}
+.settings-action{padding:8px 12px;border:2px solid #193940;border-radius:7px;background:#edb95d;color:#17363d;font-size:12px;font-weight:700;min-height:36px}
+.settings-controls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.settings-controls button{padding:10px;border:2px solid #193940;border-radius:8px;background:#e5edda;color:#17363d;font-size:13px}.settings-controls button[hidden]{display:none}
+.settings-characters{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:8px 0 12px}.settings-characters button{border:1px solid #7f9189;border-radius:7px;background:#f0ead9;min-height:58px;padding:3px;color:#17363d}.settings-characters img{height:32px;width:34px;object-fit:contain;display:block;margin:auto}.settings-characters span{display:block;font-size:10px;white-space:nowrap}.settings-characters [aria-pressed="true"]{border:2px solid #17363d;background:#f3bc5b}
+.settings-move-workspace{display:grid;grid-template-columns:minmax(130px,.8fr) minmax(0,1.55fr);gap:12px;align-items:start}.settings-move-list{display:grid;gap:7px}.settings-move-list button{padding:8px;border:1px solid #69857e;border-radius:8px;color:#17363d;background:#e4ece0;text-align:left;min-height:52px}.settings-move-list strong,.settings-move-list small{display:block}.settings-move-list strong{font-size:13px}.settings-move-list small{font-size:10px;margin-top:4px;line-height:1.35}.settings-move-list [aria-pressed="true"]{border:2px solid #17363d;background:#f3bc5b}
+.settings-demo canvas{display:block;width:100%;height:auto;aspect-ratio:800/440;background:#dce2d1;border:1px solid #8c9d8d;border-radius:7px}.settings-demo-actions{display:flex;gap:7px;margin-top:7px}.settings-demo h3{margin-top:0;font-size:16px}.settings-demo #settings-move-purpose{font-weight:700}.settings-demo #settings-move-binding{font-size:11px}.settings-demo #settings-demo-status{font-size:10px;color:#45615b;min-height:28px}.settings-demo details{font-size:12px;border-top:1px solid #b9c4b3;padding:8px 0}.settings-demo summary,#settings-history>summary{cursor:pointer;font-weight:700;line-height:1.5}.settings-demo #settings-move-source{font-size:11px;color:#45615b}
+.settings-footer{flex-shrink:0;border-top:1px solid #b8c2af;padding:7px 12px;background:#f0ead6;display:flex;justify-content:space-between;align-items:center;gap:10px}.settings-footer small{font-size:10px}.settings-footer button{padding:6px 10px;font-size:11px;border:1px solid #7c8d83;border-radius:5px;background:#fff6df;color:#17363d;min-height:32px}
+#settings-reset-confirm{flex-shrink:0;background:#ffe3bc;border-top:2px solid #9c5334;padding:9px 12px;font-size:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}#settings-reset-confirm p{margin:0;flex:1;min-width:160px}#settings-reset-confirm button{min-height:36px;padding:6px 12px;border-radius:5px;border:1px solid #17363d}#settings-confirm-reset{background:#a84231;color:white}
+#settings-history{padding:10px;border:1px solid #a6b2a0;border-radius:8px;margin-top:12px}#settings-legacy{padding-top:10px}#settings-legacy .voice-preview{display:flex;flex-wrap:wrap}#settings-legacy select{max-width:100%}
+@container(max-width:420px){.settings-characters{grid-template-columns:repeat(4,minmax(0,1fr))}.settings-move-workspace{grid-template-columns:1fr}.settings-move-list{grid-template-columns:repeat(3,minmax(0,1fr))}.settings-move-list button{padding:5px}.settings-move-list strong{font-size:11px}.settings-move-list small{display:none}}
+/* The legacy mobile toolbar abbreviated help; this entry always says settings. */
+.app .toolbar #help{font-size:11px}.app .toolbar #help:after{content:none}
+
+#help-dialog[data-compact="true"] .settings-head{padding:4px 10px}
+#help-dialog[data-compact="true"] .settings-nav{padding:4px 8px}
+#help-dialog[data-compact="true"][data-settings-tab="moves"] .settings-footer{display:none}
+#help-dialog[data-compact="true"] .settings-demo canvas{height:140px;object-fit:contain;aspect-ratio:auto}
+
+/* V29: one-screen move workbench, with independent detail and source layer. */
+.settings-scroll,.detail-scroll{touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch}
+#help-dialog[data-settings-tab="moves"] .settings-scroll{padding:8px;overflow:hidden;container-type:normal}
+#help-dialog[data-settings-tab="moves"] .settings-footer{display:none}
+#settings-pane-moves{height:100%;min-height:0;position:relative}
+#settings-pane-moves .settings-move-workspace{height:100%;min-height:0;display:grid;grid-template-columns:clamp(166px,25%,252px) minmax(0,1fr);gap:12px;align-items:stretch}
+.settings-move-select{display:grid;grid-template-rows:20px auto minmax(0,1fr);gap:8px;min-height:0}
+.workspace-caption{font-size:12px;font-weight:800;color:#41594f;line-height:20px}
+#settings-pane-moves .settings-characters{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:0}
+#settings-pane-moves .settings-characters button{min-height:60px;padding:3px}
+#settings-pane-moves .settings-characters img{height:34px;width:36px}
+#settings-pane-moves .settings-characters span{font-size:10px}
+#settings-pane-moves .settings-move-list{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:7px;min-height:0}
+#settings-pane-moves .settings-move-list button{min-height:44px;padding:7px 9px}
+#settings-pane-moves .settings-move-list strong{font-size:16px;line-height:1.2}
+#settings-pane-moves .settings-move-list small{display:block;font-size:11px}
+#settings-pane-moves .settings-demo{display:grid;grid-template-rows:38px minmax(0,1fr) 38px 28px;gap:7px;min-height:0;min-width:0}
+.demo-title{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.demo-title h3{font-size:20px!important;line-height:1.05;margin:0!important;min-width:0}
+.demo-title button{min-height:34px;padding:5px 8px;flex-shrink:0;font-size:11px}
+#settings-pane-moves .settings-demo canvas{width:100%;height:100%;min-height:0;object-fit:contain;aspect-ratio:auto;background:linear-gradient(#aebdaf,#e1dfbb)}
+#settings-pane-moves .settings-demo-actions{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#settings-pane-moves #settings-demo-status{min-height:0;margin:0;font-size:11px;line-height:1.2;overflow:hidden}
+.settings-detail-layer{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;background:#fff6df;border:1px solid #a3ae99;border-radius:8px;overflow:hidden}
+.settings-detail-layer[hidden]{display:none!important}
+.detail-head{padding:8px 12px;display:flex;justify-content:space-between;gap:8px;align-items:center;background:#e2ead7;flex-shrink:0}
+.detail-head h3{font-size:17px;margin:0}.detail-head button{flex-shrink:0}
+.detail-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding:12px 16px}
+.detail-scroll p{font-size:14px}.detail-scroll details{border-top:1px solid #b4c0ac;padding:12px 0;font-size:14px}.detail-scroll summary{font-weight:bold;cursor:pointer}
+.audio-character-list{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px!important;margin:10px 0}
+.audio-character-list button,.audio-move-list button{border:1px solid #69857e;border-radius:6px;background:#fff7df;color:#183a40;min-height:40px;padding:7px 4px;font-size:12px;line-height:1.2}
+.audio-character-list button[aria-pressed="true"],.audio-move-list button[aria-pressed="true"]{background:#f4bf60;border:2px solid #193940}
+.audio-move-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px!important;margin-bottom:8px}
+.settings-audio-row .settings-audition{display:block}
+#settings-audition-status,#settings-sfx-status{font-weight:700;color:#38584b;margin:8px 0 0}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-move-workspace{grid-template-columns:166px minmax(0,1fr);gap:8px}
+#help-dialog[data-compact="true"] .settings-move-select{grid-template-rows:72px minmax(0,1fr);gap:5px}
+#help-dialog[data-compact="true"] .workspace-caption{display:none}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-characters{gap:3px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-characters button{min-height:34px;height:34px;padding:1px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-characters img{height:19px;width:24px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-characters span{font-size:9px;line-height:11px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-move-list{gap:4px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-move-list button{min-height:32px;padding:4px 6px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-move-list strong{font-size:13px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-move-list small{display:none}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-demo{grid-template-rows:32px minmax(0,1fr) 34px 26px;gap:4px}
+#help-dialog[data-compact="true"] .demo-title h3{font-size:16px!important}
+#help-dialog[data-compact="true"] .settings-demo-actions .settings-action{min-height:32px;padding:4px 8px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-move-workspace{grid-template-columns:1fr;grid-template-rows:116px minmax(0,1fr);gap:8px}
+#help-dialog[data-layout="portrait"] .settings-move-select{display:grid;grid-template-rows:54px 56px;gap:6px}
+#help-dialog[data-layout="portrait"] .workspace-caption{display:none}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-characters{grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-characters button{height:54px;min-height:0;padding:2px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-characters img{height:28px;width:28px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-characters span{font-size:9px;letter-spacing:-.4px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-move-list{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:1fr;gap:4px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-move-list button{min-height:0;padding:5px;text-align:center}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-move-list strong{font-size:12px}
+#help-dialog[data-layout="portrait"] #settings-pane-moves .settings-move-list small{display:none}
+#help-dialog[data-layout="portrait"] .audio-character-list{grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Override the V27 fixed compact canvas height: it must fit its grid track. */
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-demo canvas{height:100%;min-height:0;max-height:100%;object-fit:contain}
+#help-dialog[data-compact="true"] .settings-head{min-height:0;padding:3px 8px}
+#help-dialog[data-compact="true"] .settings-head button{min-height:30px;height:30px;width:34px}
+#help-dialog[data-compact="true"] .settings-nav button{min-height:32px}
+#help-dialog[data-compact="true"] #settings-pane-moves .settings-demo{grid-template-rows:30px minmax(0,1fr) 32px 23px;gap:3px}
+#help-dialog[data-compact="true"] #settings-pane-moves .demo-title button{min-height:28px}
+
+/* Reading mode explicitly restores pinch without restoring double-tap zoom. */
+html[data-allow-page-zoom="true"] .settings-scroll,
+html[data-allow-page-zoom="true"] .detail-scroll{touch-action:manipulation}
+.settings-page-zoom{display:flex;align-items:center;gap:10px;min-height:44px;line-height:1.5;font-size:14px;cursor:pointer}
+.settings-page-zoom input{width:20px;height:20px;flex-shrink:0;accent-color:#25635f}

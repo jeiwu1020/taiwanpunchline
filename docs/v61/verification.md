@@ -1,0 +1,3 @@
+# V61 requested palette correction
+Baseline #38 /921b818731d000395f7faaef10310326ff43437f retained with backup-before-colors-v61. Full baseline source is the previously retrieved V60 Space archive.
+Continue restored to original comic red #bc3f31 in both menus. Restart now uses the former continue green #237363. Home amber and selection blue unchanged. Both changed colors retain warm-white text; dimensions, borders, typography, hover/pressed styling, confirmations and handlers unchanged. CSS/test assertions cover both continue selectors, restart, and unchanged destinations.2108 automated tests passed. This is a two-color-only patch using already browser-verified colors and dimensions, not a new physical-device test.

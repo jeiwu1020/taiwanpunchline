@@ -1,0 +1,18 @@
+✔ horizontal camera movement reuses painted street backdrop while all actors animate (21.255217ms)
+✔ viewport changes repaint cached backdrop without changing foreground resolution (2.042969ms)
+✔ retained tiles stay world anchored and mirror by absolute tile index (1.278154ms)
+✔ crossing many world tiles reuses a bounded cache and refreshes replacement source art (7.577396ms)
+✔ neighboring retained tiles overlap their filtered edges without shifting world interiors (1.417232ms)
+✔ 150 frames of lane travel reuse one fixed world raster without resizing (6.44408ms)
+✔ jumping from the table and landing retain covered, world-anchored art in either start state (4.630149ms)
+✔ coverage escape repaints once at full density, then nearby travel reuses it (0.372679ms)
+✔ viewport, density, geometry and source changes each invalidate the retained coverage (0.472898ms)
+✔ actor canvas keeps painting at its original resolution during lane travel (7.638838ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 141.70415

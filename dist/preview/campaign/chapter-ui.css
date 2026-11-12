@@ -1,0 +1,116 @@
+/* The same control sheets as chapter 1 own button geometry and order. */
+:root{--ink:#152c34;--paper:#fff6df;--amber:#f4b24a;--teal:#67c7c1}
+body.app{display:block;padding:0;margin:0;color:var(--paper);font-family:"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+#trial-app.cabinet{max-width:none;width:100%;height:100dvh;display:block;border:0;border-radius:0;container-type:inline-size;container-name:combat-controls}
+#trial-app>#stage{position:absolute;inset:0;width:100%;height:100%}
+#trial-app>header{position:absolute;inset:calc(env(safe-area-inset-top,0px) + 6px) calc(env(safe-area-inset-right,0px) + 12px) auto calc(env(safe-area-inset-left,0px) + 12px);height:38px;z-index:16;background:transparent;padding:0;color:#fff6df;pointer-events:none;filter:drop-shadow(0 1px 2px #102a32)}
+#trial-app>header button{pointer-events:auto;min-height:32px;background:#17353ae8;color:#fff6df;border:1px solid #8aa19f;border-radius:7px;padding:5px 9px;font-size:12px}
+#trial-app>header .toolbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#trial-app #controls.control-deck{position:absolute;inset:auto calc(env(safe-area-inset-right,0px) + 8px) calc(env(safe-area-inset-bottom,0px) + 6px) calc(env(safe-area-inset-left,0px) + 8px);border:0;background:transparent;z-index:10;pointer-events:none}
+#trial-app #controls button,#trial-app #touch-stick{pointer-events:auto}
+#trial-app #controls .touch-pad{position:relative}
+#trial-app #touch-stick{position:relative;touch-action:none;border-radius:50%;flex:none}
+#trial-app #touch-knob{position:absolute;border-radius:50%;pointer-events:none}
+#trial-app .stick-cross{position:absolute;inset:0;display:grid;place-items:center;font-size:48px;color:#17353a66;pointer-events:none}
+#trial-app #controls .movement small{display:none}
+#trial-app #controls .charge-track{display:none}
+#trial-app #controls .cooldown-label{display:none}
+#trial-app #controls .specials strong{--special-name-max:18px}
+#trial-app #hud.dom-hud{position:absolute;inset:calc(env(safe-area-inset-top,0px) + 48px) calc(env(safe-area-inset-right,0px) + 8px) auto calc(env(safe-area-inset-left,0px) + 8px);height:64px;display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:6px;padding:0;pointer-events:none;z-index:4}
+#trial-app #hud .hud-side{min-width:0;height:64px;background:#fff3d9ed;color:#17353a}
+#trial-app #hud .hud-side.enemy[hidden]{display:none}
+#trial-app #hud .timer{grid-column:2;height:64px;min-width:0;overflow:hidden;color:#fff3d5;background:#17353aeb;border:2px solid #e7cf9d;border-radius:8px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+#trial-app #timer{font:900 20px/24px ui-monospace,monospace;white-space:nowrap;font-variant-numeric:tabular-nums}
+#trial-app #match-score{font-size:10px;line-height:14px;white-space:normal}
+#trial-app #enemy-hp{width:100%;margin:0;height:11px}
+#trial-app #health{display:block;height:100%;background:#67b68a}
+#trial-app .chapter-objective{position:absolute;top:calc(env(safe-area-inset-top,0px) + 117px);left:calc(env(safe-area-inset-left,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 10px);display:flex;justify-content:space-between;gap:8px;pointer-events:none;color:#17353a;font-size:12px;line-height:1.4;z-index:4}
+#trial-app .chapter-objective b,#trial-app .chapter-objective span{padding:2px 6px;border-radius:4px;background:#fff5dcd9;max-width:48%}
+body[data-noncombat="true"] #trial-app:not([data-retained-combat-layout="true"]) #controls{display:none!important;pointer-events:none}
+/* A retained stable or close-street world keeps its absolute control grid
+   under combat masks. Visibility still excludes keyboard/pointer targeting. */
+body[data-noncombat="true"] #trial-app[data-retained-combat-layout="true"] #controls{display:grid;visibility:hidden;pointer-events:none}
+#trial-app>.overlay{inset:0;padding-top:calc(env(safe-area-inset-top,0px) + 52px);z-index:20}
+#trial-app #pause-panel .card{width:min(680px,100%);max-width:680px;background:#fff4da;border:3px solid #17353a;border-radius:14px;box-shadow:6px 6px #17353a55;color:#17353a}
+#trial-app #pause-panel .card h2{font-size:30px}
+#trial-app #pause-panel .card>button{min-height:44px;font-size:18px}
+#trial-app #pause-panel .card p{font-size:14px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header{inset:5px 8px auto;height:60px;align-items:center;gap:4px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header>div{max-width:86px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header b{font-size:16px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header span{display:none}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar{max-width:230px;gap:4px}
+body[data-touch="true"][data-layout="portrait"] #trial-app #hud{top:70px}
+body[data-touch="true"][data-layout="portrait"] #trial-app .chapter-objective{top:138px;font-size:10px}
+body[data-touch="true"][data-layout="portrait"] #trial-app #controls{height:188px;left:0;right:0}
+body[data-touch="true"][data-layout="portrait"] #trial-app .hud-name{font-size:14px}
+
+body[data-touch="true"][data-layout="landscape"] #trial-app .chapter-objective{top:117px;font-size:10px}
+body[data-touch="true"][data-layout="landscape"] #trial-app .chapter-objective span{max-width:55%;text-align:right}
+.chapter-settings{color:#17353a;background:#fff4da;border:3px solid #17353a;border-radius:15px;box-shadow:7px 8px 0 #102a3266;padding:0;width:min(760px,calc(100vw - 20px));max-height:calc(100dvh - 20px);overflow:auto;font-family:inherit;touch-action:pan-y}
+.chapter-settings::backdrop{background:#122c37aa;backdrop-filter:blur(4px)}
+.chapter-settings>header{position:sticky;top:0;height:auto;min-height:54px;background:#17353a;color:#fff4da;padding:10px 14px;z-index:1}
+.chapter-settings h2{margin:0;font-size:23px}.chapter-settings>header button{color:#17353a;background:#fff4da;padding:4px 10px}
+.chapter-settings>nav{display:flex;gap:6px;padding:10px;border-bottom:1px solid #c8b58d}.chapter-settings button{min-height:42px;padding:7px 12px;font-size:15px;border:2px solid #17353a;box-shadow:none}
+.chapter-settings [data-tab][aria-pressed="true"]{background:#edbc60}.chapter-settings-content{padding:8px 18px 14px}.chapter-settings h3{font-size:19px;margin:9px 0}.chapter-settings label{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:15px 0}.chapter-settings input[type=range]{flex:1;min-width:90px}.chapter-settings p{line-height:1.7;font-size:14px}.chapter-settings article{padding:7px 0;border-bottom:1px solid #cbb786}.chapter-settings h4{font-size:18px;margin:5px 0}.chapter-settings>footer{padding:8px 18px 14px;text-align:right}.chapter-settings [hidden]{display:none!important}
+#chapter-home-confirm{padding:20px}.chapter-home-actions{display:flex;justify-content:flex-end;gap:8px}
+
+#trial-app .card,#trial-app .story-card{color:#17353a}
+
+/* One newsprint / ink shell for every chapter panel, as in chapter one. */
+#trial-app :is(.card,.story-card),body>dialog{--ink:#173239;--paper:#fff5dc;--red:#b73c2d;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(#162e350d 1px,transparent 1px);background-size:6px 6px;border:3px solid var(--ink);border-radius:8px;box-shadow:6px 7px 0 #162e3580;overscroll-behavior:contain}
+#trial-app :is(.card,.story-card) button{border:2px solid var(--ink);border-radius:5px;min-height:44px;box-shadow:2px 3px 0 #17323935;touch-action:manipulation}
+#trial-app :is(.card,.story-card) .primary{background:var(--red);color:#fff7dd}
+#trial-app :is(.card,.story-card) :is(h1,h2){line-height:1.25;letter-spacing:.02em}
+#trial-app .eyebrow,#trial-app #story-speaker{display:inline-block;background:#b73c2d;color:#fff5dc;font-weight:900;padding:3px 8px;border-radius:3px}
+#trial-app .card{width:min(760px,100%);max-height:100%;padding:20px 24px;text-align:left}
+#trial-app .card>h2,#trial-app .card>h1{border-bottom:3px solid #173239;padding-bottom:10px}
+#trial-app #pause-panel .card{background-color:#fff5dc;border-radius:8px;max-width:760px;width:min(760px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#trial-app #pause-panel .card>:is(h2,p,.choose,.campaign-bar){grid-column:1/-1}
+#trial-app .choose{justify-content:center;gap:10px;flex-wrap:wrap}
+#trial-app .choose button{flex:0 1 108px;padding:7px;font-size:14px}
+#trial-app .choose img{width:76px;height:80px;object-fit:contain}
+#trial-app #story-panel{inset:auto 16px 14px;max-height:calc(100% - 64px);overflow:auto;pointer-events:auto}
+#trial-app .story-card{max-width:860px;padding:14px 18px;margin:auto}
+#trial-app .story-card p{font-size:18px;line-height:1.5}
+#trial-app .story-card .primary{float:none;display:block;margin:12px 0 0 auto;min-width:140px}
+body[data-chapter-mode="story"] #trial-app :is(#hud,.chapter-objective){visibility:hidden}
+body[data-chapter-mode="story"][data-layout="landscape"] #trial-app>#stage{width:62%}
+body[data-chapter-mode="story"][data-layout="landscape"] #trial-app #story-panel{inset:56px 12px 12px auto;width:36%;max-height:none;display:flex}
+body[data-chapter-mode="story"][data-layout="landscape"] #trial-app .story-card{width:100%;margin:0;display:flex;flex-direction:column;justify-content:safe center;overflow:auto}
+body[data-chapter-mode="story"][data-layout="landscape"] #trial-app .story-card .primary{width:100%;margin-top:14px}
+body[data-compact="true"] #trial-app .card{padding:12px 18px}
+body[data-compact="true"] #trial-app .card :is(h1,h2){font-size:25px;margin:0 0 8px;padding-bottom:6px}
+body[data-compact="true"] #trial-app .card p{font-size:14px;margin:6px 0}
+body[data-compact="true"] #trial-app .choose{margin:6px 0}
+body[data-compact="true"] #trial-app .choose img{height:60px;width:66px}
+body[data-compact="true"] #trial-app .story-card{padding:10px 12px}
+body[data-compact="true"] #trial-app .story-card p{font-size:15px;line-height:1.45}
+body[data-compact="true"] #trial-app .story-card h2{font-size:23px}
+body[data-layout="portrait"] #trial-app #pause-panel .card{grid-template-columns:1fr}
+body[data-layout="portrait"] #trial-app .card{padding:16px}
+/* Native top-layer dialogs are outside the rotated app and need the same frame. */
+body[data-sideways="true"]>dialog{position:fixed!important;inset:auto!important;left:var(--chapter-center-x)!important;top:var(--chapter-center-y)!important;margin:0!important;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center;width:min(760px,calc(var(--chapter-width) - 24px));max-width:calc(var(--chapter-width) - 24px)!important;max-height:calc(var(--chapter-height) - 24px)!important;overflow:auto}
+body[data-sideways="true"] #trial-app{max-width:none}
+
+#trial-app #result-panel .card{max-width:600px}
+/* Compact entry keeps the primary action in view instead of stacking a poster. */
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .card{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,1fr);column-gap:20px;row-gap:4px;align-items:center;max-width:800px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .card>.eyebrow{grid-column:1;justify-self:start;font-size:11px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu h1{grid-column:1;font-size:26px;margin:0;padding-bottom:4px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .card>p:not(.keys):not(.note){grid-column:1;margin:2px 0;font-size:13px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu #menu-roster{grid-column:2;grid-row:1/5;margin:0;flex-wrap:nowrap;gap:6px;align-self:center}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .choose button{min-width:0;flex:1;padding:5px 3px;font-size:13px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .choose img{width:100%;max-width:80px;height:90px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .card>label{grid-column:1;font-size:13px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu #difficulty{margin:0;padding:3px 8px;min-height:32px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu #start{grid-column:1/-1;margin-top:4px;padding:7px 12px;font-size:18px}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .keys{display:none}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu .note{grid-column:1/-1;display:block;font-size:10px;line-height:1.3;margin:3px 0}
+body[data-layout="landscape"][data-compact="true"] #trial-app #menu :is(#campaign-entry,#campaign-bar){grid-column:1/-1}
+#trial-app #menu [hidden]{display:none!important}
+/* Two deliberate toolbar rows fit four readable actions beside the wordmark. */
+body[data-touch="true"][data-layout="portrait"] #trial-app>header{height:64px;align-items:center}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:202px;max-width:calc(100% - 92px);gap:4px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar button{padding:4px 6px;min-height:28px;font-size:12px;white-space:nowrap}
+body[data-sideways="true"]>.chapter-settings{width:min(640px,calc(var(--chapter-width) - 32px))}

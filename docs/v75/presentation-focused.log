@@ -1,0 +1,88 @@
+✔ each protected tap cancels its native default, including repeated near-stick taps (7.338455ms)
+✔ two battle fingers stay protected through pinch moves and independent releases (2.101378ms)
+✔ a protected touch may drag outside the battle without losing its original ownership (0.552279ms)
+✔ shell-targeted empty battle space is guarded by the live physical cabinet rectangle (0.804753ms)
+✔ toolbar, menu, pause, result and outside text retain native gestures even during combat (2.629774ms)
+✔ links, text fields, editable text and opt-out regions inside the cabinet remain native (0.982345ms)
+✔ game action button descendants stay protected despite native-button exclusions (0.411414ms)
+✔ menu-origin touches never become protected by moving inside or activating combat (0.59723ms)
+✔ opening settings releases protection and closing it cannot capture an old touch (0.353813ms)
+✔ a sequence including an outside/native finger is never hijacked by a battle finger (1.992684ms)
+✔ a native contact arriving after gesturestart also releases the Safari gesture latch (0.526938ms)
+✔ explicit lifecycle reset releases a stale sequence even when settings produced no root events (2.107165ms)
+✔ Safari gesture events are scoped to their protected starting target (0.682937ms)
+✔ noncancelable events and canceled or missed touch sequences cannot poison the next tap (0.392976ms)
+✔ mount is idempotent and listeners are root-scoped, non-passive and removable (1.196423ms)
+✔ native event propagation, independent pointer controls and audio unlock remain untouched (1.609523ms)
+✔ full-stage canvas remains the same absolute layer through portrait pause and resume (8870.279595ms)
+✔ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (1460.400471ms)
+✔ pause preserves the scene with a light blur rather than an opaque replacement (115.938257ms)
+✔ stage camera keeps fighters between HUD and controls at jump apex and wide separation (6.535415ms)
+✔ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (18.037055ms)
+✖ depth route uses shared full-stage safe space while retaining legacy callers (29.188779ms)
+✔ pinch is blocked in battle, pause, settings, toolbar-sized shell gaps and safe-area gutters (4.621113ms)
+✔ settings single-finger scrolling, slider dragging and native control activation are never canceled (2.721586ms)
+✔ rapid nearby repeated taps on text and empty surfaces suppress double-tap zoom (1.047757ms)
+✔ Safari Touch prototype getters are copied explicitly for double-tap distance (0.383513ms)
+✔ distant taps, long presses and drags are not misidentified as double taps (0.56504ms)
+✔ Safari gesture fallback covers the separate modal and follows owned touch origin across retargeting (0.689339ms)
+✔ outside or unknown contacts retain native gestures, even if a guarded contact is added later (0.325118ms)
+✔ explicit accessible zoom preference restores pinch while continuing to suppress double tap (0.356831ms)
+✔ cancel, reset, missed endings, idempotent mount and destroy leave no stuck gesture or tap latch (0.632585ms)
+✔ game shell and settings default to scroll without pinch while accessible zoom stays opt-in (6.053145ms)
+✔ accessible pinch preference defaults off, restores saved choice and saves only user changes (2.635334ms)
+✔ portrait D keeps fixed 52px utilities and 110x52px specials at every approved phone width (10105.16615ms)
+✔ single-line fitting is available on landscape and desktop without changing their control geometry (412.529681ms)
+✔ portrait HUD still retains its pre-change cascade (465.719344ms)
+✔ 52px portrait utility buttons retain complete four-character secondary labels (307.5474ms)
+✔ unexpected overflow is visibly exposed rather than clipped inside a fixed card (78.573886ms)
+✔ desktop places utility controls after movement and lets specials fill the far right (4477.995006ms)
+✔ desktop movement squares match attack size and carry thicker, larger arrows (2085.121073ms)
+✔ landscape and CSS-sideways keep three specials above five equal utilities (15996.059002ms)
+✔ single-line special names have separate footer room, with centered desktop keys (1687.704673ms)
+✖ wide HUD gives names, health bars, guard row, and item status their own visible space (339.728671ms)
+✔ desktop utility hints finish above the separately centered keyboard row (3323.126379ms)
+✔ desktop special footer reserves room beside a centered key for a two-digit countdown (2144.885211ms)
+✔ narrow landscape rally status uses the same line height as the other phone sizes (211.447257ms)
+ℹ tests 46
+ℹ suites 0
+ℹ pass 44
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 31394.184526
+
+✖ failing tests:
+
+test at tests/combat-presentation-v75.test.mjs:55:1
+✖ depth route uses shared full-stage safe space while retaining legacy callers (29.188779ms)
+  AssertionError [ERR_ASSERTION]: 320x568: actor head stays under HUD
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:62:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/wide-control-layout-v73.test.mjs:54:1
+✖ wide HUD gives names, health bars, guard row, and item status their own visible space (339.728671ms)
+  AssertionError [ERR_ASSERTION]: HUD is fully reserved outside the canvas
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/wide-control-layout-v73.test.mjs:58:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

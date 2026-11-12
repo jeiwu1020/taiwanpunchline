@@ -1,0 +1,2450 @@
+{
+  "source": "Active Chromium DOM measurements. Candidate UI, including portrait street status140–160. No physical-phone claim.",
+  "profiles": {
+    "desktop-vs": {
+      "frame": {
+        "width": 1280,
+        "height": 720,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "false",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "landscape",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 720,
+          "width": 1280,
+          "height": 720
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 1268,
+            "bottom": 44,
+            "width": 1256,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 604,
+            "bottom": 112,
+            "width": 596,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 610,
+            "top": 48,
+            "right": 670,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 676,
+            "top": 48,
+            "right": 1272,
+            "bottom": 112,
+            "width": 596,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 635,
+            "top": 115,
+            "right": 645,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 520,
+            "top": 634,
+            "right": 584,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 541,
+            "top": 665,
+            "right": 563,
+            "bottom": 677,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 448,
+            "top": 634,
+            "right": 512,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 22,
+            "top": 634,
+            "right": 86,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 92,
+            "top": 634,
+            "right": 156,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 162,
+            "top": 634,
+            "right": 226,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 232,
+            "top": 634,
+            "right": 296,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 304,
+            "top": 634,
+            "right": 368,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 376,
+            "top": 634,
+            "right": 440,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 592,
+            "top": 634,
+            "right": 656,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 634,
+            "right": 1258,
+            "bottom": 698,
+            "width": 594,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 634,
+            "right": 858,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 864,
+            "top": 634,
+            "right": 1058,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1064,
+            "top": 634,
+            "right": 1258,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 634,
+          "left": 94,
+          "right": 512,
+          "bottom": 712
+        }
+      }
+    },
+    "desktop-street": {
+      "frame": {
+        "width": 1280,
+        "height": 720,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "false",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "landscape",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "challenge",
+        "depthRoute": "true"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1280,
+          "bottom": 720,
+          "width": 1280,
+          "height": 720
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 1268,
+            "bottom": 44,
+            "width": 1256,
+            "height": 38
+          },
+          {
+            "kind": "save",
+            "left": 926.34375,
+            "top": 9,
+            "right": 1030.34375,
+            "bottom": 41,
+            "width": 104,
+            "height": 32
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 604,
+            "bottom": 112,
+            "width": 596,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 610,
+            "top": 48,
+            "right": 670,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 676,
+            "top": 48,
+            "right": 1272,
+            "bottom": 112,
+            "width": 596,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 506.6640625,
+            "top": 115,
+            "right": 773.3359375,
+            "bottom": 130,
+            "width": 266.671875,
+            "height": 15
+          },
+          {
+            "kind": "control",
+            "left": 520,
+            "top": 634,
+            "right": 584,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 541,
+            "top": 665,
+            "right": 563,
+            "bottom": 677,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 448,
+            "top": 634,
+            "right": 512,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 22,
+            "top": 634,
+            "right": 86,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 92,
+            "top": 634,
+            "right": 156,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 162,
+            "top": 634,
+            "right": 226,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 232,
+            "top": 634,
+            "right": 296,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 304,
+            "top": 634,
+            "right": 368,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 376,
+            "top": 634,
+            "right": 440,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 592,
+            "top": 634,
+            "right": 656,
+            "bottom": 698,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 634,
+            "right": 1258,
+            "bottom": 698,
+            "width": 594,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 634,
+            "right": 858,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 864,
+            "top": 634,
+            "right": 1058,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1064,
+            "top": 634,
+            "right": 1258,
+            "bottom": 698,
+            "width": 194,
+            "height": 64
+          }
+        ],
+        "hudBottom": 130,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 634,
+          "left": 94,
+          "right": 512,
+          "bottom": 712
+        }
+      }
+    },
+    "portrait-vs": {
+      "frame": {
+        "width": 390,
+        "height": 844,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "true",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "portrait",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "width": 390,
+          "height": 844
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 8,
+            "top": 5,
+            "right": 382,
+            "bottom": 65,
+            "width": 374,
+            "height": 60
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 70,
+            "right": 159,
+            "bottom": 134,
+            "width": 151,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 14,
+            "top": 102,
+            "right": 153,
+            "bottom": 110,
+            "width": 139,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 165,
+            "top": 70,
+            "right": 225,
+            "bottom": 134,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 231,
+            "top": 70,
+            "right": 382,
+            "bottom": 134,
+            "width": 151,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 237,
+            "top": 102,
+            "right": 376,
+            "bottom": 110,
+            "width": 139,
+            "height": 8
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 721.5,
+            "right": 108,
+            "bottom": 821.5,
+            "width": 100,
+            "height": 100
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 774.5,
+            "right": 324,
+            "bottom": 826.5,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 287,
+            "top": 806,
+            "right": 309,
+            "bottom": 818,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 330,
+            "top": 716.5,
+            "right": 382,
+            "bottom": 768.5,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 214,
+            "top": 774.5,
+            "right": 266,
+            "bottom": 826.5,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 716.5,
+            "right": 324,
+            "bottom": 768.5,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 330,
+            "top": 774.5,
+            "right": 382,
+            "bottom": 826.5,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 658.5,
+            "right": 382,
+            "bottom": 768.5,
+            "width": 226,
+            "height": 110
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 716.5,
+            "right": 266,
+            "bottom": 768.5,
+            "width": 110,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 658.5,
+            "right": 266,
+            "bottom": 710.5,
+            "width": 110,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 658.5,
+            "right": 382,
+            "bottom": 710.5,
+            "width": 110,
+            "height": 52
+          }
+        ],
+        "hudBottom": 134,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 658.5,
+          "left": 116,
+          "right": 148,
+          "bottom": 836
+        }
+      }
+    },
+    "portrait-street": {
+      "frame": {
+        "width": 390,
+        "height": 844,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "true",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "portrait",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "challenge",
+        "depthRoute": "true"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 390,
+          "bottom": 844,
+          "width": 390,
+          "height": 844
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 8,
+            "top": 5,
+            "right": 382,
+            "bottom": 43,
+            "width": 374,
+            "height": 38
+          },
+          {
+            "kind": "save",
+            "left": 68,
+            "top": 8,
+            "right": 130,
+            "bottom": 40,
+            "width": 62,
+            "height": 32
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 70,
+            "right": 159,
+            "bottom": 134,
+            "width": 151,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 14,
+            "top": 102,
+            "right": 153,
+            "bottom": 110,
+            "width": 139,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 165,
+            "top": 70,
+            "right": 225,
+            "bottom": 134,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 231,
+            "top": 70,
+            "right": 382,
+            "bottom": 134,
+            "width": 151,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 237,
+            "top": 102,
+            "right": 376,
+            "bottom": 110,
+            "width": 139,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 58.6640625,
+            "top": 140,
+            "right": 331.3359375,
+            "bottom": 160,
+            "width": 272.671875,
+            "height": 20
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 723,
+            "right": 108,
+            "bottom": 823,
+            "width": 100,
+            "height": 100
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 776,
+            "right": 324,
+            "bottom": 828,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 287,
+            "top": 807.5,
+            "right": 309,
+            "bottom": 819.5,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 330,
+            "top": 718,
+            "right": 382,
+            "bottom": 770,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 214,
+            "top": 776,
+            "right": 266,
+            "bottom": 828,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 718,
+            "right": 324,
+            "bottom": 770,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 330,
+            "top": 776,
+            "right": 382,
+            "bottom": 828,
+            "width": 52,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 660,
+            "right": 382,
+            "bottom": 770,
+            "width": 226,
+            "height": 110
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 718,
+            "right": 266,
+            "bottom": 770,
+            "width": 110,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 156,
+            "top": 660,
+            "right": 266,
+            "bottom": 712,
+            "width": 110,
+            "height": 52
+          },
+          {
+            "kind": "control",
+            "left": 272,
+            "top": 660,
+            "right": 382,
+            "bottom": 712,
+            "width": 110,
+            "height": 52
+          }
+        ],
+        "hudBottom": 160,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 660,
+          "left": 116,
+          "right": 148,
+          "bottom": 836
+        }
+      }
+    },
+    "native-vs": {
+      "frame": {
+        "width": 844,
+        "height": 390,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "true",
+        "touch": "true",
+        "nativeLandscape": "true",
+        "overlayControls": "true",
+        "layout": "landscape",
+        "compact": "true",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 844,
+          "bottom": 390,
+          "width": 844,
+          "height": 390
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 832,
+            "bottom": 44,
+            "width": 820,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 386,
+            "bottom": 112,
+            "width": 378,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 392,
+            "top": 48,
+            "right": 452,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 458,
+            "top": 48,
+            "right": 836,
+            "bottom": 112,
+            "width": 378,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 417,
+            "top": 115,
+            "right": 427,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 272,
+            "right": 120,
+            "bottom": 384,
+            "width": 112,
+            "height": 112
+          },
+          {
+            "kind": "control",
+            "left": 722,
+            "top": 330,
+            "right": 776,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 738,
+            "top": 363,
+            "right": 760,
+            "bottom": 375,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 662,
+            "top": 330,
+            "right": 716,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 330,
+            "right": 596,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 602,
+            "top": 330,
+            "right": 656,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 782,
+            "top": 330,
+            "right": 836,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 294,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 636,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 642,
+            "top": 270,
+            "right": 736,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 742,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 270,
+          "left": 128,
+          "right": 534,
+          "bottom": 382
+        }
+      }
+    },
+    "native-street": {
+      "frame": {
+        "width": 844,
+        "height": 390,
+        "rotation": 0,
+        "fullBleed": true,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "true",
+        "touch": "true",
+        "nativeLandscape": "true",
+        "overlayControls": "true",
+        "layout": "landscape",
+        "compact": "true",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "true",
+        "matchFinish": "false",
+        "gameMode": "challenge",
+        "depthRoute": "true"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 844,
+          "bottom": 390,
+          "width": 844,
+          "height": 390
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 8,
+            "top": 4,
+            "right": 836,
+            "bottom": 36,
+            "width": 828,
+            "height": 32
+          },
+          {
+            "kind": "save",
+            "left": 504.34375,
+            "top": 4,
+            "right": 608.34375,
+            "bottom": 36,
+            "width": 104,
+            "height": 32
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 40,
+            "right": 386,
+            "bottom": 88,
+            "width": 378,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 15,
+            "top": 75,
+            "right": 127,
+            "bottom": 83,
+            "width": 112,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 392,
+            "top": 40,
+            "right": 452,
+            "bottom": 88,
+            "width": 60,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 458,
+            "top": 40,
+            "right": 836,
+            "bottom": 88,
+            "width": 378,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 465,
+            "top": 75,
+            "right": 577,
+            "bottom": 83,
+            "width": 112,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 301.5,
+            "top": 90,
+            "right": 542.5,
+            "bottom": 103,
+            "width": 241,
+            "height": 13
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 272,
+            "right": 120,
+            "bottom": 384,
+            "width": 112,
+            "height": 112
+          },
+          {
+            "kind": "control",
+            "left": 722,
+            "top": 330,
+            "right": 776,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 738,
+            "top": 363,
+            "right": 760,
+            "bottom": 375,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 662,
+            "top": 330,
+            "right": 716,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 330,
+            "right": 596,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 602,
+            "top": 330,
+            "right": 656,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 782,
+            "top": 330,
+            "right": 836,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 294,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 636,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 642,
+            "top": 270,
+            "right": 736,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 742,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          }
+        ],
+        "hudBottom": 103,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 270,
+          "left": 128,
+          "right": 534,
+          "bottom": 382
+        }
+      }
+    },
+    "rotated-vs": {
+      "frame": {
+        "width": 844,
+        "height": 390,
+        "rotation": 90,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "true",
+        "nativeLandscape": "false",
+        "overlayControls": "true",
+        "layout": "landscape",
+        "compact": "true",
+        "rotation": "90",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 844,
+          "bottom": 390,
+          "width": 844,
+          "height": 390
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 832,
+            "bottom": 44,
+            "width": 820,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 386,
+            "bottom": 112,
+            "width": 378,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 392,
+            "top": 48,
+            "right": 452,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 458,
+            "top": 48,
+            "right": 836,
+            "bottom": 112,
+            "width": 378,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 417,
+            "top": 115,
+            "right": 427,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 272,
+            "right": 120,
+            "bottom": 384,
+            "width": 112,
+            "height": 112
+          },
+          {
+            "kind": "control",
+            "left": 722,
+            "top": 330,
+            "right": 776,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 738,
+            "top": 363,
+            "right": 760,
+            "bottom": 375,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 662,
+            "top": 330,
+            "right": 716,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 330,
+            "right": 596,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 602,
+            "top": 330,
+            "right": 656,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 782,
+            "top": 330,
+            "right": 836,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 294,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 636,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 642,
+            "top": 270,
+            "right": 736,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 742,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 270,
+          "left": 128,
+          "right": 534,
+          "bottom": 382
+        }
+      }
+    },
+    "rotated-street": {
+      "frame": {
+        "width": 844,
+        "height": 390,
+        "rotation": 90,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "true",
+        "nativeLandscape": "false",
+        "overlayControls": "true",
+        "layout": "landscape",
+        "compact": "true",
+        "rotation": "90",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "challenge",
+        "depthRoute": "true"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 844,
+          "bottom": 390,
+          "width": 844,
+          "height": 390
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 8,
+            "top": 4,
+            "right": 836,
+            "bottom": 36,
+            "width": 828,
+            "height": 32
+          },
+          {
+            "kind": "save",
+            "left": 522.671875,
+            "top": 4,
+            "right": 626.671875,
+            "bottom": 36,
+            "width": 104,
+            "height": 32
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 40,
+            "right": 386,
+            "bottom": 88,
+            "width": 378,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 15,
+            "top": 75,
+            "right": 127,
+            "bottom": 83,
+            "width": 112,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 392,
+            "top": 40,
+            "right": 452,
+            "bottom": 88,
+            "width": 60,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 458,
+            "top": 40,
+            "right": 836,
+            "bottom": 88,
+            "width": 378,
+            "height": 48
+          },
+          {
+            "kind": "hud",
+            "left": 465,
+            "top": 75,
+            "right": 577,
+            "bottom": 83,
+            "width": 112,
+            "height": 8
+          },
+          {
+            "kind": "hud",
+            "left": 288.6640625,
+            "top": 91,
+            "right": 555.3359375,
+            "bottom": 106,
+            "width": 266.671875,
+            "height": 15
+          },
+          {
+            "kind": "control",
+            "left": 8,
+            "top": 272,
+            "right": 120,
+            "bottom": 384,
+            "width": 112,
+            "height": 112
+          },
+          {
+            "kind": "control",
+            "left": 722,
+            "top": 330,
+            "right": 776,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 738,
+            "top": 363,
+            "right": 760,
+            "bottom": 375,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 662,
+            "top": 330,
+            "right": 716,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 330,
+            "right": 596,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 602,
+            "top": 330,
+            "right": 656,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 782,
+            "top": 330,
+            "right": 836,
+            "bottom": 384,
+            "width": 54,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 294,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 542,
+            "top": 270,
+            "right": 636,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 642,
+            "top": 270,
+            "right": 736,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          },
+          {
+            "kind": "control",
+            "left": 742,
+            "top": 270,
+            "right": 836,
+            "bottom": 324,
+            "width": 94,
+            "height": 54
+          }
+        ],
+        "hudBottom": 106,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 270,
+          "left": 128,
+          "right": 534,
+          "bottom": 382
+        }
+      }
+    },
+    "desktop-1366x768-vs": {
+      "frame": {
+        "width": 1366,
+        "height": 768,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "false",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "landscape",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1366,
+          "bottom": 768,
+          "width": 1366,
+          "height": 768
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 1354,
+            "bottom": 44,
+            "width": 1342,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 647,
+            "bottom": 112,
+            "width": 639,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 653,
+            "top": 48,
+            "right": 713,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 719,
+            "top": 48,
+            "right": 1358,
+            "bottom": 112,
+            "width": 639,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 678,
+            "top": 115,
+            "right": 688,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 520,
+            "top": 682,
+            "right": 584,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 541,
+            "top": 713,
+            "right": 563,
+            "bottom": 725,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 448,
+            "top": 682,
+            "right": 512,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 22,
+            "top": 682,
+            "right": 86,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 92,
+            "top": 682,
+            "right": 156,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 162,
+            "top": 682,
+            "right": 226,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 232,
+            "top": 682,
+            "right": 296,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 304,
+            "top": 682,
+            "right": 368,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 376,
+            "top": 682,
+            "right": 440,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 592,
+            "top": 682,
+            "right": 656,
+            "bottom": 746,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 682,
+            "right": 1344,
+            "bottom": 746,
+            "width": 680,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 682,
+            "right": 886.65625,
+            "bottom": 746,
+            "width": 222.65625,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 892.65625,
+            "top": 682,
+            "right": 1115.328125,
+            "bottom": 746,
+            "width": 222.671875,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1121.328125,
+            "top": 682,
+            "right": 1344,
+            "bottom": 746,
+            "width": 222.671875,
+            "height": 64
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 682,
+          "left": 94,
+          "right": 512,
+          "bottom": 760
+        }
+      }
+    },
+    "desktop-1440x900-vs": {
+      "frame": {
+        "width": 1440,
+        "height": 900,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "false",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "landscape",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1440,
+          "bottom": 900,
+          "width": 1440,
+          "height": 900
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 1428,
+            "bottom": 44,
+            "width": 1416,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 684,
+            "bottom": 112,
+            "width": 676,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 690,
+            "top": 48,
+            "right": 750,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 756,
+            "top": 48,
+            "right": 1432,
+            "bottom": 112,
+            "width": 676,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 715,
+            "top": 115,
+            "right": 725,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 520,
+            "top": 814,
+            "right": 584,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 541,
+            "top": 845,
+            "right": 563,
+            "bottom": 857,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 448,
+            "top": 814,
+            "right": 512,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 22,
+            "top": 814,
+            "right": 86,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 92,
+            "top": 814,
+            "right": 156,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 162,
+            "top": 814,
+            "right": 226,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 232,
+            "top": 814,
+            "right": 296,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 304,
+            "top": 814,
+            "right": 368,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 376,
+            "top": 814,
+            "right": 440,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 592,
+            "top": 814,
+            "right": 656,
+            "bottom": 878,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 814,
+            "right": 1418,
+            "bottom": 878,
+            "width": 754,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 814,
+            "right": 911.328125,
+            "bottom": 878,
+            "width": 247.328125,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 917.328125,
+            "top": 814,
+            "right": 1164.65625,
+            "bottom": 878,
+            "width": 247.328125,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1170.65625,
+            "top": 814,
+            "right": 1417.984375,
+            "bottom": 878,
+            "width": 247.328125,
+            "height": 64
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 814,
+          "left": 94,
+          "right": 512,
+          "bottom": 892
+        }
+      }
+    },
+    "desktop-1920x1080-vs": {
+      "frame": {
+        "width": 1920,
+        "height": 1080,
+        "rotation": 0,
+        "fullBleed": false,
+        "safeTop": 0,
+        "safeRight": 0,
+        "safeBottom": 0,
+        "safeLeft": 0
+      },
+      "dataset": {
+        "titleOpen": "false",
+        "viewportReady": "true",
+        "viewportEpoch": "1",
+        "viewportStatus": "ready",
+        "viewportReason": "",
+        "fullBleed": "false",
+        "touch": "false",
+        "nativeLandscape": "false",
+        "overlayControls": "false",
+        "layout": "landscape",
+        "compact": "false",
+        "rotation": "0",
+        "testMode": "false",
+        "challengeLayout": "true",
+        "landscapePreview": "false",
+        "matchFinish": "false",
+        "gameMode": "battle",
+        "depthRoute": "false"
+      },
+      "cameraSafety": {
+        "safeRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "occlusions": [
+          {
+            "kind": "toolbar",
+            "left": 12,
+            "top": 6,
+            "right": 1908,
+            "bottom": 44,
+            "width": 1896,
+            "height": 38
+          },
+          {
+            "kind": "hud",
+            "left": 8,
+            "top": 48,
+            "right": 924,
+            "bottom": 112,
+            "width": 916,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 930,
+            "top": 48,
+            "right": 990,
+            "bottom": 112,
+            "width": 60,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 996,
+            "top": 48,
+            "right": 1912,
+            "bottom": 112,
+            "width": 916,
+            "height": 64
+          },
+          {
+            "kind": "hud",
+            "left": 955,
+            "top": 115,
+            "right": 965,
+            "bottom": 117,
+            "width": 10,
+            "height": 2
+          },
+          {
+            "kind": "control",
+            "left": 520,
+            "top": 994,
+            "right": 584,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 541,
+            "top": 1025,
+            "right": 563,
+            "bottom": 1037,
+            "width": 22,
+            "height": 12
+          },
+          {
+            "kind": "control",
+            "left": 448,
+            "top": 994,
+            "right": 512,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 22,
+            "top": 994,
+            "right": 86,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 92,
+            "top": 994,
+            "right": 156,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 162,
+            "top": 994,
+            "right": 226,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 232,
+            "top": 994,
+            "right": 296,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 304,
+            "top": 994,
+            "right": 368,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 376,
+            "top": 994,
+            "right": 440,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 592,
+            "top": 994,
+            "right": 656,
+            "bottom": 1058,
+            "width": 64,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 994,
+            "right": 1898,
+            "bottom": 1058,
+            "width": 1234,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 664,
+            "top": 994,
+            "right": 1071.328125,
+            "bottom": 1058,
+            "width": 407.328125,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1077.328125,
+            "top": 994,
+            "right": 1484.65625,
+            "bottom": 1058,
+            "width": 407.328125,
+            "height": 64
+          },
+          {
+            "kind": "control",
+            "left": 1490.65625,
+            "top": 994,
+            "right": 1898,
+            "bottom": 1058,
+            "width": 407.34375,
+            "height": 64
+          }
+        ],
+        "hudBottom": 117,
+        "safe": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lowerLane": {
+          "top": 994,
+          "left": 592,
+          "right": 1069.328125,
+          "bottom": 1072
+        }
+      }
+    }
+  }
+}

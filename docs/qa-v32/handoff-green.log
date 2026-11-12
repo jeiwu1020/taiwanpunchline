@@ -1,0 +1,20 @@
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (2.139811ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.531961ms)
+✔ camera labels explain both persisted modes and dialog uses logical layout for the full-screen gallery (0.389532ms)
+✔ scene mounting releases the early viewport listeners before owning layout changes (0.278349ms)
+✔ short landscape galleries use compact chrome above the old 360px cutoff (0.337456ms)
+✔ stale visualViewport orientation cannot strand a returned portrait phone in landscape (3.456985ms)
+✔ viewport invalidation releases pointers immediately and only resumes after stable geometry (0.668721ms)
+✔ late safe-area and viewport changes are sampled after the first orientation frame (0.489839ms)
+✔ offset-only browser movement clears held input and updates shell and dialog together (0.38867ms)
+✔ root scroll is restored on orientation while inner settings scroll is not touched (0.459324ms)
+✔ valid zoomed viewport is not mistaken for stale orientation (0.349854ms)
+✔ boot-to-mounted handoff resamples late viewport changes before accepting input (0.607051ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.45173

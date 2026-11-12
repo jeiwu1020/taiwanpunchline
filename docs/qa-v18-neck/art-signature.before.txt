@@ -1,0 +1,46 @@
+// Generated gesture sprites. Side labels describe the unmirrored character's anatomy.
+const HANDS={
+ 'open-right':{r:[0,0,512,440],anchor:[252,387],scale:.092},
+ 'open-left':{r:[512,0,512,440],anchor:[256,388],scale:.092},
+ beckon:{r:[1024,0,512,430],anchor:[269,370],scale:.095},
+ point:{r:[0,512,512,440],anchor:[258,373],scale:.086},
+ plane:{r:[1024,512,512,440],anchor:[133,371],scale:.087},
+};
+export function isSignatureHand(name){return !!HANDS[name]||name==='cough';}
+export function drawSignatureHand(ctx,images,name,arm,angle=0){
+ const im=images['signature-hands'];if(!im)return false;
+ if(name==='cough'){
+  const sourceA={x:80,y:452},sourceB={x:282,y:193},r=[512,512,512,512],scale=Math.hypot(arm.wrist.x-arm.elbow.x,arm.wrist.y-arm.elbow.y)/Math.hypot(sourceB.x-sourceA.x,sourceB.y-sourceA.y);
+  ctx.save();ctx.translate(arm.elbow.x,arm.elbow.y);ctx.rotate(Math.atan2(arm.wrist.y-arm.elbow.y,arm.wrist.x-arm.elbow.x)-Math.atan2(sourceB.y-sourceA.y,sourceB.x-sourceA.x));ctx.scale(scale,scale);ctx.drawImage(im,...r,-sourceA.x,-sourceA.y,512,512);ctx.restore();return true;
+ }
+ const h=HANDS[name];if(!h)return false;
+ ctx.save();ctx.translate(arm.wrist.x,arm.wrist.y);ctx.rotate(angle);ctx.scale(h.scale,h.scale);ctx.drawImage(im,...h.r,-h.anchor[0],-h.anchor[1],h.r[2],h.r[3]);ctx.restore();return true;
+}
+export function kneePresentation(age){
+ const ease=v=>{v=Math.max(0,Math.min(1,v));return v*v*(3-2*v)};
+ const blend=age>=.12&&age<.98?1:0;
+ const crouch=.55*ease(age/.12)*(1-ease((age-.98)/.10));
+ const transition=ease(age/.12)*(1-ease((age-.98)/.10));
+ return {blend,crouch,transition,shout:age>.60&&age<.78};
+}
+export function drawKneeArt(ctx,images,age){
+ const im=images['han-lotus-body'];if(!im)return false;const p=kneePresentation(age);if(p.blend===0)return true;
+ const scale=122/599,origin={x:371,y:703},neck={x:(375-371)*scale,y:-122};
+ const halfKnee=62*scale,balance=lotusBalance(age,{left:{x:-halfKnee,y:0},right:{x:halfKnee,y:0}});
+ ctx.save();ctx.translate(0,balance.groundY);ctx.rotate(balance.angle);
+ ctx.drawImage(im,-origin.x*scale,-origin.y*scale,768*scale,768*scale);
+ ctx.translate(neck.x,neck.y);ctx.rotate(-balance.angle*.65+(p.shout?-.025:0));
+ const face=p.shout?images['han-shout']:images['han-head'];
+ if(face)ctx.drawImage(face,-54.5,-114,109,120);
+ ctx.restore();return true;
+}
+
+// A single folded-leg shape rolls between its measured knee contact points.
+// This is cartoon balance, not a biomechanical reconstruction of filmed motion.
+export function lotusBalance(age,anchors){
+ const u=Math.max(0,Math.min(1,(age-.18)/.42));
+ const angle=u>0&&u<1?Math.sin(u*Math.PI*2)*Math.sin(u*Math.PI)*.18:0;
+ const rotate=p=>({x:p.x*Math.cos(angle)-p.y*Math.sin(angle),y:p.x*Math.sin(angle)+p.y*Math.cos(angle)});
+ const left=rotate(anchors.left),right=rotate(anchors.right),groundY=-Math.max(left.y,right.y)||0;
+ return {angle,groundY,support:left.y>=right.y?'left':'right',knees:{left:{x:left.x,y:left.y+groundY},right:{x:right.x,y:right.y+groundY}}};
+}

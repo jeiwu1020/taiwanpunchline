@@ -1,0 +1,23 @@
+✔ full-stage canvas remains the same absolute layer through portrait pause and resume (7954.399836ms)
+✔ timer has a measured-width-safe four-character budget and no viewport-sized percentage override (995.037381ms)
+✔ pause preserves the scene with a light blur rather than an opaque replacement (95.370037ms)
+✔ stage camera keeps fighters between HUD and controls at jump apex and wide separation (2.80637ms)
+✔ page fallback cancels repeated pointer-game-control taps but retains native menu clicks (13.128068ms)
+✔ depth route uses shared full-stage safe space while retaining legacy callers (30.868204ms)
+✔ pause freezes an in-flight camera ease until resume (8.159097ms)
+✔ challenge arena paints the entire visible rectangle beyond former fixed backdrop bounds (28.096388ms)
+✔ portrait #pause-screen fills the cabinet without a reserved control row and restores controls on dismiss (6823.108776ms)
+✔ portrait #result fills the cabinet without a reserved control row and restores controls on dismiss (2727.183908ms)
+✔ portrait #home-confirm fills the cabinet without a reserved control row and restores controls on dismiss (1834.568857ms)
+✔ portrait #menu fills the cabinet without a reserved control row and restores controls on dismiss (2861.663148ms)
+✔ portrait nested retry/home cancellation keeps the full pause surface until resume (154.436784ms)
+✔ hidden restart button stays hidden despite the menu-action display rule (215.993134ms)
+✔ portrait overlay repair does not change wide layout geometry (409.071295ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 16476.73636

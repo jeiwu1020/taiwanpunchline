@@ -1,0 +1,37 @@
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (4.680639ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (2.508657ms)
+✔ upright and desktop save stage space without eliminating required controls (0.578741ms)
+✔ short desktop keeps move cards horizontal despite inherited landscape styles (0.285149ms)
+✔ historical sources and version notes remain byte-identical to V29 (0.981592ms)
+✖ upright status gets its own row so armor cannot wrap the guard label over HP (1.411154ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.137476
+
+✖ failing tests:
+
+test at tests/compact-fight-v30.test.mjs:33:1
+✖ upright status gets its own row so armor cannot wrap the guard label over HP (1.411154ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  undefined !== '4'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/compact-fight-v30.test.mjs:33:97)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: '4',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

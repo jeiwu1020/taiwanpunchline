@@ -1,0 +1,145 @@
+✔ formal mode unchanged: wang/wang (100.376171ms)
+✔ formal mode unchanged: wang/han (49.850324ms)
+✔ formal mode unchanged: wang/ma (64.835364ms)
+✔ formal mode unchanged: wang/su (33.706271ms)
+✔ formal mode unchanged: wang/huang (49.442198ms)
+✔ formal mode unchanged: wang/chen (59.473761ms)
+✔ formal mode unchanged: wang/ko (72.000727ms)
+✔ formal mode unchanged: han/wang (36.266245ms)
+✔ formal mode unchanged: han/han (38.423946ms)
+✔ formal mode unchanged: han/ma (35.538054ms)
+✔ formal mode unchanged: han/su (40.538464ms)
+✔ formal mode unchanged: han/huang (35.509972ms)
+✔ formal mode unchanged: han/chen (29.12773ms)
+✔ formal mode unchanged: han/ko (46.976769ms)
+✔ formal mode unchanged: ma/wang (29.856421ms)
+✔ formal mode unchanged: ma/han (25.456644ms)
+✔ formal mode unchanged: ma/ma (20.543871ms)
+✔ formal mode unchanged: ma/su (36.031469ms)
+✔ formal mode unchanged: ma/huang (19.131465ms)
+✔ formal mode unchanged: ma/chen (30.041063ms)
+✔ formal mode unchanged: ma/ko (21.530582ms)
+✔ formal mode unchanged: su/wang (70.032012ms)
+✔ formal mode unchanged: su/han (36.621236ms)
+✔ formal mode unchanged: su/ma (22.792577ms)
+✔ formal mode unchanged: su/su (17.764174ms)
+✔ formal mode unchanged: su/huang (22.238964ms)
+✔ formal mode unchanged: su/chen (31.747481ms)
+✔ formal mode unchanged: su/ko (35.763465ms)
+✔ formal mode unchanged: huang/wang (21.089604ms)
+✔ formal mode unchanged: huang/han (16.624339ms)
+✔ formal mode unchanged: huang/ma (15.028272ms)
+✔ formal mode unchanged: huang/su (35.968597ms)
+✔ formal mode unchanged: huang/huang (18.520246ms)
+✔ formal mode unchanged: huang/chen (21.805125ms)
+✔ formal mode unchanged: huang/ko (25.217782ms)
+✔ formal mode unchanged: chen/wang (17.011268ms)
+✔ formal mode unchanged: chen/han (39.129223ms)
+✔ formal mode unchanged: chen/ma (33.092768ms)
+✔ formal mode unchanged: chen/su (45.178727ms)
+✔ formal mode unchanged: chen/huang (24.877221ms)
+✔ formal mode unchanged: chen/chen (29.550451ms)
+✔ formal mode unchanged: chen/ko (15.942716ms)
+✔ formal mode unchanged: ko/wang (17.596198ms)
+✔ formal mode unchanged: ko/han (10.793206ms)
+✔ formal mode unchanged: ko/ma (15.31855ms)
+✔ formal mode unchanged: ko/su (12.494598ms)
+✔ formal mode unchanged: ko/huang (14.827869ms)
+✔ formal mode unchanged: ko/chen (13.632811ms)
+✔ formal mode unchanged: ko/ko (120.793306ms)
+✖ warm-up failed escape chance is sampled once per received hit, not every frame (9.140047ms)
+✔ warm-up successful hit escape is not selected again during the same stun (0.672989ms)
+✖ warm-up gets 0.55 to 0.80 seconds after an action and does not chase during breathing (1.614773ms)
+✖ Chen question copy describes high/low attacks without pretending there are two voice lines (0.478513ms)
+✖ drinking uses the exact supplied file with honest source uncertainty (5.320181ms)
+ℹ tests 54
+ℹ suites 0
+ℹ pass 50
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2049.379221
+
+✖ failing tests:
+
+test at tests/warmup-audio-v25.test.mjs:12:1
+✖ warm-up failed escape chance is sampled once per received hit, not every frame (9.140047ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  3 !== 1
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/warmup-audio-v25.test.mjs:15:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 3,
+    expected: 1,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at tests/warmup-audio-v25.test.mjs:22:1
+✖ warm-up gets 0.55 to 0.80 seconds after an action and does not chase during breathing (1.614773ms)
+  AssertionError [ERR_ASSERTION]: 0.33
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/warmup-audio-v25.test.mjs:25:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/warmup-audio-v25.test.mjs:30:1
+✖ Chen question copy describes high/low attacks without pretending there are two voice lines (0.478513ms)
+  AssertionError [ERR_ASSERTION]: The input was expected to not match the regular expression /第一問|第二問/. Input:
+  
+  '第一問高段5、第二問低段8 · 格擋兩段或看準跳蹲'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/warmup-audio-v25.test.mjs:31:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: '第一問高段5、第二問低段8 · 格擋兩段或看準跳蹲',
+    expected: /第一問|第二問/,
+    operator: 'doesNotMatch',
+    diff: 'simple'
+  }
+
+test at tests/warmup-audio-v25.test.mjs:35:1
+✖ drinking uses the exact supplied file with honest source uncertainty (5.320181ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(voice)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/warmup-audio-v25.test.mjs:36:43)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

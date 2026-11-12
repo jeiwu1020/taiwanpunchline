@@ -1,0 +1,20 @@
+// Appended to a temporary copy of game.mjs only. Explicit visible QA controls
+// use the production Duel and renderer. This file is excluded from deployment.
+let qaAI=false,qaFrozen=false;
+const qaPanel=document.createElement('div');qaPanel.id='qa-controls';qaPanel.style='position:fixed;right:8px;top:62px;z-index:50;background:#fff6dc;padding:8px;border:2px solid #16343c;max-height:175px;overflow:auto;width:160px;overflow-wrap:anywhere;font-size:10px;opacity:.92;font:12px sans-serif';
+qaPanel.innerHTML='<b>V19 驗收控制</b><p><button id="qa-drop">隨機掉落演示</button></p><p><button id="qa-pick">走近並自動撿起</button></p><p><button id="qa-throw">攻擊丟出</button></p><p><button id="qa-slow">慢招扛一次演示</button></p><p><button id="qa-live">回到正常對局</button></p><p><button id="qa-duck">持鴨蹲下畫面</button></p><p><button id="qa-mid">投擲中途畫面</button></p><p><button id="qa-pie">冷卻半圓畫面</button></p><p><button id="qa-hide">隱藏驗收控制</button></p><output id="qa-state">等待素材</output>';document.body.append(qaPanel);
+function qaFresh(type='wang',other='ma'){stopVoice();clearTimeout(countTimer);clearHold();selected=type;opponent=other;duel=new Duel(type,'normal',()=>.27,other);started=true;counting=false;duel.status='active';$$('.screen').forEach(e=>e.classList.add('hidden'));$('#countdown').classList.add('hidden');$('#pause').disabled=false;$('#pause').textContent='Ⅱ 暫停';syncRoster();setupMoves();scene.hudCache='';scene.guardCache='';scene.itemHudCopy='';qaAI=false;qaFrozen=false;}
+$('#qa-drop').onclick=()=>{qaFresh();duel.player.x=160;duel.enemy.x=800;for(let i=0;i<700&&!duel.items.length;i++)duel.step(.034,{},false,{});$('#game').focus();};
+$('#qa-pick').onclick=()=>{const item=duel.items.find(i=>i.state==='ground')||duel.items[0];if(!item)return;for(let i=0;i<1000&&!duel.player.item;i++)duel.step(.016,{right:duel.player.x<item.x,left:duel.player.x>item.x},false,{});$('#game').focus();};
+$('#qa-throw').onclick=()=>{if(!duel.player.item)return;duel.player.x=360;duel.enemy.x=650;duel.player.face=1;duel.player.guard=false;duel.press('punch');$('#game').focus();};
+$('#qa-slow').onclick=()=>{qaFresh('han','ma');duel.player.x=360;duel.enemy.x=460;duel.press('special2');for(let i=0;i<18;i++)duel.step(1/120,{},false,{});duel.request(duel.enemy,'punch');$('#game').focus();};
+$('#qa-live').onclick=()=>{qaFresh('han','ma');qaAI=true;$('#game').focus();};
+setInterval(()=>{$('#qa-state').textContent=JSON.stringify({time:duel.elapsed.toFixed(2),status:duel.status,items:(duel.items||[]).map(i=>({kind:i.kind,state:i.state,x:i.x})),held:duel.player.item,hp:duel.player.hp,attack:duel.player.attack?.kind,guard:duel.player.attack?.performanceGuardUsed});},150);
+
+$('#qa-duck').onclick=()=>{qaFresh();duel.player.x=360;duel.enemy.x=650;duel.player.item={id:'qa-duck',kind:'rubber_duck'};for(let i=0;i<30;i++)duel.step(1/120,{crouch:true},false,{});qaFrozen=true;};
+$('#qa-mid').onclick=()=>{qaFresh();duel.player.x=360;duel.enemy.x=650;duel.player.item={id:'qa-mid',kind:'rubber_duck'};duel.press('punch');for(let i=0;i<40;i++)duel.step(1/120,{},false,{});qaFrozen=true;};
+$('#qa-pie').onclick=()=>{qaFresh('han','su');duel.press('special1');for(let i=0;i<246;i++)duel.step(1/120,{},false,{});qaFrozen=true;};
+
+$('#qa-hide').onclick=()=>{qaPanel.style.display='none';};
+
+const qaMetrics=document.createElement('output');qaMetrics.id='qa-metrics';qaMetrics.style='position:fixed;bottom:1px;right:1px;background:#fffbddee;z-index:60;font:10px monospace;color:#123';document.body.append(qaMetrics);let qaLast=0,qaSamples=[];function qaMeasure(t){if(qaLast&&duel.status==='active'&&!qaFrozen){qaSamples.push(t-qaLast);if(qaSamples.length>300)qaSamples.shift();if(qaSamples.length%25===0){const sorted=[...qaSamples].sort((a,b)=>a-b);qaMetrics.textContent=JSON.stringify({frames:qaSamples.length,fps:(1000/(qaSamples.reduce((a,b)=>a+b,0)/qaSamples.length)).toFixed(1),p95ms:sorted[Math.floor(sorted.length*.95)].toFixed(1),sceneObjects:scene?.children.list.length,projectiles:duel.projectiles.length});}}qaLast=t;requestAnimationFrame(qaMeasure);}requestAnimationFrame(qaMeasure);

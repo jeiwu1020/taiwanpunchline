@@ -1,0 +1,8 @@
+Use case: stylized-concept.
+Asset type: a single opaque continuous sky-only background for a responsive hand-engraved old Taiwan street game. Landscape image, 1536 x 1024 pixels, 3:2 aspect ratio.
+
+Create an expansive tranquil sky filling every pixel, with delicate soft scattered clouds distributed across the whole width and height. Upper sky dusty muted lavender blending smoothly through dusty rose into warm pale peach and light golden cream in the lower sky. Match a nostalgic Taiwanese old comic illustration: very fine hand-engraved crosshatching, subtly weathered paper grain, beautifully drawn cloud contours, restrained warm ink color. Give clouds softly lit pale peach edges and dusty lavender shadows, with quiet airy gaps between them.
+
+Composition must work both full-width landscape and cropped to a narrow central portrait view: cloud detail in the central region too, no focal object, no flat empty bands, no borders. Keep contrast gentle so the game UI and street foreground can sit above it. Sky continues naturally to all four edges. The lower edge is still sky, not a horizon or ground.
+
+STRICT AVOID: no sun or glowing sun disk, no moon, no stars, no buildings, no mountains, no hills, no trees, no people, no ground, no water, no horizon line, no text, no lettering, no logo, no frame, no transparency. Entire image consists only of sky and clouds.

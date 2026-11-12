@@ -1,0 +1,44 @@
+/* One stable scene fills the available safe-area shell. HUD and controls never
+   reserve canvas rows, including while pause/result overlays are displayed. */
+#viewport-shell>.app[data-title-open="false"]{position:relative;display:block;max-width:none;margin:0;padding:0;gap:0}
+#viewport-shell .app[data-title-open="false"] .cabinet,
+#viewport-shell .app[data-title-open="false"] .stage-wrap,
+#viewport-shell .app[data-title-open="false"] #game{
+ position:absolute!important;inset:0;width:100%;height:100%;min-width:0;min-height:0;display:block;
+ grid-template-columns:none!important;grid-template-rows:none!important;border:0;border-radius:0;
+}
+#viewport-shell .app[data-title-open="false"] header{
+ position:absolute;inset:6px 12px auto;z-index:6;height:38px;min-height:0;
+ background:transparent;pointer-events:none;filter:drop-shadow(0 1px 2px #102a32);
+}
+#viewport-shell .app[data-title-open="false"] header a,
+#viewport-shell .app[data-title-open="false"] header button{pointer-events:auto}
+#viewport-shell .app[data-title-open="false"] .under{display:none}
+#viewport-shell .app[data-title-open="false"] .dom-hud{
+ position:absolute;inset:48px 8px auto;display:grid;height:64px;
+ grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);grid-template-rows:minmax(0,1fr);
+ padding:0;gap:6px;background:transparent;pointer-events:none;
+}
+#viewport-shell .app[data-title-open="false"] .dom-hud .timer{height:64px;min-width:0;overflow:hidden}
+#viewport-shell .app[data-title-open="false"] .dom-hud #timer{
+ font-family:ui-monospace,monospace;font-size:20px;line-height:24px;letter-spacing:-.5px;
+ display:block;max-width:100%;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+#viewport-shell .app[data-title-open="false"] .dom-hud #match-score{font-size:9px;line-height:12px;letter-spacing:0;white-space:normal}
+#viewport-shell .app[data-title-open="false"] .control-deck{
+ position:absolute;inset:auto 8px 6px;display:grid!important;border:0;background:transparent;box-shadow:none;
+ pointer-events:none;z-index:3;
+}
+#viewport-shell .app[data-title-open="false"] .control-deck button,
+#viewport-shell .app[data-title-open="false"] #touch-stick{pointer-events:auto;touch-action:none}
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) .control-deck{visibility:hidden;display:grid;pointer-events:none}
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) .control-deck button,
+#viewport-shell .app[data-title-open="false"] .cabinet:has(.screen:not(.hidden)) #touch-stick{pointer-events:none}
+#viewport-shell .app[data-title-open="false"] #pause-screen{background:#112a3226;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#viewport-shell .app[data-title-open="false"] .screen{padding-top:48px}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] header{inset:5px 8px auto;height:60px;align-content:center}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .dom-hud{top:70px}
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .screen{padding-top:70px}
+/* The 52px portrait controls retain their established arrangement. Only the
+   opaque dock disappears; empty cells pass through to the scene. */
+#viewport-shell .app[data-title-open="false"][data-touch="true"][data-layout="portrait"] .control-deck{left:0;right:0;height:188px}

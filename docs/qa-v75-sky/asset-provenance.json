@@ -1,0 +1,41 @@
+{
+  "assets": [
+    {
+      "kind": "facade",
+      "generator": "Built-in image_gen",
+      "original": "dist/assets/challenge/street-facade-v75-original.png",
+      "runtime": "dist/assets/challenge/street-facade-v75.webp",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGBA",
+      "alpha_range": [
+        0,
+        254
+      ],
+      "original_sha256": "c565eec30a683847c9d8432e2346e57082e6f04025c43a883634b37dc117f725",
+      "runtime_sha256": "f5ea52c1b1d851713feecfc4218acb3489fe2912dba3f623d9e23366b1e5b680",
+      "conversion": "Lossless WebP format conversion only; no retouching, alpha normalization, resize, or crop."
+    },
+    {
+      "kind": "sky",
+      "generator": "Built-in image_gen",
+      "original": "dist/assets/challenge/street-sky-v75-original.png",
+      "runtime": "dist/assets/challenge/street-sky-v75.webp",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "alpha_range": [
+        255,
+        255
+      ],
+      "original_sha256": "a88d5174c1b5050d3e9aef096c33635e6a08dd1083ea6df2c2ab0274661559fd",
+      "runtime_sha256": "e04c04bf3c4269d74c8e3317eb86fa0f9ea67350228bf69fd06bef99405e7f67",
+      "conversion": "Lossless WebP format conversion only; no retouching, alpha normalization, resize, or crop."
+    }
+  ],
+  "note": "First facade generation chosen by coordinator. Foreground alpha250\u2013254 retained unchanged. Original scene scale and curb715 preserved."
+}

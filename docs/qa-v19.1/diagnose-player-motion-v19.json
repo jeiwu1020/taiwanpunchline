@@ -1,0 +1,1145 @@
+{
+  "cases": 66,
+  "results": [
+    {
+      "case": "opening",
+      "type": "wang",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "wang",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "han",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "han",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "ma",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "ma",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "su",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "su",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "huang",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "huang",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "chen",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "chen",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "ko",
+      "ai": false,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "opening",
+      "type": "ko",
+      "ai": true,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "wang",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "wang",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "han",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "han",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "ma",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "ma",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "su",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "su",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "huang",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "huang",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "chen",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "chen",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "ko",
+      "ai": false,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "spawn_and_pickup",
+      "type": "ko",
+      "ai": true,
+      "spawn": [
+        {
+          "x": 560,
+          "state": "falling"
+        }
+      ],
+      "world": 260,
+      "move": 0,
+      "held": {
+        "id": "test-near-player",
+        "kind": "paper"
+      },
+      "worldChanges": 0
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "wang",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "wang",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "han",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "han",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "ma",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "ma",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "su",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "su",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "huang",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "huang",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "chen",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "chen",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "ko",
+      "ai": false,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "ordinary_attack_and_end",
+      "type": "ko",
+      "ai": true,
+      "world": 260,
+      "worldChanges": 0,
+      "attack": null
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "wang",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "han",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "ma",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "su",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "huang",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "chen",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_no_ai",
+      "type": "ko",
+      "status": "active",
+      "world": 260,
+      "worldChanges": 0,
+      "itemSpawns": 4
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "wang",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "han",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "ma",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "su",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "huang",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "chen",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "full_round_with_ai",
+      "type": "ko",
+      "status": "over",
+      "world": 68,
+      "worldChanges": 25,
+      "firstWorldChanges": [
+        {
+          "time": 2.3417,
+          "from": 260,
+          "to": 212,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 2.45,
+          "from": 212,
+          "to": 152,
+          "move": 0,
+          "enemyAttack": "han_knee",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        },
+        {
+          "time": 3.5417,
+          "from": 152,
+          "to": 124,
+          "move": 0,
+          "enemyAttack": "coin",
+          "stack": "    at Duel.moveFighter (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:97:57) |     at Duel.applyDamage (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:300:16) |     at Duel.resolveHit (file:///workspace/scratch/1a1351aee944/parliament-art-spike/dist/core.mjs:260:15)"
+        }
+      ],
+      "itemSpawns": 0
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "wang",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "han",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "ma",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "su",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "huang",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "chen",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "ai_seeks_item",
+      "type": "ko",
+      "world": 260,
+      "move": 0,
+      "enemy": 582.7916666666691,
+      "aiInput": {
+        "left": false,
+        "right": true
+      },
+      "input": {
+        "left": false,
+        "right": false
+      }
+    },
+    {
+      "case": "visual_projection",
+      "w": 960,
+      "h": 540,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 233.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 343.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "screenAdvance": 109.75999999999812,
+      "worldAdvance": 0
+    },
+    {
+      "case": "visual_projection",
+      "w": 370,
+      "h": 570,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 80.02857142857142,
+        "cam": 480,
+        "zoom": 0.47714285714285715,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 104.15079365079306,
+        "cam": 382.0000000000017,
+        "zoom": 0.6626984126984082,
+        "backgroundX": 382.0000000000017
+      },
+      "screenAdvance": 24.122222222221637,
+      "worldAdvance": 0
+    },
+    {
+      "case": "visual_projection",
+      "w": 1180,
+      "h": 550,
+      "start": {
+        "world": 260,
+        "enemy": 700,
+        "screen": 343.59999999999997,
+        "cam": 480,
+        "zoom": 1.12,
+        "backgroundX": 480
+      },
+      "end": {
+        "world": 260,
+        "enemy": 504.0000000000034,
+        "screen": 453.3599999999981,
+        "cam": 382.0000000000017,
+        "zoom": 1.12,
+        "backgroundX": 382.0000000000017
+      },
+      "screenAdvance": 109.75999999999812,
+      "worldAdvance": 0
+    }
+  ]
+}

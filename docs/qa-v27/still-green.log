@@ -1,0 +1,13 @@
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (5.377573ms)
+✔ switching tab, character, close or stop cancels previews without starting another (1.824771ms)
+✔ reset needs confirmation and cancel changes nothing (0.672769ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.994291ms)
+✔ changing character updates the still illustration without playing audio (0.687921ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 123.235659

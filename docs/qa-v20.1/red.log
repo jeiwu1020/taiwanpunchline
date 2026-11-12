@@ -1,0 +1,69 @@
+✔ twenty supported slots are playable, without promoting supplied sources to authenticated originals (3.864831ms)
+✔ nine Drive clips preserve source ranges, reference links and review uncertainty (0.327573ms)
+✔ user-selected Su recording cuts are playable with supplied provenance (0.220362ms)
+✔ new audio integration refuses unresolved slots instead of synthesizing speech (0.422125ms)
+✔ catalog source is separate from authentication and requested trims are explicit (0.243377ms)
+✔ preview menu exactly matches every available move with no unresolved option (1.197363ms)
+✔ guide has no stale unresolved-Su state or undefined captions (0.648937ms)
+✔ new uploaded Su shout is immediate, labeled and included in the preview menu (0.395485ms)
+✔ handshake uses the complete uploaded phrase without claiming speaker authentication (0.425721ms)
+✔ uploaded Chen dream phrase is immediate and retains source uncertainty (0.373933ms)
+✖ Chen dream revised lead is tighter without cutting into the first detected onset (6.086917ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 10
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.098732
+
+✖ failing tests:
+
+test at tests/voice-slots.test.mjs:17:1
+✖ Chen dream revised lead is tighter without cutting into the first detected onset (6.086917ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(v.sourceRange.start>7.04)
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/voice-slots.test.mjs:17:137)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+✖ tighter Chen recording decodes continuously to its full declared range (303.644569ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 619.869932
+
+✖ failing tests:
+
+test at tests/chen-voice-lead-v201.test.mjs:6:1
+✖ tighter Chen recording decodes continuously to its full declared range (303.644569ms)
+  AssertionError [ERR_ASSERTION]: speech should begin within 20 ms
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/chen-voice-lead-v201.test.mjs:18:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.start (node:internal/test_runner/test:1262:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

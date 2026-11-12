@@ -1,0 +1,901 @@
+{
+  "passed": 112,
+  "results": [
+    {
+      "player": "wang",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "wang",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "han",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ma",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "su",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "huang",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "chen",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "wang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "wang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "han",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "han",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "ma",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "ma",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "su",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "su",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "huang",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "huang",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "chen",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "chen",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "ko",
+      "difficulty": "easy",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "player": "ko",
+      "enemy": "ko",
+      "difficulty": "normal",
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 504.0000000000034
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "wang",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "wang",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "han",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "han",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "ma",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "ma",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "su",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "su",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "huang",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "huang",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "chen",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "chen",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "ko",
+      "itemX": 400,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.54166666666896
+    },
+    {
+      "case": "AI pickup without player input",
+      "player": "ko",
+      "itemX": 850,
+      "playerX": 260,
+      "playerMove": 0,
+      "enemyX": 383.8333333333399
+    }
+  ]
+}

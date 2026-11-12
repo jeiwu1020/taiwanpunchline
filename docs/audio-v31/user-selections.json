@@ -1,0 +1,29 @@
+{
+  "messageId": "Sentinel_326d31f2bb848191bfbcb52daa258aa2",
+  "targetDb": -20,
+  "fadeMs": 5,
+  "endExclusive": true,
+  "pending": [{"slot":"ko_name","reason":"User replaced the source; await a new range. Keep game V30 byte-for-byte."}],
+  "selections": [
+    {"slot":"coin","sourceId":"coin-current","start":0.090,"end":1.034},
+    {"slot":"ma_cough","sourceId":"ma_cough-current","start":0.130,"end":6.767},
+    {"slot":"han_knee","sourceId":"han_knee-current","start":0.000,"end":0.567},
+    {"slot":"rush","sourceId":"rush-original","start":15.640,"end":18.020},
+    {"slot":"counter","sourceId":"counter-original","start":10.014,"end":12.995},
+    {"slot":"huang_shout","sourceId":"huang_shout-current","start":0.037,"end":1.350},
+    {"slot":"huang_debt","sourceId":"huang_debt-current","start":0.000,"end":1.152},
+    {"slot":"huang_queue","sourceId":"huang_queue-current","start":0.000,"end":1.980},
+    {"slot":"su_dare","sourceId":"su_dare-original","start":0.171,"end":1.049},
+    {"slot":"chen_calm","sourceId":"chen_calm-original","start":7.621,"end":8.880},
+    {"slot":"ko_bags","sourceId":"ko_bags-original","start":6.550,"end":7.840},
+    {"slot":"ko_resolve","sourceId":"ko_resolve-original","start":11.512,"end":13.350},
+    {"slot":"chen_question","sourceId":"chen_question-original","start":8.150,"end":9.550},
+    {"slot":"ma_gaze","sourceId":"ma_gaze-original","start":5.108,"end":6.270},
+    {"slot":"arrow","sourceId":"arrow-original","start":8.179,"end":9.900},
+    {"slot":"su_shout","sourceId":"su_shout-original","start":4.826,"end":6.340},
+    {"slot":"su_rush","sourceId":"su_rush-original","start":12.533,"end":14.900},
+    {"slot":"ma_handshake","sourceId":"ma_handshake-original","start":8.963,"end":11.608},
+    {"slot":"chen_dream","sourceId":"chen_dream-original","start":7.760,"end":9.620},
+    {"slot":"heal","sourceId":"heal-current","start":0.115,"end":2.099}
+  ]
+}

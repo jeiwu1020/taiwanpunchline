@@ -1,0 +1,13 @@
+# V9: move expressions and authored accents
+
+The V8 audit found Wang had three active heads, Han two, and the five newer characters only one each. All 21 specials had motion, but many newer moves reused the same pose formula, sound-wave arcs and text card. V9 adds a presentation map and twelve generated expression heads while retaining every approved idle portrait.
+
+Each character's three specials now select three distinct expression keys. New expressions cover Han shouting/aiming, Ma running/counter smile, Su shouting/slam grimace, Huang shouting/pursed-lip pursuit, Chen speaking/focused step, and Ko sweep grimace/questioning counter. Su rush, Huang folder, Chen counter and Ko bags intentionally retain their recognizable default expression. Reaction faces are additionally available for Su, Huang, Chen and Ko; Ma still keeps his base face when hit. There are no newly claimed real voice recordings.
+
+The new generated six-cell atlas contains a stopwatch, microphone stand, red binder, green speech balloon, question burst and dust/footprints. Ma has a generated sweatband as part of the running head. These supplement, rather than replace, the already validated hand-cup, bow, handshake hand, desk, folder, paper and double-bag artwork. Barehand moves are not forced to hold an unrelated item. Decorative effects do not change reach or collision.
+
+Motion changes: Ma has a regular jogging cadence; Su uses a lower, heavier stomp; Huang keeps his folder-side hand steadier during pursuit. Folder combo changes hand height and tilt between strikes. The desk receives a small post-impact shake. The question mark is counter-mirrored to remain readable when the fighter faces left.
+
+All new images were produced with the built-in image generator from existing approved caricatures. Original 1254px PNGs and initial lossless validation are recorded in the accompanying expression JSONs. For runtime delivery, the twelve head textures are compiled from those original PNGs to 512×512 WebP at quality 88 with ImageMagick; no facial drawing, recoloring or composition changes are made. The six-cell atlas retains 1536×1024 and quality 88. This texture optimization is not lossless: originals remain available, while final dimensions, hashes and sizes are in runtime-textures-v9.json. Initial worker provenance describes the originals, not the optimized runtime files. Defaults, bodies and grip art remain unchanged.
+
+The work stays in the existing owner-only Site. No GitHub main branch, combat rules, damage, cooldown, hurtbox, audio asset or ownership permission is changed. Public reference access and generated art do not establish original audio reuse rights.

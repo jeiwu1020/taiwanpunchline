@@ -1,0 +1,170 @@
+[
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "pose": "stand",
+    "zoom": 0.415,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 3,
+    "skyRefreshes": 1,
+    "image": "street-844x390-stand.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "pose": "jump",
+    "zoom": 0.20737039350405997,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 4,
+    "skyRefreshes": 1,
+    "image": "street-844x390-jump.png"
+  },
+  {
+    "viewport": [
+      844,
+      390
+    ],
+    "pose": "land",
+    "zoom": 0.415,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 3,
+    "skyRefreshes": 1,
+    "image": "street-844x390-land.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "pose": "stand",
+    "zoom": 0.7090909090909091,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-390x844-stand.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "pose": "jump",
+    "zoom": 0.5821361648969394,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-390x844-jump.png"
+  },
+  {
+    "viewport": [
+      390,
+      844
+    ],
+    "pose": "land",
+    "zoom": 0.7090909090909091,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-390x844-land.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "pose": "stand",
+    "zoom": 0.475,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-320x568-stand.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "pose": "jump",
+    "zoom": 0.23735165521549031,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-320x568-jump.png"
+  },
+  {
+    "viewport": [
+      320,
+      568
+    ],
+    "pose": "land",
+    "zoom": 0.475,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-320x568-land.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "pose": "stand",
+    "zoom": 1.2190476190476192,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-1280x800-stand.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "pose": "jump",
+    "zoom": 0.7420362273579013,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-1280x800-jump.png"
+  },
+  {
+    "viewport": [
+      1280,
+      800
+    ],
+    "pose": "land",
+    "zoom": 1.2190476190476192,
+    "minAlpha": 255,
+    "badPixels": 0,
+    "skyLayers": 1,
+    "facadeTiles": 2,
+    "skyRefreshes": 1,
+    "image": "street-1280x800-land.png"
+  }
+]

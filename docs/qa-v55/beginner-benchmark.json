@@ -1,0 +1,237 @@
+{
+  "description": "Deterministic limited-input scripts, not human/child playtesting. All seven player characters and all seven enemies; three scripts; four seeds. Same health, damage and legal combat for every difficulty.",
+  "runs": [
+    {
+      "assists": false,
+      "summary": {
+        "beginner": {
+          "received": 23858,
+          "dealt": 60236,
+          "wins": 588,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 7744.466666666828,
+          "byScript": {
+            "jab": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 40.57,
+          "meanDamageDealt": 102.44,
+          "winRate": 1,
+          "meanElapsed": 13.17
+        },
+        "easy": {
+          "received": 55212,
+          "dealt": 41013,
+          "wins": 168,
+          "draws": 1,
+          "losses": 419,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 9522.18333333348,
+          "byScript": {
+            "jab": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 168,
+              "draws": 1,
+              "losses": 27,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 93.9,
+          "meanDamageDealt": 69.75,
+          "winRate": 0.286,
+          "meanElapsed": 16.19
+        },
+        "normal": {
+          "received": 60080,
+          "dealt": 28146,
+          "wins": 18,
+          "draws": 0,
+          "losses": 570,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 7155.383333333426,
+          "byScript": {
+            "jab": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 18,
+              "draws": 0,
+              "losses": 178,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 102.18,
+          "meanDamageDealt": 47.87,
+          "winRate": 0.031,
+          "meanElapsed": 12.17
+        }
+      }
+    },
+    {
+      "assists": true,
+      "summary": {
+        "beginner": {
+          "received": 30915,
+          "dealt": 60130,
+          "wins": 588,
+          "draws": 0,
+          "losses": 0,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 7347.350000000109,
+          "byScript": {
+            "jab": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 196,
+              "draws": 0,
+              "losses": 0,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 52.58,
+          "meanDamageDealt": 102.26,
+          "winRate": 1,
+          "meanElapsed": 12.5
+        },
+        "easy": {
+          "received": 56501,
+          "dealt": 39846,
+          "wins": 147,
+          "draws": 0,
+          "losses": 441,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 8982.000000000153,
+          "byScript": {
+            "jab": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 147,
+              "draws": 0,
+              "losses": 49,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 96.09,
+          "meanDamageDealt": 67.77,
+          "winRate": 0.25,
+          "meanElapsed": 15.28
+        },
+        "normal": {
+          "received": 60191,
+          "dealt": 29012,
+          "wins": 20,
+          "draws": 0,
+          "losses": 568,
+          "unfinished": 0,
+          "count": 588,
+          "elapsed": 7055.683333333419,
+          "byScript": {
+            "jab": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            },
+            "mash": {
+              "wins": 20,
+              "draws": 0,
+              "losses": 176,
+              "unfinished": 0,
+              "count": 196
+            },
+            "guard": {
+              "wins": 0,
+              "draws": 0,
+              "losses": 196,
+              "unfinished": 0,
+              "count": 196
+            }
+          },
+          "meanDamageReceived": 102.37,
+          "meanDamageDealt": 49.34,
+          "winRate": 0.034,
+          "meanElapsed": 12
+        }
+      }
+    }
+  ]
+}

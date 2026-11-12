@@ -1,0 +1,10 @@
+✔ voice level independently scales both existing actor lanes and preview (1.665429ms)
+✔ voice multiplier clamps invalid input without changing established base balance (0.425265ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 162.24649

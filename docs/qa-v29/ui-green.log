@@ -1,0 +1,17 @@
+✔ move workspace opens details as a separate layer and never scrolls the main actions on play (3.110398ms)
+✔ audio page offers all21 voice selections without native dropdowns (3.34381ms)
+✔ audio page explains mute and failed effect attempts (0.889163ms)
+✔ HTML contains one-screen workspace and isolated accessible detail layer (0.714748ms)
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (8.357087ms)
+✔ switching tab, character, close or stop cancels previews without starting another (0.910634ms)
+✔ reset needs confirmation and cancel changes nothing (0.575684ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.528484ms)
+✔ changing character updates the still illustration without playing audio (0.480804ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 148.678325

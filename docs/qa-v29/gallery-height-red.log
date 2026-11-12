@@ -1,0 +1,36 @@
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (1.378026ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.414059ms)
+✔ camera labels explain both persisted modes and dialog uses logical layout for the full-screen gallery (0.322514ms)
+✔ scene mounting releases the early viewport listeners before owning layout changes (0.226173ms)
+✖ short landscape galleries use compact chrome above the old 360px cutoff (0.980601ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 176.833006
+
+✖ failing tests:
+
+test at tests/settings-viewport-v27.test.mjs:15:1
+✖ short landscape galleries use compact chrome above the old 360px cutoff (0.980601ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  'false' !== 'true'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/settings-viewport-v27.test.mjs:15:206)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'false',
+    expected: 'true',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,181 @@
+{
+  "method": "ffmpeg float32 native sample peak and 192 kHz resampled approximate inter-sample peak; all existing files plus read-only V17 handshake, conservative even for inactive legacy files. Not a certified true-peak or perceived-loudness measurement.",
+  "files": [
+    {
+      "file": "han-fa-da-cai-20190513.mp3",
+      "samplePeak": 0.35181549191474915,
+      "peakDBFS": -9.073700812923324,
+      "resampled192kPeak": 0.3521789312362671,
+      "resampled192kDBFS": -9.06473257677408,
+      "sha256": "eda509cd3c4847a52237c88dbdcfc71cfa660aeb06375000d290504bf8ab4492"
+    },
+    {
+      "file": "huang-cut-in-line-v14.mp3",
+      "samplePeak": 0.679511308670044,
+      "peakDBFS": -3.35606622374733,
+      "resampled192kPeak": 0.6808407306671143,
+      "resampled192kDBFS": -3.339089417610256,
+      "sha256": "ab2b8bbfbb2523f2d4fc90c6e758cb1057e8a7290981e5c4911df625d1c1c270"
+    },
+    {
+      "file": "huang-owe-you-v14.mp3",
+      "samplePeak": 0.6768344640731812,
+      "peakDBFS": -3.3903507069536554,
+      "resampled192kPeak": 0.6768813133239746,
+      "resampled192kDBFS": -3.3897495062747907,
+      "sha256": "9a3b363c6350a07a8d80f0450b5d4059bb6b149c4279d69b3d6759a28f9223ab"
+    },
+    {
+      "file": "huang-owe-you-v15.mp3",
+      "samplePeak": 0.626624584197998,
+      "peakDBFS": -4.059851411170852,
+      "resampled192kPeak": 0.628063976764679,
+      "resampled192kDBFS": -4.039922305488674,
+      "sha256": "4d2acd3a4d56ad4f1604b042ca08ad7118afc021bd7e850473f91c60d3091ef5"
+    },
+    {
+      "file": "huang-too-outrageous-v14.mp3",
+      "samplePeak": 0.6611363887786865,
+      "peakDBFS": -3.5941787744672933,
+      "resampled192kPeak": 0.6613221764564514,
+      "resampled192kDBFS": -3.591738272634999,
+      "sha256": "c28c4c4a244fa9c03829627d17bec8218b057b686082cc47efc497e5c8449219"
+    },
+    {
+      "file": "huang-too-outrageous-v15.mp3",
+      "samplePeak": 0.6360969543457031,
+      "peakDBFS": -3.9295336767108706,
+      "resampled192kPeak": 0.6363248825073242,
+      "resampled192kDBFS": -3.92642188025928,
+      "sha256": "1f23c5aa31586c17fdcbda619e375b2741c9287eacc344a5f96828e8a76f6128"
+    },
+    {
+      "file": "su-dare-user-selected-v16.mp3",
+      "samplePeak": 0.7239938974380493,
+      "peakDBFS": -2.8053018893208845,
+      "resampled192kPeak": 0.7254936099052429,
+      "resampled192kDBFS": -2.7873281688698714,
+      "sha256": "239c8001b38b2fb51595a0933080eeffa736bf7121097f99012baba82b8da12b"
+    },
+    {
+      "file": "su-rush-user-selected-v16.mp3",
+      "samplePeak": 0.6777362823486328,
+      "peakDBFS": -3.378785279024317,
+      "resampled192kPeak": 0.6797045469284058,
+      "resampled192kDBFS": -3.3535964965286884,
+      "sha256": "08f0cb2ca2516725dddc9d7a644352d029b9d911c64b8477bbbffe48a921a058"
+    },
+    {
+      "file": "su-shout-user-upload-v16.mp3",
+      "samplePeak": 0.652338445186615,
+      "peakDBFS": -3.710540516614703,
+      "resampled192kPeak": 0.6525834202766418,
+      "resampled192kDBFS": -3.707279284387148,
+      "sha256": "fdb8f4f101d8a6a3856b76b2568f55da2ece3f6a1f8aec85c6c193e7889ec834"
+    },
+    {
+      "file": "user-arrow-candidate-v15.mp3",
+      "samplePeak": 0.4904186725616455,
+      "peakDBFS": -6.188660050539067,
+      "resampled192kPeak": 0.4908234179019928,
+      "resampled192kDBFS": -6.181494492535946,
+      "sha256": "fec4921af4416e81890ed67eec93d0f90284cf2bd47df17fe1ec8035fa925b11"
+    },
+    {
+      "file": "user-chen-calm-candidate-v15.mp3",
+      "samplePeak": 0.41013339161872864,
+      "peakDBFS": -7.741497410865909,
+      "resampled192kPeak": 0.4101755619049072,
+      "resampled192kDBFS": -7.740604365750404,
+      "sha256": "6525b094680e5e4a17dd763f9cbdd9c286b89dad6920de335e508c76c3251d8f"
+    },
+    {
+      "file": "user-chen-question-candidate-v15.mp3",
+      "samplePeak": 0.6309115290641785,
+      "peakDBFS": -4.000630727416682,
+      "resampled192kPeak": 0.6310266256332397,
+      "resampled192kDBFS": -3.999046313639134,
+      "sha256": "bb4d4eb51599020675ab149704de3731153c77afec44fda148cd522abfff123e"
+    },
+    {
+      "file": "user-cough-full-v14.mp3",
+      "samplePeak": 0.7572876811027527,
+      "peakDBFS": -2.414782156855485,
+      "resampled192kPeak": 0.7603514194488525,
+      "resampled192kDBFS": -2.379712779300865,
+      "sha256": "7e7de6c9ecf305068198f66c7c0738ff05c0d0b575274f14e99e2746814cd57e"
+    },
+    {
+      "file": "user-counter-candidate-v15.mp3",
+      "samplePeak": 0.6242753863334656,
+      "peakDBFS": -4.092475758214983,
+      "resampled192kPeak": 0.6242753863334656,
+      "resampled192kDBFS": -4.092475758214983,
+      "sha256": "0b00e467bd129098de163049638d2b12a21d073dc176ac207991b77ad74938c3"
+    },
+    {
+      "file": "user-ke-lian-na-v14.mp3",
+      "samplePeak": 0.3245782256126404,
+      "peakDBFS": -9.77361236508578,
+      "resampled192kPeak": 0.3245782256126404,
+      "resampled192kDBFS": -9.77361236508578,
+      "sha256": "e31505db6d929124612ae0df972c78dc3d74c66a3f68dfb52ddc034d1b53a98b"
+    },
+    {
+      "file": "user-ko-bags-candidate-v15.mp3",
+      "samplePeak": 0.4507483243942261,
+      "peakDBFS": -6.921317580860807,
+      "resampled192kPeak": 0.45104360580444336,
+      "resampled192kDBFS": -6.915629391053172,
+      "sha256": "f77534e506a79f93dd9068c2ec19d98fabb4550871beffab5811767bcb3f75fb"
+    },
+    {
+      "file": "user-ko-name-candidate-v15.mp3",
+      "samplePeak": 0.6337680816650391,
+      "peakDBFS": -3.961392737619405,
+      "resampled192kPeak": 0.6337735652923584,
+      "resampled192kDBFS": -3.961317583983504,
+      "sha256": "17862a984268430866c45f638d71fb751cacd5bec377a1424f0c6056f56fcbfe"
+    },
+    {
+      "file": "user-ko-resolve-candidate-v15.mp3",
+      "samplePeak": 0.4928814172744751,
+      "peakDBFS": -6.145151108087818,
+      "resampled192kPeak": 0.493346631526947,
+      "resampled192kDBFS": -6.136956654564328,
+      "sha256": "d5cc05bbf3be746801d9409ff86816f78f29b56587a918c62ecdeb6b2824e71d"
+    },
+    {
+      "file": "user-ma-gaze-candidate-v15.mp3",
+      "samplePeak": 0.6206982731819153,
+      "peakDBFS": -4.142389256900039,
+      "resampled192kPeak": 0.6206982731819153,
+      "resampled192kDBFS": -4.142389256900039,
+      "sha256": "e6cf5ef52a95faef11d774f5fdb13e2f7a8b9a9b07dc2410fe30e6b49ce8fbe6"
+    },
+    {
+      "file": "user-rush-candidate-v15.mp3",
+      "samplePeak": 0.6293984651565552,
+      "peakDBFS": -4.021486409735012,
+      "resampled192kPeak": 0.6293984651565552,
+      "resampled192kDBFS": -4.021486409735012,
+      "sha256": "1eaa197eddacd76115ef19550b73e540e3f3b6f85ba132d2fac6c74925b32a79"
+    },
+    {
+      "file": "ma-handshake-user-candidate-v17.mp3",
+      "samplePeak": 0.6620725989341736,
+      "peakDBFS": -3.5818877161068468,
+      "resampled192kPeak": 0.6630932688713074,
+      "resampled192kDBFS": -3.568507612680814,
+      "sha256": "32930a69fb3feda5b23363d58369a0183a147d2fa091beabdc306c072b55225b"
+    }
+  ],
+  "gains": {
+    "player": 0.68,
+    "enemy": 0.46,
+    "preview": 0.68
+  },
+  "worstCaseBothActorsBound": 0.866800618171692,
+  "worstCaseBothActorsBoundDBFS": -1.2416157525714127,
+  "maximumResampledPeak": 0.7603514194488525
+}

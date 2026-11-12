@@ -1,0 +1,107 @@
+{
+  "passed": 11,
+  "checks": [
+    {
+      "label": "opening",
+      "state": {
+        "hold": {},
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "keyboard keyup",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "two mapped keys individually released",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "keyup on select still clears",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "pointerup",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "pointercancel",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "lostpointercapture",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "keyboard plus touch combined release",
+      "state": {
+        "hold": {
+          "right": false
+        },
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "window blur",
+      "state": {
+        "hold": {},
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "document hidden",
+      "state": {
+        "hold": {},
+        "keys": [],
+        "pointers": []
+      }
+    },
+    {
+      "label": "start/restart/menu clearHold helper",
+      "state": {
+        "hold": {},
+        "keys": [],
+        "pointers": []
+      }
+    }
+  ]
+}

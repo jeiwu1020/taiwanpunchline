@@ -1,0 +1,62 @@
+{
+  "observations": [
+    {
+      "difficulty": "normal",
+      "delayRoll": 0,
+      "observedAt": 0.066667,
+      "guardAt": 0.233333,
+      "observedToGuard": 0.166667
+    },
+    {
+      "difficulty": "normal",
+      "delayRoll": 0.999999,
+      "observedAt": 0.066667,
+      "guardAt": 0.366667,
+      "observedToGuard": 0.3
+    },
+    {
+      "difficulty": "easy",
+      "delayRoll": 0,
+      "observedAt": 0.066667,
+      "guardAt": 0.466667,
+      "observedToGuard": 0.4
+    },
+    {
+      "difficulty": "easy",
+      "delayRoll": 0.999999,
+      "observedAt": 0.066667,
+      "guardAt": 0.75,
+      "observedToGuard": 0.683333
+    }
+  ],
+  "recovery": [
+    {
+      "difficulty": "normal",
+      "gapRoll": 0,
+      "endedAt": 0.325,
+      "followupAt": 0.466667,
+      "gap": 0.141667
+    },
+    {
+      "difficulty": "normal",
+      "gapRoll": 0.999999,
+      "endedAt": 0.325,
+      "followupAt": 0.55,
+      "gap": 0.225
+    },
+    {
+      "difficulty": "easy",
+      "gapRoll": 0,
+      "endedAt": 0.325,
+      "followupAt": 0.591667,
+      "gap": 0.266667
+    },
+    {
+      "difficulty": "easy",
+      "gapRoll": 0.999999,
+      "endedAt": 0.325,
+      "followupAt": 0.725,
+      "gap": 0.4
+    }
+  ]
+}

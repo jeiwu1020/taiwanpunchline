@@ -1,0 +1,33 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V18 語音雙路與冷卻 QA</title><link rel="stylesheet" href="./style.css"><style>
+body{height:auto;min-height:100dvh;overflow:auto;background:#e7e0c9;color:#142b32;padding:12px;font-family:sans-serif}main{max-width:1000px;margin:auto}h1{font-size:19px;margin:0 0 8px}h2{font-size:14px;margin:8px 0 4px}p{font-size:12px;margin:5px 0;line-height:1.4}.qa-actions{display:flex;flex-wrap:wrap;gap:5px}.qa-actions button{min-height:44px;padding:6px 9px;background:#fff6df;border:2px solid #142b32;border-radius:5px;font-size:12px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#fff7e5;padding:7px;border:1px solid #142b32;font-size:11px;margin:6px 0;min-height:38px}.qa-states .control-deck{padding:6px;gap:5px;border:2px solid #142b32;border-radius:7px}.qa-states .specials{flex-basis:100%}.qa-states .specials button{min-width:0}.qa-state small{font-size:10px}.qa-notice{color:#793a13}
+</style></head><body><main><h1>V18 雙路語音／實心圓餅冷卻 QA</h1><p>先按玩家句，再按 AI 句，兩句應同時播放。玩家仍忙時按同角再發，原句應繼續且新句略過。停止會清空兩路。此頁不屬正式 dist。</p><div class="qa-actions"><button id="qa-player">玩家句</button><button id="qa-enemy">AI 句</button><button id="qa-player-again">同角再發</button><button id="qa-preview">單句試聽</button><button id="qa-stop">停止</button></div><pre id="qa-audio-state" role="status">載入控制器…</pre><p id="qa-last-action"></p><p class="qa-notice">實際原始音檔與來源 metadata 沿用 playableVoice；本頁不認證來源。</p><section id="qa-states" class="qa-states"></section><audio id="qa-player-audio" preload="none"></audio><audio id="qa-enemy-audio" preload="none"></audio></main>
+<script type="module">
+import {VoiceChannels} from './voice-channels.mjs';
+import {playableVoice} from './voice-slots.mjs';
+import {renderCooldownButton} from './cooldown-view.mjs';
+import {CAST} from './roster.mjs';
+const $=s=>document.querySelector(s),channels=new VoiceChannels({player:$('#qa-player-audio'),enemy:$('#qa-enemy-audio')});
+const playerKind=playableVoice('ma_handshake')?'ma_handshake':'ma_cough';
+let accepted=0,skipped=0;
+function state(){
+ const lines=Object.entries(channels.lanes).map(([id,lane])=>`${id}: busy=${lane.busy} paused=${lane.media.paused} gain=${lane.media.volume}\n src=${lane.media.getAttribute('src')||'—'}`);
+ $('#qa-audio-state').textContent=`accepted=${accepted} skipped=${skipped} preview=${channels.preview}\n`+lines.join('\n');
+}
+function play(actor,kind,preview=false){
+ const clip=playableVoice(kind);if(!clip)return;
+ const ok=channels.play(actor,{...clip,src:new URL('./'+clip.src,location.href).href},{preview,onStart:state,onError:()=>{$('#qa-last-action').textContent='播放失敗：請檢查瀏覽器音訊權限或檔案載入。';state();}});
+ ok?accepted++:skipped++;$('#qa-last-action').textContent=`${actor} ${clip.label}: ${ok?'接受':'忙碌，略過（不排隊）'}`;state();
+}
+$('#qa-player').onclick=()=>play('player',playerKind);$('#qa-enemy').onclick=()=>play('enemy','counter');$('#qa-player-again').onclick=()=>play('player','su_shout');$('#qa-preview').onclick=()=>play('player','coin',true);
+$('#qa-stop').onclick=()=>{channels.stopAll();$('#qa-last-action').textContent='已停止兩路，沒有排隊語句。';state();};
+window.addEventListener('blur',()=>{channels.stopAll();state();});document.addEventListener('visibilitychange',()=>{if(document.hidden){channels.stopAll();state();}});
+for(const media of [$('#qa-player-audio'),$('#qa-enemy-audio')])for(const event of ['playing','pause','ended','error'])media.addEventListener(event,()=>requestAnimationFrame(state));
+for(const [title,ratio] of [['全滿圓餅：剛出招',1],['半圓扇形：剩一半',.5],['近完成：仍不可再次使用',.002],['完成：勾號＋就緒',0]]){
+ const section=document.createElement('section');section.className='qa-state';section.innerHTML=`<h2>${title}</h2><div class="control-deck"><div class="specials"></div></div>`;
+ const holder=section.querySelector('.specials');for(const [index,move] of CAST.huang.moves.entries()){
+  const b=document.createElement('button');b.dataset.action='special'+(index+1);b.innerHTML=`<kbd>${['U','I','O'][index]}</kbd><span class="move-copy"><strong>${move.name}</strong><small>${move.hint}</small></span><span class="cooldown" aria-hidden="true"><svg class="cooldown-dial" viewBox="0 0 40 40" focusable="false"><circle class="cooldown-track" cx="20" cy="20" r="17"/><path class="cooldown-sector" d=""/></svg><span class="cooldown-value"></span></span><span class="cooldown-label" aria-hidden="true"></span>`;
+  renderCooldownButton(b,move,move.cooldown*ratio);holder.append(b);
+ }$('#qa-states').append(section);
+}
+state();
+</script></body></html>

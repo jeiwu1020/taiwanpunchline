@@ -1,0 +1,73 @@
+{
+  "baseline": "8ed0ea36603759247f5bf7b6b925f42146445b50",
+  "pair": "wang/su",
+  "firstDifferentFrame": 1549,
+  "before": {
+    "frame": 1549,
+    "elapsed": 12.133333333333285,
+    "status": "active",
+    "fighters": [
+      {
+        "id": "player",
+        "hp": 21,
+        "x": 386.8333333333412,
+        "stun": 0
+      },
+      {
+        "id": "enemy",
+        "hp": 4,
+        "x": 519.8333333333412,
+        "stun": 0,
+        "kind": "su_rush",
+        "age": 0.6250000000000002
+      }
+    ],
+    "events": [
+      {
+        "type": "counter",
+        "f": "player",
+        "from": "enemy"
+      },
+      {
+        "type": "hit",
+        "impact": "counter",
+        "amount": 12,
+        "from": "player",
+        "to": "enemy"
+      }
+    ]
+  },
+  "after": {
+    "frame": 1549,
+    "elapsed": 12.133333333333285,
+    "status": "active",
+    "fighters": [
+      {
+        "id": "player",
+        "hp": 21,
+        "x": 386.8333333333412,
+        "stun": 0
+      },
+      {
+        "id": "enemy",
+        "hp": 4,
+        "x": 541.8333333333412,
+        "stun": 0.16
+      }
+    ],
+    "events": [
+      {
+        "type": "counter",
+        "f": "player",
+        "from": "enemy"
+      },
+      {
+        "type": "hit",
+        "impact": "counter",
+        "amount": 12,
+        "from": "player",
+        "to": "enemy"
+      }
+    ]
+  }
+}

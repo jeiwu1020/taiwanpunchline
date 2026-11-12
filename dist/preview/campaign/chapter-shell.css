@@ -1,0 +1,110 @@
+/* Shared chapter shell: inherited story/menu styles; game controls use the main UI styles. */
+:root{font-family:"Microsoft JhengHei",system-ui,sans-serif;color:#17353a;background:#17353a;font-synthesis:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
+html,body{margin:0;overflow:hidden;overscroll-behavior:none;width:100%;height:100%;touch-action:none}
+button,a{font:inherit;font-weight:900;color:inherit;border:3px solid #17353a;background:#fff4da;border-radius:12px;cursor:pointer;touch-action:none;box-shadow:0 3px 0 #17353a;text-decoration:none}
+button:active,button.held{transform:translateY(2px);box-shadow:0 1px 0 #17353a;filter:brightness(.92)}
+button:focus-visible,a:focus-visible{outline:3px solid #eea73c;outline-offset:2px}
+button:disabled{cursor:default;filter:saturate(.3);opacity:.65}
+#trial-app{width:100%;height:100dvh;max-width:1440px;margin:auto;position:relative;overflow:hidden;display:flex;flex-direction:column;background:#f4e1b9}
+header{height:45px;flex:none;padding:4px max(8px,env(safe-area-inset-right)) 4px max(10px,env(safe-area-inset-left));display:flex;align-items:center;justify-content:space-between;background:#17353a;color:#fff3d5;gap:5px}
+header b{font-size:19px;white-space:nowrap}
+header span{font-size:12px;margin-left:10px;color:#e5c981}
+nav{display:flex;gap:5px}
+nav button,nav a{color:#17353a;font-size:13px;padding:4px 9px;box-shadow:none;border-width:2px;background:#fff3d5}
+#stage{position:relative;min-height:0;flex:1;overflow:hidden}
+#game,#game canvas{width:100%;height:100%;display:block}
+#caption{position:absolute;top:65px;left:0;right:0;text-align:center;color:#fff0b3;font-size:clamp(26px,3.5vw,44px);font-weight:1000;-webkit-text-stroke:1px #17353a;text-shadow:3px 3px #17353a;pointer-events:none}
+#feedback{position:absolute;bottom:150px;left:15%;right:15%;text-align:center;font-size:18px;font-weight:900;pointer-events:none;text-shadow:1px 1px #fff9dd}
+.stick-mark{position:absolute;left:36px;top:30px;font-size:40px;opacity:.25}
+body[data-portrait=true] header span{display:none}
+body[data-portrait=true] #feedback{bottom:6px;font-size:16px}
+.overlay{position:absolute;inset:45px 0 0;background:#17353ab8;backdrop-filter:blur(4px);z-index:20;display:grid;place-items:center;padding:14px;overflow:auto}
+.overlay[hidden]{display:none}
+.card{background:#fff2cf;border:4px solid #17353a;border-radius:22px;box-shadow:8px 8px 0 #17353a66;width:min(560px,100%);padding:20px;text-align:center;max-height:100%;overflow:auto}
+.eyebrow{font-size:13px;color:#95602c;font-weight:800}
+h1{font-size:clamp(28px,4vw,42px);margin:3px 0 12px}
+h2{margin:5px 0 12px}
+.card p{font-size:16px;line-height:1.55;margin:9px 0}
+.choose{display:flex;justify-content:center;gap:18px;margin:12px 0}
+.choose button{width:128px;padding:5px}
+.choose button[aria-pressed=true]{background:#f4c768;box-shadow:0 0 0 3px #d8654d,0 4px #17353a}
+.choose img{width:85px;height:82px;object-fit:contain;display:block;margin:auto}
+.primary{background:#d9614a;color:white;padding:10px 22px;font-size:22px;width:100%}
+.card .keys{font-size:12px}
+.card .note{font-size:11px;color:#53655d}
+.compact{max-width:360px;display:flex;flex-direction:column;gap:8px}
+.compact button{padding:10px;font-size:20px}
+.card::-webkit-scrollbar{width:8px}
+.card::-webkit-scrollbar-thumb{background:#be754c;border:2px solid #fff2cf;border-radius:8px}
+body[data-sideways=true] #trial-app{position:fixed;max-width:none;transform-origin:top left;transform:rotate(90deg) translateY(-100%);margin:0}
+body[data-sideways=true] header{padding-left:12px;padding-right:12px}
+@media(max-height:520px) and (min-width:600px){header{height:36px}
+.overlay{inset:36px 0 0}
+.card{padding:10px}
+.card p{font-size:13px;margin:5px 0}
+.card h1{font-size:27px;margin:0}
+.choose{margin:6px 0;gap:12px}
+.choose img{width:55px;height:52px}
+.choose button{width:116px}
+.card .note{display:none}
+.primary{padding:6px;font-size:19px}
+#caption{top:46px}}
+#caption{width:1px;height:1px;overflow:hidden;clip-path:inset(50%);top:0}
+.stick-mark{left:40px;top:35px}
+body[data-compact=true] header{height:36px}
+body[data-compact=true] .overlay{inset:36px 0 0}
+body[data-compact=true] #feedback{bottom:139px;font-size:16px}
+#trial-app,#trial-app *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#trial-app input,#trial-app textarea,#trial-app select,#trial-app [contenteditable]:not([contenteditable=false]){-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+#feedback{background:#15343bf2;color:#fff7dc;border:2px solid #ffe4a1;border-radius:10px;padding:8px 12px;box-shadow:0 3px 0 #102a32;line-height:1.35;text-shadow:none;z-index:6}
+#feedback:empty{display:none}
+/* Main-game health/guard primitives, without global app layout. */
+.dom-hud{position:absolute;top:10px;left:16px;right:16px;display:grid;grid-template-columns:1fr 72px 1fr;gap:20px;z-index:2;pointer-events:none}
+.hud-side{color:var(--ink);background:#fff6dff0;border:2px solid var(--ink);border-radius:7px;padding:5px 10px 7px;box-shadow:2px 3px 0 #142b3228}
+.hud-name{display:flex;gap:7px;align-items:baseline;font-size:21px;font-weight:900}
+.hud-name small{font-size:10px;font-weight:600;opacity:.6}
+.hud-name b{margin-left:auto;font-size:15px}
+.hp-track{height:9px;background:var(--ink);margin-top:4px;border-radius:2px;overflow:hidden}
+.hp-track i{display:block;height:100%;background:var(--amber);width:100%;transition:width .12s}
+.enemy .hp-track i{background:var(--teal);margin-left:auto}
+.timer{text-align:center;color:var(--paper);background:var(--ink);border-radius:6px;display:flex;flex-direction:column;justify-content:center;border:2px solid #fff6df88}
+.timer strong{font-size:29px;line-height:1.1}
+.timer small{font-size:9px;letter-spacing:1px}
+@media(max-width:760px){.dom-hud{left:7px;right:7px;top:7px;gap:6px;grid-template-columns:1fr 47px 1fr}
+.hud-side{padding:4px 6px;border-width:2px}
+.hud-name{font-size:16px;gap:4px}
+.hud-name small{font-size:8px}
+.hud-name b{font-size:11px}
+.timer strong{font-size:23px}
+.timer small{font-size:7px;letter-spacing:0}
+.hp-track{height:7px}}
+@media(max-height:500px) and (orientation:landscape){.dom-hud{top:5px;left:7px;right:7px;gap:8px;grid-template-columns:1fr 45px 1fr}
+.hud-name{font-size:14px}
+.hud-name small{font-size:8px}
+.hud-name b{font-size:11px}
+.hud-side{padding:3px 6px}
+.hp-track{height:6px;margin-top:2px}
+.timer strong{font-size:20px}
+.timer small{font-size:7px}}
+.guard-row{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:4px;min-height:12px}
+.guard-row small{font-size:9px;line-height:1}
+.guard-pips{display:flex;gap:3px}
+.guard-pips i{display:block;width:18px;height:6px;background:#408e8a;border:1px solid #163b42;transform:skew(-15deg)}
+.guard-pips i.empty{background:#d4cdc0}
+.guard-row.broken{color:#b53f2e}
+.guard-row.broken .guard-pips i{background:#d25a42}
+.hud-status{display:block;min-height:11px;font-size:9px;line-height:1.15;color:#496267}
+.hud-status:empty{display:block}
+@media(max-width:760px){.guard-row{margin-top:3px;min-height:9px}
+.guard-row small{font-size:8px}
+.guard-pips{gap:2px}
+.guard-pips i{width:12px;height:5px}
+.hud-status{font-size:8px}
+.dom-hud .hud-name{font-size:14px}}
+@media(max-height:500px) and (orientation:landscape){.guard-row{min-height:8px;margin-top:2px}
+.guard-row small{font-size:7px}
+.hud-status{font-size:7px}
+.guard-pips i{height:4px;width:12px}}
+.dom-hud{row-gap:3px}
+.hud-status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

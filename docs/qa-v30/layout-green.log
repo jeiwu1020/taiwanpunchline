@@ -1,0 +1,11 @@
+✔ V30 phone dock uses one short row with attack and stationary guard side by side (9.398174ms)
+✔ HUD is a separate grid row and actual canvas has no HUD overlay reserve (1.8457ms)
+✔ upright and desktop save stage space without eliminating required controls (1.671028ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 195.623614

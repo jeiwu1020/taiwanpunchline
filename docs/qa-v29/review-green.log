@@ -1,0 +1,23 @@
+✔ effect audition reports mute and blocked audio without pretending playback (34.574394ms)
+✔ effect audition schedules clear distinct cues and cancellation removes pending cues (7.767954ms)
+✔ audio-page rejected voice promise reports an actionable visible message (5.945917ms)
+✔ synchronous voice playback errors remain visible after the audio-button handler (7.796678ms)
+✔ muting while effect resume is pending reports mute rather than playback failure (7.932537ms)
+✔ move workspace opens details as a separate layer and never scrolls the main actions on play (2.886572ms)
+✔ audio page offers all21 voice selections without native dropdowns (3.851409ms)
+✔ audio page explains mute and failed effect attempts (1.001021ms)
+✔ HTML contains one-screen workspace and isolated accessible detail layer (1.205732ms)
+✔ compact canvas is constrained to its grid cell and details do not enlarge the workspace (0.381331ms)
+✔ saved viewport preferences initialize camera and rotation and buttons notify changes (2.15683ms)
+✔ reset applies viewport preferences without notification loops and keeps rotated dialog geometry (0.642865ms)
+✔ camera labels explain both persisted modes and dialog uses logical layout for the full-screen gallery (0.402561ms)
+✔ scene mounting releases the early viewport listeners before owning layout changes (0.300923ms)
+✔ short landscape galleries use compact chrome above the old 360px cutoff (0.493125ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 15
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 234.814903

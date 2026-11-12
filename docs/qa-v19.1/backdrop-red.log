@@ -1,0 +1,40 @@
+✔ idle player stays visually fixed while AI approaches 1134x550 (5.642737ms)
+✔ idle player stays visually fixed while AI approaches 298x292 (0.954337ms)
+✔ idle player stays visually fixed while AI approaches 370x575 (0.897572ms)
+✔ idle player stays visually fixed while AI approaches 326x255 (1.514551ms)
+✔ world backdrop is not glued to horizontal camera center (0.211989ms)
+✔ camera pans only at view boundary and keeps both actors visible across a round (0.321113ms)
+✖ background landmarks retain world position and scale during jumps and edge panning (1.176031ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.345317
+
+✖ failing tests:
+
+test at tests/idle-camera-v191.test.mjs:11:1
+✖ background landmarks retain world position and scale during jumps and edge panning (1.176031ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 1670.128727954225
+  - 974.6698041597084
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-art-spike/tests/idle-camera-v191.test.mjs:11:412)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1670.128727954225,
+    expected: 974.6698041597084,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

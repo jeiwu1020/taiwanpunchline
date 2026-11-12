@@ -1,0 +1,27 @@
+✔ challenge panels anchor eight logical pixels below the same viewport top at every rotation (2.17947ms)
+✔ changing a dialog content height cannot recenter its top edge (3.66801ms)
+✔ the corner close stays above scrolling pages and outside compact header columns (45.66063ms)
+✔ touch portrait rotation uses landscape dimensions and the visual shell logical top (2.565963ms)
+✔ desktop dialog retains bounded width and logical portrait is not compact (0.367415ms)
+✔ viewport binding syncs committed app geometry and cleans every observer/listener (1.137796ms)
+✔ opening advances through news, waking, wardrobe and chase for each playable portrait (2.562894ms)
+✔ each panel and replay restart the animation without completing or writing progress (121.155886ms)
+✔ skip finishes once and stale controls cannot finish a closed story again (21.137408ms)
+✔ closing abandons completion, then reopening owns a single frame loop (15.266212ms)
+✔ reduced motion is forwarded from the existing OS preference and canvas description tracks shot (12.949996ms)
+✔ replay, every next and skip leave existing browser save slots byte-for-byte unchanged (17.90518ms)
+✔ short landscape cinematic frame wins the loaded CSS cascade and footer labels stay on one line (615.970392ms)
+✔ center anchor uses the visible shell midpoint at every rotation and desktop offset (2.845515ms)
+✔ centered native modal transforms around its own center, independent of content height (2.491198ms)
+✔ only non-cinematic face-offs center; opening, next and reopening preserve correct anchors (313.340988ms)
+✔ boss cards bound artwork while retaining action buttons across logical layouts (2079.098176ms)
+✔ centered bounded cards stay inside shell for short phones and both sideways directions (0.974551ms)
+✔ boss face-off has no rectangular half-scene color overlay (6.983816ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3281.835622

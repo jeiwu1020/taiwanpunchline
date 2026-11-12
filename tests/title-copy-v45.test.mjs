@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
+test('homepage uses the approved political meme fighting tagline',()=>{for(const path of ['../dist/index.html','./fixtures/title-screen-fragment.html']){const html=readFileSync(new URL(path,import.meta.url),'utf8');assert.match(html,/<p class="title-kicker">政治迷因格鬥<\/p>/);assert.doesNotMatch(html,/原創政治戲仿格鬥/);}});

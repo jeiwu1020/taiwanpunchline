@@ -1,0 +1,57 @@
+✔ main selection screen uses only in-game role, character and difficulty buttons (1.672686ms)
+✔ all seven portrait buttons are generated once with real labels and existing images (29.978633ms)
+✔ role cards target only their side, allow mirrors, and show both role badges (4.649087ms)
+✔ custom difficulty persists through start, replay and return to roster (3.418951ms)
+✔ hidden roster actions cannot reset a running battle or restart a countdown (7.610491ms)
+✖ loading-time roster clicks are ignored until cards have been initialized (8.108437ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 5
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 239.332326
+
+✖ failing tests:
+
+test at tests/roster-picker-v24.test.mjs:49:1
+✖ loading-time roster clicks are ignored until cards have been initialized (8.108437ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" to be reference-equal to "expected":
+  + actual - expected
+  ... Skipped lines
+  
+    Duel {
+      aiAction: null,
+      aiActiveAttack: null,
+      aiBufferedDefense: null,
+      aiDefense: 0,
+  ...
+      contacts: [],
+  +   difficulty: 'normal',
+  -   difficulty: 'easy',
+      elapsed: 0,
+      enemy: {
+        armor: 0,
+        attack: null,
+        basicStep: 0,
+  ...
+      nextCast: 1,
+  +   nextItemAt: 10.247105598449707,
+  -   nextItemAt: 11.165303609333932,
+      obstacles: [],
+      player: {
+        armor: 0,
+        attack: null,
+        basicStep: 0,
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/parliament-sideways-private-nov7/tests/roster-picker-v24.test.mjs:52:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [Duel],
+    expected: [Duel],
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

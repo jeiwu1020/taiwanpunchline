@@ -1,0 +1,24 @@
+// Explicit neutral stats isolate historical move/timing rules; real defaults have separate mode coverage.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { Duel } from './helpers/neutral-combat.mjs';
+const tick=(g,secs,input={})=>{for(let t=0;t<secs;t+=1/120)g.step(1/120,input,false);};
+test('movement stops when released and stays inside arena',()=>{let g=new Duel();tick(g,0.5,{right:true});assert.ok(g.player.x>260);let x=g.player.x;tick(g,0.4);assert.equal(g.player.x,x);tick(g,8,{left:true});assert.equal(g.player.x,68);});
+test('jump lands at ground and cannot jump infinitely in air',()=>{let g=new Duel();g.player.x=100;g.press('jump');tick(g,.15);assert.ok(g.player.y<430);g.press('jump');tick(g,1.5);assert.equal(g.player.y,430);});
+test('basic attack hits once and cannot hit out of range',()=>{let g=new Duel();g.enemy.x=340;g.press('punch');tick(g,.7);assert.equal(g.enemy.hp,94);g.enemy.x=700;g.press('punch');tick(g,.7);assert.equal(g.enemy.hp,94);});
+test('guard reduces damage and does not allow simultaneous attack',()=>{let g=new Duel();g.enemy.x=340;g.enemy.guard=true;g.press('punch');tick(g,.4);assert.equal(g.enemy.hp,98);});
+test('cooldowns prevent repeated specials and expire over time',()=>{let g=new Duel();g.press('special1');tick(g,.6);let cd=g.player.cooldowns[0];assert.ok(cd>0);assert.equal(g.request(g.player,'special1'),false);tick(g,8);assert.equal(g.player.cooldowns[0],0);});
+test('water move restores health but never exceeds maximum',()=>{let g=new Duel();g.player.hp=96;g.press('special3');tick(g,1.4);assert.equal(g.player.hp,100);});
+test('projectile damages once and is removed',()=>{let g=new Duel('han');g.enemy.x=500;g.press('special1');tick(g,1.5);assert.equal(g.enemy.hp,89);assert.equal(g.projectiles.length,0);});
+test('clock ends match and equal health yields draw',()=>{let g=new Duel();tick(g,61);assert.equal(g.status,'over');assert.equal(g.winner,'draw');});
+test('pause does not advance time or combat',()=>{let g=new Duel();g.status='paused';g.step(1,{right:true},false);assert.equal(g.remaining,60);assert.equal(g.player.x,260);});
+test('finishing hit chooses player and stops damage',()=>{let g=new Duel();g.enemy.x=340;g.enemy.hp=1;g.press('punch');tick(g,.4);assert.equal(g.status,'over');assert.equal(g.winner,'player');assert.equal(g.enemy.hp,0);});
+test('AI approaches and attacks instead of standing still',()=>{let g=new Duel('wang','normal',()=>.5);for(let i=0;i<1800;i++)g.step(1/120,{});assert.ok(g.player.hp<100);});
+test('all six named specials can execute without invalid values',()=>{for(const character of ['wang','han']) for(let i=1;i<=3;i++){let g=new Duel(character);g.press('special'+i);tick(g,3);for(const f of [g.player,g.enemy]){assert.ok(Number.isFinite(f.x));assert.ok(Number.isFinite(f.y));assert.ok(f.hp>=0&&f.hp<=100);}}});
+test('grounded fighters keep readable body separation while approaching',()=>{const g=new Duel();g.enemy.x=350;tick(g,.5,{right:true});assert.ok(Math.abs(g.player.x-g.enemy.x)>=86);});
+test('resolved match cannot accept a second projectile hit in the same frame',()=>{const g=new Duel();g.enemy.hp=1;g.damage(g.player,g.enemy,6);assert.equal(g.status,'over');assert.equal(g.damage(g.enemy,g.player,20),false);assert.equal(g.player.hp,100);});
+test('walking away automatically guards, walking toward does not',()=>{const g=new Duel();g.enemy.x=500;g.step(1/60,{left:true},false);assert.equal(g.player.guard,true);g.step(1/60,{right:true},false);assert.equal(g.player.guard,false);});
+test('interrupting a sip produces a spit event and cancels healing',()=>{const g=new Duel();g.player.hp=60;g.request(g.player,'special3');tick(g,.5);g.damage(g.enemy,g.player,6);tick(g,1);assert.ok(g.player.hp<60);assert.ok(g.events.some(e=>e.type==='spit'));});
+test('sky arrow marks the old target and can be dodged',()=>{const g=new Duel('han');g.enemy.x=640;g.request(g.player,'special3');tick(g,.3);assert.equal(g.projectiles[0].targetX,640);g.enemy.x=880;tick(g,1.5);assert.equal(g.enemy.hp,100);assert.ok(g.events.some(e=>e.type==='arrowMiss'));});
+test('leaving the marked arrow circle is sufficient to dodge',()=>{for(const newX of [560,580,700,720]){const g=new Duel('han');g.enemy.x=640;g.press('special3');tick(g,.3);g.enemy.x=newX;tick(g,1.5);assert.equal(g.enemy.hp,100,'position '+newX+' should be outside circle');}});
+test('an arrow still hits a grounded fighter inside the marked circle',()=>{const g=new Duel('han');g.enemy.x=640;g.press('special3');tick(g,1.7);assert.equal(g.enemy.hp,80);});

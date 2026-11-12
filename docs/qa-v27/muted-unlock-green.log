@@ -1,0 +1,13 @@
+✔ independent audio preferences change real game routing and retain the approved Chen clip (36.460635ms)
+✔ quick master mute and legacy voice setting synchronize with persistent preferences (5.75834ms)
+✔ opening settings pauses battle and closing never resumes it (5.539773ms)
+✔ rejected preview audio is reported in the visible settings demo status (3.061137ms)
+✔ starting muted still unlocks shared audio for later user unmute (5.624544ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 204.153223

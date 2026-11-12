@@ -1,0 +1,4 @@
+/* Keep the original first-chapter action and continuation in distinct rows,
+   including the existing compact landscape grid. */
+.challenge-dialog .challenge-launch-actions{display:flex;flex-direction:column;gap:8px;grid-column:2;grid-row:3;min-width:0}
+.challenge-dialog .challenge-continue{width:100%;background:#f4bf5e;color:var(--ink);min-height:44px;font-size:16px;line-height:1.3}

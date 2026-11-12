@@ -1,0 +1,27 @@
+✔ current game pages use the approved timeless name, including share metadata and settings (2.57089ms)
+✔ V33 entry and changed dependencies use new cache keys while prior history remains (1.086237ms)
+✔ native landscape reclaims the dock while empty overlay space passes pointer hits through (25.20104ms)
+✔ native touch targets stay reachable at narrow and safe-area-reduced landscape widths (51.802586ms)
+✔ rotated portrait and upright portrait retain their original reserved docks (4.667963ms)
+✔ overlay framing adds real safe fight height and larger near fighters in both camera modes (0.984388ms)
+✔ head, feet and left stick stay separate through near, far, edge and jumping frames (3.829761ms)
+✔ non-native framing is an exact passthrough and never mutates fighters (1.021512ms)
+✔ a wide native deck restores complete purposes beside the same live cooldown (0.76825ms)
+✔ overlay backdrop stays fixed in world space through movement and jumping (0.413037ms)
+✔ safe-area body gutters suppress double-tap zoom without locking pinch or pan (8.175801ms)
+✔ the fitted game shell suppresses repeated-tap zoom while retaining pinch zoom (7.589117ms)
+✔ the noninteractive battle canvas permits pinch zoom rather than taking over gestures (2.227055ms)
+✔ Phaser canvas touch handlers do not cancel native pinch gestures (3.165324ms)
+✔ game controls retain exclusive multitouch handling instead of enabling browser drags (9.333762ms)
+✔ settings and details keep native scroll and pinch gestures inside the protected game page (8.046982ms)
+✔ native settings inputs, selection and range dragging are not replaced by a gesture lock (12.978931ms)
+✔ the viewport keeps browser zoom available rather than capping user scale (0.378697ms)
+✔ direction-pad hot region explicitly rejects browser gestures, including its non-knob area (3.953823ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 258.403421

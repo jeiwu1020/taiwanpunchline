@@ -1,0 +1,41 @@
+✔ table blocks ground walking from both depth directions (17.270692ms)
+✔ table blocks side and diagonal entry but leaves outside lane open (4.38908ms)
+✔ swept table motion cannot tunnel at large displacement and permits height clearance (1.204442ms)
+✔ table top remains landable and supports walking off its depth edge (3.584197ms)
+✔ adjacent higher table blocks feet below its top without trapping walk-off (6.049072ms)
+✔ enemy depth approach also respects the solid table (9.736904ms)
+✔ depth table exposes a full projected landing surface rather than a compressed sliver (0.848469ms)
+✖ generated supply cutout is registered and bottom-centred without changing pickup (3.351294ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 7
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 278.613975
+
+✖ failing tests:
+
+test at brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:34:1
+✖ generated supply cutout is registered and bottom-centred without changing pickup (3.351294ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'challenge/supply-stand-v75.webp'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/challenge-tables-v75.test.mjs:35:9)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'challenge/supply-stand-v75.webp',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

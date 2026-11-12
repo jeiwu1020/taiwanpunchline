@@ -1,0 +1,30 @@
+✖ main chamber explicitly uses BASE after Phaser named crops change firstFrame (128.087287ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1065.44918
+
+✖ failing tests:
+
+test at tests/combat-presentation-v75.test.mjs:93:1
+✖ main chamber explicitly uses BASE after Phaser named crops change firstFrame (128.087287ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'chamber-floor'
+  - '__BASE'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/1a1351aee944/brawler-repair-nov10/candidate/tests/combat-presentation-v75.test.mjs:102:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'chamber-floor',
+    expected: '__BASE',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -1,0 +1,16 @@
+{
+  "composites": 648,
+  "minimumAlpha": 254,
+  "transparentPixels": 0,
+  "variants": [
+    "normal",
+    "missing-sky",
+    "legacy"
+  ],
+  "maximumDeskJumpApex": 52.50872048155577,
+  "rotations": [
+    0,
+    90,
+    -90
+  ]
+}

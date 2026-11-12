@@ -1,0 +1,98 @@
+/* Game-page zoom policy: preserve single-finger pan and native controls while
+   rejecting accidental pinch in every game state, including pause/settings.
+   The document listener also covers body safe-area gaps; body keeps native pan. */
+html,body,#game canvas{touch-action:manipulation}
+#viewport-shell,#help-dialog,:root body>dialog{touch-action:pan-x pan-y}
+html[data-allow-page-zoom="true"] #viewport-shell,
+html[data-allow-page-zoom="true"] #help-dialog,
+html[data-allow-page-zoom="true"] body>dialog{touch-action:manipulation}
+.touch-pad{touch-action:none}
+/* Live/countdown combat also owns one-finger input. Reading-mode pinch
+   remains available on pause/menu/settings after this cabinet lock releases. */
+.cabinet[data-gesture-locked="true"]{touch-action:none}
+/* Fullscreen root stays still; internal settings/menu scrollers remain available. */
+html,body{overflow:hidden;overscroll-behavior:none}
+/* The physical shell owns safe areas. Its child has unrotated logical dimensions. */
+#safe-insets{position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+#viewport-shell{position:fixed;inset:0;overflow:hidden;overscroll-behavior:none}
+#viewport-shell>.app{transform-origin:0 0;max-width:none;height:100%;margin:0}
+#help-dialog{position:fixed;margin:0;box-sizing:border-box;transform-origin:center;overscroll-behavior:contain}
+.touch-pad,.touch-aux{display:none}
+.candidate-note{border-left:4px solid #b43d30;padding:8px 12px;background:#eee2c7}
+#viewport-shell>.app[data-touch="false"]{max-width:1440px;margin:0 auto}
+.app[data-touch="false"] #rotate-mode{display:none}
+.app[data-touch="true"]{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.app[data-touch="true"] .control-deck{touch-action:none}
+/* A phone's rotated and native landscape use the identical logical layout. */
+.app[data-touch="true"][data-layout="landscape"]{padding:5px 8px;grid-template-rows:40px minmax(0,1fr);gap:4px}
+.app[data-touch="true"][data-layout="landscape"] .under{display:none}
+.app[data-touch="true"][data-layout="landscape"] .brand{font-size:15px;gap:5px}
+.app[data-touch="true"][data-layout="landscape"] .brand-icon{font-size:17px;padding:2px 5px}
+.app[data-touch="true"][data-layout="landscape"] .brand small{display:none}
+.app[data-touch="true"][data-layout="landscape"] .toolbar{gap:4px}
+.app[data-touch="true"][data-layout="landscape"] .toolbar button{font-size:10px;min-height:36px;padding:5px 7px;min-width:38px}
+.app[data-touch="true"][data-layout="landscape"] .toolbar #help{font-size:10px}
+.app[data-touch="true"][data-layout="landscape"] .toolbar #help:after{content:none}
+.app[data-touch="true"][data-layout="landscape"] .cabinet{position:relative;display:block;overflow:hidden;border-radius:8px}
+.app[data-touch="true"][data-layout="landscape"] .stage-wrap{position:absolute;inset:0}
+.app[data-touch="true"][data-layout="landscape"] .control-deck{position:absolute;inset:0;display:block;border:0;padding:0;background:none;pointer-events:none;z-index:3}
+.app[data-touch="true"][data-layout="landscape"] .movement{display:none}
+.app[data-touch="true"][data-layout="landscape"] .control-deck button{pointer-events:auto;touch-action:none;border-radius:50%;border:2px solid #fff4d2b0;box-shadow:0 3px 0 #162e35bb;background:#19363ed9;color:#fff8e7;height:48px;width:48px;min-width:48px;padding:2px;transform:none}
+.app[data-touch="true"][data-layout="landscape"] .control-deck button.held{background:#a3582ce8;border-color:#ffe8a3;box-shadow:0 1px 0 #162e35}
+.app[data-touch="true"][data-layout="landscape"] .control-deck kbd{display:none}
+.app[data-touch="true"][data-layout="landscape"] .touch-pad{position:absolute;display:flex;flex-direction:column;align-items:center;left:14px;bottom:8px;pointer-events:auto;gap:3px}
+#touch-stick{position:relative;width:104px;height:104px;border:2px solid #fff4d28c;border-radius:50%;background:#17363b85;touch-action:none;overflow:visible;display:grid;place-items:center}
+.stick-cross{color:#f7eace70;font-size:85px;line-height:1;pointer-events:none}
+#touch-knob{position:absolute;left:30px;top:30px;width:40px;height:40px;border:2px solid #fff7d4;border-radius:50%;background:#436566e8;box-shadow:0 3px 0 #0b202a85;pointer-events:none}
+.touch-pad>small{color:#17313b;font-size:9px;font-weight:900;background:#fff5dbaa;padding:2px 5px;border-radius:3px}
+.app[data-touch="true"][data-layout="landscape"] .touch-aux{display:flex;position:absolute;right:180px;bottom:8px;gap:6px;pointer-events:none}
+.app[data-touch="true"][data-layout="landscape"] .touch-aux button{font-size:17px;font-weight:900}
+.app[data-touch="true"][data-layout="landscape"] .basic{position:absolute;display:block;right:18px;bottom:8px;width:auto}
+.app[data-touch="true"][data-layout="landscape"] .basic .punch{height:62px;width:62px;background:#a7502ee6;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:0;white-space:nowrap}
+.app[data-touch="true"][data-layout="landscape"] .basic span{font-size:18px;display:block}
+.app[data-touch="true"][data-layout="landscape"] .basic small{font-size:8px;display:block}
+.app[data-touch="true"][data-layout="landscape"] .specials{position:absolute;display:flex;flex-direction:row;right:14px;bottom:78px;gap:7px;width:auto;pointer-events:none}
+.app[data-touch="true"][data-layout="landscape"] .specials button{width:64px;height:64px;min-width:64px;flex:none;display:grid;grid-template-columns:1fr;grid-template-rows:1fr 22px;gap:0;padding:4px;background:#2d5960e8;text-align:center}
+.app[data-touch="true"][data-layout="landscape"] .specials .move-copy{grid-column:1;grid-row:1;padding:0;align-self:center}
+.app[data-touch="true"][data-layout="landscape"] .specials strong{font-size:11px;line-height:1.05;overflow-wrap:anywhere;white-space:normal;display:block}
+.app[data-touch="true"][data-layout="landscape"] .specials small{display:none}
+.app[data-touch="true"][data-layout="landscape"] .cooldown{grid-column:1;grid-row:2;width:21px;height:21px;font-size:9px}
+.app[data-touch="true"][data-layout="landscape"] .cooldown-label{display:none}
+.app[data-touch="true"][data-layout="landscape"] .specials button:not(.cooling) .cooldown-value{font-size:14px}
+.app[data-touch="true"][data-layout="landscape"] .dom-hud{top:5px;left:7px;right:7px;grid-template-columns:1fr 45px 1fr;gap:4px 8px}
+.app[data-touch="true"][data-layout="landscape"] .hud-side{padding:3px 6px}.app[data-touch="true"][data-layout="landscape"] .hud-name{font-size:14px}
+.app[data-touch="true"][data-layout="landscape"] .hud-name small{font-size:8px}.app[data-touch="true"][data-layout="landscape"] .hud-name b{font-size:11px}
+.app[data-touch="true"][data-layout="landscape"] .hp-track{height:6px;margin-top:2px}.app[data-touch="true"][data-layout="landscape"] .guard-row{min-height:8px;margin-top:2px}
+.app[data-touch="true"][data-layout="landscape"] .guard-row small,.app[data-touch="true"][data-layout="landscape"] .hud-status{font-size:7px}
+.app[data-touch="true"][data-layout="landscape"] .timer strong{font-size:20px}.app[data-touch="true"][data-layout="landscape"] .timer small{font-size:7px}
+.app[data-touch="true"][data-layout="landscape"] #item-status{font-size:9px;line-height:11px;padding:1px 6px}
+.app[data-touch="true"][data-layout="landscape"] .broadcast{bottom:8px;max-width:40%;font-size:11px}
+/* Screens cover the touch overlay, so menu/result clicks never become attacks. */
+.app[data-touch="true"][data-layout="landscape"] .stage-wrap:has(.screen:not(.hidden))~.control-deck{visibility:hidden}
+.app[data-touch="true"][data-layout="landscape"] .menu{padding:78px 12px 7px;gap:5px;justify-content:center;overflow:auto}
+.app[data-touch="true"][data-layout="landscape"] .menu-copy .eyebrow,.app[data-touch="true"][data-layout="landscape"] .menu-copy p,.app[data-touch="true"][data-layout="landscape"] .menu-tip{display:none}
+.app[data-touch="true"][data-layout="landscape"] .menu-copy h1{font-size:22px;line-height:1.1;margin:0;letter-spacing:-1px}
+.app[data-touch="true"][data-layout="landscape"] .menu-copy h1 em{display:inline}
+.app[data-touch="true"][data-layout="landscape"] .matchup{width:min(580px,100%);gap:24px;margin:2px 0}
+.app[data-touch="true"][data-layout="landscape"] .matchup-card{height:72px;flex-direction:row;text-align:left;padding:3px 8px;gap:8px;transform:none}
+.app[data-touch="true"][data-layout="landscape"] .matchup-card img{width:54px;height:64px;align-self:flex-end}
+.app[data-touch="true"][data-layout="landscape"] .matchup-card strong{font-size:22px}.app[data-touch="true"][data-layout="landscape"] .matchup-card small{display:block;font-size:8px}
+.app[data-touch="true"][data-layout="landscape"] .matchup-card>div>span{display:none}.app[data-touch="true"][data-layout="landscape"] .matchup-role{font-size:8px;top:-9px}
+.app[data-touch="true"][data-layout="landscape"] .roster-selectors{width:min(580px,100%);gap:24px}.app[data-touch="true"][data-layout="landscape"] .roster-field{height:44px}
+.app[data-touch="true"][data-layout="landscape"] .roster-field select{font-size:12px}
+.app[data-touch="true"][data-layout="landscape"] .start-row{max-width:360px;width:100%;gap:8px;margin:0}
+.app[data-touch="true"][data-layout="landscape"] .start-row .primary{font-size:14px;min-height:44px;padding:5px 12px}
+.app[data-touch="true"][data-layout="landscape"] .start-row select{font-size:11px;padding:4px}
+.app[data-touch="true"][data-layout="landscape"] .paper{padding:10px;width:400px;max-height:96%;overflow:auto;transform:none}.app[data-touch="true"][data-layout="landscape"] .paper h2{font-size:25px;margin:4px}
+.app[data-touch="true"][data-layout="landscape"] .paper p{font-size:11px;margin:4px}.app[data-touch="true"][data-layout="landscape"] .stats{margin:6px}.app[data-touch="true"][data-layout="landscape"] .stats strong{font-size:22px}
+.app[data-touch="true"][data-layout="landscape"] .quiet{margin:5px auto}.app[data-touch="true"][data-layout="landscape"] .fiction-note{display:none}
+.app[data-touch="true"][data-compact="true"] .menu-copy{display:none}
+.app[data-touch="true"][data-compact="true"] .matchup-card{height:52px}
+.app[data-touch="true"][data-compact="true"] .matchup-card img{height:45px;width:40px}
+.app[data-touch="true"][data-compact="true"] .specials button{width:57px;height:57px;min-width:57px}
+.app[data-touch="true"][data-compact="true"] .specials{bottom:72px}
+/* Rotation off is an explicit comparison fallback, retaining upright bottom controls. */
+.app[data-touch="true"][data-layout="portrait"]{grid-template-rows:76px minmax(0,1fr) 25px}
+.app[data-touch="true"][data-layout="portrait"] header{flex-wrap:wrap;justify-content:center;gap:2px}
+.app[data-touch="true"][data-layout="portrait"] .toolbar button{min-height:32px;padding:4px 7px;font-size:10px}
+.app[data-touch="true"][data-layout="portrait"] .brand{font-size:16px}.app[data-touch="true"][data-layout="portrait"] .brand small{display:none}

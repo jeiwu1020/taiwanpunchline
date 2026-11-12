@@ -1,0 +1,159 @@
+/* V56: each team keeps its two tickets under the matching main portrait.
+   All controls retain at least a 44px hit target. */
+.app #menu{grid-template-rows:auto 46px minmax(136px,.85fr) minmax(128px,1fr) 46px;gap:9px;padding:12px 22px;align-content:stretch}
+.mode-strip{width:min(100%,940px);justify-self:center;display:flex;gap:14px;align-items:center;justify-content:space-between;min-width:0}
+.mode-picker,.mode-options{display:flex;gap:5px;align-items:center;min-width:0}
+.mode-picker button,.mode-options button,.mode-options select{min-height:44px;min-width:44px;border:2px solid #719096;background:#1b3c44;color:#fff1d1;border-radius:6px;padding:5px 12px;font-size:14px;font-weight:800}
+.mode-picker button[aria-pressed="true"]{background:#ffcd76;color:#17313a;border-color:#fff1bb;box-shadow:2px 2px 0 #081c23;transform:rotate(-1deg)}
+.mode-options button[aria-pressed="true"]{background:#e0ead9;color:#17313a;border-color:#fff5ce}
+.mode-picker button:disabled{opacity:.48;cursor:not-allowed}.mode-picker small{display:inline;font-size:10px}
+.mode-options label{font-size:13px;font-weight:800;white-space:nowrap}.mode-options span{font-size:11px;color:#e5d5b1}
+.mode-options[hidden]{display:none}
+.app #menu .matchup{max-height:224px;align-items:stretch}
+.matchup-team{display:grid;grid-template-rows:minmax(44px,1fr) 44px;gap:6px;min-width:0;min-height:0;height:100%}
+.app #menu .matchup-vs{top:calc((100% - 50px)/2)}.app #menu .matchup-card img{max-height:148px}
+.app #menu .matchup-card{padding:18px 10px 5px}.app #menu .matchup-copy strong{font-size:27px}
+.app #menu .roster-picker{max-height:300px;gap:5px}
+.roster-targets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;flex:none}
+.roster-targets button{min-width:44px;min-height:44px;border:2px solid #719096;background:#102d36;color:#f8edcf;border-radius:7px;padding:3px 5px;display:flex;align-items:center;justify-content:center;gap:6px}
+.roster-targets button small{font-size:11px;white-space:nowrap}.roster-targets button strong{font-size:14px;white-space:nowrap}
+.roster-targets button[aria-pressed="true"]{background:#f3d9a2;border-color:#ffedb6;color:#132d37;box-shadow:0 2px 0 #0c2129}
+.roster-targets button[data-roster-target$="Assist"]{border-style:dashed}
+.enemy-team .roster-targets button{border-color:#78bdc4}
+.enemy-team .roster-targets button[aria-pressed="true"]{background:#a5e4e4;border-color:#c8ffff;color:#132d37}
+#roster-instruction{font-size:12px;line-height:16px}.roster-badge{font-size:10px;line-height:15px}
+.app #menu .start-row{height:46px;width:min(700px,100%)}.app .difficulty-picker button{padding:4px 6px;font-size:13px}
+.app .dom-hud{grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr)}
+.app .timer small#match-score{display:block;font-size:8px;line-height:10px;white-space:normal;color:#f7e7c1}
+.app .result-score{font-size:20px;font-weight:900;margin:5px 0;color:#1d4b54}
+#next-round[hidden],#replay[hidden],#training-pause-options[hidden]{display:none}
+#training-pause-options{display:flex;flex-wrap:wrap;gap:7px;align-items:center;justify-content:center;margin-bottom:8px}
+#training-pause-options label{font-size:13px;display:flex;align-items:center;gap:5px;min-height:44px}
+#training-pause-options select{min-height:44px;font:inherit;border:2px solid #24464f;border-radius:5px;background:#fff4d7;color:#17313a}
+#training-pause-options input{width:20px;height:20px}#training-pause-options button{margin:0;min-height:44px}
+.assist-warning{position:absolute;z-index:12;top:67px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 16px);display:flex;flex-direction:column;gap:3px;align-items:center;pointer-events:none}
+.assist-callout{display:block;max-width:100%;padding:4px 10px;border:2px solid #17313a;background:#ffdf89;color:#17313a;box-shadow:2px 2px 0 #17313a;border-radius:3px 10px 3px 10px;font-size:12px;font-weight:950;line-height:1.2;text-align:center}
+.assist-callout.enemy{background:#a5ebef}.assist-callout[data-phase="warning"]{transform:rotate(-1deg)}
+#rally-warning:not(:empty)~.assist-warning{top:88px}
+.app .basic .assist-button{background:#72568f;color:#fff5df;border-color:#d2b6ef;opacity:1}
+.app .basic .assist-button.ready{background:#745596;box-shadow:0 0 0 1px #ead2ff,0 3px 0 #17323b}
+.app .basic .assist-button:disabled{background:#3b4254;color:#e1dbe6;cursor:default}
+.app .basic .assist-button .assist-label{font-size:10px;line-height:12px;white-space:nowrap}
+.app[data-touch="false"] .basic{width:210px;gap:6px}.app[data-touch="false"] .basic button{width:66px;flex:0 0 66px}
+/* Keep the guard in its original rightmost track. Cluster the other three
+   actions toward it while preserving the full stick and 44px touch targets. */
+.app[data-touch="true"][data-overlay-controls="true"] .control-deck{grid-template-columns:84px minmax(0,1fr) 174px 54px}
+.app[data-touch="true"][data-overlay-controls="true"] .basic{width:174px;gap:6px}
+.app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 192px}
+.app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:84px repeat(4,minmax(44px,1fr));grid-template-rows:84px 88px;gap:8px 4px;padding:4px;align-content:center}
+.app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1/-1;grid-row:1;height:84px}
+.app[data-touch="true"][data-layout="portrait"] .touch-pad{grid-column:1;grid-row:2;align-self:center;width:84px;height:88px}
+.app[data-touch="true"][data-layout="portrait"] #touch-stick{width:84px;height:84px}
+.app[data-touch="true"][data-layout="portrait"] .basic{display:grid;grid-column:2/5;grid-row:2;grid-template-columns:repeat(3,minmax(44px,1fr));gap:4px;width:170px;max-width:100%;min-width:140px;margin-right:min(0px,calc((54px - (100% - 8px)/3)/2));justify-self:end;align-self:center}
+.app[data-touch="true"][data-layout="portrait"] .basic .assist-button{grid-column:1;grid-row:1}
+.app[data-touch="true"][data-layout="portrait"] .basic .rally-button{grid-column:2;grid-row:1}
+.app[data-touch="true"][data-layout="portrait"] .basic .punch{grid-column:3;grid-row:1}
+.app[data-touch="true"][data-layout="portrait"] .touch-aux{grid-column:5;grid-row:2;align-self:center;width:100%;min-width:0}
+.app[data-touch="true"][data-layout="portrait"] .basic button,.app[data-touch="true"][data-layout="portrait"] .basic .punch,.app[data-touch="true"][data-layout="portrait"] .touch-aux button{width:100%;min-width:44px;max-width:54px;height:54px;min-height:54px;justify-self:center}
+.app[data-touch="true"][data-layout="portrait"] .basic .assist-button .assist-label{font-size:8px;line-height:10px}
+.app[data-touch="true"][data-layout] .cabinet:has(#menu:not(.hidden)){grid-template-rows:minmax(0,1fr)}
+.app[data-touch="true"][data-layout] .stage-wrap:has(#menu:not(.hidden))~.control-deck{display:none}
+/* Logical landscape also covers phones rotated by the game's side-turn mode. */
+.app[data-touch="true"][data-layout="landscape"] #menu{grid-template-rows:44px minmax(96px,.85fr) minmax(60px,1fr) 44px;gap:5px;padding:6px 12px}
+.app[data-touch="true"][data-layout="landscape"] #menu .selection-heading{display:none}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup{max-height:150px;gap:26px}
+.app[data-touch="true"][data-layout="landscape"] .matchup-team{gap:4px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-vs{top:calc((100% - 48px)/2)}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-card{padding:2px 8px;gap:8px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-card img{width:62px;max-height:56px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-copy strong{font-size:20px}
+.app[data-touch="true"][data-layout="landscape"] #menu .matchup-role{top:3px;right:4px;font-size:9px;padding:1px 4px}
+.app[data-touch="true"][data-layout="landscape"] #menu .roster-picker{max-height:none;gap:3px}
+.app[data-touch="true"][data-layout="landscape"] #roster-instruction{display:none}
+.app[data-touch="true"][data-layout="landscape"] #menu .roster-option{grid-template-rows:minmax(0,1fr) 16px;padding:2px}
+.app[data-touch="true"][data-layout="landscape"] #menu .roster-option strong{font-size:11px;line-height:16px}
+.app[data-touch="true"][data-layout="landscape"] #menu .start-row{height:44px;min-height:44px}
+.app[data-touch="true"][data-layout="landscape"] .mode-picker button,.app[data-touch="true"][data-layout="landscape"] .mode-options button{padding:5px 10px;font-size:13px}
+.app[data-touch="true"][data-layout="landscape"] .roster-targets button{min-height:44px;padding:2px 4px}
+.app[data-touch="true"][data-layout="landscape"] .roster-targets button strong{font-size:12px}
+.app[data-touch="true"][data-layout="landscape"] #training-options span{max-width:100px;font-size:10px}
+.app[data-touch="true"][data-layout="portrait"] #menu{grid-template-rows:94px minmax(136px,.9fr) minmax(124px,1fr) 92px;gap:6px;padding:7px}
+.app[data-touch="true"][data-layout="portrait"] #menu .selection-heading{display:none}
+.app[data-touch="true"][data-layout="portrait"] .mode-strip{display:grid;grid-template-rows:44px 44px;gap:5px;justify-content:stretch;width:100%}
+.app[data-touch="true"][data-layout="portrait"] .mode-picker,.app[data-touch="true"][data-layout="portrait"] .mode-options{justify-content:center}
+.app[data-touch="true"][data-layout="portrait"] .mode-picker button{flex:1;padding:4px;font-size:13px}
+.app[data-touch="true"][data-layout="portrait"] #battle-options button{flex:1}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup{max-height:212px;gap:18px}
+.app[data-touch="true"][data-layout="portrait"] .matchup-team{gap:4px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-vs{top:calc((100% - 48px)/2)}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-card{padding:18px 3px 3px;grid-template-rows:minmax(0,1fr) 22px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-card img{width:100%;max-width:120px;max-height:104px}
+.app[data-touch="true"][data-layout="portrait"] #menu .matchup-copy strong{font-size:19px}
+.app[data-touch="true"][data-layout="portrait"] #menu .roster-picker{max-height:none}
+.app[data-touch="true"][data-layout="portrait"] .roster-targets{gap:4px}
+.app[data-touch="true"][data-layout="portrait"] .roster-targets button{flex-direction:column;gap:0;padding:2px}
+.app[data-touch="true"][data-layout="portrait"] .roster-targets button small{font-size:10px;line-height:14px}
+.app[data-touch="true"][data-layout="portrait"] .roster-targets button strong{font-size:12px;line-height:16px}
+.app[data-touch="true"][data-layout="portrait"] .roster-option{padding:2px;grid-template-rows:minmax(0,1fr) 16px}
+.app[data-touch="true"][data-layout="portrait"] .roster-option strong{font-size:11px;line-height:16px}
+.app[data-touch="true"][data-layout="portrait"] .assist-callout{font-size:10px;padding:3px 6px}
+@media(max-width:850px){.app[data-touch="false"] .movement{gap:2px}.app[data-touch="false"] .movement button{width:32px}.app[data-touch="false"] .basic{width:174px}.app[data-touch="false"] .basic button{width:54px;flex-basis:54px}.app[data-touch="false"] .touch-aux button{width:54px}.app[data-touch="false"] .control-deck{gap:5px;padding-inline:5px}}
+@media(prefers-reduced-motion:reduce){.mode-picker button[aria-pressed="true"],.assist-callout[data-phase="warning"]{transform:none}}
+
+/* Restart remains an explicit reversible choice until the confirmation action. */
+#restart-match[hidden],#restart-confirm[hidden]{display:none}
+#pause-screen .paper{max-height:100%;overflow:auto}
+#restart-match{min-height:44px;margin:8px auto 0;padding:4px 18px;border:2px solid #24464f;border-radius:5px;background:#eed8a4;font-size:15px;font-weight:900;text-decoration:none;box-shadow:2px 2px 0 #17313a}
+#restart-confirm{margin:10px 0 0;padding:9px;border:2px dashed #7d4b30;border-radius:6px;background:#ffebbd}
+#restart-confirm p{margin:0 0 8px;font-size:13px;line-height:1.5}
+.restart-actions{display:flex;gap:8px;justify-content:center}
+.restart-actions button{min-height:44px;min-width:44px;flex:1;padding:5px 8px;border:2px solid #24464f;border-radius:5px;background:#e5ece0;color:#17313a;font-size:14px;font-weight:900;box-shadow:2px 2px 0 #17313a}
+#restart-confirm-button{background:#f5c070}
+@media(max-height:540px) and (min-width:701px){
+ .app[data-touch="false"] #menu{grid-template-rows:44px minmax(96px,.85fr) minmax(60px,1fr) 44px;gap:5px;padding:6px 14px}
+ .app[data-touch="false"] #menu .selection-heading{display:none}
+ .app[data-touch="false"] #menu .matchup{max-height:150px}
+}
+
+/* Main move names lead; long names wrap instead of shrinking or clipping. */
+.app[data-touch="true"][data-layout] .specials strong{font-size:18px;line-height:1.1;white-space:normal;overflow-wrap:anywhere;text-overflow:clip;letter-spacing:0;max-height:none;overflow:visible;-webkit-line-clamp:unset;line-clamp:none}
+.app[data-touch="true"][data-layout] .specials small{font-size:9px;line-height:1.1;color:#e9e9d6}
+.app[data-touch="true"][data-layout="portrait"] .specials button{height:84px;grid-template-rows:auto minmax(0,1fr);gap:2px 3px;padding:3px 4px}
+/* V58: compact vertical whitespace, keeping 16px names and 9px subtitles.
+   Narrow overlays retain three full name lines at 568px. */
+.app[data-touch="true"][data-overlay-controls="true"] .specials{height:80px}
+.app[data-touch="true"][data-overlay-controls="true"] .specials button{height:80px;min-height:80px;grid-template-rows:minmax(0,1fr) 18px;gap:1px;padding:2px}
+.app[data-touch="true"][data-overlay-controls="true"] .specials strong{font-size:16px;line-height:1.1;white-space:normal;overflow-wrap:anywhere;align-self:center}
+.app[data-touch="true"][data-overlay-controls="true"] .specials small{font-size:9px;line-height:1.1}
+.app[data-touch="true"][data-overlay-controls="true"] .specials .cooldown{width:18px;height:18px}
+@container(min-width:600px){
+ .app[data-touch="true"][data-overlay-controls="true"] .specials{height:68px}
+ .app[data-touch="true"][data-overlay-controls="true"] .specials button{height:68px;min-height:68px;grid-template-rows:minmax(0,1fr) 22px}
+ .app[data-touch="true"][data-overlay-controls="true"] .specials .cooldown{width:22px;height:22px}
+}
+/* Home is a choice before the current battle is discarded. */
+.app .cabinet:has(#home-confirm:not(.hidden)){position:relative}
+#home-confirm{z-index:40;padding:8px}
+#home-confirm .paper{max-height:100%;overflow:auto;transform:none}
+#home-confirm h2{font-size:28px}
+.home-confirm-actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:14px}
+/* Keep both rally lines horizontal inside the 44px portrait action target. */
+.app[data-touch="true"][data-layout="portrait"] .basic button span{font-size:16px;line-height:18px;white-space:nowrap}
+.app[data-touch="true"][data-layout="portrait"] .basic button small{font-size:9px;line-height:11px;white-space:nowrap}
+.app[data-touch="true"][data-layout="portrait"] .basic .rally-button span{padding-inline:1px}
+.app[data-touch="true"][data-layout="portrait"] .basic .rally-button .rally-label{font-size:10px;line-height:12px;white-space:nowrap;padding-inline:1px}
+
+/* V59: departure and continue choices share the same tangible comic button. */
+#home-confirm .menu-action,#pause-screen .menu-action,#result .menu-action{display:block;box-sizing:border-box;width:184px;max-width:100%;height:48px;min-height:48px;margin:10px auto 0;padding:6px 16px;background:#bc3f31;color:var(--paper);border:3px solid var(--ink);border-radius:5px;box-shadow:3px 4px 0 var(--ink);font-size:16px;font-weight:900;line-height:1.2;text-decoration:none;white-space:nowrap}
+#home-confirm .menu-action{margin:0}
+#home-confirm .menu-action:active,#pause-screen .menu-action:active,#result .menu-action:active{transform:translate(1px,2px);box-shadow:2px 2px 0 var(--ink)}
+.app[data-touch="true"][data-layout="landscape"] #home-confirm .paper{padding:10px}
+.app[data-touch="true"][data-layout="landscape"] #home-confirm h2{margin:0 0 4px}
+.app[data-touch="true"][data-layout="landscape"] #home-confirm p{margin:4px 0}
+.app[data-touch="true"][data-layout="landscape"] .home-confirm-actions{margin-top:8px;gap:8px}
+
+/* V60: consistent semantic colors across the two comic menus. */
+#home-confirm #home-cancel,#pause-screen #resume{background:#bc3f31;color:#fff6df}
+#home-confirm #home-confirm-button{background:#e5ae46;color:#152c34}
+#home-confirm #home-select,#pause-screen #leave,#result #reselect{background:#315f88;color:#fff6df}
+#pause-screen #restart-match{background:#237363;color:#fff6df}

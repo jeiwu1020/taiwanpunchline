@@ -1,0 +1,40 @@
+✔ music preferences preserve V27 settings and are independently normalized (1.903298ms)
+✔ music slider and mute update only music preferences (1.419306ms)
+✔ game music selects battle and settings/menu without changing paused combat (40.889271ms)
+✔ new music controls and attribution do not erase original history (0.808619ms)
+✔ defaults preserve existing audio levels and cannot be mutated (2.902386ms)
+✔ normalization accepts partial settings and fills omitted fields (0.379999ms)
+✔ normalization clamps finite volumes and preserves zero (0.331467ms)
+✔ normalization rejects non-finite volumes and coerced types (0.447117ms)
+✔ normalization requires booleans and known camera modes (0.464103ms)
+✔ normalization treats arrays, null, primitives and unknown versions as defaults (0.375963ms)
+✔ normalization whitelists own data without prototype pollution or getter execution (0.383514ms)
+✔ normalization returns fresh snapshots without mutating its input (0.311979ms)
+✔ store loads partial saved settings with no constructor writes or callbacks (0.580183ms)
+✔ corrupt, non-object and future-version saved records safely fall back (0.635474ms)
+✔ malicious saved JSON cannot add settings or pollute prototypes (3.834226ms)
+✔ missing or inaccessible storage still supports in-memory settings (1.722201ms)
+✔ default localStorage access catches a throwing browser property getter (0.214546ms)
+✔ explicit storage overrides the default browser storage (0.232592ms)
+✔ updates retain independent channel volume and mute preferences (0.343565ms)
+✔ updates ignore invalid and unknown fields without resetting existing values (0.239192ms)
+✔ updates notify once per actual change and never for no-op patches (0.243097ms)
+✔ returned and callback snapshots cannot mutate internal state (0.146686ms)
+✔ failed saves retain live settings and callbacks and can recover on later edits (0.364686ms)
+✔ a failed save after a successful load marks the current snapshot unsaved (0.253613ms)
+✔ reset restores defaults and removes only its own key (0.266912ms)
+✔ reset failure still restores defaults and reports unsaved settings (0.327211ms)
+✔ custom settings key is used for reads, writes and reset without touching the default key (0.296906ms)
+✔ selecting each of21 moves starts exactly one preview and opening does not autoplay (4.82378ms)
+✔ switching tab, character, close or stop cancels previews without starting another (2.05464ms)
+✔ reset needs confirmation and cancel changes nothing (0.525823ms)
+✔ channel volume and mute controls remain independent and sync their displayed values (0.695092ms)
+✔ changing character updates the still illustration without playing audio (0.696654ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 206.79304

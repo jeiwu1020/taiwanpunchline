@@ -1,0 +1,3 @@
+# V63 equal result buttons
+Inspected user screenshot IMG_6553.png. Replay was primary-only and therefore sized by its text, while reselect used fixed menu-action dimensions. Added only the existing menu-action class to replay, matching the requested reselect baseline184x48px, margins, font and border. Red replay and blue reselect colors retained. No game handler changes.
+2109 tests passed. Isolated result-button fixtures using actual production styles were visually inspected in320px portrait and667px landscape iframe viewports: equal button size and readable replay label. These are layout component checks, not physical iOS/full game runs. Baseline#39 tagged backup-before-result-size-v63 and preserved in prior complete V62 backup.

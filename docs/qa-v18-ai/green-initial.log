@@ -1,0 +1,26 @@
+✔ normal waits after first seeing a slow attack, then can defend (8.689353ms)
+✔ easy waits after first seeing a slow attack, then can defend (2.680529ms)
+✔ a new jab lands before an unprepared normal AI can visually react (2.059904ms)
+✔ normal cannot instantly choose a counter stance from fresh attack input (0.695848ms)
+✔ easy cannot instantly choose a counter stance from fresh attack input (0.358761ms)
+✔ normal gives a newly visible projectile its own first-observation delay (2.102848ms)
+✔ normal gives a newly visible queue its own first-observation delay (3.184379ms)
+✔ easy gives a newly visible projectile its own first-observation delay (0.659413ms)
+✔ easy gives a newly visible queue its own first-observation delay (0.832624ms)
+✔ a replacement attack must earn a new observation delay (0.904072ms)
+✔ a disappearing threat cannot cause a delayed phantom defense (0.845304ms)
+✔ normal leaves a real post-punch gap even when the decision timer is ready (2.580107ms)
+✔ normal leaves a real post-special2 gap even when the decision timer is ready (1.839852ms)
+✔ easy leaves a real post-punch gap even when the decision timer is ready (3.274183ms)
+✔ easy leaves a real post-special2 gap even when the decision timer is ready (3.058979ms)
+✔ normal starts a fresh gap when its action is interrupted and does not refund cooldown (0.950462ms)
+✔ easy starts a fresh gap when its action is interrupted and does not refund cooldown (0.680735ms)
+✔ pause and hitstop do not burn the pending observation delay (1.246898ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 212.99331
