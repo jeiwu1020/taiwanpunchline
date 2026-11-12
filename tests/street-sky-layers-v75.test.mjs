@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import * as art from '../dist/challenge-art.mjs';
 import {createFiniteBackdropRenderer as rawBackdrop} from './helpers/finite-backdrop-fixture.mjs';
 import {depthRouteCameraFrame,depthBackdropLayout} from '../dist/challenge-depth-render.mjs';
-import {coverage} from './helpers/bounded-backdrop-assertions.mjs';
+import {continuousCoverage} from './helpers/bounded-backdrop-assertions.mjs';
 import {sceneFixture,artImages} from './helpers/street-render-scene.mjs';
 const facade={id:'facade',width:1536,height:1024},sky={id:'sky',width:1536,height:1024};
 const images=()=>({...artImages,'challenge-street-facade':facade,'challenge-street-sky':sky});
@@ -27,7 +27,7 @@ test('retained facade stays transparent above roof and sky is one independently 
  renderer.draw(bg,density,density);
  const skies=f.images.filter(i=>i.key==='challenge-depth-sky'&&i.visible);assert.equal(skies.length,1);
  const s=skies[0];assert.equal(s.x,bg.camera);assert.equal(s.y,bg.top);assert.equal(s.width,bg.width);assert.equal(s.height,bg.height);
- coverage(f,bg,density);
+ continuousCoverage(f,bg,density,density,{repaired:false});
  }
  assert.ok(f.draws.some(c=>c.image===facade));assert.ok(f.draws.some(c=>c.image===sky));
  const skyCount=f.draws.filter(c=>c.image===sky).length;

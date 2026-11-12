@@ -344,13 +344,18 @@ export function createDepthChallengeRenderer(scene,images){
   const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;
   // Render at twice CSS resolution (bounded on large desktop views), rather
   // than enlarging a fixed low-resolution mob or text texture with the camera.
-  const ratio=Math.max(1,Math.min(2,2560/frame.width,1800/frame.height)),pw=Math.ceil(frame.width*ratio),ph=Math.ceil(frame.height*ratio),stamp=pw+':'+ph;
-  if(stamp!==size){texture.setSize(pw,ph);size=stamp;}
+  const ratio=Math.max(1,Math.min(2,2560/frame.width,1800/frame.height));
+  const backdropWidth=Math.ceil(frame.width*ratio),backdropHeight=Math.ceil(frame.height*ratio);
   if(route!==lastRoute){backdrop.reset();labelSlots.clear();lastRoute=route;}
-  const retained=frame.backdropZoom?{width:frame.width,height:frame.height,scaleX:pw/frame.width*frame.backdropZoom,scaleY:ph/frame.height*frame.backdropZoom,top:frame.backdropTop,bottom:frame.backdropBottom}:null;
-  const cachedBackdrop=backdrop.draw(depthBackdropLayout(frame),pw/width,ph/height,retained,frame.presentation);
+  const retained=frame.backdropZoom?{width:frame.width,height:frame.height,scaleX:backdropWidth/frame.width*frame.backdropZoom,scaleY:backdropHeight/frame.height*frame.backdropZoom,top:frame.backdropTop,bottom:frame.backdropBottom}:null;
+  const cachedBackdrop=backdrop.draw(depthBackdropLayout(frame),backdropWidth/width,backdropHeight/height,retained,frame.presentation);
+  // Isolated #70 spike: lower only desktop foreground density. Direct
+  // background fallback and all touch presentations retain original density.
+  const paintRatio=frame.presentation?.touch===false&&cachedBackdrop!==false?Math.min(ratio,1.6):ratio;
+  const pw=Math.ceil(frame.width*paintRatio),ph=Math.ceil(frame.height*paintRatio),stamp=pw+':'+ph;
+  if(stamp!==size){texture.setSize(pw,ph);size=stamp;}
   const ctx=texture.getContext();ctx.clearRect(0,0,pw,ph);ctx.save();ctx.scale(pw/width,ph/height);ctx.translate(-left,-top);
   const partialBackdrop=backdrop.paintPending(ctx,depthBackdropLayout(frame));
-  paintDepthRoute(ctx,images,route,time,frame,{...options,labelSlots,micDpr:ratio,skipBackdrop:cachedBackdrop!==false||partialBackdrop});ctx.restore();texture.refresh();display.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
+  paintDepthRoute(ctx,images,route,time,frame,{...options,labelSlots,micDpr:paintRatio,skipBackdrop:cachedBackdrop!==false||partialBackdrop});ctx.restore();texture.refresh();display.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
  }};
 }
