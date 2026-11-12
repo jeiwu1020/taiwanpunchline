@@ -1,4 +1,4 @@
-import {drawCollarFront} from './art-collar.mjs?v=campaign-complete-20261112-r1';
+import {drawCollarFront} from './art-collar.mjs?v=campaign-visuals-20261112-r2';
 // Hand-only bounds measured from the atlas; every gesture seats at its bare wrist.
 // Width is apparent hand width in world pixels, independent of arm foreshortening.
 export const HAND_FRAMES={

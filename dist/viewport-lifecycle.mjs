@@ -1,4 +1,4 @@
-import './viewport-core.js?v=campaign-complete-20261112-r1';
+import './viewport-core.js?v=campaign-visuals-20261112-r2';
 export const {createViewportLifecycle,readGameViewport,measureViewportElements}=globalThis.parliamentViewportCore;
 
 // Only a failed stabilization needs a visible notice. Normal settling stays

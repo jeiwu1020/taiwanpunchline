@@ -1,6 +1,6 @@
-import {CAST} from './roster.mjs?v=campaign-complete-20261112-r1';
-import {MOVE_READABILITY} from './combat-view.mjs?v=campaign-complete-20261112-r1';
-import {playableVoice} from './voice-slots.mjs?v=campaign-complete-20261112-r1';
+import {CAST} from './roster.mjs?v=campaign-visuals-20261112-r2';
+import {MOVE_READABILITY} from './combat-view.mjs?v=campaign-visuals-20261112-r2';
+import {playableVoice} from './voice-slots.mjs?v=campaign-visuals-20261112-r2';
 const tabs=['audio','controls','moves','about'];
 export function moveInformation(character,kind){
  const m=CAST[character]?.moves.find(m=>m.kind===kind);if(!m)return null;

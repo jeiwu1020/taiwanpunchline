@@ -1,7 +1,7 @@
-import {clone,newDocument,validateDocument,currentProfile,integer,MAX_SERIAL,MAX_JSON_LENGTH} from './model.mjs?v=campaign-complete-20261112-r1';
-import {PROFILE_IDS} from './catalog.mjs?v=campaign-complete-20261112-r1';
-import {migrateV1} from './migrate.mjs?v=campaign-complete-20261112-r1';
-import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills} from './transition.mjs?v=campaign-complete-20261112-r1';
+import {clone,newDocument,validateDocument,currentProfile,integer,MAX_SERIAL,MAX_JSON_LENGTH} from './model.mjs?v=campaign-visuals-20261112-r2';
+import {PROFILE_IDS} from './catalog.mjs?v=campaign-visuals-20261112-r2';
+import {migrateV1} from './migrate.mjs?v=campaign-visuals-20261112-r2';
+import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills} from './transition.mjs?v=campaign-visuals-20261112-r2';
 // Candidate defaults never name the live game's keys. Integration must be explicit.
 export const CURRENT_KEY='taiwanpunchline-progress-candidate-v2';
 export const LEGACY_KEY='taiwanpunchline-progress-candidate-v1';

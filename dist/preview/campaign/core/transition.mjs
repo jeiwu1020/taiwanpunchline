@@ -1,5 +1,5 @@
-import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=campaign-complete-20261112-r1';
-import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-complete-20261112-r1';
+import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=campaign-visuals-20261112-r2';
+import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-visuals-20261112-r2';
 const reject=reason=>({ok:false,reason});
 function checked(input){const v=validateDocument(input);return v.ok?v.document:null;}
 function finish(d,p,extra={}){

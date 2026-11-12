@@ -1,4 +1,4 @@
-import {challengeActorBounds,challengeCameraSubjects} from './challenge-camera.mjs?v=campaign-complete-20261112-r1';
+import {challengeActorBounds,challengeCameraSubjects} from './challenge-camera.mjs?v=campaign-visuals-20261112-r2';
 // Display-only logical canvas geometry. Badges never become camera blockers.
 const finite=(n,fallback=0)=>Number.isFinite(n)?n:fallback;
 const clamp=(n,lo,hi)=>Math.max(lo,Math.min(hi,n));

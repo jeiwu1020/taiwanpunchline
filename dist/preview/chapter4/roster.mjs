@@ -1,4 +1,4 @@
-import {COMBAT} from './combat-rules.mjs?v=campaign-complete-20261112-r1';
+import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
 // Every combat action and effect is invented satire, not a historical reenactment.
 // A source URL verifies only the stated text context, never reusable original audio.
 const sourceNote='僅核對標題、說明或逐字稿；未聽驗，未確認影音再利用權。招式與效果為虛構。';

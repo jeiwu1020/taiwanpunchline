@@ -1,6 +1,6 @@
 // Disposable trial: shared movement/combat, its own short route and no saves.
-import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=campaign-complete-20261112-r1';
-export {DEPTH,depthDrawOrder as trialDrawOrder} from './challenge-depth-engine.mjs?v=campaign-complete-20261112-r1';
+import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=campaign-visuals-20261112-r2';
+export {DEPTH,depthDrawOrder as trialDrawOrder} from './challenge-depth-engine.mjs?v=campaign-visuals-20261112-r2';
 export class StreetTrial extends ChallengeDepthRoute {
  constructor(character='wang',rng=Math.random){
   super(character,'beginner',rng,{playerAssist:character==='wang'?'han':'wang'});

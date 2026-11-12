@@ -1,5 +1,5 @@
-import {newDocument,validateDocument,clone,integer,onlyKeys} from '../core/model.mjs?v=campaign-complete-20261112-r1';
-import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-complete-20261112-r1';
+import {newDocument,validateDocument,clone,integer,onlyKeys} from '../core/model.mjs?v=campaign-visuals-20261112-r2';
+import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-visuals-20261112-r2';
 
 export const CHALLENGE_KEY='taiwanpunchline-challenge-v4';
 export const LEGACY_KEYS=Object.freeze(['taiwanpunchline-progress-v1','taiwanpunchline-progress-v2','taiwanpunchline-progress-v2:v1-import-seed','taiwanpunchline-progress-v3']);

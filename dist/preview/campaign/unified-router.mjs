@@ -1,7 +1,7 @@
-import {openUnifiedProgress} from './unified/progress.mjs?v=campaign-complete-20261112-r1';
-import {legacySlot,parse} from './unified/schema.mjs?v=campaign-complete-20261112-r1';
-import {validateDocument,currentProfile,deriveStats} from './core/model.mjs?v=campaign-complete-20261112-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-complete-20261112-r1';
+import {openUnifiedProgress} from './unified/progress.mjs?v=campaign-visuals-20261112-r2';
+import {legacySlot,parse} from './unified/schema.mjs?v=campaign-visuals-20261112-r2';
+import {validateDocument,currentProfile,deriveStats} from './core/model.mjs?v=campaign-visuals-20261112-r2';
+import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-visuals-20261112-r2';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},

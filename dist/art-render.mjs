@@ -1,9 +1,9 @@
-import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=campaign-complete-20261112-r1';
-import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=campaign-complete-20261112-r1';
-import {expressionFor} from './art-expression.mjs?v=campaign-complete-20261112-r1';
-import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=campaign-complete-20261112-r1';
-import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=campaign-complete-20261112-r1';
-import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=campaign-complete-20261112-r1';
+import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=campaign-visuals-20261112-r2';
+import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=campaign-visuals-20261112-r2';
+import {expressionFor} from './art-expression.mjs?v=campaign-visuals-20261112-r2';
+import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=campaign-visuals-20261112-r2';
+import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=campaign-visuals-20261112-r2';
+import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=campaign-visuals-20261112-r2';
 export const ART_FILES={
  ...OPENING_ART_FILES,
  'handshake-grip':'handshake-v13.png','left-hand-back':'left-hand-back-v36.png','right-hand-point':'right-hand-point-v37.png',

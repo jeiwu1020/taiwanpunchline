@@ -4,18 +4,18 @@
 
 - 基底：`main` 的 `488e31755dfe84db31b11c1c1f5df9dd81b452bf`，隔離分支 `codex/complete-challenge-story`。
 - 開工確認正式 Workers 首頁為 `workers-background-only-20261113-r1`，背景快取模組與 main SHA-256 一致：`f26f769e279b7d7f0ba99cd80d384c33accbedfe511e5d995e12045065ddd91b`。
-- 保留兩名起始角色、依序解鎖五名 Boss、共用章節進度與 v4 三槽存檔；沒有替換任何圖片或音檔。第五章場景借用既有第四章美術，最終戰借用既有議場場景及七角素材。
+- 保留兩名起始角色、依序解鎖五名 Boss、共用章節進度與 v4 三槽存檔；沒有替換任何圖片或音檔。第五章已於R2補上三張獨立場景、新道具與虛構場務；最終戰沿用既有議場及七角素材。既有345個媒體檔原樣保留，新圖另存。詳 [視覺補強記錄](VISUAL-VERIFICATION.md)。
 - 章1補戰後音浪接續；章2維持 Boss 戰前不揭名；章3查歸還標籤、章4護送器材車，章5清點／試音／阿扁仔 BO3，七人齊備進既定三打四。
 - 玩家自選一名主戰、兩名 AI 隊友，對上其餘四人。友軍不互傷、四向走位、玩家倒下繼續觀戰。150秒先比存活人數，再比剩餘血量比例總和；完全相同重試。
 - 第一階段結尾取得沒電的神麥，接往議會無限城尋找無限電池並待續。未提前決定真正結局。
 
 ## 自動化
 
-`npm test`：4,464 項通過，0 失敗／取消／略過，85.3秒。包括舊存檔、跨槽、CAS／generation／過期 token、無鎖 fail-closed、quota／讀回重試、整備與共享 viewport、相機／桌子／背景接縫、原角色21招與新三打四碰撞、AI、觀戰勝利、一次性獎勵及結局重看。
+`npm test`：4,471 項通過，0 失敗／取消／略過，111.1秒。包括舊存檔、跨槽、CAS／generation／過期 token、無鎖 fail-closed、quota／讀回重試、整備與共享 viewport、相機／桌子／背景接縫、原角色21招與新三打四碰撞、AI、觀戰勝利、一次性獎勵及結局重看。
 
 `node build/normalize-runtime-versions.mjs --write`：0差異，執行期版本一致。
 
-`node build-release-output.mjs`：成功，516檔、242,025,380 bytes，排除170個舊／重複檔。正式資產內容未修改。
+`node build-release-output.mjs`：成功，525檔、259,584,792 bytes，排除170個舊／重複檔。既有共享素材hash檢查通過，新圖另加。
 
 另跑21場有種子的完整 AI 混戰（七種主戰 × 三難度），全部正常結算且座標／血量有限；戰鬥約17–38秒。這只是完成性探針，不代表真人平衡驗收，細節見 [ai-simulations.json](ai-simulations.json)。
 
@@ -37,4 +37,4 @@ Library 找到 `chapter5-temple-queue-candidate-20261110.zip`（`libfile_bedc7d1
 
 ## 發布狀態
 
-本輪交付隔離分支及 PR，沒有合併 main、執行 Workers 部署或改動 GPT Site。現行正式站保留背景接縫修正版。無限城關卡、排行榜及登入未屬本輪內容。
+隔離分支已交付；PR先前被自動核准審查拒絕，現依父線程明確指示不建立，尚無PR。沒有合併 main、執行 Workers 部署或改動 GPT Site。現行正式站保留背景接縫修正版。無限城關卡、排行榜及登入未屬本輪內容。

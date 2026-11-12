@@ -1,0 +1,21 @@
+{
+  "runtime": "campaign-visuals-20261112-r2",
+  "tests": {
+    "tests": 4471,
+    "pass": 4471,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "visualChecks": 6,
+  "visualScreenshots": 27,
+  "completeCampaignChecks": 16,
+  "browserErrors": [],
+  "build": {
+    "files": 525,
+    "bytes": 259584792
+  },
+  "existingMediaPreserved": 345,
+  "prCreated": false,
+  "deployed": false
+}

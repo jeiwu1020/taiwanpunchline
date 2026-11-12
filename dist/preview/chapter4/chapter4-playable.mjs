@@ -1,32 +1,33 @@
-import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-complete-20261112-r1';
-import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-complete-20261112-r1';
-import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-complete-20261112-r1';
-import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-complete-20261112-r1';
-import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-complete-20261112-r1';
-import {createChapterMedia} from '../campaign/chapter-media.mjs?v=campaign-complete-20261112-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-complete-20261112-r1';
-import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=campaign-complete-20261112-r1';
-import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-complete-20261112-r1';
-import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-complete-20261112-r1';
-import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-complete-20261112-r1';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-complete-20261112-r1';
-import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-complete-20261112-r1';
-import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-complete-20261112-r1';
-import {CAST,Duel,GROUND} from './core.mjs?v=campaign-complete-20261112-r1';
-import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=campaign-complete-20261112-r1';
-import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-complete-20261112-r1';
-import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=campaign-complete-20261112-r1';
-import {streetTrialFrame,containSprite} from './street-trial-view.mjs?v=campaign-complete-20261112-r1';
-import {DESK} from './stage-expansion.mjs?v=campaign-complete-20261112-r1';
-import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=campaign-complete-20261112-r1';
-import {arrowPresentation} from './art-motion.mjs?v=campaign-complete-20261112-r1';
-import {bindTouchControls} from './touch-controls.mjs?v=campaign-complete-20261112-r1';
-import {createPlayableChapter} from './chapter4-controller.mjs?v=campaign-complete-20261112-r1';
-import {CHAPTER4,CHARACTER_NAMES,STARTER_IDS} from './chapter4-content.mjs?v=campaign-complete-20261112-r1';
-import {ASSET_FILES} from './chapter4-assets.mjs?v=campaign-complete-20261112-r1';
-import {CHAPTER4_NEW_ART} from './chapter4-new-art.mjs?v=campaign-complete-20261112-r1';
-import {storyPropState} from './chapter4-story-props.mjs?v=campaign-complete-20261112-r1';
-import {bossRevealed,storyActors} from './chapter4-reveal.mjs?v=campaign-complete-20261112-r1';
+import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-visuals-20261112-r2';
+import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-visuals-20261112-r2';
+import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-visuals-20261112-r2';
+import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-visuals-20261112-r2';
+import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-visuals-20261112-r2';
+import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-visuals-20261112-r2';
+import {createChapterMedia} from '../campaign/chapter-media.mjs?v=campaign-visuals-20261112-r2';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-visuals-20261112-r2';
+import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=campaign-visuals-20261112-r2';
+import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-visuals-20261112-r2';
+import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-visuals-20261112-r2';
+import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-visuals-20261112-r2';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-visuals-20261112-r2';
+import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-visuals-20261112-r2';
+import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-visuals-20261112-r2';
+import {CAST,Duel,GROUND} from './core.mjs?v=campaign-visuals-20261112-r2';
+import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=campaign-visuals-20261112-r2';
+import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-visuals-20261112-r2';
+import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=campaign-visuals-20261112-r2';
+import {streetTrialFrame,containSprite} from './street-trial-view.mjs?v=campaign-visuals-20261112-r2';
+import {DESK} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
+import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=campaign-visuals-20261112-r2';
+import {arrowPresentation} from './art-motion.mjs?v=campaign-visuals-20261112-r2';
+import {bindTouchControls} from './touch-controls.mjs?v=campaign-visuals-20261112-r2';
+import {createPlayableChapter} from './chapter4-controller.mjs?v=campaign-visuals-20261112-r2';
+import {CHAPTER4,CHARACTER_NAMES,STARTER_IDS} from './chapter4-content.mjs?v=campaign-visuals-20261112-r2';
+import {ASSET_FILES} from './chapter4-assets.mjs?v=campaign-visuals-20261112-r2';
+import {CHAPTER4_NEW_ART} from './chapter4-new-art.mjs?v=campaign-visuals-20261112-r2';
+import {storyPropState} from './chapter4-story-props.mjs?v=campaign-visuals-20261112-r2';
+import {bossRevealed,storyActors} from './chapter4-reveal.mjs?v=campaign-visuals-20261112-r2';
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
 let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,frameTime=0,storyStartedAt=0,storyToken='';
@@ -88,7 +89,7 @@ for(const b of $$('#controls button')){
 }
 
 function routeIndex(s){return !s||s.stepId==='entry'||s.stepId==='route-a'||s?.stepId==='miniboss-a'?0:s?.stepId==='route-b'||s?.stepId==='miniboss-b'?1:2;}
-function paintBackdrop(im,f,w,h,curb=700,scene=routeIndex(v())){return drawStreetBackdrop(ctx,im,{...f,presentation:backgroundPresentation(w,h,ui.cameraOptions)},w,h,curb,images['chapter4-sky-'+scene],images['chapter4-seam-'+scene],scene,images['chapter4-edge-'+scene]);}
+function paintBackdrop(im,f,w,h,curb=700,scene=routeIndex(v())){const result=drawStreetBackdrop(ctx,im,{...f,presentation:backgroundPresentation(w,h,ui.cameraOptions)},w,h,curb,images['chapter4-sky-'+scene],images['chapter4-seam-'+scene],scene,images['chapter4-edge-'+scene]);drawChapterStreetMotifs(ctx,images['chapter-street-motifs'],f,{chapter:4,route:routeIndex(v()),worldWidth:CHAPTER4.routes[routeIndex(v())].width,width:w});return result;}
 function actor(f,frame,time,alpha=1){f=chapter4RenderActor(f);const x=(f.x-frame.left)*frame.zoom,y=frame.base+(f.y-GROUND+(f.depth??0)*.65)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*(f.face||1),frame.zoom);ctx.globalAlpha=alpha;if(f.mobKind?.startsWith('mini_'))drawChapter4Miniboss(ctx,images,f,time,{shadow:false});else if(f.mobKind)drawChallengeMob(ctx,images,f,time,{shadow:false});else drawFighterArt(ctx,images,f,time,{shadow:false});ctx.restore();}
 function label(copy,x,y,size=20,color='#fff3ce'){ctx.font=`900 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.strokeStyle='#17353a';ctx.lineWidth=4;ctx.strokeText(copy,x,y);ctx.fillStyle=color;ctx.fillText(copy,x,y);}
 function microphone(x,y,size=58,angle=-.3){const im=images['opening-props-v75'];if(!im)return;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.fillStyle='#fff5c6cc';ctx.strokeStyle='#bc8534';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,-size*.55,size*.42,size*.68,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.drawImage(im,1186,543,192,444,-size*.22,-size,size*.44,size);ctx.restore();}

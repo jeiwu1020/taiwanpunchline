@@ -1,2 +1,2 @@
-import {mountGameSelects} from './game-select.mjs?v=campaign-complete-20261112-r1';
+import {mountGameSelects} from './game-select.mjs?v=campaign-visuals-20261112-r2';
 mountGameSelects({document});

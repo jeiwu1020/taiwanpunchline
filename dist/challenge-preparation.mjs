@@ -1,8 +1,8 @@
-import {mountGameSelects} from './game-select.mjs?v=campaign-complete-20261112-r1';
-import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=campaign-complete-20261112-r1';
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-complete-20261112-r1';
-import {saveIssueText} from './save-copy.mjs?v=campaign-complete-20261112-r1';
-import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-complete-20261112-r1';
+import {mountGameSelects} from './game-select.mjs?v=campaign-visuals-20261112-r2';
+import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=campaign-visuals-20261112-r2';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-visuals-20261112-r2';
+import {saveIssueText} from './save-copy.mjs?v=campaign-visuals-20261112-r2';
+import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-visuals-20261112-r2';
 const labels={hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -36,7 +36,7 @@ export function mountChallengeRecovery({document,window=document.defaultView,par
 export function mountChallengePreparation({document,window=document.defaultView,characters={},controller,getEncounter=()=>({}),applyPreparation=null,onApplied=()=>{},onClose=()=>{},onBusy=()=>{},onFailure=()=>{},parent=document.body,embedded=false}={}){
  const dialog=document.createElement(embedded?'section':'dialog');dialog.id=embedded?'challengePreparationPage':'challengePreparationOverlay';dialog.dataset.embedded=String(embedded);if(embedded)dialog.hidden=true;dialog.className='challenge-preparation-overlay'+(embedded?'':' challenge-dialog');dialog.setAttribute('aria-labelledby',(embedded?'overview-':'')+'challengePreparationTitle');parent.append(dialog);
  // The same isolated stylesheet is loaded by root and standalone chapter callers.
- if(!document.querySelector('link[data-challenge-preparation-style]')){const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('./challenge-preparation.css?v=campaign-complete-20261112-r1',import.meta.url).href;style.dataset.challengePreparationStyle='';document.head?.append(style);}
+ if(!document.querySelector('link[data-challenge-preparation-style]')){const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('./challenge-preparation.css?v=campaign-visuals-20261112-r2',import.meta.url).href;style.dataset.challengePreparationStyle='';document.head?.append(style);}
  const viewport=embedded?{sync(){},destroy(){}}:mountChallengeDialogViewport(dialog,{document,maxWidth:940,savedRecoveryExit:()=>!disposed&&isOpen()&&failed&&destinationSaved&&!busy?displayFailure?.result?.savedReload:null,unreadyActionToken:e=>{const control=e.target?.closest?.('button');return !disposed&&isOpen()&&failed&&destinationSaved&&!busy&&displayFailure?.result?.reason==='scene-unavailable'&&displayFailure.result.isCurrent?.()===true&&control===q('#preparationCancel')&&!control.disabled&&!control.hidden?displayFailure.token:null;}});
  const isOpen=()=>dialog.hasAttribute('open');
  let baseline='',selects=null,snapshot=null,draft=null,inspect='',readOnly=false,busy=false,failed=false,stale=false,destinationSaved=false,displayFailure=null,keepPaused=false,previousFocus=null,status='',disposed=false,recovery=null,context=null,intent='save-only',explicitIntent=false;

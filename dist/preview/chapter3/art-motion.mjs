@@ -1,5 +1,5 @@
-import {COMBAT} from './combat-rules.mjs?v=campaign-complete-20261112-r1';
-import {rosterMotion} from './art-roster-motion.mjs?v=campaign-complete-20261112-r1';
+import {COMBAT} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
+import {rosterMotion} from './art-roster-motion.mjs?v=campaign-visuals-20261112-r2';
 export const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 export const ease=v=>{const t=clamp(v);return t*t*(3-2*t)};
 export function activeSpitAge(f,now,started){

@@ -1,8 +1,8 @@
-import {Duel,GROUND,CAST} from './core.mjs?v=campaign-complete-20261112-r1';
-import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT} from './assist-rules.mjs?v=campaign-complete-20261112-r1';
-import {RALLY} from './stage-expansion.mjs?v=campaign-complete-20261112-r1';
-import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-complete-20261112-r1';
-import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=campaign-complete-20261112-r1';
+import {Duel,GROUND,CAST} from './core.mjs?v=campaign-visuals-20261112-r2';
+import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT} from './assist-rules.mjs?v=campaign-visuals-20261112-r2';
+import {RALLY} from './stage-expansion.mjs?v=campaign-visuals-20261112-r2';
+import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-visuals-20261112-r2';
+import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=campaign-visuals-20261112-r2';
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const alive=f=>f.hp>0;
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;

@@ -1,5 +1,5 @@
-import {fitChallengeCamera} from '../../challenge-camera.mjs?v=campaign-complete-20261112-r1';
-import {GROUND} from '../../core.mjs?v=campaign-complete-20261112-r1';
+import {fitChallengeCamera} from '../../challenge-camera.mjs?v=campaign-visuals-20261112-r2';
+import {GROUND} from '../../core.mjs?v=campaign-visuals-20261112-r2';
 // The finale deliberately frames the whole team fight. The same safety solver
 // consumes committed logical HUD/control rectangles; it never rewrites inputs.
 export function finaleCameraFrame(width,height,world,{previous=null,delta=1000/60,occlusions=[],safeRect={left:8,top:8,right:width-8,bottom:height-8},paused=false}={}){

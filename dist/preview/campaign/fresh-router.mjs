@@ -1,5 +1,5 @@
-import {openChallengeProgress} from './fresh/progress.mjs?v=campaign-complete-20261112-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-complete-20261112-r1';
+import {openChallengeProgress} from './fresh/progress.mjs?v=campaign-visuals-20261112-r2';
+import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-visuals-20261112-r2';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../?challengeOverview=1'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},

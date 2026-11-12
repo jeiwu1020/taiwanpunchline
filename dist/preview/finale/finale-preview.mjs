@@ -1,7 +1,7 @@
-import {newDocument,currentProfile,deriveStats} from '../campaign/core/model.mjs?v=campaign-complete-20261112-r1';
-import {CHAPTERS,FIRST_CLEAR_STEPS,receiptFor,CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-complete-20261112-r1';
-import {startRun,applyRunAction,prepareParty} from '../campaign/core/transition.mjs?v=campaign-complete-20261112-r1';
-import {createFinaleSession} from './finale-session.mjs?v=campaign-complete-20261112-r1';
+import {newDocument,currentProfile,deriveStats} from '../campaign/core/model.mjs?v=campaign-visuals-20261112-r2';
+import {CHAPTERS,FIRST_CLEAR_STEPS,receiptFor,CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-visuals-20261112-r2';
+import {startRun,applyRunAction,prepareParty} from '../campaign/core/transition.mjs?v=campaign-visuals-20261112-r2';
+import {createFinaleSession} from './finale-session.mjs?v=campaign-visuals-20261112-r2';
 // Explicit preview owns only this in-memory document. No browser storage, locks,
 // profile selection or formal progress API is obtained by this module.
 export function createFinalePreview(options={}){

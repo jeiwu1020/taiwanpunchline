@@ -1,4 +1,4 @@
-import './viewport-core.js?v=campaign-complete-20261112-r1';
+import './viewport-core.js?v=campaign-visuals-20261112-r2';
 export const {gameViewport,viewportSample}=globalThis.parliamentViewportCore;
 export function logicalPointer(clientX,clientY,bounds,rotation,width,height){
  const x=(clientX-bounds.left)/Math.max(1,bounds.width),y=(clientY-bounds.top)/Math.max(1,bounds.height);

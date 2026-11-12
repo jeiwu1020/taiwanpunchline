@@ -1,6 +1,6 @@
-import {backgroundCachePolicy} from './background-cache-policy.mjs?v=campaign-complete-20261112-r1';
-import {hasStreetSeamRepairs,invalidateStreetSeamRepairs} from './street-seam-repair.mjs?v=campaign-complete-20261112-r1';
-import {drawChallengeBackdrop,drawChallengeSky,hasLayeredStreet,CHALLENGE_SCENE_FRAMES} from './challenge-art.mjs?v=campaign-complete-20261112-r1';
+import {backgroundCachePolicy} from './background-cache-policy.mjs?v=campaign-visuals-20261112-r2';
+import {hasStreetSeamRepairs,invalidateStreetSeamRepairs} from './street-seam-repair.mjs?v=campaign-visuals-20261112-r2';
+import {drawChallengeBackdrop,drawChallengeSky,hasLayeredStreet,CHALLENGE_SCENE_FRAMES} from './challenge-art.mjs?v=campaign-visuals-20261112-r2';
 
 // Canonical repeating world columns, split into finite 256-world-unit rows.
 // Density tiers are rounded UP from the present projection, never from the

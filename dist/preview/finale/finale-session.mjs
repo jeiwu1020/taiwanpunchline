@@ -1,6 +1,6 @@
-import {FinaleArena} from './finale-engine.mjs?v=campaign-complete-20261112-r1';
-import {ENDING} from './finale-story.mjs?v=campaign-complete-20261112-r1';
-import {CAST} from '../../core.mjs?v=campaign-complete-20261112-r1';
+import {FinaleArena} from './finale-engine.mjs?v=campaign-visuals-20261112-r2';
+import {ENDING} from './finale-story.mjs?v=campaign-visuals-20261112-r2';
+import {CAST} from '../../core.mjs?v=campaign-visuals-20261112-r2';
 const reject=reason=>({accepted:false,persisted:false,reason});
 
 /** Presentation never moves beyond a checkpoint until the v4 writer reads it back. */
