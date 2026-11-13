@@ -31,7 +31,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  const menu=document.querySelector('#menu .card'),stage=document.querySelector('#stage');
  if(!menu||!stage)throw new Error('Continuation requires the existing menu and stage');
  const make=(tag,id,text)=>{const e=document.createElement(tag);if(id)e.id=id;if(text)e.textContent=text;return e;};
- const controls=make('section','campaign-entry'),title=make('p',null,'使用這一槽已保存的章節與角色繼續遊戲。若從舊分頁返回或重新整理，請重新確認接續；請勿同時在多個分頁遊玩。');
+ const controls=make('section','campaign-entry'),title=make('p',null,'接續這一槽的角色與路段。一次只開一個遊戲分頁。');
  const label=make('label',null,'接續存檔 '),select=make('select','campaign-profile');
  for(const [value,text] of [['','目前使用的存檔'],['slot-1','存檔 1'],['slot-2','存檔 2'],['slot-3','存檔 3']]){const o=make('option',null,text);o.value=value;select.append(o);}label.append(select);if(['slot-1','slot-2','slot-3'].includes(query.get('profile')))setGameSelectValue(select,query.get('profile'));
  const resume=make('button','campaign-resume','繼續這一槽的挑戰'),menuStatus=make('p','campaign-menu-status'),adoptionChoices=make('section','campaign-adoption-choices');adoptionChoices.hidden=true;resume.type='button';resume.disabled=testPreview;menuStatus.setAttribute('role','status');

@@ -7,7 +7,7 @@ export const CHAPTER5_ART=Object.freeze({curbs:[535,557,556],files:{
  'chapter5-scene-1':'chapter5/seal-archive-v1.png',
  'chapter5-scene-2':'chapter5/sealed-forecourt-v1.png',
  'chapter5-props':'chapter5/return-props-v1.png',
- 'chapter5-miniboss-atlas':'chapter5/miniboss-atlas-v1.png'
+ 'chapter5-miniboss-atlas':'chapter5/miniboss-atlas-v2.png'
 }});
 export const PROP_CROPS=Object.freeze({counter:[35,89,586,514],boxes:[706,58,457,525],ledger:[35,695,572,500],sign:[709,663,465,547]});
 const SIGNS=Object.freeze([[{x:680,y:220,width:345,copy:'器材歸還處'},{x:1800,y:148,width:320,copy:'有夢先登記'}],[{x:1292,y:154,width:305,copy:'封印檔案廊'}],[{x:1005,y:158,width:420,copy:'議場保管處'},{x:1807,y:190,width:330,copy:'先看使用說明'}]]);

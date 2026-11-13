@@ -33,7 +33,7 @@ test('real panorama pixels remain opaque through source edges, jumping overscan 
 test('new inventory and sound-check staff paint their own atlas through the unchanged shared limb rig',async()=>{
  const {drawChapter5Miniboss,CHAPTER5_MINI_CROPS}=await import('../dist/preview/chapter5/chapter5-mob-art.mjs');
  const {Duel}=await import('../dist/core.mjs');const {drawChapter4Miniboss,MINI_CROPS}=await import('../dist/preview/chapter4/chapter4-mob-art.mjs');
- const atlas=await loadImage(fileURLToPath(chapter5AssetURL('chapter5/miniboss-atlas-v1.png'))),limbs=await loadImage(fileURLToPath(chapter5AssetURL('challenge/mob-atlas-v1.webp')));
+ const atlas=await loadImage(fileURLToPath(chapter5AssetURL('chapter5/miniboss-atlas-v2.png'))),limbs=await loadImage(fileURLToPath(chapter5AssetURL('challenge/mob-atlas-v1.webp')));
  for(const mobKind of ['mini_schedule','mini_marshal']){
   const canvas=createCanvas(400,500),ctx=canvas.getContext('2d'),calls=[],draw=ctx.drawImage.bind(ctx);ctx.translate(200,450);ctx.drawImage=(im,...a)=>{calls.push(im);return draw(im,...a);};const f=new Duel('wang').player;f.mobKind=mobKind;
   assert.ok(drawChapter5Miniboss(ctx,{'chapter5-miniboss-atlas':atlas,'challenge-mobs':limbs},f,1000));assert.ok(calls.includes(atlas));assert.ok(calls.includes(limbs));
@@ -43,7 +43,7 @@ test('new inventory and sound-check staff paint their own atlas through the unch
 });
 test('inventory clipboard and test meter do not cover the fictional staff faces at rest',async()=>{
  const {drawChapter5Miniboss,CHAPTER5_MINI_CROPS}=await import('../dist/preview/chapter5/chapter5-mob-art.mjs');const {Duel}=await import('../dist/core.mjs');
- const atlas=await loadImage(fileURLToPath(chapter5AssetURL('chapter5/miniboss-atlas-v1.png'))),limbs=await loadImage(fileURLToPath(chapter5AssetURL('challenge/mob-atlas-v1.webp')));
+ const atlas=await loadImage(fileURLToPath(chapter5AssetURL('chapter5/miniboss-atlas-v2.png'))),limbs=await loadImage(fileURLToPath(chapter5AssetURL('challenge/mob-atlas-v1.webp')));
  for(const [i,mobKind]of ['mini_schedule','mini_marshal'].entries()){
   const c=createCanvas(400,500),ctx=c.getContext('2d'),rects={},draw=ctx.drawImage.bind(ctx);ctx.translate(200,450);ctx.drawImage=(im,...a)=>{if(im===atlas)for(const key of ['head','prop','body'])if(a.slice(0,4).every((v,k)=>v===CHAPTER5_MINI_CROPS[i][key][k])){const m=ctx.getTransform(),points=[[a[4],a[5]],[a[4]+a[6],a[5]],[a[4],a[5]+a[7]],[a[4]+a[6],a[5]+a[7]]].map(([x,y])=>({x:m.a*x+m.c*y+m.e,y:m.b*x+m.d*y+m.f}));rects[key]={left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))};}return draw(im,...a);};
   const f=new Duel('wang').player;f.mobKind=mobKind;drawChapter5Miniboss(ctx,{'chapter5-miniboss-atlas':atlas,'challenge-mobs':limbs},f,0);const h=rects.head,p=rects.prop;assert.ok(h.bottom>=rects.body.top+2,mobKind+' jaw meets its collar without an empty neck gap');const intersection=Math.max(0,Math.min(h.right,p.right)-Math.max(h.left,p.left))*Math.max(0,Math.min(h.bottom,p.bottom)-Math.max(h.top,p.top));assert.ok(intersection/((h.right-h.left)*(h.bottom-h.top))<.08,mobKind+' holds the object below and beside its face');
