@@ -97,8 +97,13 @@ function openPreparation(readOnly=false){
  return preparation.open({readOnly:readOnly||view().mode!=='team-select',intent:'boundary'});
 }
 function openRecovery(){pauseForUI();recoveryOpen=true;$('#finale-recovery').hidden=false;$('#finale-save-status').textContent=view()?.saveLabel??saveIssueText(progress?.get().reason);}
-$('#start').onclick=async()=>{media.unlock();if(!chapter){await attach();return;}if(view().mode==='team-select'){await chapter.start([...draftTeam]);sync();}};
-$('#finale-prepare').onclick=()=>openPreparation();$('#leave').onclick=()=>openPreparation(true);
+async function ensureSelectedTeam(){
+ const requestedTeam=[...draftTeam];
+ if(!chapter){if(!await attach())return false;if(view().mode==='team-select')draftTeam=requestedTeam;}
+ return true;
+}
+$('#start').onclick=async()=>{media.unlock();if(!await ensureSelectedTeam())return;if(view().mode==='team-select'){await chapter.start([...draftTeam]);sync();}};
+$('#finale-prepare').onclick=async()=>{if(await ensureSelectedTeam())openPreparation();};$('#leave').onclick=()=>openPreparation(true);
 $('#story-next').onclick=async()=>{media.unlock();await chapter?.nextStory();sync();};$('#result-next').onclick=async()=>{media.unlock();await chapter?.continueResult();sync();};$('#result-reselect').onclick=async()=>{await chapter?.reselect();sync();};
 for(const id of ['menu-home','result-home','complete-home'])$('#'+id).onclick=returnOverview;
 $('#ending-review').onclick=()=>{chapter.reviewEnding();sync();};
