@@ -22,7 +22,7 @@ import {createFinaleSession} from './finale-session.mjs?v=campaign-boot-20261112
 import {createFinalePreview} from './finale-preview.mjs?v=campaign-boot-20261112-r3';
 import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=finale-arena-20261113-r4';
 import {drawFinaleStage} from './finale-stage.mjs?v=finale-arena-20261113-r4';
-import {FINALE_INTRO} from './finale-story.mjs?v=campaign-boot-20261112-r3';
+import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=campaign-boot-20261112-r3';
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,preview=['test','qa','previewOnly'].some(k=>query.has(k));
 let chapter=null,progress=null,images={},loaded=false,booting=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null;
@@ -52,14 +52,15 @@ function renderTeam(){
 function sync(){
  pauseLifecycle.sync();const s=view();if(!s){renderTeam();return;}clearHold();lastToken=s.token;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
- const combat=['battle','result'].includes(s.mode);document.body.dataset.noncombat=String(!combat||s.paused||s.busy||s.blocked);document.body.dataset.chapterMode=s.paused?'pause':s.mode==='team-select'?'menu':s.mode;document.body.dataset.finalBattle=String(combat);
+ const combat=['battle','result'].includes(s.mode);document.body.dataset.noncombat=String(!combat||s.paused||s.busy||s.blocked);document.body.dataset.chapterMode=s.paused?'pause':s.mode==='team-select'?'menu':s.mode==='intro'?'story':s.mode;document.body.dataset.finalBattle=String(combat);
  $('#pause').disabled=s.mode!=='battle';$('#pause').textContent=s.paused?'▶ 繼續':'Ⅱ 暫停';saveSlot.textContent=s.preview?'測試不保存':s.busy?'保存中':s.persisted?'進度已保存':'需處理';saveSlot.title=s.saveLabel;
  $('#finale-save-status').textContent=s.saveLabel+(s.saveIssue?'。'+saveIssueText(s.saveIssue):'');$('#finale-save-retry').disabled=s.busy||s.blocked;
  if(s.mode==='team-select'){$('#menu').hidden=false;renderTeam();}
- if(s.mode==='story'){$('#story-panel').hidden=false;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-next').textContent=s.frameIndex+1===s.frameCount?'看完了 →':'下一格 →';$('#story-next').disabled=s.busy||!!s.saveIssue;}
+ if(['story','intro'].includes(s.mode)){$('#story-panel').hidden=false;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-next').textContent=s.frameIndex+1===s.frameCount?(s.mode==='intro'?'開打 →':'看完了 →'):'下一格 →';$('#story-next').disabled=s.busy||!!s.saveIssue;}
  if(s.mode==='result'){
   $('#result-panel').hidden=false;$('#result-title').textContent=s.result.winner==='player'?'這一隊，終於拿到麥！':s.result.winner==='draw'?'同時安靜了……再來一次':'麥先讓對面拿，故事還沒完';
   $('#result-copy').textContent=s.result.matchWon?(chapter.world?.player.hp<=0?'你先倒下，隊友替全隊贏了！':'最後站著的是你們這一隊。')+' '+s.saveLabel:s.result.winner==='draw'?'人數與生命比例相同，本場重試；章節和經驗保留。':'全隊倒下或限時比較落敗。可以重試這場，或重新選擇三人隊伍。';
+  if(s.result.winner!=='draw')$('#result-copy').textContent+=' '+FINALE_VERDICT[s.result.matchWon?'win':'loss'];
   $('#result-next').textContent=s.result.matchWon?'拿起神麥，看結局 →':'原隊伍重試 →';$('#result-next').disabled=s.busy||!s.canNavigate;$('#result-reselect').hidden=s.result.matchWon;$('#result-reselect').disabled=s.busy||!s.canNavigate;
  }
  if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='話還沒講完 · 下一站無限城';$('#choice-copy').textContent='七人帶著沒電的神麥，前往議會無限城尋找無限電池。無限城尚待下一段旅程開放；目前的角色、經驗與配點都會保留。';$('#choice-roster').hidden=true;}
@@ -94,7 +95,8 @@ async function returnOverview(){
 function openPreparation(readOnly=false){
  if(!chapter||preparationBusy||view().busy)return false;pauseForUI();
  preparation??=mountChallengePreparation({document,window,characters:CAST,controller:chapter,getEncounter:view,onBusy:value=>{preparationBusy=value;},onApplied:()=>{const s=chapter.preparationSnapshot(),rest=draftTeam.filter(id=>id!==s.characterId);draftTeam=[s.characterId,...rest,...CHARACTER_IDS.filter(id=>id!==s.characterId&&!rest.includes(id))].slice(0,3);sync();},onClose:sync,onFailure:sync});
- return preparation.open({readOnly:readOnly||view().mode!=='team-select',intent:'boundary'});
+ const editable=!readOnly&&view().mode==='team-select';
+ return preparation.open({readOnly:!editable,intent:'boundary',...(editable?{initial:{characterId:draftTeam[0]}}:{})});
 }
 function openRecovery(){pauseForUI();recoveryOpen=true;$('#finale-recovery').hidden=false;$('#finale-save-status').textContent=view()?.saveLabel??saveIssueText(progress?.get().reason);}
 async function ensureSelectedTeam(){
@@ -102,7 +104,7 @@ async function ensureSelectedTeam(){
  if(!chapter){if(!await attach())return false;if(view().mode==='team-select')draftTeam=requestedTeam;}
  return true;
 }
-$('#start').onclick=async()=>{media.unlock();if(!await ensureSelectedTeam())return;if(view().mode==='team-select'){await chapter.start([...draftTeam]);sync();}};
+$('#start').onclick=async()=>{media.unlock();if(!await ensureSelectedTeam())return;if(view().mode==='team-select'){await chapter.start([...draftTeam],{opening:true});sync();}};
 $('#finale-prepare').onclick=async()=>{if(await ensureSelectedTeam())openPreparation();};$('#leave').onclick=()=>openPreparation(true);
 $('#story-next').onclick=async()=>{media.unlock();await chapter?.nextStory();sync();};$('#result-next').onclick=async()=>{media.unlock();await chapter?.continueResult();sync();};$('#result-reselect').onclick=async()=>{await chapter?.reselect();sync();};
 for(const id of ['menu-home','result-home','complete-home'])$('#'+id).onclick=returnOverview;

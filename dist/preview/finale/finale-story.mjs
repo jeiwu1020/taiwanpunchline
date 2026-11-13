@@ -1,3 +1,11 @@
+// All seven characters take the stage regardless of the player's three-person team.
+// Avoid "our three" in a named character's line: that speaker may be an opponent.
+export const FINALE_OPENING=Object.freeze([
+ {speaker:'咆哮哥',title:'三打四，也叫公平？',copy:'一邊三個、一邊四個，這根本司法不公！人數不對，還敢叫我先冷靜？'},
+ {speaker:'韓國魚',title:'到底是誰的頭髮？',copy:'什麼撕髮不公？只有我可以無髮無天！'},
+ {speaker:'旁白',title:'公平，經過精密計算',copy:'裁判廣播：「兩邊都有一隊，非常公平！」觀眾：「你數的是隊伍，不是人啦！」七人吵成一團，裁判趕快敲鈴。'}
+]);
+export const FINALE_VERDICT=Object.freeze({win:'裁判：「三個打贏四個，證明非常公平！」觀眾：「你只是等贏了才宣布吧！」',loss:'裁判：「人數沒有問題，再試一次就公平了！」觀眾：「這句也太方便了吧！」'});
 export const FINALE_INTRO=Object.freeze([
  {speaker:'阿扁仔',title:'車鑰匙交出來',copy:'中庭麥架固定了，車不開、帶不綁、輪不轉。東西終於肯安分，人也該輪到講話了吧？'},
  {speaker:'柯P',title:'三個人，對四個人',copy:'我想是這樣。你挑兩個隊友，其他四個一隊，哪隊最後還有人站著就贏。你先倒也能贏，這叫團隊分工。'},

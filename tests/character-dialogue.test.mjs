@@ -56,7 +56,7 @@ test('actual render boundaries resolve dialogue rather than only renaming speake
  const finale=readFileSync(new URL('../dist/preview/finale/finale-session.mjs',import.meta.url),'utf8');
  assert.match(story,/next\.map\(beat=>resolveDialogueFrame\(beat,characterId\)\)/);
  assert.match(ctrl,/gate\.dialogue\.map\(\(\[speaker,copy,voiceKey\]\)=>resolveDialogueFrame/);
- assert.match(finale,/storyFrame=mode==='story'\?resolveDialogueFrame/);
+ assert.match(finale,/storyFrame=\['story','intro'\]\.includes\(mode\)\?resolveDialogueFrame/);
 });
 import {createChapterController} from '../dist/preview/campaign/chapter-controller.mjs';
 import {createFinalePreview} from '../dist/preview/finale/finale-preview.mjs';
