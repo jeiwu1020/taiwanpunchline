@@ -4,6 +4,9 @@ import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
 export const DEPTH=Object.freeze({min:-90,max:100,speed:190,hit:36,rally:48,bodyLane:38,bodyWidth:62,clearance:65,platform:36});
+// Side contact uses the neutral lower-body/shadow radius, not a zero-width foot point.
+// Keep the actual tabletop support/landing footprint unchanged.
+export const TABLE_SIDE_CLEARANCE=44;
 const clamp=(v,a,b)=>Math.min(b,Math.max(a,v));
 const alive=f=>f.hp>0;
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;
@@ -22,7 +25,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   this.platforms=all.filter(t=>Math.abs((f.depth??0)-(t.depth??0))<=(t.depthHalf??DEPTH.platform));
   try{super.physics(f,dt);}finally{this.platforms=all;}
  }
- // Resolve swept foot motion against the existing landing footprint. Actors
+ // Resolve swept body motion against the table sides; landing stays foot-based. Actors
  // above the top may jump onto it; occupants may walk off without snapping.
  resolveTableMotion(f,from){
   if(!from)return;
@@ -33,13 +36,14 @@ export class ChallengeDepthRoute extends ChallengeRoute {
    for(const t of this.platforms){
     if(f.y<=t.y+1)continue;
     const half=t.depthHalf??DEPTH.platform,d=t.depth??0;
-    const lo=axis==='x'?t.left:d-half,hi=axis==='x'?t.right:d+half;
+    const lo=axis==='x'?t.left-TABLE_SIDE_CLEARANCE:d-half,hi=axis==='x'?t.right+TABLE_SIDE_CLEARANCE:d+half;
     const cross=axis==='x'?(from.depth??0):f.x;
-    const otherLo=other==='x'?t.left:d-half,otherHi=other==='x'?t.right:d+half;
+    const otherLo=other==='x'?t.left-TABLE_SIDE_CLEARANCE:d-half,otherHi=other==='x'?t.right+TABLE_SIDE_CLEARANCE:d+half;
     // Boundary contact allows sliding around a corner, not entry through it.
     if(cross<=otherLo||cross>=otherHi)continue;
-    if(start<=lo&&end>lo)stop=Math.min(stop,lo);
-    else if(start>=hi&&end<hi)stop=Math.max(stop,hi);
+    const entryLo=axis==='x'?t.left:lo,entryHi=axis==='x'?t.right:hi;
+    if(start<=entryLo&&end>lo&&end>start)stop=Math.min(stop,lo);
+    else if(start>=entryHi&&end<hi&&end<start)stop=Math.max(stop,hi);
    }
    f[axis]=stop;
   }
@@ -47,8 +51,10 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   // Recover to the nearest edge, never lift it onto the table or trap it.
   for(const t of this.platforms){
    const half=t.depthHalf??DEPTH.platform,d=t.depth??0,z=f.depth??0;
-   if(f.y<=t.y+1||f.x<=t.left||f.x>=t.right||z<=d-half||z>=d+half)continue;
-   const edges=[['x',t.left,f.x-t.left],['x',t.right,t.right-f.x],['depth',d-half,z-d+half],['depth',d+half,d+half-z]];
+   const left=t.left-TABLE_SIDE_CLEARANCE,right=t.right+TABLE_SIDE_CLEARANCE;
+   if(f.y<=t.y+1||f.x<=left||f.x>=right||z<=d-half||z>=d+half)continue;
+   // A partial side overlap recovers sideways, never teleports to another lane.
+   const edges=f.x<t.left?[['x',left,f.x-left]]:f.x>t.right?[['x',right,right-f.x]]:[['x',left,f.x-t.left],['x',right,t.right-f.x],['depth',d-half,z-d+half],['depth',d+half,d+half-z]];
    edges.sort((a,b)=>a[2]-b[2]);f[edges[0][0]]=edges[0][1];
   }
  }
@@ -168,3 +174,4 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   this.rallies=this.rallies.filter(r=>r.age<RALLY.duration);
  }
 }
+

@@ -1,6 +1,6 @@
 import {newDocument} from '../campaign/core/model.mjs';
 import {startRun,applyRunAction} from '../campaign/core/transition.mjs';
-import {newEnvelope} from '../campaign/fresh/schema.mjs';
+import {newEnvelope,CHALLENGE_KEY} from '../campaign/fresh/schema.mjs';
 export const QUICK_VIEW_HOST='codex-complete-challenge-story-taiwanpunchline.playformosa.workers.dev';
 export const quickViewAllowed=host=>host===QUICK_VIEW_HOST;
 export function createQuickViewStorage(){
@@ -19,4 +19,14 @@ export function seedChapter(number){
  // Later chapters have already seen the opening; chapter one retains the full opening.
  if(number>1)document.profiles[0].campaign.story.opening='seen';
  return envelope;
+}
+
+// Preserve only preferences already chosen inside this isolated viewer, never owner data.
+export function resetQuickViewChapter(session,number){
+ const envelope=seedChapter(number),next=createQuickViewStorage();
+ for(const key of ['parliament-settings-v1','brawl-page-zoom-v51']){
+  const value=session.local.getItem(key);if(value!==null)next.setItem(key,value);
+ }
+ next.setItem(CHALLENGE_KEY,JSON.stringify(envelope));
+ session.local=next;session.tab=createQuickViewStorage();
 }

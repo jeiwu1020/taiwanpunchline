@@ -1,6 +1,5 @@
 import {showIsolationFailure} from './failure.mjs';
-import {quickViewAllowed,createQuickViewStorage,seedChapter} from './session.mjs';
-import {CHALLENGE_KEY} from '../campaign/fresh/schema.mjs';
+import {quickViewAllowed,createQuickViewStorage,resetQuickViewChapter} from './session.mjs';
 const status=document.querySelector('#status'),frame=document.querySelector('#game'),load=document.querySelector('#load'),select=document.querySelector('#chapter');
 if(!quickViewAllowed(location.hostname)||window.parent!==window){
  status.textContent='此功能僅限指定預覽版。正式版不提供快速通關。';frame.remove();document.querySelector('.controls').hidden=true;
@@ -12,10 +11,10 @@ if(!quickViewAllowed(location.hostname)||window.parent!==window){
  Object.defineProperty(window,'__quickViewSession',{value:session});
  function enter(){
   frame.hidden=false;status.setAttribute('role','status');delete status.dataset.failure;
-  session.clearHandler();session.local=createQuickViewStorage();session.tab=createQuickViewStorage();
-  const chapter=Number(select.value);session.local.setItem(CHALLENGE_KEY,JSON.stringify(seedChapter(chapter)));
+  session.clearHandler();
+  const chapter=Number(select.value);resetQuickViewChapter(session,chapter);
   frame.src=chapter===1?'/?challengeOverview=1':chapter===6?'/preview/finale/?campaign=1&profile=slot-1':`/preview/chapter${chapter}/?campaign=1&profile=slot-1`;
-  status.textContent='載入後按遊戲內的開始／接續。漫畫與選角照常操作；遊戲內「快速過關」按一次跳過一回合。重新進入會重設此暫存進度。';
+  status.textContent='載入後按遊戲內的開始／接續。漫畫與選角照常操作；遊戲內「快速過關」按一次跳過一回合。切換章節只重設進度，音訊／側轉／視野設定會保留到離開或重整本頁。';
  }
  load.disabled=false;load.onclick=enter;
 

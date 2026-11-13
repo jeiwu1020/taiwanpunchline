@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {createCanvas,loadImage} from '@napi-rs/canvas';
-import {ChallengeDepthRoute} from '../dist/challenge-depth-engine.mjs';
+import {ChallengeDepthRoute,TABLE_SIDE_CLEARANCE} from '../dist/challenge-depth-engine.mjs';
 import {depthRenderItems,paintDepthRoute,depthRouteCameraFrame} from '../dist/challenge-depth-render.mjs';
 import {ART_FILES} from '../dist/art-render.mjs';
 import {CHALLENGE_ART_FILES} from '../dist/challenge-art.mjs';
@@ -54,7 +54,7 @@ test('all main tables keep existing four-sided solidity, jump landing and walk-o
   Object.assign(p,{x:side==='left'?t.left-30:side==='right'?t.right+30:mid,depth:side==='rear'||side==='jump'?-60:side==='front'?60:0});
   if(side==='jump'){g.press('jump');step(g,{down:true},16);step(g,{},100);assert.equal(p.supportY,t.y);step(g,{down:true},60);assert.equal(p.y,430);continue;}
   step(g,{[side==='rear'?'down':side==='front'?'up':side==='left'?'right':'left']:true},90);
-  assert.equal(side==='rear'||side==='front'?p.depth:p.x,side==='rear'?-36:side==='front'?36:side==='left'?t.left:t.right);
+  assert.equal(side==='rear'||side==='front'?p.depth:p.x,side==='rear'?-36:side==='front'?36:side==='left'?t.left-TABLE_SIDE_CLEARANCE:t.right+TABLE_SIDE_CLEARANCE);
  }
 });
 test('horizontal duels retain their intentional front lane, one-way desk and downward drop',()=>{
@@ -86,3 +86,4 @@ test('embedded chamber tabletop is centred at DESK.y while its original base and
  assert.ok(Math.abs(front.y+front.height/2-(CHAMBER.y+(692-715)*CHAMBER.width/1672))<1e-9);
  assert.equal(DESK.y,430+(581-715)*1400/1672,'visual calibration must not move the physics plane');
 });
+

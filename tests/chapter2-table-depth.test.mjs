@@ -6,6 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {JSDOM} from 'jsdom';
 import {createCanvas,Image} from '@napi-rs/canvas';
 import {createChapter2Route} from '../dist/preview/chapter2/chapter2-engine.mjs';
+import {TABLE_SIDE_CLEARANCE} from '../dist/challenge-depth-engine.mjs';
 const dist=resolve('dist/preview/chapter2');
 const advance=(g,input,n=90)=>{for(let i=0;i<n;i++)g.step(1/60,input);};
 const clean=(type='wang',routeIndex=0)=>{const g=createChapter2Route({characterId:type,routeIndex,rng:()=>.5});g.section={...g.section,spawns:[]};g.enemies=[];return g;};
@@ -46,7 +47,7 @@ test('all three starters keep every chapter-two table solid on four sides and la
    const g=clean(type,routeIndex),p=g.player,t=g.platforms[ti],near=t.depth+t.depthHalf,far=t.depth-t.depthHalf;
    Object.assign(p,{x:side==='left'?t.left-25:side==='right'?t.right+25:(t.left+t.right)/2,depth:side==='back'?far-10:side==='front'?near+10:t.depth,y:430,supportY:430});
    advance(g,{[side==='back'?'down':side==='front'?'up':side==='left'?'right':'left']:true});
-   assert.equal(side==='left'||side==='right'?p.x:p.depth,side==='left'?t.left:side==='right'?t.right:side==='back'?far:near,type+'/'+routeIndex+'/'+ti+'/'+side);
+   assert.equal(side==='left'||side==='right'?p.x:p.depth,side==='left'?t.left-TABLE_SIDE_CLEARANCE:side==='right'?t.right+TABLE_SIDE_CLEARANCE:side==='back'?far:near,type+'/'+routeIndex+'/'+ti+'/'+side);
   }
   for(const sign of [-1,1]){
    const g=clean(type,routeIndex),p=g.player,t=g.platforms[ti];Object.assign(p,{x:(t.left+t.right)/2,depth:t.depth+sign*(t.depthHalf+8)});g.press('jump');advance(g,sign<0?{down:true}:{up:true},16);advance(g,{},100);assert.equal(p.y,t.y);assert.equal(p.supportY,t.y);advance(g,sign<0?{down:true}:{up:true},50);assert.equal(p.y,430);
@@ -76,3 +77,4 @@ test('front legs meet the near ground line and tabletop stays at the landing hei
  calls.length=0;rules.drawChapter2TableLayer(ctx,{'challenge-street-props':img},{kind:'table-top',p:t,from:-62,to:-2},frame);
  assert.deepEqual(calls[0].slice(1,5),[101,130,1244,513]);assert.ok(Math.abs(calls[0][6]-327.36)<1e-9);assert.ok(Math.abs(calls[0][8]*80/513-31.2)<1e-9);
 });
+
