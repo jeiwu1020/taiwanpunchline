@@ -11,3 +11,12 @@ export function bindQuickViewHelp(document){
   }
  });
 }
+
+// A real iframe viewport, not device/touch emulation. Resizing never reloads it.
+export function bindQuickViewSize(document){
+ const select=document.querySelector('#view-size'),frame=document.querySelector('#game'),host=document.querySelector('#view-host');
+ if(!select||!frame||!host)return;
+ const sizes={portrait:[390,844],landscape:[844,390],desktop:[1280,720]};
+ const resize=()=>{const size=sizes[select.value];host.dataset.fixed=String(!!size);frame.style.width=size?size[0]+'px':'';frame.style.height=size?size[1]+'px':'';};
+ select.addEventListener('change',resize);resize();
+}

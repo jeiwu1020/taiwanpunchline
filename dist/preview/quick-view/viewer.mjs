@@ -1,7 +1,8 @@
-import {bindQuickViewHelp} from './header.mjs';
+import {bindQuickViewHelp,bindQuickViewSize} from './header.mjs';
 import {showIsolationFailure} from './failure.mjs';
 import {quickViewAllowed,createQuickViewStorage,resetQuickViewChapter} from './session.mjs';
 bindQuickViewHelp(document);
+bindQuickViewSize(document);
 const status=document.querySelector('#status'),frame=document.querySelector('#game'),load=document.querySelector('#load'),select=document.querySelector('#chapter');
 if(!quickViewAllowed(location.hostname)||window.parent!==window){
  status.dataset.failure='true';status.setAttribute('role','alert');status.textContent='此功能僅限指定預覽版。正式版不提供快速通關。';frame.remove();document.querySelector('.controls').hidden=true;

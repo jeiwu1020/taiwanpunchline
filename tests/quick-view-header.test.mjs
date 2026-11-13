@@ -27,3 +27,10 @@ test('rejected host displays an alert even when compact help is closed',()=>{
  const viewer=readFileSync(new URL('../dist/preview/quick-view/viewer.mjs',import.meta.url),'utf8');
  assert.match(viewer,/status.dataset.failure='true';status.setAttribute\('role','alert'\);status.textContent='此功能/);
 });
+
+import {bindQuickViewSize} from '../dist/preview/quick-view/header.mjs';
+test('preview dimensions resize the real frame without navigation or persistent storage',()=>{
+ const {window}=new JSDOM(html),d=window.document,frame=d.querySelector('#game'),select=d.querySelector('#view-size');frame.src='/preview/chapter5/';
+ Object.defineProperty(window,'localStorage',{get(){throw Error('must not read storage');}});bindQuickViewSize(d);
+ for(const [value,width,height]of [['portrait','390px','844px'],['landscape','844px','390px'],['desktop','1280px','720px'],['auto','','']]){select.value=value;select.dispatchEvent(new window.Event('change'));assert.equal(frame.style.width,width);assert.equal(frame.style.height,height);assert.equal(frame.getAttribute('src'),'/preview/chapter5/');}
+});
