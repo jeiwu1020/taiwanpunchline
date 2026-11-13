@@ -28,6 +28,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   if(STEP_IDS[cursor].startsWith('miniboss'))battle();else{cursor++;enter();}revision++;return true;
  }
  function rewindStory(t){if(!valid(t)||mode!=='story')return false;frame=0;revision++;return true;}
+ function previousStory(t){if(!valid(t)||mode!=='story'||frame<=0)return false;frame--;revision++;return true;}
  function step(dt,input={}){
   if(paused||!['route','battle'].includes(mode))return;
   world.step(dt,input);const current=world.drainEvents();events.push(...current);
@@ -98,7 +99,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   let applied=false;return {accepted,view:nextView,events:emitted,carry:normalizeCarry(after.carry),apply(){if(applied)return true;if(revision!==before.revision)return false;restore(after);applied=true;return true;}};
  }
  enter();
- return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},step,nextStory,rewindStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
+ return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},step,nextStory,rewindStory,previousStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
   press(action,t){return valid(t)&&!paused&&['route','battle'].includes(mode)?world.press(action):false;},
   finishChapter,
   drainEvents(){return events.splice(0);}

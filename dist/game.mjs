@@ -25,6 +25,7 @@ import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-
 import {mountChallengeUI} from './challenge-ui.mjs?v=campaign-boot-20261112-r3';
 import {challengeOpening,BOSS_DIALOGUES,CHAPTER1_HANDOFF} from './challenge-flow.mjs?v=campaign-boot-20261112-r3';
 import {mountChallengeStory} from './challenge-story.mjs?v=campaign-boot-20261112-r3';
+import {createComicPresentation} from './preview/campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-boot-20261112-r3';
 import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=campaign-boot-20261112-r3';
@@ -457,9 +458,12 @@ function openChallenge(){
  const savedParty=profileProgress.preparationSnapshot();challengeUI.open({characterId:savedParty.characterId,helperId:savedParty.helperId,selectionExplicit:true});
 }
 function ensureChallengeStory(){
- if(!challengeStory)challengeStory=mountChallengeStory({document,onAudio:unlockEntryAudio,paint:(canvas,beat,character,time)=>{
+ if(!challengeStory){const comic=createComicPresentation({chapterId:'chapter-1'});
+ challengeStory=mountChallengeStory({document,onAudio:unlockEntryAudio,reducedMotion:()=>!!scene?.reducedMotion,
+ onRetryArt:()=>comic.load(scene.artImages,{retry:true}),
+ paintComic:(canvas,beat,character,time,options)=>comic.paintFrame(canvas.getContext('2d'),scene.artImages,options.comicState,options.comicLayout,{time,reducedMotion:!!scene?.reducedMotion}),paint:(canvas,beat,character,time)=>{
  paintChallengeStory(canvas,scene.artImages,beat,character,time,{reducedMotion:!!scene?.reducedMotion});
- }});return challengeStory;
+ }});void comic.load(scene.artImages).then(()=>challengeStory?.refreshArt());}return challengeStory;
 }
 function story(beats,done){
  clearHold();stopVoice();started=false;duel.status='story';syncBattleSurface();

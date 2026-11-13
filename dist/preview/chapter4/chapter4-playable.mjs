@@ -1,4 +1,5 @@
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
+import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {drawChapterEncounter} from '../../chapter-encounter-art.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
@@ -44,7 +45,8 @@ ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceConte
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>!!continuation?.operationBusy,clearHold,onChange:()=>sync(),onFrameReset:()=>{lastTime=null;}});
 ui.setCameraAvailable(true);
 mountSpecialNameFit({document});
-comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:tone,isBlocked:()=>!!ui?.busy});
+const comic=createComicPresentation({chapterId:'chapter-4'});
+comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:tone,isBlocked:()=>!!ui?.busy||ui?.ready===false,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 function v(){return chapter?.view();}
 function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.blocked&&!s.busy&&!ui?.busy&&ui?.ready!==false&&['route','battle'].includes(s.mode);}
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
@@ -58,7 +60,7 @@ function refreshMenu(){roster($('#menu-roster'),STARTER_IDS,selected,id=>{select
 function sync(){
  pauseLifecycle.sync();const s=v();if(!s)return;chaseWindow.paint({active:s.mode==='route'&&!s.paused,image:images['opening-props-v75'],time:frameTime});if(s.mode==='story'&&s.token!==storyToken){storyToken=s.token;storyStartedAt=frameTime;}uiToken=s.token;clearHold();ui.refreshAccess();if(!s.paused&&!ui.busy)ui.cancelRestart(false);const noncombat=!['route','battle'].includes(s.mode)||s.paused||s.blocked||s.busy;document.body.dataset.noncombat=String(noncombat);document.body.dataset.chapterMode=s.paused?"pause":s.mode;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
- $('#pause').disabled=!['route','battle'].includes(s.mode);$('#pause').textContent=s.paused?'▶ 繼續':'Ⅱ 暫停';
+ $('#pause').disabled=!['story','route','battle'].includes(s.mode);$('#pause').textContent=s.mode==='story'?'出戰準備':s.paused?'▶ 繼續':'Ⅱ 暫停';
  $('#fighter-name').textContent=CAST[s.characterId].name;
  for(const [i,b] of $$('#specials button').entries())b.querySelector('.move-copy strong').textContent=CAST[s.characterId].moves[i].name;
  idle=new Duel(s.characterId,'beginner',()=>.3,bossRevealed(s)&&s.characterId!=='ma'?'ma':'wang');
@@ -77,7 +79,7 @@ function sync(){
  if(s.paused){$('#pause-panel').hidden=false;const token=s.token;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=()=>{media.unlock();if(!ui.busy&&pauseLifecycle.resume())sync();};}
  comicReader?.sync();ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
 }
-function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
+function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
 $('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
@@ -118,7 +120,8 @@ function paintStory(s,w,h,time){
 }
 function draw(time,delta=1000/60){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=v(),g=chapter?.world;ctx.clearRect(0,0,w,h);
- if(!s||s.mode==='story'||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
+ if(s?.mode==='story'){ui.clearCameraHints();comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
+ if(!s||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
  if(!g){ui.clearCameraHints();return;}const route=!!g.depthMode,player=g.player,portrait=ui.viewport.width<ui.viewport.height;
  let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{const spread=Math.abs(g.enemy.x-player.x),zoom=Math.min(portrait?w/660:w/1060,(h-(portrait?90:115))/390,w/(spread+340));f={zoom:Math.max(.3,zoom),left:Math.max(0,Math.min(960-w/Math.max(.3,zoom),(player.x+g.enemy.x)/2-w/Math.max(.3,zoom)/2)),base:portrait?h*.8:h-115};}
  f=mobileCamera.frame(f,g,{width:w,height:h,route,delta,paused:s.paused||g.status==='paused',...ui.cameraOptions});
@@ -165,7 +168,7 @@ function tick(now){
 continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-4',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
 refreshMenu();resizeCanvas();
 const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER4_NEW_ART.files};let loaded=0;
-Promise.all(Object.entries(allFiles).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';resolve([key,im]);};im.onerror=()=>reject(new Error('Missing asset: '+file));im.src=chapterAssetURL('chapter4',file);}))).then(entries=>{images=Object.fromEntries(entries);$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+Promise.all(Object.entries(allFiles).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';resolve([key,im]);};im.onerror=()=>reject(new Error('Missing asset: '+file));im.src=chapterAssetURL('chapter4',file);}))).then(entries=>{images=Object.fromEntries(entries);void comic.load(images).then(()=>comicReader.sync());$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
 
 
 registerQuickView(window,async()=>{

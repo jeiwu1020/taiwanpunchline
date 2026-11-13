@@ -39,7 +39,8 @@ export async function createFinaleSession({progress,rng=Math.random,onChange=()=
   continueResult(){if(mode!=='result')return Promise.resolve(reject('not-result'));if(result.matchWon){if(!usable())return Promise.resolve(reject('unsaved-progress'));mode='story';frame=0;world=null;serial++;notify();return Promise.resolve({accepted:true,persisted:!preview});}return operation(()=>dispatch({type:'retry'},newWorld));},
   reselect(){if(!['battle','result'].includes(mode)||result?.matchWon)return Promise.resolve(reject('not-battle'));return operation(()=>dispatch({type:'finale-reselect'},()=>{mode='team-select';world=null;paused=false;result=null;}));},
   restartSegment(){if(mode!=='battle'||!paused)return Promise.resolve(reject('not-paused'));return operation(()=>dispatch({type:'retry'},newWorld));},
-  nextStory(){
+  nextStory(t){
+   if(t!==undefined&&t!==String(serial))return Promise.resolve(reject('stale-run'));
    if(usable()&&mode==='intro'){if(frame+1<FINALE_OPENING.length)frame++;else{mode='battle';frame=0;}serial++;notify();return Promise.resolve({accepted:true,persisted:!preview});}
    if(!usable()||mode!=='story')return Promise.resolve(reject('not-story'));
    if(frame+1<ENDING.length){frame++;serial++;notify();return Promise.resolve({accepted:true,persisted:!review&&!preview});}
@@ -51,6 +52,12 @@ export async function createFinaleSession({progress,rng=Math.random,onChange=()=
    if(!usable())return reject(busy?'busy':pendingApply?'unsaved-progress':issue??'stale-run');
    if(!['intro','story'].includes(mode))return reject('not-story');
    frame=0;serial++;notify();return {accepted:true,persisted:view().persisted};
+  },
+  previousStory(t){
+   if(t!==String(serial))return reject('stale-run');
+   if(!usable())return reject(busy?'busy':pendingApply?'unsaved-progress':issue??'stale-run');
+   if(!['intro','story'].includes(mode)||frame<=0)return reject('not-previous-frame');
+   frame--;serial++;notify();return {accepted:true,persisted:view().persisted};
   },
   reviewEnding(){if(!usable()||mode!=='complete')return false;mode='story';frame=0;review=true;serial++;notify();return true;},
   preparationSnapshot(){return {...progress.preparationSnapshot(),token:String(serial)};},

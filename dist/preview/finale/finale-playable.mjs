@@ -1,5 +1,6 @@
 import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
+import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
@@ -38,7 +39,8 @@ ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceConte
  onPrepare:()=>openPreparation(true),onReturnOverview:()=>returnOverview(),onRestart:async()=>{const r=await chapter.restartSegment();if(r.accepted&&(r.persisted||preview)){if(ui.shouldKeepPausedAfterRestart)chapter.setPaused(true,view().token);sync();return true;}return r;}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>booting||!!view()?.busy,clearHold,onChange:sync,onFrameReset:()=>{lastTime=null;}});
 ui.setCameraAvailable(true);mountSpecialNameFit({document});
-const comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:()=>media.unlock(),isBlocked:()=>!!ui?.busy});
+const comic=createComicPresentation({chapterId:'finale-3v4'});
+const comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:()=>media.unlock(),isBlocked:()=>!!ui?.busy||ui?.ready===false||recoveryOpen,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 const tactical=document.createElement('canvas');tactical.id='finale-tactical-map';tactical.width=132;tactical.height=24;tactical.setAttribute('role','img');tactical.setAttribute('aria-label','全場位置：金色是你，綠色是隊友，紅色是對手');$('.chapter-objective').append(tactical);const tacticalCtx=tactical.getContext('2d');
 const saveSlot=document.createElement('button');saveSlot.id='finale-save-slot';saveSlot.type='button';saveSlot.textContent=preview?'測試不保存':'保存狀態';$('#trial-app > header').insertBefore(saveSlot,$('.toolbar'));saveSlot.onclick=()=>openRecovery();
 for(const selector of ['#team-main','#team-ally1','#team-ally2']){
@@ -128,6 +130,8 @@ function actor(a,frame,time){const q=finalePoint(a.x,a.y,a.depth??0),x=(q.x-fram
 const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',()=>.3,'wang').player]));
 function paint(time){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);
+ if(s&&['intro','story'].includes(s.mode)){comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
+ if(s?.mode==='complete'){cover(images['finale-corridor'],w,h);return;}
  if(!g||!['battle','result'].includes(s?.mode)){
   const shot=s?.storyFrame?.shot??(s?.mode==='complete'?'open-door':null);
   if(drawFinaleStoryArt(ctx,images,shot,w,h,time)){
@@ -167,7 +171,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};loaded=true;renderTeam();requestAnimationFrame(tick);
+ try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();requestAnimationFrame(tick);
   const handoff=preview?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }
