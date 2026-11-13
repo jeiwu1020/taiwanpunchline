@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 import {FinaleArena} from './finale-engine.mjs?v=campaign-boot-20261112-r3';
 import {ENDING} from './finale-story.mjs?v=campaign-boot-20261112-r3';
 import {CAST} from '../../core.mjs?v=campaign-boot-20261112-r3';
@@ -16,7 +17,7 @@ export async function createFinaleSession({progress,rng=Math.random,onChange=()=
  const fromSaved=()=>{const step=saved().cursor.stepId;if(step==='battle')newWorld();else{mode=step==='ending'?'story':step;frame=0;world=null;}};
  fromSaved();
  const usable=()=>!busy&&!blocked&&!pendingApply;
- function view(){const s=progress.get(),c=saved(),characterId=c.finale.team?.[0]??c.selection.characterId,storyFrame=mode==='story'?{...ENDING[frame],speaker:ENDING[frame].speaker==='player'?CAST[characterId].name:ENDING[frame].speaker}:null;
+ function view(){const s=progress.get(),c=saved(),characterId=c.finale.team?.[0]??c.selection.characterId,storyFrame=mode==='story'?resolveDialogueFrame({...ENDING[frame],speaker:ENDING[frame].speaker==='player'?CAST[characterId].name:ENDING[frame].speaker},characterId):null;
   return {mode,stepId:c.cursor.stepId,token:String(serial),characterId,helperId:c.selection.helperId,difficulty:c.difficulty??'easy',unlocked:progress.availableCharacters(),team:c.finale.team?[...c.finale.team]:null,rounds:{player:0,enemy:0},result,paused,busy,blocked,frameIndex:frame,frameCount:ENDING.length,storyFrame,
    preview,persisted:!preview&&s.persisted&&!s.dirty&&!busy&&!pendingApply&&!blocked,canNavigate:(s.persisted||preview)&&!s.dirty&&!busy&&!pendingApply&&!blocked&&!s.readOnly,saveIssue:issue??s.reason,saveLabel:preview?'測試模式，不保存進度':busy?'正在確認保存…':pendingApply?'尚未保存，請重試保存':blocked?'進度已變更，請重新接續':'進度已保存',review};
  }

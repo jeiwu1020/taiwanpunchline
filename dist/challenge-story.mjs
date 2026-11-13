@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from './character-dialogue.mjs?v=dialogue-20261113-r1';
 import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
 import {openingFrame} from './challenge-opening-art.mjs?v=campaign-boot-20261112-r3';
 // Explicit advances only. Story presentation owns no progress or save writes.
@@ -44,7 +45,7 @@ export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion
  back.onclick=()=>{if(!root.open||finishing||!recovery)return;const leave=recovery.returnToOverview;close();leave?.();};
  root.addEventListener('cancel',e=>e.preventDefault());
  function show(next,{characterId='wang',onComplete}={}){
-  if(disposed)return false;close();beats=Array.isArray(next)?next:[];if(!beats.length)return false;
+  if(disposed)return false;close();beats=Array.isArray(next)?next.map(beat=>resolveDialogueFrame(beat,characterId)):[];if(!beats.length)return false;
   index=0;character=characterId;complete=onComplete;sync();viewport.sync();root.showModal();button.focus();frame=request(draw);return true;
  }
  return{show,refreshRecovery(){if(recovery)viewport.sync();},get presentationEpoch(){return completionEpoch;},showRecovery(result,next,options={}){if(result?.accepted!==false||result.reason!=='scene-unavailable'||!show(next,options))return false;index=beats.length-1;sync();complete=()=>result;finish();return true;},close,destroy(){close();disposed=true;viewport.destroy();root.remove();}};

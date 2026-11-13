@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
 import {normalizeCarry,zeroSkills} from './core/model.mjs?v=campaign-boot-20261112-r3';
 // Shared encounter presentation state. Chapter modules provide content only.
@@ -15,7 +16,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   const step=STEP_IDS[cursor];result=null;frame=0;
   if(step==='entry')story('entry');
   else if(step.startsWith('route-')){const routeIndex=['route-a','route-b','route-c'].indexOf(step);world=createRoute({routeIndex,characterId:character,helperId:helper(),difficulty,rng,carry:carry?{...carry,assist:{...carry.assist,helper:helper()}}:null,stats:stats()});mode='route';}
-  else if(step.startsWith('miniboss')){const gate=CHAPTER.routes.find(r=>r.gate.id===`${chapterId}:${step}`).gate;frames=gate.dialogue.map(([speaker,copy])=>({speaker:speaker==='player'?CHARACTER_NAMES[character]:speaker,title:gate.name,copy,shot:gate.mobKind,direction:gate.counterplay}));mode='story';}
+  else if(step.startsWith('miniboss')){const gate=CHAPTER.routes.find(r=>r.gate.id===`${chapterId}:${step}`).gate;frames=gate.dialogue.map(([speaker,copy,voiceKey])=>resolveDialogueFrame({speaker:speaker==='player'?CHARACTER_NAMES[character]:speaker,title:gate.name,copy,voiceKey,shot:gate.mobKind,direction:gate.counterplay},character));mode='story';}
   else if(step==='boss-comic')story('beforeBoss');
   else if(step==='boss')battle();
   else if(step==='handoff-comic')story('handoff');

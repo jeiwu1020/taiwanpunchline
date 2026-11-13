@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 // Playable review draft. Reveal final opponent only at boss-comic.
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 export const CHARACTER_NAMES=freeze({wang:'恰吉王',han:'韓國魚',huang:'咆哮哥',su:'電火球',ko:'柯P',ma:'小馬哥',chen:'阿扁仔'});
@@ -90,7 +91,8 @@ export const CHAPTER2=freeze({
      ],
      [
       "player",
-      "我追的是麥克風，不是集點卡。借過一下，蓋章的手先收好！"
+      "本來追麥就好，現在還要集章？你這不是管入場，是在開集點大會！借過！",
+      "c2.mini0"
      ]
     ]
    }
@@ -167,7 +169,8 @@ export const CHAPTER2=freeze({
      ],
      [
       "player",
-      "你這動線畫得真圓滿，繞一圈又回到你面前。牌子借收一下，神麥可不等人！"
+      "你畫得圓滿，我跑得難看！繞一圈又見到你，這叫動線還是迴力鏢？牌子收起來！",
+      "c2.mini1"
      ]
     ]
    }
@@ -251,7 +254,8 @@ export const CHAPTER2=freeze({
     {
      "speaker": "player",
      "title": "早餐先欠著",
-     "copy": "早上追的是發言權，現在連早餐攤都收了！先穿騎樓，再沿廣播去廣場，別跟著音量繞圈。",
+     "voiceKey": "c2.entry",
+     "copy": "本來追的是發言權，現在連早餐都沒得選！穿騎樓、走廣場，別再跟著音量繞圈！",
      "shot": "market-trail",
      "direction": "街頭視角只見主角與高處神麥，仍不確定終點；不切入臥室，不描述隔窗張望。"
     },
@@ -270,21 +274,22 @@ export const CHAPTER2=freeze({
     {
      "speaker": "電火球",
      "title": "追麥追到台前來",
-     "copy": "追得這麼喘，是來搶麥，還是來報名？台都搭好了，讓我看看你腳步快，還是拳頭快！",
+     "copy": "跑到這裡，還在那叫什麼！麥就在架上，要拿就先比一場。腳步有沒有拳頭快，要試試看嘛？",
      "shot": "su-dare",
      "direction": "神麥清楚掛在架上；電火球招手，先交代物件位置再開打。"
     },
     {
      "speaker": "player",
      "title": "先講好規則",
-     "copy": "先講好，三戰兩勝！贏的拿麥，輸的幫忙盯緊。這次誰再讓它飛走，誰負責跑腿！",
+     "voiceKey": "c2.boss",
+     "copy": "三戰兩勝，贏的拿麥，輸的盯緊！別說得游刃有餘，拿起來就連滾帶爬！",
      "shot": "duel-contract",
      "direction": "兩人點頭；旁邊裝飾花車綵帶垂過麥架，埋下章尾因果。"
     },
     {
      "speaker": "咆哮哥",
      "title": "先聽一秒",
-     "copy": "等一下，它剛剛的回音是不是變小了？……好啦，我也知道我不太適合講這句。",
+     "copy": "等一下，我問的是麥的音量，為什麼越來越小？不要看我，我這邊一直很穩定！",
      "shot": "duel-contract"
     }
    ]
@@ -297,7 +302,7 @@ export const CHAPTER2=freeze({
     {
      "speaker": "電火球",
      "title": "才加入，先別跑",
-     "copy": "好啦，這回算你行！神麥歸你，我跟著走。拿穩啊，別讓我才加入就開始跑！",
+     "copy": "好，算你行！麥拿去，我一起走。拿穩喔，叫你衝的時候再衝，別讓麥先衝！",
      "shot": "handover",
      "direction": "只有取得兩勝後播放；先確認電火球加入可選角色。"
     },
@@ -311,7 +316,8 @@ export const CHAPTER2=freeze({
     {
      "speaker": "player",
      "title": "先追車，再開講",
-     "copy": "聲音越來越小，跑得倒是一樣快！跟緊綵帶，這次不只要拿到麥，還得查它從哪來。",
+     "voiceKey": "c2.handoff",
+     "copy": "聲音越來越小，逃跑倒是游刃有餘！跟緊綵帶，連它從哪裡來都要問清楚！",
      "shot": "follow-parade",
      "direction": "路牌指向第三章；可自由換角，但接著追車，不回起床序章。"
     }
@@ -324,5 +330,5 @@ export function storyFrames(kind,characterId='wang'){
  if(!Object.hasOwn(CHARACTER_NAMES,characterId))throw new RangeError('Unknown preview character');
  const name=CHARACTER_NAMES[characterId];
  const frames=CHAPTER2.story[kind]?.frames;if(!frames)throw new RangeError('Unknown story');
- return frames.map(frame=>({...frame,speaker:frame.speaker==='player'?name:frame.speaker}));
+ return frames.map(frame=>resolveDialogueFrame({...frame,speaker:frame.speaker==='player'?name:frame.speaker},characterId));
 }

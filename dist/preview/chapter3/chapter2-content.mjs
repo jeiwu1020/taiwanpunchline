@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 // Chapter 3 standalone candidate. All new dialogue and settings are editable fiction.
 // The file names retain chapter2- prefixes for parity with the Site #53 engine.
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
@@ -86,7 +87,8 @@ export const CHAPTER2=freeze({
      ],
      [
       "player",
-      "先勾「想知道怎麼讓它停下來」。你看得懂這張器材標籤嗎？"
+      "先勾「讓麥停下來」！問卷寫得洋洋灑灑，這張器材標籤你到底看懂了沒有？",
+      "c3.mini0"
      ],
      [
       "民調隊長",
@@ -164,7 +166,8 @@ export const CHAPTER2=freeze({
      ],
      [
       "player",
-      "那它怎麼一路巡迴到這裡？"
+      "歸還議場，卻巡迴半座城？本來一條直路，被你們辦成一場路跑！",
+      "c3.mini1"
      ],
      [
       "程序總管",
@@ -261,7 +264,8 @@ export const CHAPTER2=freeze({
     {
      "speaker": "player",
      "title": "比遊行還準時",
-     "copy": "別只盯著麥！花車邊有一張舊器材標籤。這一路如果都是送貨路線，我們可能從早上就追錯方向。",
+     "voiceKey": "c3.entry",
+     "copy": "別光盯著麥！花車上那張舊器材標籤，才是線索。追了一早，別連目的地都追錯！",
      "shot": "parade-trail",
      "direction": "主角在前景追車，神麥保持空中可見，遠處綵帶指向廣場。"
     },
@@ -280,21 +284,22 @@ export const CHAPTER2=freeze({
     {
      "speaker": "柯P",
      "title": "結解了，人來了",
-     "copy": "綵帶拆好了。標籤寫「議場封印器材」，下面還有一排小字，得回保管處查。先別急著搶。",
+     "copy": "綵帶我拆了，先不要搶。標籤寫「議場封印器材」，小字都沒查，你們就追一早？回保管處確認比較快。",
      "shot": "ko-reveal",
      "direction": "此時才揭曉柯P；神麥插回可移動麥架，綵帶已鬆落在旁。"
     },
     {
      "speaker": "player",
      "title": "先比完，再拿麥",
-     "copy": "好，三戰兩勝，贏的先拿。比完一起送回保管處，這次我們自己安排車，誰都不准又偷偷搬走！",
+     "voiceKey": "c3.boss",
+     "copy": "三戰兩勝，贏的先拿！打完一起送保管處，車自己安排，別再忙得連麥去哪都不知道！",
      "shot": "duel-contract",
      "direction": "雙方點頭；遠處工讀生把音箱搬上下一站音響車，預示章尾搬錯麥架。"
     },
     {
      "speaker": "電火球",
      "title": "該大聲才大聲",
-     "copy": "我去借車，你們去比。剛才廣播讓大家繞路，這回我只喊一個正確目的地！",
+     "copy": "你們比，我借車！剛才繞路繞夠了，這次目的地講清楚，別又叫大家衝錯邊！",
      "shot": "duel-contract"
     }
    ]
@@ -307,21 +312,22 @@ export const CHAPTER2=freeze({
     {
      "speaker": "柯P",
      "title": "這局算你的",
-     "copy": "這局算你的。歸還標籤我看過了，我把路線標清楚；麥給你，運送的事大家一起顧。",
+     "copy": "好啦，這局你贏。標籤我看了，路線我標。麥給你，運送一起顧，不要七嘴八舌、沒人做事。",
      "shot": "handover",
      "direction": "只有取得兩勝後播放；柯P加入本次可選角色，鏡頭保留同一麥架。"
     },
     {
      "speaker": "場務工讀生",
      "title": "這次是自己上車",
-     "copy": "照大家的安排，工讀生把同一座麥架推上音響車。目的地：候車街口，再接議場歸還處。",
+     "copy": "照你們說的，這座麥架上音響車！先到候車街口，再接議場歸還處。這次有講喔，不要又追著我喊！",
      "shot": "cart-catch",
      "direction": "主角同意運送，工讀生推同一麥架上車。保留搬運演出，並非再次搬錯或搶走。"
     },
     {
      "speaker": "player",
      "title": "車資算它的",
-     "copy": "終於不用追失物了，改追班車！我們跟著送，下一站誰也別只顧著看麥，忘了看路。",
+     "voiceKey": "c3.handoff",
+     "copy": "本來追失物，現在追班車，行程倒是越來越充實！一起護送，這次眼睛也要看路！",
      "shot": "follow-cart",
      "direction": "路牌指向第四章活動下一站；可自由換角，不重播前兩章或起床序章。"
     }
@@ -334,5 +340,5 @@ export function storyFrames(kind,characterId='wang'){
  if(!Object.hasOwn(CHARACTER_NAMES,characterId))throw new RangeError('Unknown preview character');
  const name=CHARACTER_NAMES[characterId];
  const frames=CHAPTER2.story[kind]?.frames;if(!frames)throw new RangeError('Unknown story');
- return frames.map(frame=>({...frame,speaker:frame.speaker==='player'?name:frame.speaker}));
+ return frames.map(frame=>resolveDialogueFrame({...frame,speaker:frame.speaker==='player'?name:frame.speaker},characterId));
 }

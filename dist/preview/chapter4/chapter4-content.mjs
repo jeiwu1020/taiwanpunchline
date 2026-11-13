@@ -1,3 +1,4 @@
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 // Fictional comedy chapter. Public-facing opponent identity is hidden until boss-comic.
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 export const CHARACTER_NAMES=freeze({wang:'恰吉王',han:'韓國魚',huang:'咆哮哥',su:'電火球',ko:'柯P',ma:'小馬哥',chen:'阿扁仔'});
@@ -106,7 +107,8 @@ export const CHAPTER4=freeze({
      ],
      [
       "player",
-      "這個牌子從我吃蛋餅就亮著。現在豆漿都變豆花了。"
+      "本來應該從容等車，現在等到豆漿變豆花！你那個「即將」是多即將？",
+      "c4.mini0"
      ],
      [
       "班表主任",
@@ -184,7 +186,8 @@ export const CHAPTER4=freeze({
      ],
      [
       "player",
-      "我要先喝水，才有命完賽。"
+      "沒水怎麼完賽？你要證明，先證明人不喝水也跑得到終點！",
+      "c4.mini1a"
      ],
      [
       "里程總監",
@@ -192,7 +195,8 @@ export const CHAPTER4=freeze({
      ],
      [
       "player",
-      "我追一支麥，怎麼跑出一整套公文流程？"
+      "追一支麥追出整套公文，這不是路跑，是跑公文啊！",
+      "c4.mini1b"
      ]
     ]
    }
@@ -277,7 +281,8 @@ export const CHAPTER4=freeze({
     {
      "speaker": "player",
      "title": "輪子比我們積極",
-     "copy": "等一下，斜坡！我扶著架，你們先去前面清路。這回是在護送，別六個人又跑成同一團。",
+     "voiceKey": "c4.entry",
+     "copy": "斜坡！我扶麥架，你們清路。本來要護送，別又搞得一群人連滾帶爬！",
      "shot": "rolling-stand",
      "direction": "同一座麥架沿斜坡受控推行，演出輪子移動；主角與工作人員跟隨，沒有再次失竊。"
     },
@@ -296,21 +301,22 @@ export const CHAPTER4=freeze({
     {
      "speaker": "小馬哥",
      "title": "很有禮貌地攔住了",
-     "copy": "輪子鎖好了。我一直在終點等交接，結果等到你們把路跑當障礙賽。歸還前，要不要先比一場？",
+     "copy": "各位辛苦了，輪子已鎖好。我在終點等交接，沒想到各位選了障礙賽路線。歸還前，是否先切磋一場？",
      "shot": "ma-reveal",
      "direction": "戰前三路段結束才揭曉小馬哥；神麥在鎖好的架上。"
     },
     {
      "speaker": "player",
      "title": "禮貌不能省略規則",
-     "copy": "三戰兩勝，贏的帶隊走最後一段。握手可以，先把輪鎖鑰匙拿好，這次我們有記取教訓！",
+     "voiceKey": "c4.boss",
+     "copy": "三戰兩勝，贏的帶隊！握手可以，輪鎖鑰匙先收好，別禮貌完又忙著追輪子！",
      "shot": "duel-contract",
      "direction": "保留原有小馬哥跑步、握手與反擊招式和完整骨架。"
     },
     {
      "speaker": "小馬哥",
      "title": "先握一下",
-     "copy": "好，規則我尊重。不過比賽前的握手，也算暖身。",
+     "copy": "謝謝指教，規則我尊重。開打前先握手，打完再握手。中間的部分，可能比較不客氣。",
      "shot": "ma-ready",
      "direction": "友善虛構對決，不對真實人物作任何事實指控。"
     }
@@ -324,7 +330,7 @@ export const CHAPTER4=freeze({
     {
      "speaker": "小馬哥",
      "title": "輸贏都要有禮貌",
-     "copy": "恭喜，你帶隊。我負責輪鎖，柯P顧單子，電火球指路。大家這次真的各做各的事。",
+     "copy": "恭喜，請你帶隊。我保管輪鎖，柯P核對單據，電火球指路。分工如此明確，輪子應該沒有發言空間了。",
      "shot": "handover",
      "direction": "只在終Boss兩勝後播放，先解鎖小馬哥。"
     },
@@ -338,7 +344,8 @@ export const CHAPTER4=freeze({
     {
      "speaker": "player",
      "title": "下次連車一起看",
-     "copy": "輪子、單子、路線都顧好了。最後到議場找保管人，順便問問：神麥為什麼越來越安靜？",
+     "voiceKey": "c4.handoff",
+     "copy": "輪子、單子、路線全顧好了！到議場找保管人，我倒要問，神麥怎麼越追越安靜？",
      "shot": "follow-truck",
      "direction": "車開往第五章議場歸還處；自由換角接續同一天。"
     }
@@ -350,5 +357,5 @@ export const CHAPTER4=freeze({
 export function storyFrames(kind,characterId='wang'){
  if(!Object.hasOwn(CHARACTER_NAMES,characterId))throw new RangeError('Unknown preview character');
  const frames=CHAPTER4.story[kind]?.frames;if(!frames)throw new RangeError('Unknown story');
- return frames.map(frame=>({...frame,speaker:frame.speaker==='player'?CHARACTER_NAMES[characterId]:frame.speaker}));
+ return frames.map(frame=>resolveDialogueFrame({...frame,speaker:frame.speaker==='player'?CHARACTER_NAMES[characterId]:frame.speaker},characterId));
 }
