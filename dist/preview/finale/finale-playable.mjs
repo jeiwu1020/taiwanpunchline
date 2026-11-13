@@ -1,3 +1,5 @@
+import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
+import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {CAST,Duel,GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
 import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=campaign-boot-20261112-r3';
@@ -60,7 +62,7 @@ function sync(){
   $('#result-copy').textContent=s.result.matchWon?(chapter.world?.player.hp<=0?'你先倒下，隊友替全隊贏了！':'最後站著的是你們這一隊。')+' '+s.saveLabel:s.result.winner==='draw'?'人數與生命比例相同，本場重試；章節和經驗保留。':'全隊倒下或限時比較落敗。可以重試這場，或重新選擇三人隊伍。';
   $('#result-next').textContent=s.result.matchWon?'拿起神麥，看結局 →':'原隊伍重試 →';$('#result-next').disabled=s.busy||!s.canNavigate;$('#result-reselect').hidden=s.result.matchWon;$('#result-reselect').disabled=s.busy||!s.canNavigate;
  }
- if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='主線完成 · 話還沒講完';$('#choice-copy').textContent='七人帶著沒電的神麥，前往議會無限城尋找無限電池。無限城尚待下一段旅程開放；目前的角色、經驗與配點都會保留。';$('#choice-roster').hidden=true;}
+ if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='話還沒講完 · 下一站無限城';$('#choice-copy').textContent='七人帶著沒電的神麥，前往議會無限城尋找無限電池。無限城尚待下一段旅程開放；目前的角色、經驗與配點都會保留。';$('#choice-roster').hidden=true;}
  if(s.paused){$('#pause-panel').hidden=false;$('#pause-roster').hidden=true;$('.chapter-pause-extras').hidden=true;$('#pause-note').textContent='暫停整場混戰。重新開吵會以相同三人隊伍從本場起點開始，章節與經驗保留。';}
  $('#finale-prepare').disabled=s.mode!=='team-select'||s.busy;$('#arena-roster').hidden=!combat;
  ui.refreshAccess();ui.syncMedia();ui.invalidateGeometry();ui.prepareSurface();
@@ -131,9 +133,8 @@ function paint(time){
  const middle=point(480,GROUND,-15);ctx.strokeStyle='#4c443b';ctx.lineWidth=3*zoom;ctx.beginPath();ctx.moveTo(middle.x,middle.y);ctx.lineTo(middle.x,middle.y-150*zoom);ctx.stroke();mic(middle.x,middle.y-150*zoom,48*zoom);
  const actors=[...g.actors,...g.assists.map(a=>({...a.actor,depth:a.actor.depth??a.owner.depth,team:a.owner.team,hp:a.phase==='exit'?0:1}))].sort((a,b)=>a.depth-b.depth);
  for(const a of actors){actor(a,f,time);if(a.hp>0){const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name;ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
- for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom*mark.scale,12*zoom*mark.scale,0,0,Math.PI*2);ctx.stroke();}}
- for(const q of g.obstacles){const p=point(q.x,GROUND,q.depth);ctx.fillStyle=q.owner.team===0?'#2f9378':'#b34539';ctx.fillRect(p.x-28*zoom*p.scale,p.y-60*zoom*p.scale,56*zoom*p.scale,45*zoom*p.scale);}
- for(const r of g.rallies){const p=point(r.x,GROUND,r.depth);ctx.strokeStyle=r.owner.team===0?'#82dec3':'#f3a095';ctx.lineWidth=14*zoom*p.scale;ctx.beginPath();ctx.moveTo(p.x-r.direction*120*zoom*p.scale,p.y);ctx.lineTo(p.x,p.y);ctx.stroke();}
+ for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else if(drawChallengeSignatureProjectile(ctx,images,p,time)){}else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom*mark.scale,12*zoom*mark.scale,0,0,Math.PI*2);ctx.stroke();}}
+ drawFinaleEffects(ctx,images,g,point,zoom,time);
 }
 function hud(){
  const s=view(),g=chapter?.world;if(!s||!g)return;ui.render({state:s,world:g});
@@ -151,7 +152,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp']].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};loaded=true;renderTeam();requestAnimationFrame(tick);
+ try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};loaded=true;renderTeam();requestAnimationFrame(tick);
   const handoff=preview?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }

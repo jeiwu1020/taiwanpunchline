@@ -46,7 +46,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  controls.hidden=testPreview;
  if(!testPreview&&query.has('handoff')){label.hidden=resume.hidden=true;menuStatus.textContent=`正在載入第 ${chapterId.split('-')[1]} 章，完成後會直接接續…`;}
 
- if(!testPreview){const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='正式章節';if(note)note.textContent='接續你的挑戰進度。台詞與演出均為虛構喜劇。';const objective=document.querySelector('#objective');if(objective)objective.textContent='正在載入章節內容…';}
+ if(!testPreview){const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='接續你的挑戰進度。台詞與演出均為虛構喜劇。';const objective=document.querySelector('#objective');if(objective)objective.textContent='正在載入章節內容…';}
  let router=null,chapter=null,preparation=null,preparationOwner=null,preparationBusy=false,recovery=null,recoveryIssue=null,busy=false,idle=Promise.resolve(),autoChecked=false,navigating=false,leaving=false,pageActive=true,launched=false,attachPending=false;
  function navigateSaved(){
   if(navigating||leaving||!pageActive||!router?.enabled||testPreview)return false;
@@ -90,7 +90,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   const host=!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||!((s.paused&&['route','battle'].includes(s.mode))||s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
   state.textContent=s?.saveLabel??v.saveLabel;
   if(s?.blocked)state.textContent=reasonText(s.saveIssue);
-  else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；第五章尚未開放。`;
+  else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；目前無法接續下一段，進度已保留。`;
   if(combat&&!v.persisted&&!s?.busy)state.textContent='尚未保存，請暫停後重試／匯出備份。';
   recoveryCopy.textContent=state.textContent;bar.title=state.textContent;bar.setAttribute('aria-label',state.textContent+'，開啟保存與備份');const savePending=busy||preparationBusy||s?.busy;const saveError=!v.persisted||s?.blocked||s?.saveIssue;state.textContent=savePending?'保存中':saveError?'需處理':'已保存';bar.dataset.status=savePending?'busy':saveError?'error':'saved';
   helperLabel.hidden=true;
@@ -127,7 +127,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   const attached=await createCampaignPlayable({router,chapterId,createPlayableChapter,options:getOptions(),onChange:()=>{render();onChange();}});
   if(!attached.accepted){attachPending=!!attached.recovery;menuStatus.textContent=reasonText(attached.reason);render();return;}attachPending=false;
   chapter=attached.chapter;document.body.dataset.campaignMode='true';const legacyPreparation=document.querySelector('#leave');if(legacyPreparation)legacyPreparation.hidden=true;
-  const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='正式章節接續';if(note)note.textContent='本次使用全新挑戰存檔，以畫面保存狀態為準。舊版原檔保留；情節與演出均為虛構喜劇。';
+  const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='人物、對白與情節均為虛構喜劇，不代表原型人物的真實發言。';
   if(attached.persisted){launched=true;onReady(chapter);}else menuStatus.textContent=reasonText('unsaved-progress');render();
  }
  resume.onclick=()=>job(()=>startContinuation());

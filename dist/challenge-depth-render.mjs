@@ -1,3 +1,4 @@
+import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-upgrade-r1';
 import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
 import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
@@ -181,7 +182,7 @@ export function depthRenderItems(route){
  return list.sort((a,b)=>(a.sortDepth??a.depth)-(b.sortDepth??b.depth)||(a.kind==='platform'?0:1)-(b.kind==='platform'?0:1));
 }
 export function depthMobLabelLayout(f,frame){
- return {text:f.warning>0?'要出手了！':f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
+ return {text:f.warning>0?(f.chapterCaption??'要出手了！'):f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
 }
 /** Keep clustered names on stable short rows without moving their head x anchors. */
 export function depthMobLabelLayouts(mobs,frame,{slots=new Map()}={}){
@@ -295,6 +296,7 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
  const items=depthRenderItems(route).filter(item=>item.kind!=='actor'||item.episode||streetActorNeedsPaint(item.value,visible));
  if(!options.skipBackdrop){ctx.save();ctx.translate(bg.originX,0);drawChallengeBackdrop(ctx,images,bg);ctx.restore();}
  drawGroundEffects(ctx,items,frame);
+ drawChapterEncounter(ctx,route,(x,y=GROUND,z=0)=>({x,y:y+z*.65}),1,images);
  for(const item of items){const q=item.value,p=depthWorldPoint(q);
   if(item.kind==='platform'){
    const left=q.x??q.left,w=q.width??((q.right??left+100)-left),half=q.depthHalf??36,image=images['challenge-street-props'];

@@ -168,7 +168,7 @@ export const SHARED_ASSET_PATHS=Object.freeze({
   "preview/chapter4/assets/handshake-v13.png": "assets/handshake-v13.png"
 });
 // New shared assets have no duplicated historical chapter copy.
-const CANONICAL_ADDITIONS=new Set(['challenge/chapter-street-motifs-v1.png','challenge/street-sky-v75.webp']);
+const CANONICAL_ADDITIONS=new Set(['challenge/encounter-props-v1.png','challenge/chapter-street-motifs-v1.png','challenge/street-sky-v75.webp']);
 export function chapterAssetURL(chapter,file,base='assets/'){
  const target=base==='assets/'?(SHARED_ASSET_PATHS[`preview/${chapter}/assets/${file}`]??(CANONICAL_ADDITIONS.has(file)?'assets/'+file:null)):null;
  return target?'../../'+target:base+file;

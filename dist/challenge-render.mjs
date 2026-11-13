@@ -1,3 +1,4 @@
+import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-upgrade-r1';
 import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
 export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
@@ -15,10 +16,11 @@ export function routeCameraFrame(width,height,route,options={}){
 export function createChallengeRenderer(scene,images){
  const depth=createDepthChallengeRenderer(scene,images);
  const texture=scene.textures.createCanvas('challenge-route-world',1,1),display=scene.add.image(0,0,'challenge-route-world').setOrigin(0).setDepth(-7).setVisible(false);
+ let encounterTexture=null,encounterDisplay=null;
  const slots=[];const gfx=scene.add.graphics().setDepth(1);let visible=false,arenaImages=null,arenaStamp='',mode='';
  function mobSlot(i){if(slots[i]){if(slots[i].t.width!==512||slots[i].t.height!==384)slots[i].t.setSize(512,384);return slots[i];}const key='challenge-mob-'+i,t=scene.textures.createCanvas(key,512,384),im=scene.add.image(0,0,key).setOrigin(.5,350/384).setDepth(-.05),label=scene.add.text(0,0,'',{fontFamily:'system-ui',fontSize:'18px',fontStyle:'bold',color:'#fff3cd',stroke:'#17333b',strokeThickness:4}).setOrigin(.5).setDepth(3);return slots[i]={t,im,label};}
  function releaseArena(){if(!arenaImages)return;for(const key of ['challenge-arena-facade','challenge-arena-road']){const canvas=arenaImages[key];if(canvas){canvas.width=1;canvas.height=1;}scene.textures.remove?.(key);}arenaImages=null;arenaStamp='';}
- function hide(){depth.hide();visible=false;display.setVisible(false);gfx.clear();for(const s of slots){s.im.setVisible(false);s.label.setVisible(false);}}
+ function hide(){depth.hide();visible=false;display.setVisible(false);encounterDisplay?.setVisible(false);gfx.clear();for(const s of slots){s.im.setVisible(false);s.label.setVisible(false);}}
  function draw(route,time,frame,options={}){
   arenaStamp='';
   releaseArena();
@@ -34,11 +36,17 @@ export function createChallengeRenderer(scene,images){
   for(let i=n;i<slots.length;i++){slots[i].im.setVisible(false);slots[i].label.setVisible(false);}
   for(const r of route.rallies){const alpha=r.age<.65?.4:1;const crowdKeys=['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'];ctx.save();ctx.scale(1600/width,800/height);ctx.translate(-left,-top);ctx.globalAlpha=alpha;for(let i=0;i<5;i++){const image=images[crowdKeys[i]],x=r.x-r.direction*i*47,y=430;if(image)ctx.drawImage(image,x-32,y-115,64,115);}ctx.restore();texture.refresh();gfx.lineStyle(7,0xffcf65,alpha*.6);gfx.lineBetween(r.x-r.direction*240,422,r.x+r.direction*60,422);}
  }
- function drawArena(section,time,frame){
+ function drawArena(section,time,frame,world=null){
   if(mode==='depth')depth.releaseSurface();mode='arena';if(texture.width!==1600||texture.height!==800)texture.setSize(1600,800);
-  hide();const stamp=[section,frame.x,frame.y,frame.width,frame.height,frame.zoom].join(':');
+  hide();const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;
+  if(world?.chapterEncounter){
+   if(!encounterTexture){encounterTexture=scene.textures.createCanvas('challenge-encounter-world',960,540);encounterDisplay=scene.add.image(0,0,'challenge-encounter-world').setOrigin(0).setDepth(-6).setVisible(false);}
+   if(encounterTexture.width!==960||encounterTexture.height!==540)encounterTexture.setSize(960,540);
+   const c=encounterTexture.getContext();c.clearRect(0,0,960,540);c.save();c.scale(960/width,540/height);c.translate(-left,-top);drawChapterEncounter(c,world,(x,y=430)=>({x,y}),1,images);c.restore();encounterTexture.refresh();encounterDisplay.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
+  }
+  const stamp=[section,frame.x,frame.y,frame.width,frame.height,frame.zoom].join(':');
   if(stamp===arenaStamp){display.setVisible(true);visible=true;return;}
-  arenaImages??=prepareChallengeArenaImages(scene,images);arenaStamp=stamp;const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;
+  arenaImages??=prepareChallengeArenaImages(scene,images);arenaStamp=stamp;
   const ctx=texture.getContext();ctx.clearRect(0,0,1600,800);ctx.save();ctx.scale(1600/width,800/height);ctx.translate(-left,-top);
   ctx.save();ctx.translate(left,0);drawChallengeBackdrop(ctx,arenaImages,{width,height,curbY:420,buildingHeight:560,camera:left+section*140,arena:true,top,bottom:top+height});ctx.restore();
   // The generated platform uses exactly the existing duel desk collision.
@@ -48,7 +56,7 @@ export function createChallengeRenderer(scene,images){
   depth.invalidateSurface();
   // Reset all dynamic contexts, including hidden legacy mobs. Same-size
   // CanvasTexture.setSize cannot clear nested saves/clips left by a failed draw.
-  for(const t of [texture,...slots.map(slot=>slot.t)]){const canvas=t.getCanvas();canvas.width=canvas.width;}
+  for(const t of [texture,encounterTexture,...slots.map(slot=>slot.t)].filter(Boolean)){const canvas=t.getCanvas();canvas.width=canvas.width;}
   arenaStamp='';releaseArena();for(const slot of slots)slot.label.updateText?.();
  },get visible(){return visible;}};
 }

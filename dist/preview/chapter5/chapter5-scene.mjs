@@ -23,7 +23,9 @@ function facade(ctx,image){
  surfaces.add(c);masks.set(image,c);return c;
 }
 export function panoramaFrame(image,frame,curb,worldWidth,viewportWidth=0){
- const scale=Math.max(worldWidth/image.width*frame.zoom,489/curb*frame.zoom,viewportWidth/image.width);
+ // Image landmarks and foreground props share a fixed world scale. A jump
+ // changes camera zoom, never the width or horizontal anchor of the scenery.
+ const scale=Math.max(worldWidth/image.width,489/curb)*frame.zoom;
  return {x:-frame.left*frame.zoom,y:frame.base-80*frame.zoom-curb*scale,width:image.width*scale,height:image.height*scale,scale};
 }
 /** A single chapter-owned long facade, not periodic fourth-chapter scenery.
@@ -32,11 +34,13 @@ export function drawChapter5Backdrop(ctx,image,frame,width,height,{scene=0,world
  prepareStreetStaticCaches(ctx,frame);ctx.save();ctx.fillStyle='#92b6c7';ctx.fillRect(0,0,width,height);
  if(sky)drawChallengeSky(ctx,sky,{width,top:0,bottom:height});
  if(!image){ctx.restore();return null;}
- const world=panoramaFrame(image,frame,CHAPTER5_ART.curbs[scene],worldWidth,width),p={...world,x:clamp(world.x,width-world.width,0)},source=facade(ctx,image);
+ const p=panoramaFrame(image,frame,CHAPTER5_ART.curbs[scene],worldWidth,width),source=facade(ctx,image);
  const curbY=frame.base-80*frame.zoom;
  ctx.fillStyle='#b29a80';ctx.fillRect(0,Math.max(0,curbY),width,height-Math.max(0,curbY));
- // Clamp only the backdrop sample at its own ends. Never synthesize a
- // stretched edge column or move the shared camera/physical world.
+ // Mirror the outer scene beyond its fixed world edges. Overscan belongs to
+ // the scenery, rather than a screen-space clamp that makes props slide.
+ if(p.x>0){ctx.save();ctx.translate(p.x,p.y);ctx.scale(-1,1);ctx.drawImage(source,0,0,p.width,p.height);ctx.restore();}
+ if(p.x+p.width<width){ctx.save();ctx.translate(p.x+2*p.width,p.y);ctx.scale(-1,1);ctx.drawImage(source,0,0,p.width,p.height);ctx.restore();}
  ctx.drawImage(source,p.x,p.y,p.width,p.height);
  ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#28533e';ctx.font=`900 ${26*p.scale}px Microsoft JhengHei,system-ui`;for(const sign of SIGNS[scene])ctx.fillText(sign.copy,p.x+sign.x*p.scale,p.y+sign.y*p.scale,sign.width*p.scale);ctx.restore();
  const band=112*p.scale,start=p.y+p.height-1;

@@ -98,3 +98,16 @@ body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#re
 #trial-app>.game-select-menu{z-index:100}
 #trial-app .game-select .game-select-trigger{max-width:100%}
 #trial-app :is(.card,.story-card) [hidden]{display:none!important}
+/* Short-screen menus keep primary and secondary actions on one paper. */
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper{display:grid;grid-template-columns:1fr 1fr;gap:5px 9px;width:520px;padding:10px 14px;transform:none}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper>:is(small,h2,p,#resume,#restart-confirm,.chapter-pause-extras,.chapter-secondary-actions){grid-column:1/-1}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper>small{font-size:10px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper h2{font-size:24px;margin:0}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper p{margin:0;font-size:11px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .menu-action{width:100%;margin:0;height:40px;min-height:40px;font-size:14px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras{margin:0;padding:0;border:0}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras summary{min-height:24px;line-height:24px;font-size:12px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-secondary-actions{margin:0}
+body[data-compact="true"][data-layout="landscape"] #trial-app #menu #menu-roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #menu #menu-roster button{width:auto;font-size:12px;padding:3px}
+body[data-compact="true"][data-layout="landscape"] #trial-app #menu #menu-roster img{width:45px;height:44px}

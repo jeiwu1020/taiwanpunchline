@@ -3,6 +3,7 @@ import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-boot-20261112-r3
 import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {ensureChapterEncounter,updateChapterEncounter,interactChapterProp} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
 export const DEPTH=Object.freeze({min:-90,max:100,speed:190,hit:36,rally:48,bodyLane:38,bodyWidth:62,clearance:65,platform:36});
 // Side contact uses the neutral lower-body/shadow radius, not a zero-width foot point.
 // Keep the actual tabletop support/landing footprint unchanged.
@@ -69,6 +70,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
  press(action){
   const oldAssist=this.assists.length,oldRally=this.rallies.length;
   const ok=super.press(action);if(!ok)return false;
+  if(action==='punch'){ensureChapterEncounter(this);interactChapterProp(this);}
   for(const a of this.assists.slice(oldAssist))a.actor.depth=this.player.depth;
   for(const r of this.rallies.slice(oldRally))r.depth=this.player.depth;
   return true;
@@ -96,6 +98,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   for(const q of this.obstacles.slice(props))q.depth=actor.depth??0;
  }
  tick(dt,input={}){
+  ensureChapterEncounter(this);updateChapterEncounter(this,dt);
   const p=this.player,oldX=p.x,oldDepth=p.depth;
   p.invulnerable=Math.max(0,(p.invulnerable??0)-dt);
   const dx=Number(!!input.right)-Number(!!input.left),dy=Number(!!input.down)-Number(!!input.up),diagonal=!!dx&&!!dy;
@@ -105,7 +108,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   this.spawn();
   const positions=new Map(this.enemies.map(e=>[e,{x:e.x,depth:e.depth,hp:e.hp}]));
   for(const e of this.enemies){
-   if(!alive(e)||e.stun>0||e.attack)continue;
+   if(!alive(e)||e.stun>0||e.attack||this.chapterEncounter?.hazards.some(h=>h.kind==='rush'&&h.owner===e&&!h.dead))continue;
    const delta=p.depth-e.depth;
    if(e.aiWait<.8&&Math.abs(p.x-e.x)<680&&Math.abs(delta)>8)e.depth=clamp(e.depth+Math.sign(delta)*Math.min(Math.abs(delta),72*dt),DEPTH.min,DEPTH.max);
    this.resolveTableMotion(e,positions.get(e));

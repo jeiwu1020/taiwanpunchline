@@ -1,4 +1,5 @@
 import {Duel,GROUND,CAST} from './core.mjs?v=campaign-boot-20261112-r3';
+import {stepChapterMob} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
 import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
@@ -175,6 +176,7 @@ export class ChallengeRoute {
   this.attackPlayer(dt);
   for(const e of this.enemies){
    if(!alive(e)){e.deadAge+=dt;continue;}if(e.stun>0)continue;
+   if(stepChapterMob(this,e,dt)){this.separateEnemy(e,dt);continue;}
    const spec=e.spec,dx=p.x-e.x,dist=Math.abs(dx);e.move=0;e.face=dx>=0?1:-1;e.aiWait-=dt;
    e.guard=spec.behavior==='guard'&&!e.attack&&e.guardBroken<=0&&dist<220;
    if(e.attack){e.attack.age+=dt;e.warning=Math.max(0,e.attack.windup-e.attack.age);

@@ -1,5 +1,5 @@
-import {newDocument} from '../campaign/core/model.mjs';
-import {startRun,applyRunAction} from '../campaign/core/transition.mjs';
+import {newDocument} from '../campaign/core/model.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction} from '../campaign/core/transition.mjs?v=campaign-boot-20261112-r3';
 import {newEnvelope,CHALLENGE_KEY} from '../campaign/fresh/schema.mjs';
 export const QUICK_VIEW_HOST='codex-complete-challenge-story-taiwanpunchline.playformosa.workers.dev';
 export const quickViewAllowed=host=>host===QUICK_VIEW_HOST;
