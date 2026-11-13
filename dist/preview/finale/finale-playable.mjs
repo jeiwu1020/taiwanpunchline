@@ -18,7 +18,8 @@ import {saveIssueText} from '../../save-copy.mjs?v=campaign-boot-20261112-r3';
 import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-boot-20261112-r3';
 import {createFinaleSession} from './finale-session.mjs?v=campaign-boot-20261112-r3';
 import {createFinalePreview} from './finale-preview.mjs?v=campaign-boot-20261112-r3';
-import {finaleCameraFrame} from './finale-camera.mjs?v=campaign-boot-20261112-r3';
+import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=finale-arena-20261113-r4';
+import {drawFinaleStage} from './finale-stage.mjs?v=finale-arena-20261113-r4';
 import {FINALE_INTRO} from './finale-story.mjs?v=campaign-boot-20261112-r3';
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,preview=['test','qa','previewOnly'].some(k=>query.has(k));
@@ -32,7 +33,8 @@ ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceConte
  isBusy:()=>booting||preparationBusy,isOperationBusy:()=>booting||!!view()?.busy,pauseForUI,onViewportChange:()=>ui?.prepareSurface(),
  onPrepare:()=>openPreparation(true),onReturnOverview:()=>returnOverview(),onRestart:async()=>{const r=await chapter.restartSegment();if(r.accepted&&(r.persisted||preview)){if(ui.shouldKeepPausedAfterRestart)chapter.setPaused(true,view().token);sync();return true;}return r;}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>booting||!!view()?.busy,clearHold,onChange:sync,onFrameReset:()=>{lastTime=null;}});
-ui.setCameraAvailable(false);mountSpecialNameFit({document});
+ui.setCameraAvailable(true);mountSpecialNameFit({document});
+const tactical=document.createElement('canvas');tactical.id='finale-tactical-map';tactical.width=132;tactical.height=24;tactical.setAttribute('role','img');tactical.setAttribute('aria-label','全場位置：金色是你，綠色是隊友，紅色是對手');$('.chapter-objective').append(tactical);const tacticalCtx=tactical.getContext('2d');
 const saveSlot=document.createElement('button');saveSlot.id='finale-save-slot';saveSlot.type='button';saveSlot.textContent=preview?'測試不保存':'保存狀態';$('#trial-app > header').insertBefore(saveSlot,$('.toolbar'));saveSlot.onclick=()=>openRecovery();
 for(const selector of ['#team-main','#team-ally1','#team-ally2']){
  const select=$(selector);for(const id of CHARACTER_IDS){const option=document.createElement('option');option.value=id;option.textContent=CAST[id].name;select.append(option);}select.onchange=()=>{draftTeam=[$('#team-main').value,$('#team-ally1').value,$('#team-ally2').value];renderTeam();};
@@ -110,29 +112,33 @@ controls=bindTouchControls({document,window,active,viewport:()=>({ready:ui.ready
 for(const b of $$('#controls button')){b.addEventListener('click',e=>{if(e.detail===0&&!b.disabled)command(b.dataset.action??(b.dataset.hold==='punch'?'punch':null));});b.addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||!active())return;e.preventDefault();if(!e.repeat){if(b.dataset.hold){pointers.add(b.dataset.hold);recalc();if(b.dataset.hold==='punch')command('punch');}else command(b.dataset.action);}});const release=()=>{pointers.delete(b.dataset.hold);recalc();};b.addEventListener('keyup',release);b.addEventListener('blur',release);}
 function cover(image,w,h){if(!image)return;const z=Math.max(w/image.width,h/image.height);ctx.drawImage(image,(w-image.width*z)/2,(h-image.height*z)/2,image.width*z,image.height*z);}
 function mic(x,y,size=46){const im=images['opening-props-v75'];if(im)ctx.drawImage(im,1186,543,192,444,x-size*192/444/2,y-size,size*192/444,size);}
-function actor(a,frame,time){const x=(a.x-frame.left)*frame.zoom,y=frame.base+(a.y-GROUND+a.depth*.65)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*(a.face||1),frame.zoom);ctx.globalAlpha=a.hp<=0?.3:1;drawFighterArt(ctx,images,presentationFighter(a),time,{shadow:false});ctx.restore();}
+function actor(a,frame,time){const q=finalePoint(a.x,a.y,a.depth??0),x=(q.x-frame.left)*frame.zoom,y=frame.base+(q.y-GROUND)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*q.scale*(a.face||1),frame.zoom*q.scale);ctx.globalAlpha=a.hp<=0?.3:1;drawFighterArt(ctx,images,presentationFighter(a),time,{shadow:false});ctx.restore();}
 const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',()=>.3,'wang').player]));
 function paint(time){
- const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);cover(images['finale-arena'],w,h);
+ const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);
  if(!g||!['battle','result'].includes(s?.mode)){
   const main=s?.characterId??draftTeam[0],speaker=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker)??(main==='chen'?'han':'chen'),zoom=Math.min(w/760,h/350),f={left:0,base:h*.9,zoom};
-  actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);mic(w*.52,h*.62,Math.max(32,55*zoom));return;
+  drawFinaleStage(ctx,images['finale-arena'],w,h,f);actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);mic(w*.52,h*.62,Math.max(32,55*zoom));return;
  }
+ const compact=ui.viewport.touch&&w>h&&h<=420;if(document.body.dataset.finaleCompact!==String(compact)){document.body.dataset.finaleCompact=String(compact);ui.invalidateGeometry();}
  const options=ui.cameraOptions,roster=ui.logicalRect($('#arena-roster').getBoundingClientRect());
  if(g!==arenaWorld){arenaFrame=null;arenaWorld=g;}
  const f=finaleCameraFrame(w,h,g,{...options,occlusions:[...(options.occlusions??[]),roster],previous:arenaFrame,paused:s.paused||s.mode==='result'}),zoom=f.zoom;arenaFrame=f;
- const point=(x,y=GROUND,z=0)=>({x:(x-f.left)*zoom,y:f.base+(y-GROUND+z*.65)*zoom});
+ drawFinaleStage(ctx,images['finale-arena'],w,h,f);
+ const point=(x,y=GROUND,z=0)=>{const q=finalePoint(x,y,z);return {x:(q.x-f.left)*zoom,y:f.base+(q.y-GROUND)*zoom,scale:q.scale};};
  const target=g.targetFor(g.player);
- for(const a of g.actors){const p=point(a.x,GROUND,a.depth);ctx.strokeStyle=a===g.player?'#f6ca52':a.team===0?'#227c69':'#ac3838';ctx.lineWidth=Math.max(2,3*zoom);ctx.fillStyle=a.hp<=0?'#27323555':a.team===0?'#36a68b55':'#d3555555';ctx.beginPath();ctx.ellipse(p.x,p.y,36*zoom,9*zoom,0,0,Math.PI*2);ctx.fill();ctx.stroke();if(a===target){ctx.strokeStyle='#ffe378';ctx.strokeRect(p.x-43*zoom,p.y-300*zoom,86*zoom,306*zoom);}}
+ for(const a of g.actors){const p=point(a.x,GROUND,a.depth);ctx.strokeStyle=a===g.player?'#f6ca52':a.team===0?'#227c69':'#ac3838';ctx.lineWidth=Math.max(2,3*zoom);ctx.fillStyle=a.hp<=0?'#27323555':a.team===0?'#36a68b55':'#d3555555';ctx.beginPath();ctx.ellipse(p.x,p.y,36*zoom*p.scale,9*zoom*p.scale,0,0,Math.PI*2);ctx.fill();ctx.stroke();if(a===target){ctx.strokeStyle='#ffe378';ctx.strokeRect(p.x-43*zoom*p.scale,p.y-300*zoom*p.scale,86*zoom*p.scale,306*zoom*p.scale);}}
  const middle=point(480,GROUND,-15);ctx.strokeStyle='#4c443b';ctx.lineWidth=3*zoom;ctx.beginPath();ctx.moveTo(middle.x,middle.y);ctx.lineTo(middle.x,middle.y-150*zoom);ctx.stroke();mic(middle.x,middle.y-150*zoom,48*zoom);
  const actors=[...g.actors,...g.assists.map(a=>({...a.actor,depth:a.actor.depth??a.owner.depth,team:a.owner.team,hp:a.phase==='exit'?0:1}))].sort((a,b)=>a.depth-b.depth);
- for(const a of actors){actor(a,f,time);if(a.hp>0){const p=point(a.x,a.y-292,a.depth),width=54*zoom;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name;ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
- for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom,zoom);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom,12*zoom,0,0,Math.PI*2);ctx.stroke();}}
- for(const q of g.obstacles){const p=point(q.x,GROUND,q.depth);ctx.fillStyle=q.owner.team===0?'#2f9378':'#b34539';ctx.fillRect(p.x-28*zoom,p.y-60*zoom,56*zoom,45*zoom);}
- for(const r of g.rallies){const p=point(r.x,GROUND,r.depth);ctx.strokeStyle=r.owner.team===0?'#82dec3':'#f3a095';ctx.lineWidth=14*zoom;ctx.beginPath();ctx.moveTo(p.x-r.direction*120*zoom,p.y);ctx.lineTo(p.x,p.y);ctx.stroke();}
+ for(const a of actors){actor(a,f,time);if(a.hp>0){const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name;ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
+ for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom*mark.scale,12*zoom*mark.scale,0,0,Math.PI*2);ctx.stroke();}}
+ for(const q of g.obstacles){const p=point(q.x,GROUND,q.depth);ctx.fillStyle=q.owner.team===0?'#2f9378':'#b34539';ctx.fillRect(p.x-28*zoom*p.scale,p.y-60*zoom*p.scale,56*zoom*p.scale,45*zoom*p.scale);}
+ for(const r of g.rallies){const p=point(r.x,GROUND,r.depth);ctx.strokeStyle=r.owner.team===0?'#82dec3':'#f3a095';ctx.lineWidth=14*zoom*p.scale;ctx.beginPath();ctx.moveTo(p.x-r.direction*120*zoom*p.scale,p.y);ctx.lineTo(p.x,p.y);ctx.stroke();}
 }
 function hud(){
  const s=view(),g=chapter?.world;if(!s||!g)return;ui.render({state:s,world:g});
+ const map=tacticalCtx;map.clearRect(0,0,132,24);map.fillStyle='#f2deb0';map.fillRect(0,0,132,24);map.strokeStyle='#705334';map.lineWidth=1;map.strokeRect(.5,.5,131,23);
+ for(const m of finaleTacticalMarkers(g).sort((a,b)=>Number(a.controlled)-Number(b.controlled))){const x=6+m.x*120,y=4+m.y*16;map.fillStyle=!m.alive?'#716c62':m.controlled?'#ffd24c':m.team===0?'#16735d':'#b23b32';map.strokeStyle='#233f40';map.beginPath();map.arc(x,y,m.controlled?3.5:2.5,0,Math.PI*2);map.fill();if(m.controlled)map.stroke();if(!m.alive){map.beginPath();map.moveTo(x-3,y-3);map.lineTo(x+3,y+3);map.stroke();}}
  $('#timer').textContent=Math.ceil(g.remaining);$('#match-score').textContent='最後存活隊';$('#route-progress').textContent=`我方 ${g.actors.filter(a=>a.team===0&&a.hp>0).length} 人 · 對手 ${g.actors.filter(a=>a.team===1&&a.hp>0).length} 人`;
  $('#objective').textContent=g.player.hp<=0?'你已倒下 · 全隊仍在戰鬥，繼續觀戰！':`四向走位 · 目前目標：${CAST[g.targetFor(g.player)?.type]?.name??'無'} · 同隊不互傷`;
  const roster=$('#arena-roster');if(roster.childElementCount!==7)roster.replaceChildren(...g.actors.map(a=>{const el=document.createElement('span');el.dataset.actor=a.id;el.dataset.team=a.team===0?'ally':'enemy';const text=document.createElement('b'),bar=document.createElement('i');el.append(text,bar);return el;}));

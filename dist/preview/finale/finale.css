@@ -47,3 +47,11 @@ body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster{disp
 body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster span{font-size:10px;padding:2px;box-sizing:border-box}
 body[data-final-battle=true] #trial-app #stage .chapter-objective{height:auto;max-height:none;overflow:visible}
 body[data-final-battle=true] #trial-app.cabinet.app[data-challenge-layout] .chapter-objective #arena-roster span{max-height:none;overflow:visible;text-overflow:clip}
+/* The canvas reports logical orientation, including portrait phones rotated
+   by the in-game side-turn setting. No physical-window media-query mismatch. */
+#finale-tactical-map{display:none;width:132px;height:24px;flex:0 0 132px;border-radius:3px}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective{display:flex!important;justify-content:center;align-items:center;gap:8px;height:24px!important;max-height:24px!important;overflow:hidden!important;font-size:10px;line-height:16px;padding:0 4px!important}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #arena-roster,
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #objective{display:none!important}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #route-progress{display:block!important;max-width:none!important;white-space:nowrap}
+body[data-final-battle=true][data-finale-compact=true] #finale-tactical-map{display:block}
