@@ -1,6 +1,6 @@
 // Ink-and-paper scene objects, drawn in the same world coordinates as actors.
 const INK='#263c37',PAPER='#fff0cc',RED='#b34d39',GREEN='#39735a';
-function text(ctx,copy,x,y,size=15,color=INK){ctx.font=`900 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineWidth=3;ctx.strokeStyle=PAPER;ctx.strokeText(copy,x,y);ctx.fillStyle=color;ctx.fillText(copy,x,y);}
+function text(ctx,copy,x,y,size=15,color=INK){ctx.font=`900 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.lineWidth=3;ctx.strokeStyle=color===PAPER?INK:PAPER;ctx.strokeText(copy,x,y);ctx.fillStyle=color;ctx.fillText(copy,x,y);}
 function box(ctx,x,y,w,h,fill){ctx.fillStyle=fill;ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(x,y,w,h,5);ctx.fill();ctx.stroke();}
 function line(ctx,x,y,xx,yy,color=INK,width=3){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(xx,yy);ctx.stroke();}
 function texturedProp(ctx,p,images){
