@@ -1,3 +1,4 @@
+import {registerQuickView} from './preview/quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {createBootArtLoader} from './boot-art-loader.mjs?v=campaign-boot-20261112-r3';
 import {mountCompactToolbar} from './compact-toolbar.mjs?v=campaign-boot-20261112-r3';
 import {planSimulationFrame} from './simulation-frame.mjs?v=campaign-boot-20261112-r3';
@@ -979,3 +980,11 @@ class Arena extends Phaser.Scene {
 
 }
 try{new Phaser.Game({type:Phaser.CANVAS,parent:'game',width:960,height:540,backgroundColor:'#e7e0c9',antialias:true,roundPixels:false,scene:Arena,input:{touch:{capture:false}},audio:{noAudio:true},scale:{mode:Phaser.Scale.NONE,autoCenter:Phaser.Scale.NO_CENTER},fps:{target:60,forceSetTimeOut:false},render:{powerPreference:'low-power'},callbacks:{}});}catch(e){titleUI?.setReady(false,'遊戲畫面無法啟動，請重新整理或改用支援 Canvas 的瀏覽器。');$('#menu').innerHTML='<div class="paper"><h2>畫面尚未載入</h2><p>請重新整理頁面。此遊戲需要可使用 Canvas 的瀏覽器。</p></div>';console.error(e);}
+
+
+registerQuickView(window,()=>{
+ if(gameMode!=='challenge'||!challengeRun||!started||duel?.status!=='active'||challengeSaveBlocked||challengeActionBusy||challengeResultActionPending||challengeEntryPending||challengeQueuedOperations||challengeRun.busy||challengeRun.savePending)return false;
+ if(challengeRun.phase.kind==='route'){if(duel.events.some(e=>e.type==='routeGate'))return false;duel.events.push({type:'routeGate',carry:duel.exportCarry()});return true;}
+ if(['boss','miniboss'].includes(challengeRun.phase.kind)&&duel.enemy?.hp>0){duel.enemy.hp=0;return true;}
+ return false;
+});

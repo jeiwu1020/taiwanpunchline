@@ -1,3 +1,4 @@
+import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {CAST,Duel,GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
 import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=campaign-boot-20261112-r3';
 import {presentationFighter} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
@@ -149,3 +150,10 @@ async function load(){
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }
 renderTeam();load();
+
+
+registerQuickView(window,()=>{
+ if(!active()||!chapter?.world?.actors)return false;
+ for(const actor of chapter.world.actors)if(actor.team===1)actor.hp=0;
+ return true;
+});

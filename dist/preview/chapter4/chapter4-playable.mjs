@@ -1,3 +1,4 @@
+import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-boot-20261112-r3';
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
@@ -160,3 +161,12 @@ continuation=mountContinuationControls({document,window,characters:CAST,chapterI
 refreshMenu();resizeCanvas();
 const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER4_NEW_ART.files};let loaded=0;
 Promise.all(Object.entries(allFiles).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';resolve([key,im]);};im.onerror=()=>reject(new Error('Missing asset: '+file));im.src=chapterAssetURL('chapter4',file);}))).then(entries=>{images=Object.fromEntries(entries);$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+
+
+registerQuickView(window,async()=>{
+ if(!active()||continuation?.busy)return false;
+ const s=v(),world=chapter?.world;
+ if(s.mode==='route'){world.status='gate';chapter.step(0,{});await chapter.flush?.();sync();return true;}
+ if(s.mode==='battle'&&world?.enemy){world.enemy.hp=0;return true;}
+ return false;
+});
