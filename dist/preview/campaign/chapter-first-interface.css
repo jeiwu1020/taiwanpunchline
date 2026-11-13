@@ -108,8 +108,8 @@ body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .menu
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras{margin:0;padding:0;border:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras summary{min-height:24px;line-height:24px;font-size:12px}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-secondary-actions{margin:0}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .campaign-preparation-actions{grid-column:1/-1;display:flex;gap:8px;justify-content:center;margin:0}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .campaign-preparation-actions button{flex:1;min-width:0;min-height:40px;padding:6px;font-size:13px;margin:0}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #campaign-preparation-actions{grid-column:1/-1;display:flex;gap:8px;justify-content:center;margin:0}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #campaign-preparation-actions button{flex:1;min-width:0;min-height:40px;padding:6px;font-size:13px;margin:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #restart-match{grid-column:1/-1}
 body[data-compact="true"][data-layout="landscape"] #trial-app #menu #menu-roster{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
 body[data-compact="true"][data-layout="landscape"] #trial-app #menu #menu-roster button{width:auto;font-size:12px;padding:3px}
