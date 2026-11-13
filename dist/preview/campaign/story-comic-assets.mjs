@@ -1,18 +1,27 @@
 // Only intact generated pose images belong here. Never import a combat rig,
 // reassemble body parts, or load the rejected Su/Ma/Chen likeness candidates.
-export const STORY_COMIC_IMAGE_FILES=Object.freeze({...Object.fromEntries(['wang','han','huang','ko'].map(id=>[
+export const STORY_COMIC_IMAGE_FILES=Object.freeze({...Object.fromEntries(['han','huang','ko'].map(id=>[
  `story-pose-${id}`,`challenge/story-poses-v1/${id}.png`
 ])),...Object.fromEntries(['ma','chen'].map(id=>[`story-pose-${id}`,`challenge/story-poses-v2/${id}.png`])),
- 'story-pose-su':'challenge/story-poses-v3/su.png',
- 'story-pose-ko-battery':'challenge/story-poses-v3/ko-battery.png'});
-export const STORY_COMIC_POSE_VARIANTS=Object.freeze({'ko-battery':Object.freeze([0,0,1024,1536])});
+ 'story-pose-wang':'challenge/story-poses-r3/wang.png',
+ 'story-pose-su':'challenge/story-poses-r3/su.png',
+ 'story-pose-ko-battery':'challenge/story-poses-v3/ko-battery.png',
+ ...Object.fromEntries(['han','huang','ko','ma','chen'].map(id=>[`story-pose-${id}-held-mic`,`challenge/story-held-mic-r4/${id}.png`]))});
+export const STORY_COMIC_POSE_VARIANTS=Object.freeze({
+ 'ko-battery':Object.freeze([0,0,1024,1536]),
+ 'han-held-mic':Object.freeze([0,0,1199,1312]),
+ 'huang-held-mic':Object.freeze([0,0,1024,1536]),
+ 'ko-held-mic':Object.freeze([0,0,1024,1536]),
+ 'ma-held-mic':Object.freeze([600,0,599,656]),
+ 'chen-held-mic':Object.freeze([0,0,627,627])
+});
 export const comicActorImageKey=actor=>`story-pose-${actor.variant??actor.id}`;
 export const STORY_COMIC_PENDING_CAST=Object.freeze([]);
 export const comicMinibossKey=(chapterId,id)=>id==='stagehand'?'story-crew-stagehand':`story-${chapterId}-${id}`;
 
 // One complete generated announcing/carrying pose per supporting character.
 // Source bytes and full-image crops were checked against the delivery manifest.
-export const STORY_COMIC_MINIBOSSES=Object.freeze({"story-chapter-4-mini_marshal":{"file":"challenge/story-support-v1/chapter-4-mini_marshal-v1.png","crop":[0,0,1145,1374]},"story-chapter-4-mini_schedule":{"file":"challenge/story-support-v1/chapter-4-mini_schedule-v1.png","crop":[0,0,1199,1312]},"story-chapter-5-mini_marshal":{"file":"challenge/story-support-v1/chapter-5-mini_marshal-v1.png","crop":[0,0,1136,1385]},"story-chapter-5-mini_schedule":{"file":"challenge/story-support-v1/chapter-5-mini_schedule-v1.png","crop":[0,0,1086,1448]},"story-chapter-1-mini_guard":{"file":"challenge/story-support-v1/chapter1-mini-guard.png","crop":[0,0,1199,1312]},"story-chapter-1-mini_mic":{"file":"challenge/story-support-v1/chapter1-mini-mic.png","crop":[0,0,1217,1292]},"story-chapter-2-mini_guard":{"file":"challenge/story-support-v1/chapter2-mini-guard.png","crop":[0,0,1199,1312]},"story-chapter-2-mini_mic":{"file":"challenge/story-support-v1/chapter2-mini-mic.png","crop":[0,0,1237,1271]},"story-chapter-3-mini_guard":{"file":"challenge/story-support-v1/chapter3-mini-guard.png","crop":[0,0,1145,1374]},"story-chapter-3-mini_mic":{"file":"challenge/story-support-v1/chapter3-mini-mic.png","crop":[0,0,1199,1312]},"story-crew-stagehand":{"file":"challenge/story-support-v1/stagehand-v1.png","crop":[0,0,1254,1254]}});
+export const STORY_COMIC_MINIBOSSES=Object.freeze({"story-chapter-4-mini_marshal":{"file":"challenge/story-support-r3/chapter4-mini-marshal-neck-r3.png","crop":[0,0,1145,1374]},"story-chapter-4-mini_schedule":{"file":"challenge/story-support-r3/chapter4-mini-schedule-neck-r3.png","crop":[0,0,1199,1312]},"story-chapter-5-mini_marshal":{"file":"challenge/story-support-v1/chapter-5-mini_marshal-v1.png","crop":[0,0,1136,1385]},"story-chapter-5-mini_schedule":{"file":"challenge/story-support-v1/chapter-5-mini_schedule-v1.png","crop":[0,0,1086,1448]},"story-chapter-1-mini_guard":{"file":"challenge/story-support-v1/chapter1-mini-guard.png","crop":[0,0,1199,1312]},"story-chapter-1-mini_mic":{"file":"challenge/story-support-v1/chapter1-mini-mic.png","crop":[0,0,1217,1292]},"story-chapter-2-mini_guard":{"file":"challenge/story-support-v1/chapter2-mini-guard.png","crop":[0,0,1199,1312]},"story-chapter-2-mini_mic":{"file":"challenge/story-support-v1/chapter2-mini-mic.png","crop":[0,0,1237,1271]},"story-chapter-3-mini_guard":{"file":"challenge/story-support-r3/chapter3-mini-guard-neck-r3.png","crop":[0,0,1145,1374]},"story-chapter-3-mini_mic":{"file":"challenge/story-support-v1/chapter3-mini-mic.png","crop":[0,0,1199,1312]},"story-crew-stagehand":{"file":"challenge/story-support-v1/stagehand-v1.png","crop":[0,0,1254,1254]}});
 const decoded=image=>{const w=image?.naturalWidth??image?.width,h=image?.naturalHeight??image?.height;return Number.isFinite(w)&&Number.isFinite(h)&&w>0&&h>0;};
 export function comicAssetRequirements(scene){
  const keys=[scene.backdrop==='corridor'?'finale-corridor':scene.backdrop];

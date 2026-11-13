@@ -460,7 +460,7 @@ function openChallenge(){
 function ensureChallengeStory(){
  if(!challengeStory){const comic=createComicPresentation({chapterId:'chapter-1'});
  challengeStory=mountChallengeStory({document,onAudio:unlockEntryAudio,reducedMotion:()=>!!scene?.reducedMotion,
- onRetryArt:()=>comic.load(scene.artImages,{retry:true}),
+   onRetryArt:()=>comic.load(scene.artImages,{retry:true}),isArtLoading:comic.isLoading,
  paintComic:(canvas,beat,character,time,options)=>comic.paintFrame(canvas.getContext('2d'),scene.artImages,options.comicState,options.comicLayout,{time,reducedMotion:!!scene?.reducedMotion}),paint:(canvas,beat,character,time)=>{
  paintChallengeStory(canvas,scene.artImages,beat,character,time,{reducedMotion:!!scene?.reducedMotion});
  }});void comic.load(scene.artImages).then(()=>challengeStory?.refreshArt());}return challengeStory;

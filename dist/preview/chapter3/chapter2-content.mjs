@@ -73,13 +73,13 @@ export const CHAPTER2=freeze({
     "id": "chapter-3:miniboss-a",
     "kind": "miniboss",
     "name": "民調隊長",
-    "opponent": "wang",
+    "opponent": "ko",
     "mobKind": "mini_mic",
     "identityStatus": "proposal-only",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構街頭民調活動主持，連問路都要做問卷；沒有指涉另一位真實人物。",
-    "tell": "舉起問卷先喊題目，再用短距離兩次普通拳催交答案。",
-    "counterplay": "橫向對決；看問卷預警，先退開或防守，再利用收招空檔。",
+    "tell": "舉問卷喊題目，文字落在已標記的位置；下一輪才近身催答案。",
+    "counterplay": "橫向對決；標記亮起就向前走離或跳起，落字後靠近反擊；只後退會變成慢速格擋。",
     "dialogue": [
      [
       "民調隊長",
@@ -152,13 +152,13 @@ export const CHAPTER2=freeze({
     "id": "chapter-3:miniboss-b",
     "kind": "miniboss",
     "name": "程序總管",
-    "opponent": "huang",
+    "opponent": "ko",
     "mobKind": "mini_guard",
     "identityStatus": "proposal-only",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構活動服務站管理員，為了減少流程又增加一張流程表。",
-    "tell": "先舉牌預告，再擺路牌或蓄力喊話。",
-    "counterplay": "橫向對決；跳過路牌、拉開距離，利用喊話後的空檔。",
+    "tell": "先丟固定落點的退件通知，再揮兩袋附件，最後補一拳。",
+    "counterplay": "先離開落字標記，再格擋附件的低、中兩段；兩袋都收回後才反擊。",
     "dialogue": [
      [
       "程序總管",
@@ -284,17 +284,17 @@ export const CHAPTER2=freeze({
     {
      "speaker": "柯P",
      "title": "結解了，人來了",
-     "copy": "綵帶我拆了，先不要搶。標籤寫「議場封印器材」，小字都沒查，你們就追一早？回保管處確認比較快。",
+     "copy": "綵帶我拆了，麥一落架，封印鎖就扣上了。標籤寫「議場封印器材」，先整架送保管處，別硬拔。追一早，都沒看小字？",
      "shot": "ko-reveal",
-     "direction": "此時才揭曉柯P；神麥插回可移動麥架，綵帶已鬆落在旁。"
+     "direction": "此時才揭曉柯P；神麥落入圓底無輪麥架的封印鎖座，綵帶已鬆落在旁，無人取麥發言。"
     },
     {
      "speaker": "player",
-     "title": "先比完，再拿麥",
+     "title": "先比完，再帶隊",
      "voiceKey": "c3.boss",
-     "copy": "三戰兩勝，贏的先拿！打完一起送保管處，車自己安排，別再忙得連麥去哪都不知道！",
+     "copy": "三戰兩勝，贏的帶隊！麥留在鎖架上，一起送保管處。車自己安排，別再忙得連目的地都不知道！",
      "shot": "duel-contract",
-     "direction": "雙方點頭；遠處工讀生把音箱搬上下一站音響車，預示章尾搬錯麥架。"
+     "direction": "雙方同意護送；遠處工讀生把音箱搬上音響車，準備依約運送整座鎖架，並非搬錯。"
     },
     {
      "speaker": "電火球",
@@ -312,22 +312,22 @@ export const CHAPTER2=freeze({
     {
      "speaker": "柯P",
      "title": "這局算你的",
-     "copy": "好啦，這局你贏。標籤我看了，路線我標。麥給你，運送一起顧，不要七嘴八舌、沒人做事。",
+     "copy": "好啦，你帶隊。封印鎖別動，整架固定上車。路線我標，運送一起顧，不要七嘴八舌、沒人做事。",
      "shot": "handover",
      "direction": "只有取得兩勝後播放；柯P加入本次可選角色，鏡頭保留同一麥架。"
     },
     {
      "speaker": "場務工讀生",
-     "title": "這次是自己上車",
+     "title": "說好一起送",
      "copy": "麥架固定好了，我再收這箱線！先到候車街口，再接議場歸還處。這次有講喔，不要又追著我喊！",
      "shot": "cart-catch",
-     "direction": "主角同意運送，工讀生推同一麥架上車。保留搬運演出，並非再次搬錯或搶走。"
+     "direction": "大家同意護送，幫工讀生把同一座圓底麥架搬上車，用固定帶扣妥；封印鎖保持原狀。"
     },
     {
      "speaker": "player",
      "title": "車資算它的",
      "voiceKey": "c3.handoff",
-     "copy": "本來追失物，現在追班車，行程倒是越來越充實！一起護送，這次眼睛也要看路！",
+     "copy": "本來追失物，現在當搬運工，行程倒是越來越充實！一起護送，這次眼睛也要看路！",
      "shot": "follow-cart",
      "direction": "路牌指向第四章活動下一站；可自由換角，不重播前兩章或起床序章。"
     }

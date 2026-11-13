@@ -4,8 +4,8 @@ import {Duel,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
 import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
 import {CHAPTER2} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
- 'miniboss-a':{type:'wang',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'punch',name:'這題是單選！',range:112,warning:.55,rest:.65},{action:'punch',name:'請勿跳過問卷！',range:112,warning:.85,rest:1.25}]},
- 'miniboss-b':{type:'huang',mobKind:'mini_guard',name:'程序總管',pattern:[{action:'special3',name:'請先領取表格！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'少了一張附件！',range:145,warning:.9,rest:1.8},{action:'special1',name:'請回原窗口！',range:190,warning:1.0,rest:1.9}]}
+ 'miniboss-a':{type:'ko',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'special2',name:'題目落地！離開標記！',range:230,warning:.95,rest:2.3},{action:'punch',name:'答案請交到這裡！',range:112,warning:.6,rest:1.6}]},
+ 'miniboss-b':{type:'ko',mobKind:'mini_guard',name:'程序總管',pattern:[{action:'special2',name:'退件通知！離開標記！',range:230,warning:.75,rest:1.4},{action:'special1',name:'附件兩袋！擋完再回！',range:150,warning:.65,rest:1.5},{action:'punch',name:'還缺一個章！',range:112,warning:.45,rest:1.3}]}
 });
 
 export function createChapter2Duel({stepId,characterId='wang',helperId='han',difficulty='beginner',rng=Math.random,stats}={}){

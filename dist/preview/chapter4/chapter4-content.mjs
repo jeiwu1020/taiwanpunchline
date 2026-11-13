@@ -93,26 +93,26 @@ export const CHAPTER4=freeze({
     "id": "chapter-4:miniboss-a",
     "kind": "miniboss",
     "name": "班表主任",
-    "opponent": "wang",
+    "opponent": "ma",
     "mobKind": "mini_schedule",
     "identityStatus": "fictional",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構候車區活動志工，堅信任何狀況都能靠更新班表解決。",
-    "tell": "舉起班表停頓，再左右兩次蓋章拳。",
-    "counterplay": "橫向對決；等班表舉起時退開，第二次出拳後反擊。",
+    "tell": "舉班表停頓、伸手查驗通行，抓空後休息；下一輪才補蓋章拳。",
+    "counterplay": "橫向對決；伸手時跳起或退到抓取距離外，格擋擋不住抓技；落空後再靠近。",
     "dialogue": [
      [
       "班表主任",
-      "神麥？牌子寫「即將抵達」，你就安心等。"
+      "護送通行？牌子寫「即將放行」，你就安心等。"
      ],
      [
       "player",
-      "本來應該從容等車，現在等到豆漿變豆花！你那個「即將」是多即將？",
+      "麥架都扶好了，等你放行等到豆漿變豆花！你那個「即將」是多即將？",
       "c4.mini0"
      ],
      [
       "班表主任",
-      "系統沒有延誤，只是「即將」比較有彈性！先打一局，再讓你追！"
+      "路沒有封閉，只是「即將」比較有彈性！先打一局，再讓你過！"
      ]
     ]
    }
@@ -172,13 +172,13 @@ export const CHAPTER4=freeze({
     "id": "chapter-4:miniboss-b",
     "kind": "miniboss",
     "name": "里程總監",
-    "opponent": "huang",
+    "opponent": "ma",
     "mobKind": "mini_marshal",
     "identityStatus": "fictional",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構路跑工作人員，把補給證明看得比補水還重要。",
-    "tell": "先舉碼表，再攔路、退件與喊話，各招有清楚空檔。",
-    "counterplay": "橫向對決；跳過路牌並退開預告範圍，喊話收招後靠近。",
+    "tell": "先伸手查證，再上托點名，最後清喉嚨連咳兩聲。",
+    "counterplay": "跳躲抓取後落地；上托手掌要退開或格擋，咳嗽可蹲低。不要全程連跳，等收招反擊。",
     "dialogue": [
      [
       "里程總監",
@@ -273,18 +273,18 @@ export const CHAPTER4=freeze({
    "frames": [
     {
      "speaker": "旁白",
-     "title": "追車追到站",
-     "copy": "沿著柯P標好的路線，音響車停在候車街口。工讀生先搬下線材箱，大家準備把麥架推上河濱便道，護送到城門。",
+     "title": "護送到站",
+     "copy": "沿著柯P標好的路線，音響車停在候車街口。工讀生先搬下線材箱，大家解開車上的固定帶，合力搬下麥架，沿河濱便道護送到城門。",
      "shot": "truck-unload",
-     "direction": "接第三章音響車載走帶輪麥架；柯P已加入，沒有重播起床序章。"
+     "direction": "接第三章約定護送；音響車運來同一座圓底無輪麥架，封印鎖未動，柯P已加入。"
     },
     {
      "speaker": "player",
-     "title": "輪子比我們積極",
+     "title": "斜坡要多一雙手",
      "voiceKey": "c4.entry",
-     "copy": "斜坡！我扶麥架，你們清路。本來要護送，別又搞得一群人連滾帶爬！",
+     "copy": "斜坡！麥架先放穩，我看底座，你們清路。本來要護送，別又搞得一群人連滾帶爬！",
      "shot": "rolling-stand",
-     "direction": "同一座麥架沿斜坡受控推行，演出輪子移動；主角與工作人員跟隨，沒有再次失竊。"
+     "direction": "同一座圓底麥架剛搬下並放穩；主角檢查底座、指向前路，其他人清路，準備合力搬過斜坡。"
     },
     {
      "speaker": "站務廣播",
@@ -301,7 +301,7 @@ export const CHAPTER4=freeze({
     {
      "speaker": "小馬哥",
      "title": "很有禮貌地攔住了",
-     "copy": "各位辛苦了，輪子已鎖好。我在終點等交接，沒想到各位選了障礙賽路線。歸還前，是否先切磋一場？",
+     "copy": "各位辛苦了，麥架已立穩，固定帶也扣好了，麥上的封印沒動。我在終點等交接，沒想到各位選了障礙賽路線。歸還前，切磋一場？",
      "shot": "ma-reveal",
      "direction": "戰前三路段結束才揭曉小馬哥；神麥在鎖好的架上。"
     },
@@ -309,7 +309,7 @@ export const CHAPTER4=freeze({
      "speaker": "player",
      "title": "禮貌不能省略規則",
      "voiceKey": "c4.boss",
-     "copy": "三戰兩勝，贏的帶隊！握手可以，輪鎖鑰匙先收好，別禮貌完又忙著追輪子！",
+     "copy": "三戰兩勝，贏的帶隊！握手可以，固定帶先扣好，別禮貌完又忙著扶架子！",
      "shot": "duel-contract",
      "direction": "保留原有小馬哥跑步、握手與反擊招式和完整骨架。"
     },
@@ -330,14 +330,14 @@ export const CHAPTER4=freeze({
     {
      "speaker": "小馬哥",
      "title": "輸贏都要有禮貌",
-     "copy": "恭喜，請你帶隊。我保管輪鎖，柯P核對單據，電火球指路。分工如此明確，輪子應該沒有發言空間了。",
+     "copy": "恭喜，請你帶隊。我檢查固定帶，柯P核對單據，電火球指路。分工如此明確，總不必再靠音量決定方向了。",
      "shot": "handover",
      "direction": "只在終Boss兩勝後播放，先解鎖小馬哥。"
     },
     {
      "speaker": "旁白",
-     "title": "輪子鎖了，整台搬走",
-     "copy": "鎖好的麥架重新固定在車上，工讀生收好線材箱。車頭掛著「議場器材歸還」，這回連路過的都知道他們要去哪。",
+     "title": "先搬上車，再扣好帶",
+     "copy": "大家幫工讀生把麥架搬回車上，扣好固定帶，再收妥線材箱。車頭掛著「議場器材歸還」，這回連路過的都知道他們要去哪。",
      "shot": "truck-reload",
      "direction": "保留同一麥架搬上車的演出，所有人事先知情；不是再一次失物。"
     },
@@ -345,7 +345,7 @@ export const CHAPTER4=freeze({
      "speaker": "player",
      "title": "下次連車一起看",
      "voiceKey": "c4.handoff",
-     "copy": "輪子、單子、路線全顧好了！到議場找保管人，我倒要問，神麥怎麼越追越安靜？",
+     "copy": "架子、單子、路線全顧好了！到議場找保管人，我倒要問，封印燈怎麼越走越暗？",
      "shot": "follow-truck",
      "direction": "車開往第五章議場歸還處；自由換角接續同一天。"
     }

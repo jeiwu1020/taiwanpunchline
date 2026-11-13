@@ -77,13 +77,13 @@ export const CHAPTER2=freeze({
     "id": "chapter-2:miniboss-a",
     "kind": "miniboss",
     "name": "催場隊長",
-    "opponent": "wang",
+    "opponent": "su",
     "mobKind": "mini_mic",
     "identityStatus": "proposal-only",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構活動催場員，忙著檢查入場章；不影射另一位真實人物。",
-    "tell": "先舉牌預告，再用普通拳腳催促驗章。",
-    "counterplay": "這場為橫向對決；先防守或退開，等拳腳收招再靠近。",
+    "tell": "先舉驗章牌、壓低身體，再連衝三步；下一輪才補一拳。",
+    "counterplay": "橫向對決；看到衝刺就跳起或格擋，等三步結束再靠近反擊。",
     "dialogue": [
      [
       "催場隊長",
@@ -155,13 +155,13 @@ export const CHAPTER2=freeze({
     "id": "chapter-2:miniboss-b",
     "kind": "miniboss",
     "name": "動線總管",
-    "opponent": "huang",
+    "opponent": "su",
     "mobKind": "mini_guard",
     "identityStatus": "proposal-only",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構場務總管，牌子越擺越多，自己也找不到出口。",
-    "tell": "先舉牌攔路，再蓄力喊話。",
-    "counterplay": "這場為橫向對決；跳過路牌、拉開距離，利用喊話後的空檔。",
+    "tell": "直線衝三步後停頓，再吸氣喊話，最後近身補章。",
+    "counterplay": "跳過低段衝刺，喊話前拉開距離或格擋；等收招再回頭，不要一直跳。",
     "dialogue": [
      [
       "動線總管",
@@ -274,7 +274,7 @@ export const CHAPTER2=freeze({
     {
      "speaker": "電火球",
      "title": "追麥追到台前來",
-     "copy": "跑到這裡，還在那叫什麼！麥就在架上，要拿就先比一場。腳步有沒有拳頭快，要試試看嘛？",
+     "copy": "跑到這裡，還在那叫什麼！麥剛落到架上，誰帶隊守住它，先比一場。腳步有沒有拳頭快，要試試看嘛？",
      "shot": "su-dare",
      "direction": "神麥清楚掛在架上；電火球招手，先交代物件位置再開打。"
     },
@@ -282,14 +282,14 @@ export const CHAPTER2=freeze({
      "speaker": "player",
      "title": "先講好規則",
      "voiceKey": "c2.boss",
-     "copy": "三戰兩勝，贏的拿麥，輸的盯緊！別說得游刃有餘，拿起來就連滾帶爬！",
+     "copy": "三戰兩勝，贏的帶隊，輸的盯緊麥架！別說得游刃有餘，一轉頭又讓大家連滾帶爬！",
      "shot": "duel-contract",
      "direction": "兩人點頭；旁邊裝飾花車綵帶垂過麥架，埋下章尾因果。"
     },
     {
      "speaker": "咆哮哥",
      "title": "先聽一秒",
-     "copy": "等一下，我問的是麥的音量，為什麼越來越小？不要看我，我這邊一直很穩定！",
+     "copy": "等一下，封印上的燈怎麼比剛才暗？我只是在旁邊問，沒人對著麥講過話吧？",
      "shot": "duel-contract"
     }
    ]
@@ -302,14 +302,14 @@ export const CHAPTER2=freeze({
     {
      "speaker": "電火球",
      "title": "才加入，先別跑",
-     "copy": "好，算你行！麥拿去，我一起走。拿穩喔，叫你衝的時候再衝，別讓麥先衝！",
+     "copy": "好，算你行，你帶隊！先看清架上那些綵帶，別急著伸手。我一起顧，這次別讓麥先衝！",
      "shot": "handover",
      "direction": "只有取得兩勝後播放；先確認電火球加入可選角色。"
     },
     {
      "speaker": "旁白",
      "title": "話才講完，麥又走了",
-     "copy": "話才說完，旁邊花車一動，氣球綵帶跟著繃緊。綵帶勾住神麥，咻地把它從兩人手邊吊走。",
+     "copy": "兩人還沒碰到麥，旁邊花車已經開動。氣球綵帶驟然繃緊，將勾住的神麥從架上吊起，越過眾人頭頂。",
      "shot": "ribbon-catch",
      "direction": "特寫綵帶、麥克風與花車的連接，連續演出拉緊、提起與離開，不能直接瞬移。"
     },
@@ -317,7 +317,7 @@ export const CHAPTER2=freeze({
      "speaker": "player",
      "title": "先追車，再開講",
      "voiceKey": "c2.handoff",
-     "copy": "聲音越來越小，逃跑倒是游刃有餘！跟緊綵帶，連它從哪裡來都要問清楚！",
+     "copy": "封印燈越來越暗，逃跑倒是游刃有餘！跟緊綵帶，連它從哪裡來都要問清楚！",
      "shot": "follow-parade",
      "direction": "路牌指向第三章；可自由換角，但接著追車，不回起床序章。"
     }

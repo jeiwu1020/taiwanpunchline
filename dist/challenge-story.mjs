@@ -4,7 +4,7 @@ import {openingFrame} from './challenge-opening-art.mjs?v=campaign-boot-20261112
 import {createComicReadingPosition} from './story-comic-reading.mjs?v=full-comic-r1';
 import {drawBubble} from './starter-comic-layout.mjs?v=full-comic-r1';
 // Explicit advances only. Story presentation owns no progress or save writes.
-export function mountChallengeStory({document,paint,paintComic,onRetryArt,onAudio=()=>{},reducedMotion}={}){
+export function mountChallengeStory({document,paint,paintComic,onRetryArt,isArtLoading=()=>false,onAudio=()=>{},reducedMotion}={}){
  const root=document.createElement('dialog');root.className='challenge-story';root.dataset.comicReader='true';root.setAttribute('aria-label','挑戰故事');
  root.innerHTML='<div class="story-panel"><canvas width="960" height="540" role="img" aria-label="漫畫分鏡"></canvas><div class="story-copy"><div class="story-heading"><small></small><h2 hidden></h2></div><p data-story-transcript aria-live="polite"></p><div class="story-recovery" role="status" hidden></div><div class="story-actions"><span></span><button type="button" data-story-previous aria-label="上一句" hidden>←</button><button type="button" data-story-next class="primary">下一格 →</button><button type="button" data-story-replay aria-label="重看此段漫畫">重看此段</button><button type="button" data-story-skip aria-label="略過此段漫畫">略過此段</button><button type="button" data-story-return hidden>返回總覽</button></div></div></div>';
  document.querySelector('.app').append(root);
@@ -37,7 +37,10 @@ export function mountChallengeStory({document,paint,paintComic,onRetryArt,onAudi
   try{
    if(fullComic()){
     const state=readingState();reading.sync(state,owner);const layout=reading.resize(canvas.width,canvas.height),options={layout:root.dataset.layout,width:canvas.width,height:canvas.height,reducedMotion:motion,comicLayout:layout,comicState:state};
-    if(paintComic(canvas,beats[index],character,motion?2400:Math.min(2400,elapsed),options)===false)throw new Error('Comic assets are not ready');
+    if(paintComic(canvas,beats[index],character,motion?2400:Math.min(2400,elapsed),options)===false){
+     if(isArtLoading()){paintReady=false;artIssue=null;feedback.textContent='漫畫圖片載入中…';feedback.hidden=false;sync();return;}
+     throw new Error('Comic assets are not ready');
+    }
     const ctx=canvas.getContext('2d');for(const bubble of layout.bubbles)drawBubble(ctx,bubble,layout.font);ctx.strokeStyle='#173239';ctx.lineWidth=3;ctx.strokeRect(8,8,canvas.width-16,canvas.height-16);
     paintReady=true;artIssue=null;feedback.hidden=true;sync();
     if(!motion&&elapsed<2400)frame=request(draw);

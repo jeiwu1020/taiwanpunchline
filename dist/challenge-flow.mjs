@@ -16,10 +16,10 @@ export function challengeOpening(character='wang'){
 export const BOSS_DIALOGUES=[
  [{phase:3,title:'擴音器不是通行證',speaker:'擴音隊長',copy:'前面音量管制！沒有比我大聲，誰都不准過。'}, {phase:3,title:'那就用拳頭調音量',speaker:'你',voiceKey:'c1.mini0',copy:'我只是路過，你連路人的發言權都要管？先把擴音器借我看一下。'}],
  [{phase:4,title:'先排隊，還是先過招？',speaker:'封街總管',copy:'這條街我在指揮。要去追麥克風？先填三份申請，再排到明天。'}, {phase:4,title:'今天不抽號碼牌',speaker:'你',voiceKey:'c1.mini1',copy:'我不插隊。我只是要把堵住整條街的牌子挪開！'}],
- [{phase:5,title:'神麥，就在眼前',speaker:'咆哮哥',copy:'太離譜了！我還沒問完，麥克風就自己飛來？先別搶，我的問題還有第二部分！'}, {phase:5,title:'誰贏，誰開講',speaker:'你',voiceKey:'c1.boss',copy:'那就三戰兩勝。贏的人拿麥克風，輸的人先聽一下！'}]
+ [{phase:5,title:'神麥，就在眼前',speaker:'咆哮哥',copy:'太離譜了！我還沒問完，麥克風就自己飛來？先別搶，我的問題還有第二部分！'}, {phase:5,title:'誰贏，誰帶路',speaker:'你',voiceKey:'c1.boss',copy:'那就三戰兩勝。贏的人帶隊追，輸的人幫忙盯緊，先讓麥停下來！'}]
 ];
 export const CHAPTER1_HANDOFF=Object.freeze([
- {phase:5,title:'先贏一場，再聽一句',speaker:'咆哮哥',copy:'比賽我認，麥讓你。但我還沒問完，跟著走總可以吧？不要以為贏兩局就沒有追問！'},
+ {phase:5,title:'先贏一場，再聽一句',speaker:'咆哮哥',copy:'比賽我認，你帶路，麥還沒追到。我一起找，但先說好，不要以為贏兩局就沒有追問！'},
  {phase:5,title:'不是音量越大越靈',speaker:'你',voiceKey:'c1.handoff',copy:'先小聲一點！你剛才一喊，它封印上的燈就閃一下。這支麥好像真的會回應聲音。'},
  {phase:5,title:'最後一道回音',speaker:'旁白',copy:'話才說完，街口最後一道音浪「啵！」地彈回來，把同一支神麥送上早市騎樓。兩人對看一眼，早餐又得外帶了。'}
 ]);

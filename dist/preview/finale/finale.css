@@ -50,6 +50,7 @@ body[data-final-battle=true] #trial-app.cabinet.app[data-challenge-layout] .chap
 /* The canvas reports logical orientation, including portrait phones rotated
    by the in-game side-turn setting. No physical-window media-query mismatch. */
 #finale-tactical-map{display:none;width:132px;height:24px;flex:0 0 132px;border-radius:3px}
+body[data-final-battle=true] #finale-tactical-map{display:block;grid-column:1/-1;justify-self:center}
 body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective{display:flex!important;justify-content:center;align-items:center;gap:8px;height:24px!important;max-height:24px!important;overflow:hidden!important;font-size:10px;line-height:16px;padding:0 4px!important}
 body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #arena-roster,
 body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #objective{display:none!important}
@@ -79,3 +80,29 @@ body[data-compact=true][data-layout=landscape] #trial-app #result-panel h2{font-
 body[data-compact=true][data-layout=landscape] #trial-app #result-panel p{font-size:13px;margin:8px 0}
 body[data-compact=true][data-layout=landscape] #trial-app #result-panel button{font-size:16px;min-height:40px;padding:6px 12px;margin:4px}
 body[data-compact=true][data-layout=landscape] #trial-app #result-panel .fiction-note{display:block;font-size:10px;margin:5px 0 0}
+
+/* The final page is a closing title over the now-revealed hall, not a result
+   modal. Actions remain immediately reachable, with reduced-motion support. */
+#trial-app #choice-panel.ending-screen{background:linear-gradient(90deg,#12292bec,#12292b9c),url('../../assets/challenge/infinite-corridor-v1.png') center/cover;backdrop-filter:none;overflow:auto;align-items:center;padding:clamp(12px,3vw,34px)}
+#trial-app .ending-card{width:min(880px,100%);margin:auto;color:#fff1d2;text-align:center;animation:ending-title-in .7s ease both}
+#trial-app .ending-mark{font-weight:1000;font-size:clamp(32px,5vw,58px);letter-spacing:.08em;margin:0 0 14px;text-shadow:3px 4px #0c1718}
+#trial-app .ending-mark span{display:block;font-size:15px;letter-spacing:.4em;margin-top:9px;color:#e0b15b}
+#trial-app #choice-panel h2{border:0;color:#fff1d2;font-size:clamp(22px,3.5vw,36px);line-height:1.3;margin:10px 0;padding:0}
+#trial-app #choice-copy{font-size:clamp(15px,2.2vw,21px);line-height:1.7;margin:10px auto;max-width:32em}
+#trial-app .ending-studio{margin:24px 0 10px;line-height:1.5;color:#eed19a}
+#trial-app .ending-studio b{display:block;font-size:20px;letter-spacing:.16em}
+#trial-app .ending-studio span{display:block;font-size:14px;letter-spacing:.16em}
+#trial-app .ending-thanks{font-size:14px;margin:10px 0 18px;color:#eee0c3}
+#trial-app .ending-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+#trial-app .ending-actions button{width:auto;min-width:128px;min-height:44px;margin:0;padding:8px 20px;font-size:17px}
+@media(max-height:460px) and (orientation:landscape){#trial-app .ending-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;align-items:center}#trial-app .ending-mark{grid-column:1;grid-row:1/3;margin:0;font-size:36px}#trial-app #choice-panel h2{grid-column:2;grid-row:1;font-size:23px;margin:0}#trial-app #choice-copy{grid-column:2;grid-row:2;font-size:14px;line-height:1.4;margin:0}#trial-app .ending-studio{grid-column:1;grid-row:3/5;margin:8px 0}#trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}#trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}#trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}}
+@keyframes ending-title-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#trial-app .ending-card{animation:none}}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;align-items:center}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-mark{grid-column:1;grid-row:1/3;margin:0;font-size:36px}
+body[data-compact=true][data-layout=landscape] #trial-app #choice-panel h2{grid-column:2;grid-row:1;font-size:23px;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app #choice-copy{grid-column:2;grid-row:2;font-size:14px;line-height:1.4;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-studio{grid-column:1;grid-row:3/5;margin:8px 0}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}

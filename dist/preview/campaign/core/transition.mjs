@@ -1,4 +1,4 @@
-import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry} from './model.mjs?v=campaign-boot-20261112-r3';
+import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry,GROWTH_REWARDS} from './model.mjs?v=campaign-boot-20261112-r3';
 import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-boot-20261112-r3';
 const reject=reason=>({ok:false,reason});
 function checked(input){const v=validateDocument(input);return v.ok?v.document:null;}
@@ -7,8 +7,15 @@ function finish(d,p,extra={}){
  d.revision++;p.campaign.revision++;const v=validateDocument(d);return v.ok?{...v,...extra}:v;
 }
 const attemptKey=run=>run.replay?'replayAttempt':'attempt';
+const mobReceipt=(route,id)=>`${route.chapterId}:${route.stepId}:${id}`;
+function rememberPaidMobs(c,attempt){
+ c.mobReceipts??=[];
+ if(attempt&&!c.receipts.includes(receiptFor(attempt.chapterId,attempt.stepId)))for(const id of attempt.paidEnemyIds){const key=mobReceipt(attempt,id);if(!c.mobReceipts.includes(key))c.mobReceipts.push(key);}
+}
 function setupAttempt(c,run,{force=false}={}){
  const key=attemptKey(run);
+ // Preserve old saves' active receipts before retry/reload rotates the attempt.
+ rememberPaidMobs(c,c[key]);
  if(!ROUTES.includes(run.stepId)){run.attemptId=null;return true;}
  if(!force&&c[key]?.chapterId===run.chapterId&&c[key].stepId===run.stepId){run.attemptId=c[key].id;return true;}
  if(c.attemptSerial>=MAX_SERIAL)return false;
@@ -43,7 +50,11 @@ export function applyRunAction(input,previous,action){
  if(action.type==='mob-defeated'){
   if(!ROUTES.includes(step)||!uniqueStrings([action.enemyId],1)||action.enemyId.length>100||!integer(action.xp,0,400))return reject('invalid-mob-reward');
   if(attempt.paidEnemyIds.includes(action.enemyId))return reject('duplicate-reward');
-  if(attempt.paidEnemyIds.length>=1000)return reject('receipt-limit');attempt.paidEnemyIds.push(action.enemyId);award(p,action.xp);rewardedXP=action.xp;
+  if(attempt.paidEnemyIds.length>=1000)return reject('receipt-limit');attempt.paidEnemyIds.push(action.enemyId);
+  c.mobReceipts??=[];const receipt=mobReceipt(run,action.enemyId);
+  if(!c.receipts.includes(receiptFor(run.chapterId,step))&&!c.mobReceipts.includes(receipt)){
+   if(c.mobReceipts.length>=1000)return reject('receipt-limit');c.mobReceipts.push(receipt);award(p,action.xp);rewardedXP=action.xp;
+  }
  }else if(action.type==='retry'){
   if(!ROUTES.includes(step)&&!['miniboss-a','miniboss-b','boss'].includes(step))return reject('invalid-retry');
   if(!setupAttempt(c,run,{force:true}))return reject('attempt-limit');c[carryKey]=null;
@@ -56,11 +67,13 @@ export function applyRunAction(input,previous,action){
   if(!setupAttempt(c,run))return reject('attempt-limit');setCursor(c,run);
  }else if(action.type==='route-complete'){
   c[carryKey]=normalizeCarry(action.carry);
-  if(!ROUTES.includes(step))return reject('not-route');rewardedXP=firstClear(p,run,25);
+  if(!ROUTES.includes(step))return reject('not-route');rewardedXP=firstClear(p,run,GROWTH_REWARDS.route);
   run.stepId=({'route-a':'miniboss-a','route-b':'miniboss-b','route-c':'boss-comic'})[step];c[key]=null;run.attemptId=null;setCursor(c,run);
  }else if(action.type==='boss-win'){
   c[carryKey]=normalizeCarry(action.carry);
-  if(!['miniboss-a','miniboss-b','boss'].includes(step))return reject('not-boss');rewardedXP=firstClear(p,run,step==='boss'?160:100);
+  if(!['miniboss-a','miniboss-b','boss'].includes(step))return reject('not-boss');rewardedXP=firstClear(p,run,step==='boss'?GROWTH_REWARDS.boss:GROWTH_REWARDS.miniboss);
+  // A complete replay has a finite chapter reward; retries never repeat it.
+  if(step==='boss'&&run.replay){c.replayRewards??=[];if(!c.replayRewards.includes(run.chapterId)){c.replayRewards.push(run.chapterId);award(p,GROWTH_REWARDS.replay);rewardedXP+=GROWTH_REWARDS.replay;}}
   if(step==='boss'){
    const chapter=chapterById(run.chapterId);run.stepId='handoff-comic';
    if(!run.replay){if(chapter.index!==c.chapterClears.length)return reject('out-of-order-clear');c.chapterClears.push(chapter.id);if(!p.unlockedCharacters.includes(chapter.boss))p.unlockedCharacters.push(chapter.boss);c.story.pending=storyFor(chapter.id,'handoff-comic');c.finale.status=c.chapterClears.length===5?'ready':'not-ready';}
@@ -107,7 +120,7 @@ function applyFinaleAction(d,p,previous,action){
   if(run.stepId!=='battle')return reject('not-finale-battle');run.stepId='team-select';
  }else if(action.type==='finale-win'){
   if(run.stepId!=='battle'||c.finale.receipt!==null)return reject('not-finale-battle');
-  c.finale.status='completed';c.finale.receipt=FINALE_RECEIPT;rewardedXP=160;award(p,rewardedXP);run.stepId='ending';
+  c.finale.status='completed';c.finale.receipt=FINALE_RECEIPT;rewardedXP=GROWTH_REWARDS.finale;award(p,rewardedXP);run.stepId='ending';
  }else if(action.type==='story-complete'){
   if(run.stepId!=='ending')return reject('not-story');
   if(!c.story.seen.includes('finale:ending'))c.story.seen.push('finale:ending');run.stepId='complete';

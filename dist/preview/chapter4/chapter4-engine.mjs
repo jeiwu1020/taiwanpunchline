@@ -4,8 +4,8 @@ import {Duel,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
 import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
 import {CHAPTER4} from './chapter4-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
- 'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'班表主任',pattern:[{action:'punch',name:'班表更新中！',range:112,warning:.55,rest:.65},{action:'punch',name:'還是即將抵達！',range:112,warning:.85,rest:1.25}]},
- 'miniboss-b':{type:'huang',mobKind:'mini_marshal',name:'里程總監',pattern:[{action:'special3',name:'完賽證明呢！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'缺一份口渴證明！',range:145,warning:.9,rest:1.8},{action:'special1',name:'最後一公里！',range:190,warning:1.0,rest:1.9}]}
+ 'miniboss-a':{type:'ma',mobKind:'mini_schedule',name:'班表主任',pattern:[{action:'special1',name:'握手才放行！跳開！',range:135,warning:.7,rest:1.9},{action:'punch',name:'班表再蓋一下！',range:112,warning:.55,rest:1.4}]},
+ 'miniboss-b':{type:'ma',mobKind:'mini_marshal',name:'里程總監',pattern:[{action:'special1',name:'伸手查證！跳開！',range:135,warning:.6,rest:1.3},{action:'special2',name:'上托點名！別再跳！',range:145,warning:.8,rest:1.5},{action:'special3',name:'補給前清喉嚨！蹲低！',range:160,warning:.65,rest:1.6}]}
 });
 
 export function createChapter4Duel({stepId,characterId='wang',helperId='han',difficulty='beginner',rng=Math.random,stats}={}){

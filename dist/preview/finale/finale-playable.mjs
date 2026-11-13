@@ -1,4 +1,6 @@
 import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
+import {finaleVerdictText} from './finale-verdict.mjs?v=finale-verdict-r1';
+import {finaleOffscreenHints,drawFinaleCameraHints} from './finale-camera-hints.mjs?v=finale-follow-r1';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
@@ -64,11 +66,11 @@ function sync(){
  if(['story','intro'].includes(s.mode)){$('#story-panel').hidden=false;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-next').textContent=s.frameIndex+1===s.frameCount?(s.mode==='intro'?'開打 →':'看完了 →'):'下一格 →';$('#story-next').disabled=s.busy||!!s.saveIssue;}
  if(s.mode==='result'){
   $('#result-panel').hidden=false;$('#result-title').textContent=s.result.winner==='player'?'這一隊，終於拿到麥！':s.result.winner==='draw'?'同時安靜了……再來一次':'麥先讓對面拿，故事還沒完';
-  $('#result-copy').textContent=s.result.matchWon?(chapter.world?.player.hp<=0?'你先倒下，隊友替全隊贏了！':'最後站著的是你們這一隊。')+' '+s.saveLabel:s.result.winner==='draw'?'人數與生命比例相同，本場重試；章節和經驗保留。':'全隊倒下或限時比較落敗。可以重試這場，或重新選擇三人隊伍。';
+  $('#result-copy').textContent=finaleVerdictText(chapter.world)+' '+(s.result.matchWon?(chapter.world?.player.hp<=0?'你先倒下，隊友替全隊贏了！ ':'')+s.saveLabel:s.result.winner==='draw'?'本場重試；章節和經驗保留。':'可以重試這場，或重新選擇三人隊伍。');
   if(s.result.winner!=='draw')$('#result-copy').textContent+=' '+FINALE_VERDICT[s.result.matchWon?'win':'loss'];
   $('#result-next').textContent=s.result.matchWon?'拿起神麥，看結局 →':'原隊伍重試 →';$('#result-next').disabled=s.busy||!s.canNavigate;$('#result-reselect').hidden=s.result.matchWon;$('#result-reselect').disabled=s.busy||!s.canNavigate;
  }
- if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='門開了，話還沒講完';$('#choice-copy').textContent='七人帶著沒電的神麥跨過門檻，長廊裡卻多出一個回音。眼前這條路，誰也沒有走過。';$('#choice-roster').hidden=true;}
+ if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='門後的第一聲回音';$('#choice-copy').textContent='麥克風安靜了。門後，卻多了一個回音。';$('#choice-roster').hidden=true;}
  if(s.paused){$('#pause-panel').hidden=false;$('#pause-roster').hidden=true;$('.chapter-pause-extras').hidden=true;$('#pause-note').textContent='暫停整場混戰。重新開吵會以相同三人隊伍從本場起點開始，章節與經驗保留。';}
  $('#finale-prepare').disabled=s.mode!=='team-select'||s.busy;$('#arena-roster').hidden=!combat;
  comicReader.sync();ui.refreshAccess();ui.syncMedia();ui.invalidateGeometry();ui.prepareSurface();
@@ -154,12 +156,13 @@ function paint(time){
  for(const a of actors){actor(a,f,time);if(a.hp>0){const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name;ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
  for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else if(drawChallengeSignatureProjectile(ctx,images,p,time)){}else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom*mark.scale,12*zoom*mark.scale,0,0,Math.PI*2);ctx.stroke();}}
  drawFinaleEffects(ctx,images,g,point,zoom,time);
+ drawFinaleCameraHints(ctx,finaleOffscreenHints(f,g,{width:w,height:h,safeRect:options.safeRect,occlusions:[...(options.occlusions??[]),roster]}));
 }
 function hud(){
  const s=view(),g=chapter?.world;if(!s||!g)return;ui.render({state:s,world:g});
  const map=tacticalCtx;map.clearRect(0,0,132,24);map.fillStyle='#f2deb0';map.fillRect(0,0,132,24);map.strokeStyle='#705334';map.lineWidth=1;map.strokeRect(.5,.5,131,23);
  for(const m of finaleTacticalMarkers(g).sort((a,b)=>Number(a.controlled)-Number(b.controlled))){const x=6+m.x*120,y=4+m.y*16;map.fillStyle=!m.alive?'#716c62':m.controlled?'#ffd24c':m.team===0?'#16735d':'#b23b32';map.strokeStyle='#233f40';map.beginPath();map.arc(x,y,m.controlled?3.5:2.5,0,Math.PI*2);map.fill();if(m.controlled)map.stroke();if(!m.alive){map.beginPath();map.moveTo(x-3,y-3);map.lineTo(x+3,y+3);map.stroke();}}
- $('#timer').textContent=Math.ceil(g.remaining);$('#match-score').textContent='最後存活隊';$('#route-progress').textContent=`我方 ${g.actors.filter(a=>a.team===0&&a.hp>0).length} 人 · 對手 ${g.actors.filter(a=>a.team===1&&a.hp>0).length} 人`;
+ $('#timer').textContent=Math.ceil(g.remaining);$('#match-score').textContent='時間到先比人數';$('#route-progress').textContent=`我方 ${g.actors.filter(a=>a.team===0&&a.hp>0).length} 人 · 對手 ${g.actors.filter(a=>a.team===1&&a.hp>0).length} 人`;
  $('#objective').textContent=g.player.hp<=0?'你已倒下 · 全隊仍在戰鬥，繼續觀戰！':`四向走位 · 目前目標：${CAST[g.targetFor(g.player)?.type]?.name??'無'} · 同隊不互傷`;
  const roster=$('#arena-roster');if(roster.childElementCount!==7)roster.replaceChildren(...g.actors.map(a=>{const el=document.createElement('span');el.dataset.actor=a.id;el.dataset.team=a.team===0?'ally':'enemy';const text=document.createElement('b'),bar=document.createElement('i');el.append(text,bar);return el;}));
  for(const a of g.actors){const el=roster.querySelector(`[data-actor="${a.id}"]`);el.dataset.out=String(a.hp<=0);const text=(a.team===0?'友 ':'敵 ')+CAST[a.type].name+(a.hp<=0?' ×':'');if(el.firstChild.textContent!==text)el.firstChild.textContent=text;el.lastChild.style.width=Math.max(0,a.hp/a.maxHp*100)+'%';}

@@ -8,6 +8,7 @@ export const integer=(n,min=0,max=MAX_SERIAL)=>Number.isSafeInteger(n)&&n>=min&&
 export const onlyKeys=(o,keys)=>object(o)&&Object.keys(o).every(k=>keys.includes(k));
 export const uniqueStrings=(v,max=1000)=>Array.isArray(v)&&v.length<=max&&v.every(s=>typeof s==='string'&&/^[a-zA-Z0-9:_-]{1,180}$/.test(s))&&new Set(v).size===v.length;
 export const allowance=xp=>Math.min(35,Math.floor(xp/XP_PER_POINT));
+export const GROWTH_REWARDS=Object.freeze({route:25,miniboss:60,boss:100,finale:160,replay:120});
 export const zeroSkills=()=>Object.fromEntries(SKILLS.map(k=>[k,0]));
 export const currentProfile=d=>d.profiles.find(p=>p.id===d.activeProfileId);
 function freshProfile(id){return {id,unlockedCharacters:[...STARTERS],characters:{},campaign:{version:2,campaignId:CAMPAIGN_ID,revision:0,xp:0,chapterClears:[],cursor:{chapterId:'chapter-1',stepId:'entry'},selection:{characterId:'wang',helperId:'han'},story:{opening:'unseen',seen:[],pending:null},receipts:[],legacyReceipts:[],attemptSerial:0,attempt:null,replayAttempt:null,finale:{status:'not-ready',receipt:null}}};}
@@ -22,7 +23,8 @@ export function validateDocument(input){
   for(const p of input.profiles){
    if(!onlyKeys(p,['id','unlockedCharacters','characters','campaign'])||!PROFILE_IDS.includes(p.id)||found.has(p.id)||!uniqueStrings(p.unlockedCharacters,7)||!p.unlockedCharacters.every(id=>CHARACTER_IDS.includes(id))||!STARTERS.every(id=>p.unlockedCharacters.includes(id)))return {ok:false,reason:'invalid-profile'};found.add(p.id);
    const c=p.campaign;
-   if(!onlyKeys(c,['version','campaignId','revision','xp','chapterClears','cursor','selection','story','receipts','legacyReceipts','attemptSerial','attempt','replayAttempt','finale','difficulty','carry','replayCarry'])||c.version!==2||c.campaignId!==CAMPAIGN_ID||!integer(c.revision)||!integer(c.xp,0,MAX_XP)||!validCharacters(p.characters,c.xp))return {ok:false,reason:'invalid-growth'};
+   if(!onlyKeys(c,['version','campaignId','revision','xp','chapterClears','cursor','selection','story','receipts','legacyReceipts','attemptSerial','attempt','replayAttempt','finale','difficulty','carry','replayCarry','mobReceipts','replayRewards'])||c.version!==2||c.campaignId!==CAMPAIGN_ID||!integer(c.revision)||!integer(c.xp,0,MAX_XP)||!validCharacters(p.characters,c.xp))return {ok:false,reason:'invalid-growth'};
+   if(c.mobReceipts!==undefined&&(!uniqueStrings(c.mobReceipts)||!c.mobReceipts.every(key=>/^chapter-[1-5]:route-[abc]:[a-zA-Z0-9:_-]{1,100}$/.test(key)))||c.replayRewards!==undefined&&(!uniqueStrings(c.replayRewards,5)||!c.replayRewards.every(id=>c.chapterClears.includes(id))))return {ok:false,reason:'invalid-growth-receipts'};
    if(c.difficulty!==undefined&&!['beginner','easy','hard'].includes(c.difficulty)||c.carry!==undefined&&!validCarry(c.carry)||c.replayCarry!==undefined&&!validCarry(c.replayCarry))return {ok:false,reason:'invalid-encounter'};
    if(!uniqueStrings(c.chapterClears,5)||!c.chapterClears.every((id,i)=>id===CHAPTERS[i].id&&p.unlockedCharacters.includes(CHAPTERS[i].boss)))return {ok:false,reason:'invalid-clears'};
    if(!onlyKeys(c.cursor,['chapterId','stepId']))return {ok:false,reason:'invalid-cursor'};
