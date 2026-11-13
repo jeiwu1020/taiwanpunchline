@@ -8,7 +8,7 @@ export function createQuickViewTools(document){
  if(typeof host.showPopover==='function')host.setAttribute('popover','manual');
  const root=host.attachShadow({mode:'open'});
  root.innerHTML=`<style>
- :host{font:15px/1.45 system-ui;color:#173239}*{box-sizing:border-box}[hidden]{display:none!important}
+ :host{font:15px/1.45 system-ui;color:#173239;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}*{box-sizing:border-box}[hidden]{display:none!important}
  button,select,a{font:inherit;min-height:44px;border:2px solid #173239;border-radius:8px;padding:7px 10px}button{background:#f9da8b;color:#173239;cursor:pointer}button:disabled{opacity:.5;cursor:default}
  #toggle{position:absolute;top:max(6px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);min-height:32px;padding:3px 12px;border-radius:0 0 12px 12px;box-shadow:0 2px 5px #0004;pointer-events:auto;font-size:13px}
  #panel{pointer-events:auto;position:absolute;top:max(44px,calc(env(safe-area-inset-top) + 38px));right:max(8px,env(safe-area-inset-right));width:min(370px,calc(100vw - 16px));max-height:calc(100dvh - 58px - env(safe-area-inset-top));overflow:auto;overscroll-behavior:contain;background:#fff3d3;border:3px solid #173239;border-radius:12px;padding:12px;box-shadow:4px 6px 0 #17323955}
@@ -24,8 +24,19 @@ export function createQuickViewTools(document){
  <button id="advance" type="button" disabled>快速過關</button></div>
  <p id="status" role="status">正在確認預覽環境…</p>
  <footer><a href="/" target="_top">離開快覽</a><button id="close" type="button">收合工具</button></footer></section>`;
- const toggle=root.querySelector('#toggle'),panel=root.querySelector('#panel');let observer=null;const prepared=new WeakSet();
- function close({focus=false}={}){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.textContent='快通工具';if(focus)toggle.focus();}
+ const toggle=root.querySelector('#toggle'),panel=root.querySelector('#panel');let observer=null,owner=document,positionFrame=0;const prepared=new WeakSet();
+ function positionToggle(){
+  const w=owner.defaultView.innerWidth,h=owner.defaultView.innerHeight,tw=toggle.offsetWidth||80,th=toggle.offsetHeight||32;
+  const scope=host.parentElement?.localName==='dialog'?host.parentElement:owner;
+  const obstacles=[...scope.querySelectorAll('button,a,input,select,[role="button"],[role="tab"],[role="checkbox"]')].map(node=>node.getBoundingClientRect()).filter(r=>r.width&&r.height);
+  const style=owner.defaultView.getComputedStyle(host),safe=edge=>Math.max(6,parseFloat(style.getPropertyValue('--safe-'+edge))||0),top=safe('top'),bottom=h-th-safe('bottom'),left=safe('left'),right=w-tw-safe('right');
+  const candidates=[[w/2-tw/2,top],[w/2-tw/2,bottom],[left,h/2-th/2],[right,h/2-th/2],[left,top],[right,top]];
+  const score=([x,y])=>obstacles.reduce((total,r)=>total+Math.max(0,Math.min(x+tw+4,r.right)-Math.max(x-4,r.left))*Math.max(0,Math.min(y+th+4,r.bottom)-Math.max(y-4,r.top)),0);
+  const [x,y]=candidates.map(point=>({point,score:score(point)})).sort((a,b)=>a.score-b.score)[0].point;
+  toggle.style.left=Math.max(0,x)+'px';toggle.style.top=Math.max(0,y)+'px';toggle.style.transform='none';
+ }
+ function schedulePosition(){if(positionFrame)return;positionFrame=owner.defaultView.requestAnimationFrame(()=>{positionFrame=0;positionToggle();});}
+ function close({focus=false}={}){panel.hidden=true;toggle.setAttribute('aria-expanded','false');toggle.textContent='快通工具';schedulePosition();if(focus)toggle.focus();}
  function open(){panel.hidden=false;toggle.setAttribute('aria-expanded','true');toggle.textContent='收合工具';}
  toggle.onclick=()=>panel.hidden?open():close();root.querySelector('#close').onclick=()=>close({focus:true});
  root.addEventListener('keydown',event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();close({focus:true});}});
@@ -39,25 +50,26 @@ export function createQuickViewTools(document){
    event.stopImmediatePropagation();
    if(event.key==='Escape'){event.preventDefault();close({focus:true});}
   },true);
+  nextDocument.defaultView.addEventListener('resize',()=>{if(owner===nextDocument)schedulePosition();});
   // Prevent a rotated game dialog from starting its own scroll/drag gesture.
   for(const type of ['pointerdown','wheel'])nextDocument.defaultView.addEventListener(type,event=>{
    if(event.composedPath().includes(host))event.stopImmediatePropagation();
   },{capture:true,passive:true});
  }
  function mount(nextDocument){
-  observer?.disconnect();prepare(nextDocument);let modalOrder=[];
+  observer?.disconnect();if(positionFrame)owner.defaultView.cancelAnimationFrame(positionFrame);positionFrame=0;owner=nextDocument;prepare(nextDocument);let modalOrder=[];
   const place=(records=[])=>{
    modalOrder=modalOrder.filter(dialog=>dialog.isConnected&&dialog.open);
    for(const dialog of nextDocument.querySelectorAll('dialog[open]'))if(!modalOrder.includes(dialog))modalOrder.push(dialog);
    for(const record of records)if(record.type==='attributes'&&record.target.localName==='dialog'&&record.target.open){modalOrder=modalOrder.filter(dialog=>dialog!==record.target);modalOrder.push(record.target);}
    const target=modalOrder.at(-1)??nextDocument.body;
-   if(target&&host.parentNode!==target){target.append(host);if(host.hasAttribute('popover'))host.showPopover();}
+   if(target&&host.parentNode!==target){target.append(host);if(host.hasAttribute('popover'))host.showPopover();schedulePosition();}
   };
   place();const Observer=nextDocument.defaultView?.MutationObserver;
   if(Observer){observer=new Observer(place);observer.observe(nextDocument.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['open']});}
  }
  mount(document);
- return {host,root,open,close,mount,prepare,destroy(){observer?.disconnect();host.remove();}};
+ return {host,root,open,close,mount,prepare,destroy(){observer?.disconnect();if(positionFrame)owner.defaultView.cancelAnimationFrame(positionFrame);host.remove();}};
 }
 
 // Fixed sizes are opt-in; auto uses the entire viewport without navigation.
