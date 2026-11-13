@@ -126,7 +126,7 @@ const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',(
 function paint(time){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);
  if(!g||!['battle','result'].includes(s?.mode)){
-  const main=s?.characterId??draftTeam[0],speaker=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker)??(main==='chen'?'han':'chen'),zoom=Math.min(w/760,h/350),f={left:0,base:h*.9,zoom};
+  const selected=s?.characterId??draftTeam[0],speaking=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker),main=speaking===selected?(selected==='han'?'huang':'han'):selected,speaker=speaking??(main==='chen'?'han':'chen'),zoom=Math.min(w/760,h/350),f={left:0,base:h*.9,zoom};
   drawFinaleStage(ctx,images['finale-arena'],w,h,f);actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);mic(w*.52,h*.62,Math.max(32,55*zoom));return;
  }
  const compact=ui.viewport.touch&&w>h&&h<=420;if(document.body.dataset.finaleCompact!==String(compact)){document.body.dataset.finaleCompact=String(compact);ui.invalidateGeometry();}
