@@ -1,16 +1,10 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>拳民開講｜快速看關（不存檔）</title><style>
-*{box-sizing:border-box}body{margin:0;background:#16262b;color:#fff;font:15px system-ui}main{height:100dvh;display:flex;flex-direction:column}header{position:relative;padding:8px max(8px,env(safe-area-inset-left));background:#263c43;flex:none}h1{font-size:16px;margin:0 0 6px}.controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center}select,button,a{font:inherit;min-height:40px;border-radius:6px;padding:6px 9px}button{background:#f9da8b;color:#16262b;border:0}button:disabled{opacity:.5}a{color:#fff}#status{margin:5px 0 0;font-size:13px}[data-failure="true"]{padding:16px;border:2px solid #ffd17e;background:#4a2721;color:#fff;font-size:16px}iframe{border:0;flex:1;width:100%;min-height:0;background:#16262b}[hidden]{display:none!important}
-#toggle-help{display:none}
-#view-host{flex:1;min-height:0;overflow:auto;display:flex}#view-host iframe{height:100%}#view-host[data-fixed="true"]{padding:8px}#view-host[data-fixed="true"] iframe{flex:none;margin-inline:auto;max-width:none}
-@media (max-height:450px) and (min-aspect-ratio:1/1){
- header{padding:4px max(6px,env(safe-area-inset-right)) 4px max(6px,env(safe-area-inset-left));z-index:2}
- h1{display:none}
- .controls{flex-wrap:nowrap;gap:4px;overflow-x:auto;white-space:nowrap}
- .controls>*{flex:none}
- select,button,a{font-size:13px;min-height:40px;padding:4px 7px}
- #toggle-help{display:inline-block}
- #status:not([data-failure="true"]){display:none;position:absolute;top:100%;left:6px;right:6px;margin:0;padding:10px;background:#263c43;border:1px solid #f9da8b;max-height:calc(100dvh - 64px);overflow:auto;box-shadow:0 5px 12px #0008}
- header[data-help-open="true"] #status:not([data-failure="true"]){display:block}
- #status[data-failure="true"]{display:block;position:static}
-}
-</style></head><body><main><header><h1>快速看關 · 預覽限定 · 不讀寫原存檔</h1><div class="controls"><label>章節 <select id="chapter"><option value="1">第 1 章</option><option value="2">第 2 章</option><option value="3">第 3 章</option><option value="4">第 4 章</option><option value="5">第 5 章</option><option value="6">最終戰與結局</option></select></label><button id="load" disabled>進入／重看</button><label>畫面 <select id="view-size" aria-label="快覽畫面尺寸"><option value="auto">跟隨視窗</option><option value="portrait">直向 390×844</option><option value="landscape">橫向 844×390</option><option value="desktop">桌機 1280×720</option></select></label><button id="toggle-help" type="button" aria-controls="status" aria-expanded="false">說明</button><a href="/" target="_top" aria-label="離開快速看關">離開快覽</a></div><p id="status" role="status">正在確認預覽環境…</p></header><div id="view-host"><iframe id="game" title="拳民開講快速看關" allow="autoplay; fullscreen"></iframe></div></main><script type="module" src="./viewer.mjs"></script></body></html>
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>拳民開講 · 快速看關</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#16262b}
+main,#view-host{position:fixed;inset:0}#view-host{overflow:auto}
+iframe{display:block;border:0;width:100%;height:100%;background:#16262b}
+#view-host[data-fixed="true"] iframe{max-width:none;margin-inline:auto}
+[hidden]{display:none!important}
+#failure-status{position:fixed;inset:60px 12px auto;z-index:10;padding:18px;border:3px solid #ffd17e;border-radius:12px;background:#4a2721;color:#fff;font:17px/1.6 system-ui}
+</style></head><body><main><div id="view-host"><iframe id="game" title="拳民開講快速看關" allow="autoplay; fullscreen"></iframe></div><p id="failure-status" role="alert" hidden></p></main><script type="module" src="./viewer.mjs"></script></body></html>
