@@ -26,7 +26,7 @@ import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-boot-202611
 import {createFinaleSession} from './finale-session.mjs?v=campaign-boot-20261112-r3';
 import {createFinalePreview} from './finale-preview.mjs?v=campaign-boot-20261112-r3';
 import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=finale-arena-20261113-r4';
-import {drawFinaleStage} from './finale-stage.mjs?v=finale-arena-20261113-r4';
+import {drawFinaleStage,drawFinaleLockedStand} from './finale-stage.mjs?v=finale-arena-20261114-r5';
 import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=campaign-boot-20261112-r3';
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,preview=['test','qa','previewOnly'].some(k=>query.has(k));
@@ -127,7 +127,7 @@ window.addEventListener('keyup',e=>{keys.delete(e.code);recalc();});
 controls=bindTouchControls({document,window,active,viewport:()=>({ready:ui.ready,epoch:ui.epoch,rotation:ui.viewport.rotation}),rotation:()=>ui.viewport.rotation,directionMode:()=> 'depth',stickSelector:'#touch-stick',knobSelector:'#touch-knob',buttonSelector:'#controls button',onHold:(a,on)=>{on?pointers.add(a):pointers.delete(a);recalc();},onAction:command});
 for(const b of $$('#controls button')){b.addEventListener('click',e=>{if(e.detail===0&&!b.disabled)command(b.dataset.action??(b.dataset.hold==='punch'?'punch':null));});b.addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||!active())return;e.preventDefault();if(!e.repeat){if(b.dataset.hold){pointers.add(b.dataset.hold);recalc();if(b.dataset.hold==='punch')command('punch');}else command(b.dataset.action);}});const release=()=>{pointers.delete(b.dataset.hold);recalc();};b.addEventListener('keyup',release);b.addEventListener('blur',release);}
 function cover(image,w,h){if(!image)return;const z=Math.max(w/image.width,h/image.height);ctx.drawImage(image,(w-image.width*z)/2,(h-image.height*z)/2,image.width*z,image.height*z);}
-function mic(x,y,size=46){const im=images['opening-props-v75'];if(im)ctx.drawImage(im,1186,543,192,444,x-size*192/444/2,y-size,size*192/444,size);}
+function micStand(x,foot,height){return drawFinaleLockedStand(ctx,images['comic-locked-stand'],{x,foot,height});}
 function actor(a,frame,time){const q=finalePoint(a.x,a.y,a.depth??0),x=(q.x-frame.left)*frame.zoom,y=frame.base+(q.y-GROUND)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*q.scale*(a.face||1),frame.zoom*q.scale);ctx.globalAlpha=a.hp<=0?.3:1;drawFighterArt(ctx,images,presentationFighter(a),time,{shadow:false});ctx.restore();}
 const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',()=>.3,'wang').player]));
 function paint(time){
@@ -141,7 +141,7 @@ function paint(time){
    return;
   }
   const selected=s?.characterId??draftTeam[0],speaking=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker),main=speaking===selected?(selected==='han'?'huang':'han'):selected,speaker=speaking??(main==='chen'?'han':'chen'),zoom=Math.min(w/760,h/350),f={left:0,base:h*.9,zoom};
-  drawFinaleStage(ctx,images['finale-arena'],w,h,f);actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);mic(w*.52,h*.62,Math.max(32,55*zoom));return;
+  drawFinaleStage(ctx,images['finale-arena'],w,h,f);micStand(w*.52,h*.9,Math.max(100,210*zoom));actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);return;
  }
  const compact=ui.viewport.touch&&w>h&&h<=420;if(document.body.dataset.finaleCompact!==String(compact)){document.body.dataset.finaleCompact=String(compact);ui.invalidateGeometry();}
  const options=ui.cameraOptions,roster=ui.logicalRect($('#arena-roster').getBoundingClientRect());
@@ -151,7 +151,7 @@ function paint(time){
  const point=(x,y=GROUND,z=0)=>{const q=finalePoint(x,y,z);return {x:(q.x-f.left)*zoom,y:f.base+(q.y-GROUND)*zoom,scale:q.scale};};
  const target=g.targetFor(g.player);
  for(const a of g.actors){const p=point(a.x,GROUND,a.depth);ctx.strokeStyle=a===g.player?'#f6ca52':a.team===0?'#227c69':'#ac3838';ctx.lineWidth=Math.max(2,3*zoom);ctx.fillStyle=a.hp<=0?'#27323555':a.team===0?'#36a68b55':'#d3555555';ctx.beginPath();ctx.ellipse(p.x,p.y,36*zoom*p.scale,9*zoom*p.scale,0,0,Math.PI*2);ctx.fill();ctx.stroke();if(a===target){ctx.strokeStyle='#ffe378';ctx.strokeRect(p.x-43*zoom*p.scale,p.y-300*zoom*p.scale,86*zoom*p.scale,306*zoom*p.scale);}}
- const middle=point(480,GROUND,-15);ctx.strokeStyle='#4c443b';ctx.lineWidth=3*zoom;ctx.beginPath();ctx.moveTo(middle.x,middle.y);ctx.lineTo(middle.x,middle.y-150*zoom);ctx.stroke();mic(middle.x,middle.y-150*zoom,48*zoom);
+ const middle=point(480,GROUND,-15);micStand(middle.x,middle.y,210*zoom*middle.scale);
  const actors=[...g.actors,...g.assists.map(a=>({...a.actor,depth:a.actor.depth??a.owner.depth,team:a.owner.team,hp:a.phase==='exit'?0:1}))].sort((a,b)=>a.depth-b.depth);
  for(const a of actors){actor(a,f,time);if(a.hp>0){const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name;ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
  for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else if(drawChallengeSignatureProjectile(ctx,images,p,time)){}else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();if(p.targetX!==undefined){const mark=point(p.targetX,GROUND,p.targetDepth);ctx.strokeStyle=p.owner.team===0?'#31a685':'#d05648';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(mark.x,mark.y,42*zoom*mark.scale,12*zoom*mark.scale,0,0,Math.PI*2);ctx.stroke();}}
@@ -174,7 +174,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();requestAnimationFrame(tick);
+ try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],['comic-locked-stand','challenge/story-props-r3/locked-godmic-stand-r3.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();requestAnimationFrame(tick);
   const handoff=preview?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }

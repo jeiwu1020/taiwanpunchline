@@ -11,10 +11,19 @@ export function setupQuickView(window){
  }
  const initial=Number(new URL(window.location.href).searchParams.get('chapter'));
  if(Number.isInteger(initial)&&initial>=1&&initial<=6)select.value=String(initial);
- let handler=null,busy=false;
+ let handler=null,busy=false;const preparedDocuments=new WeakSet();
+ function prepareDocument(gameDocument){
+  tools.prepare(gameDocument);
+  if(preparedDocuments.has(gameDocument))return;preparedDocuments.add(gameDocument);
+  // Natural chapter links do not run enter(). Rescue the adopted shadow tree
+  // before the departing iframe tears down its document and event listeners.
+  gameDocument.defaultView.addEventListener('pagehide',()=>{
+   if(tools.host.ownerDocument===gameDocument)session.clearHandler();
+  });
+ }
  const session={frame,local:createQuickViewStorage(),tab:createQuickViewStorage(),
-  clearHandler(){handler=null;busy=false;advance.disabled=true;tools.mount(document);if(frame.contentDocument)tools.prepare(frame.contentDocument);},
-  setHandler(next,gameDocument){handler=next;busy=false;advance.disabled=false;if(gameDocument)tools.mount(gameDocument);},
+  clearHandler(){handler=null;busy=false;advance.disabled=true;tools.mount(document);if(frame.contentDocument)prepareDocument(frame.contentDocument);},
+  setHandler(next,gameDocument){handler=next;busy=false;advance.disabled=false;if(gameDocument){prepareDocument(gameDocument);tools.mount(gameDocument);}},
   report(text){status.textContent=text;},
   fail(source){if(source!==frame.contentWindow)return false;session.clearHandler();showIsolationFailure({frame,status:failure},source);failure.hidden=false;status.textContent=failure.textContent;tools.open();return true;}
  };

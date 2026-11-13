@@ -1,5 +1,11 @@
 import {finalePoint,FINALE_FLOOR} from './finale-camera.mjs?v=finale-arena-20261113-r4';
 const FLOOR=FINALE_FLOOR;
+// The match keeps the same sealed microphone as the preceding comic.
+// It is scenery, drawn behind the fighters, with no collision or move changes.
+export function drawFinaleLockedStand(ctx,image,{x,foot,height}){
+ if(!(image?.width>0&&image?.height>0))return false;
+ const width=height*390/1482;ctx.drawImage(image,270,34,390,1482,x-width/2,foot-height,width,height);return true;
+}
 // An open central debating floor, not a side-scrolling street. The original
 // illustration is architecture beyond the back boundary; never a screen cover.
 export function drawFinaleStage(ctx,image,width,height,frame){

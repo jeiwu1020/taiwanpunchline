@@ -37,7 +37,16 @@ function fitFragments(copy,columns,maxLines){
  for(const sentence of sentences(copy)){
   let text='',start=sentence.start;
   for(const unit of readingUnits(sentence.text)){
-   if(text&&comicTextLines(text+unit,columns).length>maxLines){out.push({text,start,end:start+text.length});start+=text.length;text='';}
+   if(text&&comicTextLines(text+unit,columns).length>maxLines){
+    // Prefer a complete clause over cutting a word at the bubble's capacity.
+    // Quoted sound effects and labels stay intact; offsets still refer to copy.
+    let boundary=0,offset=0;const quotes=[],pairs={'「':'」','『':'』','“':'”','‘':'’','【':'】','《':'》','（':'）','(':')','[':']'};
+    const readQuote=ch=>{if(pairs[ch])quotes.push(pairs[ch]);else if(ch===quotes.at(-1))quotes.pop();};
+    for(const ch of sentence.text.slice(0,start-sentence.start))readQuote(ch);
+    for(const group of readingUnits(text)){for(const ch of group){offset+=ch.length;readQuote(ch);}if(!quotes.length&&/[，,；;：:]$/u.test(group))boundary=offset;}
+    const length=boundary>=text.length*.35?boundary:text.length,fragment=text.slice(0,length);
+    out.push({text:fragment,start,end:start+length});start+=length;text=text.slice(length);
+   }
    text+=unit;
   }
   if(text)out.push({text,start,end:start+text.length});

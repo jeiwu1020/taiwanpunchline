@@ -12,7 +12,7 @@ export const FINALE_INTRO=Object.freeze([
  {speaker:'韓國魚',title:'連觀眾都有機會',copy:'鄉親啊，人倒下去，勝利帶回來！隊友還站著就有希望，這規則我聽懂了。便當先別少算我一份！'}
 ]);
 export const ENDING=Object.freeze([
- {speaker:'旁白',title:'終於，不用再追',copy:'中庭安靜下來。阿扁仔照說明解開封印鎖，勝隊終於將神麥穩穩拿在手裡。落敗的人也湊過來，誰都不想錯過第一句。'},
+ {speaker:'旁白',title:'終於，不用再追',copy:'中庭安靜下來。阿扁仔照說明解開封印鎖。勝隊終於將神麥穩穩拿在手裡。落敗的人也湊過來，誰都不想錯過第一句。'},
  {speaker:'player',voiceKey:'ending.first',title:'我先說一句',copy:'咳！各位聽好，我的第一個主張是——欸？怎麼沒有聲音？'},
  {speaker:'電火球',title:'人有力，麥沒電',copy:'在那叫什麼！燈都不亮了，沒電啦！人跑了一整天，才輪到開口，電池倒先下班！'},
  {speaker:'旁白',title:'保固到此為止',copy:'阿扁仔手裡，是剛從神麥取出的方形電池。正面印著「議會無限城製造」，底下的紅字亮得刺眼：「過保失效」。',shot:'battery'},
