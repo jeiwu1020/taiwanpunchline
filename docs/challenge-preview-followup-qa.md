@@ -50,6 +50,53 @@ Main remains `488e31755dfe84db31b11c1c1f5df9dd81b452bf`.
 
 ## Verification and limits
 
+### Deployed follow-up `01a60a5`
+
+Cloudflare preview build `74f81a8d-098f-440f-80ba-10d155be5e08` succeeded.
+The exact ten-file tree was compared with its remote parent before the non-force
+preview update; no extra changes or deletions were included.
+
+- Browser then completed chapters 2→3→4→5→finale continuously using the visible
+  quick controls. All street/miniboss/Boss/result/handoff stages advanced, and
+  tools opened and advanced the new chapter after each natural navigation.
+- The deployed chapter-2 opening now ends its first bubble after `街角，`;
+  the ending displays `勝隊終於將神麥穩穩拿在手裡。` intact. Previous/replay
+  worked and preserved the source sequence.
+- A second finale party (Chen/Su/Ko, with Han on the opposing side) retained all
+  seven comic figures and Han's exact retort. The idle player won this one battle
+  through teammates after about 23 seconds, without the fast-win control. This is
+  one observed case, not evidence that the medium-difficulty target is satisfied.
+- Chen's native complete held-microphone pose appeared after victory. The full
+  ending was read again through the closed-door, Su push, inserted battery and
+  opened-door frames at 844x390; the room remained coherent and no old door layer
+  appeared. The native finale battle stand was also visible with its round base.
+- Finale selection at 844x390 fit the viewport, including start/preparation/home;
+  at 390x844 the start button remained within the game viewport (bottom 640px).
+- At 390px with a desktop pointer, the desktop battle controls overflowed; the
+  preset changes dimensions but not the browser's touch capability. This is a
+  narrow-desktop issue, not proof of a true-phone failure or success.
+- A production-painter measurement of chapter 5's stationary jump found common
+  scaling rather than independent facade/prop drift: relative landmark distances
+  divided by camera zoom differed by less than 0.000008 world units. Its separate
+  road-extension branch did still stretch at low zoom and is tracked separately.
+
+### Narrow-window and road-extension follow-up
+
+- The non-touch control deck at container widths <=640px now places all three
+  specials above the direction and action buttons. Existing button text, keyboard
+  controls, touch rules and wider desktop tracks remain intact. At 320px the lower
+  tracks require 282 of 288 content pixels; no horizontal scrolling hides actions.
+- Chapter 5's road continuation uses the facade's fixed world width and mirrored
+  adjacent strips, including a one-source-pixel seam. It no longer stretches a
+  low-zoom strip to screen width. Main facade, camera, objects and collisions are
+  unchanged; the measured normal landing/jump frames do not draw this extension.
+- Final available local suite after both changes: 1001 passed, 0 failed, 0 skipped.
+  Pixel tests cover low-zoom landmarks, mirrored edges, aspect ratio and the
+  unchanged normal jump projections. Control tests use shipped finale DOM/style
+  order plus computed grid bounds; actual browser hit testing remains separate.
+
+### Local checks and remaining acceptance
+
 - Before the tool-lifecycle fix, complete local suite: 990 passed, 0 failed,
   0 skipped. Two screenshot-producing tests initially hit the read-only sandbox;
   the normal reviewed workspace-write run passed, followed by the complete run.

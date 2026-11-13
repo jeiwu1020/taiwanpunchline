@@ -43,8 +43,16 @@ export function drawChapter5Backdrop(ctx,image,frame,width,height,{scene=0,world
  if(p.x+p.width<width){ctx.save();ctx.translate(p.x+2*p.width,p.y);ctx.scale(-1,1);ctx.drawImage(source,0,0,p.width,p.height);ctx.restore();}
  ctx.drawImage(source,p.x,p.y,p.width,p.height);
  ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#28533e';ctx.font=`900 ${26*p.scale}px Microsoft JhengHei,system-ui`;for(const sign of SIGNS[scene])ctx.fillText(sign.copy,p.x+sign.x*p.scale,p.y+sign.y*p.scale,sign.width*p.scale);ctx.restore();
- const band=112*p.scale,start=p.y+p.height-1;
- for(let y=start;y<height;y+=band-1)ctx.drawImage(image,0,image.height-112,image.width,112,Math.min(0,p.x),y,Math.max(width,p.width),band);
+ // Continue the road at the facade's world scale. Mirrored neighbouring
+ // strips cover overscan without stretching the source to the viewport.
+ // The one-source-pixel join also stays fixed when the camera zooms.
+ const band=112*p.scale,step=111*p.scale,start=p.y+p.height-p.scale;
+ const first=Math.floor(-p.x/p.width),last=Math.ceil((width-p.x)/p.width)-1;
+ for(let y=start;y<height;y+=step)for(let tile=first;tile<=last;tile++){
+  const mirror=tile%2!==0,x=p.x+tile*p.width;
+  ctx.save();ctx.translate(x+(mirror?p.width:0),y);if(mirror)ctx.scale(-1,1);
+  ctx.drawImage(image,0,image.height-112,image.width,112,0,0,p.width,band);ctx.restore();
+ }
  ctx.restore();return p;
 }
 const DECORATIONS=Object.freeze([
