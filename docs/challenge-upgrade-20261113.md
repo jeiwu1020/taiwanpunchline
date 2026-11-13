@@ -1,4 +1,6 @@
-# 挑戰升級驗收紀錄（預覽限定）
+# 挑戰升級第一輪驗收紀錄（預覽限定）
+
+此檔記錄截至 `af3152d` 的第一輪；後續漫畫、互動與新結局見 `challenge-comic-upgrade-20261113.md`。
 
 基準：`dd397527399163e70bae551353a1f81795a13923`。唯一發布目標是 `codex/complete-challenge-story`；main 與正式站不變。
 
