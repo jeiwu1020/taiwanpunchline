@@ -46,6 +46,12 @@ export async function createFinaleSession({progress,rng=Math.random,onChange=()=
    if(review){mode='complete';review=false;serial++;notify();return Promise.resolve({accepted:true,persisted:!preview});}
    return operation(()=>dispatch({type:'story-complete'},()=>{mode='complete';frame=0;}));
   },
+  rewindStory(t){
+   if(t!==String(serial))return reject('stale-run');
+   if(!usable())return reject(busy?'busy':pendingApply?'unsaved-progress':issue??'stale-run');
+   if(!['intro','story'].includes(mode))return reject('not-story');
+   frame=0;serial++;notify();return {accepted:true,persisted:view().persisted};
+  },
   reviewEnding(){if(!usable()||mode!=='complete')return false;mode='story';frame=0;review=true;serial++;notify();return true;},
   preparationSnapshot(){return {...progress.preparationSnapshot(),token:String(serial)};},
   prepareEncounter(draft,options={}){

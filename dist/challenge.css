@@ -1,3 +1,4 @@
+@import url('./chapter-comic.css?v=comic-reader-r1');
 /* Ink, newsprint and punchy stamps: challenge-specific, never changes duel UI. */
 .challenge-dialog{--ink:#162e35;--paper:#fff5dc;--red:#b53d2f;color:var(--ink);background:var(--paper);border:4px solid var(--ink);border-radius:10px;box-shadow:8px 9px 0 #162e35a0;padding:0;width:min(900px,94vw);max-width:94vw;max-height:90dvh;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;font-family:inherit;font-size:15px;line-height:1.5}
 .challenge-dialog::backdrop{background:#102a35c9;backdrop-filter:blur(4px)}

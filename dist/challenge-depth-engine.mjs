@@ -30,11 +30,12 @@ export class ChallengeDepthRoute extends ChallengeRoute {
  // above the top may jump onto it; occupants may walk off without snapping.
  resolveTableMotion(f,from){
   if(!from)return;
+  const solids=[...this.platforms,...(this.chapterEncounter?.gates??[])];
   for(const axis of ['x','depth']){
    const other=axis==='x'?'depth':'x',start=from[axis]??0,end=f[axis]??0;
    if(start===end)continue;
    let stop=end;
-   for(const t of this.platforms){
+   for(const t of solids){
     if(f.y<=t.y+1)continue;
     const half=t.depthHalf??DEPTH.platform,d=t.depth??0;
     const lo=axis==='x'?t.left-TABLE_SIDE_CLEARANCE:d-half,hi=axis==='x'?t.right+TABLE_SIDE_CLEARANCE:d+half;
@@ -50,7 +51,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   }
   // A saved/spawned actor or an interrupted forced move can begin inside.
   // Recover to the nearest edge, never lift it onto the table or trap it.
-  for(const t of this.platforms){
+  for(const t of solids){
    const half=t.depthHalf??DEPTH.platform,d=t.depth??0,z=f.depth??0;
    const left=t.left-TABLE_SIDE_CLEARANCE,right=t.right+TABLE_SIDE_CLEARANCE;
    if(f.y<=t.y+1||f.x<=left||f.x>=right||z<=d-half||z>=d+half)continue;
@@ -109,10 +110,10 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   const positions=new Map(this.enemies.map(e=>[e,{x:e.x,depth:e.depth,hp:e.hp}]));
   for(const e of this.enemies){
    if(!alive(e)||e.stun>0||e.attack||this.chapterEncounter?.hazards.some(h=>h.kind==='rush'&&h.owner===e&&!h.dead))continue;
-   const delta=p.depth-e.depth;
+   const attention=e.chapterLure??p,delta=attention.depth-e.depth;
    if(e.aiWait<.8&&Math.abs(p.x-e.x)<680&&Math.abs(delta)>8)e.depth=clamp(e.depth+Math.sign(delta)*Math.min(Math.abs(delta),72*dt),DEPTH.min,DEPTH.max);
    this.resolveTableMotion(e,positions.get(e));
-   if(Math.abs(p.depth-e.depth)>DEPTH.hit)e.aiWait=Math.max(e.aiWait,.2+dt);
+   if(Math.abs(attention.depth-e.depth)>DEPTH.hit)e.aiWait=Math.max(e.aiWait,.2+dt);
   }
   const oldMultiplier=this.growth.moveMultiplier;
   if(diagonal)this.growth.moveMultiplier*=Math.SQRT1_2;

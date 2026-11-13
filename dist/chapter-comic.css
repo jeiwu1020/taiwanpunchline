@@ -1,0 +1,51 @@
+/* Shared reading surface: the host still owns art, viewport and save recovery. */
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-copy{
+ box-sizing:border-box;display:flex!important;flex-direction:column!important;justify-content:safe center!important;
+ gap:10px!important;min-width:0;min-height:0;padding:14px!important;overflow:auto!important;
+ background-color:#fff3d3;background-image:radial-gradient(#233d3614 .8px,transparent .8px);background-size:6px 6px;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-heading{
+ display:flex!important;align-items:center;flex:0 0 auto;gap:0!important;min-width:0;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-heading h2{display:none!important}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-heading :is(small,#story-speaker){
+ display:inline-block;max-width:100%!important;align-self:flex-start;margin:0!important;padding:4px 9px!important;
+ font-size:15px!important;font-weight:900;line-height:1.35!important;color:#172f36;background:#f4c261;
+ border:2px solid #263d38;border-radius:3px;transform:rotate(-2deg);box-shadow:2px 2px 0 #263d3826;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-copy>p{
+ box-sizing:border-box;flex:0 1 auto;min-height:3.2em;overflow:auto;overscroll-behavior:contain;
+ margin:0!important;padding:12px 14px!important;font-size:clamp(16px,1.65vw,20px)!important;line-height:1.6!important;
+ color:#203b35;background:#fffdf3;border:2px solid #263d38;border-radius:18px 18px 18px 4px;
+ box-shadow:3px 3px 0 #263d3820;overflow-wrap:anywhere;text-align:left;user-select:text;-webkit-user-select:text;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader][data-comic-voice="narration"] .story-copy>p{
+ background:#f7e2b5;border-radius:4px;border-left-width:5px;box-shadow:3px 3px 0 #815d2620;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader][data-comic-voice="narration"] .story-heading :is(small,#story-speaker){
+ background:#29483f;color:#fff7df;transform:none;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:center;flex:0 0 auto;
+ gap:8px!important;min-width:0;width:100%;margin:0!important;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions>span{
+ grid-column:auto!important;font-size:13px!important;line-height:1.3;font-weight:900;white-space:nowrap;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions button{
+ box-sizing:border-box;grid-column:auto!important;width:100%;min-width:0!important;min-height:44px!important;
+ margin:0!important;padding:8px 5px!important;font:700 15px/1.3 "Microsoft JhengHei",system-ui!important;white-space:nowrap;
+ color:#233f37;background:#fff9e9;border:2px solid #263d38;border-radius:5px;box-shadow:2px 3px 0 #263d3829;
+ cursor:pointer;touch-action:manipulation;
+}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions [data-story-next]{background:#b23f31;color:#fff8e5}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions button:focus-visible{outline:3px solid #257c72;outline-offset:2px}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-actions button:disabled{opacity:.55;cursor:default}
+:is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] [hidden]{display:none!important}
+dialog.challenge-story[data-comic-reader][data-cinematic="false"][data-layout="portrait"] .story-panel{grid-template-rows:minmax(0,1fr) minmax(260px,45%)!important}
+dialog.challenge-story[data-comic-reader][data-display-recovery="retry"] [data-story-next],
+dialog.challenge-story[data-comic-reader][data-display-recovery="return"] [data-story-return]{grid-column:1/-1!important}
+@media(max-height:420px) and (orientation:landscape){
+ :is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-copy{gap:7px!important;padding:10px!important}
+ :is(dialog.challenge-story,#trial-app #story-panel)[data-comic-reader] .story-copy>p{padding:8px 10px!important}
+}

@@ -1,3 +1,5 @@
+import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
+import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
@@ -36,6 +38,7 @@ ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceConte
  onPrepare:()=>openPreparation(true),onReturnOverview:()=>returnOverview(),onRestart:async()=>{const r=await chapter.restartSegment();if(r.accepted&&(r.persisted||preview)){if(ui.shouldKeepPausedAfterRestart)chapter.setPaused(true,view().token);sync();return true;}return r;}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>booting||!!view()?.busy,clearHold,onChange:sync,onFrameReset:()=>{lastTime=null;}});
 ui.setCameraAvailable(true);mountSpecialNameFit({document});
+const comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:()=>media.unlock(),isBlocked:()=>!!ui?.busy});
 const tactical=document.createElement('canvas');tactical.id='finale-tactical-map';tactical.width=132;tactical.height=24;tactical.setAttribute('role','img');tactical.setAttribute('aria-label','全場位置：金色是你，綠色是隊友，紅色是對手');$('.chapter-objective').append(tactical);const tacticalCtx=tactical.getContext('2d');
 const saveSlot=document.createElement('button');saveSlot.id='finale-save-slot';saveSlot.type='button';saveSlot.textContent=preview?'測試不保存':'保存狀態';$('#trial-app > header').insertBefore(saveSlot,$('.toolbar'));saveSlot.onclick=()=>openRecovery();
 for(const selector of ['#team-main','#team-ally1','#team-ally2']){
@@ -63,10 +66,10 @@ function sync(){
   if(s.result.winner!=='draw')$('#result-copy').textContent+=' '+FINALE_VERDICT[s.result.matchWon?'win':'loss'];
   $('#result-next').textContent=s.result.matchWon?'拿起神麥，看結局 →':'原隊伍重試 →';$('#result-next').disabled=s.busy||!s.canNavigate;$('#result-reselect').hidden=s.result.matchWon;$('#result-reselect').disabled=s.busy||!s.canNavigate;
  }
- if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='話還沒講完 · 下一站無限城';$('#choice-copy').textContent='七人帶著沒電的神麥，前往議會無限城尋找無限電池。無限城尚待下一段旅程開放；目前的角色、經驗與配點都會保留。';$('#choice-roster').hidden=true;}
+ if(s.mode==='complete'){$('#choice-panel').hidden=false;$('#choice-title').textContent='門開了，話還沒講完';$('#choice-copy').textContent='七人帶著沒電的神麥跨過門檻，長廊裡卻多出一個回音。眼前這條路，誰也沒有走過。';$('#choice-roster').hidden=true;}
  if(s.paused){$('#pause-panel').hidden=false;$('#pause-roster').hidden=true;$('.chapter-pause-extras').hidden=true;$('#pause-note').textContent='暫停整場混戰。重新開吵會以相同三人隊伍從本場起點開始，章節與經驗保留。';}
  $('#finale-prepare').disabled=s.mode!=='team-select'||s.busy;$('#arena-roster').hidden=!combat;
- ui.refreshAccess();ui.syncMedia();ui.invalidateGeometry();ui.prepareSurface();
+ comicReader.sync();ui.refreshAccess();ui.syncMedia();ui.invalidateGeometry();ui.prepareSurface();
 }
 async function attach(handoff){
  if(booting||chapter)return false;booting=true;renderTeam();$('#menu-status').textContent='正在確認七人與已保存進度…';
@@ -126,6 +129,11 @@ const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',(
 function paint(time){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);
  if(!g||!['battle','result'].includes(s?.mode)){
+  const shot=s?.storyFrame?.shot??(s?.mode==='complete'?'open-door':null);
+  if(drawFinaleStoryArt(ctx,images,shot,w,h,time)){
+   if(!shot.startsWith('battery')||shot==='battery-key'){const z=Math.min(w/1100,h/720),f={left:0,base:h*.98,zoom:z},speaker=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker)??'chen',other=speaker==='han'?'wang':'han';actor({...idle[other],x:w*.12/z,depth:0},f,time);actor({...idle[speaker],x:w*.88/z,depth:0,face:-1},f,time);}
+   return;
+  }
   const selected=s?.characterId??draftTeam[0],speaking=Object.keys(CAST).find(id=>CAST[id].name===s?.storyFrame?.speaker),main=speaking===selected?(selected==='han'?'huang':'han'):selected,speaker=speaking??(main==='chen'?'han':'chen'),zoom=Math.min(w/760,h/350),f={left:0,base:h*.9,zoom};
   drawFinaleStage(ctx,images['finale-arena'],w,h,f);actor({...idle[main],x:w*.27/zoom,depth:0},f,time);actor({...idle[speaker],x:w*.75/zoom,depth:0,face:-1},f,time);mic(w*.52,h*.62,Math.max(32,55*zoom));return;
  }
@@ -159,7 +167,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};loaded=true;renderTeam();requestAnimationFrame(tick);
+ try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};loaded=true;renderTeam();requestAnimationFrame(tick);
   const handoff=preview?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }

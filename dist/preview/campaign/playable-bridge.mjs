@@ -74,6 +74,7 @@ export async function createCampaignPlayable({router,chapterId,createPlayableCha
    else if(before.mode==='battle'&&after.mode==='result'&&after.result?.matchWon)actions.push({type:'boss-win',carry:{hp:local.world.player.hp,rally:local.world.player.rally,assist:{...local.world.player.assist,active:false}}});return actions;
   });},
   nextStory(t){return staged('nextStory',[t],(before,after)=>before.stepId!==after.stepId?[{type:'story-complete'}]:[]);},
+  rewindStory(t){if(!usable(t)||!local.rewindStory(t))return false;notify();return true;},
   continueResult(t){return staged('continueResult',[t],before=>before.result?.matchLost?[{type:'retry'}]:[]);},
   setPaused(value,t){return usable(t)&&local.setPaused(value,t);},press(action,t){return usable(t)&&local.press(action,t);},
   finishChapter(t){return staged('finishChapter',[t],()=>[{type:'continue'}]);},

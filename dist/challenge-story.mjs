@@ -3,8 +3,8 @@ import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=ca
 import {openingFrame} from './challenge-opening-art.mjs?v=campaign-boot-20261112-r3';
 // Explicit advances only. Story presentation owns no progress or save writes.
 export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion}={}){
- const root=document.createElement('dialog');root.className='challenge-story';root.setAttribute('aria-label','挑戰故事');
- root.innerHTML='<div class="story-panel"><canvas width="960" height="540" role="img" aria-label="漫畫分鏡"></canvas><div class="story-copy"><div class="story-heading"><small></small><h2></h2></div><p aria-live="polite"></p><div class="story-actions"><span></span><button type="button" data-story-next class="primary">繼續 →</button><button type="button" data-story-replay aria-label="重看開場漫畫">重看</button><button type="button" data-story-skip aria-label="略過開場漫畫並開始挑戰">略過</button><button type="button" data-story-return hidden>返回總覽</button></div></div></div>';
+ const root=document.createElement('dialog');root.className='challenge-story';root.dataset.comicReader='true';root.setAttribute('aria-label','挑戰故事');
+ root.innerHTML='<div class="story-panel"><canvas width="960" height="540" role="img" aria-label="漫畫分鏡"></canvas><div class="story-copy"><div class="story-heading"><small></small><h2 hidden></h2></div><p aria-live="polite"></p><div class="story-actions"><span></span><button type="button" data-story-next class="primary">下一格 →</button><button type="button" data-story-replay aria-label="重看此段漫畫">重看此段</button><button type="button" data-story-skip aria-label="略過此段漫畫">略過此段</button><button type="button" data-story-return hidden>返回總覽</button></div></div></div>';
  document.querySelector('.app').append(root);
  const canvas=root.querySelector('canvas'),speaker=root.querySelector('small'),title=root.querySelector('h2'),copy=root.querySelector('p'),count=root.querySelector('.story-actions span'),button=root.querySelector('[data-story-next]'),replay=root.querySelector('[data-story-replay]'),skip=root.querySelector('[data-story-skip]'),back=root.querySelector('[data-story-return]');
  const win=document.defaultView,request=win?.requestAnimationFrame?.bind(win)||globalThis.requestAnimationFrame,cancel=win?.cancelAnimationFrame?.bind(win)||globalThis.cancelAnimationFrame;
@@ -13,7 +13,7 @@ export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion
  const reduced=()=>typeof reducedMotion==='function'?!!reducedMotion():reducedMotion??!!preference?.matches;
  const viewport=mountChallengeDialogViewport(root,{document,maxWidth:1280,savedRecoveryExit:()=>!disposed&&root.open&&!finishing?recovery?.savedReload:null,unreadyActionToken:e=>{const target=e.target?.closest?.('button');if(disposed||!root.open||finishing||recovery?.isCurrent?.()!==true||!target||target.disabled||target.hidden)return null;return target===button?recoveryTokens?.retry:target===back?recoveryTokens?.back:null;},anchor:()=>beats[0]?.shot?'top':'center',onFrame:({layout,width,maxHeight})=>{
   const cinematic=!!beats[0]?.shot;let cw=layout==='portrait'?720:960,ch=layout==='portrait'?680:540;
-  if(cinematic){const f=openingFrame(width,maxHeight,layout),ratio=720/f.artWidth;cw=720;ch=Math.round(f.artHeight*ratio);
+  if(cinematic){const f=openingFrame(width,maxHeight,layout);if(layout==='portrait'){f.copyHeight=Math.min(320,Math.max(280,f.height*.4));f.artHeight=Math.max(1,f.height-f.copyHeight);}const ratio=720/f.artWidth;cw=720;ch=Math.round(f.artHeight*ratio);
    root.style.setProperty('--story-frame-height',f.height+'px');root.style.setProperty('--story-copy-height',f.copyHeight+'px');root.style.setProperty('--story-copy-width',f.copyWidth+'px');
   }
   if(canvas.width!==cw)canvas.width=cw;if(canvas.height!==ch)canvas.height=ch;
@@ -23,7 +23,7 @@ export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion
  }
  function sync(){const beat=beats[index];if(!beat)return;start=null;speaker.textContent=beat.speaker;title.textContent=beat.title;copy.textContent=beat.copy;
   canvas.setAttribute('aria-label',beat.description||`${beat.title}。${beat.copy}`);count.textContent=`${index+1} / ${beats.length}`;button.textContent=index===beats.length-1?'出發 →':'下一格 →';
-  root.dataset.cinematic=String(!!beats[0]?.shot);root.dataset.shot=beat.shot||'boss';replay.hidden=skip.hidden=!beats[0]?.shot;root.scrollTop=0;
+  root.dataset.cinematic=String(!!beats[0]?.shot);root.dataset.shot=beat.shot||'boss';root.dataset.comicVoice=beat.speaker==='旁白'?'narration':'dialogue';replay.hidden=skip.hidden=false;root.scrollTop=0;
  }
  function close(){completionEpoch++;finishing=false;recovery=null;recoveryTokens=null;delete root.dataset.displayRecovery;back.hidden=true;button.hidden=false;root.removeAttribute('aria-busy');for(const control of root.querySelectorAll('.story-actions button'))control.disabled=false;cancel?.(frame);frame=0;complete=null;start=null;if(root.open)root.close();viewport.sync();}
  function finish(){
@@ -40,8 +40,8 @@ export function mountChallengeStory({document,paint,onAudio=()=>{},reducedMotion
   };if(result?.then)Promise.resolve(result).then(done,()=>done(false));else done(result);
  }
  button.onclick=()=>{if(!root.open||finishing)return;onAudio();if(!recovery&&index+1<beats.length){index++;sync();return;}finish();};
- replay.onclick=()=>{if(!root.open||finishing)return;onAudio();index=0;sync();button.focus();};
- skip.onclick=()=>{if(!root.open||finishing)return;onAudio();finish();};
+ replay.onclick=()=>{if(!root.open||finishing||recovery)return;onAudio();index=0;sync();button.focus();};
+ skip.onclick=()=>{if(!root.open||finishing||recovery)return;onAudio();finish();};
  back.onclick=()=>{if(!root.open||finishing||!recovery)return;const leave=recovery.returnToOverview;close();leave?.();};
  root.addEventListener('cancel',e=>e.preventDefault());
  function show(next,{characterId='wang',onComplete}={}){

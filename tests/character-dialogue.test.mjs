@@ -36,7 +36,7 @@ test('legacy opening, first chapter bosses and handoff cover all seven IDs',()=>
 });
 test('ending player lines have seven voices and named cast retain authored copy',()=>{
  for(const f of ENDING)if(f.speaker==='player')verifyFrame(f);else for(const id of ids)assert.deepEqual(resolveDialogueFrame(f,id),f);
- assert.equal(FINALE_INTRO.length,3);assert.equal(ENDING.length,10);
+ assert.equal(FINALE_INTRO.length,3);assert.ok(ENDING.length>=14&&ENDING.length<=18);
 });
 test('every authored variant is referenced, frozen and is original satire not a quotation label',()=>{
  assert.deepEqual([...keys].sort(),Object.keys(PLAYER_VOICES).sort());

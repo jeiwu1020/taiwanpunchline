@@ -1,3 +1,4 @@
+import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {drawChapterEncounter} from '../../chapter-encounter-art.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
@@ -38,12 +39,13 @@ const chaseWindow=installChaseWindow({document,chapter:3});
 let idle=new Duel('wang','beginner',()=>.3,'wang');
 let storyStartedAt=0;
 const mobileCamera=createMobileCameraAdapter();
-let ui,continuation;
+let ui,continuation,comicReader;
 const media=createChapterMedia({document,window,getSettings:()=>ui?.preferences,getImages:()=>images,onState:s=>ui?.mediaState(s)});
 ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceContext:ctx,onSurfaceReset:()=>invalidateStreetStaticCaches(ctx),canUse:id=>(v()?.unlocked||['wang','han','huang','su']).includes(id),isBusy:()=>!!continuation?.busy,isOperationBusy:()=>!!continuation?.operationBusy,onPrepare:()=>continuation?.openPreparation({readOnly:true}),onReturnOverview:()=>continuation?.returnOverview({confirmed:true}),onRestart:async()=>{media.unlock();clearHold();const current=chapter,s=v();if(!current||!s?.paused)return false;const result=await current.restartSegment(s.token);if(chapter!==current)return false;if(result===true||result?.accepted&&result?.persisted){if(ui.shouldKeepPausedAfterRestart)current.setPaused(true,current.view().token);sync();ui.syncMedia({restart:true});}else sync();return result;},getCharacter:()=>v()?.characterId||selected,getExitState:()=>v()??continuation?.exitState,onViewportChange:({frame,epoch})=>resizeCanvas(),onCameraChange:()=>{if(!v()?.paused)mobileCamera.reset();},onSound:(enabled)=>{sound=enabled;},pauseForUI:purpose=>{const current=chapter,wasActive=active();if(wasActive&&chapter.setPaused(true,v().token))sync();clearHold();return()=>{if(purpose!=='settings'&&wasActive&&chapter===current&&v()?.paused&&pauseLifecycle.resume())sync();};}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>!!continuation?.operationBusy,clearHold,onChange:()=>sync(),onFrameReset:()=>{lastTime=null;}});
 ui.setCameraAvailable(true);
 mountSpecialNameFit({document});
+comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:tone,isBlocked:()=>!!ui?.busy});
 function v(){return chapter?.view();}
 function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.blocked&&!s.busy&&!ui?.busy&&ui?.ready!==false&&['route','battle'].includes(s.mode);}
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
@@ -74,7 +76,7 @@ function sync(){
  }
  renderContinuationChoice({document,state:s,chapterId:'chapter-3'});continuation.render();
  if(s.paused){$('#pause-panel').hidden=false;const token=s.token;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=()=>{media.unlock();if(!ui.busy&&pauseLifecycle.resume())sync();};}
- ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
+ comicReader?.sync();ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
 }
 function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
