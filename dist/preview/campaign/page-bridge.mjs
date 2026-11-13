@@ -108,7 +108,9 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   else next.removeAttribute('href');
   if(s?.mode==='complete'&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
  }
- function job(work){if(busy)return idle;busy=true;resume.disabled=true;idle=Promise.resolve().then(work).catch(()=>{menuStatus.textContent='無法安全啟動接續；原存檔未清除，請保留備份後重試。';}).finally(()=>{busy=false;if(!launched){label.hidden=resume.hidden=false;}resume.disabled=testPreview||(router?.enabled&&router.view().dirty)||!!recovery?.get().dirty;render();});return idle;}
+ // The attached host first renders while this job is busy. Publish the final
+ // busy transition too, so its reading controls re-evaluate their save guards.
+ function job(work){if(busy)return idle;busy=true;resume.disabled=true;idle=Promise.resolve().then(work).catch(()=>{menuStatus.textContent='無法安全啟動接續；原存檔未清除，請保留備份後重試。';}).finally(()=>{busy=false;if(!launched){label.hidden=resume.hidden=false;}resume.disabled=testPreview||(router?.enabled&&router.view().dirty)||!!recovery?.get().dirty;render();onChange();});return idle;}
  async function startContinuation(handoff){
   if(testPreview){menuStatus.textContent=reasonText('preview-only');return;}
   if(!isReady()){menuStatus.textContent='漫畫素材仍在載入，請稍後再接續。';return;}

@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {JSDOM} from 'jsdom';
+import {readFileSync} from 'node:fs';
 import {mountChapterComicReader} from '../dist/preview/campaign/chapter-comic-reader.mjs';
+import {mountContinuationControls} from '../dist/preview/campaign/page-bridge.mjs';
 import {createCampaignPlayable} from '../dist/preview/campaign/playable-bridge.mjs';
 import {openChallengeContinuation} from '../dist/preview/campaign/fresh-router.mjs';
 import {openChallengeProgress} from '../dist/preview/campaign/fresh/progress.mjs';
@@ -197,4 +199,44 @@ test('a rotated root comic scrolls its overflowing bubble and suppresses a drag 
  assert.equal(p.scrollTop,100);assert.equal(root.scrollTop,0);
  root.querySelector('[data-story-skip]').dispatchEvent(new w.MouseEvent('click',{bubbles:true,cancelable:true,detail:1}));assert.equal(finishes,0);
  root.querySelector('[data-story-skip]').click();assert.equal(finishes,1);
+});
+
+function formalReaderEntry(t,n){
+ const fixture=campaignStorage(n-1),dom=new JSDOM(readFileSync(new URL(`../dist/preview/chapter${n}/index.html`,import.meta.url),'utf8'),{url:`https://campaign.test/preview/chapter${n}/`,pretendToBeVisual:true});
+ const w=dom.window,document=w.document;Object.defineProperty(w,'localStorage',{value:fixture.storage});Object.defineProperty(w.navigator,'locks',{value:fixture.locks});
+ w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;};
+ let chapter=null,continuation,reader,attachWasBusy=false;const observed=[];
+ const sync=()=>{if(!chapter)return;const s=chapter.view();document.querySelector('#menu').hidden=true;document.querySelector('#story-panel').hidden=s.mode!=='story';
+  document.querySelector('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;
+  document.querySelector('#story-next').onclick=()=>{if(!continuation.busy&&chapter.nextStory(s.token))sync();};
+  continuation.render();reader.sync();observed.push({frame:s.frameIndex,busy:continuation.busy,disabled:document.querySelector('#story-next').disabled});
+ };
+ reader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,isBlocked:()=>!!continuation?.busy});
+ continuation=mountContinuationControls({document,window:w,chapterId:`chapter-${n}`,createPlayableChapter:factories.get(n),getPlayable:()=>chapter,onReady:c=>{chapter=c;attachWasBusy=continuation.busy;sync();},onChange:sync});
+ t.after(()=>{reader.destroy();dom.window.close();});return {...fixture,document,reader,continuation,observed,get chapter(){return chapter;},get attachWasBusy(){return attachWasBusy;}};
+}
+
+for(const n of [2,3,4,5])test(`real chapter ${n} continuation click releases reading controls after attach finishes`,async t=>{
+ const f=formalReaderEntry(t,n),resume=f.document.querySelector('#campaign-resume');
+ assert.equal(f.document.querySelector('#start').hidden,true);assert.equal(resume.hidden,false);
+ resume.click();assert.equal(f.continuation.busy,true);await f.continuation.whenIdle();
+ assert.equal(f.attachWasBusy,true,'the real attached session first renders inside the busy entry job');
+ assert.equal(f.continuation.busy,false);assert.equal(f.chapter.view().mode,'story');assert.equal(f.chapter.view().frameIndex,0);
+ for(const id of ['story-next','story-replay','story-skip'])assert.equal(f.document.getElementById(id).disabled,false,id);
+ f.document.querySelector('#story-next').click();assert.equal(f.chapter.view().frameIndex,1);
+ assert.equal(await f.reader.rewind(),true);assert.equal(f.chapter.view().frameIndex,0);
+ const skipping=f.reader.skip();await skipping;await f.chapter.flush();assert.equal(f.chapter.view().mode,'route');assert.equal(f.chapter.world.elapsed,0);
+});
+
+test('real continuation job completion keeps failed saves blocked until durable retry',async t=>{
+ const f=formalReaderEntry(t,2);f.document.querySelector('#campaign-resume').click();await f.continuation.whenIdle();
+ const before=f.storage.getItem(CHALLENGE_KEY),write=f.storage.setItem;f.storage.setItem=()=>{throw Error('quota');};
+ assert.equal(await f.reader.skip(),false);await f.chapter.flush();assert.ok(f.chapter.view().saveIssue);
+ assert.equal(f.chapter.view().mode,'story');assert.equal(f.storage.getItem(CHALLENGE_KEY),before);
+ for(const id of ['story-next','story-replay','story-skip'])assert.equal(f.document.getElementById(id).disabled,true,id);
+ assert.equal(await f.reader.rewind(),false);assert.equal(await f.reader.skip(),false);
+ f.document.querySelector('#campaign-retry-save').click();await f.continuation.whenIdle();assert.equal(f.continuation.busy,false);assert.ok(f.chapter.view().saveIssue);
+ for(const id of ['story-next','story-replay','story-skip'])assert.equal(f.document.getElementById(id).disabled,true,id);
+ f.storage.setItem=write;f.document.querySelector('#campaign-retry-save').click();await f.continuation.whenIdle();
+ assert.equal(f.chapter.view().saveIssue,null);assert.equal(f.chapter.view().mode,'route');assert.equal(f.chapter.world.elapsed,0);
 });

@@ -110,8 +110,8 @@ function paintStory(s,w,h,time){
   actor(enemy,f,time);
  }
  if(usesHighFlyingMic(s)){
-  const r=ui.logicalRect($('#story-panel').getBoundingClientRect());
-  micReport=flyingMic.paint({image:images['flying-mic-candidate'],width:w,height:h,zoom:.42,time,extraRects:[{left:r.left,top:r.top,right:r.right,bottom:r.bottom}]});
+  // The comic has its own art pane; the fixed combat HUD projection does not apply.
+  microphone(w*.82,h*.27,Math.max(30,Math.min(54,w*.11)),-.25);
   return;
  }
  const t=(Math.sin(time*.001)+1)/2;let mx=w*.53,my=Math.max(175,f.base-155*f.zoom);

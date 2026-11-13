@@ -42,7 +42,7 @@ export function makeFlyingMicOverlay({canvas,ctx,document}){
    if(!plan||plan.key!==key)plan=createMicPlan({width,height,zoom,dpr});
    const reducedMotion=!!document.defaultView?.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
    last=flyingMicLayout({plan,time,reducedMotion,playerBounds,hudRects:[...hudRects,...extraRects]});
-   notice.hidden=last.visible&&last.safe;notice.textContent=notice.hidden?'':last.message||'視窗尺寸不足，請調整大小。';
+   notice.hidden=last.visible&&last.safe;notice.textContent=notice.hidden?'':'神麥被畫面擋住了，請轉成橫向或調整視野。';
    document.body.dataset.micVisible=String(last.visible);document.body.dataset.micCompressed=String(!!last.compressed);
    drawFlyingMic(ctx,image,last,time);return {...last,playerBounds,hudRects,raster:micRasterInfo(ctx)};
   },
