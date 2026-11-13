@@ -28,10 +28,10 @@ export function createQuickViewTools(document){
  function positionToggle(){
   const w=owner.defaultView.innerWidth,h=owner.defaultView.innerHeight,tw=toggle.offsetWidth||80,th=toggle.offsetHeight||32;
   const scope=host.parentElement?.localName==='dialog'?host.parentElement:owner;
-  const obstacles=[...scope.querySelectorAll('button,a,input,select,[role="button"],[role="tab"],[role="checkbox"]')].map(node=>node.getBoundingClientRect()).filter(r=>r.width&&r.height);
+  const obstacles=[...scope.querySelectorAll('button,a,input,select,[role="button"],[role="tab"],[role="checkbox"],h1,h2,h3,p,small,strong,span,label')].map(node=>node.getBoundingClientRect()).filter(r=>r.width&&r.height);
   const style=owner.defaultView.getComputedStyle(host),safe=edge=>Math.max(6,parseFloat(style.getPropertyValue('--safe-'+edge))||0),top=safe('top'),bottom=h-th-safe('bottom'),left=safe('left'),right=w-tw-safe('right');
   const candidates=[[w/2-tw/2,top],[w/2-tw/2,bottom],[left,h/2-th/2],[right,h/2-th/2],[left,top],[right,top]];
-  const score=([x,y])=>obstacles.reduce((total,r)=>total+Math.max(0,Math.min(x+tw+4,r.right)-Math.max(x-4,r.left))*Math.max(0,Math.min(y+th+4,r.bottom)-Math.max(y-4,r.top)),0);
+  const score=([x,y])=>obstacles.reduce((total,r)=>total+Math.max(0,Math.min(x+tw,r.right)-Math.max(x,r.left))*Math.max(0,Math.min(y+th,r.bottom)-Math.max(y,r.top)),0);
   const [x,y]=candidates.map(point=>({point,score:score(point)})).sort((a,b)=>a.score-b.score)[0].point;
   toggle.style.left=Math.max(0,x)+'px';toggle.style.top=Math.max(0,y)+'px';toggle.style.transform='none';
  }
