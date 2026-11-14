@@ -1,10 +1,11 @@
-import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=workers-background-only-20261113-r1';
-import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=workers-background-only-20261113-r1';
-import {expressionFor} from './art-expression.mjs?v=workers-background-only-20261113-r1';
-import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=workers-background-only-20261113-r1';
-import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=workers-background-only-20261113-r1';
-import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=workers-background-only-20261113-r1';
+import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=campaign-boot-20261112-r3';
+import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=campaign-boot-20261112-r3';
+import {expressionFor} from './art-expression.mjs?v=campaign-boot-20261112-r3';
+import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=campaign-boot-20261112-r3';
+import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=campaign-boot-20261112-r3';
+import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=campaign-boot-20261112-r3';
 export const ART_FILES={
+ 'chapter-encounter-props':'challenge/encounter-props-v2.png',
  ...OPENING_ART_FILES,
  'handshake-grip':'handshake-v13.png','left-hand-back':'left-hand-back-v36.png','right-hand-point':'right-hand-point-v37.png',
  'han-lotus-body':'han-lotus-body-v11.webp','ma-cough':'ma-cough-v10.webp','ma-gaze':'ma-gaze-v10.webp','signature-hands':'signature-hands-v10.webp','signature-props':'signature-props-v10.webp',

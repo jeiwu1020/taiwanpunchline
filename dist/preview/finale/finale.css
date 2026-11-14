@@ -1,0 +1,110 @@
+.finale-team-card{width:min(760px,100%)}
+.finale-team-selects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;text-align:left;margin:14px 0}
+.finale-team-selects label{display:grid;gap:5px;font-weight:900;font-size:14px;min-width:0}
+.finale-team-selects select{width:100%;font:inherit;background:#fff8df;border:2px solid #17353a;border-radius:6px;padding:8px}
+.finale-lineup{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:8px 0}
+.finale-lineup figure{width:68px;margin:0;padding:4px;border:2px solid #267965;border-radius:8px;background:#e6f0d3}
+.finale-lineup figure[data-team=enemy]{border-color:#a5413e;background:#f7ded3}
+.finale-lineup img{width:48px;height:48px;object-fit:contain;display:block;margin:auto}
+.finale-lineup figcaption{font-size:11px;line-height:1.4;font-weight:800}
+.finale-rules{margin:12px 0;text-align:left;background:#fff8e7;border:2px solid #17353a;border-radius:8px;padding:8px 12px}
+.finale-rules summary{cursor:pointer;font-weight:900}
+.finale-rules p{font-size:13px}
+#team-error{color:#a33328;font-weight:900;min-height:1.4em}
+#finale-prepare,#menu-home{margin:7px 4px;font-size:15px;padding:8px 12px}
+#finale-save-slot{border:2px solid #17353a;border-radius:7px;background:#f5d489;color:#17353a;font-weight:900;font-size:12px;padding:5px 8px;cursor:pointer}
+#arena-roster{display:flex;gap:4px;flex-wrap:wrap;max-width:min(500px,80vw);margin:4px auto 0;justify-content:center}
+#arena-roster span{font-size:10px;background:#fff9e9;border:2px solid #267965;border-radius:4px;padding:2px 4px;color:#17353a;line-height:1.2;white-space:nowrap}
+#arena-roster span[data-team=enemy]{border-color:#a5413e}
+#arena-roster span[data-out=true]{opacity:.5;text-decoration:line-through}
+#arena-roster i{display:block;height:3px;background:#267965;margin-top:2px;max-width:100%}
+#arena-roster span[data-team=enemy] i{background:#a5413e}
+body[data-final-battle=true] #objective{font-size:11px}
+body[data-final-battle=true] #trial-app .chapter-objective{max-width:none;text-align:center}
+body[data-final-battle=true] #trial-app #hud{grid-template-columns:1fr 64px 1fr}
+body[data-final-battle=true] .chapter-objective{pointer-events:none}
+body[data-compact=true] #arena-roster{gap:2px;margin-top:2px}
+body[data-compact=true] #arena-roster span{font-size:9px;padding:1px 3px}
+body[data-compact=true] .finale-team-card{padding:10px 16px}
+body[data-compact=true] .finale-team-selects{margin:7px 0;gap:8px}
+body[data-compact=true] .finale-lineup img{width:34px;height:34px}
+body[data-compact=true] .finale-lineup figure{width:58px}
+body[data-compact=true] .finale-rules p{font-size:12px}
+body[data-layout=portrait] .finale-team-selects{gap:6px}
+body[data-layout=portrait] .finale-team-selects label{font-size:12px}
+body[data-layout=portrait] .finale-lineup{gap:4px}
+body[data-layout=portrait] .finale-lineup figure{width:61px}
+#finale-recovery{z-index:80}
+#finale-recovery .card>button{margin:5px 0;width:100%;font-size:16px;padding:10px}
+@media(prefers-reduced-motion:reduce){.finale-lineup *{transition:none}}
+/* The shared chapter objective normally has two items. Give the seven-person
+   roster its own row so portrait play never clips the remaining five fighters. */
+body[data-final-battle=true] #trial-app .chapter-objective{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px;align-items:start}
+body[data-final-battle=true] #trial-app .chapter-objective>#route-progress,body[data-final-battle=true] #trial-app .chapter-objective>#objective{max-width:none}
+body[data-final-battle=true] #trial-app #arena-roster{grid-column:1/-1;width:100%;max-width:640px;box-sizing:border-box}
+body[data-final-battle=true] #trial-app #arena-roster span{max-width:none}
+body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
+body[data-layout=portrait][data-final-battle=true] #trial-app #arena-roster span{font-size:10px;padding:2px;box-sizing:border-box}
+body[data-final-battle=true] #trial-app #stage .chapter-objective{height:auto;max-height:none;overflow:visible}
+body[data-final-battle=true] #trial-app.cabinet.app[data-challenge-layout] .chapter-objective #arena-roster span{max-height:none;overflow:visible;text-overflow:clip}
+/* The canvas reports logical orientation, including portrait phones rotated
+   by the in-game side-turn setting. No physical-window media-query mismatch. */
+#finale-tactical-map{display:none;width:132px;height:24px;flex:0 0 132px;border-radius:3px}
+body[data-final-battle=true] #finale-tactical-map{display:block;grid-column:1/-1;justify-self:center}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective{display:flex!important;justify-content:center;align-items:center;gap:8px;height:24px!important;max-height:24px!important;overflow:hidden!important;font-size:10px;line-height:16px;padding:0 4px!important}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #arena-roster,
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #objective{display:none!important}
+body[data-final-battle=true][data-finale-compact=true] #trial-app #stage .chapter-objective #route-progress{display:block!important;max-width:none!important;white-space:nowrap}
+body[data-final-battle=true][data-finale-compact=true] #finale-tactical-map{display:block}
+/* Team choice is a decision screen: keep selection and the start action above
+   portraits and optional rules, using the shared chapter paper treatment. */
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;width:min(800px,100%);padding:10px 14px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-card>.eyebrow{grid-column:1;grid-row:1}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-card>h1{grid-column:1;grid-row:2;font-size:24px;margin:0;padding:0;border:0}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-card>p:first-of-type{grid-column:1;grid-row:3;font-size:11px;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-selects{grid-column:2;grid-row:1/4;margin:0;gap:5px;align-self:center}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-team-selects label{font-size:12px;gap:3px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #start{grid-column:1/-1;grid-row:5;min-height:40px;margin:0;padding:5px;font-size:17px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #team-error{grid-column:1/-1;grid-row:4;font-size:11px;line-height:1.3;min-height:0;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #team-lineup{grid-column:1/-1;grid-row:6;flex-wrap:nowrap;gap:5px;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #team-lineup figure{width:75px;padding:2px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #team-lineup img{width:29px;height:29px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #team-lineup figcaption{font-size:10px;white-space:nowrap}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #finale-prepare{grid-column:1;grid-row:7;margin:0;min-height:36px;font-size:13px;padding:4px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #menu-home{grid-column:2;grid-row:7;margin:0;min-height:36px;font-size:13px;padding:4px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu #menu-status{grid-column:1;grid-row:8;margin:0;font-size:10px}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .finale-rules{grid-column:2;grid-row:8;margin:0;padding:3px 7px;font-size:11px}
+/* Result actions share the same short-screen hierarchy as chapter menus. */
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel .card{width:min(650px,100%);padding:12px 16px}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel h2{font-size:25px;line-height:1.25;margin:8px 0}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel p{font-size:13px;margin:8px 0}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel button{font-size:16px;min-height:40px;padding:6px 12px;margin:4px}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel .fiction-note{display:block;font-size:10px;margin:5px 0 0}
+
+/* The final page is a closing title over the now-revealed hall, not a result
+   modal. Actions remain immediately reachable, with reduced-motion support. */
+#trial-app #choice-panel.ending-screen{background:linear-gradient(90deg,#12292bec,#12292b9c),url('../../assets/challenge/infinite-corridor-v1.png') center/cover;backdrop-filter:none;overflow:auto;align-items:center;padding:clamp(12px,3vw,34px)}
+#trial-app .ending-card{width:min(880px,100%);margin:auto;color:#fff1d2;text-align:center;animation:ending-title-in .7s ease both}
+#trial-app .ending-mark{font-weight:1000;font-size:clamp(32px,5vw,58px);letter-spacing:.08em;margin:0 0 14px;text-shadow:3px 4px #0c1718}
+#trial-app .ending-mark span{display:block;font-size:15px;letter-spacing:.4em;margin-top:9px;color:#e0b15b}
+#trial-app #choice-panel h2{border:0;color:#fff1d2;font-size:clamp(22px,3.5vw,36px);line-height:1.3;margin:10px 0;padding:0}
+#trial-app #choice-copy{font-size:clamp(15px,2.2vw,21px);line-height:1.7;margin:10px auto;max-width:32em}
+#trial-app .ending-studio{margin:24px 0 10px;line-height:1.5;color:#eed19a}
+#trial-app .ending-studio b{display:block;font-size:20px;letter-spacing:.16em}
+#trial-app .ending-studio span{display:block;font-size:14px;letter-spacing:.16em}
+#trial-app .ending-thanks{font-size:14px;margin:10px 0 18px;color:#eee0c3}
+#trial-app .ending-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+#trial-app .ending-actions button{width:auto;min-width:128px;min-height:44px;margin:0;padding:8px 20px;font-size:17px}
+#trial-app .ending-actions #ending-review{background:#fff3d3;color:#17353a;border-color:#d6bd83;}
+#trial-app .ending-actions #ending-review:hover{background:#ffe6a6;color:#17353a;}
+@media(max-height:460px) and (orientation:landscape){#trial-app .ending-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;align-items:center}#trial-app .ending-mark{grid-column:1;grid-row:1/3;margin:0;font-size:36px}#trial-app #choice-panel h2{grid-column:2;grid-row:1;font-size:23px;margin:0}#trial-app #choice-copy{grid-column:2;grid-row:2;font-size:14px;line-height:1.4;margin:0}#trial-app .ending-studio{grid-column:1;grid-row:3/5;margin:8px 0}#trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}#trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}#trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}}
+@keyframes ending-title-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){#trial-app .ending-card{animation:none}}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;align-items:center}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-mark{grid-column:1;grid-row:1/3;margin:0;font-size:36px}
+body[data-compact=true][data-layout=landscape] #trial-app #choice-panel h2{grid-column:2;grid-row:1;font-size:23px;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app #choice-copy{grid-column:2;grid-row:2;font-size:14px;line-height:1.4;margin:0}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-studio{grid-column:1;grid-row:3/5;margin:8px 0}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}
+body[data-compact=true][data-layout=landscape] #trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}

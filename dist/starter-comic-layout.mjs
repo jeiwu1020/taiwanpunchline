@@ -53,9 +53,9 @@ function outsideMicrophone(ctx,images,r,windowMic,t,reducedMotion){
     ctx.fillStyle='#e4f7ff16';ctx.fillRect(b.left-2,b.top-2,b.width+4,b.height+4);
     ctx.strokeStyle='#ffffff28';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(b.right+7,b.top-7);ctx.lineTo(b.left-5,b.bottom+5);ctx.stroke();ctx.restore();
 }
-function drawBubble(ctx,b,font){
+export function drawBubble(ctx,b,font){
  ctx.save();ctx.fillStyle=PAPER;ctx.strokeStyle=INK;ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(b.x,b.y,b.width,b.height,b.kind==='broadcast'?5:22);ctx.fill();ctx.stroke();
- if(b.kind!=='broadcast'){const x=b.x+(b.kind==='offscreen'?b.width*.85:b.index?b.width*.72:b.width*.22),bottom=b.y+b.height;ctx.beginPath();ctx.moveTo(x,bottom-1);ctx.lineTo(x-9,bottom+12);ctx.lineTo(x+19,bottom-1);ctx.fill();ctx.stroke();ctx.fillRect(x-2,bottom-4,20,6);}
+ if(b.kind!=='broadcast'){const x=b.x+(b.tailSide==='right'||b.kind==='offscreen'?b.width*.78:b.tailSide==='left'?.22:b.index?.72:.22),bottom=b.y+b.height;ctx.beginPath();ctx.moveTo(x,bottom-1);ctx.lineTo(x-9,bottom+12);ctx.lineTo(x+19,bottom-1);ctx.fill();ctx.stroke();ctx.fillRect(x-2,bottom-4,20,6);}
  ctx.fillStyle=b.kind==='broadcast'?'#ad3228':'#59614f';ctx.font='700 16px "Noto Sans CJK TC",sans-serif';ctx.textAlign='left';ctx.textBaseline='top';ctx.fillText(b.speaker,b.x+16,b.y+8);
  ctx.fillStyle=INK;ctx.font=`900 ${font}px "Noto Sans CJK TC","Microsoft JhengHei",sans-serif`;for(const [i,line]of b.lines.entries())ctx.fillText(line,b.x+16,b.y+30+i*font*1.28);ctx.restore();
 }

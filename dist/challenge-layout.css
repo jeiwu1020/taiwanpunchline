@@ -141,6 +141,28 @@ button.challenge-save-slot[data-status="error"],#campaign-bar.challenge-save-slo
 #challengeRecoveryPanel[data-floating="true"]{position:absolute;top:calc(var(--challenge-safe-top) + 48px);left:calc((100% + var(--challenge-safe-left) - var(--challenge-safe-right)) / 2);right:auto;bottom:auto;transform:translateX(-50%);z-index:45;width:min(600px,calc(var(--challenge-content-width,100%) - 24px));max-height:calc(var(--challenge-content-height,100%) - 64px);margin:0;overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;box-shadow:0 0 0 100vmax #102a32aa;touch-action:pan-y pinch-zoom}
 
 .challenge-save-slot[hidden]{display:none!important}
+/* Receipts use the free header gap. Success consumes no toolbar track and
+   never overlaps the story canvas; failure keeps its existing recovery action. */
+#trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback],
+#viewport-shell>.app[data-game-mode="challenge"]>header[data-save-feedback]{grid-template-columns:minmax(0,1fr) auto;}
+#trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback] .toolbar,
+#viewport-shell>.app[data-game-mode="challenge"]>header[data-save-feedback] .toolbar{grid-column:2;grid-row:1;width:auto;}
+#trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback] .brand,
+#viewport-shell>.app[data-game-mode="challenge"]>header[data-save-feedback] .brand{grid-column:1;grid-row:1;justify-self:start;}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"]>header[data-save-feedback] .brand,
+#viewport-shell>.app[data-game-mode="challenge"][data-layout="portrait"]>header[data-save-feedback] .brand{width:44px;min-width:44px;max-width:44px;justify-content:center;}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"]>header[data-save-feedback] .brand-icon,
+#viewport-shell>.app[data-game-mode="challenge"][data-layout="portrait"]>header[data-save-feedback] .brand-icon{display:inline-block;}
+#trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"]>header[data-save-feedback] .brand>span:not(.brand-icon),
+#viewport-shell>.app[data-game-mode="challenge"][data-layout="portrait"]>header[data-save-feedback] .brand>span:not(.brand-icon){display:none;}
+[data-save-notice]{position:absolute;left:var(--save-notice-left,52px);top:50%;transform:translateY(-50%);box-sizing:border-box;max-width:var(--save-notice-width,100px);margin:0;white-space:nowrap;font:700 12px/1.3 "Microsoft JhengHei",system-ui;color:#17353a;pointer-events:none;}
+[data-save-notice]:not(:empty){padding:3px 4px;background:#fff3d3;border-radius:4px;}
+[data-save-notice][data-failure="true"]{clip-path:inset(50%);width:1px;height:1px;overflow:hidden;padding:0;}
+#trial-app.cabinet.app[data-challenge-layout]>header .save-feedback-error,
+#viewport-shell>.app[data-game-mode="challenge"]>header .save-feedback-error{position:absolute!important;left:var(--save-notice-left,52px);top:50%;transform:translateY(-50%);box-sizing:border-box;width:auto!important;min-width:0!important;max-width:var(--save-notice-width,100px)!important;height:32px!important;min-height:32px!important;padding:3px 4px!important;white-space:nowrap;font-size:12px!important;line-height:1.3;overflow:hidden;}
+#trial-app.cabinet.app[data-challenge-layout]>header .save-feedback-error::after,
+#viewport-shell>.app[data-game-mode="challenge"]>header .save-feedback-error::after{content:none!important;}
+.save-feedback-error[hidden]{display:none!important;}
 /* All four compact HUD children own explicit tracks. Otherwise the older
    24/11/11 desktop tracks survive the smaller outer frame and push guard out. */
 #trial-app.cabinet.app[data-touch="true"][data-layout="landscape"][data-compact="true"] #hud .hud-side,

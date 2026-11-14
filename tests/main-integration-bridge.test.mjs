@@ -43,7 +43,7 @@ test('fresh continuation uses the saved chapter and only the explicitly selected
  const {api,storage,old}=await fixture();const result=await prepareMainContinuation({progress:api,characterId:'han',helperId:'huang'});
  assert.equal(result.persisted,true);assert.equal(result.url,'preview/chapter2/?campaign=1&profile=slot-1');assert.deepEqual(api.readProfile().campaign.selection,{characterId:'han',helperId:'huang'});assert.equal(api.readProfile('slot-2').campaign.xp,0);for(const [key,value] of Object.entries(old))assert.equal(storage.getItem(key),value);
 });
-test('unreleased chapter five never becomes a successful chapter two continuation',()=>{assert.equal(campaignContinuationURL({activeProfileId:'slot-1'}, {campaign:{cursor:{chapterId:'chapter-5'}}}),null);assert.equal(campaignContinuationURL({activeProfileId:'slot-1'},{campaign:{cursor:{chapterId:'finale-3v4'}}}),null);});
+test('released fifth chapter has its own continuation URL',()=>{assert.equal(campaignContinuationURL({activeProfileId:'slot-1'}, {campaign:{cursor:{chapterId:'chapter-5'}}}),'preview/chapter5/?campaign=1&profile=slot-1');assert.equal(campaignContinuationURL({activeProfileId:'slot-1'},{campaign:{cursor:{chapterId:'finale-3v4'}}}),'preview/finale/?campaign=1&profile=slot-1');});
 
 test('active encounters reject allocation and duplicate mob rewards without writes; cancellation reopens preparation',async()=>{
  const {api,storage,bridge}=await fixture();const start=await api.beginChallenge({replay:true,chapterId:'chapter-1'});assert.equal(start.persisted,true);

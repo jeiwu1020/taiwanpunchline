@@ -1,9 +1,10 @@
-import {setGameSelectValue} from '../../game-select.mjs?v=workers-background-only-20261113-r1';
-import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=workers-background-only-20261113-r1';
-import {saveIssueText} from '../../save-copy.mjs?v=workers-background-only-20261113-r1';
-import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=workers-background-only-20261113-r1';
-import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=workers-background-only-20261113-r1';
-import {createCampaignPlayable} from './playable-bridge.mjs?v=workers-background-only-20261113-r1';
+import {setGameSelectValue} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
+import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-boot-20261112-r3';
+import {saveIssueText} from '../../save-copy.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-boot-20261112-r3';
+import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-boot-20261112-r3';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',
@@ -31,7 +32,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  const menu=document.querySelector('#menu .card'),stage=document.querySelector('#stage');
  if(!menu||!stage)throw new Error('Continuation requires the existing menu and stage');
  const make=(tag,id,text)=>{const e=document.createElement(tag);if(id)e.id=id;if(text)e.textContent=text;return e;};
- const controls=make('section','campaign-entry'),title=make('p',null,'使用這一槽已保存的章節與角色繼續遊戲。若從舊分頁返回或重新整理，請重新確認接續；請勿同時在多個分頁遊玩。');
+ const controls=make('section','campaign-entry'),title=make('p',null,'接續這一槽的角色與路段。一次只開一個遊戲分頁。');
  const label=make('label',null,'接續存檔 '),select=make('select','campaign-profile');
  for(const [value,text] of [['','目前使用的存檔'],['slot-1','存檔 1'],['slot-2','存檔 2'],['slot-3','存檔 3']]){const o=make('option',null,text);o.value=value;select.append(o);}label.append(select);if(['slot-1','slot-2','slot-3'].includes(query.get('profile')))setGameSelectValue(select,query.get('profile'));
  const resume=make('button','campaign-resume','繼續這一槽的挑戰'),menuStatus=make('p','campaign-menu-status'),adoptionChoices=make('section','campaign-adoption-choices');adoptionChoices.hidden=true;resume.type='button';resume.disabled=testPreview;menuStatus.setAttribute('role','status');
@@ -40,13 +41,14 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  for(const type of ['keydown','keyup'])helperSelect.addEventListener(type,event=>event.stopPropagation());
  const preparationButton=make('button','campaign-prepare','出戰準備'),growthButton=make('button','campaign-growth','查看能力'),retryPreparation=make('button','campaign-retry-prepare','重新整備再重試'),bar=make('aside','campaign-bar'),state=make('span','campaign-save-state'),retry=make('button','campaign-retry-save','重試保存'),backup=make('button','campaign-export','匯出新版備份'),oldBackup=make('button','campaign-export-v1','匯出原版備份'),reloadLatest=make('button','campaign-reload-latest','重新接續最新進度'),next=make('a','campaign-next');
  bar.setAttribute('aria-label','章節保存狀態');state.setAttribute('role','status');retry.type=backup.type=oldBackup.type=growthButton.type='button';bar.className='challenge-save-slot';bar.hidden=true;growthButton.hidden=retry.hidden=backup.hidden=oldBackup.hidden=next.hidden=true;bar.append(state);const recoveryPanel=make('section','challengeRecoveryPanel');recoveryPanel.className='challenge-recovery-panel';recoveryPanel.hidden=true;const preparationActions=make('div','campaign-preparation-actions');preparationActions.className='challenge-preparation-actions preparation-actions';preparationActions.hidden=true;preparationActions.append(preparationButton,growthButton,retryPreparation);const recoveryCopy=make('p','campaign-recovery-copy');recoveryCopy.setAttribute('role','status');reloadLatest.type='button';recoveryPanel.append(recoveryCopy,retry,backup,oldBackup,reloadLatest,next);const host=document.querySelector('#trial-app > header, .app > header, header');if(host)host.insertBefore(bar,host.querySelector('.toolbar'));else stage.append(bar);menu.append(preparationActions,recoveryPanel);bar.tabIndex=0;bar.setAttribute('role','button');bar.setAttribute('aria-label','保存狀態，開啟保存與備份');
+ const saveFeedback=mountChallengeSaveFeedback({document,window,button:bar,isPreview:()=>testPreview||!!window.__quickViewIsolated});
  const previewStart=document.querySelector('#start');if(previewStart)previewStart.hidden=!testPreview;
  const previewRoster=document.querySelector('#menu-roster');if(previewRoster)previewRoster.hidden=!testPreview;
  const previewDifficulty=document.querySelector('#difficulty')?.closest('label');if(previewDifficulty)previewDifficulty.hidden=!testPreview;
  controls.hidden=testPreview;
  if(!testPreview&&query.has('handoff')){label.hidden=resume.hidden=true;menuStatus.textContent=`正在載入第 ${chapterId.split('-')[1]} 章，完成後會直接接續…`;}
 
- if(!testPreview){const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='正式章節';if(note)note.textContent='接續你的挑戰進度。台詞與演出均為虛構喜劇。';const objective=document.querySelector('#objective');if(objective)objective.textContent='正在載入章節內容…';}
+ if(!testPreview){const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='接續你的挑戰進度。台詞與演出均為虛構喜劇。';const objective=document.querySelector('#objective');if(objective)objective.textContent='正在載入章節內容…';}
  let router=null,chapter=null,preparation=null,preparationOwner=null,preparationBusy=false,recovery=null,recoveryIssue=null,busy=false,idle=Promise.resolve(),autoChecked=false,navigating=false,leaving=false,pageActive=true,launched=false,attachPending=false;
  function navigateSaved(){
   if(navigating||leaving||!pageActive||!router?.enabled||testPreview)return false;
@@ -79,20 +81,21 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
 
  function render(){
   if(!router?.enabled){
-   if(!recovery){const current=getPlayable();preparationActions.hidden=!current||!current.view().paused;preparationButton.disabled=preparationBusy;preparationButton.hidden=true;growthButton.hidden=false;retryPreparation.hidden=!current?.view().paused;if(current?.view().paused){const host=document.querySelector('#pause-panel .card');if(host&&preparationActions.parentElement!==host)host.append(preparationActions);}return;}
+   if(!recovery){saveFeedback.update({enabled:true});const current=getPlayable();preparationActions.hidden=!current||!current.view().paused;preparationButton.disabled=preparationBusy;preparationButton.hidden=true;growthButton.hidden=false;retryPreparation.hidden=!current?.view().paused;if(current?.view().paused){const host=document.querySelector('#pause-panel .card');if(host&&preparationActions.parentElement!==host)host.append(preparationActions);}return;}
    const r=recovery.get();bar.hidden=false;if(recoveryPanel.parentElement!==menu)menu.append(recoveryPanel);preparationActions.hidden=true;recoveryPanel.hidden=false;
    state.textContent=recoveryIssue==='source-changed'?reasonText(recoveryIssue):r.persisted&&!r.dirty?'進度已確認保存，請按接續繼續。':'尚未保存，請重試或匯出完整備份。';
-   recoveryCopy.textContent=state.textContent;bar.title=state.textContent;bar.setAttribute('aria-label',state.textContent+'，開啟保存與備份');state.textContent=busy?'保存中':r.persisted&&!r.dirty?'已保存':'需處理';bar.dataset.status=busy?'busy':r.persisted&&!r.dirty?'saved':'error';helperLabel.hidden=growthButton.hidden=next.hidden=true;next.removeAttribute('href');backup.hidden=false;oldBackup.hidden=false;retry.hidden=!r.dirty;retry.disabled=busy||recoveryIssue==='source-changed';return;
+   recoveryCopy.textContent=state.textContent;saveFeedback.update({enabled:true,error:r.persisted&&!r.dirty?'':state.textContent});helperLabel.hidden=growthButton.hidden=next.hidden=true;next.removeAttribute('href');backup.hidden=false;oldBackup.hidden=false;retry.hidden=!r.dirty;retry.disabled=busy||recoveryIssue==='source-changed';return;
   }
   const v=router.view(),s=launched?chapter?.view():null,combat=!!s&&!s.paused&&['route','battle'].includes(s.mode);bar.hidden=false;bar.classList.toggle('campaign-bar-combat',combat);refreshLegacy.hidden=!v.canRefreshLegacy;refreshLegacy.disabled=busy;
   if(s)renderContinuationChoice({document,state:{...s,busy:busy||s.busy},chapterId});
   const selector=s?.paused?'#pause-panel .card':({'story':'#story-panel .story-card','result':'#result-panel .card','choice':'#choice-panel .card','complete':'#choice-panel .card'})[s?.mode];
-  const host=!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||!((s.paused&&['route','battle'].includes(s.mode))||s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
+  const fullComic=s?.mode==='story'&&document.querySelector('#story-panel')?.dataset.fullComic==='true';
+  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||!((s.paused&&['route','battle'].includes(s.mode))||s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
   state.textContent=s?.saveLabel??v.saveLabel;
   if(s?.blocked)state.textContent=reasonText(s.saveIssue);
-  else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；第五章尚未開放。`;
+  else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；目前無法接續下一段，進度已保留。`;
   if(combat&&!v.persisted&&!s?.busy)state.textContent='尚未保存，請暫停後重試／匯出備份。';
-  recoveryCopy.textContent=state.textContent;bar.title=state.textContent;bar.setAttribute('aria-label',state.textContent+'，開啟保存與備份');const savePending=busy||preparationBusy||s?.busy;const saveError=!v.persisted||s?.blocked||s?.saveIssue;state.textContent=savePending?'保存中':saveError?'需處理':'已保存';bar.dataset.status=savePending?'busy':saveError?'error':'saved';
+  recoveryCopy.textContent=state.textContent;const saveError=!v.persisted||s?.blocked||s?.saveIssue;saveFeedback.update({enabled:true,error:saveError?state.textContent:''});
   helperLabel.hidden=true;
   const available=s?.unlocked??v.unlocked;
   if(JSON.stringify([...helperSelect.options].map(option=>option.value))!==JSON.stringify(available)){
@@ -108,12 +111,14 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   else next.removeAttribute('href');
   if(s?.mode==='complete'&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
  }
- function job(work){if(busy)return idle;busy=true;resume.disabled=true;idle=Promise.resolve().then(work).catch(()=>{menuStatus.textContent='無法安全啟動接續；原存檔未清除，請保留備份後重試。';}).finally(()=>{busy=false;if(!launched){label.hidden=resume.hidden=false;}resume.disabled=testPreview||(router?.enabled&&router.view().dirty)||!!recovery?.get().dirty;render();});return idle;}
+ // The attached host first renders while this job is busy. Publish the final
+ // busy transition too, so its reading controls re-evaluate their save guards.
+ function job(work){if(busy)return idle;busy=true;resume.disabled=true;idle=Promise.resolve().then(work).catch(()=>{menuStatus.textContent='無法安全啟動接續；原存檔未清除，請保留備份後重試。';}).finally(()=>{busy=false;if(!launched){label.hidden=resume.hidden=false;}resume.disabled=testPreview||(router?.enabled&&router.view().dirty)||!!recovery?.get().dirty;render();onChange();});return idle;}
  async function startContinuation(handoff){
   if(testPreview){menuStatus.textContent=reasonText('preview-only');return;}
   if(!isReady()){menuStatus.textContent='漫畫素材仍在載入，請稍後再接續。';return;}
   let storage,locks;try{storage=window.localStorage;locks=window.navigator?.locks;}catch{menuStatus.textContent=reasonText('storage-unavailable');return;}
-  router=await openContinuation({mode:'campaign',optIn:true,testPreview,storage,locks,profileId:select.value||undefined,handoff});
+  router=await openContinuation({mode:'campaign',optIn:true,testPreview,storage,locks,profileId:select.value||undefined,handoff,onSaved:receipt=>saveFeedback.saved(receipt)});
   adoptionChoices.replaceChildren();adoptionChoices.hidden=true;recovery=router.recovery??null;recoveryIssue=null;
   if(!router.enabled){
    menuStatus.textContent=reasonText(router.reason);
@@ -127,7 +132,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   const attached=await createCampaignPlayable({router,chapterId,createPlayableChapter,options:getOptions(),onChange:()=>{render();onChange();}});
   if(!attached.accepted){attachPending=!!attached.recovery;menuStatus.textContent=reasonText(attached.reason);render();return;}attachPending=false;
   chapter=attached.chapter;document.body.dataset.campaignMode='true';const legacyPreparation=document.querySelector('#leave');if(legacyPreparation)legacyPreparation.hidden=true;
-  const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='正式章節接續';if(note)note.textContent='本次使用全新挑戰存檔，以畫面保存狀態為準。舊版原檔保留；情節與演出均為虛構喜劇。';
+  const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='人物、對白與情節均為虛構喜劇，不代表原型人物的真實發言。';
   if(attached.persisted){launched=true;onReady(chapter);}else menuStatus.textContent=reasonText('unsaved-progress');render();
  }
  resume.onclick=()=>job(()=>startContinuation());
@@ -171,17 +176,17 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  const visible=!card.closest('[hidden],.hidden'),entered=s.mode==='complete'&&card.dataset.continuationMode!=='complete'&&visible;
  if(s.mode!=='complete'||visible)card.dataset.continuationMode=s.mode;
  actions.hidden=s.mode!=='complete';link.hidden=true;link.removeAttribute('href');home.hidden=true;home.removeAttribute('href');home.removeAttribute('aria-disabled');home.removeAttribute('tabindex');
- if(s.campaignChapterId&&s.mode==='choice')copy.textContent=(chapterId==='chapter-4'?'第五章尚未開放。完成本章並確認保存後可回挑戰總覽，進度會保留。':'選好接下來的主角，再繼續追麥。')+(s.saveLabel||'');
+ if(s.campaignChapterId&&s.mode==='choice')copy.textContent=(chapterId==='chapter-5'?'七人齊備，前往議場中庭選擇最終戰隊伍。':'選好接下來的主角，接續同一趟神麥旅程。')+(s.saveLabel||'');
  if(s.mode!=='complete')return;
  home.hidden=false;let safe=true;
  if(s.campaignChapterId){
   safe=completionCanLeave(s);
-  copy.textContent=(s.saveLabel||'')+(s.nextRoute?.status==='locked'?'；第五章尚未開放，檢查點會保留。':'；確認保存後即可接續下一章。');
+  copy.textContent=(s.saveLabel||'')+(s.nextRoute?.status==='locked'?'；內容暫時無法接續，檢查點會保留。':'；確認保存後即可接續下一章。');
   if(!safe)copy.textContent+=' 尚未能安全離開，請先重試保存或匯出備份；若進度已在其他頁變更，請保留備份後重新接續。';
   if(safe&&s.nextRoute?.status==='ready'){link.hidden=false;link.href=s.nextRoute.url;link.textContent='接續下一章 →';}
  }else{
-  const next=({'chapter-2':'chapter3','chapter-3':'chapter4'})[chapterId];
-  copy.textContent=next?'本章預覽完成。本次遊玩不保存進度，可繼續試玩下一章。':'本章預覽完成。第五章尚未開放，本次遊玩不保存進度。';
+  const next=({'chapter-2':'chapter3','chapter-3':'chapter4','chapter-4':'chapter5','chapter-5':'finale'})[chapterId];
+  copy.textContent=next?'本章預覽完成。本次遊玩不保存進度，可繼續試玩下一章。':'本章預覽完成，本次遊玩不保存進度。';
   if(next){link.hidden=false;link.href=`../${next}/?previewOnly=1`;link.textContent='不存檔試玩下一章 →';}
  }
  if(safe)home.href=s.campaignChapterId?'../../?challengeOverview=1':'../../';else{home.setAttribute('aria-disabled','true');home.tabIndex=-1;}

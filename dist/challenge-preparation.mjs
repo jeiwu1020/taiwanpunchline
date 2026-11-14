@@ -1,8 +1,8 @@
-import {mountGameSelects} from './game-select.mjs?v=workers-background-only-20261113-r1';
-import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=workers-background-only-20261113-r1';
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
-import {saveIssueText} from './save-copy.mjs?v=workers-background-only-20261113-r1';
-import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=workers-background-only-20261113-r1';
+import {mountGameSelects} from './game-select.mjs?v=campaign-boot-20261112-r3';
+import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
+import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-boot-20261112-r3';
 const labels={hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=value=>JSON.parse(JSON.stringify(value));
@@ -36,7 +36,7 @@ export function mountChallengeRecovery({document,window=document.defaultView,par
 export function mountChallengePreparation({document,window=document.defaultView,characters={},controller,getEncounter=()=>({}),applyPreparation=null,onApplied=()=>{},onClose=()=>{},onBusy=()=>{},onFailure=()=>{},parent=document.body,embedded=false}={}){
  const dialog=document.createElement(embedded?'section':'dialog');dialog.id=embedded?'challengePreparationPage':'challengePreparationOverlay';dialog.dataset.embedded=String(embedded);if(embedded)dialog.hidden=true;dialog.className='challenge-preparation-overlay'+(embedded?'':' challenge-dialog');dialog.setAttribute('aria-labelledby',(embedded?'overview-':'')+'challengePreparationTitle');parent.append(dialog);
  // The same isolated stylesheet is loaded by root and standalone chapter callers.
- if(!document.querySelector('link[data-challenge-preparation-style]')){const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('./challenge-preparation.css?v=workers-background-only-20261113-r1',import.meta.url).href;style.dataset.challengePreparationStyle='';document.head?.append(style);}
+ if(!document.querySelector('link[data-challenge-preparation-style]')){const style=document.createElement('link');style.rel='stylesheet';style.href=new URL('./challenge-preparation.css?v=campaign-boot-20261112-r3',import.meta.url).href;style.dataset.challengePreparationStyle='';document.head?.append(style);}
  const viewport=embedded?{sync(){},destroy(){}}:mountChallengeDialogViewport(dialog,{document,maxWidth:940,savedRecoveryExit:()=>!disposed&&isOpen()&&failed&&destinationSaved&&!busy?displayFailure?.result?.savedReload:null,unreadyActionToken:e=>{const control=e.target?.closest?.('button');return !disposed&&isOpen()&&failed&&destinationSaved&&!busy&&displayFailure?.result?.reason==='scene-unavailable'&&displayFailure.result.isCurrent?.()===true&&control===q('#preparationCancel')&&!control.disabled&&!control.hidden?displayFailure.token:null;}});
  const isOpen=()=>dialog.hasAttribute('open');
  let baseline='',selects=null,snapshot=null,draft=null,inspect='',readOnly=false,busy=false,failed=false,stale=false,destinationSaved=false,displayFailure=null,keepPaused=false,previousFocus=null,status='',disposed=false,recovery=null,context=null,intent='save-only',explicitIntent=false;
@@ -105,7 +105,7 @@ export function mountChallengePreparation({document,window=document.defaultView,
   readOnly=!!options.readOnly;failed=false;stale=false;destinationSaved=false;displayFailure=null;status='';keepPaused=readOnly;context={testMode:!!snapshot.testMode,preview:!!snapshot.preview,previewRevision:snapshot.previewRevision,expectedPreviewRevision:snapshot.expectedPreviewRevision??snapshot.previewRevision,modeEpoch:snapshot.modeEpoch,expectedModeEpoch:snapshot.expectedModeEpoch??snapshot.modeEpoch,profileId:snapshot.profileId,expectedRevision:snapshot.expectedRevision??snapshot.revision,expectedGeneration:snapshot.expectedGeneration??snapshot.generation,expectedLegacyProfile:snapshot.expectedLegacyProfile,token:options.token??getEncounter()?.token};previousFocus=document.activeElement;render();if(embedded)dialog.hidden=false;viewport.sync();if(!embedded&&dialog.showModal)dialog.showModal();else dialog.setAttribute('open','');(readOnly?q('[data-preparation-reference="ability"]>summary'):q('#preparationCancel')).focus({preventScroll:true});return true;
  }
  async function complete(result){if(disposed)return;const options={keepPaused:keepPaused||document.hidden,intent,testMode:testMode(),characterId:inspect,draft:clone(draft),scope:scope()};let destination;try{destination=await onApplied(result,options);}catch{destination={accepted:false,persisted:result.persisted===true,preview:result.preview===true,reason:'scene-unavailable'};}if(disposed)return;busy=false;onBusy(false);if(destination?.accepted===false&&destination.reason==='cancelled'){hide({applied:true,notify:false});return;}if(destination?.accepted===false){failed=true;displayFailure={result:destination,token:{}};destinationSaved=destination.persisted===true||destination.preview===true;stale=['stale-run','stale-generation','save-conflict','stale-revision'].includes(destination.reason);status=destinationSaved?(testMode()?'測試配置已套用，但遊戲場景目前無法開啟。請取消後重新開啟測試，正式存檔不變。':'配置已保存。'+(destination.message||({
- 'content-locked':'第五章尚未開放，已到達的檢查點會保留。',
+ 'content-locked':'此內容暫時無法接續，已保存的檢查點會保留。',
  'chapter-1-incomplete':'請先完成第一章，再繼續後續章節。',
  'handoff-unavailable':'暫時無法切換到下一章。',
  'invalid-destination':'目前無法開啟指定章節。'

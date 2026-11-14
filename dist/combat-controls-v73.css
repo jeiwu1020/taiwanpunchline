@@ -154,6 +154,24 @@
  grid-column:4;grid-row:2;
 }
 }
+/* Narrow mouse/keyboard windows need the specials above the other controls.
+   The 320px chapter deck has 288px of content: 102 + 3*54 + 3*6 = 282px.
+   Touch layouts and the existing wide desktop rows are unaffected. */
+@container combat-controls (max-width:640px){
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck{
+  --movement-width:102px;--special-height:64px;
+  grid-template-columns:var(--movement-width) repeat(3,minmax(var(--action-size),1fr));
+  grid-template-rows:var(--special-height) repeat(2,var(--action-size));height:206px;
+ }
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .specials{grid-column:1/-1;grid-row:1;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .movement{grid-column:1;grid-row:2/4;grid-template-columns:repeat(2,48px);}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .movement button{width:48px;min-width:48px;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .rally-button{grid-column:2;grid-row:2;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .assist-button{grid-column:3;grid-row:2;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck #challenge-jump{grid-column:2;grid-row:3;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck [data-hold="guard"]{grid-column:3;grid-row:3;}
+ .app[data-touch="false"][data-layout][data-overlay-controls="false"][data-depth-route] .control-deck .punch{grid-column:4;grid-row:3;}
+}
 /* Phone landscape: the three cards span exactly the five-action width.
    54px cards retain room for two 18px name lines and a 12px seconds footer.
    568px logical width has a 528px deck; its minimum content is only 418px. */

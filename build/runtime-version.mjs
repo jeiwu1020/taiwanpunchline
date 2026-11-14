@@ -1,1 +1,1 @@
-export const RUNTIME_VERSION='workers-background-only-20261113-r1';
+export const RUNTIME_VERSION='campaign-boot-20261112-r3';

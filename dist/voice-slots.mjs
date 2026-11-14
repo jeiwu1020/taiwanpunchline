@@ -1,5 +1,5 @@
-import {USER_VOICE_SELECTIONS} from './voice-selections-v31.mjs?v=workers-background-only-20261113-r1';
-import {V32_VOICE_SELECTIONS} from './voice-selections-v32.mjs?v=workers-background-only-20261113-r1';
+import {USER_VOICE_SELECTIONS} from './voice-selections-v31.mjs?v=campaign-boot-20261112-r3';
+import {V32_VOICE_SELECTIONS} from './voice-selections-v32.mjs?v=campaign-boot-20261112-r3';
 // Uploaded provenance and independent verification are separate. Pending links never synthesize a voice.
 const pending=(label,source,requestedTime=null)=>({src:null,originalVerified:false,label,source,requestedTime,rights:'未確認再利用權',status:'來源頁面已核對；未取得音檔、未聽驗，指定秒數不是已核實切點'});
 const catalog=(label,file,source,cue,duration)=>({src:'assets/voice/'+file,originalVerified:false,catalogProvided:true,decoded:true,label,speaker:'黃國昌（依語錄站標示，未獨立認證）',cue,source,rights:'未確認底層影音再利用權',status:`語錄站公開音檔，依網站標示對應此句；未獨立聽驗或認證說話者。保留全長約 ${duration} 秒，只降低音量，未剪接新發言。`});

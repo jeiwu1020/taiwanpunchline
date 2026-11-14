@@ -1,8 +1,8 @@
-import {moveCaption,drawComicCaption,SIGNATURE_SIZE,presentationFighter,gazeGlyph,drawHumanGlyph} from './move-readability.mjs?v=workers-background-only-20261113-r1';
-import {MOVE_VISUALS,drawSignatureProp} from './art-expression.mjs?v=workers-background-only-20261113-r1';
-import {CAST} from './core.mjs?v=workers-background-only-20261113-r1';
-import {loadArtImages,drawFighterArt,drawProp} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {arrowPresentation,fighterPose} from './art-motion.mjs?v=workers-background-only-20261113-r1';
+import {moveCaption,drawComicCaption,SIGNATURE_SIZE,presentationFighter,gazeGlyph,drawHumanGlyph} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {MOVE_VISUALS,drawSignatureProp} from './art-expression.mjs?v=campaign-boot-20261112-r3';
+import {CAST} from './core.mjs?v=campaign-boot-20261112-r3';
+import {loadArtImages,drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {arrowPresentation,fighterPose} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 const $=s=>document.querySelector(s),images=await loadArtImages().catch(error=>{$('#note').textContent='部分素材載入失敗，請重新整理。';throw error}),ctx=$('#art').getContext('2d');
 const moves={idle:['從容待機',1.3],walk:['走路',1.2],jump:['跳躍／落地',1.0],punch:['右拳',.32],leftJab:['左拳',.32],kick:['前踢',.32],crouch:['蹲下／站起',1.3],guard:['防禦',1.0],rush:['連滾帶爬',.72],counter:['從從容容',.84],heal:['喝水回氣',1.2],spit:['喝水被打斷',1],spitEarly:['起手被打斷',.62],spitLate:['收杯被打斷',1.52],coin:['發財金幣波',.42],han_knee:['可憐哪',1.08],arrow:['一支穿雲箭',.55]};
 const notes={crouch:'按住 S／↓ 或蹲按鈕降低姿勢，放開站起。低姿真的能閃高招，中段、低掃與抓取仍能命中。',leftJab:'左手出拳、右手收防，兩隻手身份固定。基本攻擊的傷害與時機不變。',kick:'前腳踢出、後腳支撐，雙手保持平衡；只是基本攻擊演出變化，不額外增加傷害。',rush:'蜷起身體後再翻滾，保留原本的衝撞時機。',counter:'墨鏡跟著頭部，反擊判定沿用對戰規則。',heal:'右手背遮住杯身；膚色改為較接近臉部的暖桃色。對戰中在 1 秒回氣，1.2 秒結束。',spit:'被打斷後保持同一隻手與水杯，水花從嘴邊噴出。',coin:'同筆觸金幣，實際對戰中的投射物與冷卻不變。',han_knee:'膝行與可憐哪來自不同事件，這裡是遊戲組合；低姿能閃高招，但中段、低掃與抓取仍會命中。',arrow:'兩手、弓弦、弓與上身使用一體動作圖，避免手與道具分離。',idle:'近側右手背、遠側左掌與西裝各自保持固定層級。',walk:'雙臂反向擺動，髖、膝、踝各自帶動跨步；腳掌分別離地與踩回。',jump:'空中雙膝收起、雙手平衡；落地屈膝，腳影留在地面。',punch:'肩、肘、腕用連續曲線帶動，拳頭與前臂保持連接。',guard:'防禦時手臂留在身體前方，避免手肘反折。'};

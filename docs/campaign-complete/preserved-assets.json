@@ -1,0 +1,14 @@
+{
+  "baseline": "eb35eea8311cbba60a304a1db53f9d25326c534b",
+  "method": "git tracked-file diff against baseline, plus release-builder immutable shared-asset hash checks",
+  "existingMediaFiles": 345,
+  "changedExistingMediaFiles": [],
+  "newMediaFiles": [
+    "dist/preview/chapter5/assets/chapter5/return-street-v1.png",
+    "dist/preview/chapter5/assets/chapter5/seal-archive-v1.png",
+    "dist/preview/chapter5/assets/chapter5/sealed-forecourt-v1.png",
+    "dist/preview/chapter5/assets/chapter5/return-props-v1.png",
+    "dist/preview/chapter5/assets/chapter5/miniboss-atlas-v1.png",
+    "dist/assets/challenge/chapter-street-motifs-v1.png"
+  ]
+}

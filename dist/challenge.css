@@ -1,3 +1,4 @@
+@import url('./chapter-comic.css?v=comic-reader-r1');
 /* Ink, newsprint and punchy stamps: challenge-specific, never changes duel UI. */
 .challenge-dialog{--ink:#162e35;--paper:#fff5dc;--red:#b53d2f;color:var(--ink);background:var(--paper);border:4px solid var(--ink);border-radius:10px;box-shadow:8px 9px 0 #162e35a0;padding:0;width:min(900px,94vw);max-width:94vw;max-height:90dvh;overflow:auto;overscroll-behavior:contain;touch-action:pan-y;font-family:inherit;font-size:15px;line-height:1.5}
 .challenge-dialog::backdrop{background:#102a35c9;backdrop-filter:blur(4px)}
@@ -231,3 +232,22 @@
 
 /* Touch dialogs use all committed logical height; no extra outer scrollbar. */
 .app[data-touch="true"] .challenge-dialog.challenge-overview-v4{height:var(--challenge-logical-height,90dvh)}
+/* Compact overview keeps the chapter decision and launch button on one page. */
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-shell-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;align-content:start}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-save-state{grid-column:1;grid-row:1;margin:0;padding:4px 8px;font-size:11px;align-self:center}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-slot-tabs{grid-column:2;grid-row:1;margin:0;gap:5px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-slot-tabs button{min-height:36px;padding:4px;font-size:12px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-shared{grid-column:1/-1;margin:0;padding:4px 8px;font-size:12px}
+.challenge-dialog.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-chapter{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:8px 10px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-chapter-heading{grid-column:1;grid-row:1}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-chapter-heading h3{font-size:18px;margin:0}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-checkpoint{grid-column:1;grid-row:2;margin:0;font-size:12px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-rules{grid-column:1;grid-row:3;margin:0;font-size:11px;line-height:1.35}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-party-summary{grid-column:2;grid-row:1/4;display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0;align-self:center}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-party-summary button{min-height:56px;padding:4px;font-size:12px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-party-summary img{width:36px;height:42px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-party-summary small{font-size:10px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-chapter>p:not([class]){grid-column:1/-1;margin:0;font-size:11px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-launch-actions{grid-column:1/-1;grid-row:auto;margin:0;display:flex;flex-direction:row;gap:6px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-launch-actions button{flex:1;min-height:40px;padding:5px;font-size:15px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] [data-action="review-opening"]{grid-column:1/-1;min-height:30px;padding:3px;font-size:12px}

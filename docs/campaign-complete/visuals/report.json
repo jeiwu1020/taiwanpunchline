@@ -1,0 +1,43 @@
+{
+  "base": "http://127.0.0.1:4174",
+  "scope": "rendered game, controlled preview step/position; not physical-device acceptance",
+  "checks": [
+    "chapter one accepted street and opening preserved",
+    "chapter two: all pre-Boss streets/minis keep identity anonymous",
+    "chapter five: all three streets, two new staff, Boss and actual four-way/jump input render",
+    "chapter five portrait: three streets, committed viewport, real touch jump",
+    "chapter five landscape: three streets, committed viewport, real touch jump",
+    "chapter five sideways: three streets, committed viewport, real touch jump"
+  ],
+  "screenshots": [
+    "chapter1-entry-desktop.jpg",
+    "chapter2-entry-desktop.jpg",
+    "chapter2-temple-desktop.jpg",
+    "chapter2-square-desktop.jpg",
+    "chapter3-entry-desktop.jpg",
+    "chapter3-middle-desktop.jpg",
+    "chapter4-entry-desktop.jpg",
+    "chapter4-middle-desktop.jpg",
+    "chapter5-entry-desktop.jpg",
+    "chapter5-route-b-desktop.jpg",
+    "chapter5-route-c-desktop.jpg",
+    "chapter5-miniboss-a-desktop.jpg",
+    "chapter5-miniboss-b-desktop.jpg",
+    "chapter5-boss-desktop.jpg",
+    "chapter5-mid-route-jump-desktop.jpg",
+    "chapter5-route-a-portrait.jpg",
+    "chapter5-route-b-portrait.jpg",
+    "chapter5-route-c-portrait.jpg",
+    "chapter5-jump-portrait.jpg",
+    "chapter5-route-a-landscape.jpg",
+    "chapter5-route-b-landscape.jpg",
+    "chapter5-route-c-landscape.jpg",
+    "chapter5-jump-landscape.jpg",
+    "chapter5-route-a-sideways.jpg",
+    "chapter5-route-b-sideways.jpg",
+    "chapter5-route-c-sideways.jpg",
+    "chapter5-jump-sideways.jpg"
+  ],
+  "errors": [],
+  "success": true
+}

@@ -1,6 +1,6 @@
 // Presentation only: never reads browser storage and never changes save data.
-import {legacySlot,parse} from './preview/campaign/unified/schema.mjs?v=workers-background-only-20261113-r1';
-import {validateDocument} from './preview/campaign/core/model.mjs?v=workers-background-only-20261113-r1';
+import {legacySlot,parse} from './preview/campaign/unified/schema.mjs?v=campaign-boot-20261112-r3';
+import {validateDocument} from './preview/campaign/core/model.mjs?v=campaign-boot-20261112-r3';
 const sourceName=source=>({legacy:'原版第一章',campaign:'舊版後續章節',new:'新建立的冒險'})[source]??'選定來源';
 const slotName=id=>/^slot-[123]$/.test(id)?`存檔 ${id.slice(-1)}`:'這個存檔';
 function summary(info,source){

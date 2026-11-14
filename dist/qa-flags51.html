@@ -3,8 +3,8 @@
 <h1>V51 · 七角色旗幟 / 左右鏡像實圖</h1>
 <p>上：桌面 15px 粗體。下：直式手機 13px 粗體。兩組均使用實際透明圖片與正式旗幟幾何，旗桿從高舉的拳頭向上，字不穿過臉。金色／青色保留隊伍區別，不加「玩家／AI」。</p><div class="grid"></div>
 <script type="module">
-import {supporterFlagLayout} from './supporter-flags.mjs?v=workers-background-only-20261113-r1';
-import {CAST} from './roster.mjs?v=workers-background-only-20261113-r1';
+import {supporterFlagLayout} from './supporter-flags.mjs?v=campaign-boot-20261112-r3';
+import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
 const image=new Image();image.src='./assets/supporter-woman-v46.png';await image.decode();
 for(const {name} of Object.values(CAST)){
  const card=document.createElement('section');card.className='card';const title=document.createElement('h2');title.textContent=name;card.append(title);const canvas=document.createElement('canvas');canvas.width=320;canvas.height=620;card.append(canvas);document.querySelector('.grid').append(card);const c=canvas.getContext('2d');c.scale(2,2);

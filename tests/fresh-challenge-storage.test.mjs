@@ -118,7 +118,7 @@ test('four chapters use one v4 authority, repeating mob XP and once-only first-c
   }
   assert.equal(api.readProfile().campaign.xp,xp);await dispatch({type:'story-complete'});await dispatch({type:'continue'});
  }
- assert.deepEqual(api.readProfile().campaign.chapterClears,['chapter-1','chapter-2','chapter-3','chapter-4']);assert.equal((await api.beginChallenge({chapterId:'chapter-5'})).reason,'content-locked');
+ assert.deepEqual(api.readProfile().campaign.chapterClears,['chapter-1','chapter-2','chapter-3','chapter-4']);assert.equal((await api.beginChallenge({chapterId:'chapter-5'})).persisted,true);
  r=await api.beginChallenge({replay:true,chapterId:'chapter-1'});assert.equal(r.persisted,true);await dispatch({type:'mob-defeated',enemyId:'same-enemy',xp:8});xp+=8;const clear=await dispatch({type:'route-complete'});assert.equal(clear.rewardedXP,0);assert.equal(api.readProfile().campaign.xp,xp);assert.equal(api.get().authority,'campaign');assert.deepEqual([...new Set(s.writes.map(([k])=>k))],[KEY]);
 });
 
@@ -148,10 +148,12 @@ test('queued input snapshots cannot be changed after save submission',async()=>{
  const {s,l}=await setup();let release;const gate=new Promise(resolve=>release=resolve),defer={request:async(n,o,f)=>{await gate;return l.request(n,o,f);}};const api=await openChallengeProgress({storage:s,locks:defer}),g=guards(api),draft={...g,difficulty:'easy'},job=api.savePreparation(draft,g);draft.difficulty='hard';release();assert.equal((await job).persisted,true);assert.equal(api.readProfile().campaign.difficulty,'easy');
 });
 
-test('a retained chapter-four continuation token cannot play the locked fifth chapter',async()=>{
+test('chapter-four handoff invalidates its prior token and fifth chapter begins from its saved entry',async()=>{
  const {api,s}=await setup();let r=await api.beginChallenge();const send=async action=>{r=await api.dispatchChallenge(r.token,action);assert.equal(r.persisted,true,r.reason);};
- for(let chapter=1;chapter<=4;chapter++){await send({type:'story-complete'});for(let section=0;section<3;section++){await send({type:'route-complete'});if(section===2)await send({type:'story-complete'});await send({type:'boss-win'});}await send({type:'story-complete'});if(chapter===4){const old=s.getItem(KEY),batch=await api.dispatchChallenge(r.token,[{type:'continue'},{type:'story-complete'}]);assert.equal(batch.accepted,false);assert.equal(batch.reason,'content-locked');assert.equal(s.getItem(KEY),old);}await send({type:'continue'});}
- const raw=s.getItem(KEY),blocked=await api.dispatchChallenge(r.token,{type:'story-complete'});assert.equal(blocked.accepted,false);assert.equal(blocked.reason,'content-locked');assert.equal(s.getItem(KEY),raw);
+ let oldToken;
+ for(let chapter=1;chapter<=4;chapter++){await send({type:'story-complete'});for(let section=0;section<3;section++){await send({type:'route-complete'});if(section===2)await send({type:'story-complete'});await send({type:'boss-win'});}await send({type:'story-complete'});oldToken=r.token;await send({type:'continue'});}
+ const raw=s.getItem(KEY),stale=await api.dispatchChallenge(oldToken,{type:'story-complete'});assert.equal(stale.accepted,false);assert.equal(stale.reason,'stale-run');assert.equal(s.getItem(KEY),raw);
+ r=await api.beginChallenge({chapterId:'chapter-5'});assert.equal(r.persisted,true);assert.equal(r.run.stepId,'entry');
 });
 
 test('replay preparation remaps the retained normal carry exactly once when the shared party changes',async()=>{

@@ -1,0 +1,11 @@
+{
+  "base": "http://127.0.0.1:4175",
+  "success": true,
+  "checks": [
+    "chapter 2 built assets and street entry ready",
+    "chapter 3 built assets and street entry ready",
+    "chapter 4 built assets and street entry ready",
+    "chapter 5 built assets and street entry ready"
+  ],
+  "errors": []
+}

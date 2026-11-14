@@ -1,0 +1,53 @@
+{
+  "base": "http://127.0.0.1:4174",
+  "browser": "Playwright WebKit; mobile emulation, not physical iPhone acceptance",
+  "checks": [
+    {
+      "mode": "network-recovery",
+      "layout": "portrait",
+      "failedRequests": 2,
+      "uniqueAssets": 88,
+      "enteredChallenge": true,
+      "touchJump": true,
+      "savesPreservedDuringBoot": true
+    },
+    {
+      "mode": "timeout-recovery",
+      "layout": "portrait",
+      "failedRequests": 2,
+      "uniqueAssets": 88,
+      "enteredChallenge": true,
+      "touchJump": true,
+      "savesPreservedDuringBoot": true
+    },
+    {
+      "mode": "paused-frames",
+      "layout": "portrait",
+      "failedRequests": 0,
+      "uniqueAssets": 88,
+      "enteredChallenge": true,
+      "touchJump": true,
+      "savesPreservedDuringBoot": true
+    },
+    {
+      "mode": "normal",
+      "layout": "landscape",
+      "failedRequests": 0,
+      "uniqueAssets": 88,
+      "enteredChallenge": true,
+      "touchJump": true,
+      "savesPreservedDuringBoot": true
+    },
+    {
+      "mode": "normal",
+      "layout": "sideways",
+      "failedRequests": 0,
+      "uniqueAssets": 88,
+      "enteredChallenge": true,
+      "touchJump": true,
+      "savesPreservedDuringBoot": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}

@@ -1,7 +1,7 @@
-import {mountCameraDirectionHints} from './camera-direction-hints.mjs?v=workers-background-only-20261113-r1';
-import {applyChallengeCameraLayout,applyCombatPresentationLayout,measureChallengeOcclusions,challengeLogicalRect} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
-import {mainRouteMicPlan} from './challenge-depth-render.mjs?v=workers-background-only-20261113-r1';
-import {flyingMicLayout,drawFlyingMic} from './preview/chapter2/flying-mic.mjs?v=workers-background-only-20261113-r1';
+import {mountCameraDirectionHints} from './camera-direction-hints.mjs?v=campaign-boot-20261112-r3';
+import {applyChallengeCameraLayout,applyCombatPresentationLayout,measureChallengeOcclusions,challengeLogicalRect} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
+import {mainRouteMicPlan} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
+import {flyingMicLayout,drawFlyingMic} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
 
 // These are display-space placements only. Combat and camera geometry stay unchanged.
 export function feedbackPlacement({width,height,touch,portrait,specials,buttons,stick}){

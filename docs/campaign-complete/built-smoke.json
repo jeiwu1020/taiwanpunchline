@@ -1,0 +1,10 @@
+{
+  "base": "http://127.0.0.1:4175",
+  "success": true,
+  "checks": [
+    "/preview/chapter5/?previewOnly=1 playable with no asset or page errors",
+    "built finale accepts actual Space jump and J punch after clicking arena",
+    "/preview/finale/?previewOnly=1 playable with no asset or page errors"
+  ],
+  "errors": []
+}

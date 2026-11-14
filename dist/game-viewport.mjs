@@ -1,6 +1,6 @@
-import {applyChallengeLayout,applyCombatPresentationLayout} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
-import {challengeDialogFrame} from './challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
-import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection} from './viewport-lifecycle.mjs?v=workers-background-only-20261113-r1';
+import {applyChallengeLayout,applyCombatPresentationLayout} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
+import {challengeDialogFrame} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection} from './viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
 export function mountGameViewport({scene,clearHold,initialSettings={},onChange=()=>{},isCameraFrozen=()=>false}){
  const app=document.querySelector('.app'),shell=document.querySelector('#viewport-shell'),stage=document.querySelector('#game'),dialog=document.querySelector('#help-dialog'),probe=document.querySelector('#safe-insets');
  window.parliamentViewportBoot?.stop();

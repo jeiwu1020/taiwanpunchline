@@ -38,7 +38,7 @@ for(const n of [2,3,4])test(`chapter ${n} actual choice runtime exposes only rea
   assert.equal(app.chapter.view().mode,'choice');assert.equal(q('#chapter-next').textContent,`追向第${n===2?'三':'四'}章 →`);
  }else{
   assert.equal(q('#chapter-next').textContent,'完成本章');
-  assert.match(q('#choice-copy').textContent,/第五章尚未開放/);
+  assert.doesNotMatch(q('#choice-copy').textContent,/尚未開放/);
   assert.doesNotMatch(q('#choice-copy').textContent,/選好接下來|入口已保留/);
  }
  assert.equal(q('#continuation-home-link').hidden,true,'home is offered only after completion');
@@ -47,5 +47,5 @@ for(const n of [2,3,4])test(`chapter ${n} actual choice runtime exposes only rea
  app.sync();assert.equal(q('#choice-roster').hidden,true);assert.equal(q('#choice-roster').querySelector('button'),null);
  assert.equal(q('#chapter-next').hidden,true);assert.equal(q('#continuation-home-link').hidden,false);
  assert.equal(q('#continuation-home-link').getAttribute('href'),'../../');
- if(n===4){assert.equal(q('#continuation-choice-link').hasAttribute('href'),false);assert.match(q('#choice-copy').textContent,/第五章尚未開放/);}
+ if(n===4){assert.match(q('#continuation-choice-link').getAttribute('href'),/chapter5/);assert.doesNotMatch(q('#choice-copy').textContent,/尚未開放/);}
 });

@@ -1,0 +1,302 @@
+{
+  "scope": "21 seeded full arena matches; controlled actor uses AI input; completion/finite-state check, not human balance acceptance",
+  "results": [
+    {
+      "difficulty": "beginner",
+      "team": [
+        "wang",
+        "han",
+        "huang"
+      ],
+      "winner": "player",
+      "elapsed": 32.81666666666609,
+      "survivors": [
+        "han",
+        "huang"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "han",
+        "huang",
+        "su"
+      ],
+      "winner": "player",
+      "elapsed": 32.516666666666104,
+      "survivors": [
+        "han",
+        "huang",
+        "su"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "huang",
+        "su",
+        "ko"
+      ],
+      "winner": "player",
+      "elapsed": 36.88333333333252,
+      "survivors": [
+        "su",
+        "ko"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "su",
+        "ko",
+        "ma"
+      ],
+      "winner": "player",
+      "elapsed": 32.21666666666612,
+      "survivors": [
+        "su",
+        "ko",
+        "ma"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "ko",
+        "ma",
+        "chen"
+      ],
+      "winner": "player",
+      "elapsed": 22.74999999999999,
+      "survivors": [
+        "ko",
+        "ma",
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "ma",
+        "chen",
+        "wang"
+      ],
+      "winner": "player",
+      "elapsed": 25.74999999999982,
+      "survivors": [
+        "ma",
+        "chen",
+        "wang"
+      ]
+    },
+    {
+      "difficulty": "beginner",
+      "team": [
+        "chen",
+        "wang",
+        "han"
+      ],
+      "winner": "player",
+      "elapsed": 22.683333333333326,
+      "survivors": [
+        "chen",
+        "wang",
+        "han"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "wang",
+        "han",
+        "huang"
+      ],
+      "winner": "enemy",
+      "elapsed": 29.549999999999603,
+      "survivors": [
+        "ma"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "han",
+        "huang",
+        "su"
+      ],
+      "winner": "enemy",
+      "elapsed": 35.516666666665934,
+      "survivors": [
+        "ma"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "huang",
+        "su",
+        "ko"
+      ],
+      "winner": "enemy",
+      "elapsed": 32.6166666666661,
+      "survivors": [
+        "ma"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "su",
+        "ko",
+        "ma"
+      ],
+      "winner": "enemy",
+      "elapsed": 37.58333333333248,
+      "survivors": [
+        "huang"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "ko",
+        "ma",
+        "chen"
+      ],
+      "winner": "player",
+      "elapsed": 27.899999999999697,
+      "survivors": [
+        "ma",
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "ma",
+        "chen",
+        "wang"
+      ],
+      "winner": "player",
+      "elapsed": 31.9333333333328,
+      "survivors": [
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "easy",
+      "team": [
+        "chen",
+        "wang",
+        "han"
+      ],
+      "winner": "player",
+      "elapsed": 18.983333333333537,
+      "survivors": [
+        "chen",
+        "wang",
+        "han"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "wang",
+        "han",
+        "huang"
+      ],
+      "winner": "enemy",
+      "elapsed": 16.500000000000345,
+      "survivors": [
+        "ko",
+        "ma",
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "han",
+        "huang",
+        "su"
+      ],
+      "winner": "enemy",
+      "elapsed": 22.63333333333333,
+      "survivors": [
+        "ko",
+        "ma",
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "huang",
+        "su",
+        "ko"
+      ],
+      "winner": "enemy",
+      "elapsed": 16.783333333333662,
+      "survivors": [
+        "wang",
+        "han",
+        "ma",
+        "chen"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "su",
+        "ko",
+        "ma"
+      ],
+      "winner": "enemy",
+      "elapsed": 18.450000000000234,
+      "survivors": [
+        "han",
+        "huang"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "ko",
+        "ma",
+        "chen"
+      ],
+      "winner": "enemy",
+      "elapsed": 20.30000000000013,
+      "survivors": [
+        "huang"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "ma",
+        "chen",
+        "wang"
+      ],
+      "winner": "enemy",
+      "elapsed": 22.933333333333312,
+      "survivors": [
+        "huang",
+        "su"
+      ]
+    },
+    {
+      "difficulty": "hard",
+      "team": [
+        "chen",
+        "wang",
+        "han"
+      ],
+      "winner": "enemy",
+      "elapsed": 31.266666666666172,
+      "survivors": [
+        "ko"
+      ]
+    }
+  ]
+}

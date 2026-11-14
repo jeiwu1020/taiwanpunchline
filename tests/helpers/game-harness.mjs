@@ -9,7 +9,7 @@ import {readFile} from 'node:fs/promises';
 // in special-name-fit-v73 and the native Canvas audit rather than this fake DOM.
 // An explicit mountChallengeOverview override can observe the overview handoff;
 // it does not establish dialog DOM behavior, which requires separate real jsdom.
-export async function gameHarness({initialize=true,storage,newProfile=false,mountChallengeOverview}={}){
+export async function gameHarness({initialize=true,storage,newProfile=false,mountChallengeOverview,bootArtLoader}={}){
  const elements=new Map(),timers=new Map();let timerId=0;
  function element(dataset={}){
   const children=new Map(),classes=new Set(),attributes=new Map();
@@ -29,10 +29,10 @@ export async function gameHarness({initialize=true,storage,newProfile=false,moun
  document.createElement=()=>element();document.querySelector=$;document.querySelectorAll=s=>s==='[data-hold],[data-action]'?specials:[];document.hasFocus=()=>true;
  const param=()=>({setValueAtTime(){},exponentialRampToValueAtTime(){}});
  window.AudioContext=class{constructor(){this.currentTime=0;this.destination={};}resume(){}createOscillator(){return{frequency:param(),connect(){},disconnect(){},start(){},stop(){}};}createGain(){return{gain:param(),connect(){},disconnect(){}};}};
- const context={document,window,console,URL,queueMicrotask,setTimeout:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id),Phaser:{Scene:class{},Game:class{},Scale:{RESIZE:0,NO_CENTER:0}}};
+ const context={document,window,console,URL,queueMicrotask,setTimeout:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id),Phaser:{Scene:class{},Game:class{},Loader:{File:class{constructor(loader,config){this.loader=loader;Object.assign(this,config);}}},Scale:{RESIZE:0,NO_CENTER:0}}};
  const url=new URL('../../dist/game.mjs',import.meta.url);let source=await readFile(url,'utf8');
  for(const match of source.matchAll(/^import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"];$/gm)){
-  const exports=await import(new URL(match[2],url));for(const name of match[1].split(',').map(s=>s.trim()))context[name]=name==='mountSpecialNameFit'?()=>({refresh(){},destroy(){}}):name==='mountChallengeUI'&&mountChallengeOverview?mountChallengeOverview:exports[name];
+  const exports=await import(new URL(match[2],url));for(const name of match[1].split(',').map(s=>s.trim()))context[name]=name==='createBootArtLoader'&&bootArtLoader?bootArtLoader:name==='mountSpecialNameFit'?()=>({refresh(){},destroy(){}}):name==='mountChallengeUI'&&mountChallengeOverview?mountChallengeOverview:exports[name];
  }
  source=source.replace(/^import .*;$/gm,'');
  await vm.runInNewContext('(async()=>{'+source+'\nglobalThis.ui={startChallenge,startChallengePhase,restartPreparedEncounter,handleChallengeEvent,handleChallengeFrameEvents,returnToChallengeOverview,get challenge(){return challengeRun;},get challengeProgress(){return challengeProgress;},get settleChallenge(){return async()=>{await challengeOperations;await challengeRun?.flush();await new Promise(resolve=>queueMicrotask(resolve));};},get profiles(){return profileProgress;},refreshProfileAccess,get titleUI(){return typeof titleUI==="undefined"?undefined:titleUI;},get entered(){return typeof hasEntered==="undefined"?false:hasEntered;},get enterFromTitle(){return typeof enterFromTitle==="undefined"?undefined:enterFromTitle;},get showTitle(){return typeof showTitle==="undefined"?undefined:showTitle;},get matchFinish(){return matchFinish;},get hold(){return hold;},beginMatchFinish,updateMatchFinish,cancelMatchFinish,testSoundEffects,stopEffects,initializeRoster,showMenu,startGame,pauseGame,result,Arena,playConfiguredVoice,drainVoiceCues,stopVoice,primeVoice,get duel(){return duel;},get series(){return matchSeries;},get gameMode(){return gameMode;},get settings(){return typeof settingsStore==="undefined"?undefined:settingsStore;},setScene(value={}){scene=value;},setViewport(value){viewportUI=value;},activate(){sound=true;voiceEnabled=true;duel.status="active";}};})();',context);

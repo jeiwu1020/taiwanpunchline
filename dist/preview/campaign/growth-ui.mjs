@@ -1,5 +1,5 @@
-import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=workers-background-only-20261113-r1';
-import {CHARACTER_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
+import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=campaign-boot-20261112-r3';
+import {CHARACTER_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
 
 const LABELS=Object.freeze({hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'});
 const EFFECTS=Object.freeze({hp:'氣勢上限 +3%',move:'移動速度 +1%',basic:'普攻傷害 +2%',defense:'承受傷害 −1.5%',special:'絕招傷害 +2%',rally:'揪團傷害 +2%',assist:'助拳傷害 +2%'});
@@ -93,7 +93,7 @@ export function mountCampaignGrowthUI({document,window=document?.defaultView,cha
    <div class="campaign-growth-paper">
     <p id="${id}-scope" class="campaign-growth-scope">技能只影響挑戰；本場已開始時，新的配點於下一個路段／戰鬥生效。</p>
     <p class="campaign-growth-warning" data-warning ${notice?'':'hidden'}>${esc(notice)}</p>
-    <section class="campaign-growth-shared" aria-label="隊伍成長"><strong>全隊 ${Math.floor(state.xp)} XP · 每角色 ${allowance(state.xp)} 點</strong><span>每 ${XP_PER_POINT} XP 給每位角色 1 點，上限 35 點。${allowance(state.xp)<35?`再 ${XP_PER_POINT-Math.floor(state.xp)%XP_PER_POINT} XP 增加 1 點。`:'已達配點額度上限。'}</span></section>
+    <section class="campaign-growth-shared" aria-label="隊伍成長"><strong>全隊 ${Math.floor(state.xp)} XP · 每角色 ${allowance(state.xp)} 點</strong><span>每 ${XP_PER_POINT} XP 給每位角色 1 點，上限 35 點。${allowance(state.xp)<35?`再 ${XP_PER_POINT-Math.floor(state.xp)%XP_PER_POINT} XP 增加 1 點。`:'已達配點額度上限。'} 首次擊倒與首次過關給 XP；重試不重領。每章首次完整重玩另得 120 XP。</span></section>
     <label class="campaign-growth-picker" for="${id}-character">檢視角色<select id="${id}-character" class="campaign-growth-select" data-character ${!ids.length||pending||state.busy||stale?'disabled':''}>${ids.length?ids.map(key=>`<option value="${esc(key)}" ${key===selected?'selected':''}>${esc(name(key))}</option>`).join(''):'<option value="">尚無可用角色</option>'}</select></label>
     <div class="campaign-growth-layout"><section class="campaign-growth-summary" aria-label="角色挑戰派生能力"><h3 class="campaign-growth-name">${esc(name(selected))}</h3>${char.tag?`<span class="campaign-growth-tag">${esc(char.tag)}</span>`:''}<p class="campaign-growth-fine">角色 ${Math.floor(charXP)} XP 記錄出戰歷程；技能額度由全隊 XP 決定。切換檢視不會更換出戰角色。</p>
      <h4 class="campaign-growth-subtitle">挑戰派生能力</h4><dl class="campaign-growth-stats">${[

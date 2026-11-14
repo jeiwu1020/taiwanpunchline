@@ -1,5 +1,6 @@
-import {fighterBaseStats} from '../../fighter-attributes.mjs?v=workers-background-only-20261113-r1';
-import {normalizeCarry,zeroSkills} from './core/model.mjs?v=workers-background-only-20261113-r1';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
+import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
+import {normalizeCarry,zeroSkills} from './core/model.mjs?v=campaign-boot-20261112-r3';
 // Shared encounter presentation state. Chapter modules provide content only.
 let sessionCount=0;
 export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_IDS,storyFrames,characterNames:CHARACTER_NAMES,defaultUnlocked,unlockId,nextChapterId,createRoute,createDuel}, {characterId='wang',difficulty='beginner',rng=Math.random,initialStepId='entry',unlockedIds=null,helperId=null,statsForCharacter=null,initialCarry=null}={}){
@@ -15,7 +16,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   const step=STEP_IDS[cursor];result=null;frame=0;
   if(step==='entry')story('entry');
   else if(step.startsWith('route-')){const routeIndex=['route-a','route-b','route-c'].indexOf(step);world=createRoute({routeIndex,characterId:character,helperId:helper(),difficulty,rng,carry:carry?{...carry,assist:{...carry.assist,helper:helper()}}:null,stats:stats()});mode='route';}
-  else if(step.startsWith('miniboss')){const gate=CHAPTER.routes.find(r=>r.gate.id===`${chapterId}:${step}`).gate;frames=gate.dialogue.map(([speaker,copy])=>({speaker:speaker==='player'?CHARACTER_NAMES[character]:speaker,title:gate.name,copy,shot:gate.mobKind,direction:gate.counterplay}));mode='story';}
+  else if(step.startsWith('miniboss')){const gate=CHAPTER.routes.find(r=>r.gate.id===`${chapterId}:${step}`).gate;frames=gate.dialogue.map(([speaker,copy,voiceKey])=>resolveDialogueFrame({speaker:speaker==='player'?CHARACTER_NAMES[character]:speaker,title:gate.name,copy,voiceKey,shot:gate.mobKind,direction:gate.counterplay},character));mode='story';}
   else if(step==='boss-comic')story('beforeBoss');
   else if(step==='boss')battle();
   else if(step==='handoff-comic')story('handoff');
@@ -26,6 +27,8 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
  function nextStory(t){if(!valid(t)||mode!=='story')return false;if(++frame<frames.length){revision++;return true;}
   if(STEP_IDS[cursor].startsWith('miniboss'))battle();else{cursor++;enter();}revision++;return true;
  }
+ function rewindStory(t){if(!valid(t)||mode!=='story')return false;frame=0;revision++;return true;}
+ function previousStory(t){if(!valid(t)||mode!=='story'||frame<=0)return false;frame--;revision++;return true;}
  function step(dt,input={}){
   if(paused||!['route','battle'].includes(mode))return;
   world.step(dt,input);const current=world.drainEvents();events.push(...current);
@@ -96,7 +99,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   let applied=false;return {accepted,view:nextView,events:emitted,carry:normalizeCarry(after.carry),apply(){if(applied)return true;if(revision!==before.revision)return false;restore(after);applied=true;return true;}};
  }
  enter();
- return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},step,nextStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
+ return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},step,nextStory,rewindStory,previousStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
   press(action,t){return valid(t)&&!paused&&['route','battle'].includes(mode)?world.press(action):false;},
   finishChapter,
   drainEvents(){return events.splice(0);}
