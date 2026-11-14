@@ -220,15 +220,24 @@
 /* Keep the center target clear at intermediate desktop heights. Portraits,
    labels and their animation retain their existing sizes. Side-turned phones
    deliberately keep the original layout; nativeLandscape is the shell flag. */
+.app[data-touch="false"][data-layout] .title-ensemble{container-name:desktop-title-cast}
 .app[data-touch="false"][data-layout] .title-actions{top:max(50%,calc(26cqh + 84px));width:34%}
 .app[data-touch="false"][data-layout] .title-character--back-3{--cameo-x:25%}
 .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-x:75%}
-.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"] .title-ensemble{container-name:native-title-cast;min-height:144px}
-.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"] .title-actions{top:max(74%,calc(var(--title-face-height) + 48px));width:30%}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-ensemble{container-name:native-title-cast;min-height:144px}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-actions{top:max(74%,calc(var(--title-face-height) + 48px));width:30%}
 /* In the shortest natural landscape view, attach the central name beside its
    portrait so a full-size label cannot disappear behind Start. */
 @container native-title-cast (max-height:180px){
- .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"] .title-character--back-2 figcaption{
+ .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--back-2{padding-bottom:26px}
+ .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--back-2 figcaption{
   position:absolute;left:calc(50% + var(--title-face-height)*.46);top:calc(var(--title-face-height)*.55);max-width:none;
+ }
+}
+@container desktop-title-cast (max-height:220px){
+ .app[data-touch="false"][data-layout] .title-actions{top:62%;width:30%}
+ .app[data-touch="false"][data-layout] .title-character--back-1{padding-bottom:26px}
+ .app[data-touch="false"][data-layout] .title-character--back-1 figcaption{
+  position:absolute;left:calc(50% + var(--title-face-height)*.5);top:calc(var(--title-face-height)*.5);max-width:none;
  }
 }
