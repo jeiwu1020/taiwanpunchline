@@ -5,7 +5,7 @@ import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnve
 export {CHALLENGE_KEY};
 
 /** A fresh campaign namespace. Opening is read-only; all writes require Web Locks. */
-export async function openChallengeProgress({storage,locks,onChange=()=>{},key=CHALLENGE_KEY}={}){
+export async function openChallengeProgress({storage,locks,onChange=()=>{},onSaved=()=>{},key=CHALLENGE_KEY}={}){
  if(key!==CHALLENGE_KEY)throw new TypeError('Only the dedicated challenge key is supported');
  let state=newEnvelope(),baseRaw=null,lastObservedEnvelopeRaw=null,pending=null,blocked=false,reason=null,busy=0,testMode=false,modeEpoch=0,runEpoch=0,session=null,serial=0,preview=null;
  let tail=Promise.resolve();
@@ -31,6 +31,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
    document:{version:1,activeProfileId:active(),profiles:state.campaign.profiles.map(legacyProjection)},campaignDocument:clone(state.campaign),initialized:baseRaw!==null,persisted,dirty:!!pending,busy:busy>0,readOnly:blocked||!canWrite,reason:reason??availability,storageIssue:reason,testMode};
  }
  function notify(){try{onChange(get());}catch{/* A view callback cannot affect a save outcome. */}}
+ function notifySaved(){try{onSaved({persisted:true,profileId:active(),revision:state.revision,generation:generation()});}catch{/* A receipt observer cannot affect persistence. */}}
  function enqueue(work,options={}){
   options={...options};
   const profileId=options.profileId??active(),expectedGeneration=options.expectedGeneration??options.generation??state.slots[profileId]?.generation;
@@ -59,7 +60,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
   try{storage.setItem(key,wanted);}catch{writeFailed=true;}
   state=checked.envelope;
   let observed;try{observed=storage.getItem(key);lastObservedEnvelopeRaw=observed;}catch{pending={wanted,base:original};reason='readback-unavailable';return {accepted:true,persisted:false,reason};}
-  if(observed===wanted){baseRaw=wanted;pending=null;reason=null;return {accepted:true,persisted:true,reason:null};}
+  if(observed===wanted){baseRaw=wanted;pending=null;reason=null;notifySaved();return {accepted:true,persisted:true,reason:null};}
   pending={wanted,base:original};reason=writeFailed?'write-failed':'readback-mismatch';return {accepted:true,persisted:false,reason};
  }
  function withRevision(next){if(state.revision>=MAX_SERIAL)return null;next.revision=state.revision+1;next.campaign.activeProfileId=next.activeProfileId;return next;}
@@ -205,7 +206,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
   async refresh({discardPending=false}={}){await tail;if(pending&&!discardPending)return reject('unsaved-progress');if(discardPending){pending=null;session=null;}const ok=read();notify();return ok?{accepted:true,persisted:get().persisted}:reject(reason);},
   retrySave(){return enqueue(()=>{
    if(!pending)return reject('not-dirty');let observed;try{observed=storage.getItem(key);lastObservedEnvelopeRaw=observed;}catch{return reject('read-unavailable');}
-   if(observed===pending.wanted){baseRaw=observed;pending=null;reason=null;return {accepted:true,persisted:true,reason:null};}
+   if(observed===pending.wanted){baseRaw=observed;pending=null;reason=null;notifySaved();return {accepted:true,persisted:true,reason:null};}
    if(observed!==pending.base)return reject('save-conflict');return write(state,pending.base);
   },{allowDirty:true,allowActiveChange:true});},
   exportBackup(){return JSON.stringify({format:BACKUP_FORMAT,version:4,scope:'all',envelope:clone(state),lastObservedEnvelopeRaw,persisted:get().persisted},null,2);},

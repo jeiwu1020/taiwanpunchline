@@ -1,5 +1,5 @@
 // Reading position is an offset into the original copy, never a save checkpoint.
-// Reflow may split a sentence differently; the source offset survives rotation.
+// A complete sentence is one reading step at every size; rotation keeps its offset.
 const END=/[。！？!?\n]/u,CLOSE=/[」』”’）)\]】》〉]/u;
 const NO_START=/[，。、；：！？!?：:;,.」』”’）)\]】》〉]/u,NO_END=/[「『“‘（(\[【《〈]/u;
 // Keep opening quotes with their word and closing punctuation with the prior
@@ -25,58 +25,51 @@ function sentences(copy){
  const pairs={'「':'」','『':'』','“':'”','‘':'’','【':'】','《':'》','（':'）','(':')','[':']'};
  for(const ch of copy){
   if(ended&&!CLOSE.test(ch)&&!END.test(ch)){units.push({text,start,end:start+text.length});start+=text.length;text='';ended=false;}
-  text+=ch;if(pairs[ch])quotes.push(pairs[ch]);else if(ch===quotes.at(-1))quotes.pop();
+  const previous=text.at(-1);text+=ch;if(pairs[ch])quotes.push(pairs[ch]);else if(ch===quotes.at(-1)){
+   quotes.pop();
+   // Explicit attributed speech ends at its closing quote. Embedded sound
+   // effects (音浪「啵！」地…) still belong to the enclosing narration.
+   if(!quotes.length&&END.test(previous??'')&&/^[^：「『]{1,12}[：:][「『]/u.test(text))ended=true;
+  }
   // An exclamation inside a quotation can be an embedded sound effect, not
   // the end of its enclosing narration (音浪「啵！」地彈回來).
   if(END.test(ch)&&quotes.length===0)ended=true;
  }
  if(text)units.push({text,start,end:copy.length});return units;
 }
-function fitFragments(copy,columns,maxLines){
- const out=[];
- for(const sentence of sentences(copy)){
-  let text='',start=sentence.start;
-  for(const unit of readingUnits(sentence.text)){
-   if(text&&comicTextLines(text+unit,columns).length>maxLines){
-    // Prefer a complete clause over cutting a word at the bubble's capacity.
-    // Quoted sound effects and labels stay intact; offsets still refer to copy.
-    let boundary=0,offset=0;const quotes=[],pairs={'「':'」','『':'』','“':'”','‘':'’','【':'】','《':'》','（':'）','(':')','[':']'};
-    const readQuote=ch=>{if(pairs[ch])quotes.push(pairs[ch]);else if(ch===quotes.at(-1))quotes.pop();};
-    for(const ch of sentence.text.slice(0,start-sentence.start))readQuote(ch);
-    for(const group of readingUnits(text)){for(const ch of group){offset+=ch.length;readQuote(ch);}if(!quotes.length&&/[，,；;：:]$/u.test(group))boundary=offset;}
-    const length=boundary>=text.length*.35?boundary:text.length,fragment=text.slice(0,length);
-    out.push({text:fragment,start,end:start+length});start+=length;text=text.slice(length);
-   }
-   text+=unit;
-  }
-  if(text)out.push({text,start,end:start+text.length});
- }
- return out.length?out:[{text:'',start:0,end:0}];
-}
 export function supportedComicSize(width,height){return Number.isFinite(width)&&Number.isFinite(height)&&width>=240&&height>=(width>height*1.35?180:260);}
-export function layoutStoryComic({width,height,copy='',speaker='旁白',anchor=0,kind}={}){
+export function layoutStoryComic({width,height,copy='',speaker='旁白',anchor=0,kind,readAsOne=false,sideDialogue=false,wideDialogue=false}={}){
  if(!supportedComicSize(width,height))throw new RangeError('Unsupported comic size');
  copy=String(copy);const landscape=width>height*1.35,pad=14,gap=16,short=landscape&&height<240,overhead=short?32:42;
- const font=short?18:landscape&&height<400?24:Math.max(24,Math.min(30,Math.floor(width*.067)));
- const column=landscape?Math.min(360,width*.43,width*.5-44):Math.min(width-pad*2,width*.84);
- // At least 46% of the frame stays available to complete acting figures.
- const budget=landscape?height-pad*2:Math.floor(height*.54)-pad*2-gap;
- const columns=Math.max(1,Math.floor((column-32)/font)),maxLines=Math.max(1,Math.min(landscape?2:Infinity,Math.floor((budget-overhead)/(font*1.28))));
- const fragments=fitFragments(copy,columns,maxLines),pages=[];let page={bubbles:[],first:0,last:0},y=pad;
+ const fragments=readAsOne?[{text:copy,start:0,end:copy.length}]:sentences(copy);if(!fragments.length)fragments.push({text:'',start:0,end:0});
+ const preferredFont=short?18:landscape&&height<400?24:Math.max(24,Math.min(30,Math.floor(width*.067)));
+ // Selected shallow shots use the empty middle of the frame before reducing
+ // their actors. The longest sentence fixes this width for the whole shot.
+ const singleLineWidth=32+preferredFont*Math.max(...fragments.map(f=>Array.from(f.text).length));
+ const preferredWidth=landscape?(wideDialogue?Math.min(width-pad*2,singleLineWidth):Math.min(360,width*.43,width*.5-44)):Math.min(width-pad*2,width*.84),maxWidth=sideDialogue&&landscape?preferredWidth:width-pad*2;
+ // Budget every sentence before revealing the first. Grow into safe horizontal
+ // space before reducing type; never create a capacity-based Next click.
+ const budget=landscape?(sideDialogue?height-pad*2:Math.min(height-pad*2-64,overhead+preferredFont*1.28*2)):Math.max(68,Math.floor(height*.54)-pad*2-gap);
+ let font=preferredFont,column=preferredWidth,columns=1;
+ const fits=()=>{columns=Math.max(1,Math.floor((column-32)/font));return fragments.every(f=>comicTextLines(f.text,columns).length*font*1.28+overhead<=budget);};
+ while(!fits()&&column<maxWidth)column=Math.min(maxWidth,column+font);
+ while(!fits()&&font>18)font--;
+ // Very small frames keep complete copy at the readable floor. The actual
+ // longest utterance determines the fixed band, rather than hiding its end.
+ fits();const pages=[],reservations=[];
  for(const [i,f]of fragments.entries()){
   const lines=comicTextLines(f.text,columns),bh=lines.length*font*1.28+overhead;
-  if(page.bubbles.length&&y+bh>pad+budget){pages.push(page);page={bubbles:[],first:i,last:i};y=pad;}
-  const bubble={...f,speaker,kind:kind??(speaker==='旁白'||/廣播|裁判/.test(speaker)?'broadcast':'dialogue'),x:pad,y,width:column,height:bh,lines,index:page.bubbles.length};
-  f.pageIndex=pages.length;f.bubbleIndex=page.bubbles.length;page.bubbles.push(bubble);page.last=i;y+=bh+gap;
+  const voice=/^([^：「『]{1,12})[：:][「『]/u.exec(f.text)?.[1]??speaker;
+  const bubble={...f,speaker:voice,kind:kind??(voice==='旁白'||/廣播|裁判|觀眾/.test(voice)?'broadcast':'dialogue'),x:pad,y:pad,width:column,height:bh,lines,index:0};
+  f.pageIndex=i;f.bubbleIndex=0;pages.push({bubbles:[bubble],first:i,last:i});reservations.push({...bubble});
  }
- pages.push(page);
  const currentIndex=anchor>=copy.length?fragments.length-1:Math.max(0,fragments.findIndex(f=>f.end>Math.max(0,Number(anchor)||0)));
  const current=fragments[currentIndex],pageIndex=current.pageIndex,currentPage=pages[pageIndex];
- // Only one utterance is visible. Keep a stable stage within this page without
- // reserving vertical space for the hidden previous and next bubbles.
- const bottom=pad+Math.max(...currentPage.bubbles.map(b=>b.height));
+ // One live bubble; the cast uses the union of ALL utterance reservations.
+ // Both side-specific collision bounds and the portrait floor stay stable.
+ const bottom=pad+Math.max(...reservations.map(b=>b.height));
  const art=landscape?{x:pad,y:pad,width:width-pad*2,height:height-pad*2}:{x:pad,y:bottom+gap,width:width-pad*2,height:height-bottom-gap-pad};
- return {width,height,font,landscape,pad,art,fragments,pages,current,currentIndex,pageIndex,textOverhead:overhead,
+ return {width,height,font,landscape,pad,art,fragments,pages,reservations,current,currentIndex,pageIndex,textOverhead:overhead,sideDialogue:sideDialogue&&landscape,
   // One live utterance keeps the frame clear; Previous remains available for
   // every earlier sentence. Older boxes no longer accumulate over the cast.
   bubbles:[{...currentPage.bubbles[current.bubbleIndex],y:pad}],

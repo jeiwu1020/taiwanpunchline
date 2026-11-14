@@ -1,4 +1,5 @@
 import {installBossEncounter} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {mountChallengeSaveFeedback} from './challenge-save-feedback.mjs';
 import {registerQuickView} from './preview/quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {createBootArtLoader} from './boot-art-loader.mjs?v=campaign-boot-20261112-r3';
 import {mountCompactToolbar} from './compact-toolbar.mjs?v=campaign-boot-20261112-r3';
@@ -78,7 +79,8 @@ const resultPressGates=new Map();
 const heldKeys=new Set(),touchHeld=new Set();
 let pageZoomGestures,battleGestures,touchControls,viewportUI,settingsUI,moveDemo,sfxMasterGain;
 let browserStorage;try{browserStorage=window.localStorage;}catch{browserStorage=null;}
-const profileProgress=await openChallengeProgress({storage:browserStorage,locks:window.navigator?.locks});
+const challengeSaveFeedback=mountChallengeSaveFeedback({document,window,button:$('#challenge-save-slot'),isPreview:()=>!!window.__quickViewIsolated||profileProgress.testMode});
+const profileProgress=await openChallengeProgress({storage:browserStorage,locks:window.navigator?.locks,onSaved:receipt=>challengeSaveFeedback.saved(receipt)});
 const challengeProgress=createMainCampaignBridge(profileProgress);
 function restoreProfileSelection(){const profile=profileProgress.readProfile(),selection=profile?.campaign?.selection??profile?.challenge?.selection;if(selection){selected=selection.characterId;playerAssist=selection.helperId;}}
 restoreProfileSelection();
@@ -567,7 +569,7 @@ function startChallengePhase(){
 function displayY(f){return f.y+(duel.depthMode?(f.depth??0)*.65:0);}
 function challengeSaved(result){return !!result?.accepted&&(!!result.persisted||profileProgress.testMode);}
 function rootSaveState(){const saved=profileProgress.get();return {...saved,persisted:saved.persisted&&!challengeSaveBlocked,blocked:challengeSaveBlocked,busy:challengeQueuedOperations>0||challengeResultActionPending||challengeActionBusy||!!challengeRun?.busy||!!entryPreparationSession?.busy};}
-function syncChallengeSaveSlot(){const slot=$('#challenge-save-slot');if(!slot)return;slot.hidden=!challengeRun&&!entryPreparationSession&&!challengeSaveBlocked;const state=rootSaveState();slot.textContent=profileProgress.testMode?'測試不保存':state.busy?'保存中':state.blocked||state.dirty?'需處理':'進度已保存';const description=profileProgress.testMode?'測試模式，不保存／不記錄進度。':state.busy?'正在保存並讀回確認，請稍候。':state.blocked||state.dirty?'進度尚未保存，點此開啟復原與備份。':'進度已保存，點此查看保存與備份。';slot.setAttribute('title',description);slot.setAttribute('aria-label',description);slot.dataset.status=profileProgress.testMode?'preview':state.busy?'busy':state.blocked||state.dirty?'error':'saved';challengeRecovery?.refresh();challengeStory?.refreshRecovery?.();preparationUI?.refreshRecovery?.();}
+function syncChallengeSaveSlot(){const state=rootSaveState();challengeSaveFeedback.update({enabled:!!challengeRun||!!entryPreparationSession||challengeSaveBlocked,error:!profileProgress.testMode&&(state.blocked||state.dirty)?'進度尚未保存，請重試保存或先匯出備份。':''});challengeRecovery?.refresh();challengeStory?.refreshRecovery?.();preparationUI?.refreshRecovery?.();}
 function showRootRecovery(){
  const host=challengeSaveBlocked?$('#result .paper'):$('#pause-screen .paper');if(!challengeSaveBlocked&&duel.status==='active')pauseGame();
  if(!challengeRecovery){challengeRecovery=mountChallengeRecovery({document,window,parent:host,getState:rootSaveState,retrySave:()=>challengeRun?.retrySave()??entryPreparationSession?.retrySave()??profileProgress.retrySave(),exportCurrent:()=>profileProgress.exportBackup(),exportLegacy:()=>profileProgress.campaignStore().exportLegacyJSON(),onBusy:value=>{challengeActionBusy=value;syncChallengeSaveSlot();},onRecovered:async()=>{challengeSaveBlocked=false;const resume=challengeRecoveryResume;challengeRecoveryResume=null;refreshProfileAccess();await resume?.();syncChallengeSaveSlot();}});}else if(challengeRecovery.element.parentElement!==host)host.append(challengeRecovery.element);challengeRecovery.refresh();challengeRecovery.element.hidden=false;return challengeRecovery;

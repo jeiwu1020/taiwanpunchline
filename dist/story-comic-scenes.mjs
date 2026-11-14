@@ -2,6 +2,7 @@
 // combat moves, or save rules live here. Each frame stages its existing text.
 const CAST=['wang','han','huang','su','ko','ma','chen'];
 const NAMES={恰吉王:'wang',韓國魚:'han',咆哮哥:'huang',電火球:'su',柯P:'ko',小馬哥:'ma',阿扁仔:'chen'};
+export const comicSpeakerId=name=>NAMES[name]??null;
 const BOSS={1:'huang',2:'su',3:'ko',4:'ma',5:'chen'};
 const PREVIOUS={2:'huang',3:'su',4:'ko',5:'ma'};
 const pose={
@@ -59,7 +60,7 @@ export function storyComicScene(chapterId,state){
   if(!shot)throw new RangeError('Unknown finale comic frame');
   const lead=resolve(shot.lead),second=resolve(shot.other),team=state.team??[player,...CAST.filter(id=>id!==player).slice(0,2)];
   const micHolder=state.mode==='story'?(index<2?player:index<9?'su':'wang'):null;
-  return {...shot,id:`finale:${state.mode}:${index}`,chapterId,framing:state.mode==='story'&&index<15?'close':'wide',speakerId:speaking??null,backdrop:shot.backdrop??'finale-arena',
+  return {...shot,id:`finale:${state.mode}:${index}`,chapterId,framing:state.mode==='story'&&index<15?'close':'wide',portraitFraming:state.mode==='intro'?(index<2?'duet':'ensemble'):null,speakerId:speaking??null,backdrop:shot.backdrop??'finale-arena',
    holder:resolve(shot.holder),micHolder,actors:cast(lead,second,CAST,shot.leadAction,shot.otherAction).map(a=>({...a,team:team.includes(a.id)?0:1,...(a.id==='wang'&&a.id!==micHolder&&a.action==='celebrate'?{pose:pose.wang.react,action:'react'}:{}),...(a.id===micHolder?{pose:a.id==='wang'&&index===0?0:pose[a.id].mic,action:'mic',...(!['wang','su'].includes(a.id)?{variant:`${a.id}-held-mic`}:{})}:{}),...(state.mode==='story'&&index===5&&a.id==='ko'?{variant:'ko-battery',action:'inspect'}:{})})),
    team:[...team],motion:shot.action==='accidental-key'?'bump-drop-slide':shot.action==='open-door'?'doors-apart':shot.action==='cross-threshold'?'walk-in':'acting',
    revealAt:shot.action==='accidental-key'?.62:null};

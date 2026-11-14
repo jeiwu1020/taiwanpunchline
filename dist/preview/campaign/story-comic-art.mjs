@@ -1,7 +1,7 @@
-import {storyComicScene} from '../../story-comic-scenes.mjs';
+import {storyComicScene,comicSpeakerId} from '../../story-comic-scenes.mjs';
 import {STORY_COMIC_MINIBOSSES,STORY_COMIC_POSE_VARIANTS,comicActorImageKey,comicMinibossKey} from './story-comic-assets.mjs';
 import {comicPropComposition,comicDoorGeometry} from './story-comic-props.mjs';
-import {isComicDoorRoom,paintComicRoom} from './story-comic-room.mjs';
+import {isComicDoorRoom,paintComicRoom,DOOR_PUSH_CONTACTS} from './story-comic-room.mjs';
 import {comicBackdropGeometry} from './story-comic-parade.mjs';
 
 // The new native v2 Ma/Chen/Su replace the rejected v1 likeness candidates.
@@ -22,21 +22,23 @@ const size=image=>({width:image?.naturalWidth??image?.width??0,height:image?.nat
 const decoded=image=>{const {width,height}=size(image);return Number.isFinite(width)&&Number.isFinite(height)&&width>0&&height>0;};
 export const comicActorCrop=(actor,poseRects=COMIC_POSE_RECTS)=>actor.variant?STORY_COMIC_POSE_VARIANTS[actor.variant]:poseRects[actor.id]?.[actor.pose];
 
-const visibleCast=scene=>scene.actors.filter(a=>scene.focus==='door-push'?a.layer===2:scene.framing!=='close'||a.layer>0);
+const closeCast=(scene,layout)=>scene.framing==='close'||!layout.landscape&&scene.portraitFraming==='duet';
+const visibleCast=(scene,layout)=>scene.actors.filter(a=>scene.focus==='door-push'?a.layer===2:!layout.landscape&&scene.portraitFraming==='duet'?a.id===scene.speakerId:!closeCast(scene,layout)||a.layer>0);
 const keyStageX=(scene,actor)=>scene.speakerId===scene.actors.find(a=>a.layer===2)?.id?(actor.layer===2?.20:.55):(actor.layer===2?.55:.20);
 function actorStageX(scene,actor,layout){
  if(scene.focus==='door-push')return actor.id==='su'&&layout.landscape?.62:.40;
  if(scene.prop==='battery-key')return keyStageX(scene,actor);
- const visible=visibleCast(scene);
- if(scene.framing==='close'){const row=[...visible].sort((a,b)=>a.x-b.x);return (row.indexOf(actor)+.5)/row.length;}
+ const visible=visibleCast(scene,layout);
+ if(closeCast(scene,layout)){const row=[...visible].sort((a,b)=>a.x-b.x);return (row.indexOf(actor)+.5)/row.length;}
  if(visible.length>2){const row=(layout.landscape||visible.length<=4?visible:visible.filter(a=>(a.layer===0)===(actor.layer===0))).sort((a,b)=>a.x-b.x);return (row.indexOf(actor)+.5)/row.length;}
  return actor.x;
 }
 export function placeComicDialogue(scene,layout){
- const speaker=scene.actors.find(a=>a.id===scene.speakerId),right=!!speaker&&layout.art.x+layout.art.width*actorStageX(scene,speaker,layout)>layout.width/2;
- for(const b of layout.bubbles){
-  b.x=right?layout.width-layout.pad-b.width:layout.pad;
-  b.tailSide=right?'right':'left';
+ let speaker,right;
+ for(const b of [...(layout.reservations??[]),...layout.bubbles]){
+  speaker=scene.actors.find(a=>a.id===(comicSpeakerId(b.speaker)??scene.speakerId));right=!!speaker&&layout.art.x+layout.art.width*actorStageX(scene,speaker,layout)>layout.width/2;
+  b.x=right&&!layout.sideDialogue?layout.width-layout.pad-b.width:layout.pad;
+  b.tailSide=right||layout.sideDialogue?'right':'left';
  }
  return {speaker,right};
 }
@@ -62,7 +64,7 @@ export function comicArtReadiness(scene,images,{poseRects=COMIC_POSE_RECTS,prepa
 export function comicActorGeometry(scene,layout,{poseRects=COMIC_POSE_RECTS,time=0,reducedMotion=false}={}){
  placeComicDialogue(scene,layout);
  const r=layout.art,t=reducedMotion?2400:clamp(Number(time)||0,0,2400),u=t/2400;
- const visible=visibleCast(scene),short=layout.landscape&&layout.height<240;
+ const visible=visibleCast(scene,layout),short=layout.landscape&&layout.height<240,reserved=layout.reservations??layout.bubbles;
  return visible.map((actor,index)=>{
   // The dropped battery is baked into the stumble pose. Cut to the complete
   // pointing pose once it reaches the lock, rather than leaving two batteries.
@@ -75,14 +77,22 @@ export function comicActorGeometry(scene,layout,{poseRects=COMIC_POSE_RECTS,time
   const maxWidth=r.width*(ensemble&&rear?.18:rear?.26:visible.length===1?.76:.43);
   const ratio=src?src[2]/src[3]:.65;
   const stagedX=actorStageX(scene,actor,layout),nominalX=r.x+r.width*stagedX;
-  const bubbleBottom=layout.landscape?Math.max(r.y,...layout.bubbles.filter(b=>short||nominalX+maxWidth/2>b.x&&nominalX-maxWidth/2<b.x+b.width).map(b=>b.y+b.height+(short?6:16))):r.y;
+  const bubbleBottom=layout.landscape?Math.max(r.y,...reserved.filter(b=>short||nominalX+maxWidth/2>b.x&&nominalX-maxWidth/2<b.x+b.width).map(b=>b.y+b.height+(short?6:16))):r.y;
   const availableHeight=Math.max(20,r.y+r.height*footRatio-bubbleBottom);
   const height=Math.min(r.height*heightRatio,maxWidth/ratio,availableHeight),width=height*ratio;
+  if(!layout.landscape&&scene.portraitFraming==='ensemble'){
+   // One wide reaction shot in the same room, with a grounded near/far row.
+   // The next existing frame carries all seven; no inset or extra click.
+   const back=['wang','su','ko'].includes(actor.id),row=visible.filter(a=>['wang','su','ko'].includes(a.id)===back).sort((a,b)=>a.x-b.x);
+   const slotWidth=r.width/row.length,h=Math.min(r.height*(back?.30:.36),slotWidth*.86/ratio),w=h*ratio;
+   const center=r.x+slotWidth*(row.indexOf(actor)+.5),foot=r.y+r.height*(back?.72:.98);
+   return {...actor,imageKey:comicActorImageKey(actor),src,x:center-w/2,y:foot-h,width:w,height:h,foot,center};
+  }
   if(visible.length>2){
    // Multi-person panels keep every face in view. Landscape uses one clear
    // stage row; portrait gives listeners a distinct rear row above the two
    // speaking figures, rather than hiding whole people behind a giant lead.
-   const textBottom=Math.max(r.y,...layout.bubbles.map(b=>b.y+b.height+(short?6:16)));
+   const textBottom=Math.max(r.y,...reserved.map(b=>b.y+b.height+(short?6:16)));
    const singleRow=layout.landscape||visible.length<=4;
    const row=(singleRow?[...visible]:visible.filter(a=>(a.layer===0)===rear)).sort((a,b)=>a.x-b.x);
    const slot=row.findIndex(a=>a===actor),slotWidth=r.width/row.length;
@@ -94,10 +104,12 @@ export function comicActorGeometry(scene,layout,{poseRects=COMIC_POSE_RECTS,time
   if(scene.focus==='door-push'){
    // Stage the complete source figure at the left leaf. The hand positions are
    // measured within each intact painting; no body parts are moved or redrawn.
-   const door=comicDoorGeometry(scene,layout),handFraction=actor.id==='su'?.92:.94;
-   const handX=door.handX??door.x+door.width*.32,fitHeight=Math.max(12,Math.min(height,door.foot-bubbleBottom,(handX-r.x-2)/handFraction/ratio)),fitWidth=fitHeight*ratio;
+   const door=comicDoorGeometry(scene,layout),contact=DOOR_PUSH_CONTACTS[actor.id],handFraction=contact?.palm[0]??.94,sole=contact?.sole??1;
+   const handX=door.handX??door.x+door.width*.32;
+   const besideLimit=layout.sideDialogue?Math.min(r.height*actor.height,maxWidth/ratio,(door.foot-r.y)/sole,...reserved.map(b=>(handX-b.x-b.width-12)/(handFraction-.23)/ratio)):height;
+   const fitHeight=Math.max(12,Math.min(besideLimit,(door.foot-(layout.sideDialogue?r.y:bubbleBottom))/sole,(handX-r.x-2)/handFraction/ratio)),fitWidth=fitHeight*ratio;
    const x=handX-fitWidth*handFraction,foot=door.foot;
-   return {...actor,face:1,imageKey:comicActorImageKey(actor),src,x,y:foot-fitHeight,width:fitWidth,height:fitHeight,foot,center:x+fitWidth/2};
+   return {...actor,face:1,imageKey:comicActorImageKey(actor),src,x,y:foot-fitHeight*sole,width:fitWidth,height:fitHeight,foot,center:x+fitWidth/2};
   }
    if(scene.prop==='battery-key'){
    // Keep the right jamb and its small 9V key in view. Reframe complete poses
@@ -123,14 +135,14 @@ export function createStoryComicPainter({chapterId,poseRects=COMIC_POSE_RECTS,pr
   const scene=storyComicScene(chapterId,state),assets=comicArtReadiness(scene,images,{poseRects,prepareProps,paintProps,prepareMiniboss,paintMiniboss});
   if(!assets.ready)return false;
   const composition=comicPropComposition(scene,layout);
-  const actors=comicActorGeometry(scene,{...layout,art:composition.actorArt},{...options,poseRects});
+  const actors=comicActorGeometry(scene,{...layout,art:composition.actorArt,roomCamera:composition.roomCamera},{...options,poseRects});
   ctx.save();
   try{
    ctx.beginPath();ctx.rect(8,8,layout.width-16,layout.height-16);ctx.clip();
    const background=comicBackdropGeometry(scene,layout,images[backdropKey(scene)]);
    if(isComicDoorRoom(scene))paintComicRoom(ctx,images[backdropKey(scene)],scene,layout);
    else ctx.drawImage(images[backdropKey(scene)],...background.crop,0,0,layout.width,layout.height);
-   const reactionStrip=!layout.landscape&&actors.length>4,r=composition.actorArt;
+   const reactionStrip=!layout.landscape&&actors.length>4&&scene.portraitFraming!=='ensemble',r=composition.actorArt;
    if(reactionStrip){
     // The five listeners occupy a separate comic reaction panel. Give this
     // panel its own illustrated floor, rather than suspending their feet in
@@ -142,7 +154,7 @@ export function createStoryComicPainter({chapterId,poseRects=COMIC_POSE_RECTS,pr
    // A paper veil supports the dialogue without replacing the illustrated room.
    const shade=ctx.createLinearGradient(0,0,layout.landscape?layout.art.x:0,layout.landscape?0:layout.art.y);
    shade.addColorStop(0,'#fff3d329');shade.addColorStop(1,'#fff3d300');ctx.fillStyle=shade;ctx.fillRect(0,0,layout.width,layout.height);
-   const propOptions={...options,actors,background,layer:'back'},propLayout=reactionStrip?{...layout,art:{...r,y:r.y+r.height*.36,height:r.height*.64}}:layout;
+   const propOptions={...options,actors,background,layer:'back'},propLayout={...layout,roomCamera:composition.roomCamera,...(reactionStrip?{art:{...r,y:r.y+r.height*.36,height:r.height*.64}}:{})};
    if(paintProps(ctx,images,scene,propLayout,propOptions)!==true)throw new Error('Comic back props did not paint');
    for(const actor of [...actors].sort((a,b)=>a.layer-b.layer)){
     ctx.save();

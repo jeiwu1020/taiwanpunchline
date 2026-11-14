@@ -10,8 +10,8 @@ export const COMIC_PROP_FILES=Object.freeze({
  'comic-balloon-mic':'challenge/story-props-r3/balloons-godmic-connected-r3.png',
  'comic-battery-front':'challenge/story-props-r3/battery-front-physical-r3.png',
  'comic-battery-map':'challenge/story-props-r3/battery-map-physical-r3.png',
- 'comic-door-closed':'challenge/story-props-r3/secret-stairs-closed-door-v3.png',
- 'comic-door-open':'challenge/story-props-r3/secret-stairs-halfopen-door-v3.png',
+ 'comic-door-closed':'challenge/story-props-r3/secret-stairs-closed-door-oblique.png',
+ 'comic-door-open':'challenge/story-props-r3/secret-stairs-open-door-oblique.png',
  'comic-hidden-stairs':'challenge/story-props-r3/ending-hidden-stone-stairs-r3.png',
  'comic-mural-hall':'challenge/story-props-r3/ending-east-corridor-mural-r3.png'
 });
@@ -42,6 +42,7 @@ function box(c,x,y,w,h,fill='#fff0cc'){c.fillStyle=fill;c.strokeStyle='#263c37';
 function sprite(c,image,r,x,foot,height){const width=height*r[2]/r[3];c.drawImage(image,...r,x-width/2,foot-height,width,height);}
 export function comicPropComposition(scene,layout){
  const actorArt={...layout.art};
+ if(isComicDoorRoom(scene)){const roomCamera=comicRoomGeometry(scene,layout);return {actorArt,roomCamera};}
  if(isParadeProp(scene)&&layout.landscape){actorArt.width*=.58;return {actorArt};}
  if(!['battery-front','battery-map'].includes(scene.prop))return {actorArt};
  // Two dedicated object close-ups retain the reacting whole figures beside

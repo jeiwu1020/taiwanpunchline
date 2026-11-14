@@ -11,11 +11,11 @@ const ROUTES=Object.freeze({
 const disabled=(reason,extra={})=>({enabled:false,reason,...extra});
 const reject=reason=>({accepted:false,persisted:false,reason});
 /** Fresh formal continuation never inspects or adopts the archived test saves. */
-export async function openChallengeContinuation({mode='preview',optIn=false,testPreview=false,storage,locks,profileId,handoff}={}){
+export async function openChallengeContinuation({mode='preview',optIn=false,testPreview=false,storage,locks,profileId,handoff,onSaved}={}){
  if(mode!=='campaign'||optIn!==true||testPreview===true)return disabled('preview-only');
  if(profileId!==undefined&&!PROFILE_IDS.includes(profileId))return disabled('invalid-profile');
  if(!storage?.getItem)return disabled('storage-unavailable');
- const api=await openChallengeProgress({storage,locks});
+ const api=await openChallengeProgress({storage,locks,onSaved});
  if(api.get().readOnly)return disabled(api.get().reason??'storage-unavailable',{recovery:api});
  if(handoff){const s=api.get(),p=api.readProfile();if(handoff.profileId!==s.activeProfileId||profileId!==handoff.profileId||handoff.revision!==s.revision||handoff.generation!==s.generation||handoff.chapterId!==p?.campaign?.cursor?.chapterId||!s.persisted||s.dirty||s.readOnly)return disabled('stale-handoff');}
  const id=profileId??api.activeProfileId,p=api.readProfile(id);

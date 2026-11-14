@@ -1,4 +1,5 @@
 import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
+import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
 import {finaleVerdictText} from './finale-verdict.mjs?v=finale-verdict-r1';
 import {finaleOffscreenHints,drawFinaleCameraHints} from './finale-camera-hints.mjs?v=finale-follow-r1';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
@@ -45,6 +46,7 @@ const comic=createComicPresentation({chapterId:'finale-3v4'});
 const comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:()=>media.unlock(),isBlocked:()=>!!ui?.busy||ui?.ready===false||recoveryOpen,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 const tactical=document.createElement('canvas');tactical.id='finale-tactical-map';tactical.width=132;tactical.height=24;tactical.setAttribute('role','img');tactical.setAttribute('aria-label','全場位置：金色是你，綠色是隊友，紅色是對手');$('.chapter-objective').append(tactical);const tacticalCtx=tactical.getContext('2d');
 const saveSlot=document.createElement('button');saveSlot.id='finale-save-slot';saveSlot.type='button';saveSlot.textContent=preview?'測試不保存':'保存狀態';$('#trial-app > header').insertBefore(saveSlot,$('.toolbar'));saveSlot.onclick=()=>openRecovery();
+const saveFeedback=mountChallengeSaveFeedback({document,window,button:saveSlot,isPreview:()=>preview||!!window.__quickViewIsolated});saveFeedback.update({enabled:true});
 for(const selector of ['#team-main','#team-ally1','#team-ally2']){
  const select=$(selector);for(const id of CHARACTER_IDS){const option=document.createElement('option');option.value=id;option.textContent=CAST[id].name;select.append(option);}select.onchange=()=>{draftTeam=[$('#team-main').value,$('#team-ally1').value,$('#team-ally2').value];renderTeam();};
 }
@@ -60,7 +62,7 @@ function sync(){
  pauseLifecycle.sync();const s=view();if(!s){renderTeam();return;}clearHold();lastToken=s.token;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
  const combat=['battle','result'].includes(s.mode);document.body.dataset.noncombat=String(!combat||s.paused||s.busy||s.blocked);document.body.dataset.chapterMode=s.paused?'pause':s.mode==='team-select'?'menu':s.mode==='intro'?'story':s.mode;document.body.dataset.finalBattle=String(combat);
- $('#pause').disabled=s.mode!=='battle';$('#pause').textContent=s.paused?'▶ 繼續':'Ⅱ 暫停';saveSlot.textContent=s.preview?'測試不保存':s.busy?'保存中':s.persisted?'進度已保存':'需處理';saveSlot.title=s.saveLabel;
+ $('#pause').disabled=s.mode!=='battle';$('#pause').textContent=s.paused?'▶ 繼續':'Ⅱ 暫停';saveFeedback.update({enabled:true,error:!s.preview&&(s.saveIssue||s.blocked||!s.busy&&!s.persisted)?'進度尚未保存。'+saveIssueText(s.saveIssue):''});
  $('#finale-save-status').textContent=s.saveLabel+(s.saveIssue?'。'+saveIssueText(s.saveIssue):'');$('#finale-save-retry').disabled=s.busy||s.blocked;
  if(s.mode==='team-select'){$('#menu').hidden=false;renderTeam();}
  if(['story','intro'].includes(s.mode)){$('#story-panel').hidden=false;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-next').textContent=s.frameIndex+1===s.frameCount?(s.mode==='intro'?'開打 →':'看完了 →'):'下一格 →';$('#story-next').disabled=s.busy||!!s.saveIssue;}
@@ -81,7 +83,7 @@ async function attach(handoff){
   let r;
   if(preview)r=await createFinalePreview({onChange:sync});
   else{
-   progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks});const state=progress.get(),p=progress.readProfile();
+   progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks,onSaved:receipt=>saveFeedback.saved(receipt)});const state=progress.get(),p=progress.readProfile();
    if(state.readOnly||state.dirty){$('#menu-status').textContent=saveIssueText(state.reason);return false;}
    if(handoff&&(handoff.profileId!==state.activeProfileId||handoff.revision!==state.revision||handoff.generation!==state.generation||handoff.chapterId!==p.campaign.cursor.chapterId)){ $('#menu-status').textContent='此接續已過期。請回挑戰總覽重新接續，原存檔保留。';return false;}
    if(p.campaign.cursor.chapterId!=='finale-3v4'){$('#menu-status').textContent='請先完成五章、解鎖七人，再從挑戰總覽進入最終戰。';return false;}
