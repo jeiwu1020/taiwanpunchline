@@ -30,6 +30,7 @@ import {createFinalePreview} from './finale-preview.mjs?v=campaign-boot-20261112
 import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=finale-arena-20261113-r4';
 import {drawFinaleStage,drawFinaleLockedStand} from './finale-stage.mjs?v=finale-arena-20261114-r5';
 import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=campaign-boot-20261112-r3';
+if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>query.has(k));
 let chapter=null,progress=null,images={},loaded=false,booting=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null;

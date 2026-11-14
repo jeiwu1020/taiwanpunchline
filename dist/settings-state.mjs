@@ -45,8 +45,8 @@ export function normalizeSettings(input){
  * successful reset removal is true; no saved record or failed persistence is false.
  * reset assumes its caller has obtained the user's confirmation.
  */
-export function createSettingsStore({storage,key='parliament-settings-v1',onChange=()=>{}}={}){
- let state={...DEFAULT_SETTINGS},persisted=false;
+export function createSettingsStore({storage,key='parliament-settings-v1',onChange=()=>{},initialRotate}={}){
+ let state={...DEFAULT_SETTINGS},persisted=false,hasSavedDirection=false;
  if(storage===undefined){
   try{storage=globalThis.localStorage;}
   catch{storage=null;}
@@ -57,10 +57,12 @@ export function createSettingsStore({storage,key='parliament-settings-v1',onChan
    const parsed=JSON.parse(raw);
    if(supportedRecord(parsed)){
     state=normalizeSettings(parsed);
+    hasSavedDirection=typeof ownData(parsed,'rotate')?.value==='boolean';
     persisted=true;
    }
   }
  }catch{/* Disabled storage or corrupt JSON must not prevent playing. */}
+ if(!hasSavedDirection&&typeof initialRotate==='boolean')state.rotate=initialRotate;
 
  const get=()=>({...state});
  const changed=next=>fields.some(key=>next[key]!==state[key]);

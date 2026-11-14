@@ -63,6 +63,7 @@ import {ART_FILES,PROP_FRAMES,drawFighterArt,fighterArtPose} from './art-render.
 import {moveCaption,captionPosition,SIGNATURE_SIZE,fighterGazeGlyph,presentationFighter,nameTileOffset} from './move-readability.mjs?v=campaign-boot-20261112-r3';
 import {SIGNATURE_PROP_FRAMES} from './art-expression.mjs?v=campaign-boot-20261112-r3';
 import {activeSpitAge,retainSpitEpisode,arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
+if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 mountCompactToolbar({document});
 let selected='wang',opponent='han',rosterSide='player',difficulty='easy',rosterReady=false,duel=new Duel(),scene,started=false,counting=false,sound=true,audio,hold={},punchWait=0,countTimer;
@@ -87,7 +88,7 @@ restoreProfileSelection();
 let challengeQueuedOperations=0,challengeOperations=Promise.resolve(),challengeSaveBlocked=false,partySelectionTouched=false;
 const challengeSettledBattles=new WeakSet();
 const testEntryGate=createFiveTapGate({onActivate:()=>{if(profileProgress.enterTestMode())refreshProfileAccess();}});
-const settingsStore=createSettingsStore({storage:browserStorage,onChange:applySettings});
+const settingsStore=createSettingsStore({storage:browserStorage,onChange:applySettings,initialRotate:window.parliamentOrientationChoice?.rotate});
 let preferences=settingsStore.get();
 const ink=0x142b32,paper=0xfff7e5;
 // Source identity, not character identity, owns each gesture-primed media lane.

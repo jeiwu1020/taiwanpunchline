@@ -34,6 +34,7 @@ import {ASSET_FILES} from './chapter2-assets.mjs?v=campaign-boot-20261112-r3';
 import {CHAPTER2_NEW_ART} from './chapter2-new-art.mjs?v=campaign-boot-20261112-r3';
 import {storyPropState} from './chapter3-story-props.mjs?v=campaign-boot-20261112-r3';
 import {bossRevealed,storyActors,soloMicX} from './chapter2-reveal.mjs?v=campaign-boot-20261112-r3';
+if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
 let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,frameTime=0;
