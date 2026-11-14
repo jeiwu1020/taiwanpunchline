@@ -1,3 +1,4 @@
+import {loadChapterImage} from '../../chapter-image-loader.mjs';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
@@ -172,8 +173,8 @@ function tick(now){
 }
 continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-3',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
 refreshMenu();resizeCanvas();
-const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER2_NEW_ART.files};let loaded=0;
-Promise.all(Object.entries(allFiles).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';resolve([key,im]);};im.onerror=()=>reject(new Error('Missing asset: '+file));im.src=chapterAssetURL('chapter3',file);}))).then(entries=>{images=Object.fromEntries(entries);void comic.load(images).then(()=>comicReader.sync());$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER2_NEW_ART.files};let loaded=0;let assetLoadFailed=false;
+Promise.all(Object.entries(allFiles).map(async([key,file])=>[key,await loadChapterImage(chapterAssetURL('chapter3',file),{onLoad:()=>{if(assetLoadFailed)return;$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';}})])).then(entries=>{images=Object.fromEntries(entries);void comic.load(images).then(()=>comicReader.sync());$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{assetLoadFailed=true;continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
 
 
 registerQuickView(window,async()=>{

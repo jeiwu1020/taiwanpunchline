@@ -10,7 +10,7 @@ export const CHAPTER5=freeze({
  handoffContract:{entry:{sourceChapterId:'chapter-4',vehicle:'sound-truck',carrier:'wheeled-stand',newCompanion:'ma',destination:'議場器材歸還處'},exit:{nextChapterId:'finale-3v4',carrier:'locked-stand',destination:'議場中庭',newCompanion:'chen'}},
  routes:[
   {id:'chapter-5:route-a',name:'器材歸還街',theme:'civic-arcade',width:2500,motifs:['return-label','wheeled-stand'],objective:'跟著器材車到歸還處。走內側繞桌，補給在外側。',visualBrief:'台南廟口的紙飛機徽記歸還櫃台、墨綠編號箱與清點動線。',comicDetail:'借出一支麥，歸還時要清點一整條街。',
-   platforms:[{left:780,right:1050,y:342,kind:'table',depth:-30,depthHalf:28},{left:1540,right:1720,y:370,kind:'crate',depth:55,depthHalf:26}],spawns:[['placard',480],['leaflet',860],['barricade',1280],['placard',650,1500],['leaflet',1900]],supplyX:1740,supplyDepth:65,
+   platforms:[{left:780,right:1050,y:342,kind:'table',depth:-30,depthHalf:28},{left:1540,right:1720,y:370,kind:'crate',depth:55,depthHalf:26}],spawns:[['placard',480],['leaflet',860],['barricade',1280],['placard',650,1500],['leaflet',1900]],supplyX:1840,supplyDepth:65,
    gate:{id:'chapter-5:miniboss-a',kind:'miniboss',name:'清點隊長',opponent:'wang',mobKind:'mini_schedule',identityStatus:'fictional',tell:'先舉清單，再敲兩下確認。',counterplay:'第一拳退開，第二拳收招後反擊；小頭目一局決勝。',dialogue:[['清點隊長','六個人、一座架、一支麥……誰把我的筆借走了？'],['player',"本來追神麥，現在追原子筆？你的清單越清越多，我的早餐越追越遠！",'c5.mini0'],['清點隊長','筆不用追，通行章要拿！兩下點名，站穩了！']]}
   },
   {id:'chapter-5:route-b',name:'封印檔案廊',theme:'old-city-ceremony',width:2700,motifs:['seal-record','return-label'],objective:'沿歸還編號找到封印紀錄。揪團可開路，也能繞過排隊線。',visualBrief:'綠色卷宗檔案騎樓、封印大冊、印章與眼鏡茶攤。',comicDetail:'「免附影本」的告示背面，夾著三張影本。',

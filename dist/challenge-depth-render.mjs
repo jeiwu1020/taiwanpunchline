@@ -296,7 +296,7 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
  const items=depthRenderItems(route).filter(item=>item.kind!=='actor'||item.episode||streetActorNeedsPaint(item.value,visible));
  if(!options.skipBackdrop){ctx.save();ctx.translate(bg.originX,0);drawChallengeBackdrop(ctx,images,bg);ctx.restore();}
  drawGroundEffects(ctx,items,frame);
- drawChapterEncounter(ctx,route,(x,y=GROUND,z=0)=>({x,y:y+z*.65}),1,images);
+ drawChapterEncounter(ctx,route,(x,y=GROUND,z=0)=>({x,y:y+z*.65}),1,images,frame.zoom);
  for(const item of items){const q=item.value,p=depthWorldPoint(q);
   if(item.kind==='platform'){
    const left=q.x??q.left,w=q.width??((q.right??left+100)-left),half=q.depthHalf??36,image=images['challenge-street-props'];

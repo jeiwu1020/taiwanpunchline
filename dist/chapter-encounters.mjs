@@ -22,7 +22,10 @@ export function ensureChapterEncounter(w,chapter=chapterOf(w),boss=false){
  if(w.chapterEncounter?.key===key)return w.chapterEncounter;
  const spec=CHAPTER_TACTICS[chapter-1];if(!spec)return null;
  const width=boss?960:w.worldWidth;
- const points=boss?[330,650]:[360,Math.round(width*.49),width-470];
+ // Keep the last optional interaction distinct from the supply stop. These are
+ // authored street positions; boss arenas and combat rules stay unchanged.
+ const lastProp={'chapter-3:route-a':2210,'chapter-4:route-a':2200,'chapter-5:route-c':2580};
+ const points=boss?[330,650]:[360,Math.round(width*.49),lastProp[w.section?.id]??width-470];
  const props=points.map((x,i)=>({x,depth:boss?0:[0,65,-65][i],kind:spec.kind,active:spec.kind!=='paper',cooldown:0,uses:0,flash:0,vx:0,tea:false}));
  // Keep interactive props in walkable space, away from the existing tables.
  for(const p of props)for(const t of w.platforms??[])if(p.x>t.left-100&&p.x<t.right+100&&Math.abs(p.depth-(t.depth??0))<(t.depthHalf??36)+45)p.depth=(t.depth??0)>0?-65:65;
@@ -42,10 +45,22 @@ export function ensureChapterEncounter(w,chapter=chapterOf(w),boss=false){
 }
 function stopMob(e,seconds=1.15){e.attack=null;e.chapterTell=null;e.warning=0;e.aiWait=seconds;e.chapterRest=seconds;e.move=0;}
 function covered(s,a,b){return s.props.find(p=>p.active&&sameLane(p,b,42)&&between(p.x,a.x,b.x));}
+export function canInteractChapterProp(w,prop,actor=w.player){
+ return !!(w.chapterEncounter&&actor===w.player&&prop.cooldown<=0&&sameLane(prop,actor,48)&&Math.abs(prop.x-actor.x)<115&&(prop.x-actor.x)*(actor.face||1)>=-20&&actor.y>=GROUND-60);
+}
+export function chapterPropHint(w){
+ const p=w?.player;if(!p||p.y<GROUND-60)return null;
+ const props=w.chapterEncounter?.props??[];
+ const ready=props.find(prop=>canInteractChapterProp(w,prop));
+ if(ready)return {prop:ready,state:'ready'};
+ const near=props.filter(prop=>Math.abs(prop.x-p.x)<190&&sameLane(prop,p,48)).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0];
+ if(!near)return null;
+ return {prop:near,state:Math.abs(near.x-p.x)>=115?'approach':(near.x-p.x)*(p.face||1)<-20?'turn':near.cooldown>0?'cooldown':'approach'};
+}
 export function interactChapterProp(w,actor=w.player){
  const s=w.chapterEncounter;if(!s||actor!==w.player)return false;
- const prop=s.props.find(p=>p.cooldown<=0&&sameLane(p,actor,48)&&Math.abs(p.x-actor.x)<115&&(p.x-actor.x)*(actor.face||1)>=-20);
- if(!prop||actor.y<GROUND-60)return false;
+ const prop=s.props.find(p=>canInteractChapterProp(w,p,actor));
+ if(!prop)return false;
  prop.cooldown=5;prop.flash=.7;prop.uses++;
  effect(w,{sound:'screen',rush:'push',route:'redirect',handshake:'bell',paper:'stamp'}[s.kind],prop);
  if(s.kind==='rush')prop.vx=(actor.face||1)*360;
