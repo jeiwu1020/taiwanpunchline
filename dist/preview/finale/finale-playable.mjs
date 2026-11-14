@@ -1,3 +1,4 @@
+import {applyFinaleAssistCopy} from './finale-assist-policy.mjs';
 import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
 import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
 import {finaleVerdictText} from './finale-verdict.mjs?v=finale-verdict-r1';
@@ -41,7 +42,7 @@ ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceConte
  isBusy:()=>booting||preparationBusy,isOperationBusy:()=>booting||!!view()?.busy,pauseForUI,onViewportChange:()=>ui?.prepareSurface(),
  onPrepare:()=>openPreparation(true),onReturnOverview:()=>returnOverview(),onRestart:async()=>{const r=await chapter.restartSegment();if(r.accepted&&(r.persisted||preview)){if(ui.shouldKeepPausedAfterRestart)chapter.setPaused(true,view().token);sync();return true;}return r;}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>booting||!!view()?.busy,clearHold,onChange:sync,onFrameReset:()=>{lastTime=null;}});
-ui.setCameraAvailable(true);mountSpecialNameFit({document});
+ui.setCameraAvailable(true);mountSpecialNameFit({document});applyFinaleAssistCopy(document);
 const comic=createComicPresentation({chapterId:'finale-3v4'});
 const comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:()=>media.unlock(),isBlocked:()=>!!ui?.busy||ui?.ready===false||recoveryOpen,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 const tactical=document.createElement('canvas');tactical.id='finale-tactical-map';tactical.width=132;tactical.height=24;tactical.setAttribute('role','img');tactical.setAttribute('aria-label','全場位置：金色是你，綠色是隊友，紅色是對手');$('.chapter-objective').append(tactical);const tacticalCtx=tactical.getContext('2d');
@@ -123,7 +124,7 @@ $('#finale-save-retry').onclick=async()=>{const r=chapter?await chapter.retrySav
 $('#finale-backup').onclick=()=>{const text=chapter?.exportJSON()??progress?.exportBackup();if(!text)return;const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='punchline-finale-recovery.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 $('#finale-reload').onclick=()=>{if(!view()?.busy)location.reload();};$('#finale-save-close').onclick=()=>{recoveryOpen=false;$('#finale-recovery').hidden=true;sync();};
 function recalc(){held={};for(const code of keys){const a=chapterKeyboardAction(code,true);if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
-function command(a){if(!active())return false;const r=chapter.press(a);if(a==='punch')punchWait=.35;return r;}
+function command(a){if(a==='assist'||!active())return false;const r=chapter.press(a);if(a==='punch')punchWait=.35;return r;}
 window.addEventListener('keydown',e=>{if(e.target.closest?.('dialog,input,textarea,select,[data-game-select],.game-select-menu'))return;if(e.target.closest?.('button')&&['Space','Enter'].includes(e.code))return;if(e.code==='Escape'){if(!e.repeat)$('#pause').click();return;}const a=chapterKeyboardAction(e.code,true);if(!a||!active()||view().busy)return;e.preventDefault();if(e.repeat||keys.has(e.code))return;keys.add(e.code);recalc();if(!['up','down','left','right','guard','crouch'].includes(a))command(a);});
 window.addEventListener('keyup',e=>{keys.delete(e.code);recalc();});
 controls=bindTouchControls({document,window,active,viewport:()=>({ready:ui.ready,epoch:ui.epoch,rotation:ui.viewport.rotation}),rotation:()=>ui.viewport.rotation,directionMode:()=> 'depth',stickSelector:'#touch-stick',knobSelector:'#touch-knob',buttonSelector:'#controls button',onHold:(a,on)=>{on?pointers.add(a):pointers.delete(a);recalc();},onAction:command});

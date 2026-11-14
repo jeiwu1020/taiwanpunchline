@@ -21,9 +21,9 @@ export class FinaleArena extends Duel{
   this.actors=[this.player,...[...team.slice(1),...opponents].map(id=>new Duel(id,difficulty,rng,team[0],{playerStats:team.includes(id)?statsForCharacter?.(id):undefined}).player)];
   const positions=[[210,0],[150,-90],[150,90],[690,-105],[770,-35],[770,45],[690,115]];
   this.actors.forEach((f,i)=>{
-   const same=team.includes(f.type),group=same?team:opponents,index=group.indexOf(f.type);
+   const same=team.includes(f.type);
    Object.assign(f,{id:i===0?'player':'arena-'+f.type,team:same?0:1,x:positions[i][0],depth:positions[i][1],aiWait:.7+i*.11,invulnerable:0});
-   f.assist.helper=group[(index+1)%group.length];
+   f.assist={helper:null,used:false,active:false,charge:0,damageTaken:0};
   });
   this.enemy=this.targetFor(this.player);this.enemies=this.actors.filter(f=>f.team===1);this.platforms=[];this.routeProgress=0;
  }
@@ -37,6 +37,7 @@ export class FinaleArena extends Duel{
   return this.targetFor(f)??this.actors.find(t=>t.team!==f.team)??super.other(f);
  }
  request(f,action){
+  if(action==='assist')return false;
   if(!this.actors)return super.request(f,action);
   if(!this.actors.includes(f)||!alive(f)||!this.targetFor(f))return false;
   const enemy=this.enemy;this.enemy=f===this.player?this.targetFor(f):f;
@@ -47,6 +48,10 @@ export class FinaleArena extends Duel{
    this.enemy=enemy;
   }
  }
+ // All seven fighters are already on the field. Block both the ordinary
+ // command path and direct calls to the inherited helper API.
+ assistReady(){return false;}
+ requestAssist(){return false;}
  canMelee(c){return c.from.team!==c.to.team&&alive(c.to)&&lane(c.origin??c.from,c.to)&&super.canMelee(c);}
  resolveHit(c){
   if(!alive(c.to)||c.from.team===c.to.team||!lane(c.p??c.rally??c.origin??c.from,c.to,c.rally?48:36))return false;
@@ -118,7 +123,6 @@ export class FinaleArena extends Duel{
    const interval=f.team===1?(this.difficulty==='beginner'?1.6:this.difficulty==='easy'?1.0:.7):.8;
    f.aiWait=interval+this.rng()*.5;
    if(f.rally>=100&&this.rng()<.45)this.request(f,'rally');
-   else if(!f.assist.used&&!f.assist.active&&this.rng()<.12)this.request(f,'assist');
    else{
     const available=CAST[f.type].moves.map((m,i)=>({m,i})).filter(({m,i})=>f.cooldowns[i]<=0&&(Math.abs(dx)<(m.range??340)||['projectile','lob','word'].includes(m.behavior))&&(m.behavior!=='heal'||f.hp<f.maxHp-10));
     const pick=available[Math.min(available.length-1,Math.floor(this.rng()*available.length))];
