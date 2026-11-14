@@ -18,7 +18,7 @@
  document.documentElement.dataset.orientationChoice='pending';
  function mount(){
   const card=document.createElement('dialog');
-  card.id='orientation-choice';card.setAttribute('aria-labelledby','orientation-choice-title');card.setAttribute('aria-describedby','orientation-choice-note');
+  card.id='orientation-choice';card.setAttribute('aria-labelledby','orientation-choice-title');card.setAttribute('aria-describedby','orientation-choice-note');card.setAttribute('tabindex','-1');
   card.innerHTML='<p class="orientation-choice-kicker">拳民開講</p><h1 id="orientation-choice-title">選擇遊玩方向</h1><div class="orientation-choice-options"><button type="button" data-orientation="portrait"><strong>直向遊玩</strong><span>直拿就能玩</span></button><button type="button" data-orientation="landscape"><strong>橫向遊玩</strong><span>戰鬥畫面更寬</span></button></div><p id="orientation-choice-note"></p>';
   const buttons=[...card.querySelectorAll('button')];
   function describe(){card.querySelector('#orientation-choice-note').textContent='手機保持直向鎖定，橫拿即可遊玩。之後可在設定切換。';}
@@ -45,7 +45,7 @@
   });
   describe();window.addEventListener('resize',describe);window.addEventListener('orientationchange',describe);document.body.append(card);
   if(typeof card.showModal==='function')card.showModal();else{card.setAttribute('open','');card.setAttribute('role','dialog');card.setAttribute('aria-modal','true');}
-  buttons[0].focus({preventScroll:true});
+  card.focus({preventScroll:true});
  }
  if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount,{once:true});
 })();
