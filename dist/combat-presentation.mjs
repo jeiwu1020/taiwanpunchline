@@ -1,5 +1,5 @@
 import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
-import {fitChallengeCamera,challengeCameraSubjects,mobileLandscapeCameraFrame,canReuseCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
 // Shared display-space safe zone. This does not change combat/world geometry.
 export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
  const top=portrait&&touch?140:118;
@@ -30,21 +30,13 @@ function preferredFullStageCameraFrame(camera,width,height,fighters,previous=nul
  if(mobileLandscape&&options.cameraMode==='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+8,(options.hudBottom||0)+8),bottom:height-bottom-14,head:285});
  return frame;
 }
-// Both preferences share hard visibility guarantees; only their preferred
-// composition and follow cadence differ. Measured blockers replace estimates.
+// Stable and dynamic share one standing scale. Only the controlled fighter
+// constrains framing; measured blockers replace the fallback safe band.
 export function fullStageCameraFrame(camera,width,height,fighters,previous=null,delta=1000/60,options={}){
  const measured=Array.isArray(options.occlusions);
- if(options.paused&&canReuseCameraFrame(previous,width,height,{...options,measuredCameraSafety:measured?options.measuredCameraSafety:false}))return previous;
- const resting=measured?fighters.map(a=>({...a,y:430,vy:0,depth:0})):fighters;
- const preferred=measured&&options.measuredCameraSafety!==false&&isMobileLandscapePresentation({...options,width,height})?mobileLandscapeCameraFrame(width,height,resting):preferredFullStageCameraFrame(camera,width,height,resting,previous?.playerFixedCamera&&options.paused?null:previous,delta,options);
  const inset=stageInsets(width,height,options);
  const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
- const actors=challengeCameraSubjects({player:fighters[0],enemy:fighters[1],assists:options.assists});
- // Only ordinary VS opts into the jump refinement. Logical dimensions cover
- // both native landscape and the rotated phone shell; other owners keep the
- // previous solver, including practice, street/boss and the seven-person final.
- const vsMobileJump=options.gameMode==='battle'&&options.cameraMode==='classic'&&measured&&options.measuredCameraSafety!==false&&isMobileLandscapePresentation({...options,width,height});
- return fitChallengeCamera(preferred,actors,previous,delta,{...safety,vsMobileJump});
+ return controlledCombatCameraFrame(width,height,fighters,previous,delta,safety);
 }
 // Crops contain only floorboards / ceiling material. Outside the original
 // room, never repeat seating, walls, or an inverted second auditorium.

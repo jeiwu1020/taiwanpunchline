@@ -183,7 +183,7 @@ export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNI
    session.run=run;session.revision=state.revision;return {...saved,token:session.token,run:clone(run),rewardedXP};
   },{allowDirty:true});},
   cancelRun(){session=null;},
-  enterTestMode(){modeEpoch++;session=null;testMode=true;notify();return true;},exitTestMode(){modeEpoch++;session=null;testMode=false;notify();return true;},
+  enterTestMode(){if(!DEVELOPMENT_TOOLS)return false;modeEpoch++;session=null;testMode=true;notify();return true;},exitTestMode(){modeEpoch++;session=null;testMode=false;notify();return true;},
   async refresh(){await tail;if(pending)return reject('unsaved-progress');const success=read();notify();return success?{accepted:true,persisted:get().persisted}:reject(reason);},
   retrySave(){return enqueue(()=>{
    if(!pending)return reject('not-dirty');const current=storage.getItem(pending.key);
@@ -236,3 +236,4 @@ export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNI
  };
  return api;
 }
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';

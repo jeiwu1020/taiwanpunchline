@@ -199,6 +199,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},onSav
   selectCharacters(selection,options={}){selection={...selection};return enqueue(()=>{if(session)return reject('active-run');const d=api.preparationSnapshot();return saveCampaign(prepared({...d,...selection}));},options);},
   cancelRun(){runEpoch++;session=null;},
   enterTestMode(){
+   if(!DEVELOPMENT_TOOLS)return false;
    modeEpoch++;session=null;testMode=true;preview={document:clone(state.campaign),revision:0,sourceRevision:state.revision,sourceGeneration:generation()};
    currentProfile(preview.document).unlockedCharacters=[...CHARACTER_IDS];notify();return true;
   },
@@ -234,3 +235,4 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},onSav
  };
  return api;
 }
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';

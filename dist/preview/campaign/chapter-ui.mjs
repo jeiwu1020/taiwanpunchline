@@ -18,7 +18,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
  const cameraHints=mountCameraDirectionHints({document,root:$('#trial-app')});
  let resume=null,returnFocus=null,cameraEnabled=false,viewport,settingsUI=null,restarting=false,mounted=false,previewAudioFailure=false,restartPauseRequested=false,lifecycle=null,geometryDirty=true,occlusionCache=null,geometryCamera=null,renderedWorld=null;
  const safeProbe=document.createElement('div');safeProbe.style.cssText='position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)';document.body.append(safeProbe);
- const preview=['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
+ const preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
  if(storage===undefined){try{storage=preview?null:window.localStorage;}catch{storage=null;}}
  const store=createSettingsStore({storage,onChange:syncPreferences});
  const template=document.createElement('template');template.innerHTML=chapterSettingsMarkup;
@@ -74,7 +74,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
   if(channel==='demo'&&status==='completed'&&!previewAudioFailure)set('#settings-demo-status','動作示範結束，可再按「動作＋語音」。');
  }
  function readViewport(){
-  const touch=!!(window.matchMedia?.('(pointer:coarse)')?.matches||window.navigator.maxTouchPoints>0||new URL(window.location.href).searchParams.has('touchPreview'));
+  const touch=!!(window.matchMedia?.('(pointer:coarse)')?.matches||window.navigator.maxTouchPoints>0||(DEVELOPMENT_TOOLS&&new URL(window.location.href).searchParams.has('touchPreview')));
   const inset=window.getComputedStyle(safeProbe),safe={top:parseFloat(inset.paddingTop),right:parseFloat(inset.paddingRight),bottom:parseFloat(inset.paddingBottom),left:parseFloat(inset.paddingLeft)};
   return readGameViewport(window,{safe,touch,rotate:store.get().rotate,fullBleed:window.innerWidth>window.innerHeight});
  }
@@ -142,3 +142,4 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
 }
 
 export function chapterKeyboardAction(code,route){const key={ArrowUp:route?'up':'jump',KeyW:route?'up':'jump',ArrowDown:route?'down':'crouch',KeyS:route?'down':'crouch',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',Space:'jump',KeyJ:'punch',KeyK:'guard',ShiftLeft:'guard',ShiftRight:'guard',KeyU:'special1',KeyI:'special2',KeyO:'special3',KeyH:'assist',KeyL:'rally'};return key[code];}
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';

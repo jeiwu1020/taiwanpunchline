@@ -85,7 +85,7 @@ export async function openCampaignStore({storage,locks,key=CURRENT_KEY,legacyKey
   allocate:(id,skill,options={})=>mutate(d=>allocateSkill(d,id,skill),{expectedRevision:options.expectedRevision}),
   reset:(id,options={})=>mutate(d=>resetSkills(d,id),{expectedRevision:options.expectedRevision}),
   cancelRun:invalidate,
-  enterTestMode(){invalidate();testMode=true;},
+  enterTestMode(){if(!DEVELOPMENT_TOOLS)return false;invalidate();testMode=true;},
   exitTestMode(){invalidate();testMode=false;},
   exportJSON(){return state?JSON.stringify(state,null,2):null;},
   exportLegacyJSON(){return legacyRaw;},
@@ -109,3 +109,4 @@ export async function openCampaignStore({storage,locks,key=CURRENT_KEY,legacyKey
   }
  };
 }
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';

@@ -28,7 +28,7 @@ const reasonText=reason=>({
 export function mountContinuationControls({document,window,chapterId,createPlayableChapter,
  getOptions=()=>({}),getPlayable=()=>null,pauseForUI=()=>{},isReady=()=>true,testPreview=false,characters={},onReady=()=>{},onChange=()=>{},reloadPage=()=>window.location.reload(),navigate=url=>window.location.assign(url)}){
  const query=new URL(window.location.href).searchParams;
- testPreview=testPreview||['test','qa','previewOnly'].some(key=>query.has(key))||document.documentElement.dataset.testPreview==='true';
+ testPreview=DEVELOPMENT_TOOLS&&(testPreview||['test','qa','previewOnly'].some(key=>query.has(key))||document.documentElement.dataset.testPreview==='true');
  const menu=document.querySelector('#menu .card'),stage=document.querySelector('#stage');
  if(!menu||!stage)throw new Error('Continuation requires the existing menu and stage');
  const make=(tag,id,text)=>{const e=document.createElement(tag);if(id)e.id=id;if(text)e.textContent=text;return e;};
@@ -196,3 +196,4 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  copy.setAttribute('role','status');copy.tabIndex=-1;
  if(entered){if(!link.hidden)link.focus({preventScroll:true});else if(safe)home.focus({preventScroll:true});else copy.focus({preventScroll:true});}
 }
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';

@@ -187,11 +187,53 @@ function compatiblePlayerFixedState(frame){
 }
 export function canReuseCameraFrame(frame,width,height,options={}){
  if(!frame||frame.width!==width||frame.height!==height)return false;
+ if(frame.controlledCombatCamera)return frame.controlledCombatCamera.geometryKey===controlledCombatGeometry(width,height,options).key;
  if(frame.playerCloseCamera)return canReuseCloseFrame(frame,width,height,options);
  if(!frame.playerFixedCamera)return true;
  // A paused frame owns its existing mode; a UI selection takes effect only
  // on resume. Touch/measurement/profile changes still invalidate fixed state.
  return !!compatiblePlayerFixedState(frame)&&options.measuredCameraSafety!==false&&isMobileLandscapePresentation({width,height,touch:options.touch})&&frame.playerFixedCamera.geometryKey===playerFixedGeometryKey(width,height,options);
+}
+
+// Ordinary combat owns a standing-scale camera. Only the controlled fighter
+// constrains translation; opponents, helpers and jump height never require a
+// wider shot. Streets keep their existing independent camera policy below.
+function controlledCombatGeometry(width,height,options){
+ const softControls=isMobileLandscapePresentation({...options,width,height});
+ const ordered=(options.occlusions||[]).slice().sort((a,b)=>{for(const key of ['left','top','right','bottom'])if(a[key]!==b[key])return a[key]-b[key];return Number(a.kind==='control')-Number(b.kind==='control');});
+ const g=geometry({width,height},{...options,occlusions:ordered,softControls});
+ return {...g,softControls,key:fixedGeometryKey(width,height,g)};
+}
+export function controlledCombatCameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
+ const player=fighters?.[0];if(!player)return null;
+ const g=controlledCombatGeometry(width,height,options),{rect,occlusions,key}=g;
+ const state=previous?.controlledCombatCamera,old=state?.geometryKey===key?state:null;
+ if(options.paused&&old)return previous;
+ const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player)};
+ const standing={left:-132,right:132,top:-300,bottom:28};
+ let baseline=old?.baseline,anchor=old?.anchor;
+ if(!(baseline>0)||!anchor){
+  const maximum=Math.min(1.25,width/520,height/480),wanted={x:width/2,y:height*.84};
+  const place=z=>placeAtScale([standing],z,rect,occlusions,wanted);
+  baseline=maximum;anchor=place(baseline);
+  if(!anchor){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(place(mid))lo=mid;else hi=mid;}baseline=Math.max(1e-6,lo);anchor=place(baseline);}
+ }
+ const selected=options.paused&&state?previous.challengeCameraMode:(options.cameraMode??options.camera);
+ const mode=selected==='stable'?'stable':'classic';
+ // Ground-plane separation is the only dynamic scale input. A jump has no
+ // y/vy contribution. Both modes share the same layout-derived baseline.
+ const gap=mode==='stable'?0:Math.abs(finite(fighters[1]?.x,pose.x)-pose.x);
+ const target=baseline*(1-.05*clamp((gap-320)/480,0,1));
+ const ease=1-Math.exp(-clamp(finite(delta,1000/60),0,100)/300);
+ const zoom=mode==='stable'||!old?baseline:clamp(previous.zoom+(target-previous.zoom)*ease,baseline*.95,baseline);
+ const origin=old?previous:{x:pose.x+(width/2-(anchor?.x??width/2))/zoom,y:pose.displayY+(height/2-(anchor?.y??height*.84))/zoom};
+ const body={left:pose.x-132,right:pose.x+132,top:pose.displayY-300,bottom:pose.displayY+28};
+ // Nearest legal translation leaves an idle player exactly where it was.
+ // Once its body reaches a safe edge, pan only enough to keep it visible.
+ const position=placeAtScale([body],zoom,rect,occlusions,{x:width/2-origin.x*zoom,y:height/2-origin.y*zoom});
+ const x=position?(width/2-position.x)/zoom:origin.x,y=position?(height/2-position.y)/zoom:origin.y;
+ return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:!!position,
+  controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:1,geometryKey:key,baseline,anchor,pose}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;

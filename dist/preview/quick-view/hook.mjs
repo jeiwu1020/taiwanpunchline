@@ -1,4 +1,5 @@
-const quickViewAllowed=host=>host==='codex-complete-challenge-story-taiwanpunchline.playformosa.workers.dev';
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';
+const quickViewAllowed=host=>DEVELOPMENT_TOOLS&&host==='codex-complete-challenge-story-taiwanpunchline.playformosa.workers.dev';
 export function requireQuickViewIsolation(window){
  if(!quickViewAllowed(window.location.hostname)||window.parent===window)return;
  let wrapper=false;

@@ -28,7 +28,7 @@ export function mountGameViewport({scene,clearHold,initialSettings={},onChange=(
  if(guardedCallback)rafOwner.callback=guardedCallback;
 
  function read(){const coarse=window.matchMedia('(pointer:coarse)').matches;
-  const touch=coarse||navigator.maxTouchPoints>0||new URLSearchParams(window.location.search).has('touchPreview');
+  const touch=coarse||navigator.maxTouchPoints>0||(DEVELOPMENT_TOOLS&&new URLSearchParams(window.location.search).has('touchPreview'));
   const s=getComputedStyle(probe),safe={top:parseFloat(s.paddingTop),right:parseFloat(s.paddingRight),bottom:parseFloat(s.paddingBottom),left:parseFloat(s.paddingLeft)};
   return readGameViewport(window,{safe,touch,rotate,fullBleed:window.innerWidth>window.innerHeight});
  }
@@ -61,3 +61,4 @@ export function mountGameViewport({scene,clearHold,initialSettings={},onChange=(
  function setPreferences(next){const r=next.rotate!==false,c=next.camera==='stable'?'stable':'classic';if(r===rotate&&c===camera)return;const rotationChanged=r!==rotate;rotate=r;camera=c;if(rotationChanged)scene.cameraView=null;else resetCameraPreference();clearHold();lifecycle.invalidate('orientation');}
  return {setPreferences,beginFrame,frameDrawn:token=>{pendingPaint=token;},failFrame,get token(){return lifecycle.token;},get overlayControls(){return app.dataset.overlayControls==='true';},get nativeLandscape(){return app.dataset.nativeLandscape==='true';},get ready(){return lifecycle.ready;},get epoch(){return lifecycle.epoch;},get status(){return lifecycle.status;},get reason(){return lifecycle.reason;},subscribe:fn=>lifecycle.subscribe(fn),invalidate:kind=>lifecycle.invalidate(kind),destroy(){canvas?.removeEventListener?.('contextlost',lost);canvas?.removeEventListener?.('contextrestored',restored);events?.off?.('postrender',painted);if(guardedCallback&&rafOwner.callback===guardedCallback)rafOwner.callback=previousCallback;protection.destroy();observer.disconnect?.();modeObserver?.disconnect();lifecycle.destroy();},get rotation(){return frame?.rotation||0;},get camera(){return camera;},get frame(){return frame;}};
 }
+import {DEVELOPMENT_TOOLS} from './release-features.mjs';

@@ -8,7 +8,7 @@ let shared={};try{shared=await import('../dist/challenge-camera.mjs');}catch(err
 const actor=(x,y=430,depth=0)=>({x,y,depth,hp:100});
 const bounds=(f,a)=>({left:f.width/2+(a.x-(f.controlOverlay==='soft'||f.playerCloseCamera?132:130)-f.x)*f.zoom,right:f.width/2+(a.x+(f.controlOverlay==='soft'||f.playerCloseCamera?132:130)-f.x)*f.zoom,top:f.height/2+(a.y+(a.depth||0)*.65-300-f.y)*f.zoom,bottom:f.height/2+(a.y+(a.depth||0)*.65+28-f.y)*f.zoom});
 const overlap=(a,b)=>a.left<b.right-1e-6&&a.right>b.left+1e-6&&a.top<b.bottom-1e-6&&a.bottom>b.top+1e-6;
-function fits(f,actors,safeRect,occlusions,close=false){assert.equal(!!f.playerCloseCamera,close,'only explicitly selected phone street profiles own close framing');if(close)assert.deepEqual(f.playerCloseCamera.pose,{x:actors[0].x,displayY:actors[0].y+(actors[0].depth||0)*.65},'close pose is the actual controlled player');for(const a of close||f.playerFixedCamera?actors.slice(0,1):actors){const b=bounds(f,a);assert.ok(b.left>=safeRect.left-1e-5&&b.right<=safeRect.right+1e-5,'whole body proxy inside horizontal safe area');assert.ok(b.top>=safeRect.top-1e-5&&b.bottom<=safeRect.bottom+1e-5,'whole body proxy inside vertical safe area');for(const o of occlusions){const protectedBox=f.controlOverlay==='soft'&&o.kind==='control'?{...b,bottom:b.bottom-168*f.zoom}:b;assert.equal(overlap(protectedBox,o),false,`standing head/collar or full-body proxy avoids ${o.kind}`);}}}
+function fits(f,actors,safeRect,occlusions,close=false){assert.equal(!!f.playerCloseCamera,close,'only explicitly selected phone street profiles own close framing');if(close)assert.deepEqual(f.playerCloseCamera.pose,{x:actors[0].x,displayY:actors[0].y+(actors[0].depth||0)*.65},'close pose is the actual controlled player');for(const a of close||f.playerFixedCamera||f.controlledCombatCamera?actors.slice(0,1):actors){const b=bounds(f,a);assert.ok(b.left>=safeRect.left-1e-5&&b.right<=safeRect.right+1e-5,'whole body proxy inside horizontal safe area');assert.ok(b.top>=safeRect.top-1e-5&&b.bottom<=safeRect.bottom+1e-5,'whole body proxy inside vertical safe area');for(const o of occlusions){const protectedBox=f.controlOverlay==='soft'&&o.kind==='control'?{...b,bottom:b.bottom-168*f.zoom}:b;assert.equal(overlap(protectedBox,o),false,`standing head/collar or full-body proxy avoids ${o.kind}`);}}}
 function geometry(w,h){return {safeRect:{left:8,top:8,right:w-8,bottom:h-8},occlusions:[{kind:'hud',left:8,top:8,right:w-8,bottom:Math.min(120,h*.23)},{kind:'control',left:8,top:h-130,right:w*.27,bottom:h-8},{kind:'control',left:w*.65,top:h-154,right:w-8,bottom:h-8}]};}
 test('shared camera moves into upper blank space before reducing preferred character size',()=>{
  assert.equal(typeof shared.fitChallengeCamera,'function','shared safety camera is implemented');
@@ -44,10 +44,10 @@ test('pause freezes main street and later chapters until a real resize',()=>{
  const frozen=adapter.frame({zoom:.3,left:300,base:500},world,{...options,width:390,height:844,route:true,paused:true,camera:'stable'});assert.deepEqual(frozen,first);
  const resized=adapter.frame({zoom:.3,left:300,base:500},world,{...options,...geometry(844,390),width:844,height:390,portrait:false,route:true,paused:true});assert.notEqual(resized.cameraFrame.width,first.cameraFrame.width);
 });
-test('desktop preferred composition is exact when measured UI does not block it',()=>{
+test('desktop chapter duel adopts the same standing scale as the main combat entry',()=>{
  const p=actor(436),enemy=actor(524),world={player:p,enemy},adapter=createMobileCameraAdapter(),legacy={zoom:.8,left:-300,base:570};
  const result=adapter.frame(legacy,world,{width:1280,height:720,touch:false,portrait:false,camera:'classic',safeRect:{left:0,top:0,right:1280,bottom:720},occlusions:[]});
- assert.equal(result.zoom,legacy.zoom);assert.equal(result.left,legacy.left);assert.equal(result.base,legacy.base);
+ const expected=fullStageCameraFrame(cameraFrame,1280,720,[p,enemy],null,1000/60,{touch:false,portrait:false,cameraMode:'classic',safeRect:{left:0,top:0,right:1280,bottom:720},occlusions:[]});assert.deepEqual(result.cameraFrame,expected);
 });
 test('dynamic and stable use different movement cadence with identical safety',()=>{
  assert.equal(typeof shared.fitChallengeCamera,'function');
