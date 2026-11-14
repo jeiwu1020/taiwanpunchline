@@ -5,7 +5,7 @@ export function mountHomeContinuation({document,window}){
   const selected=['1','2','3'].find(n=>document.querySelector('#profile-'+n)?.getAttribute('aria-pressed')==='true')??'1';
   const badge=document.querySelector('#profile-test-badge'),test=!!badge&&!badge.hidden;
   link.setAttribute('href',`preview/chapter2/?${test?'test=1':'campaign=1'}&profile=slot-${selected}`);
-  link.textContent=test?'試玩後續章節（不存進度） →':'繼續追麥：第二至四章 →';
+  link.textContent=test?'試玩後續章節（不存進度） →':'繼續追麥：後續章節 →';
  };
  update();link.addEventListener('click',update);
  const observer=new window.MutationObserver(update);

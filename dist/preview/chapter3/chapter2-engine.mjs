@@ -1,45 +1,18 @@
-import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=workers-background-only-20261113-r1';
-import {Duel,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=workers-background-only-20261113-r1';
-import {CHAPTER2} from './chapter2-content.mjs?v=workers-background-only-20261113-r1';
+import {installBossEncounter} from '../../chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-upgrade-r1';
+import {Duel,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER2} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
- 'miniboss-a':{type:'wang',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'punch',name:'這題是單選！',range:112,warning:.55,rest:.65},{action:'punch',name:'請勿跳過問卷！',range:112,warning:.85,rest:1.25}]},
- 'miniboss-b':{type:'huang',mobKind:'mini_guard',name:'程序總管',pattern:[{action:'special3',name:'請先領取表格！',range:220,warning:1.0,rest:1.6},{action:'special2',name:'少了一張附件！',range:145,warning:.9,rest:1.8},{action:'special1',name:'請回原窗口！',range:190,warning:1.0,rest:1.9}]}
+ 'miniboss-a':{type:'ko',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'special2',name:'題目落地！離開標記！',range:230,warning:.95,rest:2.3},{action:'punch',name:'答案請交到這裡！',range:112,warning:.6,rest:1.6}]},
+ 'miniboss-b':{type:'ko',mobKind:'mini_guard',name:'程序總管',pattern:[{action:'special2',name:'退件通知！離開標記！',range:230,warning:.75,rest:1.4},{action:'special1',name:'附件兩袋！擋完再回！',range:150,warning:.65,rest:1.5},{action:'punch',name:'還缺一個章！',range:112,warning:.45,rest:1.3}]}
 });
 
-class ChapterMiniDuel extends Duel{
- constructor(spec,{characterId,helperId,difficulty,rng,stats}){
-  super(characterId,difficulty,rng,spec.type,{playerAssist:helperId,playerStats:stats,enemyStats:challengeOpponentStats(spec.type,{kind:'miniboss'})});
-  this.nextItemAt=Infinity;this.enemy.mobKind=spec.mobKind;this.enemy.displayName=spec.name;this.miniSpec=spec;this.miniPattern=0;this.miniPhase='approach';this.miniWait=.5;this.warning=null;
- }
- think(dt){
-  this.aiAction=null;this.aiInput={};const e=this.enemy,p=this.player,spec=this.miniSpec.pattern[this.miniPattern%this.miniSpec.pattern.length];
-  if(e.hp<=0||e.stun>0||e.guardBroken>0)return;
-  if(e.attack)return;
-  this.miniWait=Math.max(0,this.miniWait-dt);
-  if(this.miniPhase==='rest'){
-   if(this.miniWait>0)return;this.miniPattern++;this.miniPhase='approach';return;
-  }
-  const dx=p.x-e.x;
-  if(this.miniPhase==='approach'){
-   if(Math.abs(dx)>spec.range){this.aiInput=dx>0?{right:true}:{left:true};return;}
-   if(this.miniWait>0)return;
-   this.miniPhase='warning';this.miniWait=spec.warning*(this.difficulty==='beginner'?1.3:1);this.warning={name:spec.name,remaining:this.miniWait};
-   this.events.push({type:'minibossWarning',name:spec.name,f:e});return;
-  }
-  if(this.warning)this.warning.remaining=this.miniWait;
-  if(this.miniWait>0)return;
-  const idx=Number(spec.action.at(-1))-1;this.aiAction=spec.action==='punch'||e.cooldowns[idx]<=0?spec.action:'punch';
-  this.miniPhase='rest';this.miniWait=spec.rest;this.warning=null;
- }
- thinkAssist(){} // Fictional solo minibosses do not summon politician helpers.
- drainEvents(){return this.events.splice(0).map(e=>e.type==='move'&&e.f===this.enemy?{...e,name:this.miniSpec.pattern[this.miniPattern%this.miniSpec.pattern.length].name,fictionalMini:true}:e);}
-}
 export function createChapter2Duel({stepId,characterId='wang',helperId='han',difficulty='beginner',rng=Math.random,stats}={}){
  const spec=Object.hasOwn(MINIBOSS_PATTERNS,stepId)?MINIBOSS_PATTERNS[stepId]:null;
  if(spec)return new ChapterMiniDuel(spec,{characterId,helperId,difficulty,rng,stats});
  if(stepId!=='boss')throw new RangeError('Unknown chapter-three duel');
- const d=new Duel(characterId,difficulty,rng,'ko',{playerAssist:helperId,playerStats:stats});d.nextItemAt=Infinity;d.enemy.displayName='柯P';d.drainEvents=()=>d.events.splice(0);return d;
+ const d=new Duel(characterId,difficulty,rng,'ko',{playerAssist:helperId,playerStats:stats});d.nextItemAt=Infinity;d.enemy.displayName='柯P';d.drainEvents=()=>d.events.splice(0);return installBossEncounter(d,3);
 }
 export function createChapter2Route({routeIndex,characterId='wang',helperId='han',difficulty='beginner',rng=Math.random,carry=null,stats}={}){
  if(!Number.isInteger(routeIndex)||routeIndex<0||routeIndex>2)throw new RangeError('Unknown route');

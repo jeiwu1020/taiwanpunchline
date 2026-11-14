@@ -7,7 +7,7 @@ export function chaseWindowPlan(chapter,{width=320,time=0}={}){
  return {chapter,mic,micCount:1,interactive:false,carrier:chapter===3?'ribbon':'wheeled-stand',wheels:chapter===4?{y:72,radius:4,rotation:time*.002}:null,label:chapter===3?'前方：花車綵帶':'前方：帶輪麥架'};
 }
 export function installChaseWindow({document,chapter}){
- const enabled=new URLSearchParams(document.defaultView?.location?.search||'').has('chasePanel');
+ const enabled=DEVELOPMENT_TOOLS&&new URLSearchParams(document.defaultView?.location?.search||'').has('chasePanel');
  if(!enabled)return {paint(){},enabled:false};
  const stage=document.querySelector('#stage'),panel=document.createElement('aside'),canvas=document.createElement('canvas');
  panel.id='later-chase-window';panel.hidden=true;panel.setAttribute('aria-label',chapter===3?'候選追逐畫面：花車綵帶帶著神麥往前':'候選追逐畫面：神麥固定在前方帶輪麥架');panel.style.cssText='height:82px;flex:none;border-bottom:3px solid #17353a;background:#fff0cd;pointer-events:none;';canvas.style.cssText='width:100%;height:79px;display:block;';panel.append(canvas);stage.before(panel);
@@ -28,3 +28,4 @@ export function installChaseWindow({document,chapter}){
   ctx.drawImage(image,...m.crop,m.x,m.y,m.width,m.height);
  }};
 }
+import {DEVELOPMENT_TOOLS} from '../release-features.mjs';

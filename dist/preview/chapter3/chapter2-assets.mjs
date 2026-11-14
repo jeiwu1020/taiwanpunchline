@@ -1,4 +1,5 @@
 export const ASSET_FILES={
+ 'chapter-street-motifs':'challenge/chapter-street-motifs-v1.png',
  "ko-sweep":"ko-sweep-v9.webp",
  "ko-counter":"ko-counter-v9.webp",
  "ko-head":"ko-head-v6.webp",

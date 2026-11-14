@@ -216,3 +216,99 @@
 .app:is([data-touch="false"],[data-touch="true"][data-layout="landscape"])[data-touch="true"][data-layout="landscape"] .title-character--back-2{--cameo-x:50%;--cameo-y:0%}
 .app:is([data-touch="false"],[data-touch="true"][data-layout="landscape"])[data-touch="true"][data-layout="landscape"] .title-character--back-3{--cameo-x:70%;--cameo-y:0%}
 .app:is([data-touch="false"],[data-touch="true"][data-layout="landscape"])[data-touch="true"][data-layout="landscape"] .title-character--back-4{--cameo-x:90%;--cameo-y:0%}
+
+/* Keep the center target clear at intermediate desktop heights. Portraits,
+   labels and their animation retain their existing sizes. Side-turned phones
+   deliberately keep the original layout; nativeLandscape is the shell flag. */
+.app[data-touch="false"][data-layout] .title-ensemble{container-name:desktop-title-cast}
+@container desktop-title-cast (max-height:360px){
+ .app[data-touch="false"][data-layout] .title-actions{top:max(50%,calc(26cqh + 84px));width:34%}
+ .app[data-touch="false"][data-layout] .title-character--back-3{--cameo-x:25%}
+ .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-x:75%}
+}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-ensemble{container-name:native-title-cast;min-height:144px}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-actions{top:max(74%,calc(var(--title-face-height) + 48px));width:30%}
+/* In the shortest natural landscape view, attach the central name beside its
+   portrait so a full-size label cannot disappear behind Start. */
+@container native-title-cast (max-height:180px){
+ .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--back-2{padding-bottom:26px}
+ .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--back-2 figcaption{
+  position:absolute;left:calc(50% + var(--title-face-height)*.46);top:calc(var(--title-face-height)*.55);max-width:none;
+ }
+}
+@container desktop-title-cast (max-height:220px){
+ .app[data-touch="false"][data-layout] .title-actions{top:62%;width:30%}
+ .app[data-touch="false"][data-layout] .title-character--back-1{padding-bottom:26px}
+ .app[data-touch="false"][data-layout] .title-character--back-1 figcaption{
+  position:absolute;left:calc(50% + var(--title-face-height)*.5);top:calc(var(--title-face-height)*.5);max-width:none;
+ }
+}
+
+/* A caption must be above every portrait, not trapped inside its own card's
+   isolation/transform/z-index context. Percentage margins preserve the exact
+   existing card centering; only the image itself keeps the original animation.
+   Separate art layers retain the original portrait/background overlap order. */
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character{
+ isolation:auto;z-index:auto;transform:none;margin-left:var(--title-card-shift,-13%);
+}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character::before{z-index:calc(var(--title-art-layer,2)*2)}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character img{position:relative;z-index:calc(var(--title-art-layer,2)*2 + 1)}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character figcaption{z-index:30}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-actions{z-index:20}
+.title-character--back-1{--title-art-layer:1}
+.title-character--front{--title-art-layer:4}
+.title-character--back-3,.title-character--back-4{--title-art-layer:5}
+.app[data-touch="false"][data-layout] .title-character--front{--title-card-shift:-14.5%}
+@container title-poster (max-height:450px){
+ .app[data-touch="false"][data-layout] .title-character{--title-card-shift:-10%}
+ .app[data-touch="false"][data-layout] .title-character--front{--title-card-shift:-11.5%}
+ .app[data-touch="false"][data-layout] .title-character--back-1{--title-card-shift:-9%}
+}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character{--title-card-shift:-9%}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--front{--title-card-shift:-12%}
+
+/* An unusually short desktop must not turn the cast into tiny thumbnails.
+   Keep the existing ring and readable names; use nearby empty space instead
+   of reducing the entire poster. Tall desktops and both phone shells keep
+   their existing image sizes and arrangement. */
+@container desktop-title-cast (max-height:180px){
+ .app[data-touch="false"][data-layout] .title-character{--title-face-height:clamp(48px,32cqh,58px)}
+ .app[data-touch="false"][data-layout] .title-character--back-1{--cameo-y:-6%}
+ .app[data-touch="false"][data-layout] .title-character--back-3,
+ .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-y:calc(100% - var(--title-face-height) - 25px)}
+}
+
+/* Wide, medium-height desktop windows have room beside the cast, not below
+   it. Use five portraits over two flanking Start, with independently sized
+   faces and modest fixed-size ovals. Tall windows and every touch shell keep
+   their existing composition, including side-turned phones. */
+@media (min-width:1000px) and (min-height:500px) and (max-height:850px) and (min-aspect-ratio:2/1){
+ .app[data-touch="false"][data-layout] .title-poster{width:min(1100px,100%);max-width:1100px}
+ .app[data-touch="false"][data-layout] .title-ensemble{max-width:1100px}
+ .app[data-touch="false"][data-layout] .title-character{
+  --title-face-height:clamp(74px,39cqh,128px);--title-card-shift:-9%;
+  width:18%;height:auto;padding:0;grid-template-rows:var(--title-face-height) auto;
+ }
+ .app[data-touch="false"][data-layout] .title-character::before{
+  inset:auto;left:50%;top:calc(var(--title-face-height) - 42px);
+  width:min(190px,100%);height:52px;box-sizing:border-box;
+  transform:translateX(-50%) rotate(var(--cameo-angle));
+ }
+ .app[data-touch="false"][data-layout] .title-character figcaption{
+  position:relative;left:auto;top:auto;max-width:100%;font-size:16px;line-height:1.25;padding:2px 8px;
+ }
+ .app[data-touch="false"][data-layout] .title-character--back-0{--cameo-x:10%;--cameo-y:0%}
+ .app[data-touch="false"][data-layout] .title-character--back-1{--cameo-x:30%;--cameo-y:0%}
+ .app[data-touch="false"][data-layout] .title-character--back-2{--cameo-x:50%;--cameo-y:0%}
+ .app[data-touch="false"][data-layout] .title-character--back-3{--cameo-x:70%;--cameo-y:0%}
+ .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-x:90%;--cameo-y:0%}
+ .app[data-touch="false"][data-layout] .title-character--front{
+  --title-card-shift:-11%;--cameo-y:calc(100% - var(--title-face-height) - 32px);width:22%;
+ }
+ .app[data-touch="false"][data-layout] .title-character--left{--cameo-x:20%}
+ .app[data-touch="false"][data-layout] .title-character--right{--cameo-x:80%}
+ .app[data-touch="false"][data-layout] .title-character--front::before{width:min(220px,100%);height:58px;top:calc(var(--title-face-height) - 48px)}
+ .app[data-touch="false"][data-layout] .title-actions{top:auto;bottom:0;width:32%;gap:4px;transform:translateX(-50%)}
+ .app[data-touch="false"][data-layout] .title-start{min-height:54px;padding:8px 12px;font-size:22px;gap:18px;transform:rotate(-1deg)}
+ .app[data-touch="false"][data-layout] .title-status{font-size:12px;line-height:1.5;white-space:nowrap}
+}

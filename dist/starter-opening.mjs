@@ -1,6 +1,6 @@
-import {createProloguePlayer,prologueEntry} from './starter-prologue.mjs?v=workers-background-only-20261113-r1';
-import {fitWindowHeight,paintStarterComic} from './starter-comic-layout.mjs?v=workers-background-only-20261113-r1';
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
+import {createProloguePlayer,prologueEntry} from './starter-prologue.mjs?v=campaign-boot-20261112-r3';
+import {fitWindowHeight,paintStarterComic} from './starter-comic-layout.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
 export const STARTER_ART_FILES=Object.freeze({
  'starter-wang':'starter-prologue/wang-complete-poses-b.png','starter-han':'starter-prologue/han-complete-poses-b.png',
  'starter-wangRoom':'starter-prologue/wang-bedroom-b.png','starter-hanRoom':'starter-prologue/han-bedroom-b.png',

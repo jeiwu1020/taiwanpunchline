@@ -1,3 +1,4 @@
+import {DEVELOPMENT_TOOLS} from './release-features.mjs';
 // Portable, versioned player profiles. This key never owns audio/display settings.
 // Test mode lives in memory only: it is not an unlock, save, or ranking credential.
 export const PROFILE_KEY='taiwanpunchline-progress-v1';
@@ -65,11 +66,12 @@ export function createProfileProgress({storage,onChange=()=>{}}={}){
    // its latest valid document before changing only the active profile pointer.
    if(!storageIssue){try{const raw=storage?.getItem(PROFILE_KEY);if(raw!=null){const latest=validateProfileDocument(JSON.parse(raw));if(latest)state=latest;else storageIssue='unsupported';}}catch{storageIssue='unavailable';}}
    testMode=false;state.activeProfileId=id;persist();notify();return true;},
-  enterTestMode(){if(testMode)return false;testMode=true;notify();return true;},
+  enterTestMode(){if(!DEVELOPMENT_TOOLS||testMode)return false;testMode=true;notify();return true;},
   exitTestMode(){if(!testMode)return false;testMode=false;notify();return true;},
  };
 }
 export function createFiveTapGate({now=()=>Date.now(),windowMs=5000,onActivate=()=>{}}={}){
+ if(!DEVELOPMENT_TOOLS)return {reset(){},tap(){return false;}};
  let count=0,first=0;
  return {reset(){count=0;first=0;},tap(id){const time=now();if(id!=='chen'){count=0;first=0;return false;}
   if(count&&time-first>windowMs)count=0;if(!count)first=time;count++;

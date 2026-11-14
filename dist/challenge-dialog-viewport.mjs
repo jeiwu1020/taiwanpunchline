@@ -1,5 +1,5 @@
-import {challengeContentFrame} from './challenge-layout.mjs?v=workers-background-only-20261113-r1';
-import {readGameViewport,measureViewportElements} from './viewport-lifecycle.mjs?v=workers-background-only-20261113-r1';
+import {challengeContentFrame} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
+import {readGameViewport,measureViewportElements} from './viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
 // Native top-layer dialogs do not inherit the game's rotated visual viewport.
 // Follow its committed geometry instead of calculating a second rotation policy.
 export function challengeDialogFrame({width,height,rotation=0,left=0,top=0,screenWidth=width,screenHeight=height,maxWidth=980,anchor='top',fullBleed=false,safeLeft=0,safeRight=0,safeTop=0,safeBottom=0}){
@@ -22,7 +22,7 @@ export function mountChallengeDialogViewport(dialog,{document:doc=dialog.ownerDo
   let capability;try{capability=savedRecoveryExit?.();}catch{return;}if(!capability||app?.__viewportState?.ready!==false||unreadyGeometry())return;
   if(!exitSection){exitSection=doc.createElement('section');exitSection.dataset.viewportSavedExit='true';exitSection.style.cssText='font:700 16px/1.5 sans-serif;color:#17353a;background:#fff5dc;text-align:left';exitCopy=doc.createElement('p');exitCopy.dataset.viewportExitCopy='true';exitCopy.setAttribute('role','status');exitCopy.style.cssText='margin:0 0 12px;overflow-wrap:anywhere';exitButton=doc.createElement('button');exitButton.type='button';exitButton.dataset.viewportSavedReload='true';exitButton.textContent='重新載入已保存進度';exitButton.style.cssText='box-sizing:border-box;min-height:44px;width:100%;font:700 16px/1.3 sans-serif;padding:10px;border:2px solid #17353a;border-radius:5px;background:#fff8e7;color:#17353a;touch-action:manipulation';exitButton.onclick=()=>{updateExit();if(!exitCapability||exitButton.disabled)return;const capability=exitCapability;try{if(capability.reload?.()!==true){exitButton.disabled=true;exitCopy.textContent='尚未確認保存，已保留此頁，沒有重新載入。';}}catch{exitButton.disabled=true;exitCopy.textContent='未能安全重新載入，請保留此頁。';}};exitSection.append(exitCopy,exitButton);}
   if(exitSection.parentElement!==dialog)dialog.append(exitSection);
-  exitCapability=capability;for(const child of dialog.children){if(child===exitSection)continue;protectedChildren.push([child,child.style.getPropertyValue('display'),child.style.getPropertyPriority('display')]);child.style.setProperty('display','none','important');}
+  exitCapability=capability;for(const child of dialog.children){if(child===exitSection||child.id==='quick-view-tools'&&child.shadowRoot)continue;protectedChildren.push([child,child.style.getPropertyValue('display'),child.style.getPropertyPriority('display')]);child.style.setProperty('display','none','important');}
   // Native viewport units and browser centering are independent of the broken
   // game frame. This one saved-only exit never marks the game viewport ready.
   const styles={position:'fixed',inset:'0',left:'0',top:'0',right:'0',bottom:'0',margin:'auto',transform:'none',height:'fit-content',width:'min(420px, calc(100vw - 24px))','max-width':'calc(100vw - 24px)','max-height':'calc(100dvh - 24px)',overflow:'auto',padding:'16px','box-sizing':'border-box'};
@@ -50,7 +50,7 @@ export function mountChallengeDialogViewport(dialog,{document:doc=dialog.ownerDo
  // A CSS-rotated modal needs screen motion mapped back to its logical Y axis.
  // Native vertical touch panning cannot do that reliably, especially on iOS.
  const rotation=()=>Number(dialog.dataset.rotation)||0;
- const scrollSurface=target=>{const menu=target?.closest?.('[data-pick-menu],.challenge-preparation-panel,.challenge-shell-body,.settings-scroll,.detail-scroll');return menu&&menu.scrollHeight>menu.clientHeight?menu:dialog;};
+ const scrollSurface=target=>{let menu=target?.closest?.('[data-pick-menu],.challenge-preparation-panel,.challenge-shell-body,.settings-scroll,.detail-scroll,.story-copy>p,.story-copy');if(menu?.matches?.('.story-copy>p')&&menu.scrollHeight<=menu.clientHeight)menu=menu.closest('.story-copy');return menu&&menu.scrollHeight>menu.clientHeight?menu:dialog;};
  function down(e){suppressClick=false;if(unreadyActionToken||savedRecoveryExit)press={token:actionToken(e),target:e.target?.closest?.('button')||e.target,geometry:geometryKey(),metrics:metricKey(),id:e.pointerId,x:e.clientX,y:e.clientY,released:false,cancelled:e.isPrimary===false||e.button!==0};if(app?.__viewportState?.ready===false||!rotation()||e.pointerType!=='touch'||e.isPrimary===false)return;const surface=scrollSurface(e.target);gesture={epoch:app?.__viewportState?.epoch,id:e.pointerId,x:e.clientX,y:e.clientY,top:surface.scrollTop,surface,angle:rotation()*Math.PI/180,moved:false};}
  function move(e){if(press?.id===e.pointerId&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>=6){press.cancelled=true;suppressClick=true;}if(!gesture||gesture.id!==e.pointerId)return;const dx=e.clientX-gesture.x,dy=e.clientY-gesture.y;
   if(!gesture.moved&&Math.hypot(dx,dy)<6)return;gesture.moved=true;suppressClick=true;e.preventDefault();
@@ -67,9 +67,15 @@ export function mountChallengeDialogViewport(dialog,{document:doc=dialog.ownerDo
   if(!delta)return;e.preventDefault();surface.scrollTop=Math.max(0,Math.min(surface.scrollHeight-surface.clientHeight,surface.scrollTop+delta));
  }
  const listeners=[['pointerdown',down,!!(unreadyActionToken||savedRecoveryExit)],['pointermove',move,{passive:false,capture:!!(unreadyActionToken||savedRecoveryExit)}],['pointerup',up,!!(unreadyActionToken||savedRecoveryExit)],['pointercancel',up,!!(unreadyActionToken||savedRecoveryExit)],['click',click,true],['wheel',wheel,{passive:false}]];
- for(const args of listeners)dialog.addEventListener?.(...args);
+ // A quick-view overlay may live inside this modal to escape modal inertness.
+ // Its controls use physical viewport coordinates, not the rotated game frame.
+ const scopedListeners=listeners.map(([type,listener,options])=>[type,event=>{
+  if(event.composedPath?.().some(node=>node.id==='quick-view-tools'&&node.shadowRoot))return;
+  listener(event);
+ },options]);
+ for(const args of scopedListeners)dialog.addEventListener?.(...args);
  const Observer=win?.MutationObserver;const observer=Observer&&app?new Observer(sync):null;
  observer?.observe(app,{attributes:true,attributeFilter:['data-rotation','data-layout','data-compact','data-full-bleed','style']});
  if(shell)observer?.observe(shell,{attributes:true,attributeFilter:['style']});const unmanagedResize=()=>{if(!app?.__viewportState)sync();};win?.addEventListener?.('resize',unmanagedResize);win?.addEventListener?.('parliamentviewportchange',sync);sync();
- return{sync,destroy(){restoreExit();exitSection?.remove();disposed=true;gesture=null;press=null;observer?.disconnect();win?.removeEventListener?.('resize',unmanagedResize);win?.removeEventListener?.('parliamentviewportchange',sync);for(const args of listeners)dialog.removeEventListener?.(...args);}};
+ return{sync,destroy(){restoreExit();exitSection?.remove();disposed=true;gesture=null;press=null;observer?.disconnect();win?.removeEventListener?.('resize',unmanagedResize);win?.removeEventListener?.('parliamentviewportchange',sync);for(const args of scopedListeners)dialog.removeEventListener?.(...args);}};
 }

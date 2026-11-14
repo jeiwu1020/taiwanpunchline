@@ -1,9 +1,9 @@
-import {clone,newDocument,currentProfile,deriveStats,validateDocument,MAX_SERIAL,integer,allowance,normalizeCarry} from '../core/model.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=workers-background-only-20261113-r1';
-import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=workers-background-only-20261113-r1';
-import {createChallengeProgress} from '../../../challenge-progress.mjs?v=workers-background-only-20261113-r1';
-import {newProfileDocument} from '../../../profile-progress.mjs?v=workers-background-only-20261113-r1';
-import {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY,SEED_KEY,parse,legacyDocument,legacySlot,legacyProjection,newEnvelope,validateEnvelope,adoptionInfo,sourceBundle,MAX_ENVELOPE_LENGTH} from './schema.mjs?v=workers-background-only-20261113-r1';
+import {clone,newDocument,currentProfile,deriveStats,validateDocument,MAX_SERIAL,integer,allowance,normalizeCarry} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-boot-20261112-r3';
+import {createChallengeProgress} from '../../../challenge-progress.mjs?v=campaign-boot-20261112-r3';
+import {newProfileDocument} from '../../../profile-progress.mjs?v=campaign-boot-20261112-r3';
+import {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY,SEED_KEY,parse,legacyDocument,legacySlot,legacyProjection,newEnvelope,validateEnvelope,adoptionInfo,sourceBundle,MAX_ENVELOPE_LENGTH} from './schema.mjs?v=campaign-boot-20261112-r3';
 export {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY};
 /** No globals, eager write, automatic adoption, deletion or original-key rewrite. */
 export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNIFIED_KEY}={}){
@@ -183,7 +183,7 @@ export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNI
    session.run=run;session.revision=state.revision;return {...saved,token:session.token,run:clone(run),rewardedXP};
   },{allowDirty:true});},
   cancelRun(){session=null;},
-  enterTestMode(){modeEpoch++;session=null;testMode=true;notify();return true;},exitTestMode(){modeEpoch++;session=null;testMode=false;notify();return true;},
+  enterTestMode(){if(!DEVELOPMENT_TOOLS)return false;modeEpoch++;session=null;testMode=true;notify();return true;},exitTestMode(){modeEpoch++;session=null;testMode=false;notify();return true;},
   async refresh(){await tail;if(pending)return reject('unsaved-progress');const success=read();notify();return success?{accepted:true,persisted:get().persisted}:reject(reason);},
   retrySave(){return enqueue(()=>{
    if(!pending)return reject('not-dirty');const current=storage.getItem(pending.key);
@@ -236,3 +236,4 @@ export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNI
  };
  return api;
 }
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';

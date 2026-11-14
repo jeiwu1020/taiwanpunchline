@@ -1,44 +1,53 @@
-import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=workers-background-only-20261113-r1';
-import {backgroundPresentation} from '../../background-cache-policy.mjs?v=workers-background-only-20261113-r1';
-import {planSimulationFrame} from '../../simulation-frame.mjs?v=workers-background-only-20261113-r1';
-import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=workers-background-only-20261113-r1';
-import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=workers-background-only-20261113-r1';
-import {createChapterMedia} from '../campaign/chapter-media.mjs?v=workers-background-only-20261113-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=workers-background-only-20261113-r1';
-import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=workers-background-only-20261113-r1';
-import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=workers-background-only-20261113-r1';
-import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=workers-background-only-20261113-r1';
-import {chapterAssetURL} from '../shared-asset-urls.mjs?v=workers-background-only-20261113-r1';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=workers-background-only-20261113-r1';
-import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=workers-background-only-20261113-r1';
-import {installChaseWindow} from '../later-chase-window.mjs?v=workers-background-only-20261113-r1';
-import {CAST,Duel,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
-import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=workers-background-only-20261113-r1';
-import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=workers-background-only-20261113-r1';
-import {streetTrialFrame,containSprite} from './street-trial-view.mjs?v=workers-background-only-20261113-r1';
-import {DESK} from './stage-expansion.mjs?v=workers-background-only-20261113-r1';
-import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=workers-background-only-20261113-r1';
-import {arrowPresentation} from './art-motion.mjs?v=workers-background-only-20261113-r1';
-import {bindTouchControls} from './touch-controls.mjs?v=workers-background-only-20261113-r1';
-import {createPlayableChapter} from './chapter4-controller.mjs?v=workers-background-only-20261113-r1';
-import {CHAPTER4,CHARACTER_NAMES,STARTER_IDS} from './chapter4-content.mjs?v=workers-background-only-20261113-r1';
-import {ASSET_FILES} from './chapter4-assets.mjs?v=workers-background-only-20261113-r1';
-import {CHAPTER4_NEW_ART} from './chapter4-new-art.mjs?v=workers-background-only-20261113-r1';
-import {storyPropState} from './chapter4-story-props.mjs?v=workers-background-only-20261113-r1';
-import {bossRevealed,storyActors} from './chapter4-reveal.mjs?v=workers-background-only-20261113-r1';
+import {loadChapterImage} from '../../chapter-image-loader.mjs';
+import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
+import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
+import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
+import {drawChapterEncounter} from '../../chapter-encounter-art.mjs?v=chapter-upgrade-r1';
+import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
+import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-boot-20261112-r3';
+import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
+import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
+import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
+import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
+import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
+import {createChapterMedia} from '../campaign/chapter-media.mjs?v=campaign-boot-20261112-r3';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-boot-20261112-r3';
+import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=campaign-boot-20261112-r3';
+import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
+import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
+import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-boot-20261112-r3';
+import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
+import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
+import {CAST,Duel,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
+import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=campaign-boot-20261112-r3';
+import {streetTrialFrame,containSprite} from './street-trial-view.mjs?v=campaign-boot-20261112-r3';
+import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=campaign-boot-20261112-r3';
+import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
+import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
+import {createPlayableChapter} from './chapter4-controller.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER4,CHARACTER_NAMES,STARTER_IDS} from './chapter4-content.mjs?v=campaign-boot-20261112-r3';
+import {ASSET_FILES} from './chapter4-assets.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER4_NEW_ART} from './chapter4-new-art.mjs?v=campaign-boot-20261112-r3';
+import {storyPropState} from './chapter4-story-props.mjs?v=campaign-boot-20261112-r3';
+import {bossRevealed,storyActors} from './chapter4-reveal.mjs?v=campaign-boot-20261112-r3';
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
 let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,frameTime=0,storyStartedAt=0,storyToken='';
 const chaseWindow=installChaseWindow({document,chapter:4});
 let idle=new Duel('wang','beginner',()=>.3,'wang');
 const mobileCamera=createMobileCameraAdapter();
-let ui,continuation;
+let ui,continuation,comicReader;
 const media=createChapterMedia({document,window,getSettings:()=>ui?.preferences,getImages:()=>images,onState:s=>ui?.mediaState(s)});
 ui=mountChapterInterface({document,window,cast:CAST,media,clearHold,surfaceContext:ctx,onSurfaceReset:()=>invalidateStreetStaticCaches(ctx),canUse:id=>(v()?.unlocked||STARTER_IDS).includes(id),isBusy:()=>!!continuation?.busy,isOperationBusy:()=>!!continuation?.operationBusy,onPrepare:()=>continuation?.openPreparation({readOnly:true}),onReturnOverview:()=>continuation?.returnOverview({confirmed:true}),onRestart:async()=>{media.unlock();clearHold();const current=chapter,s=v();if(!current||!s?.paused)return false;const result=await current.restartSegment(s.token);if(chapter!==current)return false;if(result===true||result?.accepted&&result?.persisted){if(ui.shouldKeepPausedAfterRestart)current.setPaused(true,current.view().token);sync();ui.syncMedia({restart:true});}else sync();return result;},getCharacter:()=>v()?.characterId||selected,getExitState:()=>v()??continuation?.exitState,onViewportChange:({frame,epoch})=>resizeCanvas(),onCameraChange:()=>{if(!v()?.paused)mobileCamera.reset();},onSound:(enabled)=>{sound=enabled;},pauseForUI:purpose=>{const current=chapter,wasActive=active();if(wasActive&&chapter.setPaused(true,v().token))sync();clearHold();return()=>{if(purpose!=='settings'&&wasActive&&chapter===current&&v()?.paused&&pauseLifecycle.resume())sync();};}});
 const pauseLifecycle=mountChapterPauseLifecycle({document,window,getChapter:()=>chapter,isPending:()=>!!continuation?.operationBusy,clearHold,onChange:()=>sync(),onFrameReset:()=>{lastTime=null;}});
 ui.setCameraAvailable(true);
 mountSpecialNameFit({document});
+const comic=createComicPresentation({chapterId:'chapter-4'});
+comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:tone,isBlocked:()=>!!ui?.busy||ui?.ready===false,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 function v(){return chapter?.view();}
 function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.blocked&&!s.busy&&!ui?.busy&&ui?.ready!==false&&['route','battle'].includes(s.mode);}
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
@@ -52,7 +61,7 @@ function refreshMenu(){roster($('#menu-roster'),STARTER_IDS,selected,id=>{select
 function sync(){
  pauseLifecycle.sync();const s=v();if(!s)return;chaseWindow.paint({active:s.mode==='route'&&!s.paused,image:images['opening-props-v75'],time:frameTime});if(s.mode==='story'&&s.token!==storyToken){storyToken=s.token;storyStartedAt=frameTime;}uiToken=s.token;clearHold();ui.refreshAccess();if(!s.paused&&!ui.busy)ui.cancelRestart(false);const noncombat=!['route','battle'].includes(s.mode)||s.paused||s.blocked||s.busy;document.body.dataset.noncombat=String(noncombat);document.body.dataset.chapterMode=s.paused?"pause":s.mode;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
- $('#pause').disabled=!['route','battle'].includes(s.mode);$('#pause').textContent=s.paused?'▶ 繼續':'Ⅱ 暫停';
+ $('#pause').disabled=!['story','route','battle'].includes(s.mode);$('#pause').textContent=s.mode==='story'?'出戰準備':s.paused?'▶ 繼續':'Ⅱ 暫停';
  $('#fighter-name').textContent=CAST[s.characterId].name;
  for(const [i,b] of $$('#specials button').entries())b.querySelector('.move-copy strong').textContent=CAST[s.characterId].moves[i].name;
  idle=new Duel(s.characterId,'beginner',()=>.3,bossRevealed(s)&&s.characterId!=='ma'?'ma':'wang');
@@ -65,13 +74,13 @@ function sync(){
   $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};
  }else if(s.mode==='choice'||s.mode==='complete'){
   $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
-  $('#choice-title').textContent=s.mode==='complete'?'第四章完成':'小馬哥加入！';$('#choice-copy').textContent=s.mode==='complete'?'第四章已完成。第五章尚未開放。':'第五章尚未開放。本次預覽不保存進度；完成本章後可回到首頁。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
+  $('#choice-title').textContent=s.mode==='complete'?'第四章完成':'小馬哥加入！';$('#choice-copy').textContent=s.mode==='complete'?'第四章完成，前往議場器材歸還處。':'小馬哥看緊輪鎖，繼續護送同一座麥架。本次預覽不保存進度。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
  }
  renderContinuationChoice({document,state:s,chapterId:'chapter-4'});continuation.render();
  if(s.paused){$('#pause-panel').hidden=false;const token=s.token;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=()=>{media.unlock();if(!ui.busy&&pauseLifecycle.resume())sync();};}
- ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
+ comicReader?.sync();ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
 }
-function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
+function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
 $('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
@@ -88,7 +97,7 @@ for(const b of $$('#controls button')){
 }
 
 function routeIndex(s){return !s||s.stepId==='entry'||s.stepId==='route-a'||s?.stepId==='miniboss-a'?0:s?.stepId==='route-b'||s?.stepId==='miniboss-b'?1:2;}
-function paintBackdrop(im,f,w,h,curb=700,scene=routeIndex(v())){return drawStreetBackdrop(ctx,im,{...f,presentation:backgroundPresentation(w,h,ui.cameraOptions)},w,h,curb,images['chapter4-sky-'+scene],images['chapter4-seam-'+scene],scene,images['chapter4-edge-'+scene]);}
+function paintBackdrop(im,f,w,h,curb=700,scene=routeIndex(v())){const result=drawStreetBackdrop(ctx,im,{...f,presentation:backgroundPresentation(w,h,ui.cameraOptions)},w,h,curb,images['chapter4-sky-'+scene],images['chapter4-seam-'+scene],scene,images['chapter4-edge-'+scene]);drawChapterStreetMotifs(ctx,images['chapter-street-motifs'],f,{chapter:4,route:routeIndex(v()),worldWidth:CHAPTER4.routes[routeIndex(v())].width,width:w});return result;}
 function actor(f,frame,time,alpha=1){f=chapter4RenderActor(f);const x=(f.x-frame.left)*frame.zoom,y=frame.base+(f.y-GROUND+(f.depth??0)*.65)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*(f.face||1),frame.zoom);ctx.globalAlpha=alpha;if(f.mobKind?.startsWith('mini_'))drawChapter4Miniboss(ctx,images,f,time,{shadow:false});else if(f.mobKind)drawChallengeMob(ctx,images,f,time,{shadow:false});else drawFighterArt(ctx,images,f,time,{shadow:false});ctx.restore();}
 function label(copy,x,y,size=20,color='#fff3ce'){ctx.font=`900 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.strokeStyle='#17353a';ctx.lineWidth=4;ctx.strokeText(copy,x,y);ctx.fillStyle=color;ctx.fillText(copy,x,y);}
 function microphone(x,y,size=58,angle=-.3){const im=images['opening-props-v75'];if(!im)return;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.fillStyle='#fff5c6cc';ctx.strokeStyle='#bc8534';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,-size*.55,size*.42,size*.68,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.drawImage(im,1186,543,192,444,-size*.22,-size,size*.44,size);ctx.restore();}
@@ -112,7 +121,8 @@ function paintStory(s,w,h,time){
 }
 function draw(time,delta=1000/60){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=v(),g=chapter?.world;ctx.clearRect(0,0,w,h);
- if(!s||s.mode==='story'||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
+ if(s?.mode==='story'){ui.clearCameraHints();comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
+ if(!s||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
  if(!g){ui.clearCameraHints();return;}const route=!!g.depthMode,player=g.player,portrait=ui.viewport.width<ui.viewport.height;
  let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{const spread=Math.abs(g.enemy.x-player.x),zoom=Math.min(portrait?w/660:w/1060,(h-(portrait?90:115))/390,w/(spread+340));f={zoom:Math.max(.3,zoom),left:Math.max(0,Math.min(960-w/Math.max(.3,zoom),(player.x+g.enemy.x)/2-w/Math.max(.3,zoom)/2)),base:portrait?h*.8:h-115};}
  f=mobileCamera.frame(f,g,{width:w,height:h,route,delta,paused:s.paused||g.status==='paused',...ui.cameraOptions});
@@ -126,16 +136,17 @@ function draw(time,delta=1000/60){
  const shadow=a=>{ctx.fillStyle=a===player?'#bd543c55':'#17353a33';ctx.beginPath();ctx.ellipse(sx(a.x),sy(route?(a.supportY??GROUND):GROUND,a.depth),38*f.zoom,8*f.zoom,0,0,Math.PI*2);ctx.fill();};
  for(const a of actors)if(paintActor(a)&&(!route||(a.supportY??GROUND)>=GROUND))shadow(a);
  const objects=chapter4SceneLayers(platforms,actors,route);
- for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(a.mobKind&&a.hp>0)label(a.warning>0?'要出手囉！':a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
+ drawChapterEncounter(ctx,g,(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)}),f.zoom,images);
+ for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
  if(route){if(!g.supplyUsed)drawChallengeSupply(ctx,images,{x:sx(g.section.supplyX),y:sy(GROUND,g.section.supplyDepth),width:90*f.zoom});drawChallengeStreetProp(ctx,images,'sign',{x:sx(g.gateX),y:sy(GROUND,-90),width:85*f.zoom,height:110*f.zoom});label('前方開講 →',sx(g.gateX),sy(GROUND-145,-90),18*f.zoom);}
- for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
+ for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  for(const q of g.obstacles||[])if(!q.dead){drawChallengeStreetProp(ctx,images,'sign',chapter4ObstacleFrame(q,f));}
  for(const r of g.rallies||[])for(let i=4;i>=0;i--){const im=images['supporter-'+(i%2?'man':'woman')];if(!im)continue;const box=containSprite(im.width,im.height,150*f.zoom);ctx.drawImage(im,sx(r.x-r.direction*i*43)-box.width/2,sy(GROUND,r.depth)-box.height,box.width,box.height);}
  if(g.warning)label(g.warning.name,sx(g.enemy.x),sy(g.enemy.y-330),Math.min(26,w/18),'#ffe283');
  if(caption&&performance.now()<captionUntil)label(caption,w/2,Math.min(120,h*.25),Math.min(34,w/15),'#ffe4a4');
 }
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
-function hud(){const s=v(),g=chapter?.world;if(!s)return;const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER4.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?`${g.enemy.displayName} · ${s.rounds.player}:${s.rounds.enemy}`:'第四章 · 追逐神麥');hudText('#objective',route?CHAPTER4.routes[routeIndex(s)].objective:battle?(s.stepId==='boss'?'三戰兩勝，贏的人拿神麥！':'看預告、閃過招式，再反擊。'):s.campaignChapterId?s.saveLabel:'漫畫對白草案 · 不讀寫正式存檔');if(g)ui.render({state:s,world:g});}
+function hud(){const s=v(),g=chapter?.world;if(!s)return;const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER4.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?`${g.enemy.displayName} · ${s.rounds.player}:${s.rounds.enemy}`:'第四章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER4.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(g)ui.render({state:s,world:g});}
 
 function tick(now){
  try{
@@ -157,5 +168,14 @@ function tick(now){
 }
 continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-4',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
 refreshMenu();resizeCanvas();
-const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER4_NEW_ART.files};let loaded=0;
-Promise.all(Object.entries(allFiles).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>{$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';resolve([key,im]);};im.onerror=()=>reject(new Error('Missing asset: '+file));im.src=chapterAssetURL('chapter4',file);}))).then(entries=>{images=Object.fromEntries(entries);$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER4_NEW_ART.files};let loaded=0;let assetLoadFailed=false;
+Promise.all(Object.entries(allFiles).map(async([key,file])=>[key,await loadChapterImage(chapterAssetURL('chapter4',file),{onLoad:()=>{if(assetLoadFailed)return;$('#start').textContent='載入漫畫 '+Math.round(++loaded/Object.keys(allFiles).length*100)+'%';}})])).then(entries=>{images=Object.fromEntries(entries);void comic.load(images).then(()=>comicReader.sync());$('#start').disabled=false;$('#start').textContent='獨立預覽（不存進度）';continuation.assetsReady();requestAnimationFrame(tick);}).catch(err=>{assetLoadFailed=true;continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+
+
+registerQuickView(window,async()=>{
+ if(!active()||continuation?.busy)return false;
+ const s=v(),world=chapter?.world;
+ if(s.mode==='route'){world.status='gate';chapter.step(0,{});await chapter.flush?.();sync();return true;}
+ if(s.mode==='battle'&&world?.enemy){world.enemy.hp=0;return true;}
+ return false;
+});

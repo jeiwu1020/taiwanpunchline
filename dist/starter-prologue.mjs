@@ -10,12 +10,12 @@ export function starterPrologue(characterId){
  if(typeof characterId!=='string'||!Object.hasOwn(NAMES,characterId))throw new RangeError('Unsupported starter character');
  const wang=characterId==='wang',speaker=NAMES[characterId];
  return structuredClone([
-  {id:'wake',art:'wake',bubbles:[bubble('電視','快報！神麥失蹤！','broadcast'),bubble(speaker,wang?'連睡個覺，\n都有人搶麥。':'什麼事，\n比早餐還早？')]},
+  {id:'wake',art:'wake',bubbles:[bubble('電視','快報！神麥失蹤！','broadcast'),bubble(speaker,wang?'本來應該從容睡覺，\n現在連夢都被搶麥！':'鄉親啊，天沒亮，\n麥就先開講？')]},
   ...COMMON_NEWS,
-  {id:'window',art:'window',bubbles:[bubble('窗外','神麥在這啦！','offscreen'),bubble(speaker,wang?'鬧鐘都下班了，\n外面還在吵？':'有這支，\n還用喊到燒聲？')]},
-  {id:'wardrobe',art:'wardrobe',bubbles:[bubble(speaker,wang?'我只講兩句，\n早餐先拿著。':'先吃飽，\n才有力氣講！')]},
-  {id:'chase',art:'chase',bubbles:[bubble(speaker,wang?'看到我要講，\n就跑喔？':'別跑！\n我還沒開始講！')]},
-  {id:'street',art:'street',bubbles:[bubble(speaker,'你也來了？'),bubble(NAMES[wang?'han':'wang'],'先追！\n等一下再聊！')],entry:{chapterId:'chapter-1',checkpoint:0,sectionId:'street'}},
+  {id:'window',art:'window',bubbles:[bubble('窗外','神麥在這啦！','offscreen'),bubble(speaker,wang?'睡得匆匆忙忙，\n外面倒喊得從從容容！':'有神麥，聲音出去，\n人潮就進來啦！')]},
+  {id:'wardrobe',art:'wardrobe',bubbles:[bubble(speaker,wang?'先吃一口，\n才有力氣問到底！':'早餐帶出來，\n氣勢喊出來！')]},
+  {id:'chase',art:'chase',bubbles:[bubble(speaker,wang?'我還沒問，\n你就連滾帶爬？':'麥留下來！\n鄉親還沒聽我講！')]},
+  {id:'street',art:'street',bubbles:[bubble(speaker,wang?'你也追來了？\n這麥比早餐還熱門！':'老兄也來啦？\n那就一起把麥追回來！'),bubble(NAMES[wang?'han':'wang'],wang?'人跟上來，麥追回來！\n先追，等一下再聊！':'別從容聊天了！\n再聊就只能連滾帶爬！')],entry:{chapterId:'chapter-1',checkpoint:0,sectionId:'street'}},
  ].map(scene=>({...scene,characterId,fictional:true,description:scene.news?'電視正在播放遊戲世界的虛構新聞。':({wake:'主角在同一天清晨被鬧鐘與新聞吵醒。',window:'新聞中的金色神麥從窗外飛過。',wardrobe:'主角換好衣服，拿著早餐準備出門。',chase:'主角追著神麥來到街頭。',street:'恰吉王與韓國魚在同一街口會合，追向同一個方向。'}[scene.id])})));
 }
 /** The eventual game integration supplies profile state; this function never writes it. */

@@ -1,24 +1,24 @@
-import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=workers-background-only-20261113-r1';
-import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=workers-background-only-20261113-r1';
+import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=campaign-boot-20261112-r3';
+import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=campaign-boot-20261112-r3';
 // Presentation adapter only. Campaign progression remains in its controller.
-import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=workers-background-only-20261113-r1';
-import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=workers-background-only-20261113-r1';
-import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=workers-background-only-20261113-r1';
-import {createSettingsStore} from '../../settings-state.mjs?v=workers-background-only-20261113-r1';
-import {mountSettingsPanel} from '../../settings-view.mjs?v=workers-background-only-20261113-r1';
-import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=workers-background-only-20261113-r1';
-import {mountGameSelects} from '../../game-select.mjs?v=workers-background-only-20261113-r1';
-import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=workers-background-only-20261113-r1';
-import {guardView,combatStatus} from '../../combat-view.mjs?v=workers-background-only-20261113-r1';
-import {renderCooldownButton} from '../../cooldown-view.mjs?v=workers-background-only-20261113-r1';
-import {renderChargeMeter} from '../../charge-view.mjs?v=workers-background-only-20261113-r1';
+import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
+import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=campaign-boot-20261112-r3';
+import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {createSettingsStore} from '../../settings-state.mjs?v=campaign-boot-20261112-r3';
+import {mountSettingsPanel} from '../../settings-view.mjs?v=campaign-boot-20261112-r3';
+import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
+import {mountGameSelects} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
+import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=campaign-boot-20261112-r3';
+import {guardView,combatStatus} from '../../combat-view.mjs?v=campaign-boot-20261112-r3';
+import {renderCooldownButton} from '../../cooldown-view.mjs?v=campaign-boot-20261112-r3';
+import {renderChargeMeter} from '../../charge-view.mjs?v=campaign-boot-20261112-r3';
 const percent=(value,max)=>Number.isFinite(value)&&max>0?Math.max(0,Math.min(100,value/max*100)):0;
 export function mountChapterInterface({document,window,cast,getCharacter,getExitState=()=>null,pauseForUI=()=>()=>{},onSound=()=>{},storage,navigate=url=>window.location.assign(url),onCameraChange=()=>{},onViewportChange=()=>{},surfaceContext=null,onSurfaceReset=()=>{},clearHold=()=>{},canUse=id=>!!cast[id],media=null,onRestart=()=>false,isBusy=()=>false,isOperationBusy=isBusy,onPrepare=null,onReturnOverview=null}){
  const $=s=>document.querySelector(s),app=document.body;
  const cameraHints=mountCameraDirectionHints({document,root:$('#trial-app')});
  let resume=null,returnFocus=null,cameraEnabled=false,viewport,settingsUI=null,restarting=false,mounted=false,previewAudioFailure=false,restartPauseRequested=false,lifecycle=null,geometryDirty=true,occlusionCache=null,geometryCamera=null,renderedWorld=null;
  const safeProbe=document.createElement('div');safeProbe.style.cssText='position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)';document.body.append(safeProbe);
- const preview=['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
+ const preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
  if(storage===undefined){try{storage=preview?null:window.localStorage;}catch{storage=null;}}
  const store=createSettingsStore({storage,onChange:syncPreferences});
  const template=document.createElement('template');template.innerHTML=chapterSettingsMarkup;
@@ -74,7 +74,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
   if(channel==='demo'&&status==='completed'&&!previewAudioFailure)set('#settings-demo-status','動作示範結束，可再按「動作＋語音」。');
  }
  function readViewport(){
-  const touch=!!(window.matchMedia?.('(pointer:coarse)')?.matches||window.navigator.maxTouchPoints>0||new URL(window.location.href).searchParams.has('touchPreview'));
+  const touch=!!(window.matchMedia?.('(pointer:coarse)')?.matches||window.navigator.maxTouchPoints>0||(DEVELOPMENT_TOOLS&&new URL(window.location.href).searchParams.has('touchPreview')));
   const inset=window.getComputedStyle(safeProbe),safe={top:parseFloat(inset.paddingTop),right:parseFloat(inset.paddingRight),bottom:parseFloat(inset.paddingBottom),left:parseFloat(inset.paddingLeft)};
   return readGameViewport(window,{safe,touch,rotate:store.get().rotate,fullBleed:window.innerWidth>window.innerHeight});
  }
@@ -120,7 +120,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
   for(const [who,a]of [['p',p],['e',e]]){if(!a)continue;const gv=guardView(a),row=$('#'+who+'-guard');text(row.querySelector('small'),gv.label);attr(row,'aria-label',gv.label);toggle(row,'broken',gv.broken);[...row.querySelectorAll('.guard-pips i')].forEach((pip,i)=>toggle(pip,'empty',i>=gv.pips));text($('#'+who+'-status'),combatStatus(a));}
   if(e){text($('#e-name'),e.displayName||cast[e.type]?.name||'對手');text($('#e-hp'),Math.ceil(Math.max(0,e.hp)));css($('#e-fill'),'width',percent(e.hp,e.maxHp)+'%');}
   for(const [i,b]of [...$('#specials').querySelectorAll('button')].entries()){const m=character.moves?.[i];if(!m)continue;const name=b.querySelector('.move-copy strong');if(name.textContent!==m.name)name.textContent=m.name;renderCooldownButton(b,m,p.cooldowns?.[i]||0);}
-  for(const [kind,charge,ready,active]of [['assist',p.assist?.charge||0,!!p.assist?.helper&&!p.assist?.used&&!p.assist?.active,!!p.assist?.active],['rally',p.rally||0,p.rally>=100,false]]){const b=$('#actions .'+kind),key=JSON.stringify([charge,ready,active]);if(chargeCache.get(b)!==key){chargeCache.set(b,key);const v=renderChargeMeter(b,{charge,ready,active});css(b,kind==='assist'?'--assist-charge':'--charge',v.percent+'%');toggle(b,'ready',ready);if(b.disabled===ready)b.disabled=!ready;text($('#'+kind+'-ready'),v.text);}}
+  for(const [kind,charge,ready,active]of [['assist',p.assist?.charge||0,!!p.assist?.helper&&!p.assist?.used&&!p.assist?.active,!!p.assist?.active],['rally',p.rally||0,p.rally>=100,false]]){const b=$('#actions .'+kind);if(kind==='assist'&&b.dataset.assistDisabled==='true')continue;const key=JSON.stringify([charge,ready,active]);if(chargeCache.get(b)!==key){chargeCache.set(b,key);const v=renderChargeMeter(b,{charge,ready,active});css(b,kind==='assist'?'--assist-charge':'--charge',v.percent+'%');toggle(b,'ready',ready);if(b.disabled===ready)b.disabled=!ready;text($('#'+kind+'-ready'),v.text);}}
   const up=$('[data-direction="up"]'),down=$('[data-direction="down"]');if(up){if(route){data(up,'hold','up');if('action'in up.dataset)delete up.dataset.action;}else{data(up,'action','jump');if('hold'in up.dataset)delete up.dataset.hold;}attr(up,'aria-label',route?'往街道內走，鍵盤 W':'跳躍，鍵盤 W');}if(down){data(down,'hold',route?'down':'crouch');attr(down,'aria-label',route?'往街道外走，鍵盤 S':'蹲下，鍵盤 S');}attr($('#touch-stick'),'aria-label',route?'方向搖桿：街道四向走位':'方向搖桿：左右移動，上推跳，下推蹲');
  }
  function cameraOptions(){const {camera:layoutCamera,retain,route}=prepareCombatLayout();if(geometryDirty||!occlusionCache||geometryCamera!==layoutCamera){geometryCamera=layoutCamera;const measurementFrame={...viewport,camera:layoutCamera,route,retainCombatLayout:retain};applyChallengeCameraLayout($('#trial-app'),measurementFrame);occlusionCache=measureChallengeOcclusions({document,root:$('#trial-app'),canvas:$('#game-canvas'),frame:measurementFrame});const origin=challengeLogicalRect($('#game-canvas').getBoundingClientRect(),$('#trial-app').getBoundingClientRect(),viewport.rotation);cameraHints.setGeometry({width:origin.width||viewport.width,height:origin.height||viewport.height,origin,...occlusionCache});geometryDirty=false;}return{touch:app.dataset.touch==='true',portrait:app.dataset.layout==='portrait',nativeLandscape:app.dataset.nativeLandscape==='true',camera:store.get().camera,...occlusionCache};}
@@ -142,3 +142,4 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
 }
 
 export function chapterKeyboardAction(code,route){const key={ArrowUp:route?'up':'jump',KeyW:route?'up':'jump',ArrowDown:route?'down':'crouch',KeyS:route?'down':'crouch',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',Space:'jump',KeyJ:'punch',KeyK:'guard',ShiftLeft:'guard',ShiftRight:'guard',KeyU:'special1',KeyI:'special2',KeyO:'special3',KeyH:'assist',KeyL:'rally'};return key[code];}
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';

@@ -1,17 +1,18 @@
-import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=workers-background-only-20261113-r1';
-import {backgroundPresentation} from './background-cache-policy.mjs?v=workers-background-only-20261113-r1';
-import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=workers-background-only-20261113-r1';
-import {micFootprint,MIC_VISUAL_TILT,MIC_SOURCE_TILT,FLOAT_AMPLITUDE,flyingMicLayout,drawFlyingMic,invalidateFlyingMicRaster} from './preview/chapter2/flying-mic.mjs?v=workers-background-only-20261113-r1';
-import {stageInsets,fitMobilePairSafety} from './combat-presentation.mjs?v=workers-background-only-20261113-r1';
-import {createDepthBackdropRenderer} from './challenge-backdrop-cache.mjs?v=workers-background-only-20261113-r1';
-import {GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
-import {drawFighterArt,drawProp} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {drawChallengeMob,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply,drawChallengeTabletopBand,drawChallengeTableFront} from './challenge-art.mjs?v=workers-background-only-20261113-r1';
-import {drawSignatureProp} from './art-expression.mjs?v=workers-background-only-20261113-r1';
-import {presentationFighter,fighterGazeGlyph,drawHumanGlyph,SIGNATURE_SIZE,nameTileOffset} from './move-readability.mjs?v=workers-background-only-20261113-r1';
-import {assistView} from './assist-presentation.mjs?v=workers-background-only-20261113-r1';
-import {RALLY} from './stage-expansion.mjs?v=workers-background-only-20261113-r1';
-import {ITEM_ART,heldItemAnchor,chooseCarryHand} from './item-presentation.mjs?v=workers-background-only-20261113-r1';
+import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-upgrade-r1';
+import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
+import {backgroundPresentation} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
+import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {micFootprint,MIC_VISUAL_TILT,MIC_SOURCE_TILT,FLOAT_AMPLITUDE,flyingMicLayout,drawFlyingMic,invalidateFlyingMicRaster} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
+import {stageInsets,fitMobilePairSafety} from './combat-presentation.mjs?v=campaign-boot-20261112-r3';
+import {createDepthBackdropRenderer} from './challenge-backdrop-cache.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {drawChallengeMob,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply,drawChallengeTabletopBand,drawChallengeTableFront} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
+import {drawSignatureProp} from './art-expression.mjs?v=campaign-boot-20261112-r3';
+import {presentationFighter,fighterGazeGlyph,drawHumanGlyph,SIGNATURE_SIZE,nameTileOffset} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {assistView} from './assist-presentation.mjs?v=campaign-boot-20261112-r3';
+import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {ITEM_ART,heldItemAnchor,chooseCarryHand} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const DEPTH_SCALE=.65,MIN_DEPTH=-90,MAX_DEPTH=100;
 const depthOf=f=>Number(f?.depth)||0;
@@ -181,7 +182,7 @@ export function depthRenderItems(route){
  return list.sort((a,b)=>(a.sortDepth??a.depth)-(b.sortDepth??b.depth)||(a.kind==='platform'?0:1)-(b.kind==='platform'?0:1));
 }
 export function depthMobLabelLayout(f,frame){
- return {text:f.warning>0?'要出手了！':f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
+ return {text:f.warning>0?(f.chapterCaption??'要出手了！'):f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
 }
 /** Keep clustered names on stable short rows without moving their head x anchors. */
 export function depthMobLabelLayouts(mobs,frame,{slots=new Map()}={}){
@@ -295,6 +296,7 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
  const items=depthRenderItems(route).filter(item=>item.kind!=='actor'||item.episode||streetActorNeedsPaint(item.value,visible));
  if(!options.skipBackdrop){ctx.save();ctx.translate(bg.originX,0);drawChallengeBackdrop(ctx,images,bg);ctx.restore();}
  drawGroundEffects(ctx,items,frame);
+ drawChapterEncounter(ctx,route,(x,y=GROUND,z=0)=>({x,y:y+z*.65}),1,images,frame.zoom);
  for(const item of items){const q=item.value,p=depthWorldPoint(q);
   if(item.kind==='platform'){
    const left=q.x??q.left,w=q.width??((q.right??left+100)-left),half=q.depthHalf??36,image=images['challenge-street-props'];

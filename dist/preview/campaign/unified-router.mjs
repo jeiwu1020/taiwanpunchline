@@ -1,7 +1,7 @@
-import {openUnifiedProgress} from './unified/progress.mjs?v=workers-background-only-20261113-r1';
-import {legacySlot,parse} from './unified/schema.mjs?v=workers-background-only-20261113-r1';
-import {validateDocument,currentProfile,deriveStats} from './core/model.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
+import {openUnifiedProgress} from './unified/progress.mjs?v=campaign-boot-20261112-r3';
+import {legacySlot,parse} from './unified/schema.mjs?v=campaign-boot-20261112-r3';
+import {validateDocument,currentProfile,deriveStats} from './core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},

@@ -1,20 +1,21 @@
-import {openChallengeProgress} from './fresh/progress.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=workers-background-only-20261113-r1';
+import {openChallengeProgress} from './fresh/progress.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../?challengeOverview=1'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},
  'chapter-3':{status:'ready',url:'../chapter3/?campaign=1'},
  'chapter-4':{status:'ready',url:'../chapter4/?campaign=1'},
- 'chapter-5':{status:'locked',url:null}
+ 'chapter-5':{status:'ready',url:'../chapter5/?campaign=1'},
+ 'finale-3v4':{status:'ready',url:'../finale/?campaign=1'}
 });
 const disabled=(reason,extra={})=>({enabled:false,reason,...extra});
 const reject=reason=>({accepted:false,persisted:false,reason});
 /** Fresh formal continuation never inspects or adopts the archived test saves. */
-export async function openChallengeContinuation({mode='preview',optIn=false,testPreview=false,storage,locks,profileId,handoff}={}){
+export async function openChallengeContinuation({mode='preview',optIn=false,testPreview=false,storage,locks,profileId,handoff,onSaved}={}){
  if(mode!=='campaign'||optIn!==true||testPreview===true)return disabled('preview-only');
  if(profileId!==undefined&&!PROFILE_IDS.includes(profileId))return disabled('invalid-profile');
  if(!storage?.getItem)return disabled('storage-unavailable');
- const api=await openChallengeProgress({storage,locks});
+ const api=await openChallengeProgress({storage,locks,onSaved});
  if(api.get().readOnly)return disabled(api.get().reason??'storage-unavailable',{recovery:api});
  if(handoff){const s=api.get(),p=api.readProfile();if(handoff.profileId!==s.activeProfileId||profileId!==handoff.profileId||handoff.revision!==s.revision||handoff.generation!==s.generation||handoff.chapterId!==p?.campaign?.cursor?.chapterId||!s.persisted||s.dirty||s.readOnly)return disabled('stale-handoff');}
  const id=profileId??api.activeProfileId,p=api.readProfile(id);

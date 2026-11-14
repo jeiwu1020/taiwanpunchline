@@ -1,5 +1,5 @@
-import {drawAttachedProp} from './challenge-joints.mjs?v=workers-background-only-20261113-r1';
-import {fighterPose,solveArm} from './art-motion.mjs?v=workers-background-only-20261113-r1';
+import {drawAttachedProp} from './challenge-joints.mjs?v=campaign-boot-20261112-r3';
+import {fighterPose,solveArm} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 
 // New fictional portraits, bodies and held props, generated for this chapter.
 // Original movable limbs retain the existing complete fighter skeleton.

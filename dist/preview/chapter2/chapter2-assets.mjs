@@ -1,4 +1,5 @@
 export const ASSET_FILES={
+ 'chapter-street-motifs':'challenge/chapter-street-motifs-v1.png',
   "left-hand-back": "left-hand-back-v36.png",
   "right-hand-point": "right-hand-point-v37.png",
   "han-lotus-body": "han-lotus-body-v11.webp",

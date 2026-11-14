@@ -1,7 +1,7 @@
-import {fighterArtPose} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {presentationFighter} from './move-readability.mjs?v=workers-background-only-20261113-r1';
-import {HEAD_SEAT} from './art-collar.mjs?v=workers-background-only-20261113-r1';
-import {HAND_FRAMES,signatureHandAngle,lotusBalance} from './art-signature.mjs?v=workers-background-only-20261113-r1';
+import {fighterArtPose} from './art-render.mjs?v=campaign-boot-20261112-r3';
+import {presentationFighter} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {HEAD_SEAT} from './art-collar.mjs?v=campaign-boot-20261112-r3';
+import {HAND_FRAMES,signatureHandAngle,lotusBalance} from './art-signature.mjs?v=campaign-boot-20261112-r3';
 
 // Paper rises visibly from the wrist rather than teleporting to an invisible
 // high hitbox. Close contact during this rise still counts, including crouchers.

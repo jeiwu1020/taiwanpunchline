@@ -1,11 +1,11 @@
-import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=workers-background-only-20261113-r1';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=workers-background-only-20261113-r1';
-import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=workers-background-only-20261113-r1';
-import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=workers-background-only-20261113-r1';
+import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-boot-20261112-r3';
+import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=campaign-boot-20261112-r3';
 export {CHALLENGE_KEY};
 
 /** A fresh campaign namespace. Opening is read-only; all writes require Web Locks. */
-export async function openChallengeProgress({storage,locks,onChange=()=>{},key=CHALLENGE_KEY}={}){
+export async function openChallengeProgress({storage,locks,onChange=()=>{},onSaved=()=>{},key=CHALLENGE_KEY}={}){
  if(key!==CHALLENGE_KEY)throw new TypeError('Only the dedicated challenge key is supported');
  let state=newEnvelope(),baseRaw=null,lastObservedEnvelopeRaw=null,pending=null,blocked=false,reason=null,busy=0,testMode=false,modeEpoch=0,runEpoch=0,session=null,serial=0,preview=null;
  let tail=Promise.resolve();
@@ -31,6 +31,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
    document:{version:1,activeProfileId:active(),profiles:state.campaign.profiles.map(legacyProjection)},campaignDocument:clone(state.campaign),initialized:baseRaw!==null,persisted,dirty:!!pending,busy:busy>0,readOnly:blocked||!canWrite,reason:reason??availability,storageIssue:reason,testMode};
  }
  function notify(){try{onChange(get());}catch{/* A view callback cannot affect a save outcome. */}}
+ function notifySaved(){try{onSaved({persisted:true,profileId:active(),revision:state.revision,generation:generation()});}catch{/* A receipt observer cannot affect persistence. */}}
  function enqueue(work,options={}){
   options={...options};
   const profileId=options.profileId??active(),expectedGeneration=options.expectedGeneration??options.generation??state.slots[profileId]?.generation;
@@ -59,7 +60,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
   try{storage.setItem(key,wanted);}catch{writeFailed=true;}
   state=checked.envelope;
   let observed;try{observed=storage.getItem(key);lastObservedEnvelopeRaw=observed;}catch{pending={wanted,base:original};reason='readback-unavailable';return {accepted:true,persisted:false,reason};}
-  if(observed===wanted){baseRaw=wanted;pending=null;reason=null;return {accepted:true,persisted:true,reason:null};}
+  if(observed===wanted){baseRaw=wanted;pending=null;reason=null;notifySaved();return {accepted:true,persisted:true,reason:null};}
   pending={wanted,base:original};reason=writeFailed?'write-failed':'readback-mismatch';return {accepted:true,persisted:false,reason};
  }
  function withRevision(next){if(state.revision>=MAX_SERIAL)return null;next.revision=state.revision+1;next.campaign.activeProfileId=next.activeProfileId;return next;}
@@ -169,7 +170,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
      if(result.run.stepId==='boss-comic')result=applyRunAction(result.document,result.run,{type:'story-complete'});
      if(result.ok)result=applyRunAction(result.document,result.run,{type:'retry'});
     }else result=startRun(party.document,{replayChapterId:replay?(options.chapterId??'chapter-1'):null});
-    if(!result.ok)return reject(result.reason);if(['chapter-5','finale-3v4'].includes(result.run.chapterId))return reject('content-locked');
+    if(!result.ok)return reject(result.reason);
     if(options.chapterId&&result.run.chapterId!==options.chapterId)return reject('chapter-mismatch');
     if(options.enterFirstRoute&&result.run.chapterId==='chapter-1'&&result.run.stepId==='entry')result=applyRunAction(result.document,result.run,{type:'story-complete'});
     if(!result.ok)return reject(result.reason);
@@ -178,15 +179,15 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
    },{...options,runOperation:true});
   },
   beginChallenge(options={}){options={...options};return enqueue(()=>{
-   const wanted=options.chapterId??options.replayChapterId??readProfile().campaign.cursor.chapterId;if(['chapter-5','finale-3v4'].includes(wanted))return reject('content-locked');
+   const wanted=options.chapterId??options.replayChapterId??readProfile().campaign.cursor.chapterId;
    const result=startRun(state.campaign,{replayChapterId:options.replay?wanted:options.replayChapterId??null});if(!result.ok)return reject(result.reason);if(result.run.chapterId!==wanted)return reject('chapter-mismatch');
    if(options.difficulty!==undefined){if(!['beginner','easy','hard'].includes(options.difficulty))return reject('invalid-difficulty');currentProfile(result.document).campaign.difficulty=options.difficulty;}
    return installRun(result,saveCampaign(result,{keepSession:true}));
   },{...options,runOperation:true});},
   dispatchChallenge(token,actions){let list;try{list=clone(Array.isArray(actions)?actions:[actions]);}catch{return Promise.resolve(reject('invalid-batch'));}return enqueue(()=>{
-   if(!validSession(token))return reject('stale-run');if(['chapter-5','finale-3v4'].includes(session.run.chapterId))return reject('content-locked');if(list.length<1||list.length>100)return reject('invalid-batch');
+   if(!validSession(token))return reject('stale-run');if(list.length<1||list.length>100)return reject('invalid-batch');
    let document=clone(state.campaign),run=clone(session.run),rewardedXP=0;
-   for(const action of list){if(['chapter-5','finale-3v4'].includes(run.chapterId))return reject('content-locked');const result=applyRunAction(document,run,action);if(!result.ok)return reject(result.reason);document=result.document;run=result.run;rewardedXP+=result.rewardedXP??0;}
+   for(const action of list){const result=applyRunAction(document,run,action);if(!result.ok)return reject(result.reason);document=result.document;run=result.run;rewardedXP+=result.rewardedXP??0;}
    const previous=session.run,rotate=previous.chapterId!==run.chapterId||previous.stepId!==run.stepId||previous.attemptId!==run.attemptId||previous.finished!==run.finished||list.some(a=>a.type==='retry');
    const result={ok:true,document,run,rewardedXP};return installRun(result,saveCampaign(result,{keepSession:true}),{rotate});
   },{profileId:token?.profileId??active(),expectedGeneration:token?.generation,runOperation:true});},
@@ -198,6 +199,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
   selectCharacters(selection,options={}){selection={...selection};return enqueue(()=>{if(session)return reject('active-run');const d=api.preparationSnapshot();return saveCampaign(prepared({...d,...selection}));},options);},
   cancelRun(){runEpoch++;session=null;},
   enterTestMode(){
+   if(!DEVELOPMENT_TOOLS)return false;
    modeEpoch++;session=null;testMode=true;preview={document:clone(state.campaign),revision:0,sourceRevision:state.revision,sourceGeneration:generation()};
    currentProfile(preview.document).unlockedCharacters=[...CHARACTER_IDS];notify();return true;
   },
@@ -205,7 +207,7 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
   async refresh({discardPending=false}={}){await tail;if(pending&&!discardPending)return reject('unsaved-progress');if(discardPending){pending=null;session=null;}const ok=read();notify();return ok?{accepted:true,persisted:get().persisted}:reject(reason);},
   retrySave(){return enqueue(()=>{
    if(!pending)return reject('not-dirty');let observed;try{observed=storage.getItem(key);lastObservedEnvelopeRaw=observed;}catch{return reject('read-unavailable');}
-   if(observed===pending.wanted){baseRaw=observed;pending=null;reason=null;return {accepted:true,persisted:true,reason:null};}
+   if(observed===pending.wanted){baseRaw=observed;pending=null;reason=null;notifySaved();return {accepted:true,persisted:true,reason:null};}
    if(observed!==pending.base)return reject('save-conflict');return write(state,pending.base);
   },{allowDirty:true,allowActiveChange:true});},
   exportBackup(){return JSON.stringify({format:BACKUP_FORMAT,version:4,scope:'all',envelope:clone(state),lastObservedEnvelopeRaw,persisted:get().persisted},null,2);},
@@ -233,3 +235,4 @@ export async function openChallengeProgress({storage,locks,onChange=()=>{},key=C
  };
  return api;
 }
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';

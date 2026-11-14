@@ -1,6 +1,6 @@
-import {CAST} from './roster.mjs?v=workers-background-only-20261113-r1';
-import {MOVE_READABILITY} from './combat-view.mjs?v=workers-background-only-20261113-r1';
-import {playableVoice} from './voice-slots.mjs?v=workers-background-only-20261113-r1';
+import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
+import {MOVE_READABILITY} from './combat-view.mjs?v=campaign-boot-20261112-r3';
+import {playableVoice} from './voice-slots.mjs?v=campaign-boot-20261112-r3';
 const tabs=['audio','controls','moves','about'];
 export function moveInformation(character,kind){
  const m=CAST[character]?.moves.find(m=>m.kind===kind);if(!m)return null;
