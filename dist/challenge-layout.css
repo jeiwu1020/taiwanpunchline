@@ -145,7 +145,6 @@ button.challenge-save-slot[data-status="error"],#campaign-bar.challenge-save-slo
    never overlaps the story canvas; failure keeps its existing recovery action. */
 #trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback],
 #viewport-shell>.app[data-game-mode="challenge"]>header[data-save-feedback]{grid-template-columns:minmax(0,1fr) auto;}
-#viewport-shell>.app[data-game-mode="challenge"]:not([data-touch="true"])>header[data-save-feedback]{position:relative;}
 #trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback] .toolbar,
 #viewport-shell>.app[data-game-mode="challenge"]>header[data-save-feedback] .toolbar{grid-column:2;grid-row:1;width:auto;}
 #trial-app.cabinet.app[data-challenge-layout]>header[data-save-feedback] .brand,
