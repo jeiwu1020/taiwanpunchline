@@ -21,7 +21,7 @@
   card.id='orientation-choice';card.setAttribute('aria-labelledby','orientation-choice-title');card.setAttribute('aria-describedby','orientation-choice-note');
   card.innerHTML='<p class="orientation-choice-kicker">拳民開講</p><h1 id="orientation-choice-title">選擇遊玩方向</h1><div class="orientation-choice-options"><button type="button" data-orientation="portrait"><strong>直向遊玩</strong><span>直拿就能玩</span></button><button type="button" data-orientation="landscape"><strong>橫向遊玩</strong><span>戰鬥畫面更寬</span></button></div><p id="orientation-choice-note"></p>';
   const buttons=[...card.querySelectorAll('button')];
-  function describe(){card.querySelector('#orientation-choice-note').textContent=window.innerWidth>window.innerHeight?'手機已橫拿，畫面不會再轉；直拿時依所選方向顯示。之後可在設定切換。':'選橫向時畫面會側轉，將手機橫拿即可遊玩。之後可在設定切換。';}
+  function describe(){card.querySelector('#orientation-choice-note').textContent='手機保持直向鎖定，橫拿即可遊玩。之後可在設定切換。';}
   function choose(value){
    if(!pending)return;
    rotate=value;let persisted=false;
