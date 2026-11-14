@@ -40,7 +40,11 @@ export function fullStageCameraFrame(camera,width,height,fighters,previous=null,
  const inset=stageInsets(width,height,options);
  const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
  const actors=challengeCameraSubjects({player:fighters[0],enemy:fighters[1],assists:options.assists});
- return fitChallengeCamera(preferred,actors,previous,delta,safety);
+ // Only ordinary VS opts into the jump refinement. Logical dimensions cover
+ // both native landscape and the rotated phone shell; other owners keep the
+ // previous solver, including practice, street/boss and the seven-person final.
+ const vsMobileJump=options.gameMode==='battle'&&options.cameraMode==='classic'&&measured&&options.measuredCameraSafety!==false&&isMobileLandscapePresentation({...options,width,height});
+ return fitChallengeCamera(preferred,actors,previous,delta,{...safety,vsMobileJump});
 }
 // Crops contain only floorboards / ceiling material. Outside the original
 // room, never repeat seating, walls, or an inverted second auditorium.

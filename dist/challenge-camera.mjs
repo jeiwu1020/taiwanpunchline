@@ -242,12 +242,13 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  // Anticipation reserves existing local hit knockback without changing any
  // actor. Current body proxies remain the final hard screen/HUD requirement.
  const mobileLandscape=options.measuredCameraSafety!==false&&isMobileLandscapePresentation({...options,width,height});
+ const vsMobileJump=mobileLandscape&&mode==='classic'&&options.vsMobileJump===true&&!options.cameraPlan;
  if(mobileLandscape)preferred={...preferred,...mobileLandscapeCameraFrame(width,height,actors)};
  // The original roll reaches x±131 in raster samples. A fixed mobile-only
  // two-unit reserve covers it without pose-triggered zoom changes; all other
  // profiles retain the exact legacy ±130 width and camera decisions.
  const boundsOptions=mobileLandscape?{...options,halfWidth:132}:options;
- const {rect,occlusions}=geometry(preferred,{...options,softControls:mobileLandscape}),boxes=actors.map(a=>challengeActorBounds(a,{...boundsOptions,prediction:0})),anticipated=(options.cameraPlan?.anticipated||actors).map(a=>{const b=challengeActorBounds(a,mobileLandscape?{...boundsOptions,prediction:.18}:boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
+ const {rect,occlusions}=geometry(preferred,{...options,softControls:mobileLandscape}),boxes=actors.map(a=>challengeActorBounds(a,{...boundsOptions,prediction:0})),anticipated=(options.cameraPlan?.anticipated||actors).map(a=>{const b=challengeActorBounds(a,mobileLandscape?{...boundsOptions,prediction:vsMobileJump?.06:.18}:boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
  const same=sameSize&&previous?.challengeCameraMode===mode;
  const ease=1-Math.pow(mode==='stable'?.96:.88,clamp(delta,0,100)/(1000/60));
  // Streets share one readable mobile preference; chapter-specific legacy
@@ -261,7 +262,10 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  // teleporting to a distant legal translation after the easing step.
  function fit(boxes,maximum,continuous=false){
   const dt=clamp(delta,0,100)/1000,step=dt*60;
-  const allowanceX=street?Math.max(3*step,265*dt*(previous?.zoom||maximum)+step):4/Math.SQRT2*step;
+  // A narrow per-frame horizontal pocket was forcing additional zoom-out as
+  // a jumper passed the HUD/control corner. Admit a bounded pan first. Actual
+  // body/HUD safety still wins, and recovery keeps the existing 2%/frame cap.
+  const allowanceX=street?Math.max(3*step,265*dt*(previous?.zoom||maximum)+step):(vsMobileJump?16:4)/Math.SQRT2*step;
   const allowanceY=Math.max((street?3:4)/Math.SQRT2*step,...actors.map(a=>Math.abs(finite(a.vy,0))*dt*(previous?.zoom||maximum)));
   const limits=z=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-allowanceY,bottom:height/2-previous.y*z+allowanceY}:null;
   const place=z=>placeAtScale(boxes,z,rect,occlusions,wanted(z),limits(z));
