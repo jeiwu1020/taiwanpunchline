@@ -20,7 +20,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
  const safeProbe=document.createElement('div');safeProbe.style.cssText='position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)';document.body.append(safeProbe);
  const preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
  if(storage===undefined){try{storage=preview?null:window.localStorage;}catch{storage=null;}}
- const store=createSettingsStore({storage,onChange:syncPreferences});
+ const store=createSettingsStore({storage,onChange:syncPreferences,initialRotate:window.parliamentOrientationChoice?.rotate});
  const template=document.createElement('template');template.innerHTML=chapterSettingsMarkup;
  const dialog=template.content.firstElementChild;document.body.append(dialog);
  const homeDialog=document.createElement('dialog');homeDialog.id='chapter-home-confirm';homeDialog.className='chapter-home-confirm paper';homeDialog.setAttribute('aria-labelledby','chapter-home-title');homeDialog.innerHTML='<h2 id="chapter-home-title">要回首頁嗎？</h2><p id="chapter-home-copy"></p><div class="home-confirm-actions"><button type="button" class="primary menu-action" data-cancel>繼續開吵 →</button><button type="button" class="primary menu-action" data-confirm>回到首頁</button></div>';document.body.append(homeDialog);

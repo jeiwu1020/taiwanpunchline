@@ -1,13 +1,14 @@
 /* Runs before game content is parsed. Geometry definitions are shared with the
  * mounted game and chapters; bootstrap owns only its controller instance. */
-(function(){
+(function start(){
  'use strict';
+ if(window.parliamentOrientationChoice?.pending){window.parliamentOrientationChoice.ready.then(start);return;}
  const core=globalThis.parliamentViewportCore,app=document.querySelector('.app'),shell=document.querySelector('#viewport-shell'),probe=document.querySelector('#safe-insets');
  if(!core||!app||!shell||!probe)return;
  window.parliamentViewportBoot?.stop();
- let rotate=true,camera='classic';
+ let rotate=window.parliamentOrientationChoice?.rotate??true,camera='classic';
  try{const saved=JSON.parse(window.localStorage.getItem('parliament-settings-v1'));
-  if(saved&&typeof saved==='object'&&!Array.isArray(saved)&&(!Object.prototype.hasOwnProperty.call(saved,'version')||saved.version===1)){rotate=saved.rotate!==false;camera=saved.camera==='stable'?'stable':'classic';}
+  if(saved&&typeof saved==='object'&&!Array.isArray(saved)&&(!Object.prototype.hasOwnProperty.call(saved,'version')||saved.version===1)){if(typeof saved.rotate==='boolean')rotate=saved.rotate;camera=saved.camera==='stable'?'stable':'classic';}
  }catch(_){/* Inaccessible or corrupt settings keep the defaults. */}
  const lifecycle=core.createViewportLifecycle({window,document,
   read(){const touch=!!(window.matchMedia?.('(pointer:coarse)').matches||navigator.maxTouchPoints>0||new URLSearchParams(window.location.search).has('touchPreview'));
