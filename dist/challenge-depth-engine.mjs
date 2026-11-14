@@ -26,11 +26,15 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   this.platforms=all.filter(t=>Math.abs((f.depth??0)-(t.depth??0))<=(t.depthHalf??DEPTH.platform));
   try{super.physics(f,dt);}finally{this.platforms=all;}
  }
- // Resolve swept body motion against the table sides; landing stays foot-based. Actors
- // above the top may jump onto it; occupants may walk off without snapping.
+ // Resolve swept body motion against tables, gates, and tactic props. Landing stays
+ // foot-based; actors above an obstacle may jump across it and walk off tables.
  resolveTableMotion(f,from){
   if(!from)return;
-  const solids=[...this.platforms,...(this.chapterEncounter?.gates??[])];
+  const props=(this.chapterEncounter?.props??[]).filter(p=>p.collision).map(p=>({
+   left:p.x-p.collision.halfWidth,right:p.x+p.collision.halfWidth,
+   y:GROUND-p.collision.height,depth:p.depth??0,depthHalf:p.collision.depthHalf
+  }));
+  const solids=[...this.platforms,...(this.chapterEncounter?.gates??[]),...props];
   for(const axis of ['x','depth']){
    const other=axis==='x'?'depth':'x',start=from[axis]??0,end=f[axis]??0;
    if(start===end)continue;
@@ -67,7 +71,10 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   if(previous)this.resolveTableMotion(e,{x:previous.x,depth:e.depth});
  }
  bodiesOverlapLane(a,b){return super.bodiesOverlapLane(a,b)&&Math.abs((a.depth??0)-(b.depth??0))<=DEPTH.bodyLane;}
- spawn(){super.spawn();for(const [i,e] of this.enemies.entries())if(e.depth===undefined){e.depth=[0,-65,65,0][i%4];e.invulnerable=0;}}
+ spawn(){super.spawn();for(const [i,e] of this.enemies.entries()){
+  if(e.depth===undefined){e.depth=[0,-65,65,0][i%4];e.invulnerable=0;}
+  this.resolveTableMotion(e,{x:e.x,depth:e.depth});
+ }}
  press(action){
   const oldAssist=this.assists.length,oldRally=this.rallies.length;
   const ok=super.press(action);if(!ok)return false;

@@ -1,11 +1,11 @@
 // Chapter-owned tactics. CAST/COMBAT are deliberately not copied or modified.
 const GROUND=430,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const CHAPTER_TACTICS=Object.freeze([
- {kind:'sound',prop:'隔音板',tell:'吸氣了！找板子或換道',hint:'聲浪吸氣後直衝！換道躲，或敲隔音板打斷。',joke:'請降低音量，板子也要休息。'},
- {kind:'rush',prop:'煞車推車',tell:'直線衝！換道誘撞車',hint:'敵人壓低身體就要衝！換道誘撞，攻擊推車。',joke:'衝第一名，煞車最後一名。'},
- {kind:'route',prop:'改道流程牌',tell:'路線已畫好！離開紅格',hint:'敲牌切換欄杆通道；紅格亮起就離開，也能跳過欄杆。',joke:'流程已改善：這次真的換一條路。'},
- {kind:'handshake',prop:'禮貌衣架',tell:'手伸出來了！跳開躲抓',hint:'伸手才握！跳開躲抓，落空反擊；敲鈴引開他。',joke:'外套已握手，本人先借過。'},
- {kind:'paper',prop:'退件檔案櫃',tell:'紙機要回來！留意回程',hint:'敲章開櫃，接住紙機再退回寄件人；留意來回路線。',joke:'已蓋章，原件退回。免附影本！'}
+ {kind:'sound',prop:'隔音板',collision:{halfWidth:36,depthHalf:20,height:145},tell:'吸氣了！找板子或換道',hint:'聲浪吸氣後直衝！換道躲，或敲隔音板打斷。',joke:'請降低音量，板子也要休息。'},
+ {kind:'rush',prop:'煞車推車',collision:{halfWidth:40,depthHalf:24,height:82},tell:'直線衝！換道誘撞車',hint:'敵人壓低身體就要衝！換道誘撞，攻擊推車。',joke:'衝第一名，煞車最後一名。'},
+ {kind:'route',prop:'改道流程牌',collision:{halfWidth:25,depthHalf:18,height:108},tell:'路線已畫好！離開紅格',hint:'敲牌切換欄杆通道；紅格亮起就離開，也能跳過欄杆。',joke:'流程已改善：這次真的換一條路。'},
+ {kind:'handshake',prop:'禮貌衣架',collision:{halfWidth:30,depthHalf:18,height:150},tell:'手伸出來了！跳開躲抓',hint:'伸手才握！跳開躲抓，落空反擊；敲鈴引開他。',joke:'外套已握手，本人先借過。'},
+ {kind:'paper',prop:'退件檔案櫃',collision:{halfWidth:34,depthHalf:22,height:108},tell:'紙機要回來！留意回程',hint:'敲章開櫃，接住紙機再退回寄件人；留意來回路線。',joke:'已蓋章，原件退回。免附影本！'}
 ]);
 const chapterOf=w=>Number(String(w.runId??'chapter-1').match(/chapter-(\d)/)?.[1]??1);
 const sameLane=(a,b,range=36)=>Math.abs((a.depth??0)-(b.depth??0))<=range;
@@ -17,6 +17,26 @@ function receivePaper(w,prop,source,damage){
  if(source?.hp>0)s.parcels.push({x:prop.x,depth:prop.depth??0,direction:Math.sign(source.x-prop.x)||1,damage:Math.max(0,damage??8),delay:.35,age:0,life:2.2,dead:false,castId:w.nextCast? w.nextCast++:s.time});
  if(!prop.tea){prop.tea=true;w.player.hp=Math.min(w.player.maxHp,w.player.hp+3);effect(w,'tea',prop,{targetX:w.player.x,targetDepth:w.player.depth??0});message(w,'收件送茶，退件找本人！',prop.x,prop.depth);}
 }
+const SPAWN_DEPTHS=[0,-65,65,0];
+function chapterPropPosition(w,prop,index,placed){
+ const section=w.section??{},width=w.worldWidth??960,spawns=(section.spawns??[]).map((entry,i)=>({x:entry[1],depth:SPAWN_DEPTHS[i%SPAWN_DEPTHS.length]}));
+ const supply=Number.isFinite(section.supplyX)?{x:section.supplyX,depth:section.supplyDepth??0}:null;
+ const original=prop.x,originalDepth=prop.depth??0,lanes=[originalDepth,0,-65,65],offsets=[0,120,-120,210,-210,300,-300,390,-390];
+ const candidates=[];
+ for(const offset of offsets)for(let laneIndex=0;laneIndex<lanes.length;laneIndex++){
+  const x=original+offset,depth=lanes[laneIndex],c=prop.collision??{halfWidth:30,depthHalf:18,height:100};
+  if(x<125||x>width-125)continue;
+  const left=x-c.halfWidth,right=x+c.halfWidth;
+  const platformOverlap=(w.platforms??[]).some(t=>left<t.right&&right>t.left&&Math.abs(depth-(t.depth??0))<c.depthHalf+(t.depthHalf??36));
+  const propOverlap=placed.some(p=>Math.abs(x-p.x)<c.halfWidth+(p.collision?.halfWidth??30)+20&&Math.abs(depth-(p.depth??0))<c.depthHalf+(p.collision?.depthHalf??18));
+  const nearSpawn=spawns.reduce((n,s)=>n+(Math.abs(x-s.x)<140?1:0),0);
+  const nearSupply=supply&&Math.abs(x-supply.x)<110?1:0;
+  const score=(platformOverlap?10000:0)+(propOverlap?10000:0)+nearSpawn*1000+nearSupply*700+Math.abs(offset)+laneIndex*24+index*.01;
+  candidates.push({x,depth,score});
+ }
+ candidates.sort((a,b)=>a.score-b.score);
+ const selected=candidates[0];if(selected){prop.x=selected.x;prop.depth=selected.depth;}
+}
 export function ensureChapterEncounter(w,chapter=chapterOf(w),boss=false){
  const key=`${chapter}:${boss?'boss':w.section?.id}`;
  if(w.chapterEncounter?.key===key)return w.chapterEncounter;
@@ -26,9 +46,10 @@ export function ensureChapterEncounter(w,chapter=chapterOf(w),boss=false){
  // authored street positions; boss arenas and combat rules stay unchanged.
  const lastProp={'chapter-3:route-a':2210,'chapter-4:route-a':2200,'chapter-5:route-c':2580};
  const points=boss?[330,650]:[360,Math.round(width*.49),lastProp[w.section?.id]??width-470];
- const props=points.map((x,i)=>({x,depth:boss?0:[0,65,-65][i],kind:spec.kind,active:spec.kind!=='paper',cooldown:0,uses:0,flash:0,vx:0,tea:false}));
- // Keep interactive props in walkable space, away from the existing tables.
- for(const p of props)for(const t of w.platforms??[])if(p.x>t.left-100&&p.x<t.right+100&&Math.abs(p.depth-(t.depth??0))<(t.depthHalf??36)+45)p.depth=(t.depth??0)>0?-65:65;
+ const props=points.map((x,i)=>({x,depth:boss?0:[0,65,-65][i],kind:spec.kind,collision:spec.collision,active:spec.kind!=='paper',cooldown:0,uses:0,flash:0,vx:0,tea:false}));
+ // Preserve the authored order while spacing scenery from platforms, supplies,
+ // and enemy entry points. Interactions remain attached to the moved prop.
+ for(const [i,p] of props.entries())chapterPropPosition(w,p,i,props.slice(0,i));
  const bossHints=[
   '隔音板擋喊話，排隊線跳過；近身別貪拳。',
   '敲推車誘撞衝刺；看清出招，閃開再反擊。',
@@ -113,7 +134,12 @@ export function updateChapterEncounter(w,dt){
  for(const e of w.enemies??[w.enemy])if(e?.chapterTell&&(!e.attack||e.stun>0||e.hp<=0))stopMob(e);
  for(const prop of s.props){prop.cooldown=Math.max(0,prop.cooldown-dt);prop.flash=Math.max(0,prop.flash-dt);prop.lureTime=Math.max(0,(prop.lureTime??0)-dt);
   if(prop.vx){const old=prop.x,dir=Math.sign(prop.vx);let next=clamp(prop.x+prop.vx*dt,90,(w.worldWidth??960)-90);
-   for(const t of w.platforms??[])if(sameLane(prop,t,(t.depthHalf??36)+12)&&between(dir>0?t.left-42:t.right+42,old,next)){next=dir>0?t.left-42:t.right+42;prop.vx=0;effect(w,'crash',prop);}
+   const halfWidth=prop.collision?.halfWidth??42,halfDepth=prop.collision?.depthHalf??24;
+   const blockers=[...(w.platforms??[]),...(s.gates??[]),...s.props.filter(other=>other!==prop&&other.collision).map(other=>({left:other.x-other.collision.halfWidth,right:other.x+other.collision.halfWidth,depth:other.depth,depthHalf:other.collision.depthHalf}))];
+   for(const t of blockers)if(sameLane(prop,t,(t.depthHalf??36)+halfDepth)){
+    const edge=dir>0?t.left-halfWidth:t.right+halfWidth;
+    if(dir>0?old<edge&&next>=edge:old>edge&&next<=edge){next=edge;prop.vx=0;effect(w,'crash',prop);break;}
+   }
    prop.x=next;prop.roll=(prop.roll??0)+(next-old)/12;prop.vx*=Math.exp(-2.4*dt);if(Math.abs(prop.vx)<20)prop.vx=0;
    for(const e of w.enemies??[w.enemy])if(e?.hp>0&&sameLane(e,prop,42)&&between(e.x,Math.min(old,prop.x)-38,Math.max(old,prop.x)+38)&&prop.vx){e.stun=Math.max(e.stun,1);stopMob(e);prop.vx=0;prop.flash=.8;effect(w,'crash',prop);message(w,'急件請走樓梯！',prop.x,prop.depth);}
   }
