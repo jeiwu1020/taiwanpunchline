@@ -1,7 +1,8 @@
 // Chapter-owned tactics. CAST/COMBAT are deliberately not copied or modified.
 const GROUND=430,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export const CHAPTER_TACTICS=Object.freeze([
- {kind:'sound',prop:'隔音板',collision:{halfWidth:36,depthHalf:20,height:145},tell:'吸氣了！找板子或換道',hint:'聲浪吸氣後直衝！換道躲，或敲隔音板打斷。',joke:'請降低音量，板子也要休息。'},
+ // The depth solver adds 44 units of body clearance; 58 + 44 matches the board's ~203-unit visible width.
+ {kind:'sound',prop:'隔音板',collision:{halfWidth:58,depthHalf:20,height:145},tell:'吸氣了！找板子或換道',hint:'聲浪吸氣後直衝！換道躲，或敲隔音板打斷。',joke:'請降低音量，板子也要休息。'},
  {kind:'rush',prop:'煞車推車',collision:{halfWidth:40,depthHalf:24,height:82},tell:'直線衝！換道誘撞車',hint:'敵人壓低身體就要衝！換道誘撞，攻擊推車。',joke:'衝第一名，煞車最後一名。'},
  {kind:'route',prop:'改道流程牌',collision:{halfWidth:25,depthHalf:18,height:108},tell:'路線已畫好！離開紅格',hint:'敲牌切換欄杆通道；紅格亮起就離開，也能跳過欄杆。',joke:'流程已改善：這次真的換一條路。'},
  {kind:'handshake',prop:'禮貌衣架',collision:{halfWidth:30,depthHalf:18,height:150},tell:'手伸出來了！跳開躲抓',hint:'伸手才握！跳開躲抓，落空反擊；敲鈴引開他。',joke:'外套已握手，本人先借過。'},

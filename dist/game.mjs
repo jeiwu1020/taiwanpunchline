@@ -1,4 +1,4 @@
-import {installBossEncounter} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {installBossEncounter} from './chapter-encounters.mjs?v=street-object-polish-r2';
 import {mountChallengeSaveFeedback} from './challenge-save-feedback.mjs';
 import {registerQuickView} from './preview/quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {createBootArtLoader} from './boot-art-loader.mjs?v=campaign-boot-20261112-r3';
@@ -16,10 +16,10 @@ import {setGameSelectValue} from './game-select.mjs?v=campaign-boot-20261112-r3'
 import {renderChargeMeter} from './charge-view.mjs?v=campaign-boot-20261112-r3';
 import {mountGameplaySelectionGuard} from './gameplay-selection.mjs?v=campaign-boot-20261112-r3';
 import {mountSpecialNameFit} from './special-name-fit.mjs?v=campaign-boot-20261112-r3';
-import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute} from './challenge-depth-engine.mjs?v=street-object-polish-r2';
 import {challengeKeyAction} from './challenge-mode-input.mjs?v=campaign-boot-20261112-r3';
 import {paintChallengeStory} from './challenge-story-art.mjs?v=campaign-boot-20261112-r3';
-import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeRoute} from './challenge-engine.mjs?v=street-object-polish-r2';
 import {openChallengeProgress,CHALLENGE_KEY} from './preview/campaign/fresh/progress.mjs?v=campaign-boot-20261112-r3';
 import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-boot-20261112-r3';
 import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-bridge.mjs?v=campaign-boot-20261112-r3';
@@ -29,7 +29,7 @@ import {mountChallengeStory} from './challenge-story.mjs?v=campaign-boot-2026111
 import {createComicPresentation} from './preview/campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-boot-20261112-r3';
 import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
-import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=street-depth-occlusion-r1';
+import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=street-object-polish-r2';
 import {assistMeterView} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
 import {createAssistRenderer} from './assist-presentation.mjs?v=campaign-boot-20261112-r3';

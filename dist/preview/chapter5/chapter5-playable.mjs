@@ -2,7 +2,7 @@ import {loadChapterImage} from '../../chapter-image-loader.mjs';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
-import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-depth-occlusion-r1';
+import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
@@ -24,10 +24,10 @@ import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from '../c
 import {drawChapter5Miniboss} from './chapter5-mob-art.mjs?v=campaign-boot-20261112-r3';
 import {streetTrialFrame,containSprite} from '../chapter4/street-trial-view.mjs?v=campaign-boot-20261112-r3';
 import {DESK} from '../chapter4/stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from '../chapter4/chapter4-render-rules.mjs?v=street-depth-occlusion-r1';
+import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from '../chapter4/chapter4-render-rules.mjs?v=street-object-polish-r2';
 import {arrowPresentation} from '../chapter4/art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from '../chapter4/touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {createPlayableChapter} from './chapter5-controller.mjs?v=campaign-boot-20261112-r3';
+import {createPlayableChapter} from './chapter5-controller.mjs?v=street-object-polish-r2';
 import {CHAPTER5,CHARACTER_NAMES,STARTER_IDS} from './chapter5-content.mjs?v=campaign-boot-20261112-r3';
 import {ASSET_FILES} from '../chapter4/chapter4-assets.mjs?v=campaign-boot-20261112-r3';
 import {storyPropState} from '../chapter4/chapter4-story-props.mjs?v=campaign-boot-20261112-r3';
@@ -35,7 +35,7 @@ import {bossRevealed,storyActors} from './chapter5-reveal.mjs?v=campaign-boot-20
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
-let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,frameTime=0,storyStartedAt=0,storyToken='';
+let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,bossAlert='',bossAlertUntil=0,frameTime=0,storyStartedAt=0,storyToken='';
 let idle=new Duel('wang','beginner',()=>.3,'wang');
 const mobileCamera=createMobileCameraAdapter();
 let ui,continuation,comicReader;
@@ -52,6 +52,7 @@ function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v
 function clearHold(){keys.clear();pointers.clear();held={};punchWait=0;controls?.clear();}
 function tone(){media.unlock();}
 function shout(copy){caption=copy;captionUntil=performance.now()+1500;$('#caption').textContent=copy;}
+function announceBossWarning(copy){bossAlert=copy;bossAlertUntil=performance.now()+1500;}
 function command(action){const s=v();if(!active())return false;const accepted=chapter.press(action,s.token);if(action==='punch')punchWait=.35;return accepted;}
 function portrait(id){return chapterAssetURL('chapter4',CAST[id].portrait.replace(/^assets\//,''));}
 function roster(root,ids,choice,onSelect){root.replaceChildren(...ids.map(id=>{const b=document.createElement('button');b.type='button';b.dataset.character=id;b.setAttribute('aria-pressed',String(id===choice));const im=document.createElement('img');im.src=portrait(id);im.alt='';const name=document.createElement('b');name.textContent=CAST[id].name;b.append(im,name);b.onclick=()=>onSelect(id);return b;}));}
@@ -119,6 +120,7 @@ function paintStory(s,w,h,time){
 }
 function draw(time,delta=1000/60){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=v(),g=chapter?.world;ctx.clearRect(0,0,w,h);
+ const feedback=$('#feedback'),warning=s?.mode==='battle'?(g?.warning?.name||''):'';const alert=s?.mode==='battle'&&performance.now()<bossAlertUntil?bossAlert:warning;if(feedback.textContent!==alert)feedback.textContent=alert;feedback.classList.toggle('boss-warning',!!alert);
  if(s?.mode==='story'){ui.clearCameraHints();comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
  if(!s||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
  if(!g){ui.clearCameraHints();return;}const route=!!g.depthMode,player=g.player,portrait=ui.viewport.width<ui.viewport.height;
@@ -135,14 +137,12 @@ function draw(time,delta=1000/60){
  for(const a of actors)if(paintActor(a)&&(!route||(a.supportY??GROUND)>=GROUND))shadow(a);
  const encounterProject=(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)});
  if(route)drawChapterEncounterEffects(ctx,g,encounterProject,f.zoom,images);else drawChapterEncounter(ctx,g,encounterProject,f.zoom,images);
- const objects=chapter4SceneLayers(platforms,actors,route,route?g.chapterEncounter:null);
- for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else if(o.kind==='encounter-prop'||o.kind==='encounter-gate'){drawChapterEncounterObject(ctx,o.kind==='encounter-prop'?'prop':'gate',o.value,encounterProject,f.zoom,images,g.chapterEncounter?.time??time);}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
+ const objects=chapter4SceneLayers(platforms,actors,route,route?g.chapterEncounter:null,route?g:null);
+ for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else if(o.kind==='encounter-prop'||o.kind==='encounter-gate'){drawChapterEncounterObject(ctx,o.kind==='encounter-prop'?'prop':'gate',o.value,encounterProject,f.zoom,images,g.chapterEncounter?.time??time);}else if(o.kind==='route-supply'){drawChallengeSupply(ctx,images,{x:sx(o.value.x),y:sy(GROUND,o.depth),width:90*f.zoom});}else if(o.kind==='route-gate'){const x=sx(o.value.x);drawChapter5Prop(ctx,images,'sign',{x,y:sy(GROUND,o.depth),width:90*f.zoom,height:115*f.zoom});label('清點完成 →',x,sy(GROUND-145,o.depth),18*f.zoom);}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(route&&a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
  if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
- if(route){if(!g.supplyUsed)drawChallengeSupply(ctx,images,{x:sx(g.section.supplyX),y:sy(GROUND,g.section.supplyDepth),width:90*f.zoom});drawChapter5Prop(ctx,images,'sign',{x:sx(g.gateX),y:sy(GROUND,-90),width:90*f.zoom,height:115*f.zoom});label('清點完成 →',sx(g.gateX),sy(GROUND-145,-90),18*f.zoom);}
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  for(const q of g.obstacles||[])if(!q.dead){drawChallengeStreetProp(ctx,images,'sign',chapter4ObstacleFrame(q,f));}
  for(const r of g.rallies||[])for(let i=4;i>=0;i--){const im=images['supporter-'+(i%2?'man':'woman')];if(!im)continue;const box=containSprite(im.width,im.height,150*f.zoom);ctx.drawImage(im,sx(r.x-r.direction*i*43)-box.width/2,sy(GROUND,r.depth)-box.height,box.width,box.height);}
- if(g.warning)label(g.warning.name,sx(g.enemy.x),sy(g.enemy.y-330),Math.min(26,w/18),'#ffe283');
  if(caption&&performance.now()<captionUntil)label(caption,w/2,Math.min(120,h*.25),Math.min(34,w/15),'#ffe4a4');
 }
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
@@ -159,7 +159,7 @@ function tick(now){
     if(!active()||chapter!==current||chapter.world!==world||v().token!==token)break;
     chapter.step(step,{...held,crouch:v().mode==='battle'&&!!(held.down||held.crouch)});
    }
-   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted){if(['move','assistStart','minibossWarning'].includes(e.type))shout(e.name??'助拳！');if(e.type==='supply')shout('補給到手！+18');}
+   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&e.f===world.enemy)announceBossWarning(e.name??'注意對手動作');else if(['move','assistStart'].includes(e.type))shout(e.name??'助拳！');if(e.type==='supply')shout('補給到手！+18');}
    if(v().token!==uiToken)sync();
   }
  hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);}

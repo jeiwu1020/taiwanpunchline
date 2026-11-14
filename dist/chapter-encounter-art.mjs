@@ -1,5 +1,5 @@
 // Shared ink-and-paper props; every point uses the actors' world projection.
-import {chapterPropHint} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {chapterPropHint} from './chapter-encounters.mjs?v=street-object-polish-r2';
 import {chapterMobFxImage,drawMobFx} from './chapter-encounter-fx.mjs';
 const INK='#263c37',PAPER='#fff0cc',RED='#b34d39',GREEN='#39735a',GOLD='#e7b64c';
 export const ENCOUNTER_SPRITES=Object.freeze({sound:[28,45,467,437],rush:[531,120,475,346],route:[1089,11,420,488],handshake:[69,522,338,489],paper:[554,523,373,476],door:[1049,526,416,473]});

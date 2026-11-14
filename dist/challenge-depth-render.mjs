@@ -1,4 +1,4 @@
-import {drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from './chapter-encounter-art.mjs?v=street-depth-occlusion-r1';
+import {drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
 import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
@@ -162,7 +162,7 @@ export function depthBackdropLayout(frame){
 export function depthRenderItems(route){
  const list=[],push=(kind,value,extra={})=>list.push({kind,value,depth:depthOf(value),...extra});
  if(!route.supplyUsed&&Number.isFinite(route.section?.supplyX))push('supply',{x:route.section.supplyX,depth:route.section.supplyDepth??0});
- if(Number.isFinite(route.gateX))push('gate',{x:route.gateX,depth:MIN_DEPTH});
+ if(Number.isFinite(route.gateX))push('gate',{x:route.gateX,depth:0});
  for(const f of [route.player,...route.enemies||[]])if(f&&(f.hp>0||f===route.player||(f.deadAge??1)<.6))push('actor',f);
  for(const episode of route.assists||[])if(assistView(episode))push('actor',episode.actor,{episode});
  for(const q of route.projectiles||[])if(!q.dead)push('projectile',q);

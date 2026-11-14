@@ -1,9 +1,9 @@
 // Four-way street simulation for chapter routes and the isolated movement trial.
-import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeRoute} from './challenge-engine.mjs?v=street-object-polish-r2';
 import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {ensureChapterEncounter,updateChapterEncounter,interactChapterProp} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {ensureChapterEncounter,updateChapterEncounter,interactChapterProp} from './chapter-encounters.mjs?v=street-object-polish-r2';
 export const DEPTH=Object.freeze({min:-90,max:100,speed:190,hit:36,rally:48,bodyLane:38,bodyWidth:62,clearance:65,platform:36});
 // Side contact uses the neutral lower-body/shadow radius, not a zero-width foot point.
 // Keep the actual tabletop support/landing footprint unchanged.
@@ -20,6 +20,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   this.platforms=this.platforms.map(t=>({...t,depth:t.depth??0,depthHalf:t.depthHalf??DEPTH.platform}));
  }
  attackSharesLane(a,b){return Math.abs((a.depth??0)-(b.depth??0))<=DEPTH.hit;}
+ canCollectSupply(f=this.player){return super.canCollectSupply(f)&&Math.abs((f.depth??0)-(this.section.supplyDepth??0))<=DEPTH.hit;}
  physics(f,dt){
   this.resolveTableMotion(f,{x:f.x,depth:f.depth});
   const all=this.platforms;
@@ -124,10 +125,8 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   }
   const oldMultiplier=this.growth.moveMultiplier;
   if(diagonal)this.growth.moveMultiplier*=Math.SQRT1_2;
-  const hideSupply=!this.supplyUsed&&Math.abs(p.depth-(this.section.supplyDepth??0))>DEPTH.hit;
-  if(hideSupply)this.supplyUsed=true;
   this.tablePositions=positions;
-  try{super.tick(dt,{...input,down:false,crouch:false});}finally{this.tablePositions=null;this.growth.moveMultiplier=oldMultiplier;if(hideSupply)this.supplyUsed=false;}
+  try{super.tick(dt,{...input,down:false,crouch:false});}finally{this.tablePositions=null;this.growth.moveMultiplier=oldMultiplier;}
   p.crouch=false;p.crouchBlend=0;
   // A walking pose follows displacement, including depth-only approach. An
   // attack, hit reaction or blocked body must not skate with an idle/walk pose.

@@ -1,5 +1,5 @@
 import {Duel,GROUND,CAST} from './core.mjs?v=campaign-boot-20261112-r3';
-import {stepChapterMob} from './chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {stepChapterMob} from './chapter-encounters.mjs?v=street-object-polish-r2';
 import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
@@ -27,6 +27,8 @@ export class ChallengeRoute {
  }
  get routeProgress(){return clamp((this.player.x-140)/(this.worldWidth-280),0,1);}
  get gateX(){return this.worldWidth-140;}
+ // 45-unit supply artwork plus the fighter's 37-unit foot/shadow width.
+ canCollectSupply(f=this.player){return Number.isFinite(this.section.supplyX)&&Math.abs(f.x-this.section.supplyX)<=82;}
  other(f){return f===this.player?this.enemy:this.player;}
  drainEvents(){return this.events.splice(0);}
  exportCarry(){return {hp:this.player.hp,rally:this.player.rally,assist:{...this.player.assist,active:false}};}
@@ -191,7 +193,7 @@ export class ChallengeRoute {
   }
   this.updateEffects(dt);
   p.x=clamp(p.x,55,this.worldWidth-80);this.resolveBodies(oldX);this.cameraX=clamp(p.x-340,0,this.worldWidth-960);
-  if(!this.supplyUsed&&Math.abs(p.x-this.section.supplyX)<48){this.supplyUsed=true;p.hp=Math.min(p.maxHp,p.hp+18);this.events.push({type:'supply',amount:18});}
+  if(!this.supplyUsed&&this.canCollectSupply(p)){this.supplyUsed=true;p.hp=Math.min(p.maxHp,p.hp+18);this.events.push({type:'supply',amount:18});}
   if(this.status==='active'&&p.x>=this.gateX){this.status='gate';this.events.push({type:'routeGate',gate:this.section.gate,carry:this.exportCarry(),section:this.sectionIndex});}
  }
  updateEffects(dt){

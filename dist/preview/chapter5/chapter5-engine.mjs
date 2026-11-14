@@ -1,6 +1,6 @@
-import {installBossEncounter} from '../../chapter-encounters.mjs?v=chapter-upgrade-r1';
+import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
 import {Duel} from '../../core.mjs?v=campaign-boot-20261112-r3';
-import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=street-object-polish-r2';
 import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-upgrade-r1';
 import {CHAPTER5} from './chapter5-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
