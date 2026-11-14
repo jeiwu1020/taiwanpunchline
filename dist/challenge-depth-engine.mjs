@@ -35,7 +35,9 @@ export class ChallengeDepthRoute extends ChallengeRoute {
    left:p.x-p.collision.halfWidth,right:p.x+p.collision.halfWidth,
    y:GROUND-p.collision.height,depth:p.depth??0,depthHalf:p.collision.depthHalf
   }));
-  const solids=[...this.platforms,...(this.chapterEncounter?.gates??[]),...props];
+  // The route marker is a real street sign in the centre lane, not a painted overlay.
+  const exitSign=Number.isFinite(this.gateX)?[{left:this.gateX-44,right:this.gateX+44,y:GROUND-108,depth:-13,depthHalf:13}]:[];
+  const solids=[...this.platforms,...(this.chapterEncounter?.gates??[]),...props,...exitSign];
   for(const axis of ['x','depth']){
    const other=axis==='x'?'depth':'x',start=from[axis]??0,end=f[axis]??0;
    if(start===end)continue;

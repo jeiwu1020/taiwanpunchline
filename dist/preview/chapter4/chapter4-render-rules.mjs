@@ -12,7 +12,7 @@ export function chapter4ObstacleFrame(q,frame){return {...chapter4WorldPoint(q.x
 /** A horizontal tabletop spans depth, so split only where an actor's feet
  * cross it. Foreground bands then cover rear actors without ever clipping an
  * actor sprite or moving a jumping actor out of its original depth lane. */
-export function chapter4SceneLayers(platforms,actors,depthMode,encounter=null,routeState=null){
+export function chapter4SceneLayers(platforms,actors,depthMode,encounter=null,routeState=null,callouts=[]){
  const layers=[];
  for(const p of platforms){
   const half=p.depthHalf??30,back=(p.depth??0)-half,front=(p.depth??0)+half;
@@ -28,6 +28,7 @@ export function chapter4SceneLayers(platforms,actors,depthMode,encounter=null,ro
   if(routeState&&!routeState.supplyUsed&&Number.isFinite(routeState.section?.supplyX))layers.push({kind:'route-supply',value:{x:routeState.section.supplyX},depth:routeState.section.supplyDepth??0});
   if(Number.isFinite(routeState?.gateX))layers.push({kind:'route-gate',value:{x:routeState.gateX},depth:0});
  }
+ for(const callout of callouts)layers.push({kind:'callout',value:callout,depth:(callout.actor.depth??0)-.001});
  for(const a of actors)layers.push({kind:'actor',a,depth:a.depth??0});
  return layers.sort((a,b)=>a.depth-b.depth);
 }

@@ -18,8 +18,8 @@ export class ChapterMiniDuel extends Duel{
   if(this.miniPhase==='approach'){
    if(Math.abs(dx)>spec.range){this.aiInput=dx>0?{right:true}:{left:true};return;}
    if(this.miniWait>0)return;
-   this.miniPhase='warning';this.miniWait=spec.warning*(this.difficulty==='beginner'?1.3:1);this.warning={name:spec.name,remaining:this.miniWait};
-   this.events.push({type:'minibossWarning',name:spec.name,f:e});return;
+   this.miniPhase='warning';this.miniWait=spec.warning*(this.difficulty==='beginner'?1.3:1);this.warning={name:spec.name,action:spec.action,remaining:this.miniWait};
+   this.events.push({type:'minibossWarning',name:spec.name,action:spec.action,f:e});return;
   }
   if(this.warning)this.warning.remaining=this.miniWait;
   if(this.miniWait>0)return;

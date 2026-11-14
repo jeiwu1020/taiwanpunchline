@@ -1,7 +1,7 @@
 import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
 import {Duel} from '../../core.mjs?v=campaign-boot-20261112-r3';
-import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=street-object-polish-r2';
-import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-upgrade-r1';
+import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=street-object-polish-r3';
+import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=street-object-polish-r3';
 import {CHAPTER5} from './chapter5-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'清點隊長',pattern:[{action:'punch',name:'清點第一下！',range:112,warning:.6,rest:.55},{action:'punch',name:'清點第二下！',range:112,warning:.7,rest:1.3}]},

@@ -1,4 +1,4 @@
-import {StreetTrial,DEPTH,trialDrawOrder} from './street-trial-engine.mjs?v=street-object-polish-r2';
+import {StreetTrial,DEPTH,trialDrawOrder} from './street-trial-engine.mjs?v=street-object-polish-r3';
 import {CAST,GROUND} from './core.mjs?v=workers-background-only-20261113-r1';
 import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=workers-background-only-20261113-r1';
 import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeBackdrop,drawChallengeStreetProp} from './challenge-art.mjs?v=workers-background-only-20261113-r1';
