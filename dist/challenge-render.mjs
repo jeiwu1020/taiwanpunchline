@@ -16,11 +16,11 @@ export function routeCameraFrame(width,height,route,options={}){
 export function createChallengeRenderer(scene,images){
  const depth=createDepthChallengeRenderer(scene,images);
  const texture=scene.textures.createCanvas('challenge-route-world',1,1),display=scene.add.image(0,0,'challenge-route-world').setOrigin(0).setDepth(-7).setVisible(false);
- let encounterTexture=null,encounterDisplay=null;
+ let encounterTexture=null,encounterDisplay=null,deskOverlayTexture=null,deskOverlayDisplay=null,deskOverlayStamp='';
  const slots=[];const gfx=scene.add.graphics().setDepth(1);let visible=false,arenaImages=null,arenaStamp='',mode='';
  function mobSlot(i){if(slots[i]){if(slots[i].t.width!==512||slots[i].t.height!==384)slots[i].t.setSize(512,384);return slots[i];}const key='challenge-mob-'+i,t=scene.textures.createCanvas(key,512,384),im=scene.add.image(0,0,key).setOrigin(.5,350/384).setDepth(-.05),label=scene.add.text(0,0,'',{fontFamily:'system-ui',fontSize:'18px',fontStyle:'bold',color:'#fff3cd',stroke:'#17333b',strokeThickness:4}).setOrigin(.5).setDepth(3);return slots[i]={t,im,label};}
  function releaseArena(){if(!arenaImages)return;for(const key of ['challenge-arena-facade','challenge-arena-road']){const canvas=arenaImages[key];if(canvas){canvas.width=1;canvas.height=1;}scene.textures.remove?.(key);}arenaImages=null;arenaStamp='';}
- function hide(){depth.hide();visible=false;display.setVisible(false);encounterDisplay?.setVisible(false);gfx.clear();for(const s of slots){s.im.setVisible(false);s.label.setVisible(false);}}
+ function hide(){depth.hide();visible=false;display.setVisible(false);encounterDisplay?.setVisible(false);deskOverlayDisplay?.setVisible(false);gfx.clear();for(const s of slots){s.im.setVisible(false);s.label.setVisible(false);}}
  function draw(route,time,frame,options={}){
   arenaStamp='';
   releaseArena();
@@ -43,8 +43,14 @@ export function createChallengeRenderer(scene,images){
    if(!encounterTexture){encounterTexture=scene.textures.createCanvas('challenge-encounter-world',960,540);encounterDisplay=scene.add.image(0,0,'challenge-encounter-world').setOrigin(0).setDepth(-6).setVisible(false);}
    if(encounterTexture.width!==960||encounterTexture.height!==540)encounterTexture.setSize(960,540);
    const c=encounterTexture.getContext();c.clearRect(0,0,960,540);c.save();c.scale(960/width,540/height);c.translate(-left,-top);drawChapterEncounter(c,world,(x,y=430)=>({x,y}),1,images);c.restore();encounterTexture.refresh();encounterDisplay.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
+   if(!deskOverlayTexture){deskOverlayTexture=scene.textures.createCanvas('challenge-desk-overlay',1600,800);deskOverlayDisplay=scene.add.image(0,0,'challenge-desk-overlay').setOrigin(0).setDepth(-5).setVisible(false);deskOverlayStamp='';}
+   if(deskOverlayTexture.width!==1600||deskOverlayTexture.height!==800)deskOverlayTexture.setSize(1600,800);
   }
   const stamp=[section,frame.x,frame.y,frame.width,frame.height,frame.zoom].join(':');
+  if(world?.chapterEncounter&&deskOverlayTexture){
+   if(stamp!==deskOverlayStamp){const c=deskOverlayTexture.getContext();c.clearRect(0,0,1600,800);c.save();c.scale(1600/width,800/height);c.translate(-left,-top);const w=DESK.right-DESK.left;drawChallengeStreetProp(c,images,'table',{x:(DESK.left+DESK.right)/2,y:430,width:w,height:430-DESK.y});c.restore();deskOverlayTexture.refresh();deskOverlayStamp=stamp;}
+   deskOverlayDisplay.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
+  }
   if(stamp===arenaStamp){display.setVisible(true);visible=true;return;}
   arenaImages??=prepareChallengeArenaImages(scene,images);arenaStamp=stamp;
   const ctx=texture.getContext();ctx.clearRect(0,0,1600,800);ctx.save();ctx.scale(1600/width,800/height);ctx.translate(-left,-top);
@@ -56,7 +62,7 @@ export function createChallengeRenderer(scene,images){
   depth.invalidateSurface();
   // Reset all dynamic contexts, including hidden legacy mobs. Same-size
   // CanvasTexture.setSize cannot clear nested saves/clips left by a failed draw.
-  for(const t of [texture,encounterTexture,...slots.map(slot=>slot.t)].filter(Boolean)){const canvas=t.getCanvas();canvas.width=canvas.width;}
-  arenaStamp='';releaseArena();for(const slot of slots)slot.label.updateText?.();
+  for(const t of [texture,encounterTexture,deskOverlayTexture,...slots.map(slot=>slot.t)].filter(Boolean)){const canvas=t.getCanvas();canvas.width=canvas.width;}
+  arenaStamp='';deskOverlayStamp='';releaseArena();for(const slot of slots)slot.label.updateText?.();
  },get visible(){return visible;}};
 }
