@@ -266,3 +266,14 @@
 }
 .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character{--title-card-shift:-9%}
 .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--front{--title-card-shift:-12%}
+
+/* An unusually short desktop must not turn the cast into tiny thumbnails.
+   Keep the existing ring and readable names; use nearby empty space instead
+   of reducing the entire poster. Tall desktops and both phone shells keep
+   their existing image sizes and arrangement. */
+@container desktop-title-cast (max-height:180px){
+ .app[data-touch="false"][data-layout] .title-character{--title-face-height:clamp(48px,32cqh,58px)}
+ .app[data-touch="false"][data-layout] .title-character--back-1{--cameo-y:-6%}
+ .app[data-touch="false"][data-layout] .title-character--back-3,
+ .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-y:calc(100% - var(--title-face-height) - 25px)}
+}
