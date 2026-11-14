@@ -25,7 +25,7 @@ export const VOICE_SLOTS={
  su_rush:pending('衝衝衝','https://www.youtube.com/shorts/1Vw_joOXrzw',29),
 };
 // V15 user-supplied screen recordings: continuous reviewable excerpts, not authenticated originals.
-const driveSource='https://drive.google.com/file/d/1AUrE7GFXAuOaUoY7tBgbC0toW25vOiYb/view?usp=drive_link';
+
 const driveCuts=[
  {
   "kind": "arrow",
@@ -100,11 +100,11 @@ const driveCuts=[
   "confidence": "medium-high"
  }
 ];
-for(const c of driveCuts){const old=VOICE_SLOTS[c.kind];VOICE_SLOTS[c.kind]={...old,src:'assets/voice/'+c.file,userProvided:true,decoded:true,originalVerified:false,reviewNeeded:true,cue:0,requestedTime:null,source:driveSource,sourceFile:c.sourceFile,sourceRange:{start:c.start,end:c.end},reference:old.source,referenceNote:'先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利',status:'使用者提供 Captures.zip／'+c.sourceFile+'，取 '+c.start+'–'+c.end+' 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。'+(c.kind==='counter'?'保留完整前後文句，未硬切四字。':'')+(c.kind==='ko_bags'?'字首定位約有 0.1 秒不確定性。':'')};}
+for(const c of driveCuts){const old=VOICE_SLOTS[c.kind];VOICE_SLOTS[c.kind]={...old,src:'assets/voice/'+c.file,userProvided:true,decoded:true,originalVerified:false,reviewNeeded:true,cue:0,requestedTime:null,source:null,sourceFile:c.sourceFile,sourceRange:{start:c.start,end:c.end},reference:old.source,referenceNote:'先前提供的影片參考；本版實際取自使用者上傳錄影，未認證原始來源或權利',status:'使用者提供 Captures.zip／'+c.sourceFile+'，取 '+c.start+'–'+c.end+' 秒連續片段。依畫面、辨識時間及停頓輔助定位，未獨立聽驗或認證發言者，切點仍可校正。'+(c.kind==='counter'?'保留完整前後文句，未硬切四字。':'')+(c.kind==='ko_bags'?'字首定位約有 0.1 秒不確定性。':'')};}
 Object.assign(VOICE_SLOTS.huang_shout,{src:'assets/voice/huang-too-outrageous-v15.mp3',sourceRange:{start:.20,end:1.55},reviewNeeded:true,status:'依使用者要求保留第一段發話，約 1.35 秒，移除後面重複句；以波形停頓輔助分段，未獨立聽驗或認證說話者。'});
 Object.assign(VOICE_SLOTS.huang_debt,{src:'assets/voice/huang-owe-you-v15.mp3',sourceRange:{start:1.35,end:2.501882},reviewNeeded:true,status:'依使用者要求移除前兩次起頭聲，保留後段約 1.15 秒；以波形與辨識序列輔助定位，未獨立聽驗或認證完整用字與說話者。'});
-Object.assign(VOICE_SLOTS.su_rush,{src:'assets/voice/su-rush-user-selected-v16.mp3',userProvided:true,decoded:true,originalVerified:false,received:true,reviewNeeded:true,cue:0,source:driveSource,sourceFile:'衝衝衝.mp4',sourceRange:{start:12,end:14.9},reference:'https://www.youtube.com/shorts/1Vw_joOXrzw',referenceNote:'先前指定影片參考；本版音訊來自使用者提供錄影，未核實與此連結的關係',requestedTime:null,status:'依使用者指定「約 12 秒到 14 秒多」取原錄影 12.00–14.90 秒，約 2.90 秒，尾端短淡出，依指定範圍截斷後續音訊。使用者提供音檔，未獨立聽驗或認證發言者與來源。'});
-Object.assign(VOICE_SLOTS.su_dare,{src:'assets/voice/su-dare-user-selected-v16.mp3',userProvided:true,decoded:true,originalVerified:false,received:true,reviewNeeded:true,cue:0,source:driveSource,sourceFile:'要試試看嗎.mp4',sourceRange:{start:0,end:1},requestedTime:null,status:'依使用者指定僅取原錄影第一秒（0.00–1.00 秒），連續保留、不延長或拼接。檔名／字幕為「嗎」，遊戲暫沿用「嘛」。使用者提供音檔，未獨立聽驗或認證發言者與來源。'});
+Object.assign(VOICE_SLOTS.su_rush,{src:'assets/voice/su-rush-user-selected-v16.mp3',userProvided:true,decoded:true,originalVerified:false,received:true,reviewNeeded:true,cue:0,source:null,sourceFile:'衝衝衝.mp4',sourceRange:{start:12,end:14.9},reference:'https://www.youtube.com/shorts/1Vw_joOXrzw',referenceNote:'先前指定影片參考；本版音訊來自使用者提供錄影，未核實與此連結的關係',requestedTime:null,status:'依使用者指定「約 12 秒到 14 秒多」取原錄影 12.00–14.90 秒，約 2.90 秒，尾端短淡出，依指定範圍截斷後續音訊。使用者提供音檔，未獨立聽驗或認證發言者與來源。'});
+Object.assign(VOICE_SLOTS.su_dare,{src:'assets/voice/su-dare-user-selected-v16.mp3',userProvided:true,decoded:true,originalVerified:false,received:true,reviewNeeded:true,cue:0,source:null,sourceFile:'要試試看嗎.mp4',sourceRange:{start:0,end:1},requestedTime:null,status:'依使用者指定僅取原錄影第一秒（0.00–1.00 秒），連續保留、不延長或拼接。檔名／字幕為「嗎」，遊戲暫沿用「嘛」。使用者提供音檔，未獨立聽驗或認證發言者與來源。'});
 Object.assign(VOICE_SLOTS.su_shout,{src:'assets/voice/su-shout-user-upload-v16.mp3',userProvided:true,decoded:true,originalVerified:false,received:true,reviewNeeded:true,cue:0,source:null,sourceFile:'在那叫什麼.mp4',sourceRange:{start:3.96,end:6.34},requestedTime:null,reference:'https://www.youtube.com/shorts/cbciI75MegY',referenceNote:'先前指定的候選參考；本次實際音訊來自新上傳錄影，未核實與此連結的關係',speaker:'使用者指定對應蘇貞昌，未獨立認證',status:'使用者提供「在那叫什麼.mp4」，取 3.96–6.34 秒連續音軌，約 2.38 秒，去除前後靜音並降低 3 dB；招式成功接受後立即播放。未獨立聽驗或認證發言者與來源。'});
 // V17 continuous user-supplied handshake phrase; visual/source context is not speaker authentication.
 VOICE_SLOTS.ma_handshake={src:'assets/voice/ma-handshake-user-candidate-v17.mp3',label:'死亡之握，你已經死了',userProvided:true,decoded:true,originalVerified:false,reviewNeeded:true,cue:0,sourceFile:'死亡之握 你已經死了.mp4',sourceRange:{start:8.15,end:12.35},rights:'未確認再利用權',speaker:'使用者指定對應馬英九，未獨立認證',reference:'https://www.facebook.com/reel/1169812469747550',referenceNote:'使用者錄影畫面中的頁面網址及帳號標示，未獨立認證原始來源',status:'使用者提供「死亡之握 你已經死了.mp4」，取 8.15–12.35 秒連續片段，約 4.20 秒，保留句首句尾餘裕。畫面紙張可見完整目標句；離線辨識有同音字差異，未獨立聽驗或認證發言者。降低 6 dB，未拼接或仿聲。'};

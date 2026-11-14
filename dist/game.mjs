@@ -159,15 +159,15 @@ function primeVoice(force=false){if(force||(sound&&voiceEnabled&&preferences.voi
 function playConfiguredVoice(kind,preview=false,f=duel.player,origin='demo'){if(preview)previewAudioFailure=false;const clip=playableVoice(kind);if(!clip||!sound||!voiceEnabled||preferences.voiceVolume<=0||(!preview&&duel.status!=='active'))return false;
  try{ensureAudio();}catch{}
  return voiceChannels.play(f.id||'player',clip,{preview,
-  onStart:()=>{if(preview&&origin==='audio')$('#settings-audition-status').textContent='已啟動試聽：'+clip.label+'（只播放一次）。';$('#voice-status').textContent=kind==='coin'?'已播放韓國瑜原片短句：高雄發大財。':'已播放'+(clip.catalogProvided?'語錄站音檔：':'使用者提供音檔：')+clip.label+'。未獨立認證發言者與來源。';},
-  onError:()=>{$('#voice-status').textContent='此音檔播放未成功，請按試聽重試。';if(preview){previewAudioFailure=true;if(origin==='audio')$('#settings-audition-status').textContent='語音播放未成功，請再點一次招式，並檢查裝置音量與瀏覽器播放權限。';if($('#help-dialog').open)$('#settings-demo-status').textContent='動作示範可用，但語音播放未成功；請再按「動作＋語音」。';}}
+  onStart:()=>{if(preview&&origin==='audio')$('#settings-audition-status').textContent='已啟動試聽：'+clip.label+'（只播放一次）。';},
+  onError:()=>{if(preview){previewAudioFailure=true;if(origin==='audio')$('#settings-audition-status').textContent='語音播放未成功，請再點一次招式，並檢查裝置音量與瀏覽器播放權限。';if($('#help-dialog').open)$('#settings-demo-status').textContent='動作示範可用，但語音播放未成功；請再按「動作＋語音」。';}}
  });
 }
 function drainVoiceCues(){if(!sound||!voiceEnabled||duel.status!=='active'){voiceCues.clear();return;}for(const cue of voiceCues.ready())playConfiguredVoice(cue.kind,false,cue.f);}
-$('#voice-enabled').onchange=e=>{settingsStore.update({voiceMuted:!e.target.checked});voiceEnabled=e.target.checked;if(!voiceEnabled)stopVoice();else primeVoice();$('#voice-status').textContent=voiceEnabled?'招式音訊已啟用：21 招可播放，喝水已接入使用者原檔；來源與逐句聽驗限制見招式頁。':'招式音訊已關閉。';};
-$('#play-voice').onclick=()=>{stopVoice();if(!sound||!voiceEnabled){$('#voice-status').textContent='請先開啟聲音與招式音訊。';return;}playConfiguredVoice($('#voice-sample').value,true);};
-$('#stop-voice').onclick=()=>{stopVoice();$('#voice-status').textContent='試聽已停止。';};
-$('#voice-sample').onchange=()=>stopVoice();
+
+
+
+
 $('#help-dialog').addEventListener('close',()=>{stopEffects();stopVoice();moveDemo?.stop();settingsUI?.close();clearHold();syncBattleSurface();syncMusic();});
 
 function ensureAudio(){audio??=new(window.AudioContext||window.webkitAudioContext)();if(!sfxMasterGain){sfxMasterGain=audio.createGain();sfxMasterGain.connect(audio.destination);}sfxMasterGain.gain.setValueAtTime(!sound||preferences.sfxMuted?0:preferences.sfxVolume,audio.currentTime);voiceChannels.connectAudio(audio);const pending=audio.resume();pending?.catch?.(()=>{});}
@@ -196,7 +196,7 @@ function applySettings(next){
  preferences=next;if(next.masterMuted||next.sfxMuted||next.sfxVolume<=0)stopEffects();music.setPreferences(next);sound=!next.masterMuted;voiceEnabled=!next.voiceMuted;voiceChannels.setVolume(next.voiceVolume);
  if(!sound||!voiceEnabled||next.voiceVolume<=0)stopVoice();
  if(sfxMasterGain&&audio)sfxMasterGain.gain.setValueAtTime(!sound||next.sfxMuted?0:next.sfxVolume,audio.currentTime);
- $('#sound').textContent=sound?'♪ 聲音開':'♪ 聲音關';$('#sound').setAttribute('aria-pressed',String(sound));$('#voice-enabled').checked=voiceEnabled;
+ $('#sound').textContent=sound?'♪ 聲音開':'♪ 聲音關';$('#sound').setAttribute('aria-pressed',String(sound));
  viewportUI?.setPreferences(next);settingsUI?.sync();
 }
 function initializeSettings(){

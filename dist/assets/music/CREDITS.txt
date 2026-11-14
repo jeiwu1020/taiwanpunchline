@@ -1,19 +1,4 @@
-Music: "Run Amok" and "Fluffing a Duck"
-Kevin MacLeod (incompetech.com)
-Licensed under Creative Commons: By Attribution 4.0 License
-https://creativecommons.org/licenses/by/4.0/
-
-Original track pages:
-"Run Amok": https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400024
-"Fluffing a Duck": https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100768
-
-Changes made for this game:
-"Run Amok": retained original 0.800–104.850 seconds, trimming leading silence and the near-silent tail; added a 5 ms opening fade and 150 ms ending fade; re-encoded to stereo MP3 at 192 kb/s.
-"Fluffing a Duck": selected the first rendition, original 0.000–31.460 seconds, omitting the second rendition; added a 10 ms opening fade and 510 ms ending fade to the first rendition's decay; re-encoded to stereo MP3 at 192 kb/s.
-No pitch or tempo changes. Music is repeated in the game. No endorsement by the composer is implied.
-
-Game audio filenames and original downloads:
-fluffing-a-duck-menu-v28.mp3 ← originals/fluffing-a-duck.mp3
-https://incompetech.com/music/royalty-free/mp3-royaltyfree/Fluffing%20a%20Duck.mp3
-run-amok-battle-v28.mp3 ← originals/run-amok.mp3
-https://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3
+Music: “Run Amok” and “Fluffing a Duck” — Kevin MacLeod (incompetech.com)
+Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Track pages: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400024 and https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100768
+Edited for this game with excerpts, fades, and re-encoding. Pitch and tempo were not changed. This does not imply composer endorsement.
