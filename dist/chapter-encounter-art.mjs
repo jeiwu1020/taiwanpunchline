@@ -49,14 +49,28 @@ function effect(c,e,project,z,atlas){
  else if(e.kind==='tea'){const to=project(e.targetX,430,e.targetDepth);c.translate((to.x-q.x)/z*t,-80+(to.y-q.y)/z*t-Math.sin(t*Math.PI)*80);box(c,-12,-20,24,27,PAPER);ring(c,17,-7,7,GREEN);text(c,'+3',0,-40,17,GREEN);}
  c.restore();
 }
-export function drawChapterEncounter(c,w,project,zoom=1,images={},contextScale=1){
+export function drawChapterEncounterObject(c,kind,value,project,zoom=1,images={},time=0){
+ if(kind==='gate'){gate(c,value,project,zoom,time);return;}
+ if(kind!=='prop')return;
+ const q=project(value.x,430,value.depth);c.save();c.translate(q.x,q.y);c.scale(zoom,zoom);prop(c,value,images,time);c.restore();
+}
+export function drawChapterEncounterEffects(c,w,project,zoom=1,images={}){
  const s=w?.chapterEncounter;if(!s)return;const atlas=images['chapter-mob-fx']??chapterMobFxImage();c.save();
  for(const e of w.enemies??[w.enemy])if(e?.chapterTell&&e.hp>0){const t=e.chapterTell,a=project(e.x,430,t.depth),b=project(t.x,430,t.depth),r=s.kind==='route'?75:36;c.fillStyle='#be4e3933';c.strokeStyle=RED;c.lineWidth=2;c.setLineDash([8*zoom,5*zoom]);const left=s.kind==='route'?b.x-r*zoom:Math.min(a.x,b.x),width=s.kind==='route'?r*2*zoom:Math.abs(b.x-a.x)+24*zoom;c.fillRect(left,b.y-18*zoom,width,36*zoom);c.strokeRect(left,b.y-18*zoom,width,36*zoom);c.setLineDash([]);text(c,s.kind==='handshake'?'握！':s.kind==='route'?'此路施工':s.kind==='paper'?'去 ↔ 回':'注意直線',b.x,b.y+42*zoom,Math.max(12,14*zoom),RED);}
- for(const g of s.gates??[])gate(c,g,project,zoom,s.time);
- for(const p of s.props){const q=project(p.x,430,p.depth);c.save();c.translate(q.x,q.y);c.scale(zoom,zoom);prop(c,p,images,s.time);c.restore();}
  for(const h of s.hazards){const q=project(h.x,430,h.depth);c.save();c.translate(q.x,q.y);c.scale(zoom*h.direction,zoom);if(h.kind==='sound'){if(!drawMobFx(c,atlas,'sound',-12,-119,55,98))for(let i=0;i<3;i++){c.strokeStyle=i%2?PAPER:'#bf6a3c';c.lineWidth=5;c.beginPath();c.arc(-i*18,-70,36+i*8,-1,1);c.stroke();}}else if(h.kind==='paper'){if(!drawMobFx(c,atlas,'paper',-32,-118,67,39))paper(c,0,-100);}else if(h.kind==='rush'){if(!drawMobFx(c,atlas,'rush',-118,-50,85,38))for(let i=0;i<3;i++)line(c,-80-i*14,-12-i*15,-45,-12-i*15,'#a06a3b',4);}else{if(!drawMobFx(c,atlas,'route',-76,-28,152,44))box(c,-70,-22,140,33,PAPER);c.scale(h.direction,1);text(c,'退回重填',0,-6,20,INK);}c.restore();}
  for(const p of s.parcels??[]){const q=project(p.x,330,p.depth);c.save();c.translate(q.x,q.y);c.scale(zoom*p.direction,zoom);if(!drawMobFx(c,atlas,'paper-stamped',-32,-29,64,58))paper(c,0,0,1,true);c.restore();}
  for(const e of s.effects??[])effect(c,e,project,zoom,atlas);
+ c.restore();
+}
+export function drawChapterEncounterGuidance(c,w,project,zoom=1,contextScale=1){
+ const s=w?.chapterEncounter;if(!s)return;c.save();
  const hint=chapterPropHint(w);if(hint){const p=hint.prop,q=project(p.x,430,p.depth),prefix={ready:'攻擊',approach:'靠近',turn:'轉身',cooldown:`${Math.ceil(p.cooldown)} 秒後`}[hint.state];caption(c,`${prefix} · ${LABELS[p.kind]}`,q.x,q.y+29/contextScale,contextScale);}
  const note=[...s.notes].reverse().find(n=>Math.abs(n.x-w.player.x)<550);if(note){const q=project(note.x,430,note.depth);c.save();c.globalAlpha=Math.min(1,note.life*2);caption(c,note.text,q.x,q.y-250*zoom,contextScale,GREEN);c.restore();}c.restore();
+}
+export function drawChapterEncounter(c,w,project,zoom=1,images={},contextScale=1){
+ const s=w?.chapterEncounter;if(!s)return;
+ for(const g of s.gates??[])drawChapterEncounterObject(c,'gate',g,project,zoom,images,s.time);
+ for(const p of s.props??[])drawChapterEncounterObject(c,'prop',p,project,zoom,images,s.time);
+ drawChapterEncounterEffects(c,w,project,zoom,images);
+ drawChapterEncounterGuidance(c,w,project,zoom,contextScale);
 }

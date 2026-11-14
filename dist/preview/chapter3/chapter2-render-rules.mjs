@@ -12,14 +12,19 @@ export function chapter2ObstacleFrame(q,frame){return {...chapter2WorldPoint(q.x
 /** A horizontal tabletop spans depth, so split only where an actor's feet
  * cross it. Foreground bands then cover rear actors without ever clipping an
  * actor sprite or moving a jumping actor out of its original depth lane. */
-export function chapter2SceneLayers(platforms,actors,depthMode){
+export function chapter2SceneLayers(platforms,actors,depthMode,encounter=null){
  const layers=[];
  for(const p of platforms){
   const half=p.depthHalf??30,back=(p.depth??0)-half,front=(p.depth??0)+half;
   if(!depthMode){layers.push({kind:'table-solid',p,depth:back});continue;}
-  const cuts=[back,...new Set(actors.map(a=>a.depth??0).filter(d=>d>back&&d<front)),front].sort((a,b)=>a-b);
+  const lanes=[...actors.map(a=>a.depth??0),...(encounter?.props??[]).map(p=>p.depth??0),...(encounter?.gates??[]).map(g=>g.depth??0)];
+  const cuts=[back,...new Set(lanes.filter(d=>d>back&&d<front)),front].sort((a,b)=>a-b);
   for(let i=1;i<cuts.length;i++)layers.push({kind:'table-top',p,from:cuts[i-1],to:cuts[i],depth:(cuts[i-1]+cuts[i])/2});
   layers.push({kind:'table-front',p,depth:front});
+ }
+ if(depthMode){
+  for(const gate of encounter?.gates??[])layers.push({kind:'encounter-gate',value:gate,depth:gate.depth??0});
+  for(const prop of encounter?.props??[])layers.push({kind:'encounter-prop',value:prop,depth:prop.depth??0});
  }
  for(const a of actors)layers.push({kind:'actor',a,depth:a.depth??0});
  return layers.sort((a,b)=>a.depth-b.depth);

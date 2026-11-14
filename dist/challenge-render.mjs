@@ -1,7 +1,7 @@
-import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-upgrade-r1';
+import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=street-depth-occlusion-r1';
 import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=campaign-boot-20261112-r3';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=street-depth-occlusion-r1';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=street-depth-occlusion-r1';
 import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
 import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

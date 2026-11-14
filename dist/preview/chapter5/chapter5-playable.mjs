@@ -2,7 +2,7 @@ import {loadChapterImage} from '../../chapter-image-loader.mjs';
 import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
-import {drawChapterEncounter} from '../../chapter-encounter-art.mjs?v=chapter-upgrade-r1';
+import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-depth-occlusion-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
@@ -24,7 +24,7 @@ import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from '../c
 import {drawChapter5Miniboss} from './chapter5-mob-art.mjs?v=campaign-boot-20261112-r3';
 import {streetTrialFrame,containSprite} from '../chapter4/street-trial-view.mjs?v=campaign-boot-20261112-r3';
 import {DESK} from '../chapter4/stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from '../chapter4/chapter4-render-rules.mjs?v=campaign-boot-20261112-r3';
+import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from '../chapter4/chapter4-render-rules.mjs?v=street-depth-occlusion-r1';
 import {arrowPresentation} from '../chapter4/art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from '../chapter4/touch-controls.mjs?v=campaign-boot-20261112-r3';
 import {createPlayableChapter} from './chapter5-controller.mjs?v=campaign-boot-20261112-r3';
@@ -133,9 +133,11 @@ function draw(time,delta=1000/60){
  const paintActor=a=>!route||a===player||streetActorNeedsPaint(a,{left:f.left,right:f.left+w/f.zoom});
  const shadow=a=>{ctx.fillStyle=a===player?'#bd543c55':'#17353a33';ctx.beginPath();ctx.ellipse(sx(a.x),sy(route?(a.supportY??GROUND):GROUND,a.depth),38*f.zoom,8*f.zoom,0,0,Math.PI*2);ctx.fill();};
  for(const a of actors)if(paintActor(a)&&(!route||(a.supportY??GROUND)>=GROUND))shadow(a);
- const objects=chapter4SceneLayers(platforms,actors,route);
- drawChapterEncounter(ctx,g,(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)}),f.zoom,images);
- for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
+ const encounterProject=(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)});
+ if(route)drawChapterEncounterEffects(ctx,g,encounterProject,f.zoom,images);else drawChapterEncounter(ctx,g,encounterProject,f.zoom,images);
+ const objects=chapter4SceneLayers(platforms,actors,route,route?g.chapterEncounter:null);
+ for(const o of objects)if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else if(o.kind==='encounter-prop'||o.kind==='encounter-gate'){drawChapterEncounterObject(ctx,o.kind==='encounter-prop'?'prop':'gate',o.value,encounterProject,f.zoom,images,g.chapterEncounter?.time??time);}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
+ if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
  if(route){if(!g.supplyUsed)drawChallengeSupply(ctx,images,{x:sx(g.section.supplyX),y:sy(GROUND,g.section.supplyDepth),width:90*f.zoom});drawChapter5Prop(ctx,images,'sign',{x:sx(g.gateX),y:sy(GROUND,-90),width:90*f.zoom,height:115*f.zoom});label('清點完成 →',sx(g.gateX),sy(GROUND-145,-90),18*f.zoom);}
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  for(const q of g.obstacles||[])if(!q.dead){drawChallengeStreetProp(ctx,images,'sign',chapter4ObstacleFrame(q,f));}

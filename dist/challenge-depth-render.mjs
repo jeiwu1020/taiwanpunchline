@@ -1,4 +1,4 @@
-import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-upgrade-r1';
+import {drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from './chapter-encounter-art.mjs?v=street-depth-occlusion-r1';
 import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
 import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
@@ -168,6 +168,8 @@ export function depthRenderItems(route){
  for(const q of route.projectiles||[])if(!q.dead)push('projectile',q);
  for(const q of route.obstacles||[])if(!q.dead)push('obstacle',q);
  for(const r of route.rallies||[])push('rally',r);
+ for(const prop of route.chapterEncounter?.props||[])push('encounter-prop',prop);
+ for(const gate of route.chapterEncounter?.gates||[])push('encounter-gate',gate);
  // A tabletop spans several depth lanes. Cut it only at occupied lanes so
  // rear actors are covered, while feet on its top stay on the landing plane.
  const lanes=list.map(item=>item.depth);
@@ -179,7 +181,8 @@ export function depthRenderItems(route){
  }
  // At exact front contact the actor is in front; surface bands occupy open
  // intervals, and jumping never changes the original actor depth order.
- return list.sort((a,b)=>(a.sortDepth??a.depth)-(b.sortDepth??b.depth)||(a.kind==='platform'?0:1)-(b.kind==='platform'?0:1));
+ const foregroundOrder=item=>['platform','encounter-prop','encounter-gate'].includes(item.kind)?0:1;
+ return list.sort((a,b)=>(a.sortDepth??a.depth)-(b.sortDepth??b.depth)||foregroundOrder(a)-foregroundOrder(b));
 }
 export function depthMobLabelLayout(f,frame){
  return {text:f.warning>0?(f.chapterCaption??'要出手了！'):f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
@@ -296,7 +299,8 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
  const items=depthRenderItems(route).filter(item=>item.kind!=='actor'||item.episode||streetActorNeedsPaint(item.value,visible));
  if(!options.skipBackdrop){ctx.save();ctx.translate(bg.originX,0);drawChallengeBackdrop(ctx,images,bg);ctx.restore();}
  drawGroundEffects(ctx,items,frame);
- drawChapterEncounter(ctx,route,(x,y=GROUND,z=0)=>({x,y:y+z*.65}),1,images,frame.zoom);
+ const encounterProject=(x,y=GROUND,z=0)=>({x,y:y+z*.65});
+ drawChapterEncounterEffects(ctx,route,encounterProject,1,images);
  for(const item of items){const q=item.value,p=depthWorldPoint(q);
   if(item.kind==='platform'){
    const left=q.x??q.left,w=q.width??((q.right??left+100)-left),half=q.depthHalf??36,image=images['challenge-street-props'];
@@ -305,12 +309,15 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
   }
   else if(item.kind==='supply')drawSupply(ctx,images,q,frame.zoom,time);
   else if(item.kind==='gate'){drawChallengeStreetProp(ctx,images,'sign',{x:p.x,y:p.y,width:88,height:108});label(ctx,'前方開講 →',p.x,p.y-132,frame.zoom,{size:21,plate:true});}
+  else if(item.kind==='encounter-prop')drawChapterEncounterObject(ctx,'prop',q,encounterProject,1,images,route.chapterEncounter?.time??time);
+  else if(item.kind==='encounter-gate')drawChapterEncounterObject(ctx,'gate',q,encounterProject,1,images,route.chapterEncounter?.time??time);
   else if(item.kind==='actor')drawActor(ctx,images,item,time,frame,options,poses);
   else if(item.kind==='projectile')drawProjectile(ctx,images,q,time,frame.zoom);
   else if(item.kind==='obstacle'){const y=(q.y??GROUND)+depthOf(q)*DEPTH_SCALE;line(ctx,q.x-35,y-2,q.x+35,y-2,'#ab4e3c',5);drawSignatureProp(ctx,images,'queue',q.x,y-37,92,74,0,Math.min(1,q.life*3));label(ctx,'地面攔停',q.x,y-87,frame.zoom,{color:'#ffe0ab'});}
   else if(item.kind==='rally')drawRally(ctx,images,q,time,frame.zoom,options.reducedMotion);
  }
  drawClasp(ctx,images,items,poses);
+ drawChapterEncounterGuidance(ctx,route,encounterProject,1,frame.zoom);
  // Names are a final overlay so a nearer actor cannot erase the identifying
  // text of a mob behind it. Their plate and stroke survive bright backgrounds.
  const mobs=items.filter(item=>item.kind==='actor'&&item.value.mobKind&&item.value.hp>0).map(item=>item.value);
