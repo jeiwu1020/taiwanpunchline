@@ -221,9 +221,11 @@
    labels and their animation retain their existing sizes. Side-turned phones
    deliberately keep the original layout; nativeLandscape is the shell flag. */
 .app[data-touch="false"][data-layout] .title-ensemble{container-name:desktop-title-cast}
-.app[data-touch="false"][data-layout] .title-actions{top:max(50%,calc(26cqh + 84px));width:34%}
-.app[data-touch="false"][data-layout] .title-character--back-3{--cameo-x:25%}
-.app[data-touch="false"][data-layout] .title-character--back-4{--cameo-x:75%}
+@container desktop-title-cast (max-height:360px){
+ .app[data-touch="false"][data-layout] .title-actions{top:max(50%,calc(26cqh + 84px));width:34%}
+ .app[data-touch="false"][data-layout] .title-character--back-3{--cameo-x:25%}
+ .app[data-touch="false"][data-layout] .title-character--back-4{--cameo-x:75%}
+}
 .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-ensemble{container-name:native-title-cast;min-height:144px}
 .app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-actions{top:max(74%,calc(var(--title-face-height) + 48px));width:30%}
 /* In the shortest natural landscape view, attach the central name beside its
@@ -241,3 +243,26 @@
   position:absolute;left:calc(50% + var(--title-face-height)*.5);top:calc(var(--title-face-height)*.5);max-width:none;
  }
 }
+
+/* A caption must be above every portrait, not trapped inside its own card's
+   isolation/transform/z-index context. Percentage margins preserve the exact
+   existing card centering; only the image itself keeps the original animation.
+   Separate art layers retain the original portrait/background overlap order. */
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character{
+ isolation:auto;z-index:auto;transform:none;margin-left:var(--title-card-shift,-13%);
+}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character::before{z-index:calc(var(--title-art-layer,2)*2)}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character img{position:relative;z-index:calc(var(--title-art-layer,2)*2 + 1)}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-character figcaption{z-index:30}
+.app:is([data-touch="false"][data-layout],[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"]) .title-actions{z-index:20}
+.title-character--back-1{--title-art-layer:1}
+.title-character--front{--title-art-layer:4}
+.title-character--back-3,.title-character--back-4{--title-art-layer:5}
+.app[data-touch="false"][data-layout] .title-character--front{--title-card-shift:-14.5%}
+@container title-poster (max-height:450px){
+ .app[data-touch="false"][data-layout] .title-character{--title-card-shift:-10%}
+ .app[data-touch="false"][data-layout] .title-character--front{--title-card-shift:-11.5%}
+ .app[data-touch="false"][data-layout] .title-character--back-1{--title-card-shift:-9%}
+}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character{--title-card-shift:-9%}
+.app[data-touch="true"][data-native-landscape="true"][data-rotation="0"][data-layout="landscape"] .title-character--front{--title-card-shift:-12%}
