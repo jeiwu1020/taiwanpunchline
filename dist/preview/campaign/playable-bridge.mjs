@@ -73,6 +73,7 @@ export async function createCampaignPlayable({router,chapterId,createPlayableCha
    const actions=[];if(before.mode==='route'){for(const e of transition.events)if(e.type==='enemyDefeated')actions.push({type:'mob-defeated',enemyId:e.encounterId,xp:e.xp});if(after.stepId!==before.stepId)actions.push({type:'route-complete',carry:transition.carry});}
    else if(before.mode==='battle'&&after.mode==='result'&&after.result?.matchWon)actions.push({type:'boss-win',carry:{hp:local.world.player.hp,rally:local.world.player.rally,assist:{...local.world.player.assist,active:false}}});return actions;
   });},
+  beginBattle(t){return usable(t)&&local.beginBattle(t);},
   nextStory(t){return staged('nextStory',[t],(before,after)=>before.stepId!==after.stepId?[{type:'story-complete'}]:[]);},
   rewindStory(t){if(!usable(t)||!local.rewindStory(t))return false;notify();return true;},
   previousStory(t){if(!usable(t)||!local.previousStory(t))return false;notify();return true;},

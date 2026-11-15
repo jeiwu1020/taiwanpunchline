@@ -18,7 +18,7 @@ import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-u
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-boot-20261112-r3';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-countdown-bridge-20261115-r1';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
 import {CAST,Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';

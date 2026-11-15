@@ -18,7 +18,7 @@ import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-u
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-boot-20261112-r3';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=campaign-countdown-bridge-20261115-r1';
 import {usesHighFlyingMic} from './flying-mic.mjs?v=campaign-boot-20261112-r3';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {makeFlyingMicOverlay} from './flying-mic-adapter.mjs?v=campaign-boot-20261112-r3';
