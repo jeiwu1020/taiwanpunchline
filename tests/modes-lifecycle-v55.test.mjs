@@ -61,6 +61,6 @@ test('series title names the actual winning fighter and disambiguates mirror tea
  for(const winner of ['player','enemy'])for(const mirror of [false,true]){
   const h=await menu();if(mirror){h.$('#opponent-card').onclick();h.$('#roster-wang').onclick();}
   h.$('#format-series').onclick();h.ui.startGame();countdown(h);finish(h,winner);press(h,'#next-round');countdown(h);finish(h,winner);
-  const title=h.$('#result-title').textContent;assert.match(title,winner==='player'||mirror?/恰吉王/:/韓國魚/);assert.match(title,/拿下系列賽/);if(mirror)assert.match(title,winner==='player'?/（玩家）/:/（AI）/);assert.ok(h.$('#result-sub').textContent.length>0,'humorous subtitle remains');
+  const title=h.$('#result-title').textContent;assert.match(title,winner==='player'||mirror?/恰吉王/:/韓國魚/);assert.match(title,/拿下這場對戰/);if(mirror)assert.match(title,winner==='player'?/（玩家）/:/（AI）/);assert.ok(h.$('#result-sub').textContent.length>0,'humorous subtitle remains');
  }
 });

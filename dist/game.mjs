@@ -36,7 +36,7 @@ import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-b
 import {createAssistRenderer} from './assist-presentation.mjs?v=rally-consistency-20261115-r1';
 import {MatchSeries,DIFFICULTY_LABELS,ROSTER_TARGETS,rosterTargetName} from './match-modes.mjs?v=campaign-boot-20261112-r3';
 import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=series-presentation-20261115-r1';
-import {predictRoundResult,roundAnnouncement,roundResultCopy,setSeriesWinMarkers} from './series-presentation.mjs?v=series-presentation-20261115-r1';
+import {predictRoundResult,roundAnnouncement,roundResultCopy,setSeriesWinMarkers} from './series-presentation.mjs?v=series-presentation-20261115-r2';
 import {rallyMeterView} from './rally-meter.mjs?v=campaign-boot-20261112-r3';
 import {mountPageZoomGuard,bindPageZoomPreference,ownsGamePageTarget} from './page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
 import {ITEM_ART,itemActorName,chooseCarryHand,heldItemAnchor} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
@@ -321,7 +321,7 @@ function result(){
  $('#result-eyebrow').textContent=seriesCopy?.eyebrow??'本局結果';$('#result-title').textContent=seriesCopy?.title??copy.title;
  $('#result-sub').textContent=seriesCopy?.subtitle??copy.subtitle;
  $('#result-score').textContent=seriesCopy?.score??(gameMode==='training'?'練習結束，可重新練習或回選角':'');
- $('#next-round').hidden=!between;$('#next-round').textContent=seriesCopy?.action??'進入下一局 →';$('#replay').hidden=between;$('#replay').disabled=false;$('#replay').textContent=gameMode==='training'?'再練一場 ↻':matchSeries?.format==='best-of-three'?'再開一場系列賽 ↻':'再戰一局 ↻';
+ $('#next-round').hidden=!between;$('#next-round').textContent=seriesCopy?.action??'進入下一局 →';$('#replay').hidden=between;$('#replay').disabled=false;$('#replay').textContent=gameMode==='training'?'再練一場 ↻':matchSeries?.format==='best-of-three'?'重新對戰 ↻':'再戰一局 ↻';
  $('#stats').innerHTML=`<div><strong>${stats.maxCombo}</strong><small>最高連段</small></div><div><strong>${stats.specialHits}</strong><small>梗技命中</small></div><div><strong>${stats.interrupts||stats.blocks}</strong><small>${stats.interrupts?'打斷喝水':'成功格擋'}</small></div>`;
  if(challengeRun)challengeResult(round,between);
  $('#result').classList.remove('hidden');syncModeHUD();sfx('over');

@@ -12,15 +12,15 @@ export function predictRoundResult(series,winner){
 export function roundResultCopy(result,format='single',playerName='你',enemyName='對手'){
  const score=result?.score??{player:0,enemy:0},player=score.player??0,enemy=score.enemy??0,round=Math.max(1,Math.trunc(Number(result?.round)||1)),series=format==='best-of-three',scoreText=`${player}：${enemy}`;
  if(result?.draw){
-  return {eyebrow:series?'局間結果':'本局結果',title:series?`${roundName(round)}平手`:'本局平手',subtitle:series?'重賽本局，勝局不變。':'一局決勝，本局平手，重賽決定勝者。',score:series?`三戰兩勝 · 系列賽比分 ${scoreText}`:'一局決勝',action:series?`重賽${roundName(round)} →`:'重賽本局 →',complete:false};
+  return {eyebrow:series?'局間結果':'本局結果',title:series?`${roundName(round)}平手`:'本局平手',subtitle:series?'重賽本局，勝局不變。':'一局決勝，本局平手，重賽決定勝者。',score:series?`三戰兩勝 · 目前比分 ${scoreText}`:'一局決勝',action:series?`重賽${roundName(round)} →`:'重賽本局 →',complete:false};
  }
  if(result?.complete){
   const winnerName=result.winner==='player'?playerName:enemyName;
-  return {eyebrow:series?'系列賽結果':'本局結果',title:`勝負已分！${winnerName}${series?'贏下系列賽':'贏下本局'}`,subtitle:series?'系列賽已結束。':'本局結果已定。',score:series?`三戰兩勝 · 最終比分 ${scoreText}`:'一局決勝',action:null,complete:true};
+  return {eyebrow:series?'對戰結果':'本局結果',title:series?`勝負已分！${winnerName}拿下這場對戰`:`勝負已分！${winnerName}贏下本局`,subtitle:series?'這場對戰已結束。':'本局結果已定。',score:series?`三戰兩勝 · 最終比分 ${scoreText}`:'一局決勝',action:null,complete:true};
  }
  const winnerName=result?.roundWinner==='player'?playerName:enemyName;
- const subtitle=result?.roundWinner==='player'?'再贏 1 局即可勝出；系列賽尚未結束。':'系列賽尚未結束，你仍可追平。';
- return {eyebrow:'局間結果',title:`${winnerName}拿下${roundName(round)}！`,subtitle,score:`三戰兩勝 · 目前比分 ${scoreText}（先贏 2 局）`,action:`進入${roundName(round+1)} →`,complete:false};
+ const subtitle=result?.roundWinner==='player'?'再贏 1 局即可拿下這場對戰。':'這場對戰還沒結束，你仍可追平。';
+ return {eyebrow:'局間結果',title:`${winnerName}拿下${roundName(round)}！`,subtitle,score:`三戰兩勝 · 目前比分 ${scoreText}`,action:`進入${roundName(round+1)} →`,complete:false};
 }
 export function chapterRoundResultCopy(state,enemyName='對手'){
  const rounds=state?.rounds??{player:0,enemy:0},sum=(rounds.player??0)+(rounds.enemy??0),draw=state?.result?.winner==='draw',complete=!!(state?.result?.matchWon||state?.result?.matchLost);
@@ -28,8 +28,9 @@ export function chapterRoundResultCopy(state,enemyName='對手'){
  return roundResultCopy({round:Math.max(1,draw?sum+1:sum),score:rounds,complete,winner,roundWinner:state?.result?.winner,draw},state?.stepId==='boss'?'best-of-three':'single','你',enemyName);
 }
 function microphone(documentRef){
- const svg=documentRef.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
- const path=documentRef.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm7-3a7 7 0 0 1-14 0m7 7v4m-4 0h8');svg.append(path);return svg;
+ const ns='http://www.w3.org/2000/svg',svg=documentRef.createElementNS(ns,'svg'),image=documentRef.createElementNS(ns,'image');
+ svg.setAttribute('viewBox','1186 543 192 444');svg.setAttribute('preserveAspectRatio','xMidYMid meet');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');
+ image.setAttribute('href',new URL('./assets/challenge/opening-props-v75.png',import.meta.url).href);image.setAttribute('x','0');image.setAttribute('y','0');image.setAttribute('width','1536');image.setAttribute('height','1024');svg.append(image);return svg;
 }
 export function setSeriesWinMarkers(documentRef,playerWins=0,enemyWins=0,enabled=true){
  for(const [id,wins,name] of [['p-series-wins',playerWins,'你'],['e-series-wins',enemyWins,'對手']]){
