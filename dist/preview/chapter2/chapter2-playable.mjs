@@ -28,7 +28,7 @@ import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './ch
 import {drawChapter2Miniboss} from './chapter2-mob-art.mjs?v=campaign-boot-20261112-r3';
 import {streetTrialFrame} from './street-trial-view.mjs?v=rally-consistency-20261115-r1';
 import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {rallyCrowdFormation,paintRallySupporters} from '../campaign/rally-crowd.mjs?v=rally-consistency-20261115-r1';
+import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy} from '../campaign/rally-crowd.mjs?v=rally-presentation-20261115-r1';
 import {chapter2RenderActor,chapter2TableFrame,chapter2ObstacleFrame,chapter2SceneLayers,drawChapter2TableLayer} from './chapter2-render-rules.mjs?v=street-object-polish-r3';
 import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
@@ -139,13 +139,14 @@ function draw(time,delta=1000/60){
  const sx=x=>(x-f.left)*f.zoom,sy=(y,z=0)=>f.base+(y-GROUND+z*.65)*f.zoom;
  const scene=routeIndex(s);paintBackdrop(images[`chapter2-scene-${scene}`],f,w,h,CHAPTER2_NEW_ART.curbs[scene]);
  const platforms=route?g.platforms:[{...DESK,depth:0,depthHalf:30}];
- const crowd=rallyCrowdFormation(g,f,w,h,time,{route});paintRallySupporters(ctx,images,crowd.filter(m=>!m.charging),m=>({x:sx(m.x),y:sy(m.y,m.depth)}),f.zoom);
+ const crowd=rallyCrowdFormation(g,f,w,h,time,{route}),rallyProject=(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)}),crowdProject=m=>rallyProject(m.x,m.y,m.depth);
+ paintRallySupporters(ctx,images,crowd.filter(m=>!m.charging),crowdProject,f.zoom);paintRallyAttackLane(ctx,g,rallyProject,f.zoom,{route});paintRallySupporters(ctx,images,crowd.filter(m=>m.charging),crowdProject,f.zoom);paintRallySupporterFlags(ctx,crowd,{width:w,height:h,zoom:f.zoom,left:f.left,base:f.base});
  const actors=route?[player,...g.enemies.filter(e=>e.hp>0||e.deadAge<.6)]:[player,g.enemy];
  for(const a of g.assists||[])actors.push({...a.actor,helper:true,alpha:a.phase==='exit'?Math.max(0,1-a.exitAge/a.exitDuration):a.phase==='warning'?.6:1});
  const paintActor=a=>!route||a===player||streetActorNeedsPaint(a,{left:f.left,right:f.left+w/f.zoom});
  const shadow=a=>{ctx.fillStyle=a===player?'#bd543c55':'#17353a33';ctx.beginPath();ctx.ellipse(sx(a.x),sy(route?(a.supportY??GROUND):GROUND,a.depth),38*f.zoom,8*f.zoom,0,0,Math.PI*2);ctx.fill();};
  for(const a of actors)if(paintActor(a)&&(!route||(a.supportY??GROUND)>=GROUND))shadow(a);
- const encounterProject=(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)});
+ const encounterProject=rallyProject;
  if(route)drawChapterEncounterEffects(ctx,g,encounterProject,f.zoom,images);else drawChapterEncounter(ctx,g,encounterProject,f.zoom,images);
  const calloutEntries=combatCalloutEntries(s,g,actors,combatCallouts,performance.now()),callouts=layoutCombatCallouts(calloutEntries,actors,f,w,h,GROUND,delta,performance.now());for(const item of callouts){const record=combatCallouts.get(item.actor);if(record)record.placement=item.placement;}
  const objects=chapter2SceneLayers(platforms,actors,route,route?g.chapterEncounter:null,route?g:null,callouts);
@@ -153,7 +154,7 @@ function draw(time,delta=1000/60){
  if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  for(const q of g.obstacles||[])if(!q.dead){drawChallengeStreetProp(ctx,images,'sign',chapter2ObstacleFrame(q,f));}
- paintRallySupporters(ctx,images,crowd.filter(m=>m.charging),m=>({x:sx(m.x),y:sy(m.y,m.depth)}),f.zoom);
+ paintRallyCallouts(ctx,g,rallyProject,{width:w,height:h,zoom:f.zoom});
  let captionBounds=null;if(caption&&performance.now()<captionUntil){const yy=Math.min(120,h*.25),fs=Math.min(34,w/15);label(caption,w/2,yy,fs,'#ffe4a4');const tw=ctx.measureText(caption).width;captionBounds={left:w/2-tw/2-4,right:w/2+tw/2+4,top:yy-fs-5,bottom:yy+5};}
  if(route&&s.mode==='route')micReport=flyingMic.paint({image:images['flying-mic-candidate'],width:w,height:h,zoom:f.zoom,time,jumpHeight:Math.max(0,(player.supportY??GROUND)-player.y)*f.zoom,extraRects:captionBounds?[captionBounds]:[]});
 }
@@ -171,7 +172,7 @@ function tick(now){
     if(!active()||chapter!==current||chapter.world!==world||v().token!==token)break;
     chapter.step(step,{...held,crouch:v().mode==='battle'&&!!(held.down||held.crouch)});
    }
-   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);else if(e.type==='move')shout(e.name??'助拳！');if(e.type==='supply')shout('補給到手！HP 全滿');}
+   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='rally'||e.type==='rallyResult')shout(rallyEventCopy(e,world,emitted.filter(item=>item.type==='rally').length>1));else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);else if(e.type==='move')shout(e.name??'助拳！');if(e.type==='supply')shout('補給到手！HP 全滿');}
    if(v().token!==uiToken)sync();
   }
  hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);}
