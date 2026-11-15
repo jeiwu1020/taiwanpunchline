@@ -1,4 +1,4 @@
-import {GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {shoutCaptionLayout} from './shout-caption.mjs?v=campaign-boot-20261112-r3';
 export function streetTrialFrame({width,height,portrait,player,worldWidth=2300}){
  const zoom=Math.max(.42,portrait?width/550:Math.min(width/1050,(height-102)/360));

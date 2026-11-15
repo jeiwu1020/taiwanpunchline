@@ -1,6 +1,6 @@
 import {fighterBaseStats} from './fighter-attributes.mjs?v=campaign-boot-20261112-r3';
 import {captureFinishSnapshot} from './match-finish.mjs?v=campaign-boot-20261112-r3';
-import {DESK,RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {DESK,RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
 import {COMBAT,HIGH_Y,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {STAGE_ITEMS,ITEM_THROW,ITEM_DROP,stageRandom,performanceGuardActive} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
@@ -23,7 +23,7 @@ export class Duel {
   this.player=fighter(character,260,'player');this.enemy=fighter(opponent,700,'enemy');this.difficulty=difficulty;this.rng=()=>{if(replayFirst){replayFirst=false;return stageSeed;}return rng();};this.remaining=60;this.elapsed=0;this.status='active';this.winner=null;this.projectiles=[];this.obstacles=[];this.events=[];this.aiWait=.9;this.aiThreats=new Map();this.aiRecovery=0;this.aiActiveAttack=null;this.aiDefense=0;this.aiAction=null;this.aiBufferedDefense=null;this.aiReceivedHit=0;this.aiEscapeRollHit=-1;this.aiInput={};this.freeze=0;this.buffer=null;this.nextCast=1;this.contacts=[];this.worldSpawns=[];this.worldEffects=[];this.collecting=false;this.resolving=false;this.stats={hits:0,damage:0,blocks:0,maxCombo:0,interrupts:0,counters:0,specialHits:0,whiffs:0};
   if(difficulty==='beginner')this.aiWait=2.2;
   this.assists=[];this.training={enabled:options.mode==='training',opponent:options.trainingBehavior||'stand',infiniteHealth:options.infiniteHealth!==false,repeatAssist:options.repeatAssist!==false};
-  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null;if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.assist={helper,used:false,active:false,charge:100,damageTaken:0};}
+  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null,roster=options[f.id+'AssistRoster']??(helper?[{helper}]:[]);if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');if(!Array.isArray(roster)||roster.some(a=>!a||!Object.hasOwn(CAST,a.helper)||a.mobKind!==undefined&&typeof a.mobKind!=='string'||a.displayName!==undefined&&typeof a.displayName!=='string'))throw new RangeError('Invalid assist roster');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.assist={helper:roster[0]?.helper??helper,used:false,active:false,charge:100,damageTaken:0};f.assistRoster=roster.map(a=>({...a}));f.assistCursor=0;}
   this.configureTraining({});
  }
  other(f){return f===this.player?this.enemy:this.player;}
@@ -73,10 +73,11 @@ export class Duel {
  assistReady(f){return (f===this.player||f===this.enemy)&&this.status==='active'&&!!f.assist?.helper&&!f.assist.active&&(!f.assist.used||this.training.enabled&&this.training.repeatAssist);}
  requestAssist(f){
   if(!this.assistReady(f)||f.stun>0||f.guardBroken>0||f.guard||f.attack||!grounded(f))return false;
-  const helper=f.assist.helper,m=chooseAssistMove(helper,this.rng),target=this.other(f),direction=target.x>=f.x?1:-1;
+  const spec=f.assistRoster?.length?f.assistRoster[f.assistCursor%f.assistRoster.length]:{helper:f.assist.helper},helper=spec.helper,m=chooseAssistMove(helper,this.rng),target=this.other(f),direction=target.x>=f.x?1:-1;
   // Fixed warned origin and facing. No chasing/teleporting after the target.
   const actor=fighter(helper,clamp(f.x-direction*40,68,892),'assist-'+f.id);actor.y=f.y;actor.supportY=f.supportY;actor.face=direction;
-  const a={id:this.nextCast++,owner:f,target,helper,kind:m.kind,name:m.name,move:m,actor,age:0,warning:ASSIST_WARNING,exitDuration:ASSIST_EXIT,phase:'warning',phaseAge:0,exitAge:0};
+  Object.assign(actor,{mobKind:spec.mobKind,displayName:spec.displayName});if(f.assistRoster?.length)f.assistCursor=(f.assistCursor+1)%f.assistRoster.length;
+  const a={id:this.nextCast++,owner:f,target,helper,displayName:spec.displayName,kind:m.kind,name:m.name,move:m,actor,age:0,warning:ASSIST_WARNING,exitDuration:ASSIST_EXIT,phase:'warning',phaseAge:0,exitAge:0};
   f.assist.used=true;f.assist.charge=0;f.assist.damageTaken=0;f.assist.active=true;this.assists.push(a);this.events.push({type:'assistWarning',f,helper,kind:m.kind,name:m.name,assist:a});return true;
  }
  updateAssists(dt){
@@ -401,9 +402,9 @@ export class Duel {
   if(performanceGuard&&!a.performanceGuardShown){a.performanceGuardShown=true;this.events.push({type:'performanceGuard',f:to,kind:a.kind,castId:a.castId,amount});}
   const interrupted=to.attack?.kind==='heal'&&!performanceGuard&&!armored;if(interrupted){to.performance=null;this.events.push({type:'spit',f:to});if(from.id==='player')this.stats.interrupts++;}
   if(to===this.enemy&&this.difficulty==='easy')this.aiReceivedHit++;
-  if(!blocked&&c.impact!=='rally')from.rally=Math.min(100,from.rally+Math.min(25,amount*2.5));
   if(c.rally){c.rally.result=blocked?'blocked':'hit';this.events.push({type:'rallyResult',f:from,to,r:c.rally,result:c.rally.result,amount});}
   const hpBefore=to.hp;to.hp=clamp(to.hp-amount,0,to.maxHp)-wallAmount;
+  if(!blocked&&c.impact!=='rally')from.rally=Math.min(100,from.rally+Math.min(25,Math.max(0,hpBefore-to.hp)*2.5));
   // Charge only resolved enemy HP loss, after mitigation and capped overkill.
   // Healing/training restoration happens later and never erases this progress.
   if(from===this.other(to)&&to.assist?.helper&&to.assist.used){

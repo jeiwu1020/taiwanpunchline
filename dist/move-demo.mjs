@@ -1,4 +1,4 @@
-import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {CAST,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {HIGH_Y} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
 import {drawSignatureProp} from './art-expression.mjs?v=campaign-boot-20261112-r3';

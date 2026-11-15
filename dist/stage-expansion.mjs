@@ -24,8 +24,18 @@ export function supporterFormation(duel,time=0,reduced=false,view=null){
  const members=[];if(!['active','paused','countdown'].includes(duel.status))return members;
  const W=view?.width||960,H=view?.height||540,z=Math.max(.1,view?.zoom||1),cx=view?.x??480,cy=view?.y??270;
  const floor=view?.crowdBottom??H-(view?.overlayControls?70:8),size=Math.max(48,Math.min(76,H*.19)),spacing=Math.min(35,W*.06),lane=Math.min(150,Math.max(spacing+26,W*.18));
- for(const f of [duel.player,duel.enemy]){
+ for(const f of view?.route?[duel.player]:[duel.player,duel.enemy]){
   const cast=duel.rallies.find(r=>r.owner===f),age=cast?.age||0,count=cast?6:Math.ceil(Math.max(0,Math.min(100,f.rally))*6/100),side=f.id==='player'?1:-1,base=side===1?lane:W-lane,team=SUPPORTER_TEAMS[f.id];
+  if(view?.route){
+   const face=f.face||1,depth=f.depth??0,routeBaseX=f.x-face*90;
+   for(let i=0;i<count;i++){
+    const row=i<3?0:1,col=[0,-1,1][i%3],charging=!!cast&&age>=RALLY.warning,bounce=reduced||!charging?0:Math.abs(Math.sin(age*32+i*1.4))*4;
+    const idleX=routeBaseX+col*28-row*face*8,idleDepth=depth-42-row*10,attackX=(cast?.x??routeBaseX)+col*26-row*(cast?.direction??face)*8;
+    const t=cast?Math.min(1,age/RALLY.warning):0,ease=t*t*(3-2*t),mix=(a,b)=>a+(b-a)*ease;
+    members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:GROUND-row*5-bounce,depth:cast?(cast.depth??depth):idleDepth,height:cast?96:84,rotation:reduced?0:charging?(cast?.direction??face)*.14:0,alpha:cast?Math.max(0,Math.min(1,(RALLY.duration-age)*5)):.82,charging,summoned:!!cast,scattered:false,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction:cast?.direction??face});
+   }
+   continue;
+  }
   const passing=!cast&&duel.rallies.find(r=>r.owner!==f&&r.age>=RALLY.warning&&Math.abs(W/2+((r.x??r.startX)-cx)*z-base)<80),scatter=passing?1-Math.abs(W/2+(passing.x-cx)*z-base)/80:0;
   for(let i=0;i<count;i++){
    const row=i<3?0:1,col=[0,-1,1][i%3],charging=!!cast&&age>=RALLY.warning,bounce=reduced||!charging?0:Math.abs(Math.sin(age*32+i*1.4))*4;
@@ -36,7 +46,7 @@ export function supporterFormation(duel,time=0,reduced=false,view=null){
    const t=cast?Math.min(1,age/RALLY.warning):0,ease=t*t*(3-2*t),idleX=cx+(sx-W/2)/z,idleY=cy+(sy-H/2)/z;
    const attackX=(cast?.x??cast?.startX??idleX)+col*26-row*direction*8,attackY=GROUND-row*5-bounce;
    const mix=(a,b)=>a+(b-a)*ease;
-   members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:cast?mix(idleY,attackY):idleY,height:cast?mix(size/z,96):size/z,rotation:reduced?0:charging?direction*.14:scatter*(-side*.32),alpha:cast?Math.max(0,Math.min(1,(RALLY.duration-age)*5)):.85,charging,scattered:!!passing,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction});
+   members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:cast?mix(idleY,attackY):idleY,depth:0,height:cast?mix(size/z,96):size/z,rotation:reduced?0:charging?direction*.14:scatter*(-side*.32),alpha:cast?Math.max(0,Math.min(1,(RALLY.duration-age)*5)):.85,charging,summoned:!!cast,scattered:!!passing,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction});
   }
  }
  return members;

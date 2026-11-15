@@ -9,4 +9,10 @@ export const CHALLENGE_SECTIONS=Object.freeze([
  {id:'market',name:'市場文宣戰',width:2900,theme:'market',platforms:[{left:1160,right:1430,y:330,kind:'stall'},{left:1740,right:1890,y:370,kind:'step'}],gate:{id:'miniboss-2',kind:'miniboss',opponent:'su',name:'封街總管'},spawns:[['leaflet',650],['barricade',980],['placard',480,1050],['leaflet',1550],['placard',1850],['barricade',2340]],supplyX:2050},
  {id:'campaign',name:'造勢終點路',width:3100,theme:'campaign',platforms:[{left:1100,right:1260,y:370,kind:'step'},{left:1260,right:1580,y:325,kind:'stage'}],gate:{id:'final-huang',kind:'boss',opponent:'huang',name:'咆哮哥'},spawns:[['placard',620],['leaflet',900],['barricade',1350],['placard',860,1450],['leaflet',1900],['barricade',2370],['placard',2600]],supplyX:2220},
 ]);
+// Final-boss helpers are the fictional captains the player has already met.
+// `helper` selects a combat move kit; `mobKind` and `displayName` define identity.
+export const CHALLENGE_BOSS_ASSIST_ROSTER=Object.freeze([
+ {helper:'han',mobKind:'mini_mic',displayName:'擴音隊長'},
+ {helper:'su',mobKind:'mini_guard',displayName:'封街總管'},
+]);
 export const CHALLENGE_DIFFICULTY=Object.freeze({beginner:{damage:.55,speed:.8,windup:1.35},easy:{damage:.8,speed:.95,windup:1.1},hard:{damage:1.15,speed:1.1,windup:.85}});

@@ -69,7 +69,7 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
   if(destroyed||!unlocked||hidden||!view.active||view.paused||view.settingsOpen)return;
   for(const e of events||[]){
    if(e.type==='assistStart'){
-    const owner=e.assist?.owner||e.f;const lane=owner===world.enemy||owner?.id==='enemy'?'assist-enemy':'assist-player';playVoice(e.kind,lane);tone(e.kind);
+    const owner=e.assist?.owner||e.f;const lane=owner===world.enemy||owner?.id==='enemy'?'assist-enemy':'assist-player';if(!e.assist?.displayName)playVoice(e.kind,lane);tone(e.kind);
    }else if(e.type==='move'&&!e.assist&&!e.f?.isAssist&&!e.f?.mobKind){playVoice(e.kind||e.f?.attack?.kind,e.f===world.enemy||e.f?.id==='enemy'?'enemy':'player');tone(e.kind);}
    else if(['hit','block','jump','heal','counter','spit','launch'].includes(e.type))tone(e.type);
    else if(e.type==='supply')tone('heal');

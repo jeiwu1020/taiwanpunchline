@@ -1,4 +1,4 @@
-import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=campaign-boot-20261112-r3';
+import {CHALLENGE_SECTIONS} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
 export const CHALLENGE_CHAPTER='chapter-1';
 export function challengePhase(checkpoint=0){
  const point=Math.max(0,Math.min(6,Math.trunc(Number(checkpoint)||0)));

@@ -1,4 +1,4 @@
-import {GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
 import {drawChallengeSky} from '../../challenge-art.mjs?v=campaign-boot-20261112-r3';
 import {prepareStreetStaticCaches,registerStreetSourceCacheInvalidator} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 

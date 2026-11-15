@@ -8,7 +8,7 @@ import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-upgrade-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
-import {CAST,Duel,GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {CAST,Duel,GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
 import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=campaign-boot-20261112-r3';
 import {presentationFighter} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
 import {arrowPresentation} from '../../art-motion.mjs?v=campaign-boot-20261112-r3';

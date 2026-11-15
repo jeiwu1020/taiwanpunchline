@@ -1,5 +1,5 @@
 import {fitChallengeCamera} from '../../challenge-camera.mjs?v=campaign-boot-20261112-r3';
-import {GROUND} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
 import {ARENA} from './finale-engine.mjs?v=campaign-boot-20261112-r3';
 // The engine limits foot anchors; visible shoes/rings need a safety apron.
 // This changes scenery only, never the legal movement range.

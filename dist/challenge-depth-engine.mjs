@@ -1,8 +1,8 @@
 // Four-way street simulation for chapter routes and the isolated movement trial.
-import {ChallengeRoute} from './challenge-engine.mjs?v=street-object-polish-r2';
-import {CAST,GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {ChallengeRoute} from './challenge-engine.mjs?v=rally-consistency-20261115-r1';
+import {CAST,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
-import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {ensureChapterEncounter,updateChapterEncounter,interactChapterProp} from './chapter-encounters.mjs?v=street-object-polish-r2';
 export const DEPTH=Object.freeze({min:-90,max:100,speed:190,hit:36,rally:48,bodyLane:38,bodyWidth:62,clearance:65,platform:36});
 // Side contact uses the neutral lower-body/shadow radius, not a zero-width foot point.

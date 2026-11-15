@@ -1,4 +1,4 @@
-import {Duel} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {Duel} from '../../core.mjs?v=rally-consistency-20261115-r1';
 import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
 // One telegraph/recovery implementation; chapters supply only pattern data.
 export class ChapterMiniDuel extends Duel{
@@ -18,6 +18,7 @@ export class ChapterMiniDuel extends Duel{
   if(this.miniPhase==='approach'){
    if(Math.abs(dx)>spec.range){this.aiInput=dx>0?{right:true}:{left:true};return;}
    if(this.miniWait>0)return;
+   if(e.rally>=100&&!e.attack){this.aiAction='rally';this.aiInput={};this.miniPhase='rest';this.miniWait=1.4;this.warning=null;return;}
    this.miniPhase='warning';this.miniWait=spec.warning*(this.difficulty==='beginner'?1.3:1);this.warning={name:spec.name,action:spec.action,remaining:this.miniWait};
    this.events.push({type:'minibossWarning',name:spec.name,action:spec.action,f:e});return;
   }

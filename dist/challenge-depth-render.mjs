@@ -5,13 +5,13 @@ import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseC
 import {micFootprint,MIC_VISUAL_TILT,MIC_SOURCE_TILT,FLOAT_AMPLITUDE,flyingMicLayout,drawFlyingMic,invalidateFlyingMicRaster} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
 import {stageInsets,fitMobilePairSafety} from './combat-presentation.mjs?v=campaign-boot-20261112-r3';
 import {createDepthBackdropRenderer} from './challenge-backdrop-cache.mjs?v=campaign-boot-20261112-r3';
-import {GROUND} from './core.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
 import {drawChallengeMob,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply,drawChallengeTabletopBand,drawChallengeTableFront} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 import {drawSignatureProp} from './art-expression.mjs?v=campaign-boot-20261112-r3';
 import {presentationFighter,fighterGazeGlyph,drawHumanGlyph,SIGNATURE_SIZE,nameTileOffset} from './move-readability.mjs?v=campaign-boot-20261112-r3';
-import {assistView} from './assist-presentation.mjs?v=campaign-boot-20261112-r3';
-import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {assistView} from './assist-presentation.mjs?v=rally-consistency-20261115-r1';
+import {RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {ITEM_ART,heldItemAnchor,chooseCarryHand} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const DEPTH_SCALE=.65,MIN_DEPTH=-90,MAX_DEPTH=100;

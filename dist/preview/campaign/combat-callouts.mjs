@@ -1,6 +1,6 @@
 import {layoutMoveCaptions,moveCaption} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
 import {comicMoveStyle,shoutCaptionBeat} from '../../shout-caption.mjs?v=campaign-boot-20261112-r3';
-import {CAST} from '../../core.mjs?v=campaign-boot-20261112-r3';
+import {CAST} from '../../core.mjs?v=rally-consistency-20261115-r1';
 
 export function makeCombatCallout(text,subtitle='',kind='impact',actorType='wang'){
  const value=String(text??'').trim();if(!value)return null;

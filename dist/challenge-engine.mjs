@@ -1,9 +1,9 @@
-import {Duel,GROUND,CAST} from './core.mjs?v=campaign-boot-20261112-r3';
+import {Duel,GROUND,CAST} from './core.mjs?v=rally-consistency-20261115-r1';
 import {stepChapterMob} from './chapter-encounters.mjs?v=street-object-polish-r2';
-import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
-import {RALLY} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
+import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT,ASSIST_RECHARGE_RATIO} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
+import {RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
-import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=campaign-boot-20261112-r3';
+import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const alive=f=>f.hp>0;
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;
@@ -84,7 +84,7 @@ export class ChallengeRoute {
   else if(!blocking&&normal&&target.calm>0){amount=Math.min(4,amount);target.calm=0;knock=COMBAT.chen_calm.retreat;this.events.push({type:'calm',f:target});}
   amount*=defense;
   const hpBefore=target.hp;target.hp=Math.max(0,target.hp-amount);amount=hpBefore-target.hp;
-  if(target===this.player&&target.assist.helper&&target.assist.used){const needed=target.maxHp*.35;target.assist.damageTaken=Math.min(needed,(target.assist.damageTaken??0)+amount);target.assist.charge=target.assist.damageTaken/needed*100;if(target.assist.damageTaken+Number.EPSILON*target.maxHp*8>=needed){target.assist.damageTaken=needed;target.assist.charge=100;target.assist.used=false;}}target.flash=.15;target.reaction=.24;target.reactionKind='hit';target.x=clamp(target.x+dir*knock,50,this.worldWidth-55);
+  if(target===this.player&&target.assist.helper&&target.assist.used){const needed=target.maxHp*ASSIST_RECHARGE_RATIO;target.assist.damageTaken=Math.min(needed,(target.assist.damageTaken??0)+amount);target.assist.charge=target.assist.damageTaken/needed*100;if(target.assist.damageTaken+Number.EPSILON*target.maxHp*8>=needed){target.assist.damageTaken=needed;target.assist.charge=100;target.assist.used=false;}}target.flash=.15;target.reaction=.24;target.reactionKind='hit';target.x=clamp(target.x+dir*knock,50,this.worldWidth-55);
   if(!blocking&&!armored){target.stun=.16;target.attack=null;target.warning=0;}
   if(source===this.player){if(!blocking&&category!=='rally')this.player.rally=clamp(this.player.rally+Math.min(25,amount*2.5),0,100);this.stats.hits++;this.stats.damage+=amount;if(category==='special'||category==='assist')this.stats.specialHits++;}
   this.events.push({type:blocking?'block':'hit',f:source,from:source,to:target,source,damage:amount,amount,combo:1,impact,assist:!!assist,assistId:assist?.id,helper:assist?.helper});
