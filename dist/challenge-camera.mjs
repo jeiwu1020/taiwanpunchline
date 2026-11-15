@@ -208,7 +208,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const actors=(fighters||[]).filter(actor=>actor&&Number.isFinite(actor.x));if(!actors.length)return null;
  const player=actors[0];
  const g=controlledCombatGeometry(width,height,options),{rect,occlusions,key}=g;
- const state=previous?.controlledCombatCamera,old=state?.version===2&&state.geometryKey===key?state:null;
+ const state=previous?.controlledCombatCamera,history=state?.version===2&&previous.width===width&&previous.height===height?state:null,old=history&&state.geometryKey===key?state:null;
  if(options.paused&&old)return previous;
  const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player)};
  const standing={left:-132,right:132,top:-300,bottom:28};
@@ -223,14 +223,14 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  // Both fighters share the frame. Dynamic mode follows their midpoint after
  // it leaves a small center dead zone; stable mode keeps its opening scale.
  // Pair separation can only zoom out enough to keep both bodies inside safety.
- const lockedZoom=old?.lockedZoom>0?old.lockedZoom:(previous?.zoom>0?previous.zoom:fitZoom);
+ const lockedZoom=(old||history)?.lockedZoom>0?(old||history).lockedZoom:(previous?.zoom>0?previous.zoom:fitZoom);
  const target=mode==='stable'?Math.min(lockedZoom,fitZoom):fitZoom;
  const ease=1-Math.exp(-clamp(finite(delta,1000/60),0,100)/300);
  // Zooming out is immediate only when required for pair safety. Zooming back
  // in eases to avoid visible scale pulses while the fighters exchange space.
- const easedZoom=old?previous.zoom+(target-previous.zoom)*ease:target,zoom=Math.min(fitZoom,Math.max(1e-6,easedZoom));
+ const easedZoom=history?previous.zoom+(target-previous.zoom)*ease:target,zoom=Math.min(fitZoom,Math.max(1e-6,easedZoom));
  let centerX=pairCenter,centerY=pose.displayY+(height/2-height*.84)/zoom;
- if(old){
+ if(history){
   centerY=previous.y;
   if(mode==='stable')centerX=previous.x;
   else{
@@ -238,7 +238,15 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
    centerX=Math.abs(centerScreen-safeCenter)<=deadZone?previous.x:previous.x+(pairCenter-previous.x)*ease;
   }
  }
- const position=placeAtScale(bodies,zoom,rect,occlusions,{x:width/2-centerX*zoom,y:height/2-centerY*zoom});
+ const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
+ let position=null;
+ if(history){
+  const dt=clamp(finite(delta,1000/60),0,100)/1000,panX=360*dt,panY=280*dt,prior={x:width/2-previous.x*zoom,y:height/2-previous.y*zoom};
+  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,{left:prior.x-panX,right:prior.x+panX,top:prior.y-panY,bottom:prior.y+panY});
+ }
+ // Keep ordinary pans within a small screen-space budget. If the old frame
+ // can no longer contain both fighters safely, safety wins immediately.
+ position??=placeAtScale(bodies,zoom,rect,occlusions,wanted);
  const x=position?(width/2-position.x)/zoom:centerX,y=position?(height/2-position.y)/zoom:centerY;
  return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:!!position,
   controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*.84},pose,pairCenter}};

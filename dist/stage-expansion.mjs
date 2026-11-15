@@ -20,6 +20,12 @@ export function paintStageCrowd(g,duel){
 // Idle crowds cancel the camera transform. A summoned crowd instead follows the
 // actual world-space collision front, including with reduced motion enabled.
 export const SUPPORTER_ASSETS=['supporter-woman','supporter-man','supporter-elder','supporter-young','supporter-grandma'];
+export const SUPPORTER_IDLE_ALPHA=.82;
+function supporterAlpha(cast,age){
+ if(!cast)return SUPPORTER_IDLE_ALPHA;
+ const progress=Math.max(0,Math.min(1,age/Math.max(.001,RALLY.warning))),ease=progress*progress*(3-2*progress),fade=Math.max(0,Math.min(1,(RALLY.duration-age)*5));
+ return (SUPPORTER_IDLE_ALPHA+(1-SUPPORTER_IDLE_ALPHA)*ease)*fade;
+}
 export function supporterFormation(duel,time=0,reduced=false,view=null){
  const members=[];if(!['active','paused','countdown'].includes(duel.status))return members;
  const W=view?.width||960,H=view?.height||540,z=Math.max(.1,view?.zoom||1),cx=view?.x??480,cy=view?.y??270;
@@ -32,7 +38,7 @@ export function supporterFormation(duel,time=0,reduced=false,view=null){
     const row=i<3?0:1,col=[0,-1,1][i%3],charging=!!cast&&age>=RALLY.warning,bounce=reduced||!charging?0:Math.abs(Math.sin(age*32+i*1.4))*4;
     const idleX=routeBaseX+col*28-row*face*8,idleDepth=depth-42-row*10,attackX=(cast?.x??routeBaseX)+col*26-row*(cast?.direction??face)*8;
     const t=cast?Math.min(1,age/RALLY.warning):0,ease=t*t*(3-2*t),mix=(a,b)=>a+(b-a)*ease;
-    members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:GROUND-row*5-bounce,depth:cast?(cast.depth??depth):idleDepth,height:cast?96:84,rotation:reduced?0:charging?(cast?.direction??face)*.14:0,alpha:cast?Math.max(0,Math.min(1,(RALLY.duration-age)*5)):.82,charging,summoned:!!cast,scattered:false,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction:cast?.direction??face});
+    members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:GROUND-row*5-bounce,depth:cast?(cast.depth??depth):idleDepth,height:cast?96:84,rotation:reduced?0:charging?(cast?.direction??face)*.14:0,alpha:supporterAlpha(cast,age),charging,summoned:!!cast,scattered:false,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction:cast?.direction??face});
    }
    continue;
   }
@@ -46,7 +52,7 @@ export function supporterFormation(duel,time=0,reduced=false,view=null){
    const t=cast?Math.min(1,age/RALLY.warning):0,ease=t*t*(3-2*t),idleX=cx+(sx-W/2)/z,idleY=cy+(sy-H/2)/z;
    const attackX=(cast?.x??cast?.startX??idleX)+col*26-row*direction*8,attackY=GROUND-row*5-bounce;
    const mix=(a,b)=>a+(b-a)*ease;
-   members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:cast?mix(idleY,attackY):idleY,depth:0,height:cast?mix(size/z,96):size/z,rotation:reduced?0:charging?direction*.14:scatter*(-side*.32),alpha:cast?Math.max(0,Math.min(1,(RALLY.duration-age)*5)):.85,charging,summoned:!!cast,scattered:!!passing,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction});
+   members.push({side:f.id,row,asset:SUPPORTER_ASSETS[i%SUPPORTER_ASSETS.length],x:cast?mix(idleX,attackX):idleX,y:cast?mix(idleY,attackY):idleY,depth:0,height:cast?mix(size/z,96):size/z,rotation:reduced?0:charging?direction*.14:scatter*(-side*.32),alpha:supporterAlpha(cast,age),charging,summoned:!!cast,scattered:!!passing,flag:i===0,name:f.mobKind?(f.displayName||f.name):CAST[f.type].name,team:team.label,color:team.color,direction});
   }
  }
  return members;
