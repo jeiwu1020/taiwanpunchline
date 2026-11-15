@@ -14,7 +14,7 @@ import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-fee
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-continuity-20261115-r1';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-continuity-20261116-r1';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=campaign-boot-20261112-r3';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
@@ -156,7 +156,7 @@ function draw(time,delta=1000/60){
  if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  paintRallyCallouts(ctx,g,rallyProject,{width:w,height:h,zoom:f.zoom,safeTop});
- paintCombatFeedback(ctx,combatFeedback,f,GROUND,w,now);
+ paintCombatFeedback(ctx,combatFeedback,f,GROUND,w,time);
  let captionBounds=null;if(caption&&performance.now()<captionUntil){const hudBottom=Math.max(0,ui.cameraOptions.hudBottom||0),fs=Math.min(34,w/15,Math.max(12,(h-hudBottom-16)/2)),yy=Math.min(h-fs-8,Math.max(Math.min(120,h*.25),hudBottom+fs+8));label(caption,w/2,yy,fs,'#ffe4a4');const tw=ctx.measureText(caption).width;captionBounds={left:w/2-tw/2-4,right:w/2+tw/2+4,top:yy-fs-5,bottom:yy+5};}
  if(route&&s.mode==='route')micReport=flyingMic.paint({image:images['flying-mic-candidate'],width:w,height:h,zoom:f.zoom,time,jumpHeight:Math.max(0,(player.supportY??GROUND)-player.y)*f.zoom,extraRects:captionBounds?[captionBounds]:[]});
 }

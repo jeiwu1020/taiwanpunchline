@@ -239,16 +239,17 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   }
  }
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
- let position=null;
+ let position=null,panLimits=null,safetyFit=false;
  if(history){
   const dt=clamp(finite(delta,1000/60),0,100)/1000,panX=360*dt,panY=280*dt,prior={x:width/2-previous.x*zoom,y:height/2-previous.y*zoom};
-  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,{left:prior.x-panX,right:prior.x+panX,top:prior.y-panY,bottom:prior.y+panY});
- }
- // Keep ordinary pans within a small screen-space budget. If the old frame
- // can no longer contain both fighters safely, safety wins immediately.
- position??=placeAtScale(bodies,zoom,rect,occlusions,wanted);
+  panLimits={left:prior.x-panX,right:prior.x+panX,top:prior.y-panY,bottom:prior.y+panY};
+  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,panLimits);safetyFit=!!position;
+  // When the actors outrun the safe camera pocket, keep the frame moving at
+  // its normal speed instead of snapping to an unrestricted placement.
+  if(!position)position={x:clamp(wanted.x,panLimits.left,panLimits.right),y:clamp(wanted.y,panLimits.top,panLimits.bottom)};
+ }else{position=placeAtScale(bodies,zoom,rect,occlusions,wanted);safetyFit=!!position;}
  const x=position?(width/2-position.x)/zoom:centerX,y=position?(height/2-position.y)/zoom:centerY;
- return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:!!position,
+ return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
   controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*.84},pose,pairCenter}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
