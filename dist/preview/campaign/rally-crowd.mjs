@@ -12,6 +12,11 @@ export function paintRallySupporters(ctx,images,members,project,zoom=1){
   ctx.save();ctx.globalAlpha*=member.alpha??1;ctx.translate(point.x,point.y);ctx.rotate(member.rotation??0);ctx.scale(member.direction<0?-1:1,1);ctx.drawImage(image,-width/2,-height,width,height);ctx.restore();
  }
 }
+export function mergeRallySupporterLayers(layers,members,obstacles=[]){
+ const rank=kind=>kind==='rally-supporter'?1:kind==='callout'?2:kind==='actor'?3:0;
+ return [...layers,...obstacles,...members.map(member=>({kind:'rally-supporter',member,depth:member.depth??0}))]
+  .sort((a,b)=>(a.depth??0)-(b.depth??0)||rank(a.kind)-rank(b.kind));
+}
 const teamColor=id=>`#${(SUPPORTER_TEAMS[id]?.color??SUPPORTER_TEAMS.player.color).toString(16).padStart(6,'0')}`;
 function pathRoundedRect(ctx,x,y,width,height,radius){
  const r=Math.max(0,Math.min(radius,width/2,height/2));ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+width,y,x+width,y+height,r);ctx.arcTo(x+width,y+height,x,y+height,r);ctx.arcTo(x,y+height,x,y,r);ctx.arcTo(x,y,x+width,y,r);ctx.closePath();
@@ -48,11 +53,11 @@ function rallyCallout(rally){
  if(rally.result==='hit')return '撞到了！';
  return '借過！';
 }
-export function paintRallyCallouts(ctx,world,project,{width,height,zoom=1}={}){
+export function paintRallyCallouts(ctx,world,project,{width,height,zoom=1,safeTop=0}={}){
  const z=Math.max(.1,zoom);
  for(const [index,rally] of (world.rallies||[]).entries()){
   const p=project(rally.x??rally.startX??480,GROUND);if(p.x<-45||p.x>width+45)continue;
-  const x=Math.max(52,Math.min(width-52,p.x)),y=Math.max(40,p.y-134*z),size=width<480?18:23,text=rallyCallout(rally);
+  const x=Math.max(52,Math.min(width-52,p.x)),size=width<480?18:23,y=Math.max(40,safeTop+size+8,p.y-134*z),text=rallyCallout(rally);
   ctx.save();ctx.translate(x,y);ctx.rotate(index===0 ? .055 : -.055);ctx.font=`1000 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.lineWidth=4;ctx.strokeStyle='#17323b';ctx.strokeText(text,0,0);ctx.fillStyle=rally.owner?.id==='enemy'?'#a7f5ff':'#ffe49a';ctx.fillText(text,0,0);ctx.restore();
  }
 }

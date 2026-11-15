@@ -9,11 +9,11 @@ import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=c
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
 import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
-import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=street-object-polish-r3';
+import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=hud-caption-safe-20261116-r1';
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-boot-20261112-r3';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=pair-center-20261115-r1';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=campaign-boot-20261112-r3';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
@@ -27,7 +27,7 @@ import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './ch
 import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=campaign-boot-20261112-r3';
 import {streetTrialFrame} from './street-trial-view.mjs?v=rally-consistency-20261115-r1';
 import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy} from '../campaign/rally-crowd.mjs?v=rally-presentation-20261115-r1';
+import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy,mergeRallySupporterLayers} from '../campaign/rally-crowd.mjs?v=rally-presentation-20261116-r1';
 import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=street-object-polish-r3';
 import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
@@ -136,7 +136,7 @@ function draw(time,delta=1000/60){
  const scene=routeIndex(s);paintBackdrop(images[`chapter4-scene-${scene}`],f,w,h,CHAPTER4_NEW_ART.curbs[scene],scene);
  const platforms=route?g.platforms:[{...DESK,depth:0,depthHalf:30}];
  const crowd=rallyCrowdFormation(g,f,w,h,time,{route}),rallyProject=(x,y=GROUND,z=0)=>({x:sx(x),y:sy(y,z)}),crowdProject=m=>rallyProject(m.x,m.y,m.depth);
- paintRallySupporters(ctx,images,crowd.filter(m=>!m.charging),crowdProject,f.zoom);paintRallyAttackLane(ctx,g,rallyProject,f.zoom,{route});paintRallySupporters(ctx,images,crowd.filter(m=>m.charging),crowdProject,f.zoom);paintRallySupporterFlags(ctx,crowd,{width:w,height:h,zoom:f.zoom,left:f.left,base:f.base});
+ paintRallyAttackLane(ctx,g,rallyProject,f.zoom,{route});
  const actors=route?[player,...g.enemies.filter(e=>e.hp>0||e.deadAge<.6)]:[player,g.enemy];
  for(const a of g.assists||[])actors.push({...a.actor,helper:true,alpha:a.phase==='exit'?Math.max(0,1-a.exitAge/a.exitDuration):a.phase==='warning'?.6:1});
  const paintActor=a=>!route||a===player||streetActorNeedsPaint(a,{left:f.left,right:f.left+w/f.zoom});
@@ -144,14 +144,13 @@ function draw(time,delta=1000/60){
  for(const a of actors)if(paintActor(a)&&(!route||(a.supportY??GROUND)>=GROUND))shadow(a);
  const encounterProject=rallyProject;
  if(route)drawChapterEncounterEffects(ctx,g,encounterProject,f.zoom,images);else drawChapterEncounter(ctx,g,encounterProject,f.zoom,images);
- const calloutEntries=combatCalloutEntries(s,g,actors,combatCallouts,performance.now()),callouts=layoutCombatCallouts(calloutEntries,actors,f,w,h,GROUND,delta,performance.now());for(const item of callouts){const record=combatCallouts.get(item.actor);if(record)record.placement=item.placement;}
- const objects=chapter4SceneLayers(platforms,actors,route,route?g.chapterEncounter:null,route?g:null,callouts);
- for(const o of objects)if(o.kind==='callout'){drawCombatCallout(ctx,o.value,f,GROUND,w);}else if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else if(o.kind==='encounter-prop'||o.kind==='encounter-gate'){drawChapterEncounterObject(ctx,o.kind==='encounter-prop'?'prop':'gate',o.value,encounterProject,f.zoom,images,g.chapterEncounter?.time??time);}else if(o.kind==='route-supply'){drawChallengeSupply(ctx,images,{x:sx(o.value.x),y:sy(GROUND,o.depth),width:90*f.zoom});}else if(o.kind==='route-gate'){const x=sx(o.value.x);drawChallengeStreetProp(ctx,images,'sign',{x,y:sy(GROUND,o.depth),width:85*f.zoom,height:110*f.zoom});label('前方開講 →',x,sy(GROUND-145,o.depth),18*f.zoom);}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(route&&a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
+ const safeTop=Math.max(0,ui.cameraOptions.hudBottom||0)+8,calloutEntries=combatCalloutEntries(s,g,actors,combatCallouts,performance.now()),callouts=layoutCombatCallouts(calloutEntries,actors,f,w,h,GROUND,delta,performance.now(),safeTop);for(const item of callouts){const record=combatCallouts.get(item.actor);if(record)record.placement=item.placement;}
+ const obstacles=(g.obstacles||[]).filter(q=>!q.dead).map(value=>({kind:'obstacle',value,depth:value.depth??0})),objects=mergeRallySupporterLayers(chapter4SceneLayers(platforms,actors,route,route?g.chapterEncounter:null,route?g:null,callouts),crowd,obstacles);
+ for(const o of objects)if(o.kind==='rally-supporter'){paintRallySupporters(ctx,images,[o.member],crowdProject,f.zoom);paintRallySupporterFlags(ctx,[o.member],{width:w,height:h,zoom:f.zoom,left:f.left,base:f.base});}else if(o.kind==='callout'){drawCombatCallout(ctx,o.value,f,GROUND,w);}else if(o.kind==='obstacle'){drawChallengeStreetProp(ctx,images,'sign',chapter4ObstacleFrame(o.value,f));}else if(o.kind==='table-top'||o.kind==='table-front'){drawChapter4TableLayer(ctx,images,o,f);}else if(o.kind==='table-solid'){const p=o.p;drawChallengeStreetProp(ctx,images,'table',chapter4TableFrame(p,f,route));}else if(o.kind==='encounter-prop'||o.kind==='encounter-gate'){drawChapterEncounterObject(ctx,o.kind==='encounter-prop'?'prop':'gate',o.value,encounterProject,f.zoom,images,g.chapterEncounter?.time??time);}else if(o.kind==='route-supply'){drawChallengeSupply(ctx,images,{x:sx(o.value.x),y:sy(GROUND,o.depth),width:90*f.zoom});}else if(o.kind==='route-gate'){const x=sx(o.value.x);drawChallengeStreetProp(ctx,images,'sign',{x,y:sy(GROUND,o.depth),width:85*f.zoom,height:110*f.zoom});label('前方開講 →',x,sy(GROUND-145,o.depth),18*f.zoom);}else{const a=o.a;if(!paintActor(a))continue;if(route&&(a.supportY??GROUND)<GROUND)shadow(a);actor(a,f,time,a.alpha??(a.hp<=0?.4:a.invulnerable>0?.7:1));if(route&&a.mobKind&&a.hp>0)label(a.warning>0?(a.chapterCaption??'要出手囉！'):a.displayName??a.name,sx(a.x),sy(a.y-300,a.depth),Math.max(13,18*f.zoom));}
  if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
- for(const q of g.obstacles||[])if(!q.dead){drawChallengeStreetProp(ctx,images,'sign',chapter4ObstacleFrame(q,f));}
- paintRallyCallouts(ctx,g,rallyProject,{width:w,height:h,zoom:f.zoom});
- if(caption&&performance.now()<captionUntil)label(caption,w/2,Math.min(120,h*.25),Math.min(34,w/15),'#ffe4a4');
+ paintRallyCallouts(ctx,g,rallyProject,{width:w,height:h,zoom:f.zoom,safeTop});
+ if(caption&&performance.now()<captionUntil){const hudBottom=Math.max(0,ui.cameraOptions.hudBottom||0),fs=Math.min(34,w/15,Math.max(12,(h-hudBottom-16)/2)),yy=Math.min(h-fs-8,Math.max(Math.min(120,h*.25),hudBottom+fs+8));label(caption,w/2,yy,fs,'#ffe4a4');}
 }
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
 function hud(){const s=v(),g=chapter?.world;if(!s)return;setSeriesWinMarkers(document,s.rounds.player,s.rounds.enemy,s.stepId==='boss');const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER4.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?g.enemy.displayName:'第四章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER4.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(g)ui.render({state:s,world:g});}

@@ -40,12 +40,13 @@ export function combatCalloutEntries(state,world,actors,callouts,now=performance
  return actors.flatMap(actor=>{const record=callouts.get(actor);return record?[{...record,previous:record.placement,player:actor===world.player}]:[];}).slice(0,2);
 }
 
-export function layoutCombatCallouts(entries,actors,frame,width,height,ground,delta=16,now=performance.now()){
+export function layoutCombatCallouts(entries,actors,frame,width,height,ground,delta=16,now=performance.now(),safeTop=0){
  if(!entries.length)return [];
  const zoom=Math.max(.01,frame.zoom||1),positionedActors=actors.map(actor=>({...actor,y:actor.y+(actor.depth??0)*.65}));
  const projected=new Map(actors.map((actor,index)=>[actor,positionedActors[index]]));
  const prepared=entries.map(entry=>({...entry,f:projected.get(entry.actor)??{...entry.actor,y:entry.actor.y+(entry.actor.depth??0)*.65}}));
- const view={x:frame.left+width/(2*zoom),y:ground+(height/2-frame.base)/zoom,width,height,zoom};
+ const topInset=Math.min(height,Math.max(0,safeTop)),viewHeight=Math.max(1,height-topInset),viewTop=ground+(height/2-frame.base)/zoom+topInset/zoom;
+ const view={x:frame.left+width/(2*zoom),y:viewTop+viewHeight/(2*zoom),width,height:viewHeight,zoom};
  const placed=layoutMoveCaptions(prepared,positionedActors,view,delta);
  return prepared.map((entry,index)=>{
   const placement=placed[index];entry.previous=placement;const age=Math.max(0,now-entry.started),beat=shoutCaptionBeat(age,entry.caption.duration*1000);

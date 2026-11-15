@@ -1,5 +1,5 @@
 import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
-import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=pair-center-20261115-r1';
 // Shared display-space safe zone. This does not change combat/world geometry.
 export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
  const top=portrait&&touch?140:118;
