@@ -23,7 +23,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
  const store=createSettingsStore({storage,onChange:syncPreferences,initialRotate:window.parliamentOrientationChoice?.rotate});
  const template=document.createElement('template');template.innerHTML=chapterSettingsMarkup;
  const dialog=template.content.firstElementChild;document.body.append(dialog);
- const homeDialog=document.createElement('dialog');homeDialog.id='chapter-home-confirm';homeDialog.className='chapter-home-confirm paper';homeDialog.setAttribute('aria-labelledby','chapter-home-title');homeDialog.innerHTML='<h2 id="chapter-home-title">要回首頁嗎？</h2><p id="chapter-home-copy"></p><div class="home-confirm-actions"><button type="button" class="primary menu-action" data-cancel>繼續開吵 →</button><button type="button" class="primary menu-action" data-confirm>回到首頁</button></div>';document.body.append(homeDialog);
+ const homeDialog=document.createElement('dialog');homeDialog.id='chapter-home-confirm';homeDialog.className='chapter-home-confirm paper';homeDialog.setAttribute('aria-labelledby','chapter-home-title');homeDialog.setAttribute('aria-describedby','chapter-home-copy');homeDialog.innerHTML='<h2 id="chapter-home-title">要回首頁嗎？</h2><p id="chapter-home-copy"></p><div class="home-confirm-actions"><button type="button" class="primary menu-action" data-cancel>繼續開吵 →</button><button type="button" class="primary menu-action" data-confirm>回到首頁</button></div>';document.body.append(homeDialog);
  let homeResume=null,homeFocus=null,returningHome=false,homeDestination='home';
  const zoom=bindPageZoomPreference({control:$('#settings-page-zoom'),root:document.documentElement,storage:storage||{getItem:()=>null,setItem:()=>{}}});
  const selects=mountGameSelects({document});

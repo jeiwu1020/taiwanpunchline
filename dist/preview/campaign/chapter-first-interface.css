@@ -43,9 +43,19 @@ body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .t
 #trial-app #result-panel .eyebrow{font-size:10px;letter-spacing:2px;background:#152c34;transform:rotate(-2deg);padding:3px 8px}
 .chapter-home-confirm.paper:not([open]){display:none}
 .chapter-home-confirm.paper{position:fixed;inset:auto;left:var(--chapter-center-x);top:var(--chapter-center-y);transform:translate(-50%,-50%);max-height:calc(var(--chapter-height) - 20px)}
+.chapter-home-confirm.paper h2{font-size:28px}
+.chapter-home-confirm::backdrop{background:#112a32a8;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .chapter-home-confirm .home-confirm-actions{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:14px}
 .chapter-home-confirm .menu-action{margin:0}
 .chapter-home-confirm [data-confirm]{background:#e5ae46;color:#152c34}
+@media(max-height:500px) and (orientation:landscape){.chapter-home-confirm.paper{width:360px;padding:13px}.chapter-home-confirm.paper h2{font-size:27px}.chapter-home-confirm.paper p{font-size:11px}.chapter-home-confirm .home-confirm-actions{gap:8px;margin-top:8px}}
+body[data-touch="true"][data-layout="portrait"] .chapter-home-confirm.paper{width:340px;padding:19px}
+body[data-touch="true"][data-layout="portrait"] .chapter-home-confirm.paper h2{font-size:30px}
+body[data-touch="true"][data-layout="portrait"] .chapter-home-confirm.paper p{font-size:12px}
+body[data-touch="true"][data-layout="landscape"] .chapter-home-confirm.paper{width:400px;padding:10px;max-height:96%}
+body[data-touch="true"][data-layout="landscape"] .chapter-home-confirm.paper h2{margin:0 0 4px}
+body[data-touch="true"][data-layout="landscape"] .chapter-home-confirm.paper p{margin:4px 0}
+body[data-touch="true"][data-layout="landscape"] .chapter-home-confirm .home-confirm-actions{gap:8px;margin-top:8px}
 body>dialog::backdrop{background:#081b20cf}
 body>dialog#help-dialog{background:#fff6df;background-image:none;border:3px solid #152c34;border-radius:14px;box-shadow:7px 7px 0 #0a2028;overflow:hidden;font-family:inherit;touch-action:pan-y;color:#152c34}
 #help-dialog button{box-shadow:none;font-family:inherit;font-weight:700;touch-action:manipulation}
