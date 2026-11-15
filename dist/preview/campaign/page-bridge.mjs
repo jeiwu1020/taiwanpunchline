@@ -107,7 +107,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   }
   setGameSelectValue(helperSelect,s?.helperId??v.selection.helperId);
   helperSelect.disabled=busy||!!s?.busy||!!s?.blocked||!s?.persisted||v.dirty||v.readOnly;
-  growthButton.hidden=combat;growthButton.disabled=busy||preparationBusy||!!s?.busy;
+  growthButton.hidden=combat;growthButton.disabled=busy||preparationBusy;
   const needsRecovery=!v.persisted||!!s?.blocked||!!s?.saveIssue;backup.hidden=!needsRecovery;oldBackup.hidden=!needsRecovery;retry.hidden=!needsRecovery;retry.disabled=busy||preparationBusy||!!s?.busy;reloadLatest.disabled=busy||preparationBusy||!!s?.busy;recoveryPanel.hidden=!needsRecovery;recoveryPanel.dataset.floating=String(host===stage);if(needsRecovery&&host===stage){recoveryPanel.setAttribute('role','alert');}
   const destination=!combat&&v.chapterId!==chapterId&&v.route.status==='ready'&&v.canNavigate&&!s?.blocked&&!s?.busy;
   next.hidden=!destination;if(destination)recoveryPanel.hidden=false;
@@ -141,16 +141,20 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  }
  resume.onclick=()=>job(()=>startContinuation());
  retry.onclick=()=>job(async()=>{const result=recovery?await recovery.retrySave():chapter?await chapter.retrySave():router?.enabled?await router.retrySave():null;if(result&&(!result.accepted||!result.persisted)){if(recovery)recoveryIssue=result.reason;menuStatus.textContent=reasonText(result.reason);}else if(result?.accepted===true&&result.persisted===true&&chapter&&!launched){launched=true;onReady(chapter);}else if(result?.accepted===true&&result.persisted===true&&attachPending){await startContinuation();}});
+ function actionStatus(copy){const status=document.querySelector('#chapter-action-status');if(status)status.textContent=copy;else menuStatus.textContent=copy;}
  function openPreparation(options={}){
-  const current=chapter??getPlayable();if(!current||busy||preparationBusy||leaving||navigating||!pageActive||current.view().busy)return false;
-  const before=current.view(),boundary=['story','choice'].includes(before.mode)||before.mode==='result'&&before.result?.matchWon;
+  const current=chapter??getPlayable(),inspection=options.readOnly===true,before=current?.view();
+  if(!current||busy||preparationBusy||leaving||navigating||!pageActive||before?.busy&&!(inspection&&before.paused)){
+   actionStatus(before?.busy?'目前操作正在保存，請稍後再查看角色能力。':'目前無法開啟角色能力，請稍後再試。');return false;
+  }
+  const boundary=['story','choice'].includes(before.mode)||before.mode==='result'&&before.result?.matchWon;
   const retryIntent=options.intent==='retry';
   if(retryIntent){if(!((before.paused&&['route','battle'].includes(before.mode))||before.mode==='result'&&!before.result?.matchWon))return false;const scope=before.stepId==='boss'?'重新開始整場三戰兩勝頭目戰，比分歸零':before.mode==='battle'||before.stepId?.startsWith('miniboss')?'重新開始目前這一場小頭目戰，比分歸零':'從目前路段起點重新開始';if(!window.confirm(`重新整備再重試？確認配置後將${scope}；已保存 XP、解鎖與進度保留。`))return false;}
   options={...options,readOnly:!!options.readOnly||!boundary&&!retryIntent,intent:retryIntent?'retry':'boundary',token:before.token};
   if(preparationOwner!==current){preparation?.destroy();preparationOwner=current;preparation=mountChallengePreparation({document,window,characters,controller:{
    preparationSnapshot:()=>current.preparationSnapshot(),prepareEncounter:(draft,guard)=>current.prepareEncounter(draft,guard),retrySave:()=>current.retrySave(),exportJSON:()=>current.exportJSON?.()??router?.exportJSON(),exportLegacyJSON:()=>router?.exportLegacyJSON()??null
   },getEncounter:()=>current.view(),onBusy:value=>{preparationBusy=value;},onApplied:(result,context)=>{if(context.keepPaused&&['route','battle'].includes(current.view().mode))current.setPaused(true,current.view().token);const input=document.querySelector('#difficulty');if(input)setGameSelectValue(input,current.preparationSnapshot().difficulty);render();onChange();},onFailure:()=>{render();onChange();},onClose:context=>{if(context.keepPaused&&['route','battle'].includes(current.view().mode))current.setPaused(true,current.view().token);render();onChange();}});}
-  pauseForUI('preparation');if(['route','battle'].includes(current.view().mode)&&!current.view().paused)current.setPaused(true,current.view().token);onChange();return preparation.open(options);
+  pauseForUI('preparation');if(['route','battle'].includes(current.view().mode)&&!current.view().paused)current.setPaused(true,current.view().token);onChange();const opened=preparation.open(options);actionStatus(opened?'':'無法讀取角色能力，請關閉視窗後再試。');return opened;
  }
  preparationButton.type='button';preparationButton.onclick=()=>openPreparation();growthButton.onclick=()=>openPreparation({readOnly:true});retryPreparation.type='button';retryPreparation.onclick=()=>openPreparation({intent:'retry'});
  function openRecovery(){if(busy||preparationBusy||leaving||navigating||!pageActive||chapter?.view().busy)return;pauseForUI('recovery');if(chapter&&['route','battle'].includes(chapter.view().mode)&&!chapter.view().paused)chapter.setPaused(true,chapter.view().token);render();onChange();recoveryPanel.hidden=false;recoveryPanel.querySelector('button:not([hidden])')?.focus();}
