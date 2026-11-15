@@ -81,12 +81,13 @@ function sync(){
   $('#choice-title').textContent=s.mode==='complete'?'第五章完成':'阿扁仔加入！';$('#choice-copy').textContent=s.mode==='complete'?'七人到齊，前往最終戰。':'七人到齊，選好隊伍再決定誰先開講。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
  }
  renderContinuationChoice({document,state:s,chapterId:'chapter-5'});continuation.render();
- if(s.paused){$('#pause-panel').hidden=false;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=resumeFromPause;}
+ if(s.paused){$('#pause-panel').hidden=false;}
  comicReader?.sync();ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
 }
 function resumeFromPause(){const s=v();if(!s?.paused)return false;media.unlock();if(pauseLifecycle.resume()){const status=$('#chapter-action-status');if(status)status.textContent='';sync();return true;}const latest=v();if(latest?.blocked&&latest?.campaignChapterId)continuation?.openRecovery();const status=$('#chapter-action-status');if(status)status.textContent=latest?.busy?'正在完成目前操作，請稍後再按一次。':latest?.blocked?'目前進度保護中，已開啟保存處理選項。':'目前無法繼續，請再試一次。';return false;}
 function togglePause(){const s=v();if(!s)return;if(s.paused){resumeFromPause();return;}if(ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
+$('#resume').onclick=resumeFromPause;
 $('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
 
