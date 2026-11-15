@@ -1,6 +1,6 @@
 import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
 import {Duel} from '../../core.mjs?v=rally-consistency-20261115-r1';
-import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=rally-consistency-20261115-r1';
+import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=campaign-state-supply-20261115-r1';
 import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=rally-consistency-20261115-r1';
 import {CHAPTER5} from './chapter5-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({

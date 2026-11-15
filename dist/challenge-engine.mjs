@@ -193,7 +193,7 @@ export class ChallengeRoute {
   }
   this.updateEffects(dt);
   p.x=clamp(p.x,55,this.worldWidth-80);this.resolveBodies(oldX);this.cameraX=clamp(p.x-340,0,this.worldWidth-960);
-  if(!this.supplyUsed&&this.canCollectSupply(p)){this.supplyUsed=true;p.hp=Math.min(p.maxHp,p.hp+18);this.events.push({type:'supply',amount:18});}
+  if(!this.supplyUsed&&this.canCollectSupply(p)){this.supplyUsed=true;const amount=p.maxHp-p.hp;p.hp=p.maxHp;this.events.push({type:'supply',amount});}
   if(this.status==='active'&&p.x>=this.gateX){this.status='gate';this.events.push({type:'routeGate',gate:this.section.gate,carry:this.exportCarry(),section:this.sectionIndex});}
  }
  updateEffects(dt){

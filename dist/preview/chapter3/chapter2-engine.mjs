@@ -1,7 +1,7 @@
 import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
 import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=rally-consistency-20261115-r1';
 import {Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=rally-consistency-20261115-r1';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-state-supply-20261115-r1';
 import {CHAPTER2} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'ko',mobKind:'mini_mic',name:'民調隊長',pattern:[{action:'special2',name:'題目落地！離開標記！',range:230,warning:.95,rest:2.3},{action:'punch',name:'答案請交到這裡！',range:112,warning:.6,rest:1.6}]},

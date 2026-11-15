@@ -314,7 +314,7 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
   else if(item.kind==='actor')drawActor(ctx,images,item,time,frame,options,poses);
   else if(item.kind==='projectile')drawProjectile(ctx,images,q,time,frame.zoom);
   else if(item.kind==='obstacle'){const y=(q.y??GROUND)+depthOf(q)*DEPTH_SCALE;line(ctx,q.x-35,y-2,q.x+35,y-2,'#ab4e3c',5);drawSignatureProp(ctx,images,'queue',q.x,y-37,92,74,0,Math.min(1,q.life*3));label(ctx,'地面攔停',q.x,y-87,frame.zoom,{color:'#ffe0ab'});}
-  else if(item.kind==='rally')drawRally(ctx,images,q,time,frame.zoom,options.reducedMotion);
+  else if(item.kind==='rally'&&!options.externalRallyRenderer)drawRally(ctx,images,q,time,frame.zoom,options.reducedMotion);
  }
  drawClasp(ctx,images,items,poses);
  drawChapterEncounterGuidance(ctx,route,encounterProject,1,frame.zoom);

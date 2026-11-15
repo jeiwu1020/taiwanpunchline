@@ -1,5 +1,5 @@
 // Four-way street simulation for chapter routes and the isolated movement trial.
-import {ChallengeRoute} from './challenge-engine.mjs?v=rally-consistency-20261115-r1';
+import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-state-supply-20261115-r1';
 import {CAST,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {COMBAT} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
 import {RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';

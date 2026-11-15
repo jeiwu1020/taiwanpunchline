@@ -12,7 +12,14 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
  const helper=()=>helperId??(character==='han'?'wang':'han');
  const stats=()=>statsForCharacter?.(character)??fighterBaseStats(character);
  const story=key=>{frames=storyFrames(key,character);frame=0;mode='story';};
- const battle=()=>{world=createDuel({stepId:STEP_IDS[cursor],characterId:character,helperId:helper(),difficulty,rng,stats:stats()});if(STEP_IDS[cursor]==='boss'&&roundCarry)restoreRoundState(world,roundCarry);mode='battle';};
+ const battle=()=>{
+  const step=STEP_IDS[cursor],isBigBoss=step==='boss';world=createDuel({stepId:step,characterId:character,helperId:helper(),difficulty,rng,stats:stats()});
+  if(carry){world.player.rally=carry.rally;
+   if(isBigBoss){world.player.hp=world.player.maxHp;Object.assign(world.player.assist,{helper:helper(),used:false,active:false,charge:100,damageTaken:0});world.player.assistCursor=0;}
+   else if(step.startsWith('miniboss')){world.player.hp=Math.min(world.player.maxHp,carry.hp);Object.assign(world.player.assist,carry.assist,{helper:helper(),active:false});}
+  }
+  if(isBigBoss&&roundCarry)restoreRoundState(world,roundCarry);mode='battle';
+ };
  function enter(){
   const step=STEP_IDS[cursor];result=null;frame=0;
   if(step==='entry')story('entry');
@@ -43,7 +50,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
  function continueResult(t){if(!valid(t)||mode!=='result')return false;
   if(result.kind==='route'){carry=null;roundCarry=null;enter();}
   else if(result.matchWon){rounds={player:0,enemy:0};roundCarry=null;cursor++;enter();}
-  else {if(result.matchLost){rounds={player:0,enemy:0};roundCarry=null;}battle();result=null;}
+  else {if(result.matchLost){rounds={player:0,enemy:0};roundCarry=null;carry=null;}battle();result=null;}
   revision++;return true;
  }
  function chooseCharacter(next,t){

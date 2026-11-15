@@ -1,7 +1,7 @@
 import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=street-object-polish-r2';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=street-object-polish-r2';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=street-crowd-overlay-20261115-r1';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=street-crowd-overlay-20261115-r1';
 import {DESK} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -34,7 +34,7 @@ export function createChallengeRenderer(scene,images){
   drawChallengeStreetProp(ctx,images,'sign',{x:route.gateX,y:430,width:105,height:128});ctx.font='900 22px system-ui';ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle='#17333b';ctx.fillStyle='#fff4d7';ctx.strokeText('前方開講 →',route.gateX,288);ctx.fillText('前方開講 →',route.gateX,288);ctx.restore();texture.refresh();display.setPosition(left,top).setDisplaySize(width,height).setVisible(true);
   gfx.clear();let n=0;for(const mob of route.enemies){if(mob.hp<=0&&mob.deadAge>.6)continue;const s=mobSlot(n++),c=s.t.getContext();c.clearRect(0,0,512,384);c.save();c.translate(256,350);if(mob.hp<=0){c.rotate(-.7*mob.face);c.globalAlpha=Math.max(0,1-mob.deadAge/.6);}drawChallengeMob(c,images,mob,time);c.restore();s.t.refresh();s.im.setPosition(mob.x,mob.y).setScale(mob.face,1).setVisible(true);s.label.setText(mob.warning>0?'要出手了！':mob.name).setPosition(mob.x,mob.y-296).setVisible(mob.hp>0);if(mob.hp>0){gfx.fillStyle(0x17333b,.8);gfx.fillRoundedRect(mob.x-33,mob.y-284,66,7,3);gfx.fillStyle(0xe7ac55,1);gfx.fillRoundedRect(mob.x-31,mob.y-282,62*mob.hp/mob.maxHp,3,1);}}
   for(let i=n;i<slots.length;i++){slots[i].im.setVisible(false);slots[i].label.setVisible(false);}
-  for(const r of route.rallies){const alpha=r.age<.65?.4:1;const crowdKeys=['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'];ctx.save();ctx.scale(1600/width,800/height);ctx.translate(-left,-top);ctx.globalAlpha=alpha;for(let i=0;i<5;i++){const image=images[crowdKeys[i]],x=r.x-r.direction*i*47,y=430;if(image)ctx.drawImage(image,x-32,y-115,64,115);}ctx.restore();texture.refresh();gfx.lineStyle(7,0xffcf65,alpha*.6);gfx.lineBetween(r.x-r.direction*240,422,r.x+r.direction*60,422);}
+  if(!options.externalRallyRenderer)for(const r of route.rallies){const alpha=r.age<.65?.4:1;const crowdKeys=['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'];ctx.save();ctx.scale(1600/width,800/height);ctx.translate(-left,-top);ctx.globalAlpha=alpha;for(let i=0;i<5;i++){const image=images[crowdKeys[i]],x=r.x-r.direction*i*47,y=430;if(image)ctx.drawImage(image,x-32,y-115,64,115);}ctx.restore();texture.refresh();gfx.lineStyle(7,0xffcf65,alpha*.6);gfx.lineBetween(r.x-r.direction*240,422,r.x+r.direction*60,422);}
  }
  function drawArena(section,time,frame,world=null){
   if(mode==='depth')depth.releaseSurface();mode='arena';if(texture.width!==1600||texture.height!==800)texture.setSize(1600,800);
