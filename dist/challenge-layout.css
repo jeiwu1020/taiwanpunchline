@@ -80,7 +80,6 @@
 #trial-app.cabinet.app[data-challenge-layout]>.overlay{inset:0;padding:calc(var(--challenge-safe-top) + 48px) calc(var(--challenge-safe-right) + 8px) calc(var(--challenge-safe-bottom) + 8px) calc(var(--challenge-safe-left) + 8px);overflow:auto;overscroll-behavior:contain}
 #trial-app.cabinet.app[data-challenge-layout][data-layout="portrait"]>.overlay{padding-top:calc(var(--challenge-safe-top) + 70px)}
 #trial-app.cabinet.app[data-challenge-layout] .overlay :is(.card,.paper){max-height:100%;overflow:auto;min-height:0}
-#trial-app.cabinet.app[data-challenge-layout] :is(#pause-panel,#result-panel) .paper{transform:none}
 #trial-app.cabinet.app[data-challenge-layout] .chapter-recovery-panel{max-width:100%;overflow-wrap:anywhere}
 /* Story panes remain in content-safe bounds instead of overriding with 8px. */
 body[data-chapter-mode="story"] #trial-app.cabinet.app[data-challenge-layout]>#stage{left:calc(var(--challenge-safe-left) + 8px);top:calc(var(--challenge-safe-top) + 52px);width:calc(var(--challenge-content-width) * .62 - 8px);height:calc(var(--challenge-content-height) - 60px)}

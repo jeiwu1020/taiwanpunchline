@@ -15,11 +15,11 @@ import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
 import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-continuity-20261116-r1';
-import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=pause-menu-unify-20261115-r1';
+import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=pause-menu-unify-20261116-r1';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=pause-menu-unify-20261115-r1';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=pause-menu-unify-20261116-r1';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
 import {CAST,Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
@@ -85,10 +85,11 @@ function sync(){
   $('#choice-title').textContent=s.mode==='complete'?'神麥往下一站去了':'柯P加入！';$('#choice-copy').textContent=s.mode==='complete'?'第三章已打通。第四章入口已保留，回挑戰總覽，接著追麥。':'選好接下來的主角，跟著音響車追神麥。下一站，繼續追麥。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
  }
  renderContinuationChoice({document,state:s,chapterId:'chapter-3'});continuation.render();
- if(s.paused){$('#pause-panel').hidden=false;const token=s.token;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=()=>{media.unlock();if(!ui.busy&&pauseLifecycle.resume())sync();};}
+ if(s.paused){$('#pause-panel').hidden=false;$('#pause-roster').replaceChildren();$('#pause-roster').hidden=true;$('#resume').onclick=resumeFromPause;}
  comicReader?.sync();ui.syncMedia();ui.invalidateGeometry?.();resizeCanvas();
 }
-function togglePause(){const s=v();if(!s||ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(s.paused?pauseLifecycle.resume():chapter.setPaused(true,s.token))sync();}
+function resumeFromPause(){const s=v();if(!s?.paused)return false;media.unlock();if(pauseLifecycle.resume()){const status=$('#chapter-action-status');if(status)status.textContent='';sync();return true;}const latest=v();const status=$('#chapter-action-status');if(status)status.textContent=latest?.busy?'正在完成目前操作，請稍後再按一次。':latest?.blocked?'目前進度保護中，請先完成保存確認。':'目前無法繼續，請再試一次。';return false;}
+function togglePause(){const s=v();if(!s)return;if(s.paused){resumeFromPause();return;}if(ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
 $('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
