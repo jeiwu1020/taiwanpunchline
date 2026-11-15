@@ -9,9 +9,10 @@ export function captureFinishSnapshot(duel){
  const reason=fighters.every(f=>f.hp<=0)?'double-ko':fighters.some(f=>f.hp<=0)?'ko':'timeout';
  return Object.freeze({winner:duel.winner,reason,fighters:Object.freeze(fighters)});
 }
-export function createFinishSequence(duel,{reducedMotion=false,artTime=0,camera=null}={}){
+export function createFinishSequence(duel,{reducedMotion=false,artTime=0,camera=null,roundCopy=null,training=false}={}){
  const snapshot=duel.finishSnapshot||captureFinishSnapshot(duel);
- return {...snapshot,reducedMotion,artTime,camera:camera?{...camera}:null,elapsed:0,title:battleResultCopy(duel).title,cue:snapshot.reason==='timeout'?'時間到！':snapshot.reason==='double-ko'?'雙方倒下！':'勝負已定！'};
+ const cue=snapshot.reason==='timeout'?'時間到！':snapshot.reason==='double-ko'?'雙方倒下！':roundCopy?.complete?'勝負已分！':roundCopy?'本局結束！':training?'練習結束！':'勝負已分！';
+ return {...snapshot,reducedMotion,artTime,camera:camera?{...camera}:null,elapsed:0,title:roundCopy?.title??(training?'自由練習結束':battleResultCopy(duel).title),cue};
 }
 export function finishBeat(sequence,elapsed=sequence.elapsed){
  const age=Math.max(0,elapsed),reduced=sequence.reducedMotion;

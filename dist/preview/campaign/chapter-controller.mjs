@@ -18,7 +18,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
    if(isBigBoss){world.player.hp=world.player.maxHp;Object.assign(world.player.assist,{helper:helper(),used:false,active:false,charge:100,damageTaken:0});world.player.assistCursor=0;}
    else if(step.startsWith('miniboss')){world.player.hp=Math.min(world.player.maxHp,carry.hp);Object.assign(world.player.assist,carry.assist,{helper:helper(),active:false});}
   }
-  if(isBigBoss&&roundCarry)restoreRoundState(world,roundCarry);mode='battle';
+  if(isBigBoss&&roundCarry)restoreRoundState(world,roundCarry);mode='countdown';
  };
  function enter(){
   const step=STEP_IDS[cursor];result=null;frame=0;
@@ -32,6 +32,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
  }
  function view(){return {stepId:STEP_IDS[cursor]??'complete',mode,token:token(),characterId:character,helperId:helper(),unlocked:[...unlocked],rounds:{...rounds},result:result?{...result}:null,paused,persisted:false,frameIndex:frame,frameCount:frames.length,storyFrame:mode==='story'?{...frames[frame]}:null,nextChapterId:mode==='complete'?nextChapterId:null,difficulty};}
  const valid=t=>t===token();
+ function beginBattle(t){if(!valid(t)||mode!=='countdown')return false;mode='battle';revision++;return true;}
  function nextStory(t){if(!valid(t)||mode!=='story')return false;if(++frame<frames.length){revision++;return true;}
   if(STEP_IDS[cursor].startsWith('miniboss'))battle();else{cursor++;enter();}revision++;return true;
  }
@@ -108,7 +109,7 @@ export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_
   let applied=false;return {accepted,view:nextView,events:emitted,carry:normalizeCarry(after.carry),apply(){if(applied)return true;if(revision!==before.revision)return false;restore(after);applied=true;return true;}};
  }
  enter();
- return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},step,nextStory,rewindStory,previousStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
+ return {view,preparationSnapshot,prepareEncounter,stage,get world(){return world;},beginBattle,step,nextStory,rewindStory,previousStory,continueResult,chooseCharacter,chooseHelper,setPaused,restartSegment,
   press(action,t){return valid(t)&&!paused&&['route','battle'].includes(mode)?world.press(action):false;},
   finishChapter,
   drainEvents(){return events.splice(0);}

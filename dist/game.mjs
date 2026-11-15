@@ -35,7 +35,8 @@ import {assistMeterView} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
 import {createAssistRenderer} from './assist-presentation.mjs?v=rally-consistency-20261115-r1';
 import {MatchSeries,DIFFICULTY_LABELS,ROSTER_TARGETS,rosterTargetName} from './match-modes.mjs?v=campaign-boot-20261112-r3';
-import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=campaign-boot-20261112-r3';
+import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=series-presentation-20261115-r1';
+import {predictRoundResult,roundAnnouncement,roundResultCopy,setSeriesWinMarkers} from './series-presentation.mjs?v=series-presentation-20261115-r1';
 import {rallyMeterView} from './rally-meter.mjs?v=campaign-boot-20261112-r3';
 import {mountPageZoomGuard,bindPageZoomPreference,ownsGamePageTarget} from './page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
 import {ITEM_ART,itemActorName,chooseCarryHand,heldItemAnchor} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
@@ -286,13 +287,13 @@ async function startGame(){if(challengeRun||entryPreparationSession&&challengeSa
 function nextRound(){if(matchSeries?.nextRound())return challengeRun?presentChallengeRound(()=>startRound()):startRound();}
 function startRound(){
  if(!scene)return;resetHomeConfirmation();cancelMatchFinish();setTitleVisible(false);stopEffects();clearTimeout(countTimer);stopVoice();primeVoice(true);clearHold();duel=newDuel();if(matchSeries?.format==='best-of-three'&&seriesRoundState)restoreRoundState(duel,seriesRoundState);duel.status='countdown';punchWait=0;trainingRestartGate?.cancel();resetRestartConfirmation();syncModeHUD();syncBattleSurface();syncMusic(true);unlockMusic();setupMoves();started=true;counting=true;$$('.screen').forEach(e=>e.classList.add('hidden'));$('#countdown').classList.remove('hidden');$('#pause').disabled=true;$('#help').disabled=true;sfx('start');
- const battle=duel,run=challengeRun,epoch=challengeOpeningEpoch,target=scene,owns=()=>battle===duel&&run===challengeRun&&epoch===challengeOpeningEpoch&&target===scene;let n=3;$('#countdown').textContent='3';
- function next(){if(!owns()||target.sys?.isActive?.()===false||run&&challengeSaveBlocked)return;if(homeRequested){countTimer=setTimeout(next,80);return;}n--;$('#countdown').textContent=n>0?String(n):'開麥！';sfx('start');if(n>=0)countTimer=setTimeout(next,480);else{$('#countdown').classList.add('hidden');counting=false;duel.status='active';syncBattleSurface();$('#pause').disabled=false;$('#pause').textContent=gameMode==='training'?'Ⅱ 練習設定':'Ⅱ 暫停';$('#help').disabled=false;if(challengeRetainPause||document.hidden||!document.hasFocus()||$('#help-dialog').open){challengeRetainPause=false;pauseGame();}else $('#game').focus({preventScroll:true});}}
+ const battle=duel,run=challengeRun,epoch=challengeOpeningEpoch,target=scene,owns=()=>battle===duel&&run===challengeRun&&epoch===challengeOpeningEpoch&&target===scene;let n=3,intro=true;$('#countdown').dataset.phase='intro';$('#countdown-format').textContent=roundAnnouncement({format:matchSeries?.format??'single',round:matchSeries?.round??1,training:gameMode==='training'});$('#countdown-number').textContent='';
+ function next(){if(!owns()||target.sys?.isActive?.()===false||run&&challengeSaveBlocked)return;if(homeRequested){countTimer=setTimeout(next,80);return;}if(intro){intro=false;$('#countdown').dataset.phase='counting';$('#countdown-number').textContent='3';sfx('start');countTimer=setTimeout(next,480);return;}n--;$('#countdown-number').textContent=n>0?String(n):'開麥！';sfx('start');if(n>=0)countTimer=setTimeout(next,480);else{$('#countdown').classList.add('hidden');counting=false;duel.status='active';syncBattleSurface();$('#pause').disabled=false;$('#pause').textContent=gameMode==='training'?'Ⅱ 練習設定':'Ⅱ 暫停';$('#help').disabled=false;if(challengeRetainPause||document.hidden||!document.hasFocus()||$('#help-dialog').open){challengeRetainPause=false;pauseGame();}else $('#game').focus({preventScroll:true});}}
  $('#tip').textContent=CAST[selected].tip;
- if(!run){countTimer=setTimeout(next,480);return;}
+ if(!run){countTimer=setTimeout(next,850);return;}
  // A challenge countdown belongs to its acknowledged destination, not merely
  // to a saved run. Failure must never turn an existing recovery back to active.
- const acknowledged=accepted=>{if(accepted===true&&owns()&&target.sys?.isActive?.()!==false&&!challengeSaveBlocked&&duel.status==='countdown'){countTimer=setTimeout(next,480);return true;}if(owns()){clearTimeout(countTimer);counting=false;if(duel.status==='countdown')duel.status='paused';$('#countdown').classList.add('hidden');syncBattleSurface();}return false;};
+ const acknowledged=accepted=>{if(accepted===true&&owns()&&target.sys?.isActive?.()!==false&&!challengeSaveBlocked&&duel.status==='countdown'){countTimer=setTimeout(next,850);return true;}if(owns()){clearTimeout(countTimer);counting=false;if(duel.status==='countdown')duel.status='paused';$('#countdown').classList.add('hidden');syncBattleSurface();}return false;};
  let presentation;try{presentation=presentChallengeScene();}catch{return acknowledged(false);}return Promise.resolve(presentation).then(acknowledged,()=>acknowledged(false));
 }
 function pauseGame(){if(challengeActionBusy||challengeEntryPending||challengeSceneHandoff)challengeRetainPause=true;if(duel.status!=='active')return;stopEffects();stopVoice();clearHold();duel.status='paused';syncBattleSurface();$('#pause-screen').classList.remove('hidden');$('#pause').textContent='▶ 繼續';$('#training-pause-options').hidden=gameMode!=='training';$('#pause-note').textContent=gameMode==='training'?'自由試招，調整後繼續。':'切換視窗會自動暫停。';setGameSelectValue($('#training-live-behavior'),trainingBehavior);$('#training-infinite').checked=trainingInfinite;$('#training-repeat').checked=trainingRepeat;trainingRestartGate?.arm();resetRestartConfirmation();configurePauseRestart();restartOpenGate?.arm();$('#leave').textContent=challengeRun?'回挑戰總覽':'回到選角';if(challengeRun)mountRootChallengeActions();syncChallengeSaveSlot();}
@@ -301,8 +302,9 @@ function syncModeHUD(){
  $('#reselect').textContent=challengeRun?(challengeAfterResult&&duel.winner==='player'?'整備下一段':'整備後重試'):'回到選角';
  if(scene)scene.hudCache='';
  const score=matchSeries?.score||{player:0,enemy:0};
- $('#match-score').textContent=gameMode==='training'?'練習 · '+({stand:'站立',guard:'防守',ai:'AI'}[trainingBehavior]):matchSeries?.format==='best-of-three'?`第 ${matchSeries.round} 小局 · ${score.player} : ${score.enemy}`:'一局定勝負';
- if(challengeRun)$('#match-score').textContent=challengeRun.phase.kind==='route'?'街頭闖關':`${challengeRun.phase.gate?.name||'挑戰'}${matchSeries?.format==='best-of-three'?` · ${score.player}:${score.enemy}`:''}`;
+ $('#match-score').textContent=gameMode==='training'?'練習 · '+({stand:'站立',guard:'防守',ai:'AI'}[trainingBehavior]):matchSeries?.format==='best-of-three'?`第 ${matchSeries.round} 局`:'一局決勝';
+ if(challengeRun)$('#match-score').textContent=challengeRun.phase.kind==='route'?'街頭闖關':matchSeries?.format==='best-of-three'?`第 ${matchSeries.round} 局`:challengeRun.phase.gate?.name||'挑戰';
+ setSeriesWinMarkers(document,score.player,score.enemy,matchSeries?.format==='best-of-three');
  $('.app').dataset.gameMode=gameMode;
  const depth=!!duel.depthMode;$('.app').dataset.depthRoute=String(depth);
  $('#game').setAttribute('aria-label',depth?'街道闖關，WASD或方向鍵上下左右走位，空白鍵跳躍，K或左Shift防守，J攻擊，U I O梗技':'戰鬥畫面，左右移動，後退自動擋，W跳躍，S或下方向鍵蹲下，K或左Shift原地防守，J攻擊，U I O梗技');
@@ -315,11 +317,11 @@ function syncModeHUD(){
 function result(){
  if(challengeRun&&challengeSettledBattles.has(duel))return;
  cancelMatchFinish();syncBattleSurface();syncMusic();stopEffects();finishVoice();clearHold();$('#pause').disabled=true;$('#help').disabled=false;for(const gate of resultPressGates.values())gate.arm();
- const stats=duel.stats,copy=battleResultCopy(duel),round=matchSeries?.record(duel.winner),between=!!round&&!round.complete;if(between)seriesRoundState=captureRoundState(duel);else if(round?.complete)seriesRoundState=null;
- $('#result-title').textContent=round?.complete&&matchSeries.format==='best-of-three'?copy.title.replace('獲勝！','拿下系列賽！'):copy.title;
- $('#result-sub').textContent=between?(round.draw?'這局平手，不計分。重新開一小局；雙方集氣與助拳進度延續。':copy.subtitle+' 下一小局生命值重置，雙方集氣與助拳進度延續。'):copy.subtitle;
- $('#result-score').textContent=round?`你 ${round.score.player} : ${round.score.enemy} 對手`+(matchSeries.format==='best-of-three'?' · 先得 2 勝':''):gameMode==='training'?'練習結束，可重新練習或回選角':'';
- $('#next-round').hidden=!between;$('#next-round').textContent=round?.draw?'平手重賽 →':'下一小局 →';$('#replay').hidden=between;$('#replay').disabled=false;$('#replay').textContent=gameMode==='training'?'重新練習 ↻':matchSeries?.format==='best-of-three'?'再開一場系列賽 ↻':'不服，再吵一局 ↻';
+ const stats=duel.stats,copy=battleResultCopy(duel),round=matchSeries?.record(duel.winner),between=!!round&&!round.complete,seriesCopy=round?roundResultCopy(round,matchSeries.format,'你',duel.enemy.displayName||CAST[duel.enemy.type].name):null;if(between)seriesRoundState=captureRoundState(duel);else if(round?.complete)seriesRoundState=null;
+ $('#result-eyebrow').textContent=seriesCopy?.eyebrow??'本局結果';$('#result-title').textContent=seriesCopy?.title??copy.title;
+ $('#result-sub').textContent=seriesCopy?.subtitle??copy.subtitle;
+ $('#result-score').textContent=seriesCopy?.score??(gameMode==='training'?'練習結束，可重新練習或回選角':'');
+ $('#next-round').hidden=!between;$('#next-round').textContent=seriesCopy?.action??'進入下一局 →';$('#replay').hidden=between;$('#replay').disabled=false;$('#replay').textContent=gameMode==='training'?'再練一場 ↻':matchSeries?.format==='best-of-three'?'再開一場系列賽 ↻':'再戰一局 ↻';
  $('#stats').innerHTML=`<div><strong>${stats.maxCombo}</strong><small>最高連段</small></div><div><strong>${stats.specialHits}</strong><small>梗技命中</small></div><div><strong>${stats.interrupts||stats.blocks}</strong><small>${stats.interrupts?'打斷喝水':'成功格擋'}</small></div>`;
  if(challengeRun)challengeResult(round,between);
  $('#result').classList.remove('hidden');syncModeHUD();sfx('over');
@@ -335,7 +337,8 @@ function cancelMatchFinish(){
 function beginMatchFinish(){
  if(matchFinish||duel.status!=='over')return;
  stopEffects();finishVoice();clearHold();punchWait=0;duel.buffer=null;
- matchFinish=createFinishSequence(duel,{reducedMotion:!!scene?.reducedMotion,artTime:scene?.artTime||0,camera:scene?.cameraView});
+ const result=predictRoundResult(matchSeries,duel.winner),roundCopy=result?roundResultCopy(result,matchSeries.format,'你',duel.enemy.displayName||CAST[duel.enemy.type].name):null;
+ matchFinish=createFinishSequence(duel,{reducedMotion:!!scene?.reducedMotion,artTime:scene?.artTime||0,camera:scene?.cameraView,roundCopy,training:gameMode==='training'});
  matchFinish.duel=duel;matchFinish.tweenTimeScale=scene?.tweens?.timeScale??1;matchFinish.suspended=!!document.hidden||!document.hasFocus();
  $('#result').classList.add('hidden');$('#broadcast').classList.add('hidden');$('#match-finish').classList.remove('hidden');$('.app').dataset.matchFinish='true';$('.control-deck').inert=true;
  $('#pause').disabled=true;$('#help').disabled=true;$('#finish-cue').textContent=matchFinish.cue;$('#finish-winner').textContent=matchFinish.title;
@@ -655,7 +658,7 @@ function handleChallengeFrameEvents(events,arena){
 function handleChallengeEvent(e,arena){
  const run=challengeRun,phase=run?.checkpoint,battle=duel;if(!run)return false;
  if(e.type==='enemyDefeated'){const y=displayY(e.f)-180;enqueueChallenge(run,async()=>{const before=challengeProgress.get().allowance,reward=await run.rewardMob(e);if(run!==challengeRun)return;arena.popup(e.f.x,y,challengeSaved(reward)?`經驗 +${e.xp}`:'擊倒！','#fff0a8',22);if(challengeProgress.get().allowance>before)arena.banner('升級！每位角色都多 1 點技能額度。');if(!profileProgress.testMode&&((reward?.accepted&&!reward.persisted)||(!reward?.accepted&&!['duplicate-reward','invalid-operation'].includes(reward?.reason))))showChallengeSaveFailure(reward,()=>restoreSavedChallengeScene(run,battle));});return true;}
- if(e.type==='supply'){arena.popup(duel.player.x,displayY(duel.player)-245,'補給到手！HP 全滿','#b6f1ba',23);sfx('heal');return true;}
+ if(e.type==='supply'){arena.popup(duel.player.x,displayY(duel.player)-300,'補給到手！HP 全滿','#b6f1ba',23,{duration:1500,rise:10});sfx('heal');return true;}
  if(e.type==='routeGate'){enqueueChallenge(run,async()=>{if(run.checkpoint!==phase)return;const saved=await run.routeComplete(e.carry);if(run!==challengeRun)return;if(challengeSaved(saved))startChallengePhase();else showChallengeSaveFailure(saved,()=>startChallengePhase());});return true;}
  if(e.type==='routeLost'){duel.status='over';duel.winner='enemy';enqueueChallenge(run,async()=>{await run.flush();if(run===challengeRun&&!challengeSaveBlocked)result();});return true;}
  if(e.f?.mobKind&&e.type==='move')return true;
@@ -664,7 +667,7 @@ function handleChallengeEvent(e,arena){
 }
 async function challengeResult(round,between){
  const run=challengeRun,battle=duel,won=duel.winner==='player',gate=run.phase.gate;
- if(between){$('#result-title').textContent=round.draw?'兩邊都還沒講完！':won?'你先搶到一句話！':gate.name+'先搶到一句話！';return;}
+ if(between){const copy=roundResultCopy(round,matchSeries?.format??'best-of-three','你',gate.name);$('#result-eyebrow').textContent=copy.eyebrow;$('#result-title').textContent=copy.title;$('#result-sub').textContent=copy.subtitle;$('#result-score').textContent=copy.score;$('#next-round').textContent=copy.action;return;}
  const route=duel instanceof ChallengeRoute;challengeSettledBattles.add(battle);$('#replay').disabled=true;$('#result-sub').textContent='正在確認進度保存…';
  await run.flush();if(run!==challengeRun||battle!==duel)return;if(challengeSaveBlocked||profileProgress.get().dirty){showChallengeSaveFailure({reason:profileProgress.get().reason},()=>renderChallengeResult(run,won,gate));return;}
  if(won&&!route){const saved=await run.bossWon({hp:battle.player.hp,rally:battle.player.rally,assist:{...battle.player.assist,active:false}});if(run!==challengeRun||battle!==duel)return;if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>renderChallengeResult(run,won,gate));return;}refreshProfileAccess();}
@@ -673,9 +676,10 @@ async function challengeResult(round,between){
 function renderChallengeResult(run,won,gate){
  syncChallengeSaveSlot();
  if(run!==challengeRun)return;const state=profileProgress.get();
- $('#result-title').textContent=won?(run.finished?'咆哮哥也加入開講！':gate.name+'讓路了！'):'先喘口氣，還沒吵完！';
- $('#result-sub').textContent=state.testMode?'測試模式：本次經驗與解鎖不會保存。':won?(run.finished?'第一章完成！咆哮哥已解鎖，可當主戰或助拳。接著前往第二章，繼續追神麥。':'前面還有人在開講。已保存進度與經驗，換角色也能接著走。'):'已保存的經驗和檢查點保留，可從這個路段再試一次。';
- $('#result-score').textContent=`本存檔 ${challengeProgress.get().xp} XP · 每位角色 ${challengeProgress.get().allowance} 點技能額度`;
+ const series=gate.kind==='boss',outcome=series?roundResultCopy(matchSeries?.last??{complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',round:matchSeries?.round??1,score:matchSeries?.score},'best-of-three','你',gate.name):roundResultCopy({complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',score:{player:won?1:0,enemy:won?0:1}},'single','你',gate.name);
+ $('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;
+ $('#result-sub').textContent=state.testMode?`${outcome.subtitle} 測試模式：本次經驗與解鎖不會保存。`:won?(run.finished?`${outcome.subtitle} 咆哮哥已解鎖，可當主戰或助拳。接著前往第二章，繼續追神麥。`:`${outcome.subtitle} 已保存進度與經驗，接著繼續追神麥。`):`${outcome.subtitle} 已保存的經驗和檢查點保留，可從這個 Boss 再試一次。`;
+ $('#result-score').textContent=series?outcome.score:`本局結果 · 本存檔 ${challengeProgress.get().xp} XP`;
  $('#reselect').hidden=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?(run.finished?'繼續第 2 章 →':'繼續追神麥 →'):'從檢查點重試 ↻';$('#next-round').hidden=true;
  if(won&&run.finished&&run.replay){$('#result-title').textContent='第一章重訪完成！';$('#result-sub').textContent='本次獲得的小怪經驗已保存，原章節進度保留。首通獎勵不重複領取。';$('#replay').textContent='返回挑戰總覽 →';}
  challengeAfterResult=async()=>{if(run!==challengeRun)return;if(run.finished&&run.replay){const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>{showTitle();openChallenge();});return;}showTitle();openChallenge();return;}if(run.finished){const depart=async()=>{const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>continueCampaign({characterId:selected,helperId:playerAssist}));return saved;}return continueCampaign({characterId:selected,helperId:playerAssist,selectionExplicit:true});};story(CHAPTER1_HANDOFF,depart);}else{if(!won){const retried=await run.retry();if(!challengeSaved(retried)){showChallengeSaveFailure(retried,()=>startChallengePhase());return;}}if(run===challengeRun)startChallengePhase();}};
@@ -883,7 +887,7 @@ class Arena extends Phaser.Scene {
    t.setColor(options.actor?.id==='enemy'?'#a5f4ff':'#ffdf79').setStroke('#102934',6).setShadow(3,4,'#071b25',2,true,true).setFontStyle('bold italic').setAlign('center');
    // All timing is updated with the same scene clock; the board and subtitle
    // remain hidden even when this pooled text previously displayed a bubble.
-  }else this.tweens.add({targets:t,y:y-20,alpha:0,duration:850,ease:'Cubic.Out',onComplete:()=>hide(t)});
+  }else this.tweens.add({targets:t,y:y-(options.rise??20),alpha:0,duration:options.duration??850,ease:'Cubic.Out',onComplete:()=>hide(t)});
  }
 
  banner(copy,fictional=true){const el=$('#broadcast');el.textContent=copy;const note=document.createElement('small');note.textContent=fictional?'語錄／迷因改編 · 動作虛構 · 音訊狀態見來源':'來源語句 · 招式效果虛構';el.append(note);el.classList.remove('hidden');this.combatOverlay?.refresh();this.lastBroadcast=this.time.now;}

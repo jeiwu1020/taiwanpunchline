@@ -3,6 +3,7 @@ import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=co
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-object-polish-r2';
+import {chapterRoundResultCopy,mountChapterCountdown,setSeriesWinMarkers} from '../../series-presentation.mjs?v=series-presentation-20261115-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-boot-20261112-r3';
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
@@ -31,7 +32,7 @@ import {rallyCrowdFormation,paintRallySupporters} from '../campaign/rally-crowd.
 import {chapter2RenderActor,chapter2TableFrame,chapter2ObstacleFrame,chapter2SceneLayers,drawChapter2TableLayer} from './chapter2-render-rules.mjs?v=street-object-polish-r3';
 import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {createPlayableChapter} from './chapter2-controller.mjs?v=rally-consistency-20261115-r1';
+import {createPlayableChapter} from './chapter2-controller.mjs?v=series-presentation-20261115-r1';
 import {CHAPTER2,CHARACTER_NAMES} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 import {ASSET_FILES} from './chapter2-assets.mjs?v=campaign-boot-20261112-r3';
 import {CHAPTER2_NEW_ART} from './chapter2-new-art.mjs?v=campaign-boot-20261112-r3';
@@ -54,6 +55,7 @@ mountSpecialNameFit({document});
 const comic=createComicPresentation({chapterId:'chapter-2'});
 comicReader=mountChapterComicReader({document,getChapter:()=>chapter,onChange:sync,onAudio:tone,isBlocked:()=>!!ui?.busy||ui?.ready===false,paintFrame:comic.paintFrame,onRetryArt:()=>comic.load(images,{retry:true})});
 function v(){return chapter?.view();}
+const seriesCountdown=mountChapterCountdown({documentRef:document,getState:v,getChapter:()=>chapter,onStart:()=>sync()});
 function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.blocked&&!s.busy&&!ui?.busy&&ui?.ready!==false&&['route','battle'].includes(s.mode);}
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
 function clearHold(){keys.clear();pointers.clear();held={};punchWait=0;controls?.clear();}
@@ -64,7 +66,7 @@ function portrait(id){return chapterAssetURL('chapter2',CAST[id].portrait.replac
 function roster(root,ids,choice,onSelect){root.replaceChildren(...ids.map(id=>{const b=document.createElement('button');b.type='button';b.dataset.character=id;b.setAttribute('aria-pressed',String(id===choice));const im=document.createElement('img');im.src=portrait(id);im.alt='';const name=document.createElement('b');name.textContent=CAST[id].name;b.append(im,name);b.onclick=()=>onSelect(id);return b;}));}
 function refreshMenu(){roster($('#menu-roster'),['wang','han','huang'],selected,id=>{selected=id;idle=new Duel(id,'beginner',()=>.3,'wang');refreshMenu();});}
 function sync(){
- pauseLifecycle.sync();const s=v();if(!s)return;uiToken=s.token;clearHold();ui.refreshAccess();if(!s.paused&&!ui.busy)ui.cancelRestart(false);const noncombat=!['route','battle'].includes(s.mode)||s.paused||s.blocked||s.busy;document.body.dataset.noncombat=String(noncombat);document.body.dataset.chapterMode=s.paused?"pause":s.mode;
+ pauseLifecycle.sync();const s=v();if(!s)return;seriesCountdown.sync(s);uiToken=s.token;clearHold();ui.refreshAccess();if(!s.paused&&!ui.busy)ui.cancelRestart(false);const noncombat=!['route','battle'].includes(s.mode)||s.paused||s.blocked||s.busy;document.body.dataset.noncombat=String(noncombat);document.body.dataset.chapterMode=s.paused?"pause":s.mode;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
  $('#pause').disabled=!['story','route','battle'].includes(s.mode);$('#pause').textContent=s.mode==='story'?'出戰準備':s.paused?'▶ 繼續':'Ⅱ 暫停';
  $('#fighter-name').textContent=CAST[s.characterId].name;
@@ -74,9 +76,8 @@ function sync(){
   $('#story-panel').hidden=false;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;
   $('#story-next').textContent=s.frameIndex===s.frameCount-1?'出發 →':'下一格 →';const token=s.token;$('#story-next').onclick=()=>{if(!ui.busy&&chapter.nextStory(token)){tone();sync();}};
  }else if(s.mode==='result'){
-  $('#result-panel').hidden=false;$('#result-title').textContent=s.result.winner==='player'?(s.result.matchWon?'這一關，借過了！':'先拿一局！'):s.result.winner==='draw'?'平手，再比一次':'這局先喘口氣';
-  $('#result-copy').textContent=s.result.kind==='route'?'倒下不會倒退章節，從目前路段再試一次。':`${s.stepId==='boss'?'三戰兩勝 · ':''}你 ${s.rounds.player}：${s.rounds.enemy} 對手${s.result.matchWon&&s.stepId==='boss'?' · 電火球加入！':''}`;
-  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};
+  $('#result-panel').hidden=false;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle+(s.result.matchWon&&s.stepId==='boss'?' 電火球加入！':'');$('#result-score').textContent=outcome.score;}
+  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};
  }else if(s.mode==='choice'||s.mode==='complete'){
   $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
   $('#choice-title').textContent=s.mode==='complete'?'神麥往下一站去了':'電火球加入！';$('#choice-copy').textContent=s.mode==='complete'?'第二章已打通。第三章入口已保留，回挑戰總覽，接著追麥。':'選好接下來的主角，跟著花車追神麥。下一站，繼續追麥。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
@@ -157,7 +158,7 @@ function draw(time,delta=1000/60){
  if(route&&s.mode==='route')micReport=flyingMic.paint({image:images['flying-mic-candidate'],width:w,height:h,zoom:f.zoom,time,jumpHeight:Math.max(0,(player.supportY??GROUND)-player.y)*f.zoom,extraRects:captionBounds?[captionBounds]:[]});
 }
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
-function hud(){const s=v(),g=chapter?.world;if(!s)return;const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER2.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?`${g.enemy.displayName} · ${s.rounds.player}:${s.rounds.enemy}`:'第二章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER2.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(g)ui.render({state:s,world:g});}
+function hud(){const s=v(),g=chapter?.world;if(!s)return;setSeriesWinMarkers(document,s.rounds.player,s.rounds.enemy,s.stepId==='boss');const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER2.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?g.enemy.displayName:'第二章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER2.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(g)ui.render({state:s,world:g});}
 
 function tick(now){
  try{
