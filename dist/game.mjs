@@ -77,7 +77,7 @@ let challengeRun=null,challengeUI,challengeStory,challengeAfterResult=null,start
 let challengeSceneHandoff=null,challengeEntryPending=0;
 let preparationUI=null,challengeRecovery=null,challengeActionBusy=false,challengeResultActionPending=false,challengeRetainPause=false,challengeRecoveryResume=null,entryPreparationSession=null;
 let restartRequested=false,restartOpenGate,restartConfirmGate;
-let homeRequested=false,homeReturnStatus=null,homeConfirmGate,homeSelectGate;
+let homeRequested=false,homeReturnStatus=null,homeDestination='home',homeConfirmGate;
 function newDuel(){if(challengeRun&&gameMode==='challenge'){const gate=challengeRun.phase.gate,isFinalBoss=gate.kind==='boss',carry=challengeRun.carry;const next=new Duel(selected,difficulty,undefined,gate.opponent,{playerAssist,enemyAssist:isFinalBoss?'han':null,enemyAssistRoster:isFinalBoss?CHALLENGE_BOSS_ASSIST_ROSTER:null,playerStats:challengeProgress.derivedStats(selected),enemyStats:challengeOpponentStats(gate.opponent,{kind:gate.kind})});if(carry){next.player.rally=carry.rally;if(isFinalBoss){next.player.hp=next.player.maxHp;Object.assign(next.player.assist,{helper:playerAssist,used:false,active:false,charge:100,damageTaken:0});next.player.assistCursor=0;}else{next.player.hp=Math.min(next.player.maxHp,carry.hp);Object.assign(next.player.assist,carry.assist,{helper:playerAssist,active:false});}}next.progressContext=profileProgress.progressContext();next.enemy.displayName=gate.name;if(isFinalBoss)installBossEncounter(next,challengeRun.phase.section+1);if(gate.kind==='miniboss')next.enemy.mobKind=challengeRun.phase.section===0?'mini_mic':'mini_guard';return next;}sanitizeSelections();const next=new Duel(selected,difficulty,undefined,opponent,{mode:gameMode,trainingBehavior,playerAssist,enemyAssist,infiniteHealth:trainingInfinite,repeatAssist:trainingRepeat});next.progressContext=profileProgress.progressContext();return next;}
 const resultPressGates=new Map();
 const heldKeys=new Set(),touchHeld=new Set();
@@ -370,18 +370,21 @@ function bindFreshAction(button,active,action){
  button.addEventListener('keydown',e=>{if(active())gate.keyDown(e.code,e.repeat);});
  button.onclick=e=>{if(active()&&gate.click(e))action();};return gate;
 }
-function resetHomeConfirmation(){homeRequested=false;homeReturnStatus=null;homeConfirmGate?.cancel();homeSelectGate?.cancel();$('#home-confirm').classList.add('hidden');}
-function requestHome(){
+function resetHomeConfirmation(){homeRequested=false;homeReturnStatus=null;homeDestination='home';homeConfirmGate?.cancel();$('#home-confirm').classList.add('hidden');}
+function requestHome(destination='home'){
  if(challengeQueuedOperations>0||challengeResultActionPending||challengeActionBusy||challengeRun?.busy||entryPreparationSession?.busy||preparationUI?.isOpen)return;if(challengeRun&&(challengeSaveBlocked||profileProgress.get().dirty)){showRootRecovery();return;}
  if(homeRequested)return;
- $('#home-confirm-title').textContent=challengeRun?'返回挑戰總覽？':'要回首頁嗎？';$('#home-confirm-note').textContent=challengeRun?'未完成的本段會從已保存的路段檢查點重新開始，已保存 XP、配點與解鎖保留。返回前會先確認保存完成。':'這場對戰進度會結束，選角與設定會保留。';$('#home-confirm-button').textContent=challengeRun?'返回挑戰總覽':'回到首頁';$('#home-select').hidden=!!challengeRun;
- if(!challengeRun&&(!started||(!matchFinish&&!['active','paused','countdown'].includes(duel.status)))){showTitle();return;}
+ if(challengeRun)destination=destination==='overview'?'overview':'home';else if(destination==='overview')destination='selection';homeDestination=destination;
+ const inChallenge=!!challengeRun,overview=destination==='overview',selection=destination==='selection';
+ $('#home-confirm-title').textContent=inChallenge?(overview?'返回挑戰總覽？':'要回首頁嗎？'):selection?'要回選角嗎？':'要回首頁嗎？';
+ $('#home-confirm-note').textContent=inChallenge?(overview?'未完成的本段會從已保存的路段檢查點重新開始，已保存 XP、配點與解鎖保留。返回前會先確認保存完成。':'本段進度會先保存，之後可從首頁的挑戰總覽接續。返回前會先確認保存完成。'):selection?'這場對戰進度會結束，回到選角畫面。':'這場對戰進度會結束，選角與設定會保留。';
+ $('#home-confirm-button').textContent=inChallenge?(overview?'返回挑戰總覽':'回到首頁'):selection?'回到選角':'回到首頁';
+ if(!inChallenge&&destination==='home'&&(!started||(!matchFinish&&!['active','paused','countdown'].includes(duel.status)))){showTitle();return;}
  homeReturnStatus=duel.status;if(duel.status==='active')pauseGame();
- stopVoice();clearHold();resetRestartConfirmation();homeRequested=true;$('#home-confirm').classList.remove('hidden');homeConfirmGate.arm();homeSelectGate.arm();$('#home-cancel').focus();
+ stopVoice();clearHold();resetRestartConfirmation();homeRequested=true;$('#home-confirm').classList.remove('hidden');homeConfirmGate.arm();$('#home-cancel').focus();
 }
 function cancelHomeConfirmation(){if(!homeRequested)return;const previous=homeReturnStatus;resetHomeConfirmation();if(previous==='active'&&!document.hidden&&document.hasFocus())resumeGame();else if(previous==='paused'){restartOpenGate?.arm();$('#resume').focus();}else $('#game').focus({preventScroll:true});}
-homeConfirmGate=bindFreshAction($('#home-confirm-button'),()=>homeRequested,()=>{resetHomeConfirmation();if(challengeRun)return returnToChallengeOverview();showTitle();});
-homeSelectGate=bindFreshAction($('#home-select'),()=>homeRequested,()=>{resetHomeConfirmation();showMenu();});
+homeConfirmGate=bindFreshAction($('#home-confirm-button'),()=>homeRequested,()=>{const destination=homeDestination;resetHomeConfirmation();if(challengeRun)return destination==='overview'?returnToChallengeOverview():returnToTitleHome();if(destination==='selection')showMenu();else showTitle();});
 $('#home-cancel').onclick=cancelHomeConfirmation;
 function pauseRestartAvailable(){return !challengeInputBlocked()&&!homeRequested&&duel.status==='paused'&&(gameMode==='battle'||(gameMode==='challenge'&&!!challengeRun));}
 function configurePauseRestart(){
@@ -427,8 +430,8 @@ $('#player-card').onclick=()=>chooseRosterSide('player');
 $('#opponent-card').onclick=()=>chooseRosterSide('opponent');
 $('#difficulty-easy').onclick=()=>chooseDifficulty('easy');
 $('#difficulty-normal').onclick=()=>chooseDifficulty('normal');
-$('#home').onclick=requestHome;
-$('#start').onclick=()=>{if(duel.status==='menu')startGame();};bindResultAction($('#next-round'),nextRound);bindResultAction($('#replay'),startGame);bindResultAction($('#reselect'),()=>challengeRun?openPreparation({intent:challengeAfterResult&&duel.winner==='player'?'boundary':'retry'}):showMenu());$('#leave').onclick=()=>{if(challengeRun){requestHome();return;}requestHome();if(homeRequested)$('#home-confirm-title').textContent='要回選角嗎？';};$('#resume').onclick=resumeGame;$('#pause').onclick=()=>duel.status==='paused'?resumeGame():pauseGame();
+$('#home').onclick=()=>requestHome('home');
+$('#start').onclick=()=>{if(duel.status==='menu')startGame();};bindResultAction($('#next-round'),nextRound);bindResultAction($('#replay'),startGame);bindResultAction($('#reselect'),()=>challengeRun?openPreparation({intent:challengeAfterResult&&duel.winner==='player'?'boundary':'retry'}):showMenu());$('#leave').onclick=()=>requestHome(challengeRun?'overview':'selection');$('#resume').onclick=resumeGame;$('#pause').onclick=()=>duel.status==='paused'?resumeGame():pauseGame();
 $('#sound').onclick=()=>{settingsStore.update({masterMuted:!settingsStore.get().masterMuted});if(sound&&hasEntered){primeVoice();sfx('start');}renderEntryAudio();};
 $('#help').onclick=()=>{if(challengeInputBlocked())return;if((duel.status==='title'&&!scene)||homeRequested)return;pauseGame();stopVoice();clearHold();moveDemo?.stop();settingsUI?.open(selected);$('#help-dialog').showModal();syncBattleSurface();syncMusic();};$('#close-help').onclick=()=>$('#help-dialog').close();$('#help-dialog').addEventListener('click',e=>{if(e.target===$('#help-dialog')&&e.offsetX<0)$('#help-dialog').close();});
 $('.brand').onclick=e=>{e.preventDefault();requestHome();};
@@ -639,6 +642,14 @@ async function returnToChallengeOverview(){
  }finally{challengeActionBusy=false;openChallenge();}
 }
 
+async function returnToTitleHome(){
+ if(challengeInputBlocked()){if(challengeSaveBlocked)showRootRecovery();return false;}
+ const run=challengeRun;if(run)pauseGame();
+ challengeActionBusy=true;
+ try{await challengeOperations;await run?.flush();const saved=profileProgress.get();if(!profileProgress.testMode&&(saved.dirty||saved.readOnly||saved.reason||!saved.persisted)){showChallengeSaveFailure({reason:saved.reason??'unsaved-progress'},()=>returnToTitleHome());return false;}
+  showTitle();restoreProfileSelection();return true;
+ }finally{challengeActionBusy=false;}
+}
 function enqueueChallenge(run,operation){
  challengeQueuedOperations++;syncChallengeSaveSlot();const task=challengeOperations.then(operation);
  challengeOperations=task.catch(error=>{if(run===challengeRun)showChallengeSaveFailure({reason:error.message});}).finally(()=>{challengeQueuedOperations--;syncChallengeSaveSlot();});return challengeOperations;
@@ -705,7 +716,7 @@ $('#challenge-save-slot').onclick=()=>{if(challengeActionBusy)return;if(!challen
 $('#mode-challenge').disabled=false;$('#mode-challenge').innerHTML='挑戰';$('#mode-challenge').onclick=openChallenge;
 
 const keys={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowDown:'crouch',KeyS:'crouch',KeyK:'guard',ShiftLeft:'guard',KeyJ:'punch',ArrowUp:'jump',KeyW:'jump',Space:'jump',KeyU:'special1',KeyI:'special2',KeyO:'special3',KeyL:'rally',KeyH:'assist'};
-window.addEventListener('keydown',e=>{if(challengeInputBlocked()){if(e.code==='Escape')e.preventDefault();return;}if(homeRequested&&e.code==='Tab'){e.preventDefault();const items=[$('#home-cancel'),$('#home-confirm-button'),$('#home-select')].filter(e=>!e.hidden),index=items.indexOf(document.activeElement);items[(index+(e.shiftKey?items.length-1:1)+items.length)%items.length].focus();return;}if(e.target.closest('dialog,select,[data-game-select],.game-select-menu,#result')||['INPUT','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='Escape'){if(e.repeat)return;if(homeRequested){e.preventDefault();cancelHomeConfirmation();return;}if(restartRequested){e.preventDefault();cancelRestartConfirmation();return;}if(duel.status==='active')pauseGame();else if(duel.status==='paused')resumeGame();return;}const action=challengeKeyAction(e.code,keys,!!duel.depthMode);if(!action||!started)return;e.preventDefault();if(e.repeat||duel.status!=='active'||viewportUI?.ready===false)return;if(['left','right','up','down','guard','punch','crouch'].includes(action)){const alreadyHeld=!!hold[action];heldKeys.add(e.code);syncHold(action);if(action==='punch'&&!alreadyHeld){duel.press('punch');punchWait=.33;}}else{heldKeys.add(e.code);syncActionKeyFeedback();duel.press(action);}});
+window.addEventListener('keydown',e=>{if(challengeInputBlocked()){if(e.code==='Escape')e.preventDefault();return;}if(homeRequested&&e.code==='Tab'){e.preventDefault();const items=[$('#home-cancel'),$('#home-confirm-button')].filter(e=>!e.hidden),index=items.indexOf(document.activeElement);items[(index+(e.shiftKey?items.length-1:1)+items.length)%items.length].focus();return;}if(e.target.closest('dialog,select,[data-game-select],.game-select-menu,#result')||['INPUT','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='Escape'){if(e.repeat)return;if(homeRequested){e.preventDefault();cancelHomeConfirmation();return;}if(restartRequested){e.preventDefault();cancelRestartConfirmation();return;}if(duel.status==='active')pauseGame();else if(duel.status==='paused')resumeGame();return;}const action=challengeKeyAction(e.code,keys,!!duel.depthMode);if(!action||!started)return;e.preventDefault();if(e.repeat||duel.status!=='active'||viewportUI?.ready===false)return;if(['left','right','up','down','guard','punch','crouch'].includes(action)){const alreadyHeld=!!hold[action];heldKeys.add(e.code);syncHold(action);if(action==='punch'&&!alreadyHeld){duel.press('punch');punchWait=.33;}}else{heldKeys.add(e.code);syncActionKeyFeedback();duel.press(action);}});
 window.addEventListener('keyup',e=>{const action=challengeKeyAction(e.code,keys,!!duel.depthMode);if(action){heldKeys.delete(e.code);syncHold(action);syncActionKeyFeedback();}});
 mountGameplaySelectionGuard({root:document,ownsTarget:t=>!!t?.closest?.('.cabinet,.control-deck,.challenge-story,.challenge-dialog')});
 mountSpecialNameFit({document});

@@ -59,19 +59,22 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   navigating=true;try{navigate(result.url);return true;}catch{navigating=false;menuStatus.textContent=state.textContent='未能切換章節，進度已保留，請重新接續。';return false;}
  }
  function exitState(){const current=chapter??getPlayable();if(current)return current.view();const saved=router?.enabled?router.view():recovery?.get();return saved?{...saved,campaignChapterId:chapterId,mode:'menu',blocked:!!saved.readOnly}:null;}
- function returnOverview({confirmed=false}={}){
+ function returnToDestination(destination,{confirmed=false}={}){
   if(busy||preparationBusy||navigating||leaving||!pageActive)return Promise.resolve(false);
-  const current=chapter??getPlayable(),s=current?.view(),unfinished=s&&(['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon);
-  if(!confirmed&&unfinished&&!window.confirm('返回挑戰總覽？本段尚未完成，下次會從本路段檢查點重新開始；整場頭目戰的比分歸零，已保存 XP 保留。'))return Promise.resolve(false);
-  leaving=true;pauseForUI('overview');if(s&&['route','battle'].includes(s.mode)&&!s.paused)current.setPaused(true,s.token);
+  const overview=destination==='overview',current=chapter??getPlayable(),s=current?.view(),unfinished=s&&(['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon);
+  const confirmation=overview?'返回挑戰總覽？本段尚未完成，下次會從本路段檢查點重新開始；整場頭目戰的比分歸零，已保存 XP 保留。':'回到首頁？本段進度會先保存，之後可從首頁的挑戰總覽接續。';
+  if(!confirmed&&unfinished&&!window.confirm(confirmation))return Promise.resolve(false);
+  leaving=true;pauseForUI(destination);if(s&&['route','battle'].includes(s.mode)&&!s.paused)current.setPaused(true,s.token);
   idle=Promise.resolve().then(async()=>{
    await current?.flush?.();
    if(!pageActive||preparationBusy||navigating)return false;
-   if(router?.enabled){const saved=router.view(),live=current?.view();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy||!saved.canNavigate||live&&(!live.persisted||live.blocked||live.busy||!live.canNavigate)){menuStatus.textContent=state.textContent='尚未確認保存，請先重試保存或匯出備份，再回挑戰總覽。';return false;}}
+   if(router?.enabled){const saved=router.view(),live=current?.view();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy||!saved.canNavigate||live&&(!live.persisted||live.blocked||live.busy||!live.canNavigate)){menuStatus.textContent=state.textContent=`尚未確認保存，請先重試保存或匯出備份，再${overview?'回挑戰總覽':'回首頁'}。`;return false;}}
    if(recovery){const saved=recovery.get();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy)return false;}
-   navigating=true;try{navigate(!testPreview?'../../?challengeOverview=1':'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent='未能返回挑戰總覽，進度已保留，請再試一次。';return false;}
+   navigating=true;try{navigate(!testPreview?(overview?'../../?challengeOverview=1':'../../'):'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent=overview?'未能返回挑戰總覽，進度已保留，請再試一次。':'未能返回首頁，進度已保留，請再試一次。';return false;}
   }).catch(()=>{menuStatus.textContent=state.textContent='尚未確認保存，未離開本頁。請重試保存或匯出備份。';return false;}).finally(()=>{leaving=false;render();});return idle;
  }
+ function returnOverview(options){return returnToDestination('overview',options);}
+ function returnHome(options){return returnToDestination('home',options);}
  document.addEventListener('click',event=>{
   if(event.target.closest?.('#continuation-home-link,#campaign-return-home')&&!testPreview){event.preventDefault();returnOverview();return;}
   if(event.target.closest?.('#campaign-next,#continuation-choice-link')&&router?.enabled){event.preventDefault();navigateSaved();}
@@ -165,7 +168,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   if(!launch.accepted){label.hidden=resume.hidden=false;if(launch.reason!=='no-handoff')menuStatus.textContent=reasonText(launch.reason);return idle;}
   setGameSelectValue(select,launch.handoff.profileId);return job(()=>startContinuation(launch.handoff));
  }
- return {whenIdle:()=>idle,render,openPreparation,openRecovery,returnOverview,get exitState(){return exitState();},get operationBusy(){return busy||preparationBusy||leaving||!!chapter?.view().busy;},get busy(){return busy||preparationBusy||leaving||!!chapter?.view().busy||!!preparation?.isOpen;},assetsReady,assetsFailed(){if(!testPreview)menuStatus.textContent='章節素材載入失敗，請重新整理後再接續。已保存進度不變。';}};
+ return {whenIdle:()=>idle,render,openPreparation,openRecovery,returnOverview,returnHome,get exitState(){return exitState();},get operationBusy(){return busy||preparationBusy||leaving||!!chapter?.view().busy;},get busy(){return busy||preparationBusy||leaving||!!chapter?.view().busy||!!preparation?.isOpen;},assetsReady,assetsFailed(){if(!testPreview)menuStatus.textContent='章節素材載入失敗，請重新整理後再接續。已保存進度不變。';}};
 }
 function completionCanLeave(state){return !!state.persisted&&!!state.canNavigate&&!state.busy&&!state.blocked;}
 export function renderContinuationChoice({document,state:s,chapterId}){

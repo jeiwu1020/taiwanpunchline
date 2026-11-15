@@ -29,6 +29,7 @@ body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .t
 #trial-app :is(#pause-panel,#result-panel) .paper .menu-action:active{transform:translate(1px,2px);box-shadow:2px 2px 0 #152c34}
 #trial-app #pause-panel #restart-match{background:#237363;color:#fff6df}
 #trial-app #pause-panel #leave,#trial-app #result-panel #result-home{background:#315f88;color:#fff6df}
+#trial-app #pause-panel #pause-home.menu-action{background:#315f88;color:#fff6df}
 #trial-app #restart-confirm{margin:10px 0 0;padding:9px;border:2px dashed #7d4b30;border-radius:6px;background:#ffebbd}
 #trial-app #restart-confirm[hidden]{display:none!important}
 #trial-app #restart-confirm p{margin:0 0 8px;font-size:13px;line-height:1.5}
@@ -36,13 +37,6 @@ body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .t
 #trial-app .restart-actions button{min-height:40px;padding:7px 12px;font-size:13px;border:2px solid #152c34;border-radius:5px;background:#fff6df;color:#152c34}
 #trial-app #restart-confirm-button{background:#f5c070}
 #chapter-action-status:empty{display:none}
-#trial-app .chapter-pause-extras{margin-top:16px;padding-top:10px;border-top:1px solid #b9b39f;text-align:left}
-#trial-app .chapter-pause-extras summary{font-size:13px;line-height:1.5;text-align:center;font-weight:700;cursor:pointer;min-height:32px}
-#trial-app .chapter-pause-extras .choose{gap:6px;margin:9px 0}
-#trial-app .chapter-pause-extras .choose button{flex:0 1 96px;min-width:0;font-size:13px;padding:4px}
-#trial-app .chapter-pause-extras .choose img{width:52px;height:52px}
-#trial-app .chapter-secondary-actions{display:flex;gap:8px;justify-content:center}
-#trial-app .chapter-secondary-actions button{min-height:40px;padding:6px 10px;font-size:13px}
 #trial-app .fiction-note{display:block;font-size:9px;opacity:.6;margin-top:15px}
 #trial-app #result-panel .eyebrow{font-size:10px;letter-spacing:2px;background:#152c34;transform:rotate(-2deg);padding:3px 8px}
 .chapter-home-confirm.paper:not([open]){display:none}
@@ -101,14 +95,11 @@ body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#re
 #trial-app :is(.card,.story-card) [hidden]{display:none!important}
 /* Short-screen menus keep primary and secondary actions on one paper. */
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper{display:grid;grid-template-columns:1fr 1fr;gap:5px 9px;width:520px;padding:10px 14px;transform:none}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper>:is(small,h2,p,#resume,#restart-confirm,.chapter-pause-extras,.chapter-secondary-actions){grid-column:1/-1}
+body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper>:is(small,h2,p,#resume,#restart-confirm){grid-column:1/-1}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper>small{font-size:10px}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper h2{font-size:24px;margin:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .paper p{margin:0;font-size:11px}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .menu-action{width:100%;margin:0;height:40px;min-height:40px;font-size:14px}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras{margin:0;padding:0;border:0}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-pause-extras summary{min-height:24px;line-height:24px;font-size:12px}
-body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel .chapter-secondary-actions{margin:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #campaign-preparation-actions{grid-column:1/-1;display:flex;gap:8px;justify-content:center;margin:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #campaign-preparation-actions button{flex:1;min-width:0;min-height:40px;padding:6px;font-size:13px;margin:0}
 body[data-compact="true"][data-layout="landscape"] #trial-app #pause-panel #restart-match{grid-column:1/-1}

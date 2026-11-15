@@ -155,5 +155,5 @@
 /* V60: consistent semantic colors across the two comic menus. */
 #home-confirm #home-cancel,#pause-screen #resume{background:#bc3f31;color:#fff6df}
 #home-confirm #home-confirm-button{background:#e5ae46;color:#152c34}
-#home-confirm #home-select,#pause-screen #leave,#result #reselect{background:#315f88;color:#fff6df}
+#pause-screen #leave,#result #reselect{background:#315f88;color:#fff6df}
 #pause-screen #restart-match{background:#237363;color:#fff6df}
