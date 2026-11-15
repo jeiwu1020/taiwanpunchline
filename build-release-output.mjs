@@ -18,7 +18,12 @@ for(const item of plan.exclude)if(hash(join(source,item.path))!==item.sha256)thr
 for(const item of plan.equivalentAliases)if(hash(join(source,item.originalDistPath))!==item.sha256||hash(join(source,item.canonicalDistPath))!==item.sha256)throw Error('Shared images differ: '+item.originalDistPath);
 for(const item of plan.previouslyMissingCharacterAliases)if(hash(join(source,item.canonicalDistPath))!==item.sha256)throw Error('Existing character art changed: '+item.canonicalDistPath);
 const excluded=new Set(plan.exclude.map(x=>x.path));
-const selected=files(source).filter(p=>!excluded.has(relative(source,p))&&(development||playerReleasePath(relative(source,p))));
+// Release policy paths are repository-style URLs (forward slashes), while
+// Node's relative() returns backslashes on Windows. Normalize before both the
+// exclusion plan and production allowlist so Windows builds publish the same
+// HTML entry points as Linux builds.
+const releasePath=p=>relative(source,p).replaceAll('\\','/');
+const selected=files(source).filter(p=>!excluded.has(releasePath(p))&&(development||playerReleasePath(releasePath(p))));
 const manifest=Object.fromEntries(selected.map(p=>[relative(source,p),relative(source,p)==='release-features.mjs'?createHash('sha256').update(featureBytes).digest('hex'):hash(p)]));
 if(existsSync(output)){
  const current=files(output),same=current.length===selected.length&&current.every(p=>manifest[relative(output,p)]===hash(p));
