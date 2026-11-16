@@ -101,7 +101,7 @@ async function returnOverview(){
  if(booting||preparationBusy||view()?.busy)return false;pauseForUI();await chapter?.flush();const s=view();
  if(s&&!s.canNavigate){openRecovery();return false;}
  if(progress&&!progress.verifyPersistedReceipt({...progress.get(),testMode:false})){openRecovery();$('#finale-save-status').textContent='存檔已在其他頁面變更。請保留備份後重新接續。';return false;}
- media.stop();window.location.assign('../../?challengeOverview=1');return true;
+ media.stop();window.location.assign('../../challenge-overview/');return true;
 }
 function openPreparation(readOnly=false){
  if(!chapter||preparationBusy||view().busy)return false;pauseForUI();

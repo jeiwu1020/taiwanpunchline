@@ -1,7 +1,7 @@
 /* V56: each team keeps its two tickets under the matching main portrait.
    All controls retain at least a 44px hit target. */
 .app #menu{grid-template-rows:auto 46px minmax(136px,.85fr) minmax(128px,1fr) 46px;gap:9px;padding:12px 22px;align-content:stretch}
-.mode-strip{width:min(100%,940px);justify-self:center;display:flex;gap:14px;align-items:center;justify-content:space-between;min-width:0}
+ .mode-strip{width:min(100%,940px);justify-self:center;display:flex;gap:14px;align-items:center;justify-content:space-between;min-width:0}
 .mode-picker,.mode-options{display:flex;gap:5px;align-items:center;min-width:0}
 .mode-picker button,.mode-options button,.mode-options select{min-height:44px;min-width:44px;border:2px solid #719096;background:#1b3c44;color:#fff1d1;border-radius:6px;padding:5px 12px;font-size:14px;font-weight:800}
 .mode-picker button[aria-pressed="true"]{background:#ffcd76;color:#17313a;border-color:#fff1bb;box-shadow:2px 2px 0 #081c23;transform:rotate(-1deg)}
@@ -9,6 +9,8 @@
 .mode-picker button:disabled{opacity:.48;cursor:not-allowed}.mode-picker small{display:inline;font-size:10px}
 .mode-options label{font-size:13px;font-weight:800;white-space:nowrap}.mode-options span{font-size:11px;color:#e5d5b1}
 .mode-options[hidden]{display:none}
+.challenge-unlock-hint{flex:none;margin:0;color:#ffe5a7;font-size:11px;font-weight:800;text-align:center;line-height:1.2}
+.challenge-unlock-hint[hidden]{display:none}
 .app #menu .matchup{max-height:224px;align-items:stretch}
 .matchup-team{display:grid;grid-template-rows:minmax(44px,1fr) 44px;gap:6px;min-width:0;min-height:0;height:100%}
 .app #menu .matchup-vs{top:calc((100% - 50px)/2)}.app #menu .matchup-card img{max-height:148px}

@@ -269,7 +269,7 @@ function syncRoster(){
 function initializeRoster(){
  $('#roster-grid').innerHTML=Object.entries(CAST).map(([id,cast])=>`<button type="button" class="roster-option" id="roster-${id}" data-character="${id}" aria-pressed="false" style="--portrait-color:${cast.colorCSS}"><span class="roster-badge" id="roster-badge-${id}"></span><img src="${cast.portrait}" alt="" draggable="false"><strong>${cast.name}</strong></button>`).join('');
  for(const id of Object.keys(CAST))$('#roster-'+id).onclick=()=>chooseCharacter(id);
- rosterReady=true;if(new URL(window.location.href).searchParams.get('challengeOverview')==='1')window.setTimeout(()=>openChallenge(),0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
+ rosterReady=true;const launchQuery=new URL(window.location.href).searchParams;if(launchQuery.get('challengeLaunch')==='1'){const characterId=Object.hasOwn(CAST,launchQuery.get('characterId')||'')&&profileProgress.canUse(launchQuery.get('characterId'))?launchQuery.get('characterId'):undefined,helperId=Object.hasOwn(CAST,launchQuery.get('helperId')||'')&&profileProgress.canUse(launchQuery.get('helperId'))?launchQuery.get('helperId'):undefined,intent=['start','resume'].includes(launchQuery.get('intent'))?launchQuery.get('intent'):'start';window.setTimeout(()=>openPreparation({intent,characterId,entry:{characterId,helperId,replay:launchQuery.get('replay')==='1'}}),0);}else if(launchQuery.get('entryMenu')==='1'){const mode=launchQuery.get('mode');if(['battle','training'].includes(mode))gameMode=mode;window.setTimeout(()=>showMenu(),0);}else if(launchQuery.get('challengeOverview')==='1')window.setTimeout(()=>openChallenge(),0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
  syncRoster();setupMoves();
 }
 function chooseRosterSide(side){if(!rosterReady||duel.status!=='menu'||!ROSTER_TARGETS.includes(side))return;rosterSide=side;syncRoster();}
@@ -299,6 +299,7 @@ function startRound(){
 function pauseGame(){if(challengeActionBusy||challengeEntryPending||challengeSceneHandoff)challengeRetainPause=true;if(duel.status!=='active')return;stopEffects();stopVoice();clearHold();duel.status='paused';syncBattleSurface();$('#pause-screen').classList.remove('hidden');$('#pause').textContent='▶ 繼續';$('#training-pause-options').hidden=gameMode!=='training';$('#pause-note').textContent=gameMode==='training'?'自由試招，調整後繼續。':'切換視窗會自動暫停。';setGameSelectValue($('#training-live-behavior'),trainingBehavior);$('#training-infinite').checked=trainingInfinite;$('#training-repeat').checked=trainingRepeat;trainingRestartGate?.arm();resetRestartConfirmation();configurePauseRestart();restartOpenGate?.arm();$('#leave').textContent=challengeRun?'回挑戰總覽':'回到選角';if(challengeRun)mountRootChallengeActions();syncChallengeSaveSlot();}
 function resumeGame(){if(challengeInputBlocked()||homeRequested||duel.status!=='paused')return;primeVoice(true);duel.status='active';syncBattleSurface();$('#pause-screen').classList.add('hidden');trainingRestartGate?.cancel();resetRestartConfirmation();$('#pause').textContent=gameMode==='training'?'Ⅱ 練習設定':'Ⅱ 暫停';$('#game').focus({preventScroll:true});}
 function syncModeHUD(){
+ const unlockHint=$('#challenge-unlock-hint');if(unlockHint)unlockHint.hidden=gameMode!=='battle';
  $('#reselect').textContent=challengeRun?(challengeAfterResult&&duel.winner==='player'?'整備下一段':'整備後重試'):'回到選角';
  if(scene)scene.hudCache='';
  const score=matchSeries?.score||{player:0,enemy:0};
@@ -639,8 +640,8 @@ async function returnToChallengeOverview(){
  challengeActionBusy=true;
  try{await challengeOperations;await run?.flush();const saved=profileProgress.get();if(!profileProgress.testMode&&(saved.dirty||saved.readOnly||saved.reason||!saved.persisted)){showChallengeSaveFailure({reason:saved.reason??'unsaved-progress'},()=>returnToChallengeOverview());return false;}
   if(profileProgress.testMode||window.__quickViewIsolated){showTitle();restoreProfileSelection();openChallenge();return true;}
-  showTitle();restoreProfileSelection();return true;
- }finally{challengeActionBusy=false;if(!challengeSaveBlocked&&!profileProgress.testMode&&!window.__quickViewIsolated)openChallenge();}
+  navigating=true;window.location.assign(new URL('challenge-overview/',window.location.href).href);return true;
+ }finally{challengeActionBusy=false;if(!navigating&&!challengeSaveBlocked&&!profileProgress.testMode&&!window.__quickViewIsolated)openChallenge();}
 }
 
 async function returnToTitleHome(){

@@ -216,7 +216,8 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const standing={left:-132,right:132,top:-300,bottom:28};
  const bodies=actors.map(actor=>{const y=finite(actor.y,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
  const left=Math.min(...actors.map(actor=>actor.x)),right=Math.max(...actors.map(actor=>actor.x)),pairCenter=(left+right)/2;
- const maximum=Math.min(1.25,width/520,height/480),wantedAt=z=>({x:width/2-pairCenter*z,y:height*.84-pose.displayY*z});
+ const subjectScreenY=clamp(finite(options.subjectScreenY,.84),.55,.9);
+ const maximum=Math.min(1.25,width/520,height/480),wantedAt=z=>({x:width/2-pairCenter*z,y:height*subjectScreenY-pose.displayY*z});
  const fitAt=z=>placeAtScale(bodies,z,rect,occlusions,wantedAt(z));
  let fitZoom=maximum,fit=fitAt(fitZoom);
  if(!fit){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(fitAt(mid))lo=mid;else hi=mid;}fitZoom=Math.max(1e-6,lo);fit=fitAt(fitZoom);}
@@ -238,7 +239,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  // Zooming out is immediate only when required for pair safety. Zooming back
  // in eases to avoid visible scale pulses while the fighters exchange space.
  const easedZoom=history?previous.zoom+(target-previous.zoom)*ease:target,zoom=mode==='stable'?Math.max(1e-6,easedZoom):Math.min(fitZoom,Math.max(1e-6,easedZoom));
- let centerX=pairCenter,centerY=pose.displayY+(height/2-height*.84)/zoom;
+ let centerX=pairCenter,centerY=pose.displayY+(height/2-height*subjectScreenY)/zoom;
  if(history){
   centerY=previous.y;
   if(mode==='stable')centerX=previous.x;
@@ -261,7 +262,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  }else{position=placeAtScale(bodies,zoom,rect,occlusions,wanted);if(!position&&mode==='stable')position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);safetyFit=!!position;}
  const x=position?(width/2-position.x)/zoom:centerX,y=position?(height/2-position.y)/zoom:centerY;
  return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
-  controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*.84},pose,pairCenter}};
+  controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*subjectScreenY},pose,pairCenter}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;

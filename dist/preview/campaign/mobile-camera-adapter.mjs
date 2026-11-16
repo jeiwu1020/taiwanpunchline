@@ -1,5 +1,5 @@
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
-import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=camera-continuity-20261116-r2';
+import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=campaign-framing-20261116-r3';
 import {stageInsets} from '../../combat-presentation.mjs?v=camera-continuity-20261116-r2';
 // The chapter renderer supplies its preferred composition. Keep that exact
 // desktop size/placement when safe, and apply the same camera in every profile.
@@ -22,7 +22,8 @@ export function createMobileCameraAdapter(){
   const inset=stageInsets(width,height,options);
   const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
   const plan=challengeCameraPlan(cameraWorld,{route,previous,delta});
-  const frame=route?fitChallengeCamera(preferred,plan.subjects,previous,delta,{...safety,cameraMode:frozen?'stable':camera,paused,cameraPlan:plan}):controlledCombatCameraFrame(width,height,[cameraWorld.player,cameraWorld.enemy],previous,delta,{...safety,cameraMode:camera,paused});
+  const portraitBattleY=options.touch&&options.portrait ? 0.69 : undefined;
+  const frame=route?fitChallengeCamera(preferred,plan.subjects,previous,delta,{...safety,cameraMode:frozen?'stable':camera,paused,cameraPlan:plan}):controlledCombatCameraFrame(width,height,[cameraWorld.player,cameraWorld.enemy],previous,delta,{...safety,cameraMode:camera,paused,subjectScreenY:portraitBattleY});
   previous=frame;lastWorld=world;
   lastResult={...legacyFrame,presentation,backdropScene:world,backdropZoom:Math.max(legacyFrame.zoom,frame.backdropZoom||frame.zoom,lastResult?.cameraFrame?.width===width&&lastResult?.cameraFrame?.height===height?lastResult.backdropZoom||0:0),zoom:frame.zoom,left:frame.x-width/(2*frame.zoom),base:height/2+(430-frame.y)*frame.zoom,cameraFrame:frame};
   return lastResult;

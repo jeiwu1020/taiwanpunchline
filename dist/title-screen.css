@@ -53,6 +53,8 @@
 .title-disclaimer{margin:0;padding:7px 10px;border-top:1px solid #977b4766;border-bottom:1px solid #977b4766;background:#fff9e8d9;color:#354a4b;font-size:12px;line-height:1.5;font-weight:500}
 .title-audio-status{margin:5px 0 0;color:#425c5c;font-size:12px;line-height:1.5}
 .title-audio-status[hidden]{display:none}
+.mobile-browser-note{display:none;margin:5px 0 0;color:#425c5c;font-size:12px;line-height:1.4}
+@media(max-width:760px),(pointer:coarse){.mobile-browser-note{display:block}}
 
 /* Narrow posters keep the same 3 / 2 + Start / 2 arrangement. */
 @container(max-width:480px){

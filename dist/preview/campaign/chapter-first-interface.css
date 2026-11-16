@@ -20,13 +20,13 @@ body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header{in
 body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .brand{font-size:15px;gap:6px}
 body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .brand-icon{font-size:18px}
 body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .toolbar button{font-size:11px;padding:4px 8px}
-#trial-app>:is(#pause-panel,#result-panel){inset:0;padding:48px 8px 8px;display:flex;align-items:center;justify-content:center;background:#112a3226;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-#trial-app>:is(#pause-panel,#result-panel)[hidden]{display:none!important}
-#trial-app :is(#pause-panel,#result-panel) .paper,.chapter-home-confirm.paper{--ink:#152c34;--paper:#fff6df;display:block;width:420px;max-width:90%;max-height:100%;padding:24px;text-align:center;color:var(--ink);background:var(--paper);background-image:none;border:3px solid var(--ink);box-shadow:7px 7px 0 #091c23;transform:rotate(-1deg);border-radius:5px;overflow:auto}
-#trial-app :is(#pause-panel,#result-panel) .paper h2,.chapter-home-confirm.paper h2{font-size:37px;line-height:1.15;margin:10px 0;padding:0;border:0;letter-spacing:normal}
-#trial-app :is(#pause-panel,#result-panel) .paper p,.chapter-home-confirm.paper p{font-size:14px;line-height:1.6;margin:8px 0}
-#trial-app :is(#pause-panel,#result-panel) .paper .menu-action,.chapter-home-confirm .menu-action{display:block;box-sizing:border-box;width:184px;max-width:100%;height:48px;min-height:48px;margin:10px auto 0;padding:6px 16px;background:#bc3f31;color:#fff6df;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-size:16px;font-weight:900;line-height:1.2;white-space:nowrap}
-#trial-app :is(#pause-panel,#result-panel) .paper .menu-action:active{transform:translate(1px,2px);box-shadow:2px 2px 0 #152c34}
+#trial-app>:is(#pause-panel,#result-panel,#choice-panel){inset:0;padding:48px 8px 8px;display:flex;align-items:center;justify-content:center;background:#112a3226;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#trial-app>:is(#pause-panel,#result-panel,#choice-panel)[hidden]{display:none!important}
+#trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper,.chapter-home-confirm.paper{--ink:#152c34;--paper:#fff6df;display:block;width:420px;max-width:90%;max-height:100%;padding:24px;text-align:center;color:var(--ink);background:var(--paper);background-image:none;border:3px solid var(--ink);box-shadow:7px 7px 0 #091c23;transform:rotate(-1deg);border-radius:5px;overflow:auto}
+#trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper h2,.chapter-home-confirm.paper h2{font-size:37px;line-height:1.15;margin:10px 0;padding:0;border:0;letter-spacing:normal}
+#trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper p,.chapter-home-confirm.paper p{font-size:14px;line-height:1.6;margin:8px 0}
+#trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper .menu-action,.chapter-home-confirm .menu-action{display:block;box-sizing:border-box;width:184px;max-width:100%;height:48px;min-height:48px;margin:10px auto 0;padding:6px 16px;background:#bc3f31;color:#fff6df;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-size:16px;font-weight:900;line-height:1.2;white-space:nowrap}
+#trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper .menu-action:active{transform:translate(1px,2px);box-shadow:2px 2px 0 #152c34}
 #trial-app #pause-panel #restart-match{background:#237363;color:#fff6df}
 #trial-app #pause-panel #leave{background:#e5ae46;color:#152c34}
 #trial-app #pause-panel #campaign-growth{background:#e5ae46;color:#152c34}
@@ -40,7 +40,7 @@ body[data-native-landscape="true"][data-depth-route="true"] #trial-app>header .t
 #trial-app #restart-confirm-button{background:#f5c070}
 #chapter-action-status:empty{display:none}
 #trial-app .fiction-note{display:block;font-size:9px;opacity:.6;margin-top:15px}
-#trial-app #result-panel .eyebrow{font-size:10px;letter-spacing:2px;background:#152c34;transform:rotate(-2deg);padding:3px 8px}
+#trial-app :is(#result-panel,#choice-panel) .eyebrow{font-size:10px;letter-spacing:2px;background:#152c34;transform:rotate(-2deg);padding:3px 8px}
 .chapter-home-confirm.paper:not([open]){display:none}
 .chapter-home-confirm.paper{position:fixed;inset:auto;left:var(--chapter-center-x);top:var(--chapter-center-y);transform:translate(-50%,-50%);max-height:calc(var(--chapter-height) - 20px)}
 .chapter-home-confirm.paper h2{font-size:28px}
@@ -94,13 +94,13 @@ body[data-layout="portrait"] #trial-app .story-copy .primary{font-size:16px}
 body[data-compact="true"] #trial-app #story-panel .story-copy{padding:10px 12px;gap:10px}
 body[data-compact="true"] #trial-app .story-copy h2{font-size:23px}
 body[data-compact="true"] #trial-app .story-copy p{font-size:16px}
-body[data-touch="true"][data-layout="portrait"] #trial-app>:is(#pause-panel,#result-panel){padding-top:70px}
-body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper{width:340px;padding:19px}
-body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper h2{font-size:30px}
-body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel) .paper p{font-size:12px}
-body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper{width:400px;padding:10px;transform:none;max-height:96%}
-body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper h2{font-size:25px;margin:4px}
-body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel) .paper p{font-size:11px;margin:4px}
+body[data-touch="true"][data-layout="portrait"] #trial-app>:is(#pause-panel,#result-panel,#choice-panel){padding-top:70px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper{width:340px;padding:19px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper h2{font-size:30px}
+body[data-touch="true"][data-layout="portrait"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper p{font-size:12px}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper{width:400px;padding:10px;transform:none;max-height:96%}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper h2{font-size:25px;margin:4px}
+body[data-touch="true"][data-layout="landscape"] #trial-app :is(#pause-panel,#result-panel,#choice-panel) .paper p{font-size:11px;margin:4px}
 /* Explicit app host keeps enhanced selectors inside the same rotated surface. */
 #trial-app>.game-select-menu{z-index:100}
 #trial-app .game-select .game-select-trigger{max-width:100%}
