@@ -8,7 +8,18 @@ let shared={};try{shared=await import('../dist/challenge-camera.mjs');}catch(err
 const actor=(x,y=430,depth=0)=>({x,y,depth,hp:100});
 const bounds=(f,a)=>({left:f.width/2+(a.x-(f.controlOverlay==='soft'||f.playerCloseCamera?132:130)-f.x)*f.zoom,right:f.width/2+(a.x+(f.controlOverlay==='soft'||f.playerCloseCamera?132:130)-f.x)*f.zoom,top:f.height/2+(a.y+(a.depth||0)*.65-300-f.y)*f.zoom,bottom:f.height/2+(a.y+(a.depth||0)*.65+28-f.y)*f.zoom});
 const overlap=(a,b)=>a.left<b.right-1e-6&&a.right>b.left+1e-6&&a.top<b.bottom-1e-6&&a.bottom>b.top+1e-6;
-function fits(f,actors,safeRect,occlusions,close=false){assert.equal(!!f.playerCloseCamera,close,'only explicitly selected phone street profiles own close framing');if(close)assert.deepEqual(f.playerCloseCamera.pose,{x:actors[0].x,displayY:actors[0].y+(actors[0].depth||0)*.65},'close pose is the actual controlled player');for(const a of close||f.playerFixedCamera?actors.slice(0,1):actors){const b=bounds(f,a);assert.ok(b.left>=safeRect.left-1e-5&&b.right<=safeRect.right+1e-5,'whole body proxy inside horizontal safe area');assert.ok(b.top>=safeRect.top-1e-5&&b.bottom<=safeRect.bottom+1e-5,'whole body proxy inside vertical safe area');for(const o of occlusions){const protectedBox=f.controlOverlay==='soft'&&o.kind==='control'?{...b,bottom:b.bottom-168*f.zoom}:b;assert.equal(overlap(protectedBox,o),false,`standing head/collar or full-body proxy avoids ${o.kind}`);}}}
+function fits(f,actors,safeRect,occlusions,close=false){
+ assert.equal(!!f.playerCloseCamera,close,'only explicitly selected phone street profiles own close framing');
+ if(close)assert.deepEqual(f.playerCloseCamera.pose,{x:actors[0].x,displayY:actors[0].y+(actors[0].depth||0)*.65},'close pose is the actual controlled player');
+ const protectedBounds=b=>f.controlOverlay==='soft'?{...b,bottom:b.bottom-168*f.zoom}:b;
+ const clears=b=>occlusions.every(o=>{
+  if(o.kind==='control'&&f.controlOverlay!=='soft')return true;
+  return !overlap(o.kind==='control'?protectedBounds(b):b,o);
+ });
+ const projected=actors.map(a=>bounds(f,a)),inside=b=>b.left>=safeRect.left-1e-5&&b.right<=safeRect.right+1e-5&&b.top>=safeRect.top-1e-5&&b.bottom<=safeRect.bottom+1e-5;
+ const pairSafe=projected.every(b=>inside(b)&&clears(b)),playerOnly=close||f.playerFixedCamera||f.challengeCameraMode==='stable'||!pairSafe;
+ for(const a of playerOnly?actors.slice(0,1):actors){const b=bounds(f,a);assert.ok(inside(b),'controlled fighter remains inside the measured safe area');for(const o of occlusions){if(o.kind==='control'&&f.controlOverlay!=='soft')continue;assert.equal(overlap(o.kind==='control'?protectedBounds(b):b,o),false,`standing head/collar or full-body proxy avoids ${o.kind}`);}}
+}
 function geometry(w,h){return {safeRect:{left:8,top:8,right:w-8,bottom:h-8},occlusions:[{kind:'hud',left:8,top:8,right:w-8,bottom:Math.min(120,h*.23)},{kind:'control',left:8,top:h-130,right:w*.27,bottom:h-8},{kind:'control',left:w*.65,top:h-154,right:w-8,bottom:h-8}]};}
 test('shared camera moves into upper blank space before reducing preferred character size',()=>{
  assert.equal(typeof shared.fitChallengeCamera,'function','shared safety camera is implemented');
@@ -26,7 +37,7 @@ test('street subjects exclude distant crowds/projectiles and include nearby thre
  assert.deepEqual(shared.challengeCameraSubjects(world,{route:true}),[p,near,helper]);
  assert.deepEqual(shared.challengeCameraSubjects(world,{route:false}),[p,near,helper]);
 });
-for(const [w,h,touch] of [[1280,720,false],[390,844,true],[844,390,true],[568,320,true],[320,568,true]])for(const mode of ['classic','stable'])test(`all chapter cameras enforce measured safety at ${w}x${h} ${mode}`,()=>{
+for(const [w,h,touch] of [[1280,720,false],[390,844,true],[844,390,true],[568,320,true],[320,568,true]])for(const mode of ['classic','stable'])test(`all chapter cameras keep the controlled player within measured safety at ${w}x${h} ${mode}`,()=>{
  const g=geometry(w,h),p=actor(436),enemy=actor(524),world={player:p,enemy,enemies:[enemy,actor(3300)],worldWidth:3600,assists:[]},opts={...g,touch,portrait:w<h,nativeLandscape:w>h,camera:mode,cameraMode:mode};
  let main=null,route=null,laterRoute=null,laterBoss=null;const adapterRoute=createMobileCameraAdapter(),adapterBoss=createMobileCameraAdapter();
  for(const [x,y,depth] of [[524,430,0],[860,430,0],[524,53,100],[524,-82,-90],[524,430,0]]){
@@ -64,13 +75,13 @@ test('main chapter tries resting character scale before zooming for a jump',()=>
   const rest=frame();p.y=160;const jump=frame();assert.equal(jump.zoom,rest.zoom,'free upper area absorbs this jump at preferred scale');fits(jump,[p,enemy],g.safeRect,g.occlusions,route);
  }
 });
-test('rising velocity anticipates safety without an abrupt first-frame zoom jump',async()=>{
+test('rising velocity keeps stable player framing fixed and dynamic framing safe',async()=>{
  const {Duel}=await import('../dist/core.mjs');
  for(const mode of ['classic','stable'])for(const constrained of [false,true]){
   const duel=new Duel('wang','easy',()=>.2,'han',{mode:'training',trainingBehavior:'stand'});duel.player.x=430;duel.enemy.x=580;duel.nextItemAt=Infinity;
   const options={...(constrained?{safeRect:{left:0,top:110,right:844,bottom:324},occlusions:[]}:geometry(844,390)),touch:true,portrait:false,nativeLandscape:true,cameraMode:mode};
   let f=fullStageCameraFrame(mode==='stable'?fixedStableCameraFrame:cameraFrame,844,390,[duel.player,duel.enemy],null,16.7,options);
-  duel.press('jump');for(let i=0;i<140;i++){duel.step(1/120,{});const next=fullStageCameraFrame(mode==='stable'?fixedStableCameraFrame:cameraFrame,844,390,[duel.player,duel.enemy],f,1000/120,options);if(next.playerFixedCamera)assert.equal(next.zoom,f.zoom,'fixed player jump scale');else assert.ok(Math.abs(next.zoom-f.zoom)/f.zoom<.05,'smooth legal jump zoom');fits(next,[duel.player,duel.enemy],options.safeRect,options.occlusions);f=next;}
+  duel.press('jump');for(let i=0;i<140;i++){duel.step(1/120,{});const next=fullStageCameraFrame(mode==='stable'?fixedStableCameraFrame:cameraFrame,844,390,[duel.player,duel.enemy],f,1000/120,options);if(mode==='stable'){assert.equal(next.zoom,f.zoom,'stable mode keeps the controlled actor at a fixed scale');fits(next,[duel.player],options.safeRect,options.occlusions);}else{assert.ok(Math.abs(next.zoom-f.zoom)/f.zoom<.05,'dynamic zoom eases gradually');fits(next,[duel.player],options.safeRect,options.occlusions);}f=next;}
  }
 });
 test('measured logical safe area is authoritative and physical insets are not consumed twice',()=>{

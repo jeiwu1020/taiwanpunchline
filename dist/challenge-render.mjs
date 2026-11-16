@@ -1,17 +1,25 @@
 import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=street-crowd-overlay-20261115-r1';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=street-crowd-overlay-20261115-r1';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=camera-overview-result-20261116-r3';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=camera-overview-result-20261116-r3';
 import {DESK} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function routeCameraFrame(width,height,route,options={}){
- const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',...mobileOptions}=options;
+ const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',previous=null,delta=1000/60,...mobileOptions}=options;
  if(route.depthMode)return depthRouteCameraFrame(width,height,route,{overlay,portrait,fullStage,touch,landscapePreview,safe,camera,...mobileOptions,presentationTouch:options.touch===true});
  const reserve=overlay?Math.min(76,height*.23):12,available=Math.max(100,height-reserve);
- const zoom=Math.min(1.4,width/650,available/410),visible=width/zoom;
- const x=clamp(route.player.x+visible*.15,visible/2,Math.max(visible/2,route.worldWidth-visible/2));
- return{x,y:450-(available-height/2)/zoom,zoom,width,height,mode:'route',hud:0};
+ const stableZoom=Math.min(1.4,width/650,available/410),visible=width/stableZoom,mode=camera==='stable'?'stable':'classic';
+ const nearby=(route.enemies||[]).filter(actor=>actor&&actor.hp!==0&&Math.abs(actor.x-route.player.x)<=visible*1.5);
+ const actors=[route.player,...nearby],span=Math.max(...actors.map(actor=>actor.x))-Math.min(...actors.map(actor=>actor.x));
+ const fit=actors.length>1?Math.min(stableZoom,(width-48)/(span+264)):stableZoom;
+ const targetZoom=mode==='stable'?stableZoom:Math.max(stableZoom*.90,fit);
+ const same=previous?.width===width&&previous?.height===height;
+ const zoom=same?previous.zoom+(targetZoom-previous.zoom)*(1-Math.exp(-clamp(delta,0,100)/360)):stableZoom;
+ const targetX=mode==='stable'?route.player.x+visible*.06:(actors.length>1?(Math.min(...actors.map(actor=>actor.x))+Math.max(...actors.map(actor=>actor.x)))/2:route.player.x+visible*.15);
+ const ease=1-Math.exp(-clamp(delta,0,100)/150),center=same?previous.x+(targetX-previous.x)*ease:targetX;
+ const frameVisible=width/zoom,x=clamp(center,frameVisible/2,Math.max(frameVisible/2,route.worldWidth-frameVisible/2));
+ return{x,y:450-(available-height/2)/zoom,zoom,width,height,mode:'route',challengeCameraMode:mode,hud:0};
 }
 export function createChallengeRenderer(scene,images){
  const depth=createDepthChallengeRenderer(scene,images);

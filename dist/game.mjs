@@ -7,11 +7,12 @@ import {planSimulationFrame} from './simulation-frame.mjs?v=campaign-boot-202611
 import {challengeOpponentStats} from './challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
 import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=campaign-boot-20261112-r3';
 import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=campaign-boot-20261112-r3';
+import {createChallengeOverviewReturnState} from './preview/campaign/overview-return-state.mjs?v=challenge-overview-return-20261116-r1';
 import {chooseAdoptionSource,adoptionConfirmation,saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
 import {mountCombatOverlayLayout} from './combat-overlay-layout.mjs?v=campaign-boot-20261112-r3';
 import {createNaturalChamberBackdrop,CHAMBER_EXTENSION_ASSET} from './chamber-natural-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {canReuseCameraFrame} from './challenge-camera.mjs?v=camera-continuity-20261116-r2';
-import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=camera-continuity-20261116-r2';
+import {canReuseCameraFrame} from './challenge-camera.mjs?v=camera-overview-result-20261116-r3';
+import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=camera-overview-result-20261116-r3';
 import {setGameSelectValue} from './game-select.mjs?v=campaign-boot-20261112-r3';
 import {renderChargeMeter} from './charge-view.mjs?v=campaign-boot-20261112-r3';
 import {mountGameplaySelectionGuard} from './gameplay-selection.mjs?v=campaign-boot-20261112-r3';
@@ -30,7 +31,7 @@ import {createComicPresentation} from './preview/campaign/story-comic-presentati
 import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-boot-20261112-r3';
 import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 import {CHALLENGE_BOSS_ASSIST_ROSTER} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
-import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=street-crowd-overlay-20261115-r1';
+import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=camera-overview-result-20261116-r3';
 import {assistMeterView} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
 import {createAssistRenderer} from './assist-presentation.mjs?v=rally-consistency-20261115-r1';
@@ -51,7 +52,7 @@ import {mountSettingsPanel} from './settings-view.mjs?v=campaign-boot-20261112-r
 import {createMoveDemo} from './move-demo.mjs?v=campaign-boot-20261112-r3';
 import {mountBattleGestures} from './battle-gestures.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {mountGameViewport} from './game-viewport.mjs?v=campaign-boot-20261112-r3';
+import {mountGameViewport} from './game-viewport.mjs?v=camera-overview-result-20261116-r3';
 import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
 import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-boot-20261112-r3';
 import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-boot-20261112-r3';
@@ -83,11 +84,30 @@ const resultPressGates=new Map();
 const heldKeys=new Set(),touchHeld=new Set();
 let pageZoomGestures,battleGestures,touchControls,viewportUI,settingsUI,moveDemo,sfxMasterGain;
 let browserStorage;try{browserStorage=window.localStorage;}catch{browserStorage=null;}
+let challengeOverviewStorage;try{challengeOverviewStorage=window.sessionStorage;}catch{challengeOverviewStorage=null;}
+const challengeOverviewReturnState=createChallengeOverviewReturnState(challengeOverviewStorage);
 const challengeSaveFeedback=mountChallengeSaveFeedback({document,window,button:$('#challenge-save-slot'),isPreview:()=>!!window.__quickViewIsolated||profileProgress.testMode});
 const profileProgress=await openChallengeProgress({storage:browserStorage,locks:window.navigator?.locks,onSaved:receipt=>challengeSaveFeedback.saved(receipt)});
 const challengeProgress=createMainCampaignBridge(profileProgress);
 function restoreProfileSelection(){const profile=profileProgress.readProfile(),selection=profile?.campaign?.selection??profile?.challenge?.selection;if(selection){selected=selection.characterId;playerAssist=selection.helperId;}}
 restoreProfileSelection();
+function rememberChallengeOverviewSelection(){challengeOverviewReturnState.save({selected,opponent,rosterSide,difficulty,roundFormat,playerAssist,enemyAssist,gameMode,trainingBehavior,trainingInfinite,trainingRepeat});}
+function restoreChallengeOverviewSelection(){
+ const saved=challengeOverviewReturnState.take();if(!saved)return false;
+ const available=id=>typeof id==='string'&&Object.hasOwn(CAST,id)&&profileProgress.canUse(id);
+ if(available(saved.selected))selected=saved.selected;
+ if(available(saved.opponent))opponent=saved.opponent;
+ if(ROSTER_TARGETS.includes(saved.rosterSide))rosterSide=saved.rosterSide;
+ if(Object.hasOwn(DIFFICULTY_LABELS,saved.difficulty))difficulty=saved.difficulty;
+ if(['single','best-of-three'].includes(saved.roundFormat))roundFormat=saved.roundFormat;
+ if(available(saved.playerAssist))playerAssist=saved.playerAssist;
+ if(available(saved.enemyAssist))enemyAssist=saved.enemyAssist;
+ if(['battle','training'].includes(saved.gameMode))gameMode=saved.gameMode;
+ if(['stand','guard','ai'].includes(saved.trainingBehavior))trainingBehavior=saved.trainingBehavior;
+ if(typeof saved.trainingInfinite==='boolean')trainingInfinite=saved.trainingInfinite;
+ if(typeof saved.trainingRepeat==='boolean')trainingRepeat=saved.trainingRepeat;
+ syncRoster();setupMoves();syncModeHUD();return true;
+}
 let challengeQueuedOperations=0,challengeOperations=Promise.resolve(),challengeSaveBlocked=false,partySelectionTouched=false;
 const challengeSettledBattles=new WeakSet();
 const testEntryGate=createFiveTapGate({onActivate:()=>{if(profileProgress.enterTestMode())refreshProfileAccess();}});
@@ -137,6 +157,7 @@ function setTitleVisible(visible){
 }
 function showTitle(){
  endChallenge();
+ if(scene){scene.cameraView=null;scene.cameraDuel=null;}
  resetHomeConfirmation(); cancelMatchFinish();stopEffects();stopVoice();moveDemo?.stop();clearTimeout(countTimer);counting=false;started=false;clearHold();
  if($('#help-dialog').open)$('#help-dialog').close();
  duel.status='title';matchSeries=null;trainingRestartGate?.cancel();resetRestartConfirmation();syncModeHUD();syncBattleSurface();$$('.screen').forEach(el=>el.classList.add('hidden'));
@@ -269,7 +290,7 @@ function syncRoster(){
 function initializeRoster(){
  $('#roster-grid').innerHTML=Object.entries(CAST).map(([id,cast])=>`<button type="button" class="roster-option" id="roster-${id}" data-character="${id}" aria-pressed="false" style="--portrait-color:${cast.colorCSS}"><span class="roster-badge" id="roster-badge-${id}"></span><img src="${cast.portrait}" alt="" draggable="false"><strong>${cast.name}</strong></button>`).join('');
  for(const id of Object.keys(CAST))$('#roster-'+id).onclick=()=>chooseCharacter(id);
- rosterReady=true;const launchQuery=new URL(window.location.href).searchParams;if(launchQuery.get('challengeLaunch')==='1'){const characterId=Object.hasOwn(CAST,launchQuery.get('characterId')||'')&&profileProgress.canUse(launchQuery.get('characterId'))?launchQuery.get('characterId'):undefined,helperId=Object.hasOwn(CAST,launchQuery.get('helperId')||'')&&profileProgress.canUse(launchQuery.get('helperId'))?launchQuery.get('helperId'):undefined,intent=['start','resume'].includes(launchQuery.get('intent'))?launchQuery.get('intent'):'start';window.setTimeout(()=>openPreparation({intent,characterId,entry:{characterId,helperId,replay:launchQuery.get('replay')==='1'}}),0);}else if(launchQuery.get('entryMenu')==='1'){const mode=launchQuery.get('mode');if(['battle','training'].includes(mode))gameMode=mode;window.setTimeout(()=>showMenu(),0);}else if(launchQuery.get('challengeOverview')==='1')window.setTimeout(()=>openChallenge(),0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
+ rosterReady=true;const launchQuery=new URL(window.location.href).searchParams;if(launchQuery.get('challengeLaunch')==='1'){const characterId=Object.hasOwn(CAST,launchQuery.get('characterId')||'')&&profileProgress.canUse(launchQuery.get('characterId'))?launchQuery.get('characterId'):undefined,helperId=Object.hasOwn(CAST,launchQuery.get('helperId')||'')&&profileProgress.canUse(launchQuery.get('helperId'))?launchQuery.get('helperId'):undefined,intent=['start','resume'].includes(launchQuery.get('intent'))?launchQuery.get('intent'):'start';window.setTimeout(()=>openPreparation({intent,characterId,entry:{characterId,helperId,replay:launchQuery.get('replay')==='1'}}),0);}else if(launchQuery.get('entryMenu')==='1'){const mode=launchQuery.get('mode');if(['battle','training'].includes(mode))gameMode=mode;window.setTimeout(()=>showMenu(),0);}else if(launchQuery.get('challengeOverview')==='1')window.setTimeout(()=>{showMenu();restoreProfileSelection();restoreChallengeOverviewSelection();openChallenge();},0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
  syncRoster();setupMoves();
 }
 function chooseRosterSide(side){if(!rosterReady||duel.status!=='menu'||!ROSTER_TARGETS.includes(side))return;rosterSide=side;syncRoster();}
@@ -282,7 +303,7 @@ function movePresentation(f,kind){
  const legacy={han_knee:'可憐哪：膝蓋先到，氣勢跟上。',ma_cough:'酷酷嫂：咳、咳。好，下一頁。',ko_name:'賴祥德：名字喊到破音了！',rush:'本來想從容，結果連滾帶爬。',counter:'先戴墨鏡，假裝一切都在掌握之中。'};
  return {word:move.word||move.name,banner:legacy[kind]||`${cast.name}：${move.name}！`,fictional:move.fictional!==false};
 }
-function showMenu(){endChallenge();resetHomeConfirmation();cancelMatchFinish();setTitleVisible(false);stopEffects();stopVoice();clearTimeout(countTimer);counting=false;started=false;clearHold();duel=newDuel();duel.status='menu';matchSeries=null;seriesRoundState=null;trainingRestartGate?.cancel();resetRestartConfirmation();syncModeHUD();syncBattleSurface();$$('.screen').forEach(e=>e.classList.add('hidden'));$('#menu').classList.remove('hidden');$('#countdown').classList.add('hidden');$('#pause').disabled=true;$('#help').disabled=false;$('#pause').textContent='Ⅱ 暫停';$('#tip').textContent='蹲躲高招 · 跳過地面 · 後退擋，注意三格耐力';$('#broadcast').classList.add('hidden');syncRoster();setupMoves();syncMusic();prepareVoices();}
+function showMenu(){endChallenge();if(scene){scene.cameraView=null;scene.cameraDuel=null;}resetHomeConfirmation();cancelMatchFinish();setTitleVisible(false);stopEffects();stopVoice();clearTimeout(countTimer);counting=false;started=false;clearHold();duel=newDuel();duel.status='menu';matchSeries=null;seriesRoundState=null;trainingRestartGate?.cancel();resetRestartConfirmation();syncModeHUD();syncBattleSurface();$$('.screen').forEach(e=>e.classList.add('hidden'));$('#menu').classList.remove('hidden');$('#countdown').classList.add('hidden');$('#pause').disabled=true;$('#help').disabled=false;$('#pause').textContent='Ⅱ 暫停';$('#tip').textContent='蹲躲高招 · 跳過地面 · 後退擋，注意三格耐力';$('#broadcast').classList.add('hidden');syncRoster();setupMoves();syncMusic();prepareVoices();}
 async function startGame(){if(challengeRun||entryPreparationSession&&challengeSaveBlocked){if(challengeQueuedOperations>0||challengeResultActionPending||challengeActionBusy||challengeRun?.busy||preparationUI?.isOpen)return;challengeResultActionPending=true;$('#replay').disabled=true;try{if(challengeAfterResult){const next=challengeAfterResult;challengeAfterResult=null;await next();}else{const run=challengeRun;await run.flush();const retried=await run.retry();if(run===challengeRun&&challengeSaved(retried))startChallengePhase();}}finally{challengeResultActionPending=false;$('#replay').disabled=false;syncChallengeSaveSlot();}return;}matchSeries=gameMode==='battle'?new MatchSeries(roundFormat):null;seriesRoundState=null;startRound();}
 function nextRound(){if(matchSeries?.nextRound())return challengeRun?presentChallengeRound(()=>startRound()):startRound();}
 function startRound(){
@@ -300,7 +321,9 @@ function pauseGame(){if(challengeActionBusy||challengeEntryPending||challengeSce
 function resumeGame(){if(challengeInputBlocked()||homeRequested||duel.status!=='paused')return;primeVoice(true);duel.status='active';syncBattleSurface();$('#pause-screen').classList.add('hidden');trainingRestartGate?.cancel();resetRestartConfirmation();$('#pause').textContent=gameMode==='training'?'Ⅱ 練習設定':'Ⅱ 暫停';$('#game').focus({preventScroll:true});}
 function syncModeHUD(){
  const unlockHint=$('#challenge-unlock-hint');if(unlockHint)unlockHint.hidden=gameMode!=='battle';
- $('#reselect').textContent=challengeRun?(challengeAfterResult&&duel.winner==='player'?'整備下一段':'整備後重試'):'回到選角';
+ const challengeBossVictory=!!challengeRun&&challengeRun.phase?.gate?.kind==='boss'&&!!challengeAfterResult&&duel.winner==='player'&&!challengeSaveBlocked;
+ $('#reselect').textContent=challengeBossVictory?'強化技能':challengeRun?(challengeAfterResult&&duel.winner==='player'?'整備下一段':'整備後重試'):'回到選角';
+ const overviewAction=$('#challenge-result-overview');if(overviewAction)overviewAction.hidden=!challengeBossVictory;
  if(scene)scene.hudCache='';
  const score=matchSeries?.score||{player:0,enemy:0};
  $('#match-score').textContent=gameMode==='training'?'練習 · '+({stand:'站立',guard:'防守',ai:'AI'}[trainingBehavior]):matchSeries?.format==='best-of-three'?`第 ${matchSeries.round} 局`:'一局決勝';
@@ -432,7 +455,7 @@ $('#opponent-card').onclick=()=>chooseRosterSide('opponent');
 $('#difficulty-easy').onclick=()=>chooseDifficulty('easy');
 $('#difficulty-normal').onclick=()=>chooseDifficulty('normal');
 $('#home').onclick=()=>requestHome('home');
-$('#start').onclick=()=>{if(duel.status==='menu')startGame();};bindResultAction($('#next-round'),nextRound);bindResultAction($('#replay'),startGame);bindResultAction($('#reselect'),()=>challengeRun?openPreparation({intent:challengeAfterResult&&duel.winner==='player'?'boundary':'retry'}):showMenu());$('#leave').onclick=()=>requestHome(challengeRun?'overview':'selection');$('#resume').onclick=resumeGame;$('#pause').onclick=()=>duel.status==='paused'?resumeGame():pauseGame();
+$('#start').onclick=()=>{if(duel.status==='menu')startGame();};bindResultAction($('#next-round'),nextRound);bindResultAction($('#replay'),startGame);bindResultAction($('#reselect'),()=>challengeRun?openPreparation({intent:challengeAfterResult&&duel.winner==='player'?'boundary':'retry'}):showMenu());bindResultAction($('#challenge-result-overview'),returnToChallengeOverview);$('#leave').onclick=()=>requestHome(challengeRun?'overview':'selection');$('#resume').onclick=resumeGame;$('#pause').onclick=()=>duel.status==='paused'?resumeGame():pauseGame();
 $('#sound').onclick=()=>{settingsStore.update({masterMuted:!settingsStore.get().masterMuted});if(sound&&hasEntered){primeVoice();sfx('start');}renderEntryAudio();};
 $('#help').onclick=()=>{if(challengeInputBlocked())return;if((duel.status==='title'&&!scene)||homeRequested)return;pauseGame();stopVoice();clearHold();moveDemo?.stop();settingsUI?.open(selected);$('#help-dialog').showModal();syncBattleSurface();syncMusic();};$('#close-help').onclick=()=>$('#help-dialog').close();$('#help-dialog').addEventListener('click',e=>{if(e.target===$('#help-dialog')&&e.offsetX<0)$('#help-dialog').close();});
 $('.brand').onclick=e=>{e.preventDefault();requestHome();};
@@ -466,7 +489,7 @@ function abandonUnpresentedEntry(){
 function openChallenge(){
  if(challengeActionBusy||!scene||!rosterReady)return;
  if(!preparationUI?.isOpen)abandonUnpresentedEntry();
- if(!challengeUI)challengeUI=mountChallengeUI({controller:profileProgress,progress:challengeProgress,characters:CAST,parent:$('.app'),onStart:options=>openPreparation({intent:options.intent??'resume',entry:options}),onPrepare:options=>openPreparation({intent:'save-only',characterId:options.characterId}),onContinue:options=>openPreparation({intent:'resume',entry:options}),onReview:reviewStarterOpening,onChange:()=>{abandonUnpresentedEntry();refreshProfileAccess();}});
+ if(!challengeUI)challengeUI=mountChallengeUI({controller:profileProgress,progress:challengeProgress,characters:CAST,parent:$('.app'),onStart:options=>{rememberChallengeOverviewSelection();return openPreparation({intent:options.intent??'resume',entry:options});},onPrepare:options=>{rememberChallengeOverviewSelection();return openPreparation({intent:'save-only',characterId:options.characterId});},onContinue:options=>{rememberChallengeOverviewSelection();return openPreparation({intent:'resume',entry:options});},onReview:reviewStarterOpening,onChange:()=>{abandonUnpresentedEntry();refreshProfileAccess();}});
  const savedParty=profileProgress.preparationSnapshot();challengeUI.open({characterId:savedParty.characterId,helperId:savedParty.helperId,selectionExplicit:true});
 }
 function ensureChallengeStory(){
@@ -585,7 +608,7 @@ function showRootRecovery(){
  if(!challengeRecovery){challengeRecovery=mountChallengeRecovery({document,window,parent:host,getState:rootSaveState,retrySave:()=>challengeRun?.retrySave()??entryPreparationSession?.retrySave()??profileProgress.retrySave(),exportCurrent:()=>profileProgress.exportBackup(),exportLegacy:()=>profileProgress.campaignStore().exportLegacyJSON(),onBusy:value=>{challengeActionBusy=value;syncChallengeSaveSlot();},onRecovered:async()=>{challengeSaveBlocked=false;const resume=challengeRecoveryResume;challengeRecoveryResume=null;refreshProfileAccess();await resume?.();syncChallengeSaveSlot();}});}else if(challengeRecovery.element.parentElement!==host)host.append(challengeRecovery.element);challengeRecovery.refresh();challengeRecovery.element.hidden=false;return challengeRecovery;
 }
 function showChallengeSaveFailure(result,resume){
- cancelChallengeSceneHandoff();challengeSaveBlocked=true;challengeRecoveryResume=resume;cancelMatchFinish();clearHold();if(['active','paused','countdown'].includes(duel.status))duel.status='paused';syncBattleSurface();$('#pause').disabled=true;for(const gate of resultPressGates.values())gate.arm();$('#result').classList.remove('hidden');$('#result-title').textContent='進度尚未保存';$('#result-sub').textContent=saveIssueText(result?.reason);$('#next-round').hidden=true;$('#replay').hidden=true;$('#reselect').hidden=true;
+ cancelChallengeSceneHandoff();challengeSaveBlocked=true;challengeRecoveryResume=resume;cancelMatchFinish();clearHold();if(['active','paused','countdown'].includes(duel.status))duel.status='paused';syncBattleSurface();$('#pause').disabled=true;for(const gate of resultPressGates.values())gate.arm();$('#result').classList.remove('hidden');$('#result-title').textContent='進度尚未保存';$('#result-sub').textContent=saveIssueText(result?.reason);$('#next-round').hidden=true;$('#replay').hidden=true;$('#reselect').hidden=true;$('#challenge-result-overview').hidden=true;
  challengeAfterResult=async()=>{if(challengeActionBusy)return;challengeActionBusy=true;try{const saved=await (challengeRun?.retrySave()??entryPreparationSession?.retrySave()??profileProgress.retrySave());if(saved.accepted&&saved.persisted){challengeSaveBlocked=false;refreshProfileAccess();await resume?.();}else showChallengeSaveFailure(saved,resume);}finally{challengeActionBusy=false;syncChallengeSaveSlot();}};showRootRecovery();syncChallengeSaveSlot();
 }
 function mountRootChallengeActions(){
@@ -637,11 +660,10 @@ function openPreparation(options={}){
 async function returnToChallengeOverview(){
  if(challengeInputBlocked()){if(challengeSaveBlocked)showRootRecovery();return false;}
  const run=challengeRun;if(run)pauseGame();
- challengeActionBusy=true;
+ challengeActionBusy=true;let openOverview=false;
  try{await challengeOperations;await run?.flush();const saved=profileProgress.get();if(!profileProgress.testMode&&(saved.dirty||saved.readOnly||saved.reason||!saved.persisted)){showChallengeSaveFailure({reason:saved.reason??'unsaved-progress'},()=>returnToChallengeOverview());return false;}
-  if(profileProgress.testMode||window.__quickViewIsolated){showTitle();restoreProfileSelection();openChallenge();return true;}
-  navigating=true;window.location.assign(new URL('challenge-overview/',window.location.href).href);return true;
- }finally{challengeActionBusy=false;if(!navigating&&!challengeSaveBlocked&&!profileProgress.testMode&&!window.__quickViewIsolated)openChallenge();}
+  showMenu();restoreProfileSelection();restoreChallengeOverviewSelection();openOverview=true;return true;
+ }finally{challengeActionBusy=false;if(openOverview)openChallenge();}
 }
 
 async function returnToTitleHome(){
@@ -681,7 +703,7 @@ function handleChallengeEvent(e,arena){
 async function challengeResult(round,between){
  const run=challengeRun,battle=duel,won=duel.winner==='player',gate=run.phase.gate;
  if(between){const copy=roundResultCopy(round,matchSeries?.format??'best-of-three','你',gate.name);$('#result-eyebrow').textContent=copy.eyebrow;$('#result-title').textContent=copy.title;$('#result-sub').textContent=copy.subtitle;$('#result-score').textContent=copy.score;$('#next-round').textContent=copy.action;return;}
- const route=duel instanceof ChallengeRoute;challengeSettledBattles.add(battle);$('#replay').disabled=true;$('#result-sub').textContent='正在確認進度保存…';
+ const route=duel instanceof ChallengeRoute;challengeSettledBattles.add(battle);$('#replay').disabled=true;$('#reselect').disabled=true;$('#challenge-result-overview').disabled=true;$('#result-sub').textContent='正在確認進度保存…';
  await run.flush();if(run!==challengeRun||battle!==duel)return;if(challengeSaveBlocked||profileProgress.get().dirty){showChallengeSaveFailure({reason:profileProgress.get().reason},()=>renderChallengeResult(run,won,gate));return;}
  if(won&&!route){const saved=await run.bossWon({hp:battle.player.hp,rally:battle.player.rally,assist:{...battle.player.assist,active:false}});if(run!==challengeRun||battle!==duel)return;if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>renderChallengeResult(run,won,gate));return;}refreshProfileAccess();}
  renderChallengeResult(run,won,gate);
@@ -693,9 +715,9 @@ function renderChallengeResult(run,won,gate){
  $('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;
  $('#result-sub').textContent=state.testMode?`${outcome.subtitle} 測試模式：本次經驗與解鎖不會保存。`:won?(run.finished?`${outcome.subtitle} 咆哮哥已解鎖，可當主戰或助拳。接著前往第二章，繼續追神麥。`:`${outcome.subtitle} 已保存進度與經驗，接著繼續追神麥。`):`${outcome.subtitle} 已保存的經驗和檢查點保留，可從這個 Boss 再試一次。`;
  $('#result-score').textContent=series?outcome.score:`本局結果 · 本存檔 ${challengeProgress.get().xp} XP`;
- $('#reselect').hidden=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?(run.finished?'繼續第 2 章 →':'繼續追神麥 →'):'從檢查點重試 ↻';$('#next-round').hidden=true;
+ $('#reselect').hidden=false;$('#reselect').disabled=false;$('#challenge-result-overview').disabled=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?(run.finished?'繼續第 2 章 →':'繼續追神麥 →'):'從檢查點重試 ↻';$('#next-round').hidden=true;
  if(won&&run.finished&&run.replay){$('#result-title').textContent='第一章重訪完成！';$('#result-sub').textContent='本次獲得的小怪經驗已保存，原章節進度保留。首通獎勵不重複領取。';$('#replay').textContent='返回挑戰總覽 →';}
- challengeAfterResult=async()=>{if(run!==challengeRun)return;if(run.finished&&run.replay){const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>{showTitle();openChallenge();});return;}showTitle();openChallenge();return;}if(run.finished){const depart=async()=>{const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>continueCampaign({characterId:selected,helperId:playerAssist}));return saved;}return continueCampaign({characterId:selected,helperId:playerAssist,selectionExplicit:true});};story(CHAPTER1_HANDOFF,depart);}else{if(!won){const retried=await run.retry();if(!challengeSaved(retried)){showChallengeSaveFailure(retried,()=>startChallengePhase());return;}}if(run===challengeRun)startChallengePhase();}};
+ challengeAfterResult=async()=>{if(run!==challengeRun)return;if(run.finished&&run.replay){const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>{showTitle();openChallenge();});return;}showTitle();openChallenge();return;}if(run.finished){const depart=async()=>{const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>continueCampaign({characterId:selected,helperId:playerAssist}));return saved;}return continueCampaign({characterId:selected,helperId:playerAssist,selectionExplicit:true});};story(CHAPTER1_HANDOFF,depart);}else{if(!won){const retried=await run.retry();if(!challengeSaved(retried)){showChallengeSaveFailure(retried,()=>startChallengePhase());return;}}if(run===challengeRun)startChallengePhase();}};syncModeHUD();
 }
 let campaignNavigationPending=false;
 async function continueCampaign({characterId=selected,helperId=playerAssist,selectionExplicit=partySelectionTouched}={}){
@@ -976,10 +998,10 @@ class Arena extends Phaser.Scene {
 
  update(time,delta){if(!this.dynamic)return;try{const paintToken=viewportUI?.beginFrame(time);this.updateFrame(time,delta);viewportUI?.frameDrawn(paintToken);}catch(error){viewportUI?.failFrame(error);}}
  updateFrame(time,delta){if(viewportUI?.ready!==false)updateMatchFinish(delta);const plan=planSimulationFrame(delta,{paused:duel.status!=='active'||challengeInputBlocked()}),dt=plan.acceptedMs/1000;this.artTime=(this.artTime||0)+((viewportUI?.ready!==false&&['active','menu','countdown'].includes(duel.status))?planSimulationFrame(delta).acceptedMs:0);if(duel.status==='active'&&!challengeInputBlocked()){duel.itemPose=f=>this.currentItemPose(f);duel.itemOrigin=(f,a)=>heldItemAnchor({...f,item:{kind:a.itemKind}},duel.itemPose(f),a.carryHand);punchWait-=dt;if(hold.punch&&punchWait<=0){duel.press('punch');punchWait=.33;}const current=duel;for(const step of plan.steps){if(duel!==current||duel.status!=='active'||challengeInputBlocked())break;duel.step(step,hold);}const emitted=current.events.splice(0),routeBatch=!!challengeRun&&current instanceof ChallengeRoute;if(routeBatch)handleChallengeFrameEvents(emitted,this);for(const e of emitted)if(!routeBatch||!['enemyDefeated','routeGate'].includes(e.type))this.event(e);drainVoiceCues();}if(this.time.now-this.lastBroadcast>1700)$('#broadcast').classList.add('hidden');
-  const isRoute=duel instanceof ChallengeRoute,isChallengeArena=!!challengeRun&&!isRoute,fs=[duel.player,duel.enemy];const sw=this.scale.width,sh=this.scale.height,cam=this.cameras.main;let frame=isRoute?routeCameraFrame(sw,sh,duel,{overlay:viewportUI?.overlayControls===true,portrait:viewportUI?.frame?.width<viewportUI?.frame?.height,fullStage:true,touch:viewportUI?.frame?.touch===true,landscapePreview:viewportUI?.frame?.fullBleed===true,camera:viewportUI?.camera,paused:duel.status==='paused',previous:this.cameraDuel===duel?this.cameraView:null,delta,...this.combatOverlay?.cameraSafety,safe:{left:viewportUI?.frame?.safeLeft||0,right:viewportUI?.frame?.safeRight||0,top:viewportUI?.frame?.safeTop||0,bottom:viewportUI?.frame?.safeBottom||0}}):matchFinish?.camera;const cameraOptions={gameMode:challengeRun?'challenge':gameMode,touch:viewportUI?.frame?.touch===true,portrait:viewportUI?.frame?.width<viewportUI?.frame?.height,nativeLandscape:viewportUI?.nativeLandscape===true,cameraMode:viewportUI?.camera,paused:duel.status==='paused'||!!matchFinish?.camera?.controlledCombatCamera,assists:duel.assists,...this.combatOverlay?.cameraSafety,measuredCameraSafety:Array.isArray(this.combatOverlay?.cameraSafety?.occlusions)?this.combatOverlay.cameraSafety.measuredCameraSafety:false};
+  const isRoute=duel instanceof ChallengeRoute,isChallengeArena=!!challengeRun&&!isRoute,fs=[duel.player,duel.enemy];const sw=this.scale.width,sh=this.scale.height,cam=this.cameras.main,previousCamera=this.cameraDuel===duel&&this.cameraView?.width===sw&&this.cameraView?.height===sh?this.cameraView:null;let frame=isRoute?routeCameraFrame(sw,sh,duel,{overlay:viewportUI?.overlayControls===true,portrait:viewportUI?.frame?.width<viewportUI?.frame?.height,fullStage:true,touch:viewportUI?.frame?.touch===true,landscapePreview:viewportUI?.frame?.fullBleed===true,camera:viewportUI?.camera,paused:duel.status==='paused',previous:previousCamera,delta,...this.combatOverlay?.cameraSafety,safe:{left:viewportUI?.frame?.safeLeft||0,right:viewportUI?.frame?.safeRight||0,top:viewportUI?.frame?.safeTop||0,bottom:viewportUI?.frame?.safeBottom||0}}):matchFinish?.camera;const cameraOptions={gameMode:challengeRun?'challenge':gameMode,touch:viewportUI?.frame?.touch===true,portrait:viewportUI?.frame?.width<viewportUI?.frame?.height,nativeLandscape:viewportUI?.nativeLandscape===true,cameraMode:viewportUI?.camera,paused:duel.status==='paused'||!!matchFinish?.camera?.controlledCombatCamera,assists:duel.assists,...this.combatOverlay?.cameraSafety,measuredCameraSafety:Array.isArray(this.combatOverlay?.cameraSafety?.occlusions)?this.combatOverlay.cameraSafety.measuredCameraSafety:false};
   if(!frame||frame.width!==sw||frame.height!==sh||!isRoute&&!canReuseCameraFrame(frame,sw,sh,cameraOptions)){
    const frozenFinish=matchFinish?.camera&&(matchFinish.camera.playerFixedCamera||matchFinish.camera.controlledCombatCamera)?matchFinish.camera:null;
-   frame=fullStageCameraFrame(viewportUI?.camera==='stable'?fixedStableCameraFrame:cameraFrame,sw,sh,fs,frozenFinish??(this.cameraDuel===duel?this.cameraView:null),delta,{...cameraOptions,paused:!!frozenFinish||duel.status==='paused'});if(matchFinish)matchFinish.camera=frame;
+   frame=fullStageCameraFrame(viewportUI?.camera==='stable'?fixedStableCameraFrame:cameraFrame,sw,sh,fs,frozenFinish??previousCamera,delta,{...cameraOptions,paused:!!frozenFinish||duel.status==='paused'});if(matchFinish)matchFinish.camera=frame;
   }this.cameraDuel=duel;this.cameraView=frame;cam.setViewport(0,0,sw,sh);cam.setZoom(frame.zoom);cam.centerOn(frame.x,frame.y);this.arenaBackdrop.setVisible(!isRoute&&!isChallengeArena);(this.chamberDeskLayers||[]).forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.backdropExtensions.forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.boundaryGraphics.setVisible(!isRoute&&!isChallengeArena);this.ambient.setVisible(!isRoute&&!isChallengeArena);
   this.combatOverlay?.draw({route:!!duel.depthMode,images:this.artImages,time:this.artTime,reducedMotion:this.reducedMotion,cameraFrame:frame,world:duel,hintsActive:duel.status==='active'&&viewportUI?.ready!==false&&!challengeInputBlocked()&&!matchFinish&&!homeRequested&&!$('#help-dialog').open&&$('#result').classList.contains('hidden')&&$('.app').dataset.titleOpen!=='true'});
   if(isRoute){this.itemUsed=0;this.challengeRenderer.draw(duel,this.artTime,frame,{fighterView:f=>this.fighterPresentation(f,this.artTime),onPose:(f,p)=>this.lastArtPose.set(f,p),reducedMotion:this.reducedMotion,skipMic:!!this.combatOverlay,externalRallyRenderer:true});this.rigs[1].setVisible(false);this.rigs[0].setVisible(!duel.depthMode);if(!duel.depthMode)this.drawFighter(this.chars[0],duel.player,this.artTime,0);this.drawCrowd(frame,{route:true});this.itemSprites.forEach(v=>v.setVisible(false));this.itemGraphics.clear();$('#item-status').textContent=duel.depthMode?(duel.chapterEncounter?.hint??'上下左右走位 · 空白鍵／跳躍鍵 · 向右前進'):'← → 移動轉向 · 跳上攤台 · ↓ 下台 · 打小怪得經驗 · 向右前進';}

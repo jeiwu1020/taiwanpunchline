@@ -156,7 +156,7 @@ function placeAtScale(boxes,zoom,rect,occlusions,wanted,limits=null){
 const PLAYER_FOLLOW_RESERVE_X=80;
 const PLAYER_FIXED_BOX={left:-132-PLAYER_FOLLOW_RESERVE_X,right:132+PLAYER_FOLLOW_RESERVE_X,top:-300,bottom:28};
 export function isPlayerFixedCameraProfile(width,height,options={}){
- return options.measuredCameraSafety!==false&&isMobileLandscapePresentation({width,height,touch:options.touch})&&(options.cameraMode??options.camera??'classic')==='stable';
+ return (options.cameraMode??options.camera??'classic')==='stable';
 }
 function playerFixedGeometry(width,height,options){
  const source=options.fixedCameraGeometry??options;
@@ -190,19 +190,19 @@ export function canReuseCameraFrame(frame,width,height,options={}){
  // Combat framing depends on live fighter positions. Reuse it only while the
  // encounter is frozen; active frames must advance follow and camera-mode
  // transitions even when the HUD geometry is unchanged.
- if(frame.controlledCombatCamera)return !!options.paused&&frame.controlledCombatCamera.version===2&&frame.controlledCombatCamera.geometryKey===controlledCombatGeometry(width,height,options).key;
+ if(frame.controlledCombatCamera)return !!options.paused&&frame.controlledCombatCamera.version===3&&frame.controlledCombatCamera.geometryKey===controlledCombatGeometry(width,height,options).key;
  if(frame.playerCloseCamera)return canReuseCloseFrame(frame,width,height,options);
  if(!frame.playerFixedCamera)return true;
  // A paused frame owns its existing mode; a UI selection takes effect only
  // on resume. Touch/measurement/profile changes still invalidate fixed state.
- return !!compatiblePlayerFixedState(frame)&&options.measuredCameraSafety!==false&&isMobileLandscapePresentation({width,height,touch:options.touch})&&frame.playerFixedCamera.geometryKey===playerFixedGeometryKey(width,height,options);
+ return !!compatiblePlayerFixedState(frame)&&isPlayerFixedCameraProfile(width,height,options)&&frame.playerFixedCamera.geometryKey===playerFixedGeometryKey(width,height,options);
 }
 
-// Ordinary combat owns a standing-scale camera. Only the controlled fighter
-// constrains translation; opponents, helpers and jump height never require a
-// wider shot. Streets keep their existing independent camera policy below.
+// Combat preserves the arena's device-specific composition, then applies one
+// shared safe-area solve. Stable zoom uses grounded poses; dynamic zoom can
+// ease within a small range as the live composition changes.
 function controlledCombatGeometry(width,height,options){
- const softControls=isMobileLandscapePresentation({...options,width,height});
+ const softControls=options.touch===true;
  const ordered=(options.occlusions||[]).slice().sort((a,b)=>{for(const key of ['left','top','right','bottom'])if(a[key]!==b[key])return a[key]-b[key];return Number(a.kind==='control')-Number(b.kind==='control');});
  const g=geometry({width,height},{...options,occlusions:ordered,softControls});
  return {...g,softControls,key:fixedGeometryKey(width,height,g)};
@@ -211,88 +211,109 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const actors=(fighters||[]).filter(actor=>actor&&Number.isFinite(actor.x));if(!actors.length)return null;
  const player=actors[0];
  const g=controlledCombatGeometry(width,height,options),{rect,occlusions,key}=g;
- const state=previous?.controlledCombatCamera,compatible=state?.version===2&&previous.width===width&&previous.height===height?state:null;
- const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player)};
+ const state=previous?.controlledCombatCamera,compatible=state?.version===3&&previous.width===width&&previous.height===height?state:null;
+ const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player),groundY:finite(player.supportY,430)+depthY(player)};
  const standing={left:-132,right:132,top:-300,bottom:28};
  const bodies=actors.map(actor=>{const y=finite(actor.y,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
+ const restingBodies=actors.map(actor=>{const y=finite(actor.supportY,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
  const left=Math.min(...actors.map(actor=>actor.x)),right=Math.max(...actors.map(actor=>actor.x)),pairCenter=(left+right)/2;
- const subjectScreenY=clamp(finite(options.subjectScreenY,.84),.55,.9);
- const maximum=Math.min(1.25,width/520,height/480),wantedAt=z=>({x:width/2-pairCenter*z,y:height*subjectScreenY-pose.displayY*z});
- const fitAt=z=>placeAtScale(bodies,z,rect,occlusions,wantedAt(z));
- let fitZoom=maximum,fit=fitAt(fitZoom);
- if(!fit){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(fitAt(mid))lo=mid;else hi=mid;}fitZoom=Math.max(1e-6,lo);fit=fitAt(fitZoom);}
+ const subjectScreenY=clamp(finite(options.subjectScreenY,.82),.55,.9);
+ const maximum=Math.min(1.25,width/520,height/480),safeAnchor={x:(rect.left+rect.right)/2,y:rect.top+(rect.bottom-rect.top)*subjectScreenY};
+ const wantedFor=(centerX,groundY,z)=>({x:width/2-centerX*z,y:height/2-(groundY+(height/2-safeAnchor.y)/z)*z});
  const selected=options.paused&&state?previous.challengeCameraMode:(options.cameraMode??options.camera);
  const mode=selected==='stable'?'stable':'classic';
- const modeChanged=!!compatible&&previous.challengeCameraMode!==mode;
- // A stable frame must establish its own safe anchor. Keeping a dynamic
- // follow position as that anchor can strand a fighter at the edge when the
- // mode is changed mid-round. Preserve the current scale, then compose once
- // from the current pair and rebuild clean tracking history.
+ const legacy=options.preferredCameraFrame;
+ const preferredZoom=clamp(finite(legacy?.zoom,maximum),1e-6,maximum);
+ const restingGround=restingBodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/restingBodies.length;
+ const currentGround=bodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/bodies.length;
+ const legacyCenterX=Number.isFinite(legacy?.x)?legacy.x:pairCenter;
+ const legacyCenterY=Number.isFinite(legacy?.y)?legacy.y:currentGround;
+ const largestFit=(boxes,upper,centerX,groundY)=>{
+  const place=z=>placeAtScale(boxes,z,rect,occlusions,wantedFor(centerX,groundY,z));
+  if(place(upper))return upper;
+  let lo=0,hi=upper;
+  if(!place(1e-6))return 1e-6;
+  for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(place(mid))lo=mid;else hi=mid;}
+  return Math.max(1e-6,lo);
+ };
+ // The controlled fighter and screen geometry set the stable scale; pair
+ // separation only changes how much of the opponent is composed around them.
+ // Airborne pose never participates in this calculation.
+ const retainedBaseline=state?.version===3&&previous?.width===width&&previous?.height===height&&state.geometryKey===key&&Number.isFinite(state.baseline)?state.baseline:null;
+ let stableZoom=retainedBaseline??preferredZoom;
+ const playerGround=(restingBodies[0].top+restingBodies[0].bottom)/2;
+ const playerRest=placeAtScale([restingBodies[0]],stableZoom,rect,occlusions,wantedFor(player.x,playerGround,stableZoom));
+ if(!playerRest){let lo=0,hi=stableZoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(placeAtScale([restingBodies[0]],mid,rect,occlusions,wantedFor(player.x,playerGround,mid)))lo=mid;else hi=mid;}stableZoom=Math.max(1e-6,lo);}
+  const dynamicFit=largestFit(bodies,stableZoom,legacyCenterX,legacyCenterY);
+ const dynamicTarget=clamp(dynamicFit,stableZoom*.90,stableZoom);
+ const previousUsable=previous?.width===width&&previous?.height===height&&[previous.x,previous.y,previous.zoom].every(Number.isFinite);
+ const modeChanged=previousUsable&&previous?.challengeCameraMode!==mode;
  const history=modeChanged?null:compatible,old=history&&state.geometryKey===key?state:null;
  if(options.paused&&old)return previous;
- // Dynamic mode fits both fighters as they move. Stable mode keeps the zoom
- // established on entry; when the pair outgrows that frame, the player keeps
- // priority and the camera pans without resizing the scene.
- const lockedZoom=modeChanged&&previous?.zoom>0?Math.min(previous.zoom,fitZoom):(old||history)?.lockedZoom>0?(old||history).lockedZoom:fitZoom;
- const target=mode==='stable'?lockedZoom:fitZoom;
- const ease=1-Math.exp(-clamp(finite(delta,1000/60),0,100)/300);
- // Zooming out is immediate only when required for pair safety. Zooming back
- // in eases to avoid visible scale pulses while the fighters exchange space.
- const easedZoom=history?previous.zoom+(target-previous.zoom)*ease:target,zoom=mode==='stable'?Math.max(1e-6,easedZoom):Math.min(fitZoom,Math.max(1e-6,easedZoom));
- let centerX=pairCenter,centerY=pose.displayY+(height/2-height*subjectScreenY)/zoom;
- if(history){
-  centerY=previous.y;
-  if(mode==='stable')centerX=previous.x;
-  else{
-   const centerScreen=width/2+(pairCenter-previous.x)*zoom,safeCenter=(rect.left+rect.right)/2,deadZone=Math.min((rect.right-rect.left)*.08,width*.08);
-   centerX=Math.abs(centerScreen-safeCenter)<=deadZone?previous.x:previous.x+(pairCenter-previous.x)*ease;
-  }
- }
+  const stableTarget=old?.lockedZoom??stableZoom;
+  const targetZoom=mode==='stable'?stableTarget:dynamicTarget;
+ const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/360),panEase=1-Math.exp(-dt/(mode==='stable'?40:150));
+ const startZoom=previousUsable?previous.zoom:targetZoom;
+ const zoom=previousUsable?Math.max(1e-6,startZoom+(targetZoom-startZoom)*zoomEase):targetZoom;
+  // Compose both fighters on the first frame. Once play is underway, keep one
+  // continuous player-follow target; switching between pair and player focus
+  // at the exact fit threshold caused a large camera step while walking.
+  const initialPairGap=Math.min(300,(rect.right-rect.left)/stableTarget*.35),initialPairFocus=!previousUsable&&right-left<=initialPairGap;
+  let targetX=mode==='stable'?(previousUsable?player.x:(initialPairFocus?pairCenter:player.x)):legacyCenterX;const targetY=mode==='stable'?playerGround:legacyCenterY;
+  if(mode==='stable'&&previousUsable&&Math.abs(targetX-previous.x)*zoom<width*.02)targetX=previous.x;
+ let centerX=previousUsable?previous.x+(targetX-previous.x)*panEase:targetX;
+ let centerY=previousUsable?previous.y+(targetY-previous.y)*panEase:targetY;
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
- let position=null,panLimits=null,safetyFit=false;
- if(history){
-  const dt=clamp(finite(delta,1000/60),0,100)/1000,actorStep=Math.abs(player.x-(history?.pose?.x??player.x))*zoom,panX=Math.max(360*dt,mode==='stable'?actorStep+1:0),panY=Math.max(280*dt,mode==='stable'?Math.abs(pose.displayY-(history?.pose?.displayY??pose.displayY))*zoom+1:0),prior={x:width/2-previous.x*zoom,y:height/2-previous.y*zoom};
-  panLimits={left:prior.x-panX,right:prior.x+panX,top:prior.y-panY,bottom:prior.y+panY};
-  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,panLimits);
-  if(!position&&mode==='stable')position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted,panLimits);
-  safetyFit=!!position;
-  // Stable framing must never leave a fighter outside the safe viewport. If
-  // an abrupt move outruns the normal pan budget, use the nearest legal frame.
-  if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,wanted)||(mode==='stable'?placeAtScale([bodies[0]],zoom,rect,occlusions,wanted):null)||{x:clamp(wanted.x,panLimits.left,panLimits.right),y:clamp(wanted.y,panLimits.top,panLimits.bottom)};
- }else{position=placeAtScale(bodies,zoom,rect,occlusions,wanted);if(!position&&mode==='stable')position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);safetyFit=!!position;}
- const x=position?(width/2-position.x)/zoom:centerX,y=position?(height/2-position.y)/zoom:centerY;
- return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
-  controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*subjectScreenY},pose,pairCenter}};
+ const framingBodies=mode==='stable'&&(previousUsable||!initialPairFocus)?[bodies[0]]:bodies;
+ let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted),finalZoom=zoom;
+ if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
+ // At the stable scale, a high jump can temporarily leave no legal placement
+ // for the whole pair. Preserve the player's fixed size and keep following.
+ if(!position)position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);
+ if(!position){
+  const playerPlace=z=>{const y=finite(player.y,430)+depthY(player),b={left:player.x+standing.left,right:player.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};return placeAtScale([b],z,rect,occlusions,wantedFor(player.x,pose.groundY,z));};
+  let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(playerPlace(mid))lo=mid;else hi=mid;}
+  finalZoom=Math.max(1e-6,lo);position=playerPlace(finalZoom)||{x:wanted.x,y:wanted.y};
+ }
+ const safetyFit=!!position;
+ const finalX=position?(width/2-position.x)/finalZoom:centerX,finalY=position?(height/2-position.y)/finalZoom:centerY;
+  return {...(legacy||{}),width,height,x:finalX,y:finalY,zoom:finalZoom,left:finalX-width/(2*finalZoom),base:height/2+(430-finalY)*finalZoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
+   controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;
  const geometryKey=fixedGeometryKey(width,height,g),maximum=Math.min(1.4,width/440,height*.68/328);
  const old=previous?.width===width&&previous?.height===height?compatiblePlayerFixedState(previous):null;
+ const previousUsable=previous?.width===width&&previous?.height===height&&[previous.x,previous.y,previous.zoom].every(Number.isFinite);
  const pose={x:player.x,displayY:finite(player.y,430)+depthY(player)};
  const failed=()=>({...preferred,challengeCameraMode:'stable',cameraSafetyFit:false,playerFixedCamera:undefined});
  if(!(rect.left<rect.right&&rect.top<rect.bottom)||!Number.isFinite(pose.x)||!Number.isFinite(pose.displayY))return failed();
- let zoom,anchor;
- if(old&&old.geometryKey===geometryKey){zoom=old.zoom;anchor={...old.anchor};}
+ let zoom,targetZoom,anchor;
+ const wanted=old?old.anchor:{x:width/2,y:height*.82};
+ const place=z=>placeAtScale([PLAYER_FIXED_BOX],z,rect,occlusions,wanted);
+ if(old&&old.geometryKey===geometryKey){zoom=old.zoom;targetZoom=old.targetZoom??old.zoom;anchor={...old.anchor};}
  else{
-  const wanted=old?old.anchor:{x:width/2,y:height*.84};
-  const place=z=>placeAtScale([PLAYER_FIXED_BOX],z,rect,occlusions,wanted);
   // A real HUD reflow may move the safe pocket without changing scale. A
   // dimension/profile transition has no old fixed state and starts afresh.
-  if(old&&old.zoom<=maximum){zoom=old.zoom;anchor=place(zoom);}
-  if(!anchor){zoom=maximum;anchor=place(zoom);}
-  if(!anchor){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(place(mid))lo=mid;else hi=mid;}zoom=Math.max(.000001,lo);anchor=place(zoom);}
+  if(old&&old.zoom<=maximum){targetZoom=old.targetZoom??old.zoom;zoom=targetZoom;anchor=place(zoom);}
+  if(!anchor){targetZoom=maximum;zoom=targetZoom;anchor=place(zoom);}
+  if(!anchor){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(place(mid))lo=mid;else hi=mid;}targetZoom=zoom=Math.max(.000001,lo);anchor=place(zoom);}
  }
  if(!anchor)return failed();
+ if(previousUsable&&Math.abs(zoom-targetZoom)>1e-8){
+  const ease=1-Math.exp(-clamp(finite(delta,1000/60),0,50)/360),nextZoom=previous.zoom+(targetZoom-previous.zoom)*ease,nextAnchor=place(nextZoom);
+  if(nextAnchor){zoom=nextZoom;anchor=nextAnchor;}
+ }
  const left=anchor.x-PLAYER_FOLLOW_RESERVE_X*zoom,right=anchor.x+PLAYER_FOLLOW_RESERVE_X*zoom;
  const targetX=pose.x+(width/2-anchor.x)/zoom,elapsedMs=clamp(finite(delta,1000/60),0,50),budget=480*elapsedMs/1000;
  // A frozen rebase keeps the previous x until the new safety interval forces
  // a minimum correction. Active history follows x only, never a 2D lerp.
- const limitedX=old&&zoom===old.zoom?previous.x+(options.paused?0:clamp((targetX-previous.x)*zoom,-budget,budget)/zoom):targetX;
+ const limitedX=previousUsable&&zoom===previous.zoom?previous.x+(options.paused?0:clamp((targetX-previous.x)*zoom,-budget,budget)/zoom):targetX;
  const q=width/2+(pose.x-limitedX)*zoom,shownX=clamp(q,left,right),clamped=shownX!==q;
  // An over-reserve displacement overrides the rate bound, not safety or z.
  // Retain exact prior x when no correction is needed, including frozen lag.
  const x=clamped?pose.x+(width/2-shownX)/zoom:limitedX,y=pose.displayY+(height/2-anchor.y)/zoom;
- const result={...preferred,x,y,zoom,challengeCameraMode:'stable',cameraSafetyFit:true,controlOverlay:'soft',playerFixedCamera:{version:2,geometryKey,zoom,anchor,pose,follow:{left,right,clamped}}};
+ const result={...preferred,x,y,zoom,challengeCameraMode:'stable',cameraSafetyFit:true,controlOverlay:'soft',playerFixedCamera:{version:2,geometryKey,zoom,targetZoom,anchor,pose,follow:{left,right,clamped}}};
  // Preserve the street maximum-density reserve even when its legal actor
  // pocket is smaller. The reserve is geometry-only, never encounter-driven.
  if('base' in preferred)Object.assign(result,{base:height/2+(430-y)*zoom,jumpPan:0,backdropZoom:Math.max(preferred.backdropZoom||zoom,maximum),backdropTop:Math.min(preferred.backdropTop??Infinity,y-height/(2*zoom)),backdropBottom:Math.max(preferred.backdropBottom??-Infinity,y+height/(2*zoom))});
@@ -321,12 +342,14 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  const boundsOptions=mobileLandscape?{...options,halfWidth:132}:options;
  const {rect,occlusions}=geometry(preferred,{...options,softControls:mobileLandscape}),boxes=actors.map(a=>challengeActorBounds(a,{...boundsOptions,prediction:0})),anticipated=(options.cameraPlan?.anticipated||actors).map(a=>{const b=challengeActorBounds(a,mobileLandscape?{...boundsOptions,prediction:vsMobileJump?.06:.18}:boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
  const same=sameSize&&previous?.challengeCameraMode===mode;
+ const previousUsable=sameSize&&[previous?.x,previous?.y,previous?.zoom].every(Number.isFinite);
  const ease=1-Math.pow(mode==='stable'?.96:.88,clamp(delta,0,100)/(1000/60));
  // Streets share one readable mobile preference; chapter-specific legacy
  // reserves must not impose a second, distant camera before the safety fit.
  const street=!!options.cameraPlan?.state;
- const wantedZoom=street&&options.touch!==false?Math.min(1.4,width/440,(height*.68)/328):Math.max(.000001,finite(preferred.zoom,1));
- let center=same?{x:mode==='stable'?previous.x:previous.x+(preferred.x-previous.x)*ease,y:mode==='stable'?previous.y:previous.y+(preferred.y-previous.y)*ease}:{x:preferred.x,y:preferred.y};
+ const stableStreetZoom=Math.min(1.4,width/440,height*.68/328),preferredZoom=street?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,1));
+ const wantedZoom=mode==='stable'?preferredZoom:street?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom;
+ let center=previousUsable?{x:previous.x+(preferred.x-previous.x)*ease,y:previous.y+(preferred.y-previous.y)*ease}:{x:preferred.x,y:preferred.y};
  const wanted=z=>({x:width/2-center.x*z,y:height/2-center.y*z});
  // A maximum-scale fit can have disconnected legal pockets around controls.
  // Stay in the reachable pocket; reduce scale only as necessary, rather than
@@ -341,6 +364,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   const limits=z=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-allowanceY,bottom:height/2-previous.y*z+allowanceY}:null;
   const place=z=>placeAtScale(boxes,z,rect,occlusions,wanted(z),limits(z));
   let zoom=maximum,position=place(zoom);
+  if(!position&&boxes.length>1)position=placeAtScale([boxes[0]],zoom,rect,occlusions,wanted(zoom),limits(zoom));
   if(!position){let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2,p=place(mid);if(p)lo=mid;else hi=mid;}zoom=Math.max(.000001,lo);position=place(zoom);}
   return {zoom,position};
  }
@@ -354,7 +378,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   if(deadZone)future.x=previous.x;
   const follow=!deadZone&&options.cameraPlan?.state?.engaged?clamp(options.cameraPlan.velocityX,-265,265)*clamp(delta,0,100)/1000:0;
   center=same?{x:previous.x+(future.x-previous.x)*ease+follow,y:previous.y+(future.y-previous.y)*ease}:future;}
- let zoomTarget=same?Math.min(wantedZoom,previous.zoom+(target-previous.zoom)*(target<previous.zoom?Math.max(ease,1-Math.pow(.82,clamp(delta,0,100)/(1000/60))):ease)):target;
+ let zoomTarget=previousUsable?Math.min(wantedZoom,previous.zoom+(target-previous.zoom)*(target<previous.zoom?Math.max(ease,1-Math.pow(.82,clamp(delta,0,100)/(1000/60))):ease)):target;
  // An asymptotic scale difference below a hundredth of a projected pixel
  // can keep two legal pockets disconnected forever. Finish that negligible
  // mobile pullback so a forecast can actually pan into its reserved space.

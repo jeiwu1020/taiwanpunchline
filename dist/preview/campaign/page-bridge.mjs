@@ -74,7 +74,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
    if(!pageActive||preparationBusy||navigating)return false;
    if(router?.enabled){const saved=router.view(),live=current?.view();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy||!saved.canNavigate||live&&(!live.persisted||live.blocked||live.busy||!live.canNavigate)){menuStatus.textContent=state.textContent=`尚未確認保存，請先重試保存或匯出備份，再${overview?'回挑戰總覽':'回首頁'}。`;return false;}}
    if(recovery){const saved=recovery.get();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy)return false;}
-   navigating=true;try{navigate(!testPreview?(overview?'../../challenge-overview/':'../../'):'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent=overview?'未能返回挑戰總覽，進度已保留，請再試一次。':'未能返回首頁，進度已保留，請再試一次。';return false;}
+   navigating=true;try{navigate(!testPreview?(overview?'../../?challengeOverview=1':'../../'):'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent=overview?'未能返回挑戰總覽，進度已保留，請再試一次。':'未能返回首頁，進度已保留，請再試一次。';return false;}
   }).catch(()=>{menuStatus.textContent=state.textContent='尚未確認保存，未離開本頁。請重試保存或匯出備份。';return false;}).finally(()=>{leaving=false;render();});return idle;
  }
  function returnOverview(options){return returnToDestination('overview',options);}
@@ -97,7 +97,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   if(s)renderContinuationChoice({document,state:{...s,busy:busy||s.busy},chapterId});
   const selector=s?.paused?'#pause-panel .card':({'story':'#story-panel .story-card','result':'#result-panel .card','choice':'#choice-panel .card','complete':'#choice-panel .card'})[s?.mode];
   const fullComic=s?.mode==='story'&&document.querySelector('#story-panel')?.dataset.fullComic==='true';
-  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||s.paused||!(s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
+  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic||s.mode==='result'&&s.result?.matchWon;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||s.paused||!(s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
   state.textContent=s?.saveLabel??v.saveLabel;
   if(s?.blocked)state.textContent=reasonText(s.saveIssue);
   else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；目前無法接續下一段，進度已保留。`;

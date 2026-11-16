@@ -1,5 +1,5 @@
 import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
-import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=camera-continuity-20261116-r2';
+import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=camera-overview-result-20261116-r3';
 // Shared display-space safe zone. This does not change combat/world geometry.
 export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
  const top=portrait&&touch?140:118;
@@ -25,18 +25,19 @@ function preferredFullStageCameraFrame(camera,width,height,fighters,previous=nul
   bottom-=gain;if(gain>0){laneZoom=freeZoom;laneBounds=lane;}
  }
  const viewHeight=Math.max(1,height-top-bottom);
- const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitStable:options.touch===true&&portrait,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
+ const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitStable:options.touch===true&&portrait&&options.cameraMode!=='stable',mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
  const frame={...view,y:view.y+(bottom-top)/(2*view.zoom),width,height,stageView:view};
- if(mobileLandscape&&options.cameraMode==='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+8,(options.hudBottom||0)+8),bottom:height-bottom-14,head:285});
+ if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+8,(options.hudBottom||0)+8),bottom:height-bottom-14,head:285});
  return frame;
 }
 // Stable and dynamic share one standing scale. Only the controlled fighter
 // constrains framing; measured blockers replace the fallback safe band.
 export function fullStageCameraFrame(camera,width,height,fighters,previous=null,delta=1000/60,options={}){
+ const preferred=preferredFullStageCameraFrame(camera,width,height,fighters,previous,delta,options);
  const measured=Array.isArray(options.occlusions);
  const inset=stageInsets(width,height,options);
  const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
- return controlledCombatCameraFrame(width,height,fighters,previous,delta,safety);
+ return controlledCombatCameraFrame(width,height,fighters,previous,delta,{...safety,preferredCameraFrame:preferred});
 }
 // Crops contain only floorboards / ceiling material. Outside the original
 // room, never repeat seating, walls, or an inverted second auditorium.

@@ -53,7 +53,10 @@ export function mountGameViewport({scene,clearHold,initialSettings={},onChange=(
  rotateButton.onclick=()=>{rotate=!rotate;lifecycle.invalidate('orientation');onChange({rotate,camera});};
  // Only this profile owns a frozen pose/lag. Legacy and active mode changes
  // retain their existing resets; genuine orientation/surface work is separate.
- const resetCameraPreference=()=>{if(!(scene.cameraView?.playerFixedCamera||scene.cameraView?.playerCloseCamera)||!isCameraFrozen())scene.cameraView=null;};
+ // Camera-mode changes are consumed by the camera solver as transitions.
+ // Dropping its previous rendered frame here made Stable start from a new
+ // composition and could leave the player behind the camera.
+ const resetCameraPreference=()=>{};
  cameraButton.onclick=()=>{camera=camera==='classic'?'stable':'classic';cameraButton.textContent=camera==='classic'?'鏡頭：動態跟隨':'鏡頭：穩定視野';cameraButton.setAttribute('aria-pressed',String(camera==='classic'));resetCameraPreference();clearHold();onChange({rotate,camera});};
  lifecycle=createViewportLifecycle({window,document,requirePaint:true,prepare:sizeCanvas,onSurfaceReset:resetSurface,read,apply,clearInput:clearHold,onState:stateChanged,measure:next=>{const outer=measureViewportElements(next,[shell]),rect=measureViewportElements(next,[app],{allowNarrow:!next.touch});return {...rect,key:outer.key+':'+rect.key+':'+stage.clientWidth+':'+stage.clientHeight,valid:outer.valid&&rect.valid&&stage.clientWidth>0&&stage.clientHeight>0};}});
  const modeObserver=typeof MutationObserver==='function'?new MutationObserver(()=>lifecycle.invalidate('layout')):null;modeObserver?.observe(app,{attributes:true,attributeFilter:['data-title-open','data-depth-route']});

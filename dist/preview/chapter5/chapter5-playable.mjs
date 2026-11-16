@@ -14,13 +14,13 @@ import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-fee
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-framing-20261116-r3';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-overview-result-20261116-r3';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-popup-consistency-20261116-r1';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapter5AssetURL} from './chapter5-assets.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-popup-consistency-20261116-r1';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-result-overview-20261116-r2';
 import {CHAPTER5_ART,drawChapter5Backdrop,drawChapter5Details,drawChapter5Prop} from './chapter5-scene.mjs?v=campaign-boot-20261112-r3';
 import {CAST,Duel,GROUND} from '../chapter4/core.mjs?v=rally-consistency-20261115-r1';
 import {ART_FILES,drawFighterArt,drawProp} from '../chapter4/art-render.mjs?v=campaign-boot-20261112-r3';
@@ -76,7 +76,7 @@ function sync(){
   $('#story-next').textContent=s.frameIndex===s.frameCount-1?'出發 →':'下一格 →';const token=s.token;$('#story-next').onclick=()=>{if(!ui.busy&&chapter.nextStory(token)){tone();sync();}};
  }else if(s.mode==='result'){
   $('#result-panel').hidden=false;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle;$('#result-score').textContent=outcome.score;}
-  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};
+  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};const skillButton=$('#result-skill'),overviewButton=$('#result-home'),bossVictory=s.result.kind!=='route'&&s.result.matchWon,resultActionBlocked=!!s.busy||!!s.blocked||!!continuation?.operationBusy;skillButton.hidden=!bossVictory;$('#result-next').disabled=resultActionBlocked;skillButton.disabled=overviewButton.disabled=resultActionBlocked;skillButton.onclick=()=>{media.unlock();if(!ui.busy&&!resultActionBlocked)continuation?.openPreparation();};overviewButton.onclick=()=>{if(!ui.busy&&!resultActionBlocked)continuation?.returnOverview({confirmed:true});};
  }else if(s.mode==='choice'||s.mode==='complete'){
   $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.className='primary menu-action';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
   $('#choice-title').textContent=s.mode==='complete'?'第五章完成':'阿扁仔加入！';$('#choice-copy').textContent=s.mode==='complete'?'七人到齊，前往最終戰。':'七人到齊，選好隊伍再決定誰先開講。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};

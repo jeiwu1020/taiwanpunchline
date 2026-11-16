@@ -15,12 +15,12 @@ import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-fee
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=campaign-framing-20261116-r3';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-overview-result-20261116-r3';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-popup-consistency-20261116-r1';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-popup-consistency-20261116-r1';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-result-overview-20261116-r2';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
 import {CAST,Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
@@ -79,7 +79,7 @@ function sync(){
   $('#story-next').textContent=s.frameIndex===s.frameCount-1?'出發 →':'下一格 →';const token=s.token;$('#story-next').onclick=()=>{if(!ui.busy&&chapter.nextStory(token)){tone();sync();}};
  }else if(s.mode==='result'){
   $('#result-panel').hidden=false;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle;$('#result-score').textContent=outcome.score;}
-  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};
+  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};const skillButton=$('#result-skill'),overviewButton=$('#result-home'),bossVictory=s.result.kind!=='route'&&s.result.matchWon,resultActionBlocked=!!s.busy||!!s.blocked||!!continuation?.operationBusy;skillButton.hidden=!bossVictory;$('#result-next').disabled=resultActionBlocked;skillButton.disabled=overviewButton.disabled=resultActionBlocked;skillButton.onclick=()=>{media.unlock();if(!ui.busy&&!resultActionBlocked)continuation?.openPreparation();};overviewButton.onclick=()=>{if(!ui.busy&&!resultActionBlocked)continuation?.returnOverview({confirmed:true});};
  }else if(s.mode==='choice'||s.mode==='complete'){
   $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.className='primary menu-action';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
   $('#choice-title').textContent=s.mode==='complete'?'第四章完成':'小馬哥加入！';$('#choice-copy').textContent=s.mode==='complete'?'第四章完成，前往議場器材歸還處。':'小馬哥看緊輪鎖，繼續護送同一座麥架。本次預覽不保存進度。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};

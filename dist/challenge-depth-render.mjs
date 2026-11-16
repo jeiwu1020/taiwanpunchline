@@ -1,9 +1,9 @@
 import {drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {streetActorNeedsPaint} from './street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
 import {backgroundPresentation} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
-import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {fitChallengeCamera,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from './challenge-camera.mjs?v=camera-overview-result-20261116-r3';
 import {micFootprint,MIC_VISUAL_TILT,MIC_SOURCE_TILT,FLOAT_AMPLITUDE,flyingMicLayout,drawFlyingMic,invalidateFlyingMicRaster} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
-import {stageInsets,fitMobilePairSafety} from './combat-presentation.mjs?v=campaign-boot-20261112-r3';
+import {stageInsets,fitMobilePairSafety} from './combat-presentation.mjs?v=camera-overview-result-20261116-r3';
 import {createDepthBackdropRenderer} from './challenge-backdrop-cache.mjs?v=campaign-boot-20261112-r3';
 import {GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
 import {drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
@@ -137,7 +137,6 @@ export function depthRouteCameraFrame(width,height,route,options={}){
  if(close)return {...requireStreetCameraFrame(close),presentation};
  const frozen=streetCameraFrozenSnapshot(options.previous,width,height,{...options,route:true,paused:options.paused||route?.status==='paused'});
  if(frozen){route={...route,player:{...route.player,...frozen}};options={...options,camera:'stable',cameraMode:'stable',previous:null};}
- else if(options.previous?.playerCloseCamera)options={...options,previous:null};
  const measured=Array.isArray(options.occlusions);
  if(options.paused&&canReuseCameraFrame(options.previous,width,height,{...options,measuredCameraSafety:measured?options.measuredCameraSafety:false}))return {...options.previous,presentation};
  const plan=challengeCameraPlan(route,{route:true,previous:options.previous,delta:options.delta}),subjects=plan.subjects;
