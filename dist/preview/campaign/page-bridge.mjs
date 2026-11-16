@@ -5,6 +5,7 @@ import {saveIssueText} from '../../save-copy.mjs?v=campaign-boot-20261112-r3';
 import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-boot-20261112-r3';
 import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-boot-20261112-r3';
 import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-countdown-bridge-20261115-r1';
+import {chapterCastWithResolvedPortraits} from '../shared-asset-urls.mjs?v=chapter-hud-portrait-20261116-r1';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',
@@ -168,7 +169,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
    if(options.confirmedToken!==before.token){if(options.confirmedToken!==undefined)return false;const token=before.token,scope=before.stepId==='boss'?'重新開始整場三戰兩勝大頭目戰，比分歸零':before.mode==='battle'||before.stepId?.startsWith('miniboss')?'重新開始這場小頭目戰':'從目前路段起點重新開始';return confirmRetry(`確認後將${scope}；已保存的 XP、技能配點、角色解鎖與章節進度會保留。`).then(accepted=>accepted&&current.view()?.token===token?openPreparation({...options,confirmedToken:token}):false);}
   }
   const {confirmedToken,...preparationOptions}=options;options={...preparationOptions,readOnly:!!options.readOnly||!boundary&&!retryIntent,intent:retryIntent?'retry':'boundary',token:before.token};
-  if(preparationOwner!==current){preparation?.destroy();preparationOwner=current;preparation=mountChallengePreparation({document,window,characters,controller:{
+  if(preparationOwner!==current){preparation?.destroy();preparationOwner=current;const abilityCharacters=chapterCastWithResolvedPortraits(chapterId,characters);preparation=mountChallengePreparation({document,window,characters:abilityCharacters,controller:{
    preparationSnapshot:()=>current.preparationSnapshot(),prepareEncounter:(draft,guard)=>current.prepareEncounter(draft,guard),retrySave:()=>current.retrySave(),exportJSON:()=>current.exportJSON?.()??router?.exportJSON(),exportLegacyJSON:()=>router?.exportLegacyJSON()??null
   },getEncounter:()=>current.view(),onBusy:value=>{preparationBusy=value;},onApplied:(result,context)=>{if(context.keepPaused&&['route','battle'].includes(current.view().mode))current.setPaused(true,current.view().token);const input=document.querySelector('#difficulty');if(input)setGameSelectValue(input,current.preparationSnapshot().difficulty);render();onChange();},onFailure:()=>{render();onChange();},onClose:context=>{if(context.keepPaused&&['route','battle'].includes(current.view().mode))current.setPaused(true,current.view().token);render();onChange();}});}
   pauseForUI('preparation');if(['route','battle'].includes(current.view().mode)&&!current.view().paused)current.setPaused(true,current.view().token);onChange();const opened=preparation.open(options);actionStatus(opened?'':'無法讀取角色能力，請關閉視窗後再試。');return opened;

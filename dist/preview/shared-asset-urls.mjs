@@ -173,3 +173,11 @@ export function chapterAssetURL(chapter,file,base='assets/'){
  const target=base==='assets/'?(SHARED_ASSET_PATHS[`preview/${chapter}/assets/${file}`]??(CANONICAL_ADDITIONS.has(file)?'assets/'+file:null)):null;
  return target?'../../'+target:base+file;
 }
+export function chapterCastWithResolvedPortraits(chapter,cast={}){
+ const assetChapter=chapter==='chapter-5'?'chapter4':String(chapter).replace('-','');
+ return Object.fromEntries(Object.entries(cast).map(([id,character])=>{
+  const portrait=character?.portrait;
+  if(typeof portrait!=='string'||!portrait.startsWith('assets/'))return[id,character];
+  return[id,{...character,portrait:chapterAssetURL(assetChapter,portrait.slice('assets/'.length))}];
+ }));
+}
