@@ -269,7 +269,7 @@ function syncRoster(){
 function initializeRoster(){
  $('#roster-grid').innerHTML=Object.entries(CAST).map(([id,cast])=>`<button type="button" class="roster-option" id="roster-${id}" data-character="${id}" aria-pressed="false" style="--portrait-color:${cast.colorCSS}"><span class="roster-badge" id="roster-badge-${id}"></span><img src="${cast.portrait}" alt="" draggable="false"><strong>${cast.name}</strong></button>`).join('');
  for(const id of Object.keys(CAST))$('#roster-'+id).onclick=()=>chooseCharacter(id);
- rosterReady=true;const launchQuery=new URL(window.location.href).searchParams;if(launchQuery.get('challengeLaunch')==='1'){const characterId=Object.hasOwn(CAST,launchQuery.get('characterId')||'')&&profileProgress.canUse(launchQuery.get('characterId'))?launchQuery.get('characterId'):undefined,helperId=Object.hasOwn(CAST,launchQuery.get('helperId')||'')&&profileProgress.canUse(launchQuery.get('helperId'))?launchQuery.get('helperId'):undefined,intent=['start','resume'].includes(launchQuery.get('intent'))?launchQuery.get('intent'):'start';window.setTimeout(()=>openPreparation({intent,characterId,entry:{characterId,helperId,replay:launchQuery.get('replay')==='1'}}),0);}else if(launchQuery.get('challengeOverview')==='1')window.setTimeout(()=>openChallenge(),0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
+ rosterReady=true;if(new URL(window.location.href).searchParams.get('challengeOverview')==='1')window.setTimeout(()=>openChallenge(),0);for(const id of ['player-card','opponent-card','difficulty-beginner','difficulty-easy','difficulty-normal'])$('#'+id).disabled=false;
  syncRoster();setupMoves();
 }
 function chooseRosterSide(side){if(!rosterReady||duel.status!=='menu'||!ROSTER_TARGETS.includes(side))return;rosterSide=side;syncRoster();}
@@ -637,11 +637,10 @@ async function returnToChallengeOverview(){
  if(challengeInputBlocked()){if(challengeSaveBlocked)showRootRecovery();return false;}
  const run=challengeRun;if(run)pauseGame();
  challengeActionBusy=true;
- let navigating=false;
  try{await challengeOperations;await run?.flush();const saved=profileProgress.get();if(!profileProgress.testMode&&(saved.dirty||saved.readOnly||saved.reason||!saved.persisted)){showChallengeSaveFailure({reason:saved.reason??'unsaved-progress'},()=>returnToChallengeOverview());return false;}
   if(profileProgress.testMode||window.__quickViewIsolated){showTitle();restoreProfileSelection();openChallenge();return true;}
-  navigating=true;window.location.assign(new URL('challenge-overview/',window.location.href).href);return true;
- }finally{challengeActionBusy=false;if(!navigating&&!challengeSaveBlocked&&!profileProgress.testMode&&!window.__quickViewIsolated&&challengeRun)openChallenge();}
+  showTitle();restoreProfileSelection();return true;
+ }finally{challengeActionBusy=false;if(!challengeSaveBlocked&&!profileProgress.testMode&&!window.__quickViewIsolated)openChallenge();}
 }
 
 async function returnToTitleHome(){

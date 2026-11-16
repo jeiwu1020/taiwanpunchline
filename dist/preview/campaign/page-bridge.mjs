@@ -36,7 +36,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  const label=make('label',null,'接續存檔 '),select=make('select','campaign-profile');
  for(const [value,text] of [['','目前使用的存檔'],['slot-1','存檔 1'],['slot-2','存檔 2'],['slot-3','存檔 3']]){const o=make('option',null,text);o.value=value;select.append(o);}label.append(select);if(['slot-1','slot-2','slot-3'].includes(query.get('profile')))setGameSelectValue(select,query.get('profile'));
  const resume=make('button','campaign-resume','繼續這一槽的挑戰'),menuStatus=make('p','campaign-menu-status'),adoptionChoices=make('section','campaign-adoption-choices');adoptionChoices.hidden=true;resume.type='button';resume.disabled=testPreview;menuStatus.setAttribute('role','status');
- const home=make('a','campaign-return-home','回挑戰總覽 →');home.href='../../challenge-overview/';const refreshLegacy=make('button','campaign-refresh-legacy','從原版更新這一槽');refreshLegacy.type='button';refreshLegacy.hidden=true;controls.append(title,label,resume,refreshLegacy,menuStatus,adoptionChoices,home);menu.append(controls);
+ const home=make('a','campaign-return-home','回挑戰總覽 →');home.href='../../?challengeOverview=1';const refreshLegacy=make('button','campaign-refresh-legacy','從原版更新這一槽');refreshLegacy.type='button';refreshLegacy.hidden=true;controls.append(title,label,resume,refreshLegacy,menuStatus,adoptionChoices,home);menu.append(controls);
  const helperLabel=make('label','campaign-helper-label','下一段助拳（新路段／對局生效） '),helperSelect=make('select','campaign-helper');helperLabel.htmlFor='campaign-helper';helperLabel.hidden=true;helperLabel.append(helperSelect);
  for(const type of ['keydown','keyup'])helperSelect.addEventListener(type,event=>event.stopPropagation());
  const preparationButton=make('button','campaign-prepare','出戰準備'),growthButton=make('button','campaign-growth','查看角色能力'),retryPreparation=make('button','campaign-retry-prepare','重新整備再重試'),bar=make('aside','campaign-bar'),state=make('span','campaign-save-state'),retry=make('button','campaign-retry-save','重試保存'),backup=make('button','campaign-export','匯出新版備份'),oldBackup=make('button','campaign-export-v1','匯出原版備份'),reloadLatest=make('button','campaign-reload-latest','重新接續最新進度'),next=make('a','campaign-next');
@@ -71,7 +71,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
    if(!pageActive||preparationBusy||navigating)return false;
    if(router?.enabled){const saved=router.view(),live=current?.view();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy||!saved.canNavigate||live&&(!live.persisted||live.blocked||live.busy||!live.canNavigate)){menuStatus.textContent=state.textContent=`尚未確認保存，請先重試保存或匯出備份，再${overview?'回挑戰總覽':'回首頁'}。`;return false;}}
    if(recovery){const saved=recovery.get();if(!saved.persisted||saved.dirty||saved.readOnly||saved.busy)return false;}
-   navigating=true;try{navigate(!testPreview?(overview?'../../challenge-overview/':'../../'):'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent=overview?'未能返回挑戰總覽，進度已保留，請再試一次。':'未能返回首頁，進度已保留，請再試一次。';return false;}
+   navigating=true;try{navigate(!testPreview?(overview?'../../?challengeOverview=1':'../../'):'../../');return true;}catch{navigating=false;menuStatus.textContent=state.textContent=overview?'未能返回挑戰總覽，進度已保留，請再試一次。':'未能返回首頁，進度已保留，請再試一次。';return false;}
   }).catch(()=>{menuStatus.textContent=state.textContent='尚未確認保存，未離開本頁。請重試保存或匯出備份。';return false;}).finally(()=>{leaving=false;render();});return idle;
  }
  function returnOverview(options){return returnToDestination('overview',options);}
@@ -197,7 +197,7 @@ export function renderContinuationChoice({document,state:s,chapterId}){
   copy.textContent=next?'本章預覽完成。本次遊玩不保存進度，可繼續試玩下一章。':'本章預覽完成，本次遊玩不保存進度。';
   if(next){link.hidden=false;link.href=`../${next}/?previewOnly=1`;link.textContent='不存檔試玩下一章 →';}
  }
- if(safe)home.href=s.campaignChapterId?'../../challenge-overview/':'../../';else{home.setAttribute('aria-disabled','true');home.tabIndex=-1;}
+ if(safe)home.href=s.campaignChapterId?'../../?challengeOverview=1':'../../';else{home.setAttribute('aria-disabled','true');home.tabIndex=-1;}
  // The current render owns this guard; formal navigation also rechecks authority
  // in mountContinuationControls before leaving, never trusting a stale href.
  home.onclick=event=>{if(!safe)event.preventDefault();};
