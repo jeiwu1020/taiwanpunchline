@@ -14,7 +14,7 @@ import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-fee
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-continuity-20261116-r1';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-continuity-20261116-r2';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=pause-menu-unify-20261116-r3';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';

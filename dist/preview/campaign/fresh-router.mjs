@@ -1,7 +1,7 @@
 import {openChallengeProgress} from './fresh/progress.mjs?v=campaign-boot-20261112-r3';
 import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
 const ROUTES=Object.freeze({
- 'chapter-1':{status:'legacy',url:'../../?challengeOverview=1'},
+ 'chapter-1':{status:'legacy',url:'../../challenge-overview/'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},
  'chapter-3':{status:'ready',url:'../chapter3/?campaign=1'},
  'chapter-4':{status:'ready',url:'../chapter4/?campaign=1'},

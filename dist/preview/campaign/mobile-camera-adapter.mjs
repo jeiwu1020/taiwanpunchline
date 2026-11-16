@@ -1,6 +1,6 @@
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
-import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=camera-continuity-20261116-r1';
-import {stageInsets} from '../../combat-presentation.mjs?v=camera-continuity-20261116-r1';
+import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=camera-continuity-20261116-r2';
+import {stageInsets} from '../../combat-presentation.mjs?v=camera-continuity-20261116-r2';
 // The chapter renderer supplies its preferred composition. Keep that exact
 // desktop size/placement when safe, and apply the same camera in every profile.
 export function createMobileCameraAdapter(){
@@ -17,7 +17,7 @@ export function createMobileCameraAdapter(){
   const cameraWorld=frozen?{...world,player:{...world.player,...frozen}}:world;
   if(previous?.playerCloseCamera){previous=null;lastResult=null;}
   if(frozen)options={...options,cameraMode:'stable',camera:'stable'};
-  if(paused&&canReuseCameraFrame(previous,width,height,{...options,measuredCameraSafety:measured?options.measuredCameraSafety:false})){lastResult={...lastResult,presentation};return lastResult;}
+  if(paused&&canReuseCameraFrame(previous,width,height,{...options,paused:true,measuredCameraSafety:measured?options.measuredCameraSafety:false})){lastResult={...lastResult,presentation};return lastResult;}
   const preferred={...legacyFrame,width,height,x:legacyFrame.left+width/(2*legacyFrame.zoom),y:430+(height/2-legacyFrame.base)/legacyFrame.zoom};
   const inset=stageInsets(width,height,options);
   const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};

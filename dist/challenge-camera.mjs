@@ -187,7 +187,10 @@ function compatiblePlayerFixedState(frame){
 }
 export function canReuseCameraFrame(frame,width,height,options={}){
  if(!frame||frame.width!==width||frame.height!==height)return false;
- if(frame.controlledCombatCamera)return frame.controlledCombatCamera.version===2&&frame.controlledCombatCamera.geometryKey===controlledCombatGeometry(width,height,options).key;
+ // Combat framing depends on live fighter positions. Reuse it only while the
+ // encounter is frozen; active frames must advance follow and camera-mode
+ // transitions even when the HUD geometry is unchanged.
+ if(frame.controlledCombatCamera)return !!options.paused&&frame.controlledCombatCamera.version===2&&frame.controlledCombatCamera.geometryKey===controlledCombatGeometry(width,height,options).key;
  if(frame.playerCloseCamera)return canReuseCloseFrame(frame,width,height,options);
  if(!frame.playerFixedCamera)return true;
  // A paused frame owns its existing mode; a UI selection takes effect only
@@ -208,8 +211,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const actors=(fighters||[]).filter(actor=>actor&&Number.isFinite(actor.x));if(!actors.length)return null;
  const player=actors[0];
  const g=controlledCombatGeometry(width,height,options),{rect,occlusions,key}=g;
- const state=previous?.controlledCombatCamera,history=state?.version===2&&previous.width===width&&previous.height===height?state:null,old=history&&state.geometryKey===key?state:null;
- if(options.paused&&old)return previous;
+ const state=previous?.controlledCombatCamera,compatible=state?.version===2&&previous.width===width&&previous.height===height?state:null;
  const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player)};
  const standing={left:-132,right:132,top:-300,bottom:28};
  const bodies=actors.map(actor=>{const y=finite(actor.y,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
@@ -220,15 +222,22 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  if(!fit){let lo=0,hi=maximum;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(fitAt(mid))lo=mid;else hi=mid;}fitZoom=Math.max(1e-6,lo);fit=fitAt(fitZoom);}
  const selected=options.paused&&state?previous.challengeCameraMode:(options.cameraMode??options.camera);
  const mode=selected==='stable'?'stable':'classic';
- // Both fighters share the frame. Dynamic mode follows their midpoint after
- // it leaves a small center dead zone; stable mode keeps its opening scale.
- // Pair separation can only zoom out enough to keep both bodies inside safety.
- const lockedZoom=(old||history)?.lockedZoom>0?(old||history).lockedZoom:(previous?.zoom>0?previous.zoom:fitZoom);
- const target=mode==='stable'?Math.min(lockedZoom,fitZoom):fitZoom;
+ const modeChanged=!!compatible&&previous.challengeCameraMode!==mode;
+ // A stable frame must establish its own safe anchor. Keeping a dynamic
+ // follow position as that anchor can strand a fighter at the edge when the
+ // mode is changed mid-round. Preserve the current scale, then compose once
+ // from the current pair and rebuild clean tracking history.
+ const history=modeChanged?null:compatible,old=history&&state.geometryKey===key?state:null;
+ if(options.paused&&old)return previous;
+ // Dynamic mode fits both fighters as they move. Stable mode keeps the zoom
+ // established on entry; when the pair outgrows that frame, the player keeps
+ // priority and the camera pans without resizing the scene.
+ const lockedZoom=modeChanged&&previous?.zoom>0?Math.min(previous.zoom,fitZoom):(old||history)?.lockedZoom>0?(old||history).lockedZoom:fitZoom;
+ const target=mode==='stable'?lockedZoom:fitZoom;
  const ease=1-Math.exp(-clamp(finite(delta,1000/60),0,100)/300);
  // Zooming out is immediate only when required for pair safety. Zooming back
  // in eases to avoid visible scale pulses while the fighters exchange space.
- const easedZoom=history?previous.zoom+(target-previous.zoom)*ease:target,zoom=Math.min(fitZoom,Math.max(1e-6,easedZoom));
+ const easedZoom=history?previous.zoom+(target-previous.zoom)*ease:target,zoom=mode==='stable'?Math.max(1e-6,easedZoom):Math.min(fitZoom,Math.max(1e-6,easedZoom));
  let centerX=pairCenter,centerY=pose.displayY+(height/2-height*.84)/zoom;
  if(history){
   centerY=previous.y;
@@ -241,13 +250,15 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
  let position=null,panLimits=null,safetyFit=false;
  if(history){
-  const dt=clamp(finite(delta,1000/60),0,100)/1000,panX=360*dt,panY=280*dt,prior={x:width/2-previous.x*zoom,y:height/2-previous.y*zoom};
+  const dt=clamp(finite(delta,1000/60),0,100)/1000,actorStep=Math.abs(player.x-(history?.pose?.x??player.x))*zoom,panX=Math.max(360*dt,mode==='stable'?actorStep+1:0),panY=Math.max(280*dt,mode==='stable'?Math.abs(pose.displayY-(history?.pose?.displayY??pose.displayY))*zoom+1:0),prior={x:width/2-previous.x*zoom,y:height/2-previous.y*zoom};
   panLimits={left:prior.x-panX,right:prior.x+panX,top:prior.y-panY,bottom:prior.y+panY};
-  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,panLimits);safetyFit=!!position;
-  // When the actors outrun the safe camera pocket, keep the frame moving at
-  // its normal speed instead of snapping to an unrestricted placement.
-  if(!position)position={x:clamp(wanted.x,panLimits.left,panLimits.right),y:clamp(wanted.y,panLimits.top,panLimits.bottom)};
- }else{position=placeAtScale(bodies,zoom,rect,occlusions,wanted);safetyFit=!!position;}
+  position=placeAtScale(bodies,zoom,rect,occlusions,wanted,panLimits);
+  if(!position&&mode==='stable')position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted,panLimits);
+  safetyFit=!!position;
+  // Stable framing must never leave a fighter outside the safe viewport. If
+  // an abrupt move outruns the normal pan budget, use the nearest legal frame.
+  if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,wanted)||(mode==='stable'?placeAtScale([bodies[0]],zoom,rect,occlusions,wanted):null)||{x:clamp(wanted.x,panLimits.left,panLimits.right),y:clamp(wanted.y,panLimits.top,panLimits.bottom)};
+ }else{position=placeAtScale(bodies,zoom,rect,occlusions,wanted);if(!position&&mode==='stable')position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);safetyFit=!!position;}
  const x=position?(width/2-position.x)/zoom:centerX,y=position?(height/2-position.y)/zoom:centerY;
  return {width,height,x,y,zoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
   controlOverlay:g.softControls?'soft':'normal',controlledCombatCamera:{version:2,geometryKey:key,baseline:maximum,lockedZoom,anchor:{x:width/2,y:height*.84},pose,pairCenter}};

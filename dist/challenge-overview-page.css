@@ -1,0 +1,10 @@
+html,body{width:100%;min-height:100%;margin:0;background:#16262b;color:#fff5dc;font-family:"Microsoft JhengHei",system-ui,sans-serif}
+body{min-height:100svh;overflow:hidden}
+#challenge-overview-app.app{box-sizing:border-box;position:relative;display:grid;place-items:center;width:100%;min-height:100svh;padding:24px;background:radial-gradient(ellipse at 20% 20%,#6c4732 0,transparent 48%),radial-gradient(ellipse at 85% 78%,#315e58 0,transparent 45%),linear-gradient(145deg,#1b3339,#16262b 70%)}
+.challenge-overview-backdrop{width:min(620px,100%);text-align:center}
+.challenge-overview-kicker{font-size:13px;font-weight:900;letter-spacing:.18em;color:#f4bf5e}
+.challenge-overview-backdrop h1{margin:12px 0;font-size:clamp(32px,8vw,58px);line-height:1.1}
+.challenge-overview-backdrop p{margin:0 0 22px;color:#e0d7c0}
+.challenge-overview-backdrop>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:2px solid #fff5dc;border-radius:5px;color:#fff5dc;font-weight:800;text-decoration:none}
+.challenge-overview-backdrop>a:focus-visible{outline:3px solid #f4bf5e;outline-offset:3px}
+@media(max-width:640px){#challenge-overview-app.app{padding:14px}.challenge-overview-backdrop p{font-size:14px}}
