@@ -1,4 +1,4 @@
-import {backgroundCachePolicy} from './background-cache-policy.mjs?v=campaign-boot-20261112-r3';
+import {backgroundCachePolicy} from './background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
 import {hasStreetSeamRepairs,invalidateStreetSeamRepairs} from './street-seam-repair.mjs?v=campaign-boot-20261112-r3';
 import {drawChallengeBackdrop,drawChallengeSky,hasLayeredStreet,CHALLENGE_SCENE_FRAMES} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 

@@ -1,7 +1,7 @@
 import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
 import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=camera-overview-result-20261116-r3';
-export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=camera-overview-result-20261116-r3';
+import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=chapter-presentation-20261117-r1';
+export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=chapter-presentation-20261117-r1';
 import {DESK} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
 import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));

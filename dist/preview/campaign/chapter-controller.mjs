@@ -1,6 +1,6 @@
 import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
 import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
-import {normalizeCarry,zeroSkills} from './core/model.mjs?v=campaign-boot-20261112-r3';
+import {normalizeCarry,zeroSkills} from './core/model.mjs?v=chapter-presentation-20261117-r1';
 import {captureRoundState,restoreRoundState} from '../../round-series-state.mjs?v=rally-consistency-20261115-r1';
 // Shared encounter presentation state. Chapter modules provide content only.
 let sessionCount=0;

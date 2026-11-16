@@ -1,5 +1,5 @@
 import {offscreenOpponentHints} from '../../camera-direction-hints.mjs?v=finale-follow-r1';
-import {challengeActorBounds} from '../../challenge-camera.mjs?v=campaign-boot-20261112-r3';
+import {challengeActorBounds} from '../../challenge-camera.mjs?v=chapter-presentation-20261117-r1';
 import {finalePoint,finaleSubject} from './finale-camera.mjs?v=finale-follow-r1';
 
 // Adapt projected copies to the shared edge-label placement. Never hand these

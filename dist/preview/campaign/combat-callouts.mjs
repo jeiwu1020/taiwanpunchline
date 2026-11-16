@@ -1,5 +1,5 @@
-import {layoutMoveCaptions,moveCaption} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
-import {comicMoveStyle,shoutCaptionBeat} from '../../shout-caption.mjs?v=campaign-boot-20261112-r3';
+import {moveCaption} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
+import {comicMoveStyle,shoutCaptionBeat,shoutCaptionLayout} from '../../shout-caption.mjs?v=campaign-boot-20261112-r3';
 import {CAST} from '../../core.mjs?v=rally-consistency-20261115-r1';
 
 export function makeCombatCallout(text,subtitle='',kind='impact',actorType='wang'){
@@ -42,14 +42,10 @@ export function combatCalloutEntries(state,world,actors,callouts,now=performance
 
 export function layoutCombatCallouts(entries,actors,frame,width,height,ground,delta=16,now=performance.now(),safeTop=0){
  if(!entries.length)return [];
- const zoom=Math.max(.01,frame.zoom||1),positionedActors=actors.map(actor=>({...actor,y:actor.y+(actor.depth??0)*.65}));
- const projected=new Map(actors.map((actor,index)=>[actor,positionedActors[index]]));
- const prepared=entries.map(entry=>({...entry,f:projected.get(entry.actor)??{...entry.actor,y:entry.actor.y+(entry.actor.depth??0)*.65}}));
- const topInset=Math.min(height,Math.max(0,safeTop)),viewHeight=Math.max(1,height-topInset),viewTop=ground-frame.base/zoom+topInset/zoom;
- const view={x:frame.left+width/(2*zoom),y:viewTop+viewHeight/(2*zoom),width,height:viewHeight,zoom};
- const placed=layoutMoveCaptions(prepared,positionedActors,view,delta);
- return prepared.map((entry,index)=>{
-  const placement=placed[index];entry.previous=placement;const age=Math.max(0,now-entry.started),beat=shoutCaptionBeat(age,entry.caption.duration*1000);
+ const zoom=Math.max(.01,frame.zoom||1),view={x:frame.left+width/(2*zoom),y:ground+(height/2-frame.base)/zoom,width,height,zoom};
+ return entries.map(entry=>{
+  const placement=shoutCaptionLayout(entry.caption.text,entry.player?'player':'enemy',view,{top:Math.max(0,safeTop),bottom:18},{kind:entry.caption.kind,actor:entry.actor.type});
+  placement.showSubtitle=!!entry.caption.subtitle;entry.previous=placement;const age=Math.max(0,now-entry.started),beat=shoutCaptionBeat(age,entry.caption.duration*1000);
   return {...entry,placement,alpha:beat.alpha,scale:beat.scale};
  });
 }
@@ -85,18 +81,18 @@ function paintAccent(ctx,width,height,style,age,duration){
 
 export function drawCombatCallout(ctx,item,frame,ground,width){
  const p=item?.placement;if(!p||!item.alpha)return;
- const zoom=frame.zoom||1,screenX=(p.x-frame.left)*zoom,screenY=frame.base+(p.y-ground)*zoom;
- const fontSize=Math.min(p.size,Math.max(23,width*.06)),lines=String(p.text).split('\n'),lineHeight=fontSize*1.05;
- ctx.save();ctx.globalAlpha*=item.alpha;ctx.translate(screenX,screenY);ctx.rotate(item.player?-.035:.035);ctx.scale(item.scale||1,item.scale||1);
+ const zoom=frame.zoom||1,screenX=(p.x-frame.left)*zoom,screenY=frame.base+(p.y-ground)*zoom,tagY=frame.base+(p.tagY-ground)*zoom;
+ const fontSize=p.size,lines=String(p.text).split('\n'),lineHeight=fontSize*1.05;
+ ctx.save();ctx.globalAlpha*=item.alpha;ctx.translate(screenX,screenY);ctx.rotate(p.rotation||0);ctx.scale(item.scale||1,item.scale||1);
  ctx.font=`italic 1000 ${fontSize}px "Microsoft JhengHei",system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
  const textWidth=Math.max(...lines.map(line=>ctx.measureText(line).width)),textHeight=lines.length*lineHeight;
  paintAccent(ctx,textWidth+22,textHeight+12,item.caption.style,item.started?performance.now()-item.started:0,item.caption.duration*1000);
  ctx.shadowColor='#071b25';ctx.shadowBlur=3;ctx.shadowOffsetX=3;ctx.shadowOffsetY=4;ctx.lineWidth=7;ctx.lineJoin='round';ctx.strokeStyle='#102934';ctx.fillStyle=item.caption.style.face;
  lines.forEach((line,index)=>{const y=(index-(lines.length-1)/2)*lineHeight;ctx.strokeText(line,0,y);ctx.fillText(line,0,y);});
  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
- const speaker=item.player?'你 · '+item.caption.style.label:item.actor.displayName||item.actor.name||item.caption.style.label;
- ctx.font=`900 ${Math.max(11,fontSize*.38)}px "Microsoft JhengHei",system-ui,sans-serif`;ctx.fillStyle=item.caption.style.accent;ctx.strokeStyle='#102934';ctx.lineWidth=3;
- ctx.strokeText(speaker,0,-textHeight/2-fontSize*.72);ctx.fillText(speaker,0,-textHeight/2-fontSize*.72);
+ const speaker=item.player?'你 · '+item.caption.style.label:'';
+ ctx.font=`900 ${Math.max(11,fontSize*.38)}px "Microsoft JhengHei",system-ui,sans-serif`;ctx.fillStyle=p.color||item.caption.style.accent;ctx.strokeStyle='#102934';ctx.lineWidth=3;
+ if(speaker){const tagOffset=(tagY-screenY)/(item.scale||1);ctx.strokeText(speaker,0,tagOffset);ctx.fillText(speaker,0,tagOffset);}
  if(p.showSubtitle&&item.caption.subtitle){ctx.font=`900 ${Math.max(11,fontSize*.42)}px "Microsoft JhengHei",system-ui,sans-serif`;ctx.fillStyle='#fff2c7';ctx.strokeStyle='#102934';ctx.lineWidth=4;ctx.strokeText(item.caption.subtitle,0,textHeight/2+fontSize*.72);ctx.fillText(item.caption.subtitle,0,textHeight/2+fontSize*.72);}
  ctx.restore();
 }

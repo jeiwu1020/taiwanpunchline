@@ -1,6 +1,6 @@
 import {GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
 import {drawChallengeSky} from '../../challenge-art.mjs?v=campaign-boot-20261112-r3';
-import {prepareStreetStaticCaches,registerStreetSourceCacheInvalidator} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
+import {prepareStreetStaticCaches,registerStreetSourceCacheInvalidator} from '../campaign/street-static-cache.mjs?v=chapter-presentation-20261117-r1';
 
 export const CHAPTER5_ART=Object.freeze({curbs:[535,557,556],files:{
  'chapter5-scene-0':'chapter5/return-street-v1.png',

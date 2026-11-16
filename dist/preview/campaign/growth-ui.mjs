@@ -1,4 +1,4 @@
-import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=campaign-boot-20261112-r3';
+import {SKILLS,MAX_RANK,XP_PER_POINT,allowance,deriveStats} from './core/model.mjs?v=chapter-presentation-20261117-r1';
 import {CHARACTER_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
 
 const LABELS=Object.freeze({hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'});

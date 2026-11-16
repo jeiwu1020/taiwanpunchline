@@ -1,7 +1,7 @@
 import {mountGameSelects} from './game-select.mjs?v=campaign-boot-20261112-r3';
-import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
-import {saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
+import {SKILLS,MAX_RANK} from './preview/campaign/core/model.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=chapter-presentation-20261117-r1';
+import {saveIssueText} from './save-copy.mjs?v=chapter-presentation-20261117-r1';
 import {characterAbilityMarkup} from './challenge-ability-view.mjs?v=campaign-boot-20261112-r3';
 const labels={hp:'續航氣勢',move:'靈活走位',basic:'基本功',defense:'防守韌性',special:'招牌絕招',rally:'揪團聲勢',assist:'助拳默契'};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

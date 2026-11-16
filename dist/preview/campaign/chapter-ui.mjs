@@ -2,8 +2,8 @@ import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=camp
 import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=campaign-boot-20261112-r3';
 // Presentation adapter only. Campaign progression remains in its controller.
 import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
-import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=campaign-boot-20261112-r3';
-import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=campaign-boot-20261112-r3';
+import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=chapter-presentation-20261117-r1';
+import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=chapter-presentation-20261117-r1';
 import {createSettingsStore} from '../../settings-state.mjs?v=campaign-boot-20261112-r3';
 import {mountSettingsPanel} from '../../settings-view.mjs?v=campaign-boot-20261112-r3';
 import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';

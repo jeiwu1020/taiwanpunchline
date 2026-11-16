@@ -3,24 +3,24 @@ import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=co
 import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
 import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
 import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-object-polish-r2';
-import {chapterRoundResultCopy,mountChapterCountdown,setSeriesWinMarkers} from '../../series-presentation.mjs?v=series-presentation-20261115-r2';
+import {challengeResultActions,chapterRoundResultCopy,mountChapterCountdown,setSeriesWinMarkers} from '../../series-presentation.mjs?v=series-presentation-20261117-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
 import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-boot-20261112-r3';
 import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
-import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
+import {backgroundPresentation} from '../../background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
 import {drawStreetMobHealth} from '../../challenge-mob-health.mjs?v=street-mob-hp-20261116-r1';
 import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
-import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=hud-caption-safe-20261116-r2';
+import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=chapter-presentation-20261117-r1';
 import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-feedback.mjs?v=chapter-combat-feedback-20261115-r1';
-import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=campaign-boot-20261112-r3';
-import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=campaign-boot-20261112-r3';
+import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=chapter-presentation-20261117-r1';
+import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=chapter-presentation-20261117-r1';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
-import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=camera-overview-result-20261116-r3';
-import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-hud-consistency-20261116-r1';
+import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=chapter-presentation-20261117-r1';
+import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-presentation-20261117-r1';
 import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
 import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-hud-consistency-20261116-r1';
+import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-presentation-20261117-r1';
 import {loadChapterAssetsInStages} from '../campaign/chapter-asset-loading.mjs?v=chapter-staged-assets-20261116-r1';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
@@ -34,7 +34,7 @@ import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintR
 import {chapter2RenderActor,chapter2TableFrame,chapter2ObstacleFrame,chapter2SceneLayers,drawChapter2TableLayer} from './chapter2-render-rules.mjs?v=street-object-polish-r3';
 import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {createPlayableChapter} from './chapter2-controller.mjs?v=series-presentation-20261115-r1';
+import {createPlayableChapter} from './chapter2-controller.mjs?v=chapter-presentation-20261117-r1';
 import {CHAPTER2,CHARACTER_NAMES} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
 import {ASSET_FILES} from './chapter2-assets.mjs?v=campaign-boot-20261112-r3';
 import {CHAPTER2_NEW_ART} from './chapter2-new-art.mjs?v=campaign-boot-20261112-r3';
@@ -64,7 +64,7 @@ function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.b
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
 function clearHold(){keys.clear();pointers.clear();held={};punchWait=0;controls?.clear();}
 function tone(){media.unlock();}
-function shout(copy){caption=copy;captionUntil=performance.now()+1500;$('#caption').textContent=copy;}
+function shout(copy){caption=copy;captionUntil=performance.now()+1500;$('#feedback').textContent=copy;window.setTimeout(()=>{if(performance.now()>=captionUntil){caption='';$('#feedback').textContent='';}},1500);}
 function command(action){const s=v();if(!active())return false;const accepted=chapter.press(action,s.token);if(action==='punch')punchWait=.35;return accepted;}
 function portrait(id){return chapterAssetURL('chapter3',CAST[id].portrait.replace(/^assets\//,''));}
 function roster(root,ids,choice,onSelect){root.replaceChildren(...ids.map(id=>{const b=document.createElement('button');b.type='button';b.dataset.character=id;b.setAttribute('aria-pressed',String(id===choice));const im=document.createElement('img');im.src=portrait(id);im.alt='';const name=document.createElement('b');name.textContent=CAST[id].name;b.append(im,name);b.onclick=()=>onSelect(id);return b;}));}
@@ -80,8 +80,8 @@ function sync(){
   $('#story-panel').hidden=false;$('#story-count').textContent=`${s.frameIndex+1} / ${s.frameCount}`;$('#story-speaker').textContent=s.storyFrame.speaker;$('#story-title').textContent=s.storyFrame.title;$('#story-copy').textContent=s.storyFrame.copy;
   $('#story-next').textContent=s.frameIndex===s.frameCount-1?'出發 →':'下一格 →';const token=s.token;$('#story-next').onclick=()=>{if(!ui.busy&&chapter.nextStory(token)){tone();sync();}};
  }else if(s.mode==='result'){
-  $('#result-panel').hidden=false;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle;$('#result-score').textContent=outcome.score;}
-  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};const skillButton=$('#result-skill'),overviewButton=$('#result-home'),bossVictory=s.result.kind!=='route'&&s.result.matchWon,resultActionBlocked=!!s.busy||!!s.blocked||!!continuation?.operationBusy;skillButton.hidden=!bossVictory;$('#result-next').disabled=resultActionBlocked;skillButton.disabled=overviewButton.disabled=resultActionBlocked;skillButton.onclick=()=>{media.unlock();if(!ui.busy&&!resultActionBlocked)continuation?.openPreparation();};overviewButton.onclick=()=>{if(!ui.busy&&!resultActionBlocked)continuation?.returnOverview({confirmed:true});};
+  $('#result-panel').hidden=false;const fictionNote=$('#result-panel .fiction-note');if(fictionNote)fictionNote.hidden=true;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle;$('#result-score').textContent=outcome.score;}
+  $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追神麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};const skillButton=$('#result-skill'),overviewButton=$('#result-home'),resultActionBlocked=!!s.busy||!!s.blocked||!!continuation?.operationBusy,actions=challengeResultActions({challenge:true,resultReady:!!(s.result.matchWon||s.result.matchLost),winner:s.result.matchWon?'player':s.result.matchLost?'enemy':s.result.winner,between:!!outcome&&!outcome.complete,route:s.result.kind==='route'});skillButton.hidden=!actions.showPreparation;skillButton.textContent=actions.preparationLabel;overviewButton.hidden=!actions.showOverview;$('#result-next').disabled=resultActionBlocked;skillButton.disabled=overviewButton.disabled=resultActionBlocked;skillButton.onclick=()=>{media.unlock();if(!ui.busy&&!resultActionBlocked)continuation?.openPreparation();};overviewButton.onclick=()=>{if(!ui.busy&&!resultActionBlocked)continuation?.returnOverview({confirmed:true});};
  }else if(s.mode==='choice'||s.mode==='complete'){
   $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.className='primary menu-action';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
   $('#choice-title').textContent=s.mode==='complete'?'神麥往下一站去了':'柯P加入！';$('#choice-copy').textContent=s.mode==='complete'?'第三章已打通。第四章入口已保留，回挑戰總覽，接著追麥。':'選好接下來的主角，跟著音響車追神麥。下一站，繼續追麥。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
@@ -121,7 +121,7 @@ function paintStory(s,w,h,time){
  if(cast[1]&&!transport){
   const enemy={...idle.enemy,type:cast[1].characterId,x:w*.7/f.zoom,y:GROUND,depth:0,face:-1};
   if(cast[1].mobKind){enemy.mobKind=cast[1].mobKind;enemy.displayName=s.storyFrame.title;}
-  
+
   actor(enemy,f,time);
  }
  const {mic,standY,standHeight}=prop;
@@ -161,7 +161,7 @@ function draw(time,delta=1000/60){
  if(route)drawChapterEncounterGuidance(ctx,g,encounterProject,f.zoom);
  for(const q of g.projectiles||[]){if(q.dead)continue;const qp=q.kind==='arrow'?arrowPresentation(q):q;ctx.save();ctx.translate(sx(qp.x),sy(qp.y,q.depth));ctx.scale(f.zoom,f.zoom);if(q.kind==='coin')drawProp(ctx,images,'coin',0,0,35,36,time*.008);else if(q.kind==='arrow')drawProp(ctx,images,'arrow',0,0,qp.width,qp.height,qp.angle);else if(drawChallengeSignatureProjectile(ctx,images,q,time)){}else{ctx.fillStyle='#fff5dc';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.rotate(time*.004);ctx.fillRect(-16,-11,32,22);ctx.strokeRect(-16,-11,32,22);}ctx.restore();if(q.targetX!=null){ctx.strokeStyle='#d15c37';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx(q.targetX),sy(GROUND,q.depth),35*f.zoom,9*f.zoom,0,0,Math.PI*2);ctx.stroke();}}
  paintRallyCallouts(ctx,g,rallyProject,{width:w,height:h,zoom:f.zoom,safeTop});paintCombatFeedback(ctx,combatFeedback,f,GROUND,w,time);
- if(caption&&performance.now()<captionUntil){const hudBottom=Math.max(0,ui.cameraOptions.hudBottom||0),fs=Math.min(34,w/15,Math.max(12,(h-hudBottom-16)/2)),yy=Math.min(h-fs-8,Math.max(Math.min(120,h*.25),hudBottom+fs+8));label(caption,w/2,yy,fs,'#ffe4a4');}
+
 }
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
 function hud(){const s=v(),g=chapter?.world;if(!s)return;setSeriesWinMarkers(document,s.rounds.player,s.rounds.enemy,s.stepId==='boss');const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER2.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?g.enemy.displayName:'第三章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER2.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(deferredAssetError)hudText('#objective',deferredAssetError);if(g)ui.render({state:s,world:g});}
@@ -177,7 +177,7 @@ function tick(now){
     if(!active()||chapter!==current||chapter.world!==world||v().token!==token)break;
     chapter.step(step,{...held,crouch:v().mode==='battle'&&!!(held.down||held.crouch)});
    }
-   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted)rememberCombatFeedback(combatFeedback,e);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='rally')shout(rallyEventCopy(e,world,emitted.filter(item=>item.type==='rally').length>1));else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);else if(e.type==='move')shout(e.name??'助拳！');if(e.type==='supply')shout('補給到手！HP 全滿');}
+   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted)rememberCombatFeedback(combatFeedback,e);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='rally')shout(rallyEventCopy(e,world,emitted.filter(item=>item.type==='rally').length>1));else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);if(e.type==='supply')shout('補給到手！HP 全滿');}
    if(v().token!==uiToken)sync();
   }
  chaseWindow.paint({active:v()?.mode==='route'&&!v()?.paused,image:images['opening-props-v75'],time:now}); hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);}

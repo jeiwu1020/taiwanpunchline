@@ -108,3 +108,9 @@ body[data-compact=true] #feedback{bottom:139px;font-size:16px}
 .guard-pips i{height:4px;width:12px}}
 .dom-hud{row-gap:3px}
 .hud-status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#caption{display:none}
+html[data-campaign-loading="true"] #trial-app>header,html[data-campaign-loading="true"] #trial-app>#controls,html[data-campaign-loading="true"] #trial-app>#stage{visibility:hidden}
+html[data-campaign-loading="true"] #trial-app #menu{visibility:visible}
+html[data-campaign-loading="true"] #trial-app #menu .card{position:relative;overflow:hidden}
+html[data-campaign-loading="true"] #trial-app #menu .card>*{visibility:hidden!important}
+html[data-campaign-loading="true"] #trial-app #menu .card::after{content:"載入中…";position:absolute;inset:0;display:grid;place-items:center;color:#17353a;font-size:clamp(28px,6vw,42px);font-weight:950;letter-spacing:.08em;visibility:visible}

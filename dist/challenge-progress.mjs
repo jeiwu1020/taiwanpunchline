@@ -1,5 +1,5 @@
 import {deriveFighterStats} from './fighter-attributes.mjs?v=campaign-boot-20261112-r3';
-import {validCarry} from './preview/campaign/core/model.mjs?v=campaign-boot-20261112-r3';
+import {validCarry} from './preview/campaign/core/model.mjs?v=chapter-presentation-20261117-r1';
 import {CHARACTER_IDS,PROFILE_IDS,STARTER_CHARACTERS,validateProfileDocument} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
 export const CHALLENGE_VERSION=1;
 export const SKILLS=Object.freeze(['hp','move','basic','defense','special','rally','assist']);

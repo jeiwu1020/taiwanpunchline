@@ -1,4 +1,4 @@
-import {newDocument,validateDocument,validCharacters,onlyKeys,integer,uniqueStrings,clone,MAX_XP,MAX_SERIAL,MAX_JSON_LENGTH} from './model.mjs?v=campaign-boot-20261112-r3';
+import {newDocument,validateDocument,validCharacters,onlyKeys,integer,uniqueStrings,clone,MAX_XP,MAX_SERIAL,MAX_JSON_LENGTH} from './model.mjs?v=chapter-presentation-20261117-r1';
 import {PROFILE_IDS,STARTERS,CHARACTER_IDS,FIRST_CLEAR_STEPS,receiptFor} from './catalog.mjs?v=campaign-boot-20261112-r3';
 const map=['route-a','miniboss-a','route-b','miniboss-b','route-c','boss-comic'];
 const legacyKeys=['route-0','boss-0','route-1','boss-1','route-2','boss-2'];

@@ -1,6 +1,6 @@
-import {backgroundPresentation} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
-import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=camera-overview-result-20261116-r3';
-import {stageInsets} from '../../combat-presentation.mjs?v=camera-overview-result-20261116-r3';
+import {backgroundPresentation} from '../../background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
+import {fitChallengeCamera,controlledCombatCameraFrame,challengeCameraSubjects,challengeCameraPlan,canReuseCameraFrame,streetPlayerCameraFrame,streetCameraFrozenSnapshot,requireStreetCameraFrame} from '../../challenge-camera.mjs?v=chapter-presentation-20261117-r1';
+import {stageInsets} from '../../combat-presentation.mjs?v=chapter-presentation-20261117-r1';
 // The chapter renderer supplies its preferred composition. Keep that exact
 // desktop size/placement when safe, and apply the same camera in every profile.
 export function createMobileCameraAdapter(){

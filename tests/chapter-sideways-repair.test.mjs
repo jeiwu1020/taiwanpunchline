@@ -160,7 +160,8 @@ for(const chapter of [2,3,4]){
   const baseline=new JSDOM(read('index.html'));t.after(()=>baseline.window.close());
   assert.deepEqual([...d.querySelectorAll('header .toolbar button')].map(button=>button.id),[...baseline.window.document.querySelectorAll('header .toolbar button')].map(button=>button.id));
   const headerElement=d.querySelector('#trial-app>header');
-  assert.deepEqual([...headerElement.children].map(element=>element.matches('.brand')?'brand':element.id==='campaign-bar'?'save':element.matches('.toolbar')?'toolbar':'unexpected'),['brand','save','toolbar']);
+  assert.deepEqual([...headerElement.children].map(element=>element.matches('.brand')?'brand':element.id==='campaign-bar'?'save':element.matches('.toolbar')?'toolbar':element.hasAttribute('data-save-notice')?'notice':'unexpected'),['brand','save','toolbar','notice']);
+  assert.equal(w.getComputedStyle(headerElement.querySelector('[data-save-notice]')).position,'absolute');
   for(const width of [320,390,430]){
    dimensions(width,844);ui.resize();
    const header=w.getComputedStyle(headerElement);

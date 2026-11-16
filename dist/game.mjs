@@ -5,14 +5,14 @@ import {createBootArtLoader} from './boot-art-loader.mjs?v=campaign-boot-2026111
 import {mountCompactToolbar} from './compact-toolbar.mjs?v=campaign-boot-20261112-r3';
 import {planSimulationFrame} from './simulation-frame.mjs?v=campaign-boot-20261112-r3';
 import {challengeOpponentStats} from './challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=chapter-presentation-20261117-r1';
 import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=campaign-boot-20261112-r3';
 import {createChallengeOverviewReturnState} from './preview/campaign/overview-return-state.mjs?v=challenge-overview-return-20261116-r1';
-import {chooseAdoptionSource,adoptionConfirmation,saveIssueText} from './save-copy.mjs?v=campaign-boot-20261112-r3';
-import {mountCombatOverlayLayout} from './combat-overlay-layout.mjs?v=campaign-boot-20261112-r3';
+import {chooseAdoptionSource,adoptionConfirmation,saveIssueText} from './save-copy.mjs?v=chapter-presentation-20261117-r1';
+import {mountCombatOverlayLayout} from './combat-overlay-layout.mjs?v=chapter-presentation-20261117-r1';
 import {createNaturalChamberBackdrop,CHAMBER_EXTENSION_ASSET} from './chamber-natural-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {canReuseCameraFrame} from './challenge-camera.mjs?v=camera-overview-result-20261116-r3';
-import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=camera-overview-result-20261116-r3';
+import {canReuseCameraFrame} from './challenge-camera.mjs?v=chapter-presentation-20261117-r1';
+import {fullStageCameraFrame,chamberBackdropTiles,CHAMBER_MATERIAL_FRAMES,chamberDeskLayers,CHAMBER_DESK_FRAMES} from './combat-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {setGameSelectValue} from './game-select.mjs?v=campaign-boot-20261112-r3';
 import {renderChargeMeter} from './charge-view.mjs?v=campaign-boot-20261112-r3';
 import {mountGameplaySelectionGuard} from './gameplay-selection.mjs?v=campaign-boot-20261112-r3';
@@ -22,22 +22,22 @@ import {challengeKeyAction} from './challenge-mode-input.mjs?v=campaign-boot-202
 import {paintChallengeStory} from './challenge-story-art.mjs?v=campaign-boot-20261112-r3';
 import {ChallengeRoute} from './challenge-engine.mjs?v=campaign-state-supply-20261115-r1';
 import {openChallengeProgress,CHALLENGE_KEY} from './preview/campaign/fresh/progress.mjs?v=campaign-boot-20261112-r3';
-import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=campaign-boot-20261112-r3';
-import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-bridge.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengeUI} from './challenge-ui.mjs?v=campaign-boot-20261112-r3';
+import {AsyncChallengeSession} from './preview/campaign/unified/first-chapter.mjs?v=chapter-presentation-20261117-r1';
+import {createMainCampaignBridge,prepareMainContinuation} from './main-campaign-bridge.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengeUI} from './challenge-ui.mjs?v=chapter-presentation-20261117-r1';
 import {challengeOpening,BOSS_DIALOGUES,CHAPTER1_HANDOFF} from './challenge-flow.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengeStory} from './challenge-story.mjs?v=campaign-boot-20261112-r3';
+import {mountChallengeStory} from './challenge-story.mjs?v=chapter-presentation-20261117-r1';
 import {createComicPresentation} from './preview/campaign/story-comic-presentation.mjs?v=full-comic-r2';
-import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=campaign-boot-20261112-r3';
+import {STARTER_ART_FILES,starterOpeningMode,mountStarterOpening,paintIntegratedStarter} from './starter-opening.mjs?v=chapter-presentation-20261117-r1';
 import {CHALLENGE_ART_FILES,drawChallengeMob,drawChallengeOpening,drawChallengePajamas} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
 import {CHALLENGE_BOSS_ASSIST_ROSTER} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
-import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=camera-overview-result-20261116-r3';
+import {createChallengeRenderer,routeCameraFrame} from './challenge-render.mjs?v=chapter-presentation-20261117-r1';
 import {assistMeterView} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
 import {createFiveTapGate,PROFILE_IDS} from './profile-progress.mjs?v=campaign-boot-20261112-r3';
 import {createAssistRenderer} from './assist-presentation.mjs?v=rally-consistency-20261115-r1';
 import {MatchSeries,DIFFICULTY_LABELS,ROSTER_TARGETS,rosterTargetName} from './match-modes.mjs?v=campaign-boot-20261112-r3';
 import {createFinishSequence,finishBeat,finishFighterView,FinishPressGate} from './match-finish.mjs?v=series-presentation-20261115-r1';
-import {predictRoundResult,roundAnnouncement,roundResultCopy,setSeriesWinMarkers} from './series-presentation.mjs?v=series-presentation-20261115-r2';
+import {challengeResultActions,predictRoundResult,roundAnnouncement,roundResultCopy,setSeriesWinMarkers} from './series-presentation.mjs?v=series-presentation-20261117-r1';
 import {rallyMeterView} from './rally-meter.mjs?v=campaign-boot-20261112-r3';
 import {mountPageZoomGuard,bindPageZoomPreference,ownsGamePageTarget} from './page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
 import {ITEM_ART,itemActorName,chooseCarryHand,heldItemAnchor} from './item-presentation.mjs?v=campaign-boot-20261112-r3';
@@ -52,7 +52,7 @@ import {mountSettingsPanel} from './settings-view.mjs?v=campaign-boot-20261112-r
 import {createMoveDemo} from './move-demo.mjs?v=campaign-boot-20261112-r3';
 import {mountBattleGestures} from './battle-gestures.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {mountGameViewport} from './game-viewport.mjs?v=camera-overview-result-20261116-r3';
+import {mountGameViewport} from './game-viewport.mjs?v=chapter-presentation-20261117-r1';
 import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
 import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-boot-20261112-r3';
 import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-boot-20261112-r3';
@@ -321,9 +321,9 @@ function pauseGame(){if(challengeActionBusy||challengeEntryPending||challengeSce
 function resumeGame(){if(challengeInputBlocked()||homeRequested||duel.status!=='paused')return;primeVoice(true);duel.status='active';syncBattleSurface();$('#pause-screen').classList.add('hidden');trainingRestartGate?.cancel();resetRestartConfirmation();$('#pause').textContent=gameMode==='training'?'Ⅱ 練習設定':'Ⅱ 暫停';$('#game').focus({preventScroll:true});}
 function syncModeHUD(){
  const unlockHint=$('#challenge-unlock-hint');if(unlockHint)unlockHint.hidden=gameMode!=='battle';
- const challengeBossVictory=!!challengeRun&&challengeRun.phase?.gate?.kind==='boss'&&!!challengeAfterResult&&duel.winner==='player'&&!challengeSaveBlocked;
- $('#reselect').textContent=challengeBossVictory?'強化技能':challengeRun?(challengeAfterResult&&duel.winner==='player'?'整備下一段':'整備後重試'):'回到選角';
- const overviewAction=$('#challenge-result-overview');if(overviewAction)overviewAction.hidden=!challengeBossVictory;
+ const resultActions=challengeResultActions({challenge:!!challengeRun,resultReady:!!challengeAfterResult&&!challengeSaveBlocked,winner:duel.winner,route:!!duel.depthMode});
+ $('#reselect').textContent=resultActions.preparationLabel;
+ const overviewAction=$('#challenge-result-overview');if(overviewAction)overviewAction.hidden=!resultActions.showOverview;
  if(scene)scene.hudCache='';
  const score=matchSeries?.score||{player:0,enemy:0};
  $('#match-score').textContent=gameMode==='training'?'練習 · '+({stand:'站立',guard:'防守',ai:'AI'}[trainingBehavior]):matchSeries?.format==='best-of-three'?`第 ${matchSeries.round} 局`:'一局決勝';
@@ -346,7 +346,7 @@ function result(){
  $('#result-sub').textContent=seriesCopy?.subtitle??copy.subtitle;
  $('#result-score').textContent=seriesCopy?.score??(gameMode==='training'?'練習結束，可重新練習或回選角':'');
  $('#next-round').hidden=!between;$('#next-round').textContent=seriesCopy?.action??'進入下一局 →';$('#replay').hidden=between;$('#replay').disabled=false;$('#replay').textContent=gameMode==='training'?'再練一場 ↻':matchSeries?.format==='best-of-three'?'重新對戰 ↻':'再戰一局 ↻';
- $('#stats').innerHTML=`<div><strong>${stats.maxCombo}</strong><small>最高連段</small></div><div><strong>${stats.specialHits}</strong><small>梗技命中</small></div><div><strong>${stats.interrupts||stats.blocks}</strong><small>${stats.interrupts?'打斷喝水':'成功格擋'}</small></div>`;
+ $('#stats').innerHTML=`<div><strong>${stats.maxCombo}</strong><small>最高連段</small></div><div><strong>${stats.specialHits}</strong><small>梗技命中</small></div><div><strong>${stats.interrupts||stats.blocks}</strong><small>${stats.interrupts?'打斷喝水':'成功格擋'}</small></div>`;const resultActions=challengeResultActions({challenge:!!challengeRun,resultReady:false,winner:duel.winner}),fictionNote=$('.fiction-note');$('#stats').classList.toggle('hidden',!resultActions.showPerformanceStats);if(fictionNote)fictionNote.hidden=!resultActions.showFictionNote;
  if(challengeRun)challengeResult(round,between);
  $('#result').classList.remove('hidden');syncModeHUD();sfx('over');
 }
@@ -713,9 +713,9 @@ function renderChallengeResult(run,won,gate){
  if(run!==challengeRun)return;const state=profileProgress.get();
  const series=gate.kind==='boss',outcome=series?roundResultCopy(matchSeries?.last??{complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',round:matchSeries?.round??1,score:matchSeries?.score},'best-of-three','你',gate.name):roundResultCopy({complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',score:{player:won?1:0,enemy:won?0:1}},'single','你',gate.name);
  $('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;
- $('#result-sub').textContent=state.testMode?`${outcome.subtitle} 測試模式：本次經驗與解鎖不會保存。`:won?(run.finished?`${outcome.subtitle} 咆哮哥已解鎖，可當主戰或助拳。接著前往第二章，繼續追神麥。`:`${outcome.subtitle} 已保存進度與經驗，接著繼續追神麥。`):`${outcome.subtitle} 已保存的經驗和檢查點保留，可從這個 Boss 再試一次。`;
- $('#result-score').textContent=series?outcome.score:`本局結果 · 本存檔 ${challengeProgress.get().xp} XP`;
- $('#reselect').hidden=false;$('#reselect').disabled=false;$('#challenge-result-overview').disabled=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?(run.finished?'繼續第 2 章 →':'繼續追神麥 →'):'從檢查點重試 ↻';$('#next-round').hidden=true;
+ $('#result-sub').textContent=state.testMode?`${outcome.subtitle} 測試模式：本次經驗與解鎖不會保存。`:outcome.subtitle;
+ $('#result-score').textContent=outcome.score;
+ const resultActions=challengeResultActions({challenge:true,resultReady:true,winner:won?'player':'enemy',route});$('#reselect').hidden=!resultActions.showPreparation;$('#reselect').textContent=resultActions.preparationLabel;$('#challenge-result-overview').hidden=!resultActions.showOverview;$('#challenge-result-overview').disabled=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?'繼續追神麥 →':'重試這一關';$('#next-round').hidden=true;
  if(won&&run.finished&&run.replay){$('#result-title').textContent='第一章重訪完成！';$('#result-sub').textContent='本次獲得的小怪經驗已保存，原章節進度保留。首通獎勵不重複領取。';$('#replay').textContent='返回挑戰總覽 →';}
  challengeAfterResult=async()=>{if(run!==challengeRun)return;if(run.finished&&run.replay){const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>{showTitle();openChallenge();});return;}showTitle();openChallenge();return;}if(run.finished){const depart=async()=>{const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>continueCampaign({characterId:selected,helperId:playerAssist}));return saved;}return continueCampaign({characterId:selected,helperId:playerAssist,selectionExplicit:true});};story(CHAPTER1_HANDOFF,depart);}else{if(!won){const retried=await run.retry();if(!challengeSaved(retried)){showChallengeSaveFailure(retried,()=>startChallengePhase());return;}}if(run===challengeRun)startChallengePhase();}};syncModeHUD();
 }

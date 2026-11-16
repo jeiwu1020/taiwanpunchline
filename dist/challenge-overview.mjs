@@ -1,8 +1,8 @@
 import {openChallengeProgress} from './preview/campaign/fresh/progress.mjs?v=campaign-boot-20261112-r3';
-import {prepareMainContinuation} from './main-campaign-bridge.mjs?v=campaign-boot-20261112-r3';
+import {prepareMainContinuation} from './main-campaign-bridge.mjs?v=chapter-presentation-20261117-r1';
 import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=campaign-boot-20261112-r3';
-import {chooseAdoptionSource,adoptionConfirmation} from './save-copy.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengeUI} from './challenge-ui.mjs?v=campaign-boot-20261112-r3';
+import {chooseAdoptionSource,adoptionConfirmation} from './save-copy.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengeUI} from './challenge-ui.mjs?v=chapter-presentation-20261117-r1';
 import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
 
 const storage=(()=>{try{return window.localStorage;}catch{return null;}})();

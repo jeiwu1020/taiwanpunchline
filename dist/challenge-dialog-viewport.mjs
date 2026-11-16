@@ -1,4 +1,4 @@
-import {challengeContentFrame} from './challenge-layout.mjs?v=campaign-boot-20261112-r3';
+import {challengeContentFrame} from './challenge-layout.mjs?v=chapter-presentation-20261117-r1';
 import {readGameViewport,measureViewportElements} from './viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
 // Native top-layer dialogs do not inherit the game's rotated visual viewport.
 // Follow its committed geometry instead of calculating a second rotation policy.

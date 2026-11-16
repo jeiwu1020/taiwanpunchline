@@ -1,6 +1,6 @@
-import {newDocument,validateDocument,clone,integer,onlyKeys,MAX_SERIAL} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {newDocument,validateDocument,clone,integer,onlyKeys,MAX_SERIAL} from '../core/model.mjs?v=chapter-presentation-20261117-r1';
 import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
-import {migrateV1} from '../core/migrate.mjs?v=campaign-boot-20261112-r3';
+import {migrateV1} from '../core/migrate.mjs?v=chapter-presentation-20261117-r1';
 import {newProfileDocument,validateProfileDocument} from '../../../profile-progress.mjs?v=campaign-boot-20261112-r3';
 export const UNIFIED_KEY='taiwanpunchline-progress-v3';
 export const LEGACY_KEY='taiwanpunchline-progress-v1';

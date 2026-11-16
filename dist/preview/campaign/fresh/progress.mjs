@@ -1,6 +1,6 @@
-import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {clone,currentProfile,deriveStats,MAX_SERIAL,integer,allowance} from '../core/model.mjs?v=chapter-presentation-20261117-r1';
 import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
-import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=campaign-boot-20261112-r3';
+import {startRun,applyRunAction,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=chapter-presentation-20261117-r1';
 import {CHALLENGE_KEY,LEGACY_KEYS,BACKUP_FORMAT,SLOT_BACKUP_FORMAT,parse,newEnvelope,validateEnvelope,validateSlotBackup,legacyProjection} from './schema.mjs?v=campaign-boot-20261112-r3';
 export {CHALLENGE_KEY};
 

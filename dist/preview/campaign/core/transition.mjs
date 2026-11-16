@@ -1,4 +1,4 @@
-import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry,GROWTH_REWARDS} from './model.mjs?v=campaign-boot-20261112-r3';
+import {clone,validateDocument,currentProfile,integer,uniqueStrings,onlyKeys,allowance,zeroSkills,SKILLS,MAX_XP,MAX_RANK,MAX_SERIAL,validCharacters,normalizeCarry,GROWTH_REWARDS} from './model.mjs?v=chapter-presentation-20261117-r1';
 import {CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,chapterById,receiptFor,storyFor,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-boot-20261112-r3';
 const reject=reason=>({ok:false,reason});
 function checked(input){const v=validateDocument(input);return v.ok?v.document:null;}

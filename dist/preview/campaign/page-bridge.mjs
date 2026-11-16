@@ -1,10 +1,10 @@
 import {setGameSelectValue} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
 import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
 import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-boot-20261112-r3';
-import {saveIssueText} from '../../save-copy.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=campaign-boot-20261112-r3';
+import {saveIssueText} from '../../save-copy.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=chapter-presentation-20261117-r1';
 import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-boot-20261112-r3';
-import {createCampaignPlayable} from './playable-bridge.mjs?v=campaign-countdown-bridge-20261115-r1';
+import {createCampaignPlayable} from './playable-bridge.mjs?v=chapter-presentation-20261117-r1';
 import {chapterCastWithResolvedPortraits} from '../shared-asset-urls.mjs?v=chapter-hud-portrait-20261116-r1';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
@@ -50,8 +50,8 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  const previewDifficulty=document.querySelector('#difficulty')?.closest('label');if(previewDifficulty)previewDifficulty.hidden=!testPreview;
  controls.hidden=testPreview;
  const loadingHandoff=!testPreview&&query.has('handoff');
- const revealExitOptions=()=>{home.hidden=false;if(headerHome)headerHome.hidden=false;if(brandHome)brandHome.hidden=false;};
- if(loadingHandoff){label.hidden=resume.hidden=home.hidden=true;if(headerHome)headerHome.hidden=true;if(brandHome)brandHome.hidden=true;menuStatus.textContent=`正在載入第 ${chapterId.split('-')[1]} 章，完成後會直接接續…`;}
+ const revealExitOptions=()=>{home.hidden=false;if(headerHome)headerHome.hidden=false;if(brandHome)brandHome.hidden=false;delete document.documentElement.dataset.campaignLoading;};
+ if(loadingHandoff){label.hidden=resume.hidden=home.hidden=true;if(headerHome)headerHome.hidden=true;if(brandHome)brandHome.hidden=true;menuStatus.textContent='載入中…';}
 
  if(!testPreview){const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='接續你的挑戰進度。台詞與演出均為虛構喜劇。';const objective=document.querySelector('#objective');if(objective)objective.textContent='正在載入章節內容…';}
  let router=null,chapter=null,preparation=null,preparationOwner=null,preparationBusy=false,recovery=null,recoveryIssue=null,busy=false,idle=Promise.resolve(),autoChecked=false,navigating=false,leaving=false,pageActive=true,launched=false,attachPending=false;

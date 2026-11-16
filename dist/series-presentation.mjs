@@ -27,6 +27,10 @@ export function chapterRoundResultCopy(state,enemyName='對手'){
  const winner=state?.result?.matchWon?'player':state?.result?.matchLost?'enemy':null;
  return roundResultCopy({round:Math.max(1,draw?sum+1:sum),score:rounds,complete,winner,roundWinner:state?.result?.winner,draw},state?.stepId==='boss'?'best-of-three':'single','你',enemyName);
 }
+export function challengeResultActions({challenge=false,resultReady=false,winner=null,between=false,route=false}={}){
+ const won=winner==='player',finished=challenge&&resultReady&&!between&&!route;
+ return {preparationLabel:challenge?(won?'強化技能':'整備後重試'):'回到選角',showOverview:finished,showPreparation:finished&&won,showPerformanceStats:!challenge,showFictionNote:!challenge};
+}
 function microphone(documentRef){
  const ns='http://www.w3.org/2000/svg',svg=documentRef.createElementNS(ns,'svg'),image=documentRef.createElementNS(ns,'image');
  svg.setAttribute('viewBox','1186 543 192 444');svg.setAttribute('preserveAspectRatio','xMidYMid meet');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');

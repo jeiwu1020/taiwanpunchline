@@ -1,4 +1,4 @@
-import {backgroundCachePolicy} from '../../background-cache-policy.mjs?v=campaign-boot-20261112-r3';
+import {backgroundCachePolicy} from '../../background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
 import {invalidateFlyingMicRaster} from '../chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
 // Each destination owns bounded periodic world strips plus screen paper.
 // Original road-strip overlaps and seam overlays remain in the caller.

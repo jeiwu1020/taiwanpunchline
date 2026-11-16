@@ -1,4 +1,4 @@
-import {newDocument,validateDocument,clone,integer,onlyKeys} from '../core/model.mjs?v=campaign-boot-20261112-r3';
+import {newDocument,validateDocument,clone,integer,onlyKeys} from '../core/model.mjs?v=chapter-presentation-20261117-r1';
 import {PROFILE_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
 
 export const CHALLENGE_KEY='taiwanpunchline-challenge-v4';
