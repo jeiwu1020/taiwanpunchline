@@ -130,5 +130,5 @@ html[data-chapter-overlay-loading="true"] #trial-app #menu .card::after{display:
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu,
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card,
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card::after{display:none!important;content:none!important;visibility:hidden!important}
-html[data-campaign-loading="true"] #trial-app::before{content:"";position:absolute;inset:0;z-index:90;pointer-events:none;background:radial-gradient(circle at center,rgba(16,34,40,.22) 0%,rgba(16,34,40,.62) 100%),linear-gradient(155deg,rgba(132,169,162,.92) 0%,rgba(235,212,170,.95) 55%,rgba(164,110,74,.9) 100%)}
+html[data-campaign-loading="true"] #trial-app::before{content:"";position:absolute;inset:0;z-index:90;pointer-events:none;background:radial-gradient(circle at center,rgba(24,46,53,.92) 0%,#102228 100%)}
 

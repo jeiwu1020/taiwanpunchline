@@ -52,7 +52,7 @@ export const CHAPTER_METADATA = Object.freeze({
 });
 
 const LOADING_STYLE_ID = 'chapter-loading-overlay-style';
-const DEFAULT_BACKDROP_GRADIENT = 'linear-gradient(155deg, rgba(132, 169, 162, 0.72) 0%, rgba(235, 212, 170, 0.82) 55%, rgba(164, 110, 74, 0.72) 100%)';
+const DEFAULT_BACKDROP_GRADIENT = 'linear-gradient(155deg, rgba(16, 34, 40, 0.96) 0%, rgba(28, 56, 65, 0.94) 55%, rgba(20, 42, 49, 0.98) 100%)';
 
 function injectLoadingStyles(doc) {
   if (!doc?.head || doc.getElementById(LOADING_STYLE_ID)) return;
@@ -96,7 +96,7 @@ body:has(#chapter-loading-overlay:not([hidden])) #trial-app > #stage {
   color: #142b32;
   font-family: "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   opacity: 1;
-  transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
   box-sizing: border-box;
 }
 .chapter-loading-overlay[hidden] {
@@ -108,19 +108,19 @@ body:has(#chapter-loading-overlay:not([hidden])) #trial-app > #stage {
 }
 .chapter-loading-backdrop {
   position: absolute;
-  inset: -28px;
+  inset: 0;
   background-image: ${DEFAULT_BACKDROP_GRADIENT};
   background-size: cover;
   background-position: center 58%;
-  filter: blur(14px) brightness(0.78) saturate(1.08);
-  transform: scale(1.06);
+  filter: brightness(0.76) saturate(1.04);
+  transform: scale(1.01);
+  transition: opacity 260ms ease;
   pointer-events: none;
 }
 .chapter-loading-scrim {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(16, 34, 40, 0.22) 0%, rgba(16, 34, 40, 0.58) 100%);
-  backdrop-filter: blur(6px);
+  background: radial-gradient(ellipse at center, rgba(16, 34, 40, 0.16) 0%, rgba(16, 34, 40, 0.56) 100%);
   pointer-events: none;
 }
 .chapter-loading-card {
@@ -435,7 +435,7 @@ export function mountChapterLoadingOverlay({
     if (typeof setTimer === 'function') {
       hideTimer = setTimer(() => {
         if (overlay.dataset.loadingState === 'ready') hideOverlayNow();
-      }, 240);
+      }, 300);
     } else {
       hideOverlayNow();
     }

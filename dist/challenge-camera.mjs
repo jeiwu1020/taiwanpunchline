@@ -451,8 +451,8 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  });
  const smoothedActors=actors.map((a,i)=>({...a,supportY:supportYs[i]}));
  if(mobileLandscape&&!street)preferred={...preferred,y:supportYs[0]+depthY(actors[0])-(height*.84-height/2)/preferred.zoom};
- const stableStreetZoom=Math.min(1.4,width/440,height*.74/328),preferredZoom=street?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,1));
- const wantedZoom=mode==='stable'?preferredZoom:street?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom;
+ const stableStreetZoom=Math.min(1.4,width/440,height*.74/328),preferredZoom=(street&&mobileLandscape)?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,stableStreetZoom));
+ const wantedZoom=mode==='stable'?preferredZoom:street?(mobileLandscape?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom):preferredZoom;
  const scaleActors=!street&&previousUsable?smoothedActors.map(a=>({...a,supportY:Math.max(430,finite(a.supportY,430))})):smoothedActors;
  const rawBoxes=smoothedActors.map(a=>groundedActorBounds(a,boundsOptions));
  const rawHeight=(Math.max(...rawBoxes.map(b=>b.bottom))-Math.min(...rawBoxes.map(b=>b.top)))*wantedZoom;
@@ -461,7 +461,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  const shareVerticalBand=!street&&rawBoxes.length>1&&rawHeight>openVertical-4;
  const sharedSupportY=supportYs[0];
  const boxes=shareVerticalBand?smoothedActors.map((a,i)=>({...rawBoxes[i],top:sharedSupportY+depthY(a)-300,bottom:sharedSupportY+depthY(a)+28})):rawBoxes;
- const anticipated=(options.cameraPlan?.anticipated||scaleActors).map(a=>{const b=groundedActorBounds(a,boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
+ const anticipated=(options.cameraPlan?.anticipated||scaleActors).map((a,i)=>{const actor=i===0&&street?{...a,supportY:supportYs[0]}:a;const b=groundedActorBounds(actor,boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
  let center=previousUsable?{x:previous.x+(preferred.x-previous.x)*ease,y:previous.y+(preferred.y-previous.y)*ease}:{x:preferred.x,y:preferred.y};
  const wanted=z=>({x:width/2-center.x*z,y:height/2-center.y*z});
  // A maximum-scale fit can have disconnected legal pockets around controls.
@@ -471,9 +471,15 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   const dt=clamp(delta,0,100)/1000,step=dt*60;
   const allowanceX=street?Math.max(3*step,265*dt*(previous?.zoom||maximum)+step):(vsMobileJump?16*step/Math.SQRT2:Math.max(4*step,480*dt*(previous?.zoom||maximum)));
   const allowanceY=street?Math.max(14*step,840*dt):Math.max(6*step,520*dt);
-  const limits=z=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-allowanceY,bottom:height/2-previous.y*z+allowanceY}:null;
-  const place=z=>placeAtScale(targetBoxes,z,rect,occlusions,wanted(z),limits(z));
-  let zoom=maximum,position=place(zoom);
+  const multiAllowanceY=(!mobileLandscape&&street&&targetBoxes.length>1)?Math.max(5*step,300*dt):allowanceY;
+  const limitsFor=(z,ay)=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-ay,bottom:height/2-previous.y*z+ay}:null;
+  const limits=z=>limitsFor(z,allowanceY);
+  const place=(z,ay=allowanceY)=>placeAtScale(targetBoxes,z,rect,occlusions,wanted(z),limitsFor(z,ay));
+  let zoom=maximum,position=place(zoom,multiAllowanceY);
+  if(!position&&!mobileLandscape&&street&&targetBoxes.length>1){
+   const multiFloor=continuous&&same?Math.max(previous.zoom/Math.pow(1.015,step),maximum*.72):maximum*.72;
+   if(multiFloor<zoom&&place(multiFloor,multiAllowanceY)){let lo=multiFloor,hi=zoom;for(let i=0;i<24;i++){const mid=(lo+hi)/2,p=place(mid,multiAllowanceY);if(p)lo=mid;else hi=mid;}zoom=lo;position=place(zoom,multiAllowanceY);}
+  }
   if(!position&&targetBoxes.length>1)position=placeAtScale([targetBoxes[0]],zoom,rect,occlusions,wanted(zoom),limits(zoom));
   if(!position&&continuous&&same&&street){
    const widened={left:width/2-previous.x*zoom-Math.max(allowanceX*3,24*step),right:width/2-previous.x*zoom+Math.max(allowanceX*3,24*step),top:height/2-previous.y*zoom-Math.max(allowanceY*3,24*step),bottom:height/2-previous.y*zoom+Math.max(allowanceY*3,24*step)};
@@ -494,7 +500,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   center=same?{x:previous.x+(future.x-previous.x)*ease+follow,y:previous.y+(futureY-previous.y)*ease}:future;}
  let zoomTarget=previousUsable?Math.min(wantedZoom,previous.zoom+(target-previous.zoom)*(target<previous.zoom?Math.max(ease,1-Math.pow(.82,clamp(delta,0,100)/(1000/60))):ease)):target;
  if(mobileLandscape&&same&&target<previous.zoom&&previous.zoom-target<1e-5)zoomTarget=target;
- if(same&&(options.cameraPlan||mobileLandscape||!street)){const step=Math.pow(1.02,clamp(delta,0,100)/(1000/60));zoomTarget=clamp(zoomTarget,previous.zoom/step,previous.zoom*step);}
+ if(same){const maxRatio=!mobileLandscape&&street?1.015:1.02,step=Math.pow(maxRatio,clamp(delta,0,100)/(1000/60));zoomTarget=clamp(zoomTarget,previous.zoom/step,previous.zoom*step);}
  const {zoom,position}=fit(boxes,zoomTarget,true);
  if(!position)return {...preferred,challengeCameraMode:mode,cameraSafetyFit:false};
  const x=(width/2-position.x)/zoom,y=(height/2-position.y)/zoom;

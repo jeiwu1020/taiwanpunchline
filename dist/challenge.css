@@ -215,9 +215,11 @@
 .challenge-overview-v4 .challenge-shell-header .challenge-head h2{font-size:30px;margin:0}
 .challenge-overview-v4 .challenge-shell-header .challenge-tabs{padding-right:0;display:flex;margin:8px 0 12px;gap:8px;flex-wrap:nowrap}
 .challenge-overview-v4 .challenge-shell-header .challenge-tabs button{flex:1;min-width:0}
-.challenge-overview-v4 .challenge-shell-body{min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-gutter:stable;padding:16px 20px;touch-action:pan-y}
+.challenge-overview-v4 .challenge-chapter{overflow:visible}
+.challenge-overview-v4 .challenge-shell-body{min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-gutter:stable;padding:16px 20px;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 .challenge-overview-v4[data-view="preparation"] .challenge-shell-body{overflow:hidden;padding:0;scrollbar-gutter:auto}
-.challenge-overview-v4[data-rotation="90"] .challenge-shell-body,.challenge-overview-v4[data-rotation="-90"] .challenge-shell-body{touch-action:none}
+.challenge-overview-v4[data-rotation="90"] .challenge-shell-body,.challenge-overview-v4[data-rotation="-90"] .challenge-shell-body,.challenge-dialog[data-rotation="90"] .challenge-paper *,.challenge-dialog[data-rotation="-90"] .challenge-paper *,.challenge-story[data-rotation="90"] :not(.story-copy>p),.challenge-story[data-rotation="-90"] :not(.story-copy>p){touch-action:none}
+.challenge-overview-v4:not([data-rotation="90"]):not([data-rotation="-90"]) .challenge-shell-body,.challenge-overview-v4:not([data-rotation="90"]):not([data-rotation="-90"]) .challenge-shell-body button{touch-action:pan-y}
 .challenge-overview-v4[data-layout="portrait"] .challenge-shell-header{padding:12px 12px 0}
 .challenge-overview-v4[data-layout="portrait"] .challenge-shell-body{padding:12px}
 .challenge-overview-v4[data-view="preparation"][data-layout="portrait"] .challenge-shell-body{padding:0}
@@ -233,7 +235,7 @@
 /* Touch dialogs use all committed logical height; no extra outer scrollbar. */
 .app[data-touch="true"] .challenge-dialog.challenge-overview-v4{height:var(--challenge-logical-height,90dvh)}
 /* Compact overview keeps the chapter decision and launch button on one page. */
-.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-shell-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;align-content:start}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-shell-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;align-content:start;padding-bottom:18px}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-save-state{grid-column:1;grid-row:1;margin:0;padding:4px 8px;font-size:11px;align-self:center}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-slot-tabs{grid-column:2;grid-row:1;margin:0;gap:5px}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-slot-tabs button{min-height:36px;padding:4px;font-size:12px}
@@ -250,4 +252,5 @@
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-chapter>p:not([class]){grid-column:1/-1;margin:0;font-size:11px}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-launch-actions{grid-column:1/-1;grid-row:auto;margin:0;display:flex;flex-direction:row;gap:6px}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-launch-actions button{flex:1;min-height:40px;padding:5px;font-size:15px}
-.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] [data-action="review-opening"]{grid-column:1/-1;min-height:30px;padding:3px;font-size:12px}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] :is(.challenge-warning,.challenge-status){grid-column:1/-1;margin:0}
+.challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] [data-action="review-opening"]{grid-column:1/-1;min-height:36px;padding:6px 10px;font-size:12px}

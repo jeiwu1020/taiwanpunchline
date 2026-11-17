@@ -77,7 +77,9 @@ export function comicActorGeometry(scene,layout,{poseRects=COMIC_POSE_RECTS,time
   const maxWidth=r.width*(ensemble&&rear?.18:rear?.26:visible.length===1?.76:.43);
   const ratio=src?src[2]/src[3]:.65;
   const stagedX=actorStageX(scene,actor,layout),nominalX=r.x+r.width*stagedX;
-  const bubbleBottom=layout.landscape?Math.max(r.y,...reserved.filter(b=>short||nominalX+maxWidth/2>b.x&&nominalX-maxWidth/2<b.x+b.width).map(b=>b.y+b.height+(short?6:16))):r.y;
+  const reservedHeight=b=>layout.landscape&&!layout.sideDialogue?Math.max(b.height,layout.reservedBandHeight??b.height):b.height;
+  const activeReservations=layout.landscape&&!layout.sideDialogue?reserved:reserved.filter(b=>short||nominalX+maxWidth/2>b.x&&nominalX-maxWidth/2<b.x+b.width);
+  const bubbleBottom=layout.landscape?Math.max(r.y,...activeReservations.map(b=>b.y+reservedHeight(b)+(short?6:16))):r.y;
   const availableHeight=Math.max(20,r.y+r.height*footRatio-bubbleBottom);
   const height=Math.min(r.height*heightRatio,maxWidth/ratio,availableHeight),width=height*ratio;
   if(!layout.landscape&&scene.portraitFraming==='ensemble'){
@@ -92,7 +94,7 @@ export function comicActorGeometry(scene,layout,{poseRects=COMIC_POSE_RECTS,time
    // Multi-person panels keep every face in view. Landscape uses one clear
    // stage row; portrait gives listeners a distinct rear row above the two
    // speaking figures, rather than hiding whole people behind a giant lead.
-   const textBottom=Math.max(r.y,...reserved.map(b=>b.y+b.height+(short?6:16)));
+   const textBottom=Math.max(r.y,...reserved.map(b=>b.y+reservedHeight(b)+(short?6:16)));
    const singleRow=layout.landscape||visible.length<=4;
    const row=(singleRow?[...visible]:visible.filter(a=>(a.layer===0)===rear)).sort((a,b)=>a.x-b.x);
    const slot=row.findIndex(a=>a===actor),slotWidth=r.width/row.length;

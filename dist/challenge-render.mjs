@@ -7,7 +7,7 @@ import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeS
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function routeCameraFrame(width,height,route,options={}){
  const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',previous=null,delta=1000/60,...mobileOptions}=options;
- if(route.depthMode)return depthRouteCameraFrame(width,height,route,{overlay,portrait,fullStage,touch,landscapePreview,safe,camera,...mobileOptions,presentationTouch:options.touch===true});
+ if(route.depthMode)return depthRouteCameraFrame(width,height,route,{overlay,portrait,fullStage,touch,landscapePreview,safe,camera,previous,delta,...mobileOptions,presentationTouch:options.touch===true});
  const reserve=overlay?Math.min(76,height*.23):12,available=Math.max(100,height-reserve);
  const stableZoom=Math.min(1.4,width/650,available/410),visible=width/stableZoom,mode=camera==='stable'?'stable':'classic';
  const nearby=(route.enemies||[]).filter(actor=>actor&&actor.hp!==0&&Math.abs(actor.x-route.player.x)<=visible*1.5);

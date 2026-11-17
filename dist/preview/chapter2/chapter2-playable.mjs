@@ -168,6 +168,7 @@ function draw(time,delta=1000/60){
 function hudText(selector,value){const element=$(selector);if(element.textContent!==value)element.textContent=value;}
 function hud(){const s=v(),g=chapter?.world;if(!s)return;setSeriesWinMarkers(document,s.rounds.player,s.rounds.enemy,s.stepId==='boss');const route=s.mode==='route',battle=s.mode==='battle';hudText('#route-progress',route?`${CHAPTER2.routes[routeIndex(s)].name} · ${Math.round(g.routeProgress*100)}%`:battle?g.enemy.displayName:'第二章 · 追逐神麥');hudText('#objective',route?(g.chapterEncounter?.hint??CHAPTER2.routes[routeIndex(s)].objective):battle?(s.stepId==='boss'?(g.chapterEncounter?.hint??'三戰兩勝，贏的人拿神麥！'):'看預告、閃過招式，再反擊。'):'追麥不停站 · 先看對手動作，再出拳');if(deferredAssetError)hudText('#objective',deferredAssetError);if(g)ui.render({state:s,world:g});}
 
+ let pendingReveal=false,overlayRevealed=false,targetSceneIndex=0;
 function tick(now){
  try{
   const paintToken=ui.beginFrame(now),elapsed=lastTime===null?0:now-lastTime;lastTime=now;frameTime=now;
@@ -182,7 +183,7 @@ function tick(now){
    const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted)rememberCombatFeedback(combatFeedback,e);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='rally')shout(rallyEventCopy(e,world,emitted.filter(item=>item.type==='rally').length>1));else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);if(e.type==='supply')shout('補給到手！HP 全滿');}
    if(v().token!==uiToken)sync();
   }
- hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);}
+ hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);if(pendingReveal&&!overlayRevealed){overlayRevealed=true;loadingOverlay.setReady();}}
  }catch(error){ui.failFrame(error);}
  finally{requestAnimationFrame(tick);}
 }
@@ -190,11 +191,12 @@ continuation=mountContinuationControls({document,window,characters:CAST,chapterI
 refreshMenu();resizeCanvas();
 const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER2_NEW_ART.files,'flying-mic-candidate':'flying-mic-props.png'};
 const sceneAssetIndexes=Object.fromEntries(CHAPTER2_NEW_ART.curbs.flatMap((curb,index)=>[[`chapter2-sky-${curb}`,index],[`chapter2-seam-${curb}`,index]]));
-const initialBackdropFile=allFiles['chapter2-scene-0']||allFiles[`chapter2-sky-${CHAPTER2_NEW_ART.curbs[0]}`];
+const sceneBackdropFile=index=>allFiles[`chapter2-scene-${index}`]||allFiles[`chapter2-sky-${CHAPTER2_NEW_ART.curbs[index]??CHAPTER2_NEW_ART.curbs[0]}`];
+const initialBackdropFile=sceneBackdropFile(0);
 const loadingOverlay=mountChapterLoadingOverlay({document,chapter:2,backdropUrl:initialBackdropFile?chapterAssetURL('chapter2',initialBackdropFile):''});
 void comic.load(images).then(()=>comicReader.sync());
-loadChapterAssetsInStages({files:allFiles,sceneAssetIndexes,loadImage:(key,file)=>loadChapterImage(chapterAssetURL('chapter2',file)),onProgress:({phase,loaded,total})=>{const ratio=total?loaded/total:0;if(phase==='shared'){$('#start').textContent=`載入共用素材 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(ratio*.5,{phaseLabel:'共用角色素材',statusText:`載入共用素材 ${Math.round(ratio*100)}%`});}else if(phase==='current-scene'){$('#start').textContent=`載入目前場景 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(.5+ratio*.5,{phaseLabel:'目前關卡場景',statusText:`載入目前場景 ${Math.round(ratio*100)}%`});}},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';loadingOverlay.setPhase('章節接續','正在同步戰役進度與舞台…');await continuation.assetsReady();}const state=v();return {sceneIndex:routeIndex(state),includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
- Object.assign(images,staged.images);if(staged.images['chapter2-scene-0']?.src)loadingOverlay.setBackdrop?.(staged.images['chapter2-scene-0'].src);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';loadingOverlay.setReady();requestAnimationFrame(tick);
+loadChapterAssetsInStages({files:allFiles,sceneAssetIndexes,loadImage:(key,file)=>loadChapterImage(chapterAssetURL('chapter2',file)),onProgress:({phase,loaded,total})=>{const ratio=total?loaded/total:0;if(phase==='shared'){$('#start').textContent=`載入共用素材 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(ratio*.5,{phaseLabel:'共用角色素材',statusText:`載入共用素材 ${Math.round(ratio*100)}%`});}else if(phase==='current-scene'){$('#start').textContent=`載入目前場景 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(.5+ratio*.5,{phaseLabel:'目前關卡場景',statusText:`載入目前場景 ${Math.round(ratio*100)}%`});}},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';loadingOverlay.setPhase('章節接續','正在同步戰役進度與舞台…');await continuation.assetsReady();}const state=v();targetSceneIndex=routeIndex(state);const file=sceneBackdropFile(targetSceneIndex);if(file)loadingOverlay.setBackdrop?.(chapterAssetURL('chapter2',file));return {sceneIndex:targetSceneIndex,includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
+ Object.assign(images,staged.images);const targetCurb=CHAPTER2_NEW_ART.curbs[targetSceneIndex]??CHAPTER2_NEW_ART.curbs[0];const targetBackdrop=staged.images[`chapter2-scene-${targetSceneIndex}`]?.src||staged.images[`chapter2-sky-${targetCurb}`]?.src;if(targetBackdrop)loadingOverlay.setBackdrop?.(targetBackdrop);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';pendingReveal=true;requestAnimationFrame(tick);
  requestAnimationFrame(()=>requestAnimationFrame(()=>void staged.loadBackground().then(({images:background,errors})=>{Object.assign(images,background);if(errors.length)deferredAssetError='部分場景素材載入失敗，請重新整理頁面。';})));
 }).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);loadingOverlay.setError(err?.message||'部分關卡素材載入失敗，請重新整理再試。');});
 

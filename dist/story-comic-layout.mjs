@@ -50,8 +50,15 @@ export function layoutStoryComic({width,height,copy='',speaker='旁白',anchor=0
  // Budget every sentence before revealing the first. Grow into safe horizontal
  // space before reducing type; never create a capacity-based Next click.
  const budget=landscape?(sideDialogue?height-pad*2:Math.min(height-pad*2-64,overhead+preferredFont*1.28*2)):Math.max(68,Math.floor(height*.54)-pad*2-gap);
+ const reservedBandHeight=(landscape&&sideDialogue)?0:Math.min(budget,overhead+preferredFont*1.28*(landscape?2:3));
  let font=preferredFont,column=preferredWidth,columns=1;
- const fits=()=>{columns=Math.max(1,Math.floor((column-32)/font));return fragments.every(f=>comicTextLines(f.text,columns).length*font*1.28+overhead<=budget);};
+ const fits=(limit=budget)=>{columns=Math.max(1,Math.floor((column-32)/font));return fragments.every(f=>comicTextLines(f.text,columns).length*font*1.28+overhead<=limit);};
+ if(!landscape&&reservedBandHeight>0){
+  const targetFloor=Math.max(18,preferredFont-4);
+  while(!fits(reservedBandHeight)&&column<maxWidth)column=Math.min(maxWidth,column+font);
+  while(!fits(reservedBandHeight)&&font>targetFloor)font--;
+  if(!fits(reservedBandHeight)){font=preferredFont;column=preferredWidth;}
+ }
  while(!fits()&&column<maxWidth)column=Math.min(maxWidth,column+font);
  while(!fits()&&font>18)font--;
  // Very small frames keep complete copy at the readable floor. The actual
@@ -66,10 +73,10 @@ export function layoutStoryComic({width,height,copy='',speaker='旁白',anchor=0
  const currentIndex=anchor>=copy.length?fragments.length-1:Math.max(0,fragments.findIndex(f=>f.end>Math.max(0,Number(anchor)||0)));
  const current=fragments[currentIndex],pageIndex=current.pageIndex,currentPage=pages[pageIndex];
  // One live bubble; the cast uses the union of ALL utterance reservations.
- // Both side-specific collision bounds and the portrait floor stay stable.
- const bottom=pad+Math.max(...reservations.map(b=>b.height));
+ // Keep a steady dialogue band height so actors do not pop taller or shorter between sentences.
+ const bottom=pad+Math.max(reservedBandHeight,...reservations.map(b=>b.height));
  const art=landscape?{x:pad,y:pad,width:width-pad*2,height:height-pad*2}:{x:pad,y:bottom+gap,width:width-pad*2,height:height-bottom-gap-pad};
- return {width,height,font,landscape,pad,art,fragments,pages,reservations,current,currentIndex,pageIndex,textOverhead:overhead,sideDialogue:sideDialogue&&landscape,
+ return {width,height,font,landscape,pad,art,fragments,pages,reservations,reservedBandHeight,current,currentIndex,pageIndex,textOverhead:overhead,sideDialogue:sideDialogue&&landscape,
   // One live utterance keeps the frame clear; Previous remains available for
   // every earlier sentence. Older boxes no longer accumulate over the cast.
   bubbles:[{...currentPage.bubbles[current.bubbleIndex],y:pad}],
