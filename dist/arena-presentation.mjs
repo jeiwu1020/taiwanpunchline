@@ -33,61 +33,56 @@ export function stableCameraFrame(width,height,fighters,previous=null){
 export function portraitStableCameraFrame(width,height,fighters,previous=null,delta=1000/60){
  const [a,b]=fighters,{w,h,side,top,bottom}=fightViewport(width,height);
  const gap=Math.abs(a.x-b.x),envelope=610;
- const target=Math.min(1.25,(w-side*2)/(gap+300),(h-top-bottom)/envelope);
+ const target=Math.min(1.25,(w-side*2)/Math.max(480,gap+300),(h-top-bottom)/envelope);
  const same=previous?.width===w&&previous?.height===h&&previous?.mode==='stable-pair';
  const ease=1-Math.pow(.92,Math.max(0,Math.min(100,delta))/(1000/60));
- const allTop=Math.min(a.y,b.y)-300,allBottom=Math.max(a.y,b.y)+28;
- const fit=Math.min((w-side*2)/(gap+260),(h-top-bottom)/(allBottom-allTop));
- const anticipateTop=Math.min(a.y+Math.min(0,a.vy||0)*.12,b.y+Math.min(0,b.vy||0)*.12)-300;
- const wanted=Math.min(target,(h-top-bottom)/(allBottom-anticipateTop));
- const zoom=Math.min(fit,same?previous.zoom+(wanted-previous.zoom)*ease:wanted);
+ const restTop=Math.min(a.supportY??430,b.supportY??430)-300,restBottom=Math.max(a.supportY??430,b.supportY??430)+28;
+ const fit=Math.min((w-side*2)/Math.max(480,gap+260),(h-top-bottom)/(restBottom-restTop));
+ const zoom=Math.min(fit,same?previous.zoom+(target-previous.zoom)*ease:target);
  const half=(w-side*2)/(2*zoom),lo=Math.max(a.x,b.x)+130-half,hi=Math.min(a.x,b.x)-130+half;
  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v)),mid=(a.x+b.x)/2;
  const x=clamp(same?previous.x+(mid-previous.x)*ease:mid,lo,hi);
- const low=allBottom-(h/2-bottom)/zoom,high=allTop+(h/2-top)/zoom;
+ const low=restBottom-(h/2-bottom)/zoom,high=restTop+(h/2-top)/zoom;
  const y=clamp(458-(h/2-bottom)/zoom,low,high);
  return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-pair'};
 }
 export function fixedStableCameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
  if(options.portraitStable)return portraitStableCameraFrame(width,height,fighters,previous,delta);
  const [player,enemy]=fighters,{w,h,side,top,bottom}=fightViewport(width,height);
- const zoom=options.portraitCloseStable?Math.min(1.25,w/520,(h-top-bottom)/313):Math.min(1.25,(w-side*2)/700*1.12,(h-top-bottom)/313);
  const same=previous?.width===w&&previous?.height===h&&previous?.mode==='stable-fixed';
+ const gap=Math.abs(player.x-enemy.x);
+ const openingSpan=Math.max(520,gap+280);
+ const zoom=same?previous.zoom:options.portraitCloseStable?Math.min(1.25,(w-side*2)/openingSpan,(h-top-bottom)/520):options.mobileLandscape?Math.min(1.25,(w-side*2)/Math.max(560,gap+280),(h-top-bottom)/340):Math.min(1.25,(w-side*2)/700*1.12,(h-top-bottom)/313);
  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
  const half=(w-side*2)/(2*zoom),left=Math.min(player.x,enemy.x)-130,right=Math.max(player.x,enemy.x)+130;
  const x=right-left<=half*2?clamp(same?previous.x:(player.x+enemy.x)/2,right-half,left+half):clamp(same?previous.x:player.x,player.x+130-half,player.x-130+half);
- const allTop=Math.min(player.y,enemy.y)-285,allBottom=Math.max(player.y,enemy.y)+28;
+ const allTop=Math.min(player.supportY??430,enemy.supportY??430)-285,allBottom=Math.max(player.supportY??430,enemy.supportY??430)+28;
  const wholeFits=(allBottom-allTop)*zoom<=h-top-bottom;
- const fitTop=wholeFits?allTop:player.y-285,fitBottom=wholeFits?allBottom:player.y+28;
+ const fitTop=wholeFits?allTop:(player.supportY??430)-285,fitBottom=wholeFits?allBottom:(player.supportY??430)+28;
  const low=fitBottom-(h/2-bottom)/zoom,high=fitTop+(h/2-top)/zoom;
  const y=clamp(458-(h/2-bottom)/zoom,low,high);
  return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-fixed'};
 }
 // Original midpoint/proximity behavior fitted to the fight-only canvas.
-// Use the whole head-to-floor envelope, including jumps, instead of reserving
-// HUD space twice. The target leaves ten pixels for safe outward easing.
+// Use grounded resting height to prevent jump-triggered zoom pumping while
+// keeping horizontal panning responsive and smooth.
 export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
  const [a,b]=fighters,{w,h,side,top:topInset,bottom:bottomInset,ease:easeInset}=fightViewport(width,height,true),hud=0;
- const top=Math.min(a.y,b.y)-(options.mobileLandscapeTuned?300:285),bottom=458,gap=Math.abs(a.x-b.x);
- // On a short touch landscape, cap the close-up rather than merely slowing
- // the same large zoom swing. The safety fit below still retains both actors.
- // The tuned 590-unit close reserve matches fullStageCameraFrame lane admission.
- // A separate predicted safety fit still includes both complete jumping bodies.
+ const top=Math.min(a.supportY??430,b.supportY??430)-300,bottom=458,gap=Math.abs(a.x-b.x);
  const baseHeight=options.mobileLandscapeBaseHeight??h;
- const closeCap=options.mobileLandscapeTuned?(baseHeight-topInset-bottomInset-easeInset)/590*1.6+(h-topInset-bottomInset-easeInset)/704-(baseHeight-topInset-bottomInset-easeInset)/689:options.mobileLandscape?(h-topInset-bottomInset-easeInset)/700*1.6:1.45;
- const horizFit=(options.portraitDynamic||options.portraitStable)?(w-side*2)/480:(w-side*2)/(gap+270);
- const target=Math.min(1.45,closeCap,horizFit,(h-topInset-bottomInset-easeInset)/(bottom-top));
+ const closeCap=(options.mobileLandscapeTuned||options.mobileLandscape)?Math.min(1.25,(h-topInset-bottomInset-easeInset)/340):1.45;
+ const horizFit=(options.portraitDynamic||options.portraitStable)?(w-side*2)/Math.max(480,gap+280):(w-side*2)/Math.max(520,gap+280);
+ const vertEnvelope=options.portraitDynamic?540:(bottom-top);
+ const target=Math.min(1.45,closeCap,horizFit,(h-topInset-bottomInset-easeInset)/vertEnvelope);
  const same=previous?.width===w&&(previous?.height===h||options.mobileLandscapeTuned&&previous?.mobileLandscapeBaseHeight===baseHeight)&&previous?.mode==='classic';
  const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.88,Math.max(0,Math.min(100,delta))/(1000/60));
- const predictedTop=options.mobileLandscapeTuned?Math.min(a.y+Math.min(0,a.vy||0)*.12,b.y+Math.min(0,b.vy||0)*.12)-300:top;
- const wanted=Math.min(target,(h-topInset-bottomInset-easeInset)/(bottom-predictedTop));
+ const wanted=target;
  const eased=same?previous.zoom+(wanted-previous.zoom)*ease:wanted;
  const fit=Math.min(1.45,horizFit,(h-topInset-bottomInset)/(bottom-top));
  const zoom=Math.min(fit,eased,options.mobileLandscapeTuned?(options.mobileLandscapeLaneZoom??Infinity):Infinity);
- const originalY=(Math.min(a.y,b.y)-285+Math.max(a.y,b.y)+25)/2;
- const low=bottom-(h/2-bottomInset)/zoom,highY=top-(topInset-h/2)/zoom;
- // Keep the floor fixed instead of following a jumping actor's midpoint.
- const y=options.mobileLandscapeTuned?low:Math.max(low,Math.min(highY,originalY));
+ const low=bottom-(h/2-bottomInset)/zoom;
+ // Keep the floor fixed instead of bobbing vertically or zooming on jumps.
+ const y=low;
  const lane=options.mobileLandscapeTuned&&options.mobileLandscapeLane,halfBody=(gap+260)*zoom/2;
  const desiredCenter=lane?(halfBody*2<=lane.right-lane.left?Math.max(lane.left+halfBody,Math.min(lane.right-halfBody,w/2)):(lane.left+lane.right)/2):w/2;
  const screenCenter=Math.max(side+halfBody,Math.min(w-side-halfBody,desiredCenter));
@@ -96,7 +91,7 @@ export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,op
  const useLane=lane&&Number.isFinite(options.mobileLandscapeLaneZoom);
  const minX=useLane?Math.max(a.x,b.x)+130-(lane.right-w/2)/zoom:leftBound;
  const maxX=useLane?Math.min(a.x,b.x)-130+(w/2-lane.left)/zoom:rightBound;
- const x=options.mobileLandscapeTuned?Math.max(minX,Math.min(maxX,same?previous.x+(wantedX-previous.x)*ease:wantedX)):wantedX;
+ const x=same?Math.max(minX,Math.min(maxX,previous.x+(wantedX-previous.x)*ease)):Math.max(minX,Math.min(maxX,wantedX));
  return {x,y,zoom,hud,width:w,height:h,mode:'classic',...(options.mobileLandscapeTuned?{mobileLandscapeBaseHeight:baseHeight}:{})};
 }
 export function backgroundFrame(width,height,c){

@@ -75,10 +75,14 @@ export function challengeActorBounds(actor,{head=300,prediction=.12,halfWidth=13
  const landing=Math.max(y,finite(actor.supportY,430)+depthY(actor)),fall=Math.min(landing-y,Math.max(0,finite(actor.vy,0))*prediction);
  return {left:actor.x-halfWidth,right:actor.x+halfWidth,top:y-head+rise,bottom:y+28+fall};
 }
+function groundedActorBounds(actor,{head=300,halfWidth=130}={}){
+ const y=finite(actor.supportY,430)+depthY(actor);
+ return {left:actor.x-halfWidth,right:actor.x+halfWidth,top:y-head,bottom:y+28};
+}
 // One standing-size preference across main/later VS and streets. The safety
 // solver, not legacy chapter-specific reserves, handles separation and jumps.
 export function mobileLandscapeCameraFrame(width,height,actors){
- const zoom=Math.min(1.4,width/440,height*.68/328);
+ const zoom=Math.min(1.4,width/440,height*.72/328);
  return {width,height,zoom,x:(Math.min(...actors.map(a=>a.x))+Math.max(...actors.map(a=>a.x)))/2,y:430-(height*.84-height/2)/zoom};
 }
 // A reduced feasibility union is not an ordering-equivalent candidate list.
@@ -218,16 +222,16 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const restingBodies=actors.map(actor=>{const y=finite(actor.supportY,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
  const left=Math.min(...actors.map(actor=>actor.x)),right=Math.max(...actors.map(actor=>actor.x)),pairCenter=(left+right)/2;
  const subjectScreenY=clamp(finite(options.subjectScreenY,.82),.55,.9);
- const maximum=Math.min(1.25,width/520,height/480),safeAnchor={x:(rect.left+rect.right)/2,y:rect.top+(rect.bottom-rect.top)*subjectScreenY};
+ const portrait=width<height,mobileLandscape=options.touch===true&&!portrait&&height<=500;
+ const maximum=mobileLandscape?Math.min(1.25,width/480,height*.74/328):Math.min(1.25,width/500,height/480);
+ const safeAnchor={x:(rect.left+rect.right)/2,y:rect.top+(rect.bottom-rect.top)*subjectScreenY};
  const wantedFor=(centerX,groundY,z)=>({x:width/2-centerX*z,y:height/2-(groundY+(height/2-safeAnchor.y)/z)*z});
  const selected=options.paused&&state?previous.challengeCameraMode:(options.cameraMode??options.camera);
  const mode=selected==='stable'?'stable':'classic';
  const legacy=options.preferredCameraFrame;
  const preferredZoom=clamp(finite(legacy?.zoom,maximum),1e-6,maximum);
  const restingGround=restingBodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/restingBodies.length;
- const currentGround=bodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/bodies.length;
  const legacyCenterX=Number.isFinite(legacy?.x)?legacy.x:pairCenter;
- const legacyCenterY=Number.isFinite(legacy?.y)?legacy.y:currentGround;
  const largestFit=(boxes,upper,centerX,groundY)=>{
   const place=z=>placeAtScale(boxes,z,rect,occlusions,wantedFor(centerX,groundY,z));
   if(place(upper))return upper;
@@ -236,68 +240,71 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(place(mid))lo=mid;else hi=mid;}
   return Math.max(1e-6,lo);
  };
- // The controlled fighter and screen geometry set the stable scale; pair
- // separation only changes how much of the opponent is composed around them.
- // Airborne pose never participates in this calculation.
- const retainedBaseline=state?.version===3&&previous?.width===width&&previous?.height===height&&state.geometryKey===key&&Number.isFinite(state.baseline)?state.baseline:null;
- let stableZoom=retainedBaseline??preferredZoom;
- const playerGround=(restingBodies[0].top+restingBodies[0].bottom)/2;
- const playerRest=placeAtScale([restingBodies[0]],stableZoom,rect,occlusions,wantedFor(player.x,playerGround,stableZoom));
- if(!playerRest){let lo=0,hi=stableZoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(placeAtScale([restingBodies[0]],mid,rect,occlusions,wantedFor(player.x,playerGround,mid)))lo=mid;else hi=mid;}stableZoom=Math.max(1e-6,lo);}
-  const dynamicFit=largestFit(bodies,stableZoom,legacyCenterX,legacyCenterY);
- const dynamicTarget=clamp(dynamicFit,stableZoom*.90,stableZoom);
  const previousUsable=previous?.width===width&&previous?.height===height&&[previous.x,previous.y,previous.zoom].every(Number.isFinite);
  const modeChanged=previousUsable&&previous?.challengeCameraMode!==mode;
  const history=modeChanged?null:compatible,old=history&&state.geometryKey===key?state:null;
  if(options.paused&&old)return previous;
-  const stableTarget=old?.lockedZoom??stableZoom;
-  const targetZoom=mode==='stable'?stableTarget:dynamicTarget;
- const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/360),panEase=1-Math.exp(-dt/(mode==='stable'?40:150));
+ // Fit the full resting pair on opening (and on portrait) so the opponent is never
+ // clipped off-screen at duel start. Airborne jump height never alters scale.
+ const retainedBaseline=state?.version===3&&previous?.width===width&&previous?.height===height&&state.geometryKey===key&&Number.isFinite(state.baseline)?state.baseline:null;
+ let stableZoom=retainedBaseline??preferredZoom;
+ const playerGround=(restingBodies[0].top+restingBodies[0].bottom)/2;
+ const pairOpeningZoom=restingBodies.length>1?largestFit(restingBodies,stableZoom,pairCenter,restingGround):stableZoom;
+ if(retainedBaseline==null&&restingBodies.length>1&&(portrait||pairOpeningZoom<stableZoom)){
+  stableZoom=pairOpeningZoom;
+ }
+ const playerRest=placeAtScale([restingBodies[0]],stableZoom,rect,occlusions,wantedFor(player.x,playerGround,stableZoom));
+ if(!playerRest){let lo=0,hi=stableZoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(placeAtScale([restingBodies[0]],mid,rect,occlusions,wantedFor(player.x,playerGround,mid)))lo=mid;else hi=mid;}stableZoom=Math.max(1e-6,lo);}
+ const dynamicCeiling=portrait?Math.min(maximum,Math.max(stableZoom,preferredZoom)):stableZoom;
+ const dynamicFit=largestFit(restingBodies,dynamicCeiling,pairCenter,restingGround);
+ const dynamicFloor=portrait?Math.min(stableZoom,pairOpeningZoom):stableZoom*.85;
+ const dynamicTarget=clamp(dynamicFit,Math.max(1e-6,dynamicFloor),dynamicCeiling);
+ const stableTarget=old?.lockedZoom??stableZoom;
+ const targetZoom=mode==='stable'?stableTarget:dynamicTarget;
+ const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/420),panEase=1-Math.exp(-dt/(mode==='stable'?40:180));
  const startZoom=previousUsable?previous.zoom:targetZoom;
  const zoom=previousUsable?Math.max(1e-6,startZoom+(targetZoom-startZoom)*zoomEase):targetZoom;
-  // Compose around the duel midpoint at battle start. After mode switch to stable,
-  // recenter smoothly onto the controlled fighter; otherwise stay stationary until
-  // the controlled fighter approaches the screen safe boundary.
-  let targetX=legacyCenterX,recentering=false;const targetY=mode==='stable'?playerGround:legacyCenterY;
-  if(mode==='stable'){
-   if(!previousUsable)targetX=pairCenter;
-   else if(modeChanged||(state?.recentering&&Math.abs(previous.x-player.x)>1)){
-    targetX=player.x;
-    recentering=true;
-   }else{
-    targetX=previous.x;
-    const prevPlayerX=state?.pose?.x??player.x,playerSpan=264*zoom;
-    const edgeMargin=Math.min(36,Math.max(0,(rect.right-rect.left-playerSpan)*.2));
-    const leftScreen=width/2+(player.x-132-previous.x)*zoom,rightScreen=width/2+(player.x+132-previous.x)*zoom;
-    const prevLeft=width/2+(prevPlayerX-132-previous.x)*zoom,prevRight=width/2+(prevPlayerX+132-previous.x)*zoom;
-    const minLeftScreen=Math.min(rect.left+edgeMargin,Math.max(rect.left,prevLeft));
-    const maxRightScreen=Math.max(rect.right-edgeMargin,Math.min(rect.right,prevRight));
-    if(leftScreen<minLeftScreen)targetX=player.x-132-(minLeftScreen-width/2)/zoom;
-    else if(rightScreen>maxRightScreen)targetX=player.x+132-(maxRightScreen-width/2)/zoom;
-   }
+ // Compose around the duel midpoint at battle start. After mode switch to stable,
+ // recenter smoothly onto the controlled fighter; otherwise stay stationary until
+ // the controlled fighter approaches the screen safe boundary.
+ let targetX=mode==='stable'?legacyCenterX:pairCenter,recentering=false;const targetY=mode==='stable'?playerGround:restingGround;
+ if(mode==='stable'){
+  if(!previousUsable)targetX=pairCenter;
+  else if(modeChanged||(state?.recentering&&Math.abs(previous.x-player.x)>1)){
+   targetX=player.x;
+   recentering=true;
+  }else{
+   targetX=previous.x;
+   const prevPlayerX=state?.pose?.x??player.x,playerSpan=264*zoom;
+   const edgeMargin=Math.min(36,Math.max(0,(rect.right-rect.left-playerSpan)*.2));
+   const leftScreen=width/2+(player.x-132-previous.x)*zoom,rightScreen=width/2+(player.x+132-previous.x)*zoom;
+   const prevLeft=width/2+(prevPlayerX-132-previous.x)*zoom,prevRight=width/2+(prevPlayerX+132-previous.x)*zoom;
+   const minLeftScreen=Math.min(rect.left+edgeMargin,Math.max(rect.left,prevLeft));
+   const maxRightScreen=Math.max(rect.right-edgeMargin,Math.min(rect.right,prevRight));
+   if(leftScreen<minLeftScreen)targetX=player.x-132-(minLeftScreen-width/2)/zoom;
+   else if(rightScreen>maxRightScreen)targetX=player.x+132-(maxRightScreen-width/2)/zoom;
   }
+ }
  let centerX=previousUsable?previous.x+(targetX-previous.x)*panEase:targetX;
  let centerY=previousUsable?previous.y+(targetY-previous.y)*panEase:targetY;
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
- const framingBodies=mode==='stable'?[bodies[0]]:bodies;
+ const framingBodies=mode==='stable'?[restingBodies[0]]:restingBodies;
  let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted),finalZoom=zoom;
- if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
- // At the stable scale, a high jump can temporarily leave no legal placement
- // for the whole pair. Preserve the player's fixed size and keep following.
- if(!position)position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);
+ if(!position)position=placeAtScale(restingBodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
+ if(!position)position=placeAtScale([restingBodies[0]],zoom,rect,occlusions,wanted);
  if(!position){
-  const playerPlace=z=>{const y=finite(player.y,430)+depthY(player),b={left:player.x+standing.left,right:player.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};return placeAtScale([b],z,rect,occlusions,wantedFor(player.x,pose.groundY,z));};
+  const playerPlace=z=>placeAtScale([restingBodies[0]],z,rect,occlusions,wantedFor(player.x,pose.groundY,z));
   let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(playerPlace(mid))lo=mid;else hi=mid;}
   finalZoom=Math.max(1e-6,lo);position=playerPlace(finalZoom)||{x:wanted.x,y:wanted.y};
  }
  const safetyFit=!!position;
  const finalX=position?(width/2-position.x)/finalZoom:centerX,finalY=position?(height/2-position.y)/finalZoom:centerY;
-  return {...(legacy||{}),width,height,x:finalX,y:finalY,zoom:finalZoom,left:finalX-width/(2*finalZoom),base:height/2+(430-finalY)*finalZoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
+  return {...(legacy||{}),width,height,x:finalX,y:finalY,zoom:finalZoom,backdropZoom:stableTarget,left:finalX-width/(2*finalZoom),base:height/2+(430-finalY)*finalZoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
    controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter,recentering}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;
- const geometryKey=fixedGeometryKey(width,height,g),maximum=Math.min(1.4,width/440,height*.68/328);
+ const geometryKey=fixedGeometryKey(width,height,g),maximum=width<height?Math.min(1.25,width/500,height*.68/328):Math.min(1.4,width/440,height*.72/328);
  const old=previous?.width===width&&previous?.height===height?compatiblePlayerFixedState(previous):null;
  const previousUsable=previous?.width===width&&previous?.height===height&&[previous.x,previous.y,previous.zoom].every(Number.isFinite);
  const pose={x:player.x,displayY:finite(player.y,430)+depthY(player)};
@@ -355,14 +362,14 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  // two-unit reserve covers it without pose-triggered zoom changes; all other
  // profiles retain the exact legacy ±130 width and camera decisions.
  const boundsOptions=mobileLandscape?{...options,halfWidth:132}:options;
- const {rect,occlusions}=geometry(preferred,{...options,softControls:mobileLandscape}),boxes=actors.map(a=>challengeActorBounds(a,{...boundsOptions,prediction:0})),anticipated=(options.cameraPlan?.anticipated||actors).map(a=>{const b=challengeActorBounds(a,mobileLandscape?{...boundsOptions,prediction:vsMobileJump?.06:.18}:boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
+ const {rect,occlusions}=geometry(preferred,{...options,softControls:mobileLandscape}),boxes=actors.map(a=>groundedActorBounds(a,boundsOptions)),anticipated=(options.cameraPlan?.anticipated||actors).map(a=>{const b=groundedActorBounds(a,boundsOptions);return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
  const same=sameSize&&previous?.challengeCameraMode===mode;
  const previousUsable=sameSize&&[previous?.x,previous?.y,previous?.zoom].every(Number.isFinite);
  const ease=1-Math.pow(mode==='stable'?.96:.88,clamp(delta,0,100)/(1000/60));
  // Streets share one readable mobile preference; chapter-specific legacy
  // reserves must not impose a second, distant camera before the safety fit.
  const street=!!options.cameraPlan?.state;
- const stableStreetZoom=Math.min(1.4,width/440,height*.68/328),preferredZoom=street?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,1));
+ const stableStreetZoom=Math.min(1.4,width/440,height*.72/328),preferredZoom=street?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,1));
  const wantedZoom=mode==='stable'?preferredZoom:street?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom;
  let center=previousUsable?{x:previous.x+(preferred.x-previous.x)*ease,y:previous.y+(preferred.y-previous.y)*ease}:{x:preferred.x,y:preferred.y};
  const wanted=z=>({x:width/2-center.x*z,y:height/2-center.y*z});
@@ -371,11 +378,8 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  // teleporting to a distant legal translation after the easing step.
  function fit(boxes,maximum,continuous=false){
   const dt=clamp(delta,0,100)/1000,step=dt*60;
-  // A narrow per-frame horizontal pocket was forcing additional zoom-out as
-  // a jumper passed the HUD/control corner. Admit a bounded pan first. Actual
-  // body/HUD safety still wins, and recovery keeps the existing 2%/frame cap.
   const allowanceX=street?Math.max(3*step,265*dt*(previous?.zoom||maximum)+step):(vsMobileJump?16:4)/Math.SQRT2*step;
-  const allowanceY=Math.max((street?3:4)/Math.SQRT2*step,...actors.map(a=>Math.abs(finite(a.vy,0))*dt*(previous?.zoom||maximum)));
+  const allowanceY=(street?3:4)/Math.SQRT2*step;
   const limits=z=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-allowanceY,bottom:height/2-previous.y*z+allowanceY}:null;
   const place=z=>placeAtScale(boxes,z,rect,occlusions,wanted(z),limits(z));
   let zoom=maximum,position=place(zoom);
@@ -383,27 +387,22 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   if(!position){let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2,p=place(mid);if(p)lo=mid;else hi=mid;}zoom=Math.max(.000001,lo);position=place(zoom);}
   return {zoom,position};
  }
- // Anticipation is a soft target, not an instant hard crop. Ease toward an
- // approaching jump while current body proxies retain a hard safety fit.
  const forecast=fit(anticipated,wantedZoom);let target=forecast.zoom;
  if(same&&mode==='stable'&&options.cameraPlan?.state?.retained?.some(e=>e.remaining<600))target=Math.min(target,previous.zoom);
-
+  
  if(forecast.position&&(same||street)){const future={x:(width/2-forecast.position.x)/forecast.zoom,y:(height/2-forecast.position.y)/forecast.zoom};
   const deadZone=same&&mode==='stable'&&options.cameraPlan&&Math.abs(future.x-previous.x)*previous.zoom<8;
   if(deadZone)future.x=previous.x;
   const follow=!deadZone&&options.cameraPlan?.state?.engaged?clamp(options.cameraPlan.velocityX,-265,265)*clamp(delta,0,100)/1000:0;
   center=same?{x:previous.x+(future.x-previous.x)*ease+follow,y:previous.y+(future.y-previous.y)*ease}:future;}
  let zoomTarget=previousUsable?Math.min(wantedZoom,previous.zoom+(target-previous.zoom)*(target<previous.zoom?Math.max(ease,1-Math.pow(.82,clamp(delta,0,100)/(1000/60))):ease)):target;
- // An asymptotic scale difference below a hundredth of a projected pixel
- // can keep two legal pockets disconnected forever. Finish that negligible
- // mobile pullback so a forecast can actually pan into its reserved space.
  if(mobileLandscape&&same&&target<previous.zoom&&previous.zoom-target<1e-5)zoomTarget=target;
  if(same&&(options.cameraPlan||mobileLandscape)){const step=Math.pow(1.02,clamp(delta,0,100)/(1000/60));zoomTarget=clamp(zoomTarget,previous.zoom/step,previous.zoom*step);}
  const {zoom,position}=fit(boxes,zoomTarget,true);
  if(!position)return {...preferred,challengeCameraMode:mode,cameraSafetyFit:false};
  const x=(width/2-position.x)/zoom,y=(height/2-position.y)/zoom;
  const result={...preferred,x,y,zoom,challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:mobileLandscape?'soft':'normal',...(options.cameraPlan?{cameraTracking:options.cameraPlan.state}:{})};
- if('base' in preferred)Object.assign(result,{base:height/2+(430-y)*zoom,jumpPan:0,backdropZoom:Math.max(preferred.backdropZoom||zoom,street?wantedZoom:zoom),backdropTop:Math.min(preferred.backdropTop??Infinity,y-height/(2*zoom)),backdropBottom:Math.max(preferred.backdropBottom??-Infinity,y+height/(2*zoom))});
+ if('base' in preferred)Object.assign(result,{base:height/2+(430-y)*zoom,jumpPan:0,backdropZoom:Math.max(preferred.backdropZoom||0,wantedZoom),backdropTop:Math.min(preferred.backdropTop??Infinity,y-height/(2*zoom)),backdropBottom:Math.max(preferred.backdropBottom??-Infinity,y+height/(2*zoom))});
  return result;
 }
 
@@ -444,7 +443,7 @@ export function streetPlayerCameraFrame(width,height,world,options={}){
  if(paused&&previous?.width===width&&previous?.height===height&&canReuseCloseFrame(previous,width,height,options))return previous;
  const p=paused&&snapshot?{x:snapshot.pose.x,y:snapshot.pose.displayY}:world.player;
  const pose={x:p.x,displayY:finite(p.y,430)+depthY(p)},g=closeGeometry(width,height,options,profile),key=closeKey(width,height,g,profile),{rect,occlusions}=g;
- const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.68/328):Math.min(1.25,width/500,height*.68/328);
+ const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.72/328):Math.min(1.25,width/500,height*.68/328);
  const old=previous?.width===width&&previous?.height===height&&saved?.profile===profile?saved:null;
  let referenceZoom=maximumDensity,zoom,anchor;
  const reserveX=profile==='landscape'?80:32,box={left:-132-reserveX,right:132+reserveX,top:-300,bottom:28};

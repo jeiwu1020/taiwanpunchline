@@ -2,6 +2,9 @@ import {isMobileLandscapePresentation} from './challenge-layout.mjs?v=chapter-pr
 import {controlledCombatCameraFrame} from './challenge-camera.mjs?v=chapter-presentation-20261117-r1';
 // Shared display-space safe zone. This does not change combat/world geometry.
 export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
+ if(!portrait&&touch&&height<=500){
+  return {top:Math.min(68,height*.25),bottom:18};
+ }
  const top=portrait&&touch?140:118;
  const bottom=touch?(portrait?198:66):48;
  // Wide controls occupy the corners; do not shrink every actor into the
@@ -10,24 +13,25 @@ export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
 }
 function preferredFullStageCameraFrame(camera,width,height,fighters,previous=null,delta=1000/60,options={}){
  if(options.paused&&previous?.width===width&&previous?.height===height)return previous;
- const portrait=options.portrait??width<height,mobileLandscape=options.touch===true&&options.nativeLandscape===true&&!portrait&&height<=500;
- let {top,bottom}=stageInsets(width,height,options);
+ const portrait=options.portrait??width<height,mobileLandscape=options.touch===true&&!portrait&&height<=500;
+ let {top,bottom}=stageInsets(width,height,{...options,portrait});
+ if(mobileLandscape&&Number.isFinite(options.hudBottom)){
+  top=Math.min(height*.25,options.hudBottom+6);
+ }
  const tuned=mobileLandscape&&options.cameraMode==='classic',portraitStable=options.touch===true&&portrait&&options.cameraMode==='stable';
  if((tuned||portraitStable)&&Number.isFinite(options.hudBottom))top=Math.max(top,options.hudBottom+8);
  const baseHeight=Math.max(1,height-top-bottom);let laneZoom=Infinity,laneBounds=null;
- // Lane admission must use the same close reserve as the tuned camera,
- // otherwise entering the lane abruptly imposes a smaller zoom.
  if(tuned&&options.lowerLane){
-  const lane=options.lowerLane;laneBounds=lane;const gap=Math.abs(fighters[0].x-fighters[1].x),baseZoom=(baseHeight-32)/590*1.6;
+  const lane=options.lowerLane;laneBounds=lane;const gap=Math.abs(fighters[0].x-fighters[1].x),baseZoom=baseHeight/340;
   const room=Math.max(0,(lane.right-lane.left)/2);
   const freeZoom=room*2/Math.max(1,gap+260);
-  const gain=Math.max(0,Math.min(36,lane.bottom-(height-bottom),(freeZoom-baseZoom)*704));
+  const gain=Math.max(0,Math.min(36,lane.bottom-(height-bottom),(freeZoom-baseZoom)*340));
   bottom-=gain;if(gain>0){laneZoom=freeZoom;laneBounds=lane;}
  }
  const viewHeight=Math.max(1,height-top-bottom);
  const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
  const frame={...view,y:view.y+(bottom-top)/(2*view.zoom),width,height,stageView:view};
- if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+8,(options.hudBottom||0)+8),bottom:height-bottom-14,head:285});
+ if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+4,(options.hudBottom||0)+4),bottom:height-bottom-8,head:285});
  return frame;
 }
 // Stable and dynamic share one standing scale. Only the controlled fighter
@@ -75,15 +79,14 @@ export function chamberBackdropTiles(frame,chamber){
 export function fitMobilePairSafety(legacy,actors,previous,delta=1000/60,{top=0,bottom=legacy.height,side=18,head=300}={}){
  const {width,height}=legacy,clamp=(n,l,h)=>Math.max(l,Math.min(h,n));
  const left=Math.min(...actors.map(a=>a.x))-130,right=Math.max(...actors.map(a=>a.x))+130;
- const high=Math.min(...actors.map(a=>a.y+(a.depth||0)*.65-head)),low=Math.max(...actors.map(a=>a.y+(a.depth||0)*.65+28));
- const predict=Math.min(...actors.map(a=>a.y+(a.depth||0)*.65+Math.min(0,a.vy||0)*.12-head));
- const inside=width/2+(left-legacy.x)*legacy.zoom>=side&&width/2+(right-legacy.x)*legacy.zoom<=width-side&&height/2+(predict-legacy.y)*legacy.zoom>=top&&height/2+(low-legacy.y)*legacy.zoom<=bottom;
+ // Use grounded supportY so jumps do not pump zoom out and back in.
+ const high=Math.min(...actors.map(a=>(a.supportY??430)+(a.depth||0)*.65-head)),low=Math.max(...actors.map(a=>(a.supportY??430)+(a.depth||0)*.65+28));
+ const inside=width/2+(left-legacy.x)*legacy.zoom>=side&&width/2+(right-legacy.x)*legacy.zoom<=width-side&&height/2+(high-legacy.y)*legacy.zoom>=top&&height/2+(low-legacy.y)*legacy.zoom<=bottom;
  const same=previous?.width===width&&previous?.height===height;
  if(inside&&!previous?.mobileSafety)return legacy;
  const fit=Math.min(legacy.zoom,(width-2*side)/(right-left),(bottom-top)/(low-high));
- const wanted=Math.min(fit,(bottom-top)/(low-predict));
  const ease=1-Math.pow(.92,Math.max(0,Math.min(100,delta))/(1000/60));
- const zoom=Math.min(fit,same?previous.zoom+(wanted-previous.zoom)*ease:wanted);
+ const zoom=Math.min(fit,same?previous.zoom+(fit-previous.zoom)*ease:fit);
  const x=clamp(same?previous.x+(legacy.x-previous.x)*ease:legacy.x,right-(width/2-side)/zoom,left+(width/2-side)/zoom);
  const y=clamp(same?previous.y+(legacy.y-previous.y)*ease:legacy.y,low-(bottom-height/2)/zoom,high+(height/2-top)/zoom);
  if(inside&&Math.abs(zoom-legacy.zoom)<1e-5&&Math.abs(x-legacy.x)<.01&&Math.abs(y-legacy.y)<.01)return legacy;

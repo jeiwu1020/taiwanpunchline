@@ -55,6 +55,7 @@ import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r
 import {mountGameViewport} from './game-viewport.mjs?v=chapter-presentation-20261117-r1';
 import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
 import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-boot-20261112-r3';
+import {mountChapterLoadingOverlay,fixedBackdropPresentation} from './chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-boot-20261112-r3';
 import {drawArenaBoundaries} from './arena-boundaries.mjs?v=campaign-boot-20261112-r3';
 import {renderCooldownButton} from './cooldown-view.mjs?v=campaign-boot-20261112-r3';
@@ -769,6 +770,8 @@ class Arena extends Phaser.Scene {
   // callbacks drive a four-request queue, independently of the frame loop.
   const gate=new Phaser.Loader.File(this.load,{type:'boot-art',key:'boot-art'});
   let completed=false;
+  const hasRealDOM=typeof document!=='undefined'&&!!document.body&&!!document.querySelector?.('#title-screen');
+  const loadingOverlay=hasRealDOM?mountChapterLoadingOverlay({document,chapter:1,chapterNumber:'台灣大亂鬥',chapterTitle:'台灣議會大亂鬥 · 舞台載入中',subtitle:'正在準備角色立繪、街區場景與背景舞台…',onRetry:()=>this.bootArt?.retry()}):null;
   gate.load=()=>this.bootArt.start();
   this.bootArt=createBootArtLoader({entries,onChange:state=>{
    const title=$('#title-screen');title.dataset.bootState=state.status;
@@ -779,14 +782,17 @@ class Arena extends Phaser.Scene {
     this.optionalArtFailures=state.optionalFailures;
     for(const [key,image]of Object.entries(state.images))this.textures.addImage(key,image);
     titleUI?.setReady(false,'正在準備舞台…');
+    loadingOverlay?.setReady();
     this.load.nextFile(gate,true);
    }else{
     const message=state.status==='failed'?'部分漫畫未能載入，請重試。':`載入漫畫 ${Math.round(state.progress*100)}%${state.retrying?' · 正在重試':''}`;
     $('#start').textContent=message;titleUI?.setReady(false,message);
+    if(state.status==='failed')loadingOverlay?.setError('部分漫畫素材未能載入，請點此重試。');
+    else loadingOverlay?.setProgress(state.progress,{phaseLabel:state.retrying?'重新連線載入':'載入漫畫素材',statusText:message});
    }
   }});
   $('#boot-art-retry').onclick=()=>this.bootArt.retry();
-  this.events.once('shutdown',()=>this.bootArt.dispose());
+  this.events?.once?.('shutdown',()=>{this.bootArt.dispose();loadingOverlay?.destroy();});
   this.load.addFile(gate);
  }
  create(){if(this.assetFailure){$('#start').textContent='素材載入失敗，請重整';titleUI?.setReady(false,'素材載入失敗，請重新整理再試。');$('#tip').textContent='部分漫畫素材未載入，請重新整理再試。';return;}scene=this;this.add.rectangle(480,-1000,6000,2860,0xd4cbaa).setDepth(-30);this.add.rectangle(480,1800,6000,2740,0xe6c695).setDepth(-30);this.makeBackdrop();this.dynamic=this.add.graphics();this.rigs=[this.add.container(),this.add.container()];this.chars=[];this.heads=[];this.extras=[];for(let i=0;i<2;i++){const body=this.add.graphics(),head=this.add.image(4,-75,'wang-head'),extra=this.add.graphics();this.rigs[i].add([body,head,extra]);this.chars.push(body);this.heads.push(head);this.extras.push(extra);}this.artImages=Object.fromEntries(Object.keys({...ART_FILES,...CHALLENGE_ART_FILES,...STARTER_ART_FILES}).filter(k=>!this.optionalArtFailures?.has(k)&&(!['challenge-arena-layer','challenge-arena-sky','challenge-street-facade','challenge-street-sky','challenge-street-left-repair','challenge-street-right-repair'].includes(k)||this.textures.exists(k))).map(k=>[k,this.textures.get(k).getSourceImage()]));for(const k of ['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'])this.artImages[k]=this.textures.get(k).getSourceImage();for(const a of Object.values(ITEM_ART))this.artImages[a.key]=this.textures.get(a.key).getSourceImage();this.challengeRenderer=createChallengeRenderer(this,this.artImages);this.assistRenderer=createAssistRenderer(this,this.artImages);this.artCanvases=[];this.artDisplays=[];this.spitStart=new WeakMap();this.lastArtPose=new WeakMap();this.propPool=[];this.textPool=[];this.markerPool=[];this.statusTexts=[0,1].map(()=>text(this,0,0,'',17,'#fff7e5').setOrigin(.5).setStroke('#142b32',4).setDepth(8));this.guardCache='';
@@ -1001,10 +1007,13 @@ class Arena extends Phaser.Scene {
   if(!frame||frame.width!==sw||frame.height!==sh||!isRoute&&!canReuseCameraFrame(frame,sw,sh,cameraOptions)){
    const frozenFinish=matchFinish?.camera&&(matchFinish.camera.playerFixedCamera||matchFinish.camera.controlledCombatCamera)?matchFinish.camera:null;
    frame=fullStageCameraFrame(viewportUI?.camera==='stable'?fixedStableCameraFrame:cameraFrame,sw,sh,fs,frozenFinish??previousCamera,delta,{...cameraOptions,paused:!!frozenFinish||duel.status==='paused'});if(matchFinish)matchFinish.camera=frame;
-  }this.cameraDuel=duel;this.cameraView=frame;cam.setViewport(0,0,sw,sh);cam.setZoom(frame.zoom);cam.centerOn(frame.x,frame.y);this.arenaBackdrop.setVisible(!isRoute&&!isChallengeArena);(this.chamberDeskLayers||[]).forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.backdropExtensions.forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.boundaryGraphics.setVisible(!isRoute&&!isChallengeArena);this.ambient.setVisible(!isRoute&&!isChallengeArena);
-  this.combatOverlay?.draw({route:!!duel.depthMode,images:this.artImages,time:this.artTime,reducedMotion:this.reducedMotion,cameraFrame:frame,world:duel,hintsActive:duel.status==='active'&&viewportUI?.ready!==false&&!challengeInputBlocked()&&!matchFinish&&!homeRequested&&!$('#help-dialog').open&&$('#result').classList.contains('hidden')&&$('.app').dataset.titleOpen!=='true'});
-  if(isRoute){this.itemUsed=0;this.challengeRenderer.draw(duel,this.artTime,frame,{fighterView:f=>this.fighterPresentation(f,this.artTime),onPose:(f,p)=>this.lastArtPose.set(f,p),reducedMotion:this.reducedMotion,skipMic:!!this.combatOverlay,externalRallyRenderer:true});this.rigs[1].setVisible(false);this.rigs[0].setVisible(!duel.depthMode);if(!duel.depthMode)this.drawFighter(this.chars[0],duel.player,this.artTime,0);this.drawCrowd(frame,{route:true});this.itemSprites.forEach(v=>v.setVisible(false));this.itemGraphics.clear();$('#item-status').textContent=duel.depthMode?(duel.chapterEncounter?.hint??'上下左右走位 · 空白鍵／跳躍鍵 · 向右前進'):'← → 移動轉向 · 跳上攤台 · ↓ 下台 · 打小怪得經驗 · 向右前進';}
-  else{if(isChallengeArena)this.challengeRenderer.drawArena(challengeRun.phase.section??2,this.artTime,frame,duel);else{this.challengeRenderer.hide();this.updateBackdrop(this.artTime,frame);}this.rigs[0].setVisible(true);this.rigs[1].setVisible(true);this.drawStageItems(this.artTime);if(isChallengeArena&&duel.chapterEncounter)$('#item-status').textContent=duel.chapterEncounter.hint;this.drawCrowd(frame);fs.forEach((f,i)=>this.drawFighter(this.chars[i],f,this.artTime,i));}this.assistRenderer.draw(duel,this.artTime,{hidden:!!matchFinish||!!duel.depthMode,reducedMotion:this.reducedMotion});let g=this.dynamic;g.clear();
+  }
+  const fixedBackdrop=fixedBackdropPresentation(sw,sh,frame.presentation||{});
+  const arenaFrame=isChallengeArena?{...frame,backdropZoom:fixedBackdrop.horizonZoom,presentation:fixedBackdrop}:frame;
+  this.cameraDuel=duel;this.cameraView=arenaFrame;cam.setViewport(0,0,sw,sh);cam.setZoom(arenaFrame.zoom);cam.centerOn(arenaFrame.x,arenaFrame.y);this.arenaBackdrop.setVisible(!isRoute&&!isChallengeArena);(this.chamberDeskLayers||[]).forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.backdropExtensions.forEach(v=>v.setVisible(!isRoute&&!isChallengeArena));this.boundaryGraphics.setVisible(!isRoute&&!isChallengeArena);this.ambient.setVisible(!isRoute&&!isChallengeArena);
+  this.combatOverlay?.draw({route:!!duel.depthMode,images:this.artImages,time:this.artTime,reducedMotion:this.reducedMotion,cameraFrame:arenaFrame,world:duel,hintsActive:duel.status==='active'&&viewportUI?.ready!==false&&!challengeInputBlocked()&&!matchFinish&&!homeRequested&&!$('#help-dialog').open&&$('#result').classList.contains('hidden')&&$('.app').dataset.titleOpen!=='true'});
+  if(isRoute){this.itemUsed=0;this.challengeRenderer.draw(duel,this.artTime,arenaFrame,{fighterView:f=>this.fighterPresentation(f,this.artTime),onPose:(f,p)=>this.lastArtPose.set(f,p),reducedMotion:this.reducedMotion,skipMic:!!this.combatOverlay,externalRallyRenderer:true});this.rigs[1].setVisible(false);this.rigs[0].setVisible(!duel.depthMode);if(!duel.depthMode)this.drawFighter(this.chars[0],duel.player,this.artTime,0);this.drawCrowd(arenaFrame,{route:true});this.itemSprites.forEach(v=>v.setVisible(false));this.itemGraphics.clear();$('#item-status').textContent=duel.depthMode?(duel.chapterEncounter?.hint??'上下左右走位 · 空白鍵／跳躍鍵 · 向右前進'):'← → 移動轉向 · 跳上攤台 · ↓ 下台 · 打小怪得經驗 · 向右前進';}
+  else{if(isChallengeArena)this.challengeRenderer.drawArena(challengeRun.phase.section??2,this.artTime,arenaFrame,duel);else{this.challengeRenderer.hide();this.updateBackdrop(this.artTime,arenaFrame);}this.rigs[0].setVisible(true);this.rigs[1].setVisible(true);this.drawStageItems(this.artTime);if(isChallengeArena&&duel.chapterEncounter)$('#item-status').textContent=duel.chapterEncounter.hint;this.drawCrowd(arenaFrame);fs.forEach((f,i)=>this.drawFighter(this.chars[i],f,this.artTime,i));}this.assistRenderer.draw(duel,this.artTime,{hidden:!!matchFinish||!!duel.depthMode,reducedMotion:this.reducedMotion});let g=this.dynamic;g.clear();
   for(const f of duel.depthMode?[]:fs){if(f.attack?.kind==='su_rush'&&[.22,.42,.62].some(a=>f.attack.age>=a&&f.attack.age<a+.1)){g.lineStyle(6,0xc48230,.8);g.strokeEllipse(f.x+f.face*54,GROUND-16,92,26);g.lineStyle(3,0xffe2a8,.8);g.lineBetween(f.x-f.face*20,GROUND-12,f.x+f.face*105,GROUND-12);}
    const scale=1-Math.min(.25,Math.max(0,GROUND-f.y)/560);g.fillStyle(ink,.16);g.fillEllipse(f.x,(f.supportY??GROUND)+1,88*scale,14*scale);}
   if(!matchFinish){if(!duel.depthMode)this.drawProjectiles(this.artTime,g);else{for(const im of this.propPool)im.setVisible(false);for(const label of this.markerPool)label.setVisible(false);}this.updateCaptions(fs,frame,delta);}else{for(const im of this.propPool)im.setVisible(false);for(const label of this.markerPool)label.setVisible(false);}

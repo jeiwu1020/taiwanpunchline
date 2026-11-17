@@ -22,6 +22,7 @@ import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-2
 import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
 import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-presentation-20261117-r1';
 import {loadChapterAssetsInStages} from '../campaign/chapter-asset-loading.mjs?v=chapter-staged-assets-20261116-r1';
+import {mountChapterLoadingOverlay,unifiedChallengeBackdropFrame,fixedBackdropPresentation} from '../../chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {usesHighFlyingMic} from './flying-mic.mjs?v=campaign-boot-20261112-r3';
 import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
 import {makeFlyingMicOverlay} from './flying-mic-adapter.mjs?v=campaign-boot-20261112-r3';
@@ -109,7 +110,7 @@ for(const b of $$('#controls button')){
 }
 
 function routeIndex(s){return !s||s.stepId==='entry'||s.stepId==='route-a'||s?.stepId==='miniboss-a'?0:s?.stepId==='route-b'||s?.stepId==='miniboss-b'?1:2;}
-function paintBackdrop(im,f,w,h,curb=700){const result=drawStreetBackdrop(ctx,im,{...f,presentation:backgroundPresentation(w,h,ui.cameraOptions)},w,h,curb,images['chapter2-sky-'+curb],images['chapter2-seam-'+curb]);drawChapterStreetMotifs(ctx,images['chapter-street-motifs'],f,{chapter:2,route:routeIndex(v()),worldWidth:CHAPTER2.routes[routeIndex(v())].width,width:w});return result;}
+function paintBackdrop(im,f,w,h,curb=700){const presentation=fixedBackdropPresentation(w,h,backgroundPresentation(w,h,ui.cameraOptions));const result=drawStreetBackdrop(ctx,im,{...f,backdropZoom:f.backdropZoom??presentation.horizonZoom,presentation},w,h,curb,images['chapter2-sky-'+curb],images['chapter2-seam-'+curb]);drawChapterStreetMotifs(ctx,images['chapter-street-motifs'],f,{chapter:2,route:routeIndex(v()),worldWidth:CHAPTER2.routes[routeIndex(v())].width,width:w});return result;}
 function actor(f,frame,time,alpha=1){const measure=f===chapter?.world?.player;f=chapter2RenderActor(f);const x=(f.x-frame.left)*frame.zoom,y=frame.base+(f.y-GROUND+(f.depth??0)*.65)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*(f.face||1),frame.zoom);ctx.globalAlpha=alpha;if(f.mobKind?.startsWith('mini_'))drawChapter2Miniboss(ctx,images,f,time,{shadow:false});else if(f.mobKind)drawChallengeMob(ctx,images,f,time,{shadow:false});else if(measure)flyingMic.recordPlayer(brush=>drawFighterArt(brush,images,f,time,{shadow:false}),Math.min(2,devicePixelRatio||1));else drawFighterArt(ctx,images,f,time,{shadow:false});ctx.restore();}
 function label(copy,x,y,size=20,color='#fff3ce'){ctx.font=`900 ${size}px Microsoft JhengHei,system-ui`;ctx.textAlign='center';ctx.strokeStyle='#17353a';ctx.lineWidth=4;ctx.strokeText(copy,x,y);ctx.fillStyle=color;ctx.fillText(copy,x,y);}
 function microphone(x,y,size=58,angle=-.3){const im=images['opening-props-v75'];if(!im)return;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.fillStyle='#fff5c6cc';ctx.strokeStyle='#bc8534';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,-size*.55,size*.42,size*.68,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.drawImage(im,1186,543,192,444,-size*.22,-size,size*.44,size);ctx.restore();}
@@ -139,7 +140,7 @@ function draw(time,delta=1000/60){
  if(s?.mode==='story'){ui.clearCameraHints();comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
  if(!s||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
  if(!g){ui.clearCameraHints();return;}const route=!!g.depthMode,player=g.player,portrait=ui.viewport.width<ui.viewport.height;
- let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{const spread=Math.abs(g.enemy.x-player.x),zoom=portrait?Math.min(w/520,(h-90)/390):Math.min(w/1060,(h-115)/390,w/(spread+340));f={zoom:Math.max(.3,zoom),left:Math.max(0,Math.min(960-w/Math.max(.3,zoom),(player.x+g.enemy.x)/2-w/Math.max(.3,zoom)/2)),base:portrait?h*.8:h-115};}
+ let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{f=unifiedChallengeBackdropFrame(w,h,g,{portrait,touch:ui.cameraOptions?.touch??(ui.viewport?.touch===true)});}
  f=mobileCamera.frame(f,g,{width:w,height:h,route,delta,paused:s.paused||g.status==='paused',...ui.cameraOptions});
  ui.renderCameraHints(f.cameraFrame,g,{route,active:!s.paused&&!s.blocked&&!s.busy&&g.status==='active'&&['route','battle'].includes(s.mode)});
  const sx=x=>(x-f.left)*f.zoom,sy=(y,z=0)=>f.base+(y-GROUND+z*.65)*f.zoom;
@@ -189,11 +190,12 @@ continuation=mountContinuationControls({document,window,characters:CAST,chapterI
 refreshMenu();resizeCanvas();
 const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER2_NEW_ART.files,'flying-mic-candidate':'flying-mic-props.png'};
 const sceneAssetIndexes=Object.fromEntries(CHAPTER2_NEW_ART.curbs.flatMap((curb,index)=>[[`chapter2-sky-${curb}`,index],[`chapter2-seam-${curb}`,index]]));
+const loadingOverlay=mountChapterLoadingOverlay({document,chapter:2});
 void comic.load(images).then(()=>comicReader.sync());
-loadChapterAssetsInStages({files:allFiles,sceneAssetIndexes,loadImage:(key,file)=>loadChapterImage(chapterAssetURL('chapter2',file)),onProgress:({phase,loaded,total})=>{if(phase==='shared')$('#start').textContent=`載入共用素材 ${Math.round(loaded/total*100)}%`;else if(phase==='current-scene')$('#start').textContent=`載入目前場景 ${Math.round(loaded/total*100)}%`;},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';await continuation.assetsReady();}const state=v();return {sceneIndex:routeIndex(state),includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
- Object.assign(images,staged.images);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';requestAnimationFrame(tick);
+loadChapterAssetsInStages({files:allFiles,sceneAssetIndexes,loadImage:(key,file)=>loadChapterImage(chapterAssetURL('chapter2',file)),onProgress:({phase,loaded,total})=>{const ratio=total?loaded/total:0;if(phase==='shared'){$('#start').textContent=`載入共用素材 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(ratio*.5,{phaseLabel:'共用角色素材',statusText:`載入共用素材 ${Math.round(ratio*100)}%`});}else if(phase==='current-scene'){$('#start').textContent=`載入目前場景 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(.5+ratio*.5,{phaseLabel:'目前關卡場景',statusText:`載入目前場景 ${Math.round(ratio*100)}%`});}},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';loadingOverlay.setPhase('章節接續','正在同步戰役進度與舞台…');await continuation.assetsReady();}const state=v();return {sceneIndex:routeIndex(state),includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
+ Object.assign(images,staged.images);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';loadingOverlay.setReady();requestAnimationFrame(tick);
  requestAnimationFrame(()=>requestAnimationFrame(()=>void staged.loadBackground().then(({images:background,errors})=>{Object.assign(images,background);if(errors.length)deferredAssetError='部分場景素材載入失敗，請重新整理頁面。';})));
-}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);});
+}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);loadingOverlay.setError(err?.message||'部分關卡素材載入失敗，請重新整理再試。');});
 
 
 registerQuickView(window,async()=>{
