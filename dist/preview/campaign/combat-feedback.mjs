@@ -1,11 +1,11 @@
 import {impactY} from '../../combat-view.mjs?v=chapter-combat-feedback-20261115-r1';
-import {GROUND,CAST} from '../../core.mjs?v=chapter-combat-feedback-20261115-r1';
+import {GROUND} from '../../core.mjs?v=chapter-combat-feedback-20261115-r1';
 
-const COLORS=Object.freeze({supply:'#b6f1ba',assist:'#ffe49a',assistEnemy:'#a7f5ff',hit:'#fff6c9',block:'#a7ece3',damage:'#fff6c9',counter:'#fff0be',miss:'#bddfe1',heal:'#a5f0bc',break:'#ffbb96',reflect:'#ffe1a1',reject:'#e4c8ef',erase:'#e1d9c4',capture:'#f4d58c',queue:'#ffd9a6',armor:'#b8f0ed',calm:'#d4efd6',wall:'#e4c8ef',slow:'#bbe5e4',rally:'#ffe084'});
+const COLORS=Object.freeze({hit:'#fff6c9',block:'#a7ece3',damage:'#fff6c9',counter:'#fff0be',miss:'#bddfe1',heal:'#a5f0bc',break:'#ffbb96',reflect:'#ffe1a1',reject:'#e4c8ef',erase:'#e1d9c4',capture:'#f4d58c',queue:'#ffd9a6',armor:'#b8f0ed',calm:'#d4efd6',wall:'#e4c8ef',slow:'#bbe5e4',rally:'#ffe084'});
 
 export function rememberCombatFeedback(queue,event,now=performance.now()){
  if(!event||!queue)return;
- const add=(x,y,depth,text,color,size,duration=850)=>{if(!Number.isFinite(x)||!Number.isFinite(y)||!text)return;queue.push({x,y,depth:depth??0,text,color,size,started:now,duration,rise:20});};
+ const add=(x,y,depth,text,color,size)=>{if(!Number.isFinite(x)||!Number.isFinite(y)||!text)return;queue.push({x,y,depth:depth??0,text,color,size,started:now,duration:850,rise:20});};
  const actor=(f,offset,text,color,size,x=f?.x)=>{if(f)add(x,f.y+offset,f.depth,text,color,size);};
  if(event.type==='hit'||event.type==='block'){
   const target=event.to;if(!target)return;
@@ -34,8 +34,6 @@ export function rememberCombatFeedback(queue,event,now=performance.now()){
  else if(event.type==='itemThrow')actor(event.f,-220,event.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！',COLORS.hit,22);
  else if(event.type==='rallyResult')add(event.result==='miss'?event.r?.x:event.to?.x,GROUND-100,event.to?.depth??event.r?.depth??0,event.result==='miss'?(event.r?.tooHigh?'桌上太高啦！':'躲開了！'):event.result==='blocked'?'格擋 −'+event.amount:'命中 −'+event.amount,event.result==='hit'?COLORS.rally:'#d0f7fa',22);
  else if(event.type==='performanceGuard')actor(event.f,-280,'讓我演完這一下！','#ffe29a',18);
- else if(event.type==='supply')actor(event.f,-300,'補給到手！HP 全滿',COLORS.supply,23);
- else if(event.type==='assistStart'&&event.assist?.actor){const helper=event.assist.actor;add(helper.x,helper.y-250,helper.depth,`${event.assist.displayName??CAST[event.helper]?.name??'助拳'} · ${event.name??'援護到場'}`,event.assist.owner?.id==='enemy'?COLORS.assistEnemy:COLORS.assist,22,1300);}
  while(queue.length>32)queue.shift();
 }
 

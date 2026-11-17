@@ -198,14 +198,6 @@ export function canReuseCameraFrame(frame,width,height,options={}){
  return !!compatiblePlayerFixedState(frame)&&isPlayerFixedCameraProfile(width,height,options)&&frame.playerFixedCamera.geometryKey===playerFixedGeometryKey(width,height,options);
 }
 
-// Phone-portrait standing scale. Street and Boss/VS used to sit at opposite
-// extremes (street ~1.03, Boss 0.52-0.75 on a 390px phone), so the same
-// character looked like two different games. Both now derive from screen width:
-// street is pulled back, combat is pushed in, and they meet in the middle.
-export const PORTRAIT_STREET_ZOOM_DIVISOR=460;
-export const PORTRAIT_COMBAT_ZOOM_DIVISOR=620;
-export function portraitStreetDensity(width,height){return Math.min(1.25,width/PORTRAIT_STREET_ZOOM_DIVISOR,height*.68/328);}
-
 // Combat preserves the arena's device-specific composition, then applies one
 // shared safe-area solve. Stable zoom uses grounded poses; dynamic zoom can
 // ease within a small range as the live composition changes.
@@ -222,12 +214,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const state=previous?.controlledCombatCamera,compatible=state?.version===3&&previous.width===width&&previous.height===height?state:null;
  const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player),groundY:finite(player.supportY,430)+depthY(player)};
  const standing={left:-132,right:132,top:-300,bottom:28};
- const portraitTouch=options.touch===true&&options.portrait===true;
  const bodies=actors.map(actor=>{const y=finite(actor.y,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
- // Phone portrait pair/dynamic framing keeps the ground line in frame while a fighter
- // is airborne, so a jump can never carry the floor behind the on-screen controls.
- // Stable player-follow keeps using the true body above, exactly as before.
- const reachBodies=portraitTouch?actors.map(actor=>{const y=finite(actor.y,430)+depthY(actor),rest=finite(actor.supportY,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:Math.max(y,rest)+standing.bottom};}):bodies;
  const restingBodies=actors.map(actor=>{const y=finite(actor.supportY,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
  const left=Math.min(...actors.map(actor=>actor.x)),right=Math.max(...actors.map(actor=>actor.x)),pairCenter=(left+right)/2;
  const subjectScreenY=clamp(finite(options.subjectScreenY,.82),.55,.9);
@@ -236,11 +223,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const selected=options.paused&&state?previous.challengeCameraMode:(options.cameraMode??options.camera);
  const mode=selected==='stable'?'stable':'classic';
  const legacy=options.preferredCameraFrame;
- // Portrait phones use a fixed standing scale instead of the zoom that happened to
-  // fit the opening pair. That value was frozen on frame one and then only
-  // re-sampled when HUD geometry changed, so the camera sat far away until a move
-  // (or any layout shift) re-baselined it much closer.
-  const preferredZoom=portraitTouch?clamp(width/PORTRAIT_COMBAT_ZOOM_DIVISOR,1e-6,maximum):clamp(finite(legacy?.zoom,maximum),1e-6,maximum);
+ const preferredZoom=clamp(finite(legacy?.zoom,maximum),1e-6,maximum);
  const restingGround=restingBodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/restingBodies.length;
  const currentGround=bodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/bodies.length;
  const legacyCenterX=Number.isFinite(legacy?.x)?legacy.x:pairCenter;
@@ -257,15 +240,11 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  // separation only changes how much of the opponent is composed around them.
  // Airborne pose never participates in this calculation.
  const retainedBaseline=state?.version===3&&previous?.width===width&&previous?.height===height&&state.geometryKey===key&&Number.isFinite(state.baseline)?state.baseline:null;
- // The standing scale must still respect vertical room: when the opening pose is
-  // tall (a fighter mid-jump), shrink only as far as height requires. Width is
-  // deliberately ignored here; a wide pair is handled by cropping, not zooming out.
-  const verticalFit=()=>largestFit(reachBodies.map(b=>({left:standing.left,right:standing.right,top:b.top,bottom:b.bottom})),preferredZoom,0,legacyCenterY);
-  let stableZoom=retainedBaseline??(portraitTouch?(fit=>fit>=preferredZoom*(1-1e-6)?preferredZoom:fit)(verticalFit()):preferredZoom);
+ let stableZoom=retainedBaseline??preferredZoom;
  const playerGround=(restingBodies[0].top+restingBodies[0].bottom)/2;
  const playerRest=placeAtScale([restingBodies[0]],stableZoom,rect,occlusions,wantedFor(player.x,playerGround,stableZoom));
  if(!playerRest){let lo=0,hi=stableZoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(placeAtScale([restingBodies[0]],mid,rect,occlusions,wantedFor(player.x,playerGround,mid)))lo=mid;else hi=mid;}stableZoom=Math.max(1e-6,lo);}
-  const dynamicFit=largestFit(reachBodies,stableZoom,legacyCenterX,legacyCenterY);
+  const dynamicFit=largestFit(bodies,stableZoom,legacyCenterX,legacyCenterY);
  const dynamicTarget=clamp(dynamicFit,stableZoom*.90,stableZoom);
  const previousUsable=previous?.width===width&&previous?.height===height&&[previous.x,previous.y,previous.zoom].every(Number.isFinite);
  const modeChanged=previousUsable&&previous?.challengeCameraMode!==mode;
@@ -273,39 +252,23 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  if(options.paused&&old)return previous;
   const stableTarget=old?.lockedZoom??stableZoom;
   const targetZoom=mode==='stable'?stableTarget:dynamicTarget;
- const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/360),panEase=1-Math.exp(-dt/(mode==='stable'?(portraitTouch?160:40):150));
+ const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/360),panEase=1-Math.exp(-dt/(mode==='stable'?40:150));
  const startZoom=previousUsable?previous.zoom:targetZoom;
  const zoom=previousUsable?Math.max(1e-6,startZoom+(targetZoom-startZoom)*zoomEase):targetZoom;
   // Compose both fighters on the first frame. Once play is underway, keep one
   // continuous player-follow target; switching between pair and player focus
   // at the exact fit threshold caused a large camera step while walking.
-  // Phone portrait: open on the midpoint of both fighters (the in-game help text
-  // promises "雙方中點構圖"), then hold that framing and only move when the
-  // controlled fighter reaches the safe edge. Other layouts keep the original
-  // player-follow rule untouched.
-  const initialPairGap=Math.min(300,(rect.right-rect.left)/stableTarget*.35);
-  const initialPairFocus=portraitTouch?!compatible&&actors.length>1:!previousUsable&&right-left<=initialPairGap;
-  let targetX;
-  if(mode!=='stable')targetX=legacyCenterX;
-  else if(portraitTouch){
-   // Hold the framing. If the whole pair can fit, drift just far enough to bring
-   // the opponent in as well (eased, so crossing the fit threshold never snaps);
-   // the controlled fighter's safe-edge placement below stays a hard limit.
-   if(compatible){const pairPlace=placeAtScale(reachBodies,zoom,rect,occlusions,{x:width/2-previous.x*zoom,y:height/2-playerGround*zoom});targetX=pairPlace?(width/2-pairPlace.x)/zoom:previous.x;}
-   else targetX=initialPairFocus?pairCenter:player.x;
-  }
-  else targetX=previousUsable?player.x:(initialPairFocus?pairCenter:player.x);
-  const targetY=mode==='stable'?playerGround:legacyCenterY;
-  if(mode==='stable'&&!portraitTouch&&previousUsable&&Math.abs(targetX-previous.x)*zoom<width*.02)targetX=previous.x;
+  const initialPairGap=Math.min(300,(rect.right-rect.left)/stableTarget*.35),initialPairFocus=!previousUsable&&right-left<=initialPairGap;
+  let targetX=mode==='stable'?(previousUsable?player.x:(initialPairFocus?pairCenter:player.x)):legacyCenterX;const targetY=mode==='stable'?playerGround:legacyCenterY;
+  if(mode==='stable'&&previousUsable&&Math.abs(targetX-previous.x)*zoom<width*.02)targetX=previous.x;
  let centerX=previousUsable?previous.x+(targetX-previous.x)*panEase:targetX;
  let centerY=previousUsable?previous.y+(targetY-previous.y)*panEase:targetY;
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
- const framingBodies=mode==='stable'&&((portraitTouch?!!compatible:previousUsable)||!initialPairFocus)?[bodies[0]]:reachBodies;
+ const framingBodies=mode==='stable'&&(previousUsable||!initialPairFocus)?[bodies[0]]:bodies;
  let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted),finalZoom=zoom;
- if(!position)position=placeAtScale(reachBodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
+ if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
  // At the stable scale, a high jump can temporarily leave no legal placement
  // for the whole pair. Preserve the player's fixed size and keep following.
- if(!position&&portraitTouch&&bodies.length>1)position=placeAtScale(reachBodies.map((b,i)=>i?{left:bodies[0].left,right:bodies[0].right,top:b.top,bottom:b.bottom}:bodies[0]),zoom,rect,occlusions,wanted);
  if(!position)position=placeAtScale([bodies[0]],zoom,rect,occlusions,wanted);
  if(!position){
   const playerPlace=z=>{const y=finite(player.y,430)+depthY(player),b={left:player.x+standing.left,right:player.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};return placeAtScale([b],z,rect,occlusions,wantedFor(player.x,pose.groundY,z));};
@@ -466,7 +429,7 @@ export function streetPlayerCameraFrame(width,height,world,options={}){
  if(paused&&previous?.width===width&&previous?.height===height&&canReuseCloseFrame(previous,width,height,options))return previous;
  const p=paused&&snapshot?{x:snapshot.pose.x,y:snapshot.pose.displayY}:world.player;
  const pose={x:p.x,displayY:finite(p.y,430)+depthY(p)},g=closeGeometry(width,height,options,profile),key=closeKey(width,height,g,profile),{rect,occlusions}=g;
- const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.68/328):portraitStreetDensity(width,height);
+ const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.68/328):Math.min(1.25,width/380,height*.68/328);
  const old=previous?.width===width&&previous?.height===height&&saved?.profile===profile?saved:null;
  let referenceZoom=maximumDensity,zoom,anchor;
  const reserveX=profile==='landscape'?80:32,box={left:-132-reserveX,right:132+reserveX,top:-300,bottom:28};
