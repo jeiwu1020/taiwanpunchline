@@ -52,12 +52,27 @@ export const CHAPTER_METADATA = Object.freeze({
 });
 
 const LOADING_STYLE_ID = 'chapter-loading-overlay-style';
+const DEFAULT_BACKDROP_GRADIENT = 'linear-gradient(155deg, rgba(132, 169, 162, 0.72) 0%, rgba(235, 212, 170, 0.82) 55%, rgba(164, 110, 74, 0.72) 100%)';
 
 function injectLoadingStyles(doc) {
   if (!doc?.head || doc.getElementById(LOADING_STYLE_ID)) return;
   const style = doc.createElement('style');
   style.id = LOADING_STYLE_ID;
   style.textContent = `
+html[data-chapter-overlay-loading="true"] #trial-app #menu,
+html[data-chapter-overlay-loading="true"] #trial-app #menu .card,
+html[data-chapter-overlay-loading="true"] #trial-app #menu .card::after,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card::after {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+}
+html[data-chapter-overlay-loading="true"] #trial-app > #stage,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app > #stage {
+  visibility: visible !important;
+}
 .chapter-loading-overlay {
   position: fixed;
   inset: 0;
@@ -65,8 +80,9 @@ function injectLoadingStyles(doc) {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   padding: max(16px, env(safe-area-inset-top, 16px)) max(16px, env(safe-area-inset-right, 16px)) max(16px, env(safe-area-inset-bottom, 16px)) max(16px, env(safe-area-inset-left, 16px));
-  background: rgba(16, 40, 48, 0.88);
+  background: #182e35;
   color: #142b32;
   font-family: "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
   opacity: 1;
@@ -80,70 +96,72 @@ function injectLoadingStyles(doc) {
   opacity: 0;
   pointer-events: none;
 }
+.chapter-loading-backdrop {
+  position: absolute;
+  inset: -28px;
+  background-image: ${DEFAULT_BACKDROP_GRADIENT};
+  background-size: cover;
+  background-position: center 58%;
+  filter: blur(14px) brightness(0.78) saturate(1.08);
+  transform: scale(1.06);
+  pointer-events: none;
+}
+.chapter-loading-scrim {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(16, 34, 40, 0.22) 0%, rgba(16, 34, 40, 0.58) 100%);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
 .chapter-loading-card {
-  width: min(100%, 540px);
+  position: relative;
+  z-index: 1;
+  width: min(100%, 400px);
   max-height: 100%;
   overflow: auto;
-  background: #fff7e5;
-  border: 3px solid #142b32;
-  border-radius: 10px;
-  box-shadow: 6px 6px 0 #142b32;
+  background: rgba(255, 247, 229, 0.94);
+  backdrop-filter: blur(8px);
+  border: 2.5px solid #142b32;
+  border-radius: 12px;
+  box-shadow: 0 18px 38px rgba(10, 24, 30, 0.32), 4px 4px 0 #142b32;
   padding: 20px 22px 18px;
   box-sizing: border-box;
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 .chapter-loading-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
-.chapter-loading-titles {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
+.chapter-loading-num {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  background: #bc3f31;
+  color: #fff7e5;
+  border: 2px solid #142b32;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+  white-space: nowrap;
 }
-.chapter-loading-kicker {
-  margin: 0;
-  font-size: 13px;
+.chapter-loading-phase {
+  font-size: 12.5px;
   font-weight: 700;
   color: #355860;
-  letter-spacing: 0.02em;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
+  white-space: nowrap;
 }
 .chapter-loading-title {
   margin: 0;
-  font-size: clamp(20px, 3.6vw, 28px);
-  line-height: 1.2;
+  font-size: clamp(19px, 3.2vw, 24px);
+  line-height: 1.24;
   font-weight: 900;
   color: #142b32;
   text-wrap: balance;
-}
-.chapter-loading-subtitle {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #264850;
-}
-.chapter-loading-emblem {
-  flex: 0 0 64px;
-  width: 64px;
-  height: 64px;
-  display: grid;
-  place-items: center;
-  background: #f5e6c3;
-  border: 2.5px solid #142b32;
-  border-radius: 8px;
-  box-shadow: 3px 3px 0 #142b32;
-}
-.chapter-loading-emblem svg {
-  width: 48px;
-  height: 48px;
-  display: block;
 }
 .chapter-loading-progress-block {
   display: grid;
@@ -154,50 +172,40 @@ function injectLoadingStyles(doc) {
   align-items: baseline;
   justify-content: space-between;
   gap: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
-  color: #142b32;
+  color: #214149;
 }
 .chapter-loading-percent {
   font-variant-numeric: tabular-nums;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 900;
-  color: #be4033;
+  color: #bc3f31;
   white-space: nowrap;
 }
 .chapter-loading-track {
   position: relative;
-  height: 16px;
+  height: 11px;
   width: 100%;
-  background: #e5d8b8;
-  border: 2.5px solid #142b32;
-  border-radius: 6px;
+  background: #e7dbc0;
+  border: 2px solid #142b32;
+  border-radius: 999px;
   overflow: hidden;
   box-sizing: border-box;
 }
 .chapter-loading-fill {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #e4aa37 0%, #ffcd76 100%);
+  background: linear-gradient(90deg, #bc3f31 0%, #e4aa37 100%);
   transform-origin: left center;
   transform: scaleX(0);
   transition: transform 140ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.chapter-loading-divider {
-  height: 1px;
-  background: rgba(20, 43, 50, 0.16);
-  margin: 0;
-  border: 0;
-}
 .chapter-loading-tip {
   margin: 0;
-  font-size: 13.5px;
-  line-height: 1.55;
-  color: #1f3f47;
-}
-.chapter-loading-tip strong {
-  color: #be4033;
-  font-weight: 900;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #355860;
 }
 .chapter-loading-actions {
   display: flex;
@@ -208,43 +216,31 @@ function injectLoadingStyles(doc) {
   display: none !important;
 }
 .chapter-loading-retry {
-  min-height: 44px;
-  padding: 8px 18px;
+  min-height: 40px;
+  padding: 6px 16px;
   font: inherit;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 900;
-  color: #142b32;
-  background: #ffcd76;
-  border: 2.5px solid #142b32;
+  color: #fff7e5;
+  background: #bc3f31;
+  border: 2px solid #142b32;
   border-radius: 7px;
   box-shadow: 2px 2px 0 #142b32;
   cursor: pointer;
   white-space: nowrap;
 }
 .chapter-loading-retry:hover {
-  background: #ffd992;
+  background: #d14c3d;
 }
 .chapter-loading-retry:focus-visible {
-  outline: 3px solid #be4033;
+  outline: 3px solid #e4aa37;
   outline-offset: 2px;
 }
 @media (max-height: 460px) {
   .chapter-loading-card {
-    padding: 14px 16px;
+    padding: 15px 18px 14px;
     gap: 10px;
-    width: min(100%, 560px);
-  }
-  .chapter-loading-emblem {
-    flex: 0 0 52px;
-    width: 52px;
-    height: 52px;
-  }
-  .chapter-loading-emblem svg {
-    width: 38px;
-    height: 38px;
-  }
-  .chapter-loading-subtitle {
-    display: none;
+    width: min(100%, 420px);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -258,21 +254,22 @@ function injectLoadingStyles(doc) {
 }
 
 /**
- * Unified comic-style loading overlay shared across Challenge Mode Chapters 1-5.
+ * Clean, blurred-backdrop loading overlay shared across Challenge Mode Chapters 2-5.
  */
 export function mountChapterLoadingOverlay({
   document: doc = globalThis.document,
   chapter = 1,
   chapterNumber,
   chapterTitle,
-  subtitle,
   tips,
+  backdropUrl = '',
   onRetry
 } = {}) {
   if (!doc?.body) {
     return {
       setProgress() {},
       setPhase() {},
+      setBackdrop() {},
       setReady() {},
       setError() {},
       show() {},
@@ -283,7 +280,6 @@ export function mountChapterLoadingOverlay({
   const meta = CHAPTER_METADATA[chapter] || CHAPTER_METADATA[1];
   const resolvedNumber = chapterNumber || meta.numberLabel;
   const resolvedTitle = chapterTitle || meta.title;
-  const resolvedSubtitle = subtitle || meta.subtitle;
   const resolvedTips = Array.isArray(tips) && tips.length ? tips : meta.tips;
 
   const existing = doc.getElementById('chapter-loading-overlay');
@@ -298,29 +294,14 @@ export function mountChapterLoadingOverlay({
   overlay.dataset.chapter = String(chapter);
 
   overlay.innerHTML = `
+    <div class="chapter-loading-backdrop" aria-hidden="true"></div>
+    <div class="chapter-loading-scrim" aria-hidden="true"></div>
     <div class="chapter-loading-card">
       <div class="chapter-loading-header">
-        <div class="chapter-loading-titles">
-          <p class="chapter-loading-kicker">
-            <span class="chapter-loading-num"></span>
-            <span aria-hidden="true">·</span>
-            <span class="chapter-loading-phase">準備中</span>
-          </p>
-          <h2 class="chapter-loading-title"></h2>
-          <p class="chapter-loading-subtitle"></p>
-        </div>
-        <div class="chapter-loading-emblem" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none">
-            <path d="M8 20L20 14L17 24L27 20L24 31" stroke="#be4033" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="27" y="12" width="16" height="24" rx="8" fill="#ffcd76" stroke="#142b32" stroke-width="3"/>
-            <line x1="29" y1="20" x2="41" y2="20" stroke="#142b32" stroke-width="2.5"/>
-            <line x1="29" y1="26" x2="41" y2="26" stroke="#142b32" stroke-width="2.5"/>
-            <path d="M22 29C22 36.2 27.8 42 35 42C42.2 42 48 36.2 48 29" stroke="#142b32" stroke-width="3" stroke-linecap="round"/>
-            <line x1="35" y1="42" x2="35" y2="53" stroke="#142b32" stroke-width="3.5" stroke-linecap="round"/>
-            <line x1="24" y1="53" x2="46" y2="53" stroke="#142b32" stroke-width="3.5" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <span class="chapter-loading-num"></span>
+        <span class="chapter-loading-phase">準備中</span>
       </div>
+      <h2 class="chapter-loading-title"></h2>
       <div class="chapter-loading-progress-block">
         <div class="chapter-loading-progress-meta">
           <span class="chapter-loading-status-text">正在載入關卡素材…</span>
@@ -330,8 +311,7 @@ export function mountChapterLoadingOverlay({
           <div class="chapter-loading-fill"></div>
         </div>
       </div>
-      <hr class="chapter-loading-divider">
-      <p class="chapter-loading-tip"><strong>實戰提示：</strong><span class="chapter-loading-tip-text"></span></p>
+      <p class="chapter-loading-tip"><span class="chapter-loading-tip-text"></span></p>
       <div class="chapter-loading-actions" hidden>
         <button type="button" class="chapter-loading-retry">重新整理再試</button>
       </div>
@@ -339,11 +319,14 @@ export function mountChapterLoadingOverlay({
   `;
 
   doc.body.appendChild(overlay);
+  if (doc.documentElement?.dataset) {
+    doc.documentElement.dataset.chapterOverlayLoading = 'true';
+  }
 
+  const backdropEl = overlay.querySelector('.chapter-loading-backdrop');
   const numEl = overlay.querySelector('.chapter-loading-num');
   const phaseEl = overlay.querySelector('.chapter-loading-phase');
   const titleEl = overlay.querySelector('.chapter-loading-title');
-  const subtitleEl = overlay.querySelector('.chapter-loading-subtitle');
   const statusEl = overlay.querySelector('.chapter-loading-status-text');
   const percentEl = overlay.querySelector('.chapter-loading-percent');
   const trackEl = overlay.querySelector('.chapter-loading-track');
@@ -354,7 +337,17 @@ export function mountChapterLoadingOverlay({
 
   numEl.textContent = resolvedNumber;
   titleEl.textContent = resolvedTitle;
-  subtitleEl.textContent = resolvedSubtitle;
+
+  function setBackdrop(url) {
+    if (!backdropEl?.style) return;
+    if (typeof url === 'string' && url.trim()) {
+      const safe = url.trim().replace(/"/g, '\\"');
+      backdropEl.style.backgroundImage = `url("${safe}"), ${DEFAULT_BACKDROP_GRADIENT}`;
+    } else {
+      backdropEl.style.backgroundImage = DEFAULT_BACKDROP_GRADIENT;
+    }
+  }
+  setBackdrop(backdropUrl);
 
   let tipIndex = 0;
   let hideTimer = null;
@@ -371,7 +364,7 @@ export function mountChapterLoadingOverlay({
       if (overlay.hidden || overlay.dataset.loadingState !== 'loading') return;
       tipIndex = (tipIndex + 1) % resolvedTips.length;
       setTip(tipIndex);
-    }, 3200);
+    }, 3600);
   }
 
   retryBtn.onclick = () => {
@@ -392,6 +385,9 @@ export function mountChapterLoadingOverlay({
     overlay.dataset.loadingState = 'loading';
     phaseEl.textContent = phaseLabel;
     actionsEl.hidden = true;
+    if (doc.documentElement?.dataset) {
+      doc.documentElement.dataset.chapterOverlayLoading = 'true';
+    }
   }
 
   function setProgress(ratio, { phaseLabel, statusText } = {}) {
@@ -409,21 +405,28 @@ export function mountChapterLoadingOverlay({
     if (statusText) statusEl.textContent = statusText;
   }
 
+  function hideOverlayNow() {
+    overlay.hidden = true;
+    if (doc.documentElement?.dataset) {
+      delete doc.documentElement.dataset.chapterOverlayLoading;
+    }
+  }
+
   function setReady() {
     clearHideTimer();
     percentEl.textContent = '100%';
     trackEl.setAttribute('aria-valuenow', '100');
     fillEl.style.transform = 'scaleX(1)';
     phaseEl.textContent = '載入完成';
-    statusEl.textContent = '舞台已就緒，即將進入現場';
+    statusEl.textContent = '舞台已就緒';
     overlay.dataset.loadingState = 'ready';
     const setTimer = doc.defaultView?.setTimeout;
     if (typeof setTimer === 'function') {
       hideTimer = setTimer(() => {
-        if (overlay.dataset.loadingState === 'ready') overlay.hidden = true;
+        if (overlay.dataset.loadingState === 'ready') hideOverlayNow();
       }, 240);
     } else {
-      overlay.hidden = true;
+      hideOverlayNow();
     }
   }
 
@@ -434,6 +437,9 @@ export function mountChapterLoadingOverlay({
     phaseEl.textContent = '載入中斷';
     statusEl.textContent = message;
     actionsEl.hidden = false;
+    if (doc.documentElement?.dataset) {
+      doc.documentElement.dataset.chapterOverlayLoading = 'true';
+    }
   }
 
   function destroy() {
@@ -441,6 +447,9 @@ export function mountChapterLoadingOverlay({
     if (tipTimer != null && typeof doc.defaultView?.clearInterval === 'function') {
       doc.defaultView.clearInterval(tipTimer);
       tipTimer = null;
+    }
+    if (doc.documentElement?.dataset) {
+      delete doc.documentElement.dataset.chapterOverlayLoading;
     }
     overlay.remove();
   }
@@ -450,6 +459,7 @@ export function mountChapterLoadingOverlay({
     show,
     setProgress,
     setPhase,
+    setBackdrop,
     setReady,
     setError,
     destroy

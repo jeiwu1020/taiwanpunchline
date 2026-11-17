@@ -55,7 +55,7 @@ import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r
 import {mountGameViewport} from './game-viewport.mjs?v=chapter-presentation-20261117-r1';
 import {performanceGuardActive,STAGE_ITEMS} from './stage-rules.mjs?v=campaign-boot-20261112-r3';
 import {ARENA_ASSET,cameraFrame,stableCameraFrame,fixedStableCameraFrame,backgroundFrame,ambientPaper} from './arena-presentation.mjs?v=campaign-boot-20261112-r3';
-import {mountChapterLoadingOverlay,fixedBackdropPresentation} from './chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
+import {fixedBackdropPresentation} from './chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {overlayCameraFrame,overlayBackgroundFrame} from './overlay-framing.mjs?v=campaign-boot-20261112-r3';
 import {drawArenaBoundaries} from './arena-boundaries.mjs?v=campaign-boot-20261112-r3';
 import {renderCooldownButton} from './cooldown-view.mjs?v=campaign-boot-20261112-r3';
@@ -770,8 +770,27 @@ class Arena extends Phaser.Scene {
   // callbacks drive a four-request queue, independently of the frame loop.
   const gate=new Phaser.Loader.File(this.load,{type:'boot-art',key:'boot-art'});
   let completed=false;
-  const hasRealDOM=typeof document!=='undefined'&&!!document.body&&!!document.querySelector?.('#title-screen');
-  const loadingOverlay=hasRealDOM?mountChapterLoadingOverlay({document,chapter:1,chapterNumber:'台灣大亂鬥',chapterTitle:'台灣議會大亂鬥 · 舞台載入中',subtitle:'正在準備角色立繪、街區場景與背景舞台…',onRetry:()=>this.bootArt?.retry()}):null;
+  const syncTitleStartProgress=(progress,status)=>{
+   const titleStart=$('#title-start');
+   if(!titleStart?.style)return;
+   if(status==='enabled'){
+    titleStart.style.background='';
+    titleStart.style.color='';
+    titleStart.style.opacity='';
+    titleStart.style.filter='';
+    if(titleStart.dataset)delete titleStart.dataset.bootProgress;
+    return;
+   }
+   const ratio=Math.max(0,Math.min(1,status==='ready'?1:(Number.isFinite(progress)?progress:0)));
+   const pct=Math.round(ratio*100);
+   titleStart.style.background=`linear-gradient(90deg, #bc3f31 0%, #bc3f31 ${pct}%, #2b3e44 ${pct}%, #2b3e44 100%)`;
+   titleStart.style.color='#fff7e5';
+   titleStart.style.opacity='1';
+   titleStart.style.filter='none';
+   if(titleStart.dataset)titleStart.dataset.bootProgress=String(pct);
+  };
+  this._syncTitleStartProgress=syncTitleStartProgress;
+  syncTitleStartProgress(0,'loading');
   gate.load=()=>this.bootArt.start();
   this.bootArt=createBootArtLoader({entries,onChange:state=>{
    const title=$('#title-screen');title.dataset.bootState=state.status;
@@ -781,18 +800,17 @@ class Arena extends Phaser.Scene {
     if(completed)return;completed=true;
     this.optionalArtFailures=state.optionalFailures;
     for(const [key,image]of Object.entries(state.images))this.textures.addImage(key,image);
+    syncTitleStartProgress(1,'ready');
     titleUI?.setReady(false,'正在準備舞台…');
-    loadingOverlay?.setReady();
     this.load.nextFile(gate,true);
    }else{
     const message=state.status==='failed'?'部分漫畫未能載入，請重試。':`載入漫畫 ${Math.round(state.progress*100)}%${state.retrying?' · 正在重試':''}`;
     $('#start').textContent=message;titleUI?.setReady(false,message);
-    if(state.status==='failed')loadingOverlay?.setError('部分漫畫素材未能載入，請點此重試。');
-    else loadingOverlay?.setProgress(state.progress,{phaseLabel:state.retrying?'重新連線載入':'載入漫畫素材',statusText:message});
+    syncTitleStartProgress(state.progress,state.status);
    }
   }});
   $('#boot-art-retry').onclick=()=>this.bootArt.retry();
-  this.events?.once?.('shutdown',()=>{this.bootArt.dispose();loadingOverlay?.destroy();});
+  this.events?.once?.('shutdown',()=>{this.bootArt.dispose();});
   this.load.addFile(gate);
  }
  create(){if(this.assetFailure){$('#start').textContent='素材載入失敗，請重整';titleUI?.setReady(false,'素材載入失敗，請重新整理再試。');$('#tip').textContent='部分漫畫素材未載入，請重新整理再試。';return;}scene=this;this.add.rectangle(480,-1000,6000,2860,0xd4cbaa).setDepth(-30);this.add.rectangle(480,1800,6000,2740,0xe6c695).setDepth(-30);this.makeBackdrop();this.dynamic=this.add.graphics();this.rigs=[this.add.container(),this.add.container()];this.chars=[];this.heads=[];this.extras=[];for(let i=0;i<2;i++){const body=this.add.graphics(),head=this.add.image(4,-75,'wang-head'),extra=this.add.graphics();this.rigs[i].add([body,head,extra]);this.chars.push(body);this.heads.push(head);this.extras.push(extra);}this.artImages=Object.fromEntries(Object.keys({...ART_FILES,...CHALLENGE_ART_FILES,...STARTER_ART_FILES}).filter(k=>!this.optionalArtFailures?.has(k)&&(!['challenge-arena-layer','challenge-arena-sky','challenge-street-facade','challenge-street-sky','challenge-street-left-repair','challenge-street-right-repair'].includes(k)||this.textures.exists(k))).map(k=>[k,this.textures.get(k).getSourceImage()]));for(const k of ['supporter-woman','supporter-man','supporter-young','supporter-elder','supporter-grandma'])this.artImages[k]=this.textures.get(k).getSourceImage();for(const a of Object.values(ITEM_ART))this.artImages[a.key]=this.textures.get(a.key).getSourceImage();this.challengeRenderer=createChallengeRenderer(this,this.artImages);this.assistRenderer=createAssistRenderer(this,this.artImages);this.artCanvases=[];this.artDisplays=[];this.spitStart=new WeakMap();this.lastArtPose=new WeakMap();this.propPool=[];this.textPool=[];this.markerPool=[];this.statusTexts=[0,1].map(()=>text(this,0,0,'',17,'#fff7e5').setOrigin(.5).setStroke('#142b32',4).setDepth(8));this.guardCache='';
@@ -800,7 +818,7 @@ class Arena extends Phaser.Scene {
  this.textures.get('handshake-grip').add('clasp',0,290,65,1590,610);
  for(const [name,r] of Object.entries(SIGNATURE_PROP_FRAMES))this.textures.get('signature-props').add(name,0,...r);
  for(let i=0;i<2;i++){this.chars[i].setVisible(false);this.heads[i].setVisible(false);this.extras[i].setVisible(false);const texture=this.textures.createCanvas('fighter-art-'+i,512,384);const art=this.add.image(-256,-350,'fighter-art-'+i).setOrigin(0);this.rigs[i].add(art);this.artCanvases.push(texture);this.artDisplays.push(art);}
- this.input.addPointer(4);this.hudCache='';this.lastBroadcast=0;this.trailClock=[0,0];viewportUI=mountGameViewport({scene:this,clearHold,initialSettings:preferences,onChange:patch=>settingsStore.update(patch),isCameraFrozen:()=>duel?.status==='paused'||!!matchFinish});this.combatOverlay=mountCombatOverlayLayout({document,getCombatOwner:()=>$('.app').dataset.titleOpen!=='true'&&duel?.player&&['countdown','active','paused','over','gate','lost'].includes(duel.status)?duel:null,getCameraMode:()=>matchFinish?.camera?.challengeCameraMode??(duel?.status==='paused'?this.cameraView?.challengeCameraMode:null)??viewportUI?.camera});initializeRoster();initializeSettings();titleUI?.setReady(true);$('#help').disabled=false;$('#start').disabled=false;$('#start').innerHTML='上 場 開 吵 <span>→</span>';}
+ this.input.addPointer(4);this.hudCache='';this.lastBroadcast=0;this.trailClock=[0,0];viewportUI=mountGameViewport({scene:this,clearHold,initialSettings:preferences,onChange:patch=>settingsStore.update(patch),isCameraFrozen:()=>duel?.status==='paused'||!!matchFinish});this.combatOverlay=mountCombatOverlayLayout({document,getCombatOwner:()=>$('.app').dataset.titleOpen!=='true'&&duel?.player&&['countdown','active','paused','over','gate','lost'].includes(duel.status)?duel:null,getCameraMode:()=>matchFinish?.camera?.challengeCameraMode??(duel?.status==='paused'?this.cameraView?.challengeCameraMode:null)??viewportUI?.camera});initializeRoster();initializeSettings();this._syncTitleStartProgress?.(1,'enabled');titleUI?.setReady(true);$('#help').disabled=false;$('#start').disabled=false;$('#start').innerHTML='上 場 開 吵 <span>→</span>';}
 
  makeBackdrop(){
   const texture=this.textures.get('arena-chamber');for(const [name,crop] of Object.entries({...CHAMBER_MATERIAL_FRAMES,...CHAMBER_DESK_FRAMES}))if(!texture.has(name))texture.add(name,0,...crop);

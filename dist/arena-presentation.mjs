@@ -43,7 +43,8 @@ export function portraitStableCameraFrame(width,height,fighters,previous=null,de
  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v)),mid=(a.x+b.x)/2;
  const x=clamp(same?previous.x+(mid-previous.x)*ease:mid,lo,hi);
  const low=restBottom-(h/2-bottom)/zoom,high=restTop+(h/2-top)/zoom;
- const y=clamp(458-(h/2-bottom)/zoom,low,high);
+ const targetY=clamp(458-(h/2-bottom)/zoom,low,high);
+ const y=same?clamp(previous.y+(targetY-previous.y)*ease,low,high):targetY;
  return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-pair'};
 }
 export function fixedStableCameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
@@ -60,7 +61,9 @@ export function fixedStableCameraFrame(width,height,fighters,previous=null,delta
  const wholeFits=(allBottom-allTop)*zoom<=h-top-bottom;
  const fitTop=wholeFits?allTop:(player.supportY??430)-285,fitBottom=wholeFits?allBottom:(player.supportY??430)+28;
  const low=fitBottom-(h/2-bottom)/zoom,high=fitTop+(h/2-top)/zoom;
- const y=clamp(458-(h/2-bottom)/zoom,low,high);
+ const targetY=clamp(458-(h/2-bottom)/zoom,low,high);
+ const easeY=1-Math.exp(-Math.max(0,Math.min(100,delta))/120);
+ const y=same&&!options.paused?clamp(previous.y+(targetY-previous.y)*easeY,low,high):targetY;
  return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-fixed'};
 }
 // Original midpoint/proximity behavior fitted to the fight-only canvas.
@@ -75,7 +78,7 @@ export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,op
  const vertEnvelope=options.portraitDynamic?540:(bottom-top);
  const target=Math.min(1.45,closeCap,horizFit,(h-topInset-bottomInset-easeInset)/vertEnvelope);
  const same=previous?.width===w&&(previous?.height===h||options.mobileLandscapeTuned&&previous?.mobileLandscapeBaseHeight===baseHeight)&&previous?.mode==='classic';
- const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.88,Math.max(0,Math.min(100,delta))/(1000/60));
+ const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.91,Math.max(0,Math.min(100,delta))/(1000/60));
  const wanted=target;
  const eased=same?previous.zoom+(wanted-previous.zoom)*ease:wanted;
  const fit=Math.min(1.45,horizFit,(h-topInset-bottomInset)/(bottom-top));
