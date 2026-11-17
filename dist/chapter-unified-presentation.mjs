@@ -59,9 +59,16 @@ function injectLoadingStyles(doc) {
   const style = doc.createElement('style');
   style.id = LOADING_STYLE_ID;
   style.textContent = `
+html[data-campaign-loading="true"] #trial-app #menu,
+html[data-campaign-loading="true"] #trial-app #menu .card,
+html[data-campaign-loading="true"] #trial-app #menu .card::after,
 html[data-chapter-overlay-loading="true"] #trial-app #menu,
 html[data-chapter-overlay-loading="true"] #trial-app #menu .card,
-html[data-chapter-overlay-loading="true"] #trial-app #menu .card::after,
+html[data-chapter-overlay-loading="true"] #trial-app #menu .card::after {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+}
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu,
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card,
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card::after {
@@ -69,7 +76,10 @@ body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card::after {
   content: none !important;
   visibility: hidden !important;
 }
-html[data-chapter-overlay-loading="true"] #trial-app > #stage,
+html[data-campaign-loading="true"] #trial-app > #stage,
+html[data-chapter-overlay-loading="true"] #trial-app > #stage {
+  visibility: visible !important;
+}
 body:has(#chapter-loading-overlay:not([hidden])) #trial-app > #stage {
   visibility: visible !important;
 }
@@ -409,6 +419,7 @@ export function mountChapterLoadingOverlay({
     overlay.hidden = true;
     if (doc.documentElement?.dataset) {
       delete doc.documentElement.dataset.chapterOverlayLoading;
+      delete doc.documentElement.dataset.campaignLoading;
     }
   }
 

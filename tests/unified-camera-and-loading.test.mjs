@@ -284,6 +284,26 @@ test('Title screen does not use chapter loading overlay and fills #title-start l
   assert.match(gameSrc, /linear-gradient\(90deg,\s*#bc3f31 0%,\s*#bc3f31 \$\{pct\}%/);
 });
 
+test('Legacy white square #menu .card "載入中…" container is suppressed synchronously by chapter-ui.css before JS executes', async () => {
+  const { readFileSync } = await import('node:fs');
+  const shellCss = readFileSync(new URL('../dist/preview/campaign/chapter-shell.css', import.meta.url), 'utf8');
+  const uiCss = readFileSync(new URL('../dist/preview/campaign/chapter-ui.css', import.meta.url), 'utf8');
+  const dom = new JSDOM('<!doctype html><html data-campaign-loading="true"><head></head><body><main id="trial-app"><section id="stage"></section><section id="menu" class="overlay"><div class="card"><h1>第二章</h1></div></section></main></body></html>');
+  const { document } = dom.window;
+  for (const css of [shellCss, uiCss]) {
+    const style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+  const menu = document.querySelector('#menu');
+  const card = document.querySelector('#menu .card');
+  const afterStyle = dom.window.getComputedStyle(card, '::after');
+  assert.equal(dom.window.getComputedStyle(menu).display, 'none', '#menu must be hidden synchronously during initial campaign loading');
+  assert.equal(dom.window.getComputedStyle(card).display, 'none', 'legacy white square .card must be hidden synchronously');
+  assert.equal(afterStyle.content, 'none', 'legacy "載入中…" ::after must be disabled synchronously');
+  dom.window.close();
+});
+
 test('Camera pans smoothly without single-frame teleports on mode switch, separation, and street jumps', () => {
   const close = [
     { id: 'player', x: 300, y: 430, supportY: 430, depth: 0 },

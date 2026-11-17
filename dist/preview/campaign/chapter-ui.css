@@ -116,3 +116,19 @@ body[data-touch="true"][data-layout="portrait"] #trial-app>header{height:64px;al
 body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:202px;max-width:calc(100% - 92px);gap:4px}
 body[data-touch="true"][data-layout="portrait"] #trial-app>header .toolbar button{padding:4px 6px;min-height:28px;font-size:12px;white-space:nowrap}
 body[data-sideways="true"]>.chapter-settings{width:min(640px,calc(var(--chapter-width) - 32px))}
+/* Replace legacy white square "載入中…" menu-card placeholder synchronously from first paint */
+html[data-campaign-loading="true"] #trial-app>header,
+html[data-campaign-loading="true"] #trial-app>#controls,
+html[data-campaign-loading="true"] #trial-app>#stage,
+html[data-chapter-overlay-loading="true"] #trial-app>#stage{visibility:visible}
+html[data-campaign-loading="true"] #trial-app #menu,
+html[data-campaign-loading="true"] #trial-app #menu .card,
+html[data-campaign-loading="true"] #trial-app #menu .card::after,
+html[data-chapter-overlay-loading="true"] #trial-app #menu,
+html[data-chapter-overlay-loading="true"] #trial-app #menu .card,
+html[data-chapter-overlay-loading="true"] #trial-app #menu .card::after{display:none!important;content:none!important;visibility:hidden!important}
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card,
+body:has(#chapter-loading-overlay:not([hidden])) #trial-app #menu .card::after{display:none!important;content:none!important;visibility:hidden!important}
+html[data-campaign-loading="true"] #trial-app::before{content:"";position:absolute;inset:0;z-index:90;pointer-events:none;background:radial-gradient(circle at center,rgba(16,34,40,.22) 0%,rgba(16,34,40,.62) 100%),linear-gradient(155deg,rgba(132,169,162,.92) 0%,rgba(235,212,170,.95) 55%,rgba(164,110,74,.9) 100%)}
+
