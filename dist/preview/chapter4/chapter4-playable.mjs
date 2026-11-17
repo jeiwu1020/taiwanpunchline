@@ -10,8 +10,9 @@ import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaig
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
 import {drawStreetMobHealth} from '../../challenge-mob-health.mjs?v=street-mob-hp-20261116-r1';
 import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
-import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=chapter-presentation-20261117-r1';
-import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-feedback.mjs?v=chapter-combat-feedback-20261115-r1';
+import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts} from '../campaign/combat-callouts.mjs?v=chapter-presentation-20261117-r1';
+import {paintCombatFeedback} from '../campaign/combat-feedback.mjs?v=chapter-combat-feedback-20261115-r1';
+import {presentCombatEvents} from '../campaign/combat-event-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=chapter-presentation-20261117-r1';
 import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
@@ -30,7 +31,7 @@ import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './ch
 import {drawChapter4Miniboss} from './chapter4-mob-art.mjs?v=campaign-boot-20261112-r3';
 import {streetTrialFrame} from './street-trial-view.mjs?v=rally-consistency-20261115-r1';
 import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy,mergeRallySupporterLayers} from '../campaign/rally-crowd.mjs?v=rally-depth-alpha-20261115-r1';
+import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,mergeRallySupporterLayers} from '../campaign/rally-crowd.mjs?v=rally-depth-alpha-20261115-r1';
 import {chapter4RenderActor,chapter4TableFrame,chapter4ObstacleFrame,chapter4SceneLayers,drawChapter4TableLayer} from './chapter4-render-rules.mjs?v=street-object-polish-r3';
 import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
 import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
@@ -43,7 +44,7 @@ import {bossRevealed,storyActors} from './chapter4-reveal.mjs?v=campaign-boot-20
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
-let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,caption='',captionUntil=0,frameTime=0,storyStartedAt=0,storyToken='',deferredAssetError='';
+let images={},chapter=null,selected='wang',uiToken='',held={},keys=new Set(),pointers=new Set(),controls=null,punchWait=0,lastTime=null,sound=false,audio=null,frameTime=0,storyStartedAt=0,storyToken='',deferredAssetError='';
 const combatCallouts=new Map();
 const combatFeedback=[];
 const chaseWindow=installChaseWindow({document,chapter:4});
@@ -63,7 +64,6 @@ function active(){const s=v();return s&&!pauseLifecycle.blocked&&!s.paused&&!s.b
 function recalc(){held={};for(const k of keys){const a=chapterKeyboardAction(k,v()?.mode==='route');if(a)held[a]=true;}for(const a of pointers)held[a]=true;}
 function clearHold(){keys.clear();pointers.clear();held={};punchWait=0;controls?.clear();}
 function tone(){media.unlock();}
-function shout(copy){caption=copy;captionUntil=performance.now()+1500;$('#feedback').textContent=copy;window.setTimeout(()=>{if(performance.now()>=captionUntil){caption='';$('#feedback').textContent='';}},1500);}
 function command(action){const s=v();if(!active())return false;const accepted=chapter.press(action,s.token);if(action==='punch')punchWait=.35;return accepted;}
 function portrait(id){return chapterAssetURL('chapter4',CAST[id].portrait.replace(/^assets\//,''));}
 function roster(root,ids,choice,onSelect){root.replaceChildren(...ids.map(id=>{const b=document.createElement('button');b.type='button';b.dataset.character=id;b.setAttribute('aria-pressed',String(id===choice));const im=document.createElement('img');im.src=portrait(id);im.alt='';const name=document.createElement('b');name.textContent=CAST[id].name;b.append(im,name);b.onclick=()=>onSelect(id);return b;}));}
@@ -172,7 +172,7 @@ function tick(now){
     if(!active()||chapter!==current||chapter.world!==world||v().token!==token)break;
     chapter.step(step,{...held,crouch:v().mode==='battle'&&!!(held.down||held.crouch)});
    }
-   const emitted=current.drainEvents();media.handleEvents(emitted,world);for(const e of emitted)rememberCombatFeedback(combatFeedback,e);for(const e of emitted){if(e.type==='minibossWarning'||e.type==='move'&&[world.enemy,world.player].includes(e.f)){const caption=e.f===world.player?moveCalloutForMove(e.kind,e.name,e.f.type):makeCombatCallout(e.name??'注意對手動作','',moveKindForAction(e.action??e.kind,e.f?.type),e.f?.type);if(caption)rememberCombatCallout(combatCallouts,e.f,caption);}else if(e.type==='rally')shout(rallyEventCopy(e,world,emitted.filter(item=>item.type==='rally').length>1));else if(e.type==='assistStart')shout(`${e.assist?.displayName??CAST[e.helper]?.name??'助拳'} · ${e.name??'援護到場'}`);if(e.type==='supply')shout('補給到手！HP 全滿');}
+   const emitted=current.drainEvents();media.handleEvents(emitted,world);presentCombatEvents(emitted,world,{callouts:combatCallouts,feedback:combatFeedback,live:$('#feedback')});
    if(v().token!==uiToken)sync();
   }
  chaseWindow.paint({active:v()?.mode==='route'&&!v()?.paused,image:images['opening-props-v75'],time:now}); hud();if(paintToken){draw(now,plan.acceptedMs);ui.paintFrame(paintToken);}

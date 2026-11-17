@@ -67,7 +67,8 @@ test('all later chapter result panels use the shared victory preparation label',
   const path=chapter===3?'preview/chapter3/chapter2-playable.mjs':chapter===5?'preview/chapter5/chapter5-playable.mjs':`preview/chapter${chapter}/chapter${chapter}-playable.mjs`;
   const source=read(path);
   assert.ok(source.includes('challengeResultActions('),`chapter ${chapter} result action policy`);
-  assert.match(source,/function shout\(copy\).*#feedback/);
+  assert.doesNotMatch(source,/function shout\(/,'chapter combat text must not use a DOM bar');
+  assert.match(source,/presentCombatEvents\(emitted,world,\{[^}]*callouts:combatCallouts[^}]*feedback:combatFeedback[^}]*live:\$\('#feedback'\)/,`chapter ${chapter} shares one combat event presentation path`);
   assert.doesNotMatch(source,/label\(caption,w\/2/,'chapter callouts must not create a large extra caption beneath the HUD');
   assert.doesNotMatch(source,/else if\(e\.type==='move'\)shout\(/,'assist moves should not duplicate the actor callout with a second centered caption');
  }
