@@ -55,40 +55,33 @@ export function fixedStableCameraFrame(width,height,fighters,previous=null,delta
  const openingSpan=Math.max(520,gap+280);
  const zoom=same?previous.zoom:options.portraitCloseStable?Math.min(1.25,(w-side*2)/openingSpan,(h-top-bottom)/520):options.mobileLandscape?Math.min(1.25,(w-side*2)/Math.max(560,gap+280),(h-top-bottom)/340):Math.min(1.25,(w-side*2)/700*1.12,(h-top-bottom)/313);
  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
- const dt=Math.max(0,Math.min(100,Number.isFinite(delta)?delta:1000/60)),easeSY=1-Math.exp(-dt/220);
- const prevSY=same&&Array.isArray(previous?.supportYs)?previous.supportYs:null;
- const supportYs=fighters.map((f,i)=>{const raw=Number.isFinite(f.supportY)?f.supportY:430;return prevSY&&Number.isFinite(prevSY[i])&&!options.paused&&dt>0?prevSY[i]+(raw-prevSY[i])*easeSY:raw;});
- const pSY=supportYs[0]??430,eSY=supportYs[1]??pSY;
  const half=(w-side*2)/(2*zoom),left=Math.min(player.x,enemy.x)-130,right=Math.max(player.x,enemy.x)+130;
  const x=right-left<=half*2?clamp(same?previous.x:(player.x+enemy.x)/2,right-half,left+half):clamp(same?previous.x:player.x,player.x+130-half,player.x-130+half);
- const allTop=Math.min(pSY,eSY)-285,allBottom=Math.max(pSY,eSY)+28;
+ const allTop=Math.min(player.supportY??430,enemy.supportY??430)-285,allBottom=Math.max(player.supportY??430,enemy.supportY??430)+28;
  const wholeFits=(allBottom-allTop)*zoom<=h-top-bottom;
- const fitTop=wholeFits?allTop:pSY-285,fitBottom=wholeFits?allBottom:pSY+28;
+ const fitTop=wholeFits?allTop:(player.supportY??430)-285,fitBottom=wholeFits?allBottom:(player.supportY??430)+28;
  const low=fitBottom-(h/2-bottom)/zoom,high=fitTop+(h/2-top)/zoom;
  const targetY=clamp(458-(h/2-bottom)/zoom,low,high);
- const easeY=1-Math.exp(-dt/120);
+ const easeY=1-Math.exp(-Math.max(0,Math.min(100,delta))/120);
  const y=same&&!options.paused?clamp(previous.y+(targetY-previous.y)*easeY,low,high):targetY;
- return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-fixed',supportYs};
+ return {x,y,zoom,hud:0,width:w,height:h,mode:'stable-fixed'};
 }
 // Original midpoint/proximity behavior fitted to the fight-only canvas.
 // Use grounded resting height to prevent jump-triggered zoom pumping while
 // keeping horizontal panning responsive and smooth.
 export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
  const [a,b]=fighters,{w,h,side,top:topInset,bottom:bottomInset,ease:easeInset}=fightViewport(width,height,true),hud=0;
+ const top=Math.min(a.supportY??430,b.supportY??430)-300,bottom=458,gap=Math.abs(a.x-b.x);
  const baseHeight=options.mobileLandscapeBaseHeight??h;
- const same=previous?.width===w&&(previous?.height===h||options.mobileLandscapeTuned&&previous?.mobileLandscapeBaseHeight===baseHeight)&&previous?.mode==='classic';
- const dt=Math.max(0,Math.min(100,Number.isFinite(delta)?delta:1000/60)),easeSY=1-Math.exp(-dt/220);
- const prevSY=same&&Array.isArray(previous?.supportYs)?previous.supportYs:null;
- const supportYs=fighters.map((f,i)=>{const raw=Number.isFinite(f.supportY)?f.supportY:430;return prevSY&&Number.isFinite(prevSY[i])&&!options.paused&&dt>0?prevSY[i]+(raw-prevSY[i])*easeSY:raw;});
- const top=Math.min(supportYs[0]??430,supportYs[1]??430)-300,bottom=458,gap=Math.abs(a.x-b.x);
- const closeCap=options.mobileLandscapeMeasured?Math.min(1.25,(options.mobileLandscapeFullHeight??h)*.74/328):(options.mobileLandscapeTuned||options.mobileLandscape)?Math.min(1.25,(h-topInset-bottomInset-easeInset)/340):1.45;
+ const closeCap=(options.mobileLandscapeTuned||options.mobileLandscape)?Math.min(1.25,(h-topInset-bottomInset-easeInset)/340):1.45;
  const horizFit=(options.portraitDynamic||options.portraitStable)?(w-side*2)/Math.max(480,gap+280):(w-side*2)/Math.max(520,gap+280);
  const vertEnvelope=options.portraitDynamic?540:(bottom-top);
- const target=Math.min(1.45,closeCap,horizFit,options.mobileLandscapeMeasured?closeCap:(h-topInset-bottomInset-easeInset)/vertEnvelope);
- const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.91,dt/(1000/60));
+ const target=Math.min(1.45,closeCap,horizFit,(h-topInset-bottomInset-easeInset)/vertEnvelope);
+ const same=previous?.width===w&&(previous?.height===h||options.mobileLandscapeTuned&&previous?.mobileLandscapeBaseHeight===baseHeight)&&previous?.mode==='classic';
+ const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.91,Math.max(0,Math.min(100,delta))/(1000/60));
  const wanted=target;
  const eased=same?previous.zoom+(wanted-previous.zoom)*ease:wanted;
- const fit=Math.min(1.45,horizFit,options.mobileLandscapeMeasured?closeCap:(h-topInset-bottomInset)/(bottom-top));
+ const fit=Math.min(1.45,horizFit,(h-topInset-bottomInset)/(bottom-top));
  const zoom=Math.min(fit,eased,options.mobileLandscapeTuned?(options.mobileLandscapeLaneZoom??Infinity):Infinity);
  const low=bottom-(h/2-bottomInset)/zoom;
  // Keep the floor fixed instead of bobbing vertically or zooming on jumps.
@@ -102,7 +95,7 @@ export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,op
  const minX=useLane?Math.max(a.x,b.x)+130-(lane.right-w/2)/zoom:leftBound;
  const maxX=useLane?Math.min(a.x,b.x)-130+(w/2-lane.left)/zoom:rightBound;
  const x=same?Math.max(minX,Math.min(maxX,previous.x+(wantedX-previous.x)*ease)):Math.max(minX,Math.min(maxX,wantedX));
- return {x,y,zoom,hud,width:w,height:h,mode:'classic',supportYs,...(options.mobileLandscapeTuned?{mobileLandscapeBaseHeight:baseHeight}:{})};
+ return {x,y,zoom,hud,width:w,height:h,mode:'classic',...(options.mobileLandscapeTuned?{mobileLandscapeBaseHeight:baseHeight}:{})};
 }
 export function backgroundFrame(width,height,c){
  // Fixed world geometry for a viewport. Size once for the widest legal view,
