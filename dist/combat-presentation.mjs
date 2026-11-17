@@ -14,14 +14,15 @@ export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
 function preferredFullStageCameraFrame(camera,width,height,fighters,previous=null,delta=1000/60,options={}){
  if(options.paused&&previous?.width===width&&previous?.height===height)return previous;
  const portrait=options.portrait??width<height,mobileLandscape=options.touch===true&&!portrait&&height<=500;
+ const measured=Array.isArray(options.occlusions);
  let {top,bottom}=stageInsets(width,height,{...options,portrait});
- if(mobileLandscape&&Number.isFinite(options.hudBottom)){
+ if(mobileLandscape&&!measured&&Number.isFinite(options.hudBottom)){
   top=Math.min(height*.25,options.hudBottom+6);
  }
  const tuned=mobileLandscape&&options.cameraMode==='classic',portraitStable=options.touch===true&&portrait&&options.cameraMode==='stable';
- if((tuned||portraitStable)&&Number.isFinite(options.hudBottom))top=Math.max(top,options.hudBottom+8);
+ if((portraitStable||(tuned&&!measured))&&Number.isFinite(options.hudBottom))top=Math.max(top,options.hudBottom+8);
  const baseHeight=Math.max(1,height-top-bottom);let laneZoom=Infinity,laneBounds=null;
- if(tuned&&options.lowerLane){
+ if(tuned&&!measured&&options.lowerLane){
   const lane=options.lowerLane;laneBounds=lane;const gap=Math.abs(fighters[0].x-fighters[1].x),baseZoom=baseHeight/340;
   const room=Math.max(0,(lane.right-lane.left)/2);
   const freeZoom=room*2/Math.max(1,gap+260);
@@ -29,9 +30,9 @@ function preferredFullStageCameraFrame(camera,width,height,fighters,previous=nul
   bottom-=gain;if(gain>0){laneZoom=freeZoom;laneBounds=lane;}
  }
  const viewHeight=Math.max(1,height-top-bottom);
- const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
+ const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned&&!measured,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
  const frame={...view,y:view.y+(bottom-top)/(2*view.zoom),width,height,stageView:view};
- if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+4,(options.hudBottom||0)+4),bottom:height-bottom-8,head:285});
+ if(mobileLandscape&&!measured&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+4,(options.hudBottom||0)+4),bottom:height-bottom-8,head:285});
  return frame;
 }
 // Stable and dynamic share one standing scale. Only the controlled fighter

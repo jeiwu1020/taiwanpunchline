@@ -353,3 +353,118 @@ test('Camera pans smoothly without single-frame teleports on mode switch, separa
   const jumpedStreet = streetPlayerCameraFrame(390, 844, streetWorld, { ...streetOpts, previous: groundedStreet, delta: 16 });
   assert.ok(Math.abs(jumpedStreet.y - groundedStreet.y) < 1e-6, 'street vertical camera must stay grounded during ordinary jump instead of bouncing the scenery');
 });
+
+test('Desktop & mobile landscape Boss/VS cameras stay smooth (no jump-cuts) through mid-air jumps and podium desk landings', async () => {
+  const { readFileSync } = await import('node:fs');
+  const nov11 = JSON.parse(readFileSync(new URL('./fixtures/shared-camera-measured-nov11.json', import.meta.url), 'utf8'));
+  const msv = JSON.parse(readFileSync(new URL('./fixtures/mobile-stable-visibility.json', import.meta.url), 'utf8'));
+
+  // Preserve exact 568x320 mobile-stable-visibility zoom when player stands on DESK
+  const msvFrame = fullStageCameraFrame(fixedStableCameraFrame, 568, 320, msv.actors, null, 0, {
+    ...msv.options,
+    touch: true,
+    cameraMode: 'stable',
+    paused: false
+  });
+  assert.ok(Math.abs(msvFrame.zoom - 0.525) < 1e-8, `568x320 desk stable zoom ${msvFrame.zoom} must remain 0.525`);
+
+  const profileNames = ['desktop-vs', 'native-vs', 'native-street'];
+  for (const name of profileNames) {
+    const p = nov11.profiles[name];
+    const baseOpts = {
+      width: p.frame.width,
+      height: p.frame.height,
+      touch: p.dataset.touch === 'true',
+      portrait: false,
+      nativeLandscape: p.dataset.nativeLandscape === 'true',
+      safeRect: p.cameraSafety.safeRect,
+      occlusions: p.cameraSafety.occlusions,
+      hudBottom: p.cameraSafety.hudBottom,
+      lowerLane: p.cameraSafety.lowerLane
+    };
+
+    for (const cameraMode of ['stable', 'classic']) {
+      const camFn = cameraMode === 'stable' ? fixedStableCameraFrame : cameraFrame;
+      const prefBase = camFn(
+        baseOpts.width,
+        baseOpts.height,
+        [{ x: 340, y: 430, supportY: 430 }, { x: 620, y: 430, supportY: 430 }],
+        null,
+        16.7,
+        { touch: baseOpts.touch, portrait: false, mobileLandscape: baseOpts.touch }
+      );
+
+      for (const [label, stepFrame] of [
+        ['VS/Ch1-fullStage', (actors, prev) => fullStageCameraFrame(camFn, baseOpts.width, baseOpts.height, actors, prev, 16.7, { ...baseOpts, cameraMode })],
+        ['Ch2-5-fitChallenge', (actors, prev) => fitChallengeCamera({ ...prefBase, base: baseOpts.height * 0.8 }, actors, prev, 16.7, { ...baseOpts, cameraMode })]
+      ]) {
+        const standing = [{ x: 340, y: 430, supportY: 430, depth: 0 }, { x: 620, y: 430, supportY: 430, depth: 0 }];
+        let prev = stepFrame(standing, null);
+
+        // 1. Mid-air jump must never bounce camera Y or pump zoom
+        for (const py of [320, 210, 120, 54, 120, 210, 320, 430]) {
+          const next = stepFrame([{ x: 340, y: py, supportY: 430, depth: 0 }, standing[1]], prev);
+          const dyPx = Math.abs((next.y - prev.y) * next.zoom);
+          const dz = Math.abs(next.zoom - prev.zoom);
+          assert.ok(dyPx < 1e-6, `${name} ${cameraMode} ${label} airborne jump dyPx=${dyPx} must be 0`);
+          assert.ok(dz < 1e-6, `${name} ${cameraMode} ${label} airborne jump dz=${dz} must be 0`);
+          prev = next;
+        }
+
+        // 2. Walk + jump onto DESK (supportY 430 -> 370) and back off (370 -> 430) must ease smoothly without teleports
+        let px = 340;
+        for (let i = 0; i < 45; i++) {
+          px = i < 24 ? Math.min(480, px + 6) : Math.min(600, px + 5);
+          const sy = i >= 18 && i < 32 ? 370 : 430;
+          const py = i < 18 ? Math.max(54, 430 - Math.sin((i / 18) * Math.PI) * 320) : sy;
+          const next = stepFrame([{ x: px, y: py, supportY: sy, depth: 0 }, standing[1]], prev);
+          const dxPx = Math.abs((next.x - prev.x) * next.zoom);
+          const dyPx = Math.abs((next.y - prev.y) * next.zoom);
+          const dz = Math.abs(next.zoom - prev.zoom);
+          assert.ok(dxPx <= 9, `${name} ${cameraMode} ${label} frame ${i} desk dxPx=${dxPx} must not teleport`);
+          assert.ok(dyPx <= 7, `${name} ${cameraMode} ${label} frame ${i} desk dyPx=${dyPx} must not jump-cut`);
+          assert.ok(dz <= 0.025, `${name} ${cameraMode} ${label} frame ${i} desk dz=${dz} must not collapse zoom`);
+          prev = next;
+        }
+      }
+    }
+  }
+});
+
+test('Mobile landscape Dynamic view preserves readable standing character scale with measured occlusions', async () => {
+  const { readFileSync } = await import('node:fs');
+  const nov11 = JSON.parse(readFileSync(new URL('./fixtures/shared-camera-measured-nov11.json', import.meta.url), 'utf8'));
+
+  for (const name of ['native-vs', 'native-street']) {
+    const p = nov11.profiles[name];
+    const opts = {
+      touch: true,
+      portrait: false,
+      nativeLandscape: true,
+      cameraMode: 'classic',
+      safeRect: p.cameraSafety.safeRect,
+      occlusions: p.cameraSafety.occlusions,
+      hudBottom: p.cameraSafety.hudBottom,
+      lowerLane: p.cameraSafety.lowerLane
+    };
+    const close = [{ x: 340, y: 430, supportY: 430, depth: 0 }, { x: 620, y: 430, supportY: 430, depth: 0 }];
+    const open = fullStageCameraFrame(cameraFrame, 844, 390, close, null, 16.7, opts);
+    assert.ok(open.zoom >= 0.80, `${name} mobile landscape dynamic zoom ${open.zoom} must stay readable (>= 0.80)`);
+
+    // Even when fighters separate across the arena, characters remain well above tiny 0.632 scale
+    let prev = open;
+    for (let i = 0; i < 30; i++) {
+      prev = fullStageCameraFrame(
+        cameraFrame,
+        844,
+        390,
+        [{ x: 180, y: 430, supportY: 430, depth: 0 }, { x: 780, y: 430, supportY: 430, depth: 0 }],
+        prev,
+        16.7,
+        opts
+      );
+    }
+    assert.ok(prev.zoom >= open.zoom * 0.88 - 1e-6, `${name} wide separation dynamic zoom ${prev.zoom} must stay >= 88% of ${open.zoom}`);
+  }
+});
+
