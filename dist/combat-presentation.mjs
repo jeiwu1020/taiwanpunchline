@@ -14,12 +14,13 @@ export function stageInsets(width,height,{touch=true,portrait=width<height}={}){
 function preferredFullStageCameraFrame(camera,width,height,fighters,previous=null,delta=1000/60,options={}){
  if(options.paused&&previous?.width===width&&previous?.height===height)return previous;
  const portrait=options.portrait??width<height,mobileLandscape=options.touch===true&&!portrait&&height<=500;
+ const measured=Array.isArray(options.occlusions);
  let {top,bottom}=stageInsets(width,height,{...options,portrait});
  if(mobileLandscape&&Number.isFinite(options.hudBottom)){
   top=Math.min(height*.25,options.hudBottom+6);
  }
  const tuned=mobileLandscape&&options.cameraMode==='classic',portraitStable=options.touch===true&&portrait&&options.cameraMode==='stable';
- if((tuned||portraitStable)&&Number.isFinite(options.hudBottom))top=Math.max(top,options.hudBottom+8);
+ if((portraitStable||(tuned&&(!measured||options.lowerLane)))&&Number.isFinite(options.hudBottom))top=Math.max(top,options.hudBottom+8);
  const baseHeight=Math.max(1,height-top-bottom);let laneZoom=Infinity,laneBounds=null;
  if(tuned&&options.lowerLane){
   const lane=options.lowerLane;laneBounds=lane;const gap=Math.abs(fighters[0].x-fighters[1].x),baseZoom=baseHeight/340;
@@ -28,10 +29,11 @@ function preferredFullStageCameraFrame(camera,width,height,fighters,previous=nul
   const gain=Math.max(0,Math.min(36,lane.bottom-(height-bottom),(freeZoom-baseZoom)*340));
   bottom-=gain;if(gain>0){laneZoom=freeZoom;laneBounds=lane;}
  }
+ const mobileLandscapeMeasured=tuned&&measured&&!options.lowerLane;
  const viewHeight=Math.max(1,height-top-bottom);
- const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
+ const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeMeasured,mobileLandscapeFullHeight:height,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
  const frame={...view,y:view.y+(bottom-top)/(2*view.zoom),width,height,stageView:view};
- if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+4,(options.hudBottom||0)+4),bottom:height-bottom-8,head:285});
+ if(mobileLandscape&&options.cameraMode!=='stable'&&!mobileLandscapeMeasured)return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+4,(options.hudBottom||0)+4),bottom:height-bottom-8,head:285});
  return frame;
 }
 // Stable and dynamic share one standing scale. Only the controlled fighter
@@ -78,17 +80,20 @@ export function chamberBackdropTiles(frame,chamber){
 // Safety-only guard for stable landscape. Ordinary composition remains exact.
 export function fitMobilePairSafety(legacy,actors,previous,delta=1000/60,{top=0,bottom=legacy.height,side=18,head=300}={}){
  const {width,height}=legacy,clamp=(n,l,h)=>Math.max(l,Math.min(h,n));
- const left=Math.min(...actors.map(a=>a.x))-130,right=Math.max(...actors.map(a=>a.x))+130;
- // Use grounded supportY so jumps do not pump zoom out and back in.
- const high=Math.min(...actors.map(a=>(a.supportY??430)+(a.depth||0)*.65-head)),low=Math.max(...actors.map(a=>(a.supportY??430)+(a.depth||0)*.65+28));
- const inside=width/2+(left-legacy.x)*legacy.zoom>=side&&width/2+(right-legacy.x)*legacy.zoom<=width-side&&height/2+(high-legacy.y)*legacy.zoom>=top&&height/2+(low-legacy.y)*legacy.zoom<=bottom;
  const same=previous?.width===width&&previous?.height===height;
- if(inside&&!previous?.mobileSafety)return legacy;
+ const dt=Math.max(0,Math.min(100,Number.isFinite(delta)?delta:1000/60)),easeSY=1-Math.exp(-dt/220);
+ const prevSY=same&&Array.isArray(previous?.safetySupportYs)?previous.safetySupportYs:null;
+ const safetySupportYs=actors.map((a,i)=>{const raw=Number.isFinite(a.supportY)?a.supportY:430;return prevSY&&Number.isFinite(prevSY[i])&&dt>0?prevSY[i]+(raw-prevSY[i])*easeSY:raw;});
+ const left=Math.min(...actors.map(a=>a.x))-130,right=Math.max(...actors.map(a=>a.x))+130;
+ // Use smoothed grounded supportY so jumps and desk transitions do not pump zoom out and back in.
+ const high=Math.min(...actors.map((a,i)=>safetySupportYs[i]+(a.depth||0)*.65-head)),low=Math.max(...actors.map((a,i)=>safetySupportYs[i]+(a.depth||0)*.65+28));
+ const inside=width/2+(left-legacy.x)*legacy.zoom>=side&&width/2+(right-legacy.x)*legacy.zoom<=width-side&&height/2+(high-legacy.y)*legacy.zoom>=top&&height/2+(low-legacy.y)*legacy.zoom<=bottom;
+ if(inside&&!previous?.mobileSafety)return {...legacy,safetySupportYs};
  const fit=Math.min(legacy.zoom,(width-2*side)/(right-left),(bottom-top)/(low-high));
- const ease=1-Math.pow(.92,Math.max(0,Math.min(100,delta))/(1000/60));
+ const ease=1-Math.pow(.92,dt/(1000/60));
  const zoom=Math.min(fit,same?previous.zoom+(fit-previous.zoom)*ease:fit);
  const x=clamp(same?previous.x+(legacy.x-previous.x)*ease:legacy.x,right-(width/2-side)/zoom,left+(width/2-side)/zoom);
  const y=clamp(same?previous.y+(legacy.y-previous.y)*ease:legacy.y,low-(bottom-height/2)/zoom,high+(height/2-top)/zoom);
- if(inside&&Math.abs(zoom-legacy.zoom)<1e-5&&Math.abs(x-legacy.x)<.01&&Math.abs(y-legacy.y)<.01)return legacy;
- return {...legacy,x,y,zoom,mobileSafety:true,...('base' in legacy?{base:height/2+(430-y)*zoom,jumpPan:0,backdropTop:Math.min(legacy.backdropTop,y-height/zoom/2),backdropBottom:Math.max(legacy.backdropBottom,y+height/zoom/2)}:{})};
+ if(inside&&Math.abs(zoom-legacy.zoom)<1e-5&&Math.abs(x-legacy.x)<.01&&Math.abs(y-legacy.y)<.01)return {...legacy,safetySupportYs};
+ return {...legacy,x,y,zoom,safetySupportYs,mobileSafety:true,...('base' in legacy?{base:height/2+(430-y)*zoom,jumpPan:0,backdropTop:Math.min(legacy.backdropTop,y-height/zoom/2),backdropBottom:Math.max(legacy.backdropBottom,y+height/zoom/2)}:{})};
 }
