@@ -140,7 +140,7 @@ function renderEntryAudio(state=music.state){
  const copy=muted?'目前保持靜音，可從上方開啟。':blocked?'聲音未能啟用；仍可遊玩，或點「重試聲音」。':state.status==='loading'?'配樂載入中，可先選角。':'';
  $('#entry-audio-status').textContent=copy;$('#entry-audio-feedback').hidden=muted||!blocked;
  $('#retry-entry-audio').hidden=muted||!blocked;
- titleUI?.setAudioStatus(muted?'目前保持靜音，開始後仍沿用設定。':hasEntered&&blocked?'聲音未能啟用，開始後可重試。':'按開始進入選角，並啟用已開啟的聲音。');
+ titleUI?.setAudioStatus(hasEntered&&blocked?'聲音未能啟用，開始後可重試。':'');
 }
 function unlockEntryAudio(){
  if(!hasEntered)return;
@@ -253,7 +253,7 @@ function renderProfileStatus(){
  for(const [index,id]of PROFILE_IDS.entries()){$('#profile-'+(index+1)).setAttribute('aria-pressed',String(id===status.activeProfileId));$('#profile-'+(index+1)).disabled=!!status.busy||!!status.dirty;}
  const blocked=status.dirty||status.readOnly||status.reason;
  $('#profile-storage-note').dataset.warning=String(!!blocked);
- $('#profile-storage-note').textContent=status.testMode?'全角色暫時開放，不改變存檔解鎖。回首頁可退出。':blocked?'進度尚未保存或需確認，請保留此頁並開啟挑戰備份面板。':status.authority==='campaign'?'此槽已採用共用進度：挑戰、對戰與訓練共用已解鎖角色。':'此槽沿用原版進度；繼續後續章節前可明確選擇採用來源。';
+ $('#profile-storage-note').textContent=status.testMode?'全角色暫時開放，不改變存檔解鎖。回首頁可退出。':blocked?'進度尚未保存或需確認，請保留此頁並開啟挑戰備份面板。':'';
 }
 function refreshProfileAccess(){
  sanitizeSelections();renderProfileStatus();settingsUI?.refreshAccess?.();

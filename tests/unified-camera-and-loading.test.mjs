@@ -468,3 +468,102 @@ test('Mobile landscape Dynamic view preserves readable standing character scale 
   }
 });
 
+test('Desktop home bottom status texts for normal muted/storage notes are suppressed while keeping menu audio & error notices', async () => {
+  const { readFileSync } = await import('node:fs');
+  const gameSrc = readFileSync(new URL('../dist/game.mjs', import.meta.url), 'utf8');
+  assert.doesNotMatch(gameSrc, /此槽已採用共用進度/);
+  assert.doesNotMatch(gameSrc, /此槽沿用原版進度；繼續後續章節前可明確選擇採用來源/);
+  assert.doesNotMatch(gameSrc, /目前保持靜音，開始後仍沿用設定/);
+  assert.doesNotMatch(gameSrc, /按開始進入選角，並啟用已開啟的聲音/);
+  // #entry-audio-status & error/testMode warnings remain intact
+  assert.match(gameSrc, /\$\('#entry-audio-status'\)\.textContent=copy/);
+  assert.match(gameSrc, /titleUI\?\.setAudioStatus\(hasEntered&&blocked\?'聲音未能啟用，開始後可重試。':''\)/);
+  assert.match(gameSrc, /全角色暫時開放，不改變存檔解鎖。回首頁可退出。/);
+});
+
+test('Desktop Ch1 Street dynamic camera prevents single-frame zoom collapses across depth walks and #item-status crossings', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { challengeCameraPlan } = await import('../dist/challenge-camera.mjs');
+  const prof = JSON.parse(readFileSync(new URL('./fixtures/shared-camera-measured-nov11.json', import.meta.url), 'utf8')).profiles['desktop-street'];
+
+  const world = {
+    player: { x: 400, y: 430, depth: -90, vy: 0, supportY: 430, hp: 100, assist: { helper: 'han' } },
+    enemy: { x: 1100, y: 430, depth: 0, vy: 0, supportY: 430, hp: 100, spec: { range: 180 } },
+    enemies: [],
+    assists: [],
+    section: { spawns: [] },
+    spawned: new Set()
+  };
+  world.enemies = [world.enemy];
+
+  let prev = null;
+  for (let i = 0; i < 320; i++) {
+    world.player.x += 4.2;
+    world.player.depth = Math.sin(i * 0.08) * 95;
+    if (i >= 140 && i < 200) { world.player.supportY = 340; world.player.y = 340; }
+    else { world.player.supportY = 430; world.player.y = 430; }
+    const plan = challengeCameraPlan(world, { route: true, previous: prev, delta: 16.7 });
+    const pref = { width: 1280, height: 720, x: world.player.x + 120, y: 240, zoom: 1.4, base: 580 };
+    const next = fitChallengeCamera(pref, plan.subjects, prev, 16.7, {
+      ...prof.cameraSafety,
+      touch: false,
+      portrait: false,
+      cameraMode: 'classic',
+      cameraPlan: plan
+    });
+    if (prev) {
+      const dz = Math.abs(next.zoom - prev.zoom);
+      assert.ok(dz <= 0.03, `desktop street dynamic frame ${i} zoom jumped ${prev.zoom} -> ${next.zoom}`);
+    }
+    prev = next;
+  }
+});
+
+test('Mobile landscape Boss cameras follow player onto desk and back to floor even when boss remains on desk', async () => {
+  const { readFileSync } = await import('node:fs');
+  const prof = JSON.parse(readFileSync(new URL('./fixtures/shared-camera-measured-nov11.json', import.meta.url), 'utf8')).profiles['native-vs'];
+  const w = 844, h = 390;
+  const opts = {
+    width: w,
+    height: h,
+    touch: true,
+    portrait: false,
+    nativeLandscape: true,
+    safeRect: prof.cameraSafety.safeRect,
+    occlusions: prof.cameraSafety.occlusions,
+    cameraMode: 'classic'
+  };
+
+  for (const mode of ['stable', 'classic']) {
+    for (const kind of ['Ch1', 'Ch2-5']) {
+      let prev = null;
+      const step = (p, e) => {
+        if (kind === 'Ch1') {
+          return fullStageCameraFrame(
+            mode === 'stable' ? fixedStableCameraFrame : cameraFrame,
+            w, h, [p, e], prev, 16.7, { ...opts, cameraMode: mode }
+          );
+        }
+        const pref = unifiedChallengeBackdropFrame(w, h, { player: p, enemy: e }, { portrait: false, touch: true });
+        return fitChallengeCamera({ ...pref, width: w, height: h, x: 480, y: 230 }, [p, e], prev, 16.7, { ...opts, cameraMode: mode });
+      };
+
+      // Both start on podium desk (DESK.y = 317.8)
+      for (let i = 0; i < 40; i++) {
+        prev = step({ x: 420, y: 317.8, supportY: 317.8, depth: 0 }, { x: 540, y: 317.8, supportY: 317.8, depth: 0 });
+      }
+      const deskCamY = prev.y;
+
+      // Player jumps down to floor (430) while Boss stays on desk (317.8)
+      for (let i = 0; i < 60; i++) {
+        prev = step({ x: 350, y: 430, supportY: 430, depth: 0 }, { x: 540, y: 317.8, supportY: 317.8, depth: 0 });
+      }
+      const floorCamY = prev.y;
+      const pBot = h / 2 + (430 + 28 - floorCamY) * prev.zoom;
+      assert.ok(floorCamY > deskCamY + 70, `${kind} ${mode}: camera Y must follow player back down (${deskCamY} -> ${floorCamY})`);
+      assert.ok(pBot <= h + 1, `${kind} ${mode}: dropped player bottom (${pBot}) must not be clipped below viewport ${h}`);
+    }
+  }
+});
+
+
