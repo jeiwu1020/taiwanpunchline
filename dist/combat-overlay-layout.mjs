@@ -4,13 +4,9 @@ import {mainRouteMicPlan} from './challenge-depth-render.mjs?v=chapter-presentat
 import {flyingMicLayout,drawFlyingMic} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
 
 // These are display-space placements only. Combat and camera geometry stay unchanged.
-export function feedbackPlacement({width,height,touch,portrait,specials,buttons,stick}){
- if(touch&&!portrait&&stick){
-  const left=stick.right+12,right=Math.min(...buttons.map(r=>r.left))-12;
-  if(right>left)return {left:(left+right)/2,bottom:10,width:right-left};
- }
- const top=Math.min(...specials.map(r=>r.top));
- return {left:width/2,bottom:height-top+8,width:Math.min(460,width-24)};
+export function feedbackPlacement({width,height,touch,portrait,hudBottom,specials,buttons,stick}){
+ const safeTop=Number.isFinite(hudBottom)?hudBottom:(portrait?154:114);
+ return {left:width/2,top:Math.ceil(safeTop+6),width:Math.min(520,width-20)};
 }
 export function routeMicPlacement({width,height,hudBottom}){
  return {size:44,top:Math.ceil(hudBottom+8),right:6,width:64,height:64,visible:width>=88&&hudBottom+80<height};
@@ -36,16 +32,15 @@ export function mountCombatOverlayLayout({document,getCameraMode=()=>'classic',g
   const style=win.getComputedStyle(app),physical=edge=>parseFloat(style.getPropertyValue('--challenge-physical-safe-'+edge))||0;
   const owner=getCombatOwner(),frame={width,height,touch:app.dataset.touch==='true',camera:getCameraMode(),route:app.dataset.depthRoute==='true',retainCombatLayout:!!owner,rotation:Number(app.dataset.rotation)||0,fullBleed:app.dataset.landscapePreview==='true',safeTop:physical('top'),safeRight:physical('right'),safeBottom:physical('bottom'),safeLeft:physical('left')};
   applyChallengeCameraLayout(app,frame);
-  const specials=[...document.querySelectorAll('.specials button')].map(rect).filter(r=>r.width&&r.height);
-  if(specials.length){
-   const buttons=[...document.querySelectorAll('.control-deck button')].filter(b=>!b.closest('.movement')).map(rect).filter(r=>r.width&&r.height);
-   const p=feedbackPlacement({width,height,touch:app.dataset.touch==='true',portrait:app.dataset.layout==='portrait',specials,buttons,stick:rect(document.querySelector('#touch-stick'))});
-   if(app.dataset.landscapePreview==='true')p.bottom+=parseFloat(win.getComputedStyle(app).getPropertyValue('--landscape-safe-bottom'))||0;
-   for(const key of ['left','bottom','width'])banner.style.setProperty('--feedback-'+key,p[key]+'px');
-   banner.dataset.placed='true';
-  }
   // Include every visible HUD child, such as the item status just below the bars.
   const hud=document.querySelector('.dom-hud'),hudBottom=Math.max(...[hud,...hud.querySelectorAll('*')].map(rect).filter(r=>r.width&&r.height).map(r=>r.bottom));
+  app.style.setProperty('--hud-safe-top',Math.ceil(hudBottom+6)+'px');
+  const specials=[...document.querySelectorAll('.specials button')].map(rect).filter(r=>r.width&&r.height);
+  const buttons=[...document.querySelectorAll('.control-deck button')].filter(b=>!b.closest('.movement')).map(rect).filter(r=>r.width&&r.height);
+  const p=feedbackPlacement({width,height,touch:app.dataset.touch==='true',portrait:app.dataset.layout==='portrait',hudBottom,specials,buttons,stick:rect(document.querySelector('#touch-stick'))});
+  banner.style.removeProperty('--feedback-bottom');
+  for(const key of ['left','top','width'])banner.style.setProperty('--feedback-'+key,p[key]+'px');
+  banner.dataset.placed='true';
   const stick=rect(document.querySelector('#touch-stick'));
   const rightControls=[...document.querySelectorAll('.control-deck button')].map(rect).filter(r=>r.width&&r.height&&r.left>width*.25);
   const gameCanvas=document.querySelector('#game canvas')||app;

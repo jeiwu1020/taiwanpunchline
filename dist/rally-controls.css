@@ -12,7 +12,7 @@
 .app[data-touch="true"][data-overlay-controls="true"] .control-deck{grid-template-columns:84px minmax(0,1fr) 114px 54px}
 .app[data-touch="true"][data-layout="portrait"] .control-deck{grid-template-columns:64px minmax(0,1fr) 114px 54px;grid-template-rows:78px 60px}
 .app[data-touch="true"][data-layout="portrait"] .specials{grid-column:1/-1;grid-row:1}
-#rally-warning{position:absolute;z-index:15;left:50%;top:70px;transform:translateX(-50%);background:#fff0b9;color:#69291a;border-radius:5px;font-size:11px;font-weight:900;white-space:nowrap;pointer-events:none}#rally-warning:empty{display:none}
+#rally-warning{position:absolute;z-index:15;left:50%;top:var(--hud-safe-top,140px);transform:translateX(-50%);background:#fff0b9;color:#69291a;border:2px solid #17313a;padding:3px 10px;box-shadow:2px 2px 0 #17313a;border-radius:4px 10px 4px 10px;font-size:12px;font-weight:900;white-space:nowrap;pointer-events:none}#rally-warning:empty{display:none}
 /* V48: reserve the FULL 84px stick hit area, not a 60px row/64px column.
    Explicit rows prevent the joystick from intruding into special buttons. */
 .app[data-touch="true"][data-layout="portrait"] .cabinet{grid-template-rows:minmax(0,1fr) 192px}

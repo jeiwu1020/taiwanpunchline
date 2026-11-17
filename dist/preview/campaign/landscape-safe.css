@@ -24,6 +24,6 @@ body[data-full-bleed="true"] #story-panel{left:calc(env(safe-area-inset-left,0px
 body[data-full-bleed="true"] #story-panel .story-card{max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 56px);overflow:auto}
 body[data-full-bleed="true"] #campaign-bar.campaign-bar-combat{top:calc(env(safe-area-inset-top,0px) + 91px);max-width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 24px)}
 body[data-full-bleed="true"] #caption{top:calc(env(safe-area-inset-top,0px) + 88px)}
-body[data-full-bleed="true"] #feedback{bottom:calc(env(safe-area-inset-bottom,0px) + 139px)}
+body[data-full-bleed="true"] #feedback{top:var(--hud-safe-top,calc(env(safe-area-inset-top,0px) + 136px));bottom:auto}
 body[data-full-bleed="true"][data-noncombat="true"] #feedback{top:calc(env(safe-area-inset-top,0px) + 92px);bottom:auto}
 html body>.campaign-growth-dialog{inset:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);max-width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px) - 16px);max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px)}

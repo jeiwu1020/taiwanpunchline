@@ -25,7 +25,7 @@ function preferredFullStageCameraFrame(camera,width,height,fighters,previous=nul
   bottom-=gain;if(gain>0){laneZoom=freeZoom;laneBounds=lane;}
  }
  const viewHeight=Math.max(1,height-top-bottom);
- const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitStable:options.touch===true&&portrait&&options.cameraMode!=='stable',mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
+ const view=camera(width,viewHeight,fighters,previous?.stageView,delta,{...options,portraitDynamic:options.touch===true&&portrait&&options.cameraMode!=='stable',portraitCloseStable:portraitStable,portraitStable:false,mobileLandscape,mobileLandscapeTuned:tuned,mobileLandscapeBaseHeight:baseHeight,mobileLandscapeLaneZoom:laneZoom,mobileLandscapeLane:laneBounds});
  const frame={...view,y:view.y+(bottom-top)/(2*view.zoom),width,height,stageView:view};
  if(mobileLandscape&&options.cameraMode!=='stable')return fitMobilePairSafety(frame,fighters,previous,delta,{top:Math.max(top+8,(options.hudBottom||0)+8),bottom:height-bottom-14,head:285});
  return frame;

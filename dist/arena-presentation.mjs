@@ -51,7 +51,7 @@ export function portraitStableCameraFrame(width,height,fighters,previous=null,de
 export function fixedStableCameraFrame(width,height,fighters,previous=null,delta=1000/60,options={}){
  if(options.portraitStable)return portraitStableCameraFrame(width,height,fighters,previous,delta);
  const [player,enemy]=fighters,{w,h,side,top,bottom}=fightViewport(width,height);
- const zoom=Math.min(1.25,(w-side*2)/700*1.12,(h-top-bottom)/313);
+ const zoom=options.portraitCloseStable?Math.min(1.25,w/520,(h-top-bottom)/313):Math.min(1.25,(w-side*2)/700*1.12,(h-top-bottom)/313);
  const same=previous?.width===w&&previous?.height===h&&previous?.mode==='stable-fixed';
  const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
  const half=(w-side*2)/(2*zoom),left=Math.min(player.x,enemy.x)-130,right=Math.max(player.x,enemy.x)+130;
@@ -75,13 +75,14 @@ export function cameraFrame(width,height,fighters,previous=null,delta=1000/60,op
  // A separate predicted safety fit still includes both complete jumping bodies.
  const baseHeight=options.mobileLandscapeBaseHeight??h;
  const closeCap=options.mobileLandscapeTuned?(baseHeight-topInset-bottomInset-easeInset)/590*1.6+(h-topInset-bottomInset-easeInset)/704-(baseHeight-topInset-bottomInset-easeInset)/689:options.mobileLandscape?(h-topInset-bottomInset-easeInset)/700*1.6:1.45;
- const target=Math.min(1.45,closeCap,(w-side*2)/(gap+270),(h-topInset-bottomInset-easeInset)/(bottom-top));
+ const horizFit=(options.portraitDynamic||options.portraitStable)?(w-side*2)/480:(w-side*2)/(gap+270);
+ const target=Math.min(1.45,closeCap,horizFit,(h-topInset-bottomInset-easeInset)/(bottom-top));
  const same=previous?.width===w&&(previous?.height===h||options.mobileLandscapeTuned&&previous?.mobileLandscapeBaseHeight===baseHeight)&&previous?.mode==='classic';
  const ease=1-Math.pow(options.mobileLandscapeTuned?.94:.88,Math.max(0,Math.min(100,delta))/(1000/60));
  const predictedTop=options.mobileLandscapeTuned?Math.min(a.y+Math.min(0,a.vy||0)*.12,b.y+Math.min(0,b.vy||0)*.12)-300:top;
  const wanted=Math.min(target,(h-topInset-bottomInset-easeInset)/(bottom-predictedTop));
  const eased=same?previous.zoom+(wanted-previous.zoom)*ease:wanted;
- const fit=Math.min(1.45,(w-side*2)/(gap+270),(h-topInset-bottomInset)/(bottom-top));
+ const fit=Math.min(1.45,horizFit,(h-topInset-bottomInset)/(bottom-top));
  const zoom=Math.min(fit,eased,options.mobileLandscapeTuned?(options.mobileLandscapeLaneZoom??Infinity):Infinity);
  const originalY=(Math.min(a.y,b.y)-285+Math.max(a.y,b.y)+25)/2;
  const low=bottom-(h/2-bottomInset)/zoom,highY=top-(topInset-h/2)/zoom;

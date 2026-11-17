@@ -33,10 +33,10 @@
 #training-pause-options label{font-size:13px;display:flex;align-items:center;gap:5px;min-height:44px}
 #training-pause-options select{min-height:44px;font:inherit;border:2px solid #24464f;border-radius:5px;background:#fff4d7;color:#17313a}
 #training-pause-options input{width:20px;height:20px}#training-pause-options button{margin:0;min-height:44px}
-.assist-warning{position:absolute;z-index:12;top:67px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 16px);display:flex;flex-direction:column;gap:3px;align-items:center;pointer-events:none}
+.assist-warning{position:absolute;z-index:12;top:var(--hud-safe-top,140px);left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 16px);display:flex;flex-direction:column;gap:3px;align-items:center;pointer-events:none}
 .assist-callout{display:block;max-width:100%;padding:4px 10px;border:2px solid #17313a;background:#ffdf89;color:#17313a;box-shadow:2px 2px 0 #17313a;border-radius:3px 10px 3px 10px;font-size:12px;font-weight:950;line-height:1.2;text-align:center}
 .assist-callout.enemy{background:#a5ebef}.assist-callout[data-phase="warning"]{transform:rotate(-1deg)}
-#rally-warning:not(:empty)~.assist-warning{top:88px}
+#rally-warning:not(:empty)~.assist-warning{top:calc(var(--hud-safe-top,140px) + 30px)}
 .app .basic .assist-button{background:#72568f;color:#fff5df;border-color:#d2b6ef;opacity:1}
 .app .basic .assist-button.ready{background:#745596;box-shadow:0 0 0 1px #ead2ff,0 3px 0 #17323b}
 .app .basic .assist-button:disabled{background:#3b4254;color:#e1dbe6;cursor:default}

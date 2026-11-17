@@ -68,7 +68,7 @@
 
 /* Presentation overlays never reserve HUD width or intercept input. */
 #viewport-shell .app[data-title-open="false"] #broadcast[data-placed="true"]{
- left:var(--feedback-left);bottom:var(--feedback-bottom);width:max-content;max-width:var(--feedback-width);
+ left:var(--feedback-left);top:var(--feedback-top,var(--hud-safe-top,140px));bottom:auto;width:max-content;max-width:var(--feedback-width);z-index:12;
  transform:translateX(-50%);white-space:normal;overflow-wrap:anywhere;text-align:center;
 }
 #viewport-shell .app .route-mic-overlay{position:absolute;z-index:4;pointer-events:none}

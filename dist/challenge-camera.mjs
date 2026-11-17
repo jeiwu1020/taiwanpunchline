@@ -255,16 +255,31 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const dt=clamp(finite(delta,1000/60),0,100),zoomEase=1-Math.exp(-dt/360),panEase=1-Math.exp(-dt/(mode==='stable'?40:150));
  const startZoom=previousUsable?previous.zoom:targetZoom;
  const zoom=previousUsable?Math.max(1e-6,startZoom+(targetZoom-startZoom)*zoomEase):targetZoom;
-  // Compose both fighters on the first frame. Once play is underway, keep one
-  // continuous player-follow target; switching between pair and player focus
-  // at the exact fit threshold caused a large camera step while walking.
-  const initialPairGap=Math.min(300,(rect.right-rect.left)/stableTarget*.35),initialPairFocus=!previousUsable&&right-left<=initialPairGap;
-  let targetX=mode==='stable'?(previousUsable?player.x:(initialPairFocus?pairCenter:player.x)):legacyCenterX;const targetY=mode==='stable'?playerGround:legacyCenterY;
-  if(mode==='stable'&&previousUsable&&Math.abs(targetX-previous.x)*zoom<width*.02)targetX=previous.x;
+  // Compose around the duel midpoint at battle start. After mode switch to stable,
+  // recenter smoothly onto the controlled fighter; otherwise stay stationary until
+  // the controlled fighter approaches the screen safe boundary.
+  let targetX=legacyCenterX,recentering=false;const targetY=mode==='stable'?playerGround:legacyCenterY;
+  if(mode==='stable'){
+   if(!previousUsable)targetX=pairCenter;
+   else if(modeChanged||(state?.recentering&&Math.abs(previous.x-player.x)>1)){
+    targetX=player.x;
+    recentering=true;
+   }else{
+    targetX=previous.x;
+    const prevPlayerX=state?.pose?.x??player.x,playerSpan=264*zoom;
+    const edgeMargin=Math.min(36,Math.max(0,(rect.right-rect.left-playerSpan)*.2));
+    const leftScreen=width/2+(player.x-132-previous.x)*zoom,rightScreen=width/2+(player.x+132-previous.x)*zoom;
+    const prevLeft=width/2+(prevPlayerX-132-previous.x)*zoom,prevRight=width/2+(prevPlayerX+132-previous.x)*zoom;
+    const minLeftScreen=Math.min(rect.left+edgeMargin,Math.max(rect.left,prevLeft));
+    const maxRightScreen=Math.max(rect.right-edgeMargin,Math.min(rect.right,prevRight));
+    if(leftScreen<minLeftScreen)targetX=player.x-132-(minLeftScreen-width/2)/zoom;
+    else if(rightScreen>maxRightScreen)targetX=player.x+132-(maxRightScreen-width/2)/zoom;
+   }
+  }
  let centerX=previousUsable?previous.x+(targetX-previous.x)*panEase:targetX;
  let centerY=previousUsable?previous.y+(targetY-previous.y)*panEase:targetY;
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
- const framingBodies=mode==='stable'&&(previousUsable||!initialPairFocus)?[bodies[0]]:bodies;
+ const framingBodies=mode==='stable'?[bodies[0]]:bodies;
  let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted),finalZoom=zoom;
  if(!position)position=placeAtScale(bodies,zoom,rect,occlusions,{x:width/2-pairCenter*zoom,y:height/2-restingGround*zoom});
  // At the stable scale, a high jump can temporarily leave no legal placement
@@ -278,7 +293,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const safetyFit=!!position;
  const finalX=position?(width/2-position.x)/finalZoom:centerX,finalY=position?(height/2-position.y)/finalZoom:centerY;
   return {...(legacy||{}),width,height,x:finalX,y:finalY,zoom:finalZoom,left:finalX-width/(2*finalZoom),base:height/2+(430-finalY)*finalZoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
-   controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter}};
+   controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter,recentering}};
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;
@@ -429,7 +444,7 @@ export function streetPlayerCameraFrame(width,height,world,options={}){
  if(paused&&previous?.width===width&&previous?.height===height&&canReuseCloseFrame(previous,width,height,options))return previous;
  const p=paused&&snapshot?{x:snapshot.pose.x,y:snapshot.pose.displayY}:world.player;
  const pose={x:p.x,displayY:finite(p.y,430)+depthY(p)},g=closeGeometry(width,height,options,profile),key=closeKey(width,height,g,profile),{rect,occlusions}=g;
- const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.68/328):Math.min(1.25,width/380,height*.68/328);
+ const maximumDensity=profile==='landscape'?Math.min(1.4,width/440,height*.68/328):Math.min(1.25,width/500,height*.68/328);
  const old=previous?.width===width&&previous?.height===height&&saved?.profile===profile?saved:null;
  let referenceZoom=maximumDensity,zoom,anchor;
  const reserveX=profile==='landscape'?80:32,box={left:-132-reserveX,right:132+reserveX,top:-300,bottom:28};

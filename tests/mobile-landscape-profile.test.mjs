@@ -60,7 +60,7 @@ test('historical #66 inputs preserve desktop and portrait VS; portrait street en
   const actual=c.route?depthRouteCameraFrame(c.width,c.height,world,options):fullStageCameraFrame(c.mode==='stable'?fixedStableCameraFrame:cameraFrame,c.width,c.height,c.actors,null,1000/60,options);
   const later=createMobileCameraAdapter().frame(c.legacy,world,options).cameraFrame;
   const close=c.route&&c.name==='portrait-street';
-  if(close){closeStreet++;assertSafety(actual,[player],options,true);assertSafety(later,[player],options,true);assert.equal(actual.zoom,390/380,'portrait stays near classic VS scale rather than fitting the enemy');for(const key of ['x','y','zoom'])assert.equal(later[key],actual[key],'shared close entry '+key);continue;}
+  if(close){closeStreet++;assertSafety(actual,[player],options,true);assertSafety(later,[player],options,true);assert.equal(actual.zoom,390/500,'portrait stays near classic VS scale rather than fitting the enemy');for(const key of ['x','y','zoom'])assert.equal(later[key],actual[key],'shared close entry '+key);continue;}
   untouched++;assert.equal(actual.playerCloseCamera,undefined);assert.equal(later.playerCloseCamera,undefined);
   for(const key of ['x','y','zoom']){assert.ok(Math.abs(actual[key]-c.expected[key])<1e-10,`${c.name} ${c.mode} ${c.pose} ${key}`);assert.ok(Math.abs(later[key]-c.expectedLater[key])<1e-10,`later ${c.name} ${c.mode} ${c.pose} ${key}`);}
  }

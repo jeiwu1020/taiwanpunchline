@@ -140,7 +140,7 @@ function draw(time,delta=1000/60){
  if(s?.mode==='story'){ui.clearCameraHints();comicReader.paint(ctx,images,w,h,time,comic.motionOptions());return;}
  if(!s||s.mode==='choice'||s.mode==='complete'){ui.clearCameraHints();paintStory(s,w,h,time);return;}
  if(!g){ui.clearCameraHints();return;}const route=!!g.depthMode,player=g.player,portrait=ui.viewport.width<ui.viewport.height;
- let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{const spread=Math.abs(g.enemy.x-player.x),zoom=Math.min(portrait?w/660:w/1060,(h-(portrait?90:115))/390,w/(spread+340));f={zoom:Math.max(.3,zoom),left:Math.max(0,Math.min(960-w/Math.max(.3,zoom),(player.x+g.enemy.x)/2-w/Math.max(.3,zoom)/2)),base:portrait?h*.8:h-115};}
+ let f;if(route)f=streetTrialFrame({width:w,height:h,portrait,player,worldWidth:g.worldWidth});else{const spread=Math.abs(g.enemy.x-player.x),zoom=portrait?Math.min(w/520,(h-90)/390):Math.min(w/1060,(h-115)/390,w/(spread+340));f={zoom:Math.max(.3,zoom),left:Math.max(0,Math.min(960-w/Math.max(.3,zoom),(player.x+g.enemy.x)/2-w/Math.max(.3,zoom)/2)),base:portrait?h*.8:h-115};}
  f=mobileCamera.frame(f,g,{width:w,height:h,route,delta,paused:s.paused||g.status==='paused',...ui.cameraOptions});
  ui.renderCameraHints(f.cameraFrame,g,{route,active:!s.paused&&!s.blocked&&!s.busy&&g.status==='active'&&['route','battle'].includes(s.mode)});
  const sx=x=>(x-f.left)*f.zoom,sy=(y,z=0)=>f.base+(y-GROUND+z*.65)*f.zoom;

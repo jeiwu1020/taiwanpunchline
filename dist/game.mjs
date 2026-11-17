@@ -704,18 +704,18 @@ async function challengeResult(round,between){
  const run=challengeRun,battle=duel,won=duel.winner==='player',gate=run.phase.gate;
  if(between){const copy=roundResultCopy(round,matchSeries?.format??'best-of-three','你',gate.name);$('#result-eyebrow').textContent=copy.eyebrow;$('#result-title').textContent=copy.title;$('#result-sub').textContent=copy.subtitle;$('#result-score').textContent=copy.score;$('#next-round').textContent=copy.action;return;}
  const route=duel instanceof ChallengeRoute;challengeSettledBattles.add(battle);$('#replay').disabled=true;$('#reselect').disabled=true;$('#challenge-result-overview').disabled=true;$('#result-sub').textContent='正在確認進度保存…';
- await run.flush();if(run!==challengeRun||battle!==duel)return;if(challengeSaveBlocked||profileProgress.get().dirty){showChallengeSaveFailure({reason:profileProgress.get().reason},()=>renderChallengeResult(run,won,gate));return;}
- if(won&&!route){const saved=await run.bossWon({hp:battle.player.hp,rally:battle.player.rally,assist:{...battle.player.assist,active:false}});if(run!==challengeRun||battle!==duel)return;if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>renderChallengeResult(run,won,gate));return;}refreshProfileAccess();}
- renderChallengeResult(run,won,gate);
+ await run.flush();if(run!==challengeRun||battle!==duel)return;if(challengeSaveBlocked||profileProgress.get().dirty){showChallengeSaveFailure({reason:profileProgress.get().reason},()=>renderChallengeResult(run,won,gate,route));return;}
+ if(won&&!route){const saved=await run.bossWon({hp:battle.player.hp,rally:battle.player.rally,assist:{...battle.player.assist,active:false}});if(run!==challengeRun||battle!==duel)return;if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>renderChallengeResult(run,won,gate,route));return;}refreshProfileAccess();}
+ renderChallengeResult(run,won,gate,route);
 }
-function renderChallengeResult(run,won,gate){
+function renderChallengeResult(run,won,gate,route=duel instanceof ChallengeRoute){
  syncChallengeSaveSlot();
  if(run!==challengeRun)return;const state=profileProgress.get();
  const series=gate.kind==='boss',outcome=series?roundResultCopy(matchSeries?.last??{complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',round:matchSeries?.round??1,score:matchSeries?.score},'best-of-three','你',gate.name):roundResultCopy({complete:true,winner:won?'player':'enemy',roundWinner:won?'player':'enemy',score:{player:won?1:0,enemy:won?0:1}},'single','你',gate.name);
  $('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;
  $('#result-sub').textContent=state.testMode?`${outcome.subtitle} 測試模式：本次經驗與解鎖不會保存。`:outcome.subtitle;
  $('#result-score').textContent=outcome.score;
- const resultActions=challengeResultActions({challenge:true,resultReady:true,winner:won?'player':'enemy',route});$('#reselect').hidden=!resultActions.showPreparation;$('#reselect').textContent=resultActions.preparationLabel;$('#challenge-result-overview').hidden=!resultActions.showOverview;$('#challenge-result-overview').disabled=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?'繼續追神麥 →':'重試這一關';$('#next-round').hidden=true;
+ const resultActions=challengeResultActions({challenge:true,resultReady:true,winner:won?'player':'enemy',route});$('#reselect').hidden=!resultActions.showPreparation;$('#reselect').disabled=false;$('#reselect').textContent=resultActions.preparationLabel;$('#challenge-result-overview').hidden=!resultActions.showOverview;$('#challenge-result-overview').disabled=false;$('#replay').disabled=false;$('#replay').hidden=false;$('#replay').textContent=won?'繼續追神麥 →':'重試這一關';$('#next-round').hidden=true;
  if(won&&run.finished&&run.replay){$('#result-title').textContent='第一章重訪完成！';$('#result-sub').textContent='本次獲得的小怪經驗已保存，原章節進度保留。首通獎勵不重複領取。';$('#replay').textContent='返回挑戰總覽 →';}
  challengeAfterResult=async()=>{if(run!==challengeRun)return;if(run.finished&&run.replay){const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>{showTitle();openChallenge();});return;}showTitle();openChallenge();return;}if(run.finished){const depart=async()=>{const saved=await run.finishChapter();if(!challengeSaved(saved)){showChallengeSaveFailure(saved,()=>continueCampaign({characterId:selected,helperId:playerAssist}));return saved;}return continueCampaign({characterId:selected,helperId:playerAssist,selectionExplicit:true});};story(CHAPTER1_HANDOFF,depart);}else{if(!won){const retried=await run.retry();if(!challengeSaved(retried)){showChallengeSaveFailure(retried,()=>startChallengePhase());return;}}if(run===challengeRun)startChallengePhase();}};syncModeHUD();
 }
@@ -941,18 +941,17 @@ class Arena extends Phaser.Scene {
    const caption=moveCaption(kind),pos=captionPosition(e.f,duel.other(e.f),caption?.width,this.cameraView);
    if(caption)this.popup(pos.x,pos.y,caption.text,'#173c43',caption.size,{bubble:true,caption:{...caption,kind},actor:e.f});
    this.moveBeats??=new WeakMap();this.moveBeats.set(e.f,{kind,started:this.artTime||0,x:e.f.x,y:e.f.y,face:e.f.face||1});
-   if(kind?.includes('_'))this.banner(view.banner,view.fictional);
-   else if(['rush','counter'].includes(kind))this.banner(view.banner);
-   sfx(kind);
+   if(kind?.includes('_'))sfx(kind);
+   else sfx(kind);
   }
   if(['hit','block'].includes(e.type)){const hitY=impactY(e)+(duel.depthMode?(e.to.depth??0)*.65:0);this.popup(e.to.x,hitY-14,e.type==='block'?(e.assist?'助拳被擋住':'擋住了'):e.assist?'助拳命中！':e.impact==='item_rubber_duck'?'嘎！':e.impact==='item_paper'?'紙花！':e.combo>1?`${e.combo} 連段！`:'啪！',e.type==='block'?'#a7ece3':'#fff6c9',e.combo>1?29:36);this.popup(e.to.x+40,displayY(e.to)-220,'−'+Math.round(e.amount),'#fff6c9',22);if(e.type==='hit'&&!this.reducedMotion)this.cameras.main.shake(95,.005);const sparks=this.add.graphics();sparks.lineStyle(5,0xffdc65);for(let i=0;i<9;i++){const a=i*Math.PI/4.5;sparks.lineBetween(e.to.x+Math.cos(a)*20,hitY+Math.sin(a)*20,e.to.x+Math.cos(a)*59,hitY+Math.sin(a)*59);}this.tweens.add({targets:sparks,alpha:0,duration:200,onComplete:()=>sparks.destroy()});sfx(e.type);}
-  else if(e.type==='counter'){const legacy=e.f.type==='wang',move=CAST[e.f.type].moves.find(m=>m.kind===e.kind||m.behavior==='counter');this.wordBlast(e.f,legacy?'游刃有餘':move?.name||'反擊成功');this.banner(legacy?'從容不是慢，是等你先出糗。':'笑容沒收起，攻勢先化解。');sfx('counter');}
+  else if(e.type==='counter'){const legacy=e.f.type==='wang',move=CAST[e.f.type].moves.find(m=>m.kind===e.kind||m.behavior==='counter');this.wordBlast(e.f,legacy?'游刃有餘':move?.name||'反擊成功');sfx('counter');}
   else if(e.type==='counterMiss'){this.popup(e.f.x,displayY(e.f)-255,e.f.type==='wang'?'從容失敗':'等太久了','#bddfe1',23);sfx('whiff');}
-  else if(e.type==='spit'){const p=this.lastArtPose.get(e.f);this.spitStart.set(e.f,{time:this.artTime,impact:p?{wrist:{x:p.arm.wrist.x,y:p.arm.wrist.y-p.bob},headAngle:p.headAngle}:null});this.banner('水還沒喝到，先喝了一拳。');sfx('spit');}
-  else if(e.type==='heal'){this.popup(e.f.x,displayY(e.f)-245,'喝到了！ +'+(e.amount??10),'#a5f0bc',28);this.banner('這杯水，喝得很有戰術。');sfx('heal');}
+  else if(e.type==='spit'){const p=this.lastArtPose.get(e.f);this.spitStart.set(e.f,{time:this.artTime,impact:p?{wrist:{x:p.arm.wrist.x,y:p.arm.wrist.y-p.bob},headAngle:p.headAngle}:null});this.popup(e.f.x,displayY(e.f)-220,'水還沒喝到，先喝了一拳。','#fff6c9',20);sfx('spit');}
+  else if(e.type==='heal'){this.popup(e.f.x,displayY(e.f)-245,'喝到了！ +'+(e.amount??10),'#a5f0bc',28);sfx('heal');}
   else if(e.type==='arrowMark'){this.popup(e.x,GROUND-34,'離開落點！','#ffe0a1',20);}
-  else if(e.type==='arrowMiss'){this.banner('人沒射到，地板先中箭。');const flag=text(this,e.x,GROUND-45,'↙ 沒中',22,'#fff6df');flag.setText('沒中 ↙').setFontSize(22).setStroke('#142b32',4);this.tweens.add({targets:flag,alpha:0,duration:900,onComplete:()=>flag.destroy()});sfx('whiff');}
-  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);this.banner('擋太久，耐力先破了。');sfx('block');}
+  else if(e.type==='arrowMiss'){const flag=text(this,e.x,GROUND-45,'↙ 沒中',22,'#fff6df');flag.setText('沒中 ↙').setFontSize(22).setStroke('#142b32',4);this.tweens.add({targets:flag,alpha:0,duration:900,onComplete:()=>flag.destroy()});sfx('whiff');}
+  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);sfx('block');}
   else if(e.type==='reflect'){this.popup(e.f.x,displayY(e.f)-272,'拒收，原路退回！','#ffe1a1',22);sfx('counter');}
   else if(e.type==='reject'){this.popup(e.f.x,displayY(e.f)-185,'不欠你，擋回去！','#e4c8ef',22);sfx('block');}
   else if(e.type==='erase'){this.popup(e.f.x,displayY(e.f)-250,'咳掉了！','#e1d9c4',20);sfx('whiff');}
@@ -964,10 +963,10 @@ class Arena extends Phaser.Scene {
   else if(e.type==='calm'){this.popup(e.f.x,displayY(e.f)-250,'大事化小…','#d4efd6',22);}
   else if(e.type==='wallBounce'||e.type==='wallHit'){this.popup(e.f.x,displayY(e.f)-230,'牆也聽到了！','#e4c8ef',22);sfx('hit');}
   else if(e.type==='slow'){this.popup(e.f.x,displayY(e.f)-220,'被字絆一下','#bbe5e4',21);}
-  else if(e.type==='itemPickup'){if(e.f.item){e.f.item.carryHand=chooseCarryHand(this.lastArtPose.get(e.f));this.carryHands.set(e.f.item,e.f.item.carryHand);}this.banner(itemActorName(e.f,e.f.id==='player'?duel.enemy:duel.player,CAST)+'拿到'+(e.item.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！');sfx('heal');}
+  else if(e.type==='itemPickup'){if(e.f.item){e.f.item.carryHand=chooseCarryHand(this.lastArtPose.get(e.f));this.carryHands.set(e.f.item,e.f.item.carryHand);}this.popup(e.f.x,displayY(e.f)-220,'拿到'+(e.item.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！','#a5f0bc',22);sfx('heal');}
   else if(e.type==='rally'){playCrowdCheer();}
   else if(e.type==='rallyResult'){this.popup(e.result==='miss'?e.r.x:e.to.x,GROUND-100,e.result==='miss'?(e.r.tooHigh?'桌上太高啦！':'躲開了！'):e.result==='blocked'?'格擋 −'+e.amount:'命中 −'+e.amount,e.result==='hit'?'#ffe084':'#d0f7fa',22);}
-  else if(e.type==='itemThrow'){this.banner(e.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！');}
+  else if(e.type==='itemThrow'){this.popup(e.f.x,displayY(e.f)-220,e.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！','#fff6c9',22);}
   else if(e.type==='performanceGuard'){this.popup(e.f.x,displayY(e.f)-280,'讓我演完這一下！','#ffe29a',18);sfx('block');}
   else if(e.type==='over')beginMatchFinish();else if(['launch','jump'].includes(e.type))sfx(e.type);
  }
@@ -977,7 +976,7 @@ class Arena extends Phaser.Scene {
   const key=[frame.width,frame.height,!!frame.overlayView].join(':');
   if(this.captionViewportKey!==key){
    this.captionViewportKey=key;
-   const game=$('#game'),hud=$('.dom-hud'),hudBottom=hud.offsetTop+hud.offsetHeight-(game.offsetTop||0);
+   const game=$('#game'),hud=$('.dom-hud'),item=$('#item-status'),hudBottom=Math.max(hud.offsetTop+hud.offsetHeight,item?.offsetHeight?hud.offsetTop+item.offsetTop+item.offsetHeight:0)-(game.offsetTop||0);
    // offset geometry remains logical when the phone shell is rotated 90 degrees.
    this.captionSafe={top:Number.isFinite(hudBottom)?Math.max(12,hudBottom+10):64,bottom:frame.overlayView?100:22};
   }
