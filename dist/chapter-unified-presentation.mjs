@@ -4,8 +4,8 @@ export const CHAPTER_METADATA = Object.freeze({
     title: '議場前哨 · 奪回神麥',
     subtitle: '突圍議場街區，迎戰搶麥小頭目與三戰兩勝首關頭目。',
     tips: [
-      '看清對手起手動作再格擋或跳蹲閃招，貪拳容易吃到反擊。',
-      '後退可自動格擋，K 鍵或防守鍵能原地穩穩擋下正面攻勢。',
+      '穩定視野會鎖定倍率、不因跳躍晃動；動態視野則柔和跟隨走位。',
+      '手機直向與橫向皆保持清晰人物比例，先看清對手起手再格擋或反擊。',
       '街頭路段善用上下走位閃避障礙，撿拾補給保持最佳狀態。'
     ]
   },
@@ -14,39 +14,39 @@ export const CHAPTER_METADATA = Object.freeze({
     title: '街口開講 · 追逐神麥',
     subtitle: '穿越熱鬧市集街區，迎戰搶話小頭目並守住現場節奏。',
     tips: [
-      '街頭路段可利用場上推車阻擋並反制敵人衝鋒，留意補給品回復血量。',
-      '頭目戰採用三戰兩勝制，注意對手蓄力預告與發光提醒。',
+      '跳躍只會移動角色高度，天空與遠景背景會保持固定不縮放。',
+      '頭目戰採用三戰兩勝制，留心發光警告與地板落點提示。',
       '適時呼叫助拳夥伴，可打斷對手強勢招式並爭取反攻空檔。'
     ]
   },
   3: {
     numberLabel: '第三章',
-    title: '巷戰接力 · 追逐神麥',
+    title: '巷戰接力 · 柯P加入',
     subtitle: '街巷交鋒升級，小心伏兵與高台障礙，一路追回神麥。',
     tips: [
-      '上下切換車道能閃開直線攻勢，跳上攤台可拉開安全距離。',
-      '觀察敵人頭頂出招預告，抓準破綻再交出高傷梗技。',
-      '善用技能配點強化慣用招式與基礎能力，闖關會更順手。'
+      '上下切換車道能閃開直線衝刺，跳上攤台可拉開安全距離。',
+      '觀察敵人頭頂出招字卡預告，抓準破綻再交出高傷梗技。',
+      '不論選擇穩定或動態視野，起跳時畫面都不會忽大忽小。'
     ]
   },
   4: {
     numberLabel: '第四章',
-    title: '護車推進 · 突破重圍',
+    title: '護車推進 · 小馬哥加入',
     subtitle: '緊守音響車輪鎖與護送路線，突破重圍奪回主動權。',
     tips: [
       '護送路段留意多方向來襲的搗蛋鬼，保持節奏別被包夾。',
-      '集滿氣勢條可召喚群眾應援，瞬間扭轉戰場局勢。',
-      '留意敵方抓取與突進招式，抓準收招空檔再上前輸出。'
+      '手機橫向已調整至與直向相近的人物大小，走位判定更直覺。',
+      '集滿氣勢條可召喚群眾應援，瞬間扭轉戰場局勢。'
     ]
   },
   5: {
     numberLabel: '第五章',
-    title: '終局清點 · 回到議場',
-    subtitle: '七人到齊迎向最終對決，拿下神麥歸屬。',
+    title: '終局清點 · 阿扁仔加入',
+    subtitle: '七人到齊迎向最終對決，穩定視野拿下神麥歸屬。',
     tips: [
-      '最終戰對手招式變化多，保留至少一格防守耐力應對突襲。',
-      '助拳冷卻完畢即可再次呼叫支援，幫你解圍或接續連段。',
-      '調整好搭檔與技能配點後再上場，祝你一鼓作氣拿下神麥！'
+      '最終戰對手招式變化多，保留至少一格耐力應對突襲格擋。',
+      '動態視野在遠距離交鋒會微幅拉遠，近身時維持清晰人物尺度。',
+      '全章節採用一致的鏡頭與載入體驗，準備好就上場開吵！'
     ]
   }
 });
@@ -160,7 +160,6 @@ body:has(#chapter-loading-overlay:not([hidden])) #trial-app > #stage {
   white-space: nowrap;
 }
 .chapter-loading-phase {
-  display: none !important;
   font-size: 12.5px;
   font-weight: 700;
   color: #355860;
@@ -310,7 +309,7 @@ export function mountChapterLoadingOverlay({
     <div class="chapter-loading-card">
       <div class="chapter-loading-header">
         <span class="chapter-loading-num"></span>
-        <span class="chapter-loading-phase" hidden></span>
+        <span class="chapter-loading-phase">準備中</span>
       </div>
       <h2 class="chapter-loading-title"></h2>
       <div class="chapter-loading-progress-block">

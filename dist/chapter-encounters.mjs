@@ -46,14 +46,14 @@ export function ensureChapterEncounter(w,chapter=chapterOf(w),boss=false){
  // Keep the last optional interaction distinct from the supply stop. These are
  // authored street positions; boss arenas and combat rules stay unchanged.
  const lastProp={'chapter-3:route-a':2210,'chapter-4:route-a':2200,'chapter-5:route-c':2580};
- const points=(chapter===2&&boss)?[]:boss?[330,650]:[360,Math.round(width*.49),lastProp[w.section?.id]??width-470];
+ const points=boss?[330,650]:[360,Math.round(width*.49),lastProp[w.section?.id]??width-470];
  const props=points.map((x,i)=>({x,depth:boss?0:[0,65,-65][i],kind:spec.kind,collision:spec.collision,active:spec.kind!=='paper',cooldown:0,uses:0,flash:0,vx:0,tea:false}));
  // Preserve the authored order while spacing scenery from platforms, supplies,
  // and enemy entry points. Interactions remain attached to the moved prop.
  for(const [i,p] of props.entries())chapterPropPosition(w,p,i,props.slice(0,i));
  const bossHints=[
   '隔音板擋喊話，排隊線跳過；近身別貪拳。',
-  '看清直線衝刺預告；抓準破綻閃開再反擊。',
+  '敲推車誘撞衝刺；看清出招，閃開再反擊。',
   '敲流程牌退通知；避開落字，再回頭反擊。',
   '敲衣架鈴引握手；跳開躲抓，落空再反擊。',
   '敲章開櫃，把紙機蓋章退回；首件送茶。'

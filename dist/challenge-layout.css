@@ -170,8 +170,8 @@ button.challenge-save-slot[data-status="error"],#campaign-bar.challenge-save-slo
    Their own rotated placement must beat the legacy centered-dialog rule. */
 html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challenge-dialog-left)!important;top:var(--challenge-dialog-top)!important}
 
-/* Pause inspection shares menu-action geometry; blue distinguishes inspection and skills. */
-#pause-screen #challenge-inspect-button.menu-action,#trial-app #pause-panel #leave.menu-action{background:#315f88;color:#fff6df}
+/* Pause inspection shares menu-action geometry; amber distinguishes inspection. */
+#pause-screen #challenge-inspect-button.menu-action,#trial-app #pause-panel #leave.menu-action{background:#e5ae46;color:#152c34}
 /* Instruction text follows the entire HUD, never an implicit grid row inside
    the timer. The measured rectangle remains part of shared camera avoidance. */
 #viewport-shell>.app[data-touch="true"][data-layout="portrait"] .dom-hud #item-status{position:absolute;top:calc(100% + 6px);left:50%;right:auto;bottom:auto;transform:translateX(-50%);grid-area:auto;margin:0;width:max-content;max-width:100%;height:auto}
@@ -285,10 +285,7 @@ html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challeng
 #result .result-paper .menu-action[hidden],
 #trial-app #result-panel .result-paper .menu-action[hidden]{display:none!important}
 #result .result-paper #challenge-result-overview,
-#result .result-paper #reselect,
-#trial-app #result-panel .result-paper #result-home,
-#trial-app #result-panel .result-paper #result-skill.menu-action{background:#315f88;color:#fff6df}
-#trial-app #result-panel .result-paper #campaign-retry-prepare.menu-action{background:#237363;color:#fff6df}
+#trial-app #result-panel .result-paper #result-home{background:#315f88;color:#fff6df}
 #result .result-paper .fiction-note,
 #trial-app #result-panel .result-paper .fiction-note{
  display:block;

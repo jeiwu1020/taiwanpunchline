@@ -6,7 +6,7 @@
 #campaign-bar button,#campaign-bar a,#campaign-bar select{font:inherit;min-height:44px;padding:6px 9px;color:#173239;background:#fff3d3;border:1px solid #173239;border-radius:5px;text-decoration:none;touch-action:manipulation}
 #campaign-save-state{flex:1 1 180px}#campaign-menu-status{font-weight:700}
 #campaign-bar.campaign-bar-inline{position:static;max-height:none;margin-top:8px;text-align:left;flex-shrink:0;overflow:visible}
-.continuation-choice-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin-top:8px;border-radius:8px;background:#bc3f31;color:#fff6df;font-weight:700;text-decoration:none}
+.continuation-choice-link{display:inline-flex;align-items:center;min-height:44px;padding:8px 14px;margin-top:8px;border-radius:8px;background:#173239;color:#fff3d3;font-weight:700;text-decoration:none}
 .continuation-choice-link[hidden]{display:none!important}
 #campaign-bar.campaign-bar-combat{top:58px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);max-width:85%;width:max-content;max-height:none;font-size:11px;pointer-events:none;padding:3px 6px}
 #campaign-bar.campaign-bar-combat #campaign-save-state{flex:initial}
