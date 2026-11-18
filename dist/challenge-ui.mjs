@@ -168,8 +168,9 @@ const REPLAY_CHAPTERS=Object.freeze([
 
 function mountFreshChallengeUI({controller,characters,onStart,onContinue,onReview,onPrepare,onClose,onChange,parent,chapterTitle}){
  const document=parent.ownerDocument,window=document.defaultView,dialog=document.createElement('dialog');dialog.className='challenge-dialog challenge-overview-v4';dialog.setAttribute('aria-label','挑戰總覽與單槽存檔管理');parent.append(dialog);
- const viewport=mountChallengeDialogViewport(dialog,{document,maxWidth:940,onFrame:()=>{syncPreparationGeometry();if(replayMenuOpen)positionReplayMenu();}});let view='chapter',inspect=null,status='',busy=false,previousFocus=null,pending=null,preparation=null,disposed=false,replayChoice='chapter-1',replayMenuOpen=false;
+ let view='chapter',inspect=null,status='',busy=false,previousFocus=null,pending=null,preparation=null,disposed=false,replayChoice='chapter-1',replayMenuOpen=false;
  function syncPreparationGeometry(){const page=dialog.querySelector('[data-embedded="true"]');if(page)for(const key of ['layout','compact','rotation','viewportReady','viewportEpoch'])page.dataset[key]=dialog.dataset[key]||'';}
+ const viewport=mountChallengeDialogViewport(dialog,{document,maxWidth:940,onFrame:()=>{syncPreparationGeometry();if(replayMenuOpen)positionReplayMenu();}});
  const q=s=>dialog.querySelector(s),name=id=>characters[id]?.name||id;
  const state=()=>controller.get(),slotId=()=>state().activeProfileId||state().profileId,slotNumber=id=>String(id||'').replace('slot-','');
  const guard=()=>{const s=state();return{expectedRevision:s.revision,expectedGeneration:s.generations?.[slotId()]??s.generation};};

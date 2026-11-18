@@ -113,6 +113,44 @@ test('Item 2: Custom game-styled replay dropdown lists all cleared chapters + co
  dom.window.close();
 });
 
+test('Regression: Challenge Mode overview mounts & opens cleanly inside real dist/index.html (.app present)', async () => {
+ const storage = memoryStorage();
+ const locks = serialLocks();
+ const api = await openChallengeProgress({storage, locks});
+ const bridge = createMainCampaignBridge(api);
+ const html = readText('dist/index.html');
+ const dom = new JSDOM(html, {url: 'https://example.test/', pretendToBeVisual: true});
+ const doc = dom.window.document;
+ doc.defaultView.HTMLDialogElement.prototype.showModal = function() { this.open = true; this.setAttribute('open', ''); };
+ doc.defaultView.HTMLDialogElement.prototype.close = function() { this.open = false; this.removeAttribute('open'); };
+ const app = doc.querySelector('.app');
+ assert.ok(app, 'real index.html must contain .app');
+ let started = null;
+ const ui = mountChallengeUI({
+  controller: api,
+  progress: bridge,
+  characters: CAST,
+  parent: app,
+  onStart: opts => { started = opts; return {accepted: true, persisted: true}; },
+  onContinue: () => ({accepted: true, persisted: true}),
+  onReview: () => {},
+  onChange: () => {}
+ });
+ const snap = api.preparationSnapshot();
+ assert.equal(ui.open({characterId: snap.characterId, helperId: snap.helperId, selectionExplicit: true}), true);
+ assert.equal(ui.isOpen, true);
+ assert.equal(ui.element.querySelector('h2')?.textContent, '挑戰總覽');
+ ui.element.querySelector('[data-view="preparation"]').click();
+ assert.equal(ui.element.querySelector('[data-embedded="true"]')?.hidden, false);
+ ui.element.querySelector('[data-view="save"]').click();
+ assert.equal(ui.element.querySelector('h2')?.textContent, '存檔管理');
+ ui.element.querySelector('[data-view="chapter"]').click();
+ ui.element.querySelector('[data-action="start"]').click();
+ assert.deepEqual(started, {characterId: 'wang', helperId: 'han', intent: 'start'});
+ ui.destroy();
+ dom.window.close();
+});
+
 test('Item 3: Save Management UI removes v4 from labels while backup filenames retain v4', async () => {
  const storage = memoryStorage();
  const locks = serialLocks();
