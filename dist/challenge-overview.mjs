@@ -56,11 +56,13 @@ function renderHomeMenu(){
  app.querySelector('#format-single')?.setAttribute('aria-pressed','true');app.querySelector('#format-series')?.setAttribute('aria-pressed','false');
 }
 
-function openMainChallenge({characterId,helperId,intent='start',replay=false}={}){
+function openMainChallenge({characterId,helperId,intent='start',replay=false,chapterId}={}){
  const target=new URL('/',location.href);target.searchParams.set('challengeLaunch','1');target.searchParams.set('intent',['start','resume'].includes(intent)?intent:'start');
  if(controller.canUse(characterId))target.searchParams.set('characterId',characterId);
  if(controller.canUse(helperId))target.searchParams.set('helperId',helperId);
- if(replay)target.searchParams.set('replay','1');location.assign(target.href);return{accepted:true,persisted:controller.get().persisted};
+ if(replay)target.searchParams.set('replay','1');
+ if(chapterId)target.searchParams.set('chapterId',chapterId);
+ location.assign(target.href);return{accepted:true,persisted:controller.get().persisted};
 }
 
 async function continueSavedCampaign({characterId,helperId}={}){

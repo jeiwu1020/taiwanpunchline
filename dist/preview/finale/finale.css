@@ -12,6 +12,9 @@
 .finale-rules p{font-size:13px}
 #team-error{color:#a33328;font-weight:900;min-height:1.4em}
 #finale-prepare,#menu-home{margin:7px 4px;font-size:15px;padding:8px 12px}
+#trial-app #menu :is(#finale-prepare,#menu-home){background:#315f88;color:#fff6df;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-weight:900}
+#trial-app #result-panel .result-paper #result-reselect{background:#315f88;color:#fff6df}
+#trial-app #pause-panel #pause-settings.menu-action{background:#fff6df;color:#152c34}
 #finale-save-slot{border:2px solid #17353a;border-radius:7px;background:#f5d489;color:#17353a;font-weight:900;font-size:12px;padding:5px 8px;cursor:pointer}
 #arena-roster{display:flex;gap:4px;flex-wrap:wrap;max-width:min(500px,80vw);margin:4px auto 0;justify-content:center}
 #arena-roster span{font-size:10px;background:#fff9e9;border:2px solid #267965;border-radius:4px;padding:2px 4px;color:#17353a;line-height:1.2;white-space:nowrap}
@@ -95,8 +98,9 @@ body[data-compact=true][data-layout=landscape] #trial-app #result-panel .fiction
 #trial-app .ending-thanks{font-size:14px;margin:10px 0 18px;color:#eee0c3}
 #trial-app .ending-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
 #trial-app .ending-actions button{width:auto;min-width:128px;min-height:44px;margin:0;padding:8px 20px;font-size:17px}
-#trial-app .ending-actions #ending-review{background:#fff3d3;color:#17353a;border-color:#d6bd83;}
-#trial-app .ending-actions #ending-review:hover{background:#ffe6a6;color:#17353a;}
+#trial-app .ending-actions #ending-review{background:#fff6df;color:#152c34;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-weight:900}
+#trial-app .ending-actions #ending-review:hover{background:#ffe6a6;color:#152c34}
+#trial-app .ending-actions #complete-home{background:#315f88;color:#fff6df;border:3px solid #152c34;border-radius:5px;box-shadow:3px 4px 0 #152c34;font-weight:900}
 @media(max-height:460px) and (orientation:landscape){#trial-app .ending-card{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px;align-items:center}#trial-app .ending-mark{grid-column:1;grid-row:1/3;margin:0;font-size:36px}#trial-app #choice-panel h2{grid-column:2;grid-row:1;font-size:23px;margin:0}#trial-app #choice-copy{grid-column:2;grid-row:2;font-size:14px;line-height:1.4;margin:0}#trial-app .ending-studio{grid-column:1;grid-row:3/5;margin:8px 0}#trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}#trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}#trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}}
 @keyframes ending-title-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#trial-app .ending-card{animation:none}}

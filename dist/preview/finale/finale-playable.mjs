@@ -87,13 +87,14 @@ async function attach(handoff){
   else{
    progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks,onSaved:receipt=>saveFeedback.saved(receipt)});const state=progress.get(),p=progress.readProfile();
    if(state.readOnly||state.dirty){$('#menu-status').textContent=saveIssueText(state.reason);return false;}
-   if(handoff&&(handoff.profileId!==state.activeProfileId||handoff.revision!==state.revision||handoff.generation!==state.generation||handoff.chapterId!==p.campaign.cursor.chapterId)){ $('#menu-status').textContent='此接續已過期。請回挑戰總覽重新接續，原存檔保留。';return false;}
-   if(p.campaign.cursor.chapterId!=='finale-3v4'){$('#menu-status').textContent='請先完成五章、解鎖七人，再從挑戰總覽進入最終戰。';return false;}
-   r=await createFinaleSession({progress,onChange:sync});
+   const clearedReplay=handoff?.replay===true&&p.campaign.finale?.status==='completed';
+   if(handoff&&(handoff.profileId!==state.activeProfileId||handoff.revision!==state.revision||handoff.generation!==state.generation||(!clearedReplay&&(handoff.replay===true||handoff.chapterId!==p.campaign.cursor.chapterId)))){ $('#menu-status').textContent='此接續已過期。請回挑戰總覽重新接續，原存檔保留。';return false;}
+   if(!clearedReplay&&p.campaign.cursor.chapterId!=='finale-3v4'){$('#menu-status').textContent='請先完成五章、解鎖七人，再從挑戰總覽進入最終戰。';return false;}
+   r=await createFinaleSession({progress,replay:clearedReplay,onChange:sync});
   }
   if(!r.accepted){$('#menu-status').textContent=saveIssueText(r.reason);if(progress?.get().dirty)openRecovery();return false;}
   chapter=r.chapter;const s=view();draftTeam=s.team??[s.characterId,...CHARACTER_IDS.filter(id=>id!==s.characterId).slice(0,2)];$('#menu-status').textContent=s.preview?'不讀寫正式存檔。':s.saveLabel;
-  if(s.mode==='complete')chapter.reviewEnding();sync();return true;
+  if(!s.replay&&s.mode==='complete')chapter.reviewEnding();sync();return true;
  }catch(error){$('#menu-status').textContent='無法安全接續。請回總覽重試；原存檔保留。';return false;}
  finally{booting=false;renderTeam();}
 }

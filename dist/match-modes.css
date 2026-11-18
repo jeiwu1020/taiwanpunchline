@@ -110,7 +110,7 @@
 #restart-confirm p{margin:0 0 8px;font-size:13px;line-height:1.5}
 .restart-actions{display:flex;gap:8px;justify-content:center}
 .restart-actions button{min-height:44px;min-width:44px;flex:1;padding:5px 8px;border:2px solid #24464f;border-radius:5px;background:#e5ece0;color:#17313a;font-size:14px;font-weight:900;box-shadow:2px 2px 0 #17313a}
-#restart-confirm-button{background:#f5c070}
+#restart-confirm-button{background:#e5ae46}
 @media(max-height:540px) and (min-width:701px){
  .app[data-touch="false"] #menu{grid-template-rows:44px minmax(96px,.85fr) minmax(60px,1fr) 44px;gap:5px;padding:6px 14px}
  .app[data-touch="false"] #menu .selection-heading{display:none}
@@ -157,5 +157,5 @@
 /* V60: consistent semantic colors across the two comic menus. */
 #home-confirm #home-cancel,#pause-screen #resume{background:#bc3f31;color:#fff6df}
 #home-confirm #home-confirm-button{background:#e5ae46;color:#152c34}
-#pause-screen #leave,#result #reselect{background:#315f88;color:#fff6df}
-#pause-screen #restart-match{background:#237363;color:#fff6df}
+#pause-screen #leave,#pause-screen #challenge-inspect-button.menu-action,#result #reselect{background:#315f88;color:#fff6df}
+#pause-screen #restart-match,#pause-screen #restart-prepare-button.menu-action{background:#237363;color:#fff6df}
