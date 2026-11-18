@@ -1,2 +1,2 @@
 // One implementation owns geometry and pointer epochs across all chapters.
-export * from '../../viewport-geometry.mjs?v=campaign-boot-20261112-r3';
+export * from '../../viewport-geometry.mjs?v=chapter-presentation-20261117-r1';

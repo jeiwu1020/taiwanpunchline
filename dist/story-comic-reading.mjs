@@ -1,4 +1,4 @@
-import {layoutStoryComic} from './story-comic-layout.mjs?v=full-comic-r1';
+import {layoutStoryComic} from './story-comic-layout.mjs?v=chapter-presentation-20261117-r1';
 
 /** Local reading only. Tokens may change while saving without changing a frame. */
 export function createComicReadingPosition(){

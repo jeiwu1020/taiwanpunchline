@@ -1,9 +1,9 @@
-import {Duel,GROUND,CAST} from './core.mjs?v=rally-consistency-20261115-r1';
-import {stepChapterMob} from './chapter-encounters.mjs?v=street-object-polish-r2';
-import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT,ASSIST_RECHARGE_RATIO} from './assist-rules.mjs?v=campaign-boot-20261112-r3';
-import {RALLY} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
-import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=campaign-boot-20261112-r3';
-import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
+import {Duel,GROUND,CAST} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {stepChapterMob} from './chapter-encounters.mjs?v=chapter-presentation-20261117-r1';
+import {chooseAssistMove,ASSIST_WARNING,ASSIST_EXIT,ASSIST_RECHARGE_RATIO} from './assist-rules.mjs?v=chapter-presentation-20261117-r1';
+import {RALLY} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
+import {COMBAT,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
+import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-content.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const alive=f=>f.hp>0;
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;

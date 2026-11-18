@@ -1,5 +1,5 @@
-import {impactY} from '../../combat-view.mjs?v=chapter-combat-feedback-20261115-r1';
-import {GROUND} from '../../core.mjs?v=chapter-combat-feedback-20261115-r1';
+import {impactY} from '../../combat-view.mjs?v=chapter-presentation-20261117-r1';
+import {GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
 
 const COLORS=Object.freeze({hit:'#fff6c9',block:'#a7ece3',damage:'#fff6c9',counter:'#fff0be',miss:'#bddfe1',heal:'#a5f0bc',break:'#ffbb96',reflect:'#ffe1a1',reject:'#e4c8ef',erase:'#e1d9c4',capture:'#f4d58c',queue:'#ffd9a6',armor:'#b8f0ed',calm:'#d4efd6',wall:'#e4c8ef',slow:'#bbe5e4',rally:'#ffe084'});
 

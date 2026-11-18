@@ -1,17 +1,17 @@
-import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=campaign-boot-20261112-r3';
-import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=campaign-boot-20261112-r3';
+import {mountCameraDirectionHints} from '../../camera-direction-hints.mjs?v=chapter-presentation-20261117-r1';
+import {mountCompactToolbar} from '../../compact-toolbar.mjs?v=chapter-presentation-20261117-r1';
 // Presentation adapter only. Campaign progression remains in its controller.
-import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=campaign-boot-20261112-r3';
+import {createViewportLifecycle,readGameViewport,measureViewportElements,mountViewportProtection,createCanvasViewportSurface} from '../../viewport-lifecycle.mjs?v=chapter-presentation-20261117-r1';
 import {applyChallengeLayout,applyChallengeCameraLayout,isMobileLandscapePresentation,streetPlayerCameraProfile,measureChallengeOcclusions,challengeLogicalRect} from '../../challenge-layout.mjs?v=chapter-presentation-20261117-r1';
 import {challengeDialogFrame} from '../../challenge-dialog-viewport.mjs?v=chapter-presentation-20261117-r1';
-import {createSettingsStore} from '../../settings-state.mjs?v=campaign-boot-20261112-r3';
-import {mountSettingsPanel} from '../../settings-view.mjs?v=campaign-boot-20261112-r3';
-import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
-import {mountGameSelects} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
-import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=campaign-boot-20261112-r3';
-import {guardView,combatStatus} from '../../combat-view.mjs?v=campaign-boot-20261112-r3';
-import {renderCooldownButton} from '../../cooldown-view.mjs?v=campaign-boot-20261112-r3';
-import {renderChargeMeter} from '../../charge-view.mjs?v=campaign-boot-20261112-r3';
+import {createSettingsStore} from '../../settings-state.mjs?v=chapter-presentation-20261117-r1';
+import {mountSettingsPanel} from '../../settings-view.mjs?v=chapter-presentation-20261117-r1';
+import {bindPageZoomPreference} from '../../page-zoom-gestures.mjs?v=chapter-presentation-20261117-r1';
+import {mountGameSelects} from '../../game-select.mjs?v=chapter-presentation-20261117-r1';
+import {chapterSettingsMarkup} from './chapter-settings-markup.mjs?v=chapter-presentation-20261117-r1';
+import {guardView,combatStatus} from '../../combat-view.mjs?v=chapter-presentation-20261117-r1';
+import {renderCooldownButton} from '../../cooldown-view.mjs?v=chapter-presentation-20261117-r1';
+import {renderChargeMeter} from '../../charge-view.mjs?v=chapter-presentation-20261117-r1';
 const percent=(value,max)=>Number.isFinite(value)&&max>0?Math.max(0,Math.min(100,value/max*100)):0;
 export function chapterEnemyHud(state,world,cast={}){
  const route=!!world?.depthMode||state?.mode==='route',enemy=world?.enemy??null,visible=!route||!!enemy?.mobKind&&enemy.hp>0;
@@ -156,4 +156,4 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
 }
 
 export function chapterKeyboardAction(code,route){const key={ArrowUp:route?'up':'jump',KeyW:route?'up':'jump',ArrowDown:route?'down':'crouch',KeyS:route?'down':'crouch',ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',Space:'jump',KeyJ:'punch',KeyK:'guard',ShiftLeft:'guard',ShiftRight:'guard',KeyU:'special1',KeyI:'special2',KeyO:'special3',KeyH:'assist',KeyL:'rally'};return key[code];}
-import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs?v=chapter-presentation-20261117-r1';

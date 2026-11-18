@@ -1,6 +1,6 @@
-import {drawFighterArt} from './art-render.mjs?v=campaign-boot-20261112-r3';
-import {presentationFighter} from './move-readability.mjs?v=campaign-boot-20261112-r3';
-import {drawChallengeMob} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
+import {drawFighterArt} from './art-render.mjs?v=chapter-presentation-20261117-r1';
+import {presentationFighter} from './move-readability.mjs?v=chapter-presentation-20261117-r1';
+import {drawChallengeMob} from './challenge-art.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
 export function assistView(episode,{hidden=false,reducedMotion=false}={}){
  if(hidden||!episode?.actor)return null;

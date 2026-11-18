@@ -1,7 +1,7 @@
 import {openUnifiedProgress} from './unified/progress.mjs?v=chapter-presentation-20261117-r1';
 import {legacySlot,parse} from './unified/schema.mjs?v=chapter-presentation-20261117-r1';
 import {validateDocument,currentProfile,deriveStats} from './core/model.mjs?v=chapter-presentation-20261117-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from './core/catalog.mjs?v=chapter-presentation-20261117-r1';
 const ROUTES=Object.freeze({
  'chapter-1':{status:'legacy',url:'../../'},
  'chapter-2':{status:'ready',url:'../chapter2/?campaign=1'},

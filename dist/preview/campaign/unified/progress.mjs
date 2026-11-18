@@ -1,8 +1,8 @@
 import {clone,newDocument,currentProfile,deriveStats,validateDocument,MAX_SERIAL,integer,allowance,normalizeCarry} from '../core/model.mjs?v=chapter-presentation-20261117-r1';
-import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS,CHARACTER_IDS} from '../core/catalog.mjs?v=chapter-presentation-20261117-r1';
 import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills,prepareParty} from '../core/transition.mjs?v=chapter-presentation-20261117-r1';
 import {createChallengeProgress} from '../../../challenge-progress.mjs?v=chapter-presentation-20261117-r1';
-import {newProfileDocument} from '../../../profile-progress.mjs?v=campaign-boot-20261112-r3';
+import {newProfileDocument} from '../../../profile-progress.mjs?v=chapter-presentation-20261117-r1';
 import {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY,SEED_KEY,parse,legacyDocument,legacySlot,legacyProjection,newEnvelope,validateEnvelope,adoptionInfo,sourceBundle,MAX_ENVELOPE_LENGTH} from './schema.mjs?v=chapter-presentation-20261117-r1';
 export {UNIFIED_KEY,LEGACY_KEY,CAMPAIGN_KEY};
 /** No globals, eager write, automatic adoption, deletion or original-key rewrite. */
@@ -236,4 +236,4 @@ export async function openUnifiedProgress({storage,locks,onChange=()=>{},key=UNI
  };
  return api;
 }
-import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs?v=chapter-presentation-20261117-r1';

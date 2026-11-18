@@ -1,6 +1,6 @@
-import {isSignatureHand,drawSignatureHand,signatureHandAngle} from './art-signature.mjs?v=campaign-boot-20261112-r3';
-import {expressionFor,drawMoveAccent} from './art-expression.mjs?v=campaign-boot-20261112-r3';
-import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=campaign-boot-20261112-r3';
+import {isSignatureHand,drawSignatureHand,signatureHandAngle} from './art-signature.mjs?v=chapter-presentation-20261117-r1';
+import {expressionFor,drawMoveAccent} from './art-expression.mjs?v=chapter-presentation-20261117-r1';
+import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=chapter-presentation-20261117-r1';
 const config={chen:{row:0,body:[35,17,284,421],width:87,head:112,atlas:'final-costumes',upper:[349,18,207,416],near:[614,17,172,416],far:[840,17,167,416],anchors:[687,918,30,286],thigh:[1038,27,218,407],shin:[1301,16,134,323],shoe:[1301,339,218,96]},ko:{row:0,body:[27,537,298,448],width:89,head:112,atlas:'final-costumes',upper:[346,542,213,440],near:[610,542,174,438],far:[839,542,167,438],anchors:[689,916,554,819],thigh:[1031,544,225,434],shin:[1301,545,136,354],shoe:[1297,899,223,80]},ma:{row:0,body:[47,10,245,327],width:84,head:112},su:{row:342,body:[25,352,307,315],width:100,head:119},huang:{row:683,body:[48,686,251,329],width:87,head:112}};
 // These source boundaries end before skin, not eight pixels beyond a guessed
 // wrist. Different atlas rows have genuinely different cuff heights.

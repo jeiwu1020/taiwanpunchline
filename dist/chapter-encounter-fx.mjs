@@ -1,4 +1,4 @@
-import {loadChapterImage} from './chapter-image-loader.mjs';
+import {loadChapterImage} from './chapter-image-loader.mjs?v=chapter-presentation-20261117-r1';
 // One optional 88 KB atlas, loaded only once a street/arena is drawn. It is not
 // part of the title's critical image queue and never delays gameplay readiness.
 export const MOB_FX_SPRITES=Object.freeze({sound:[60,16,136,224],rush:[272,83,224,89],route:[528,98,224,59],handshake:[17,272,221,224],paper:[272,320,224,127],'paper-stamped':[528,276,224,216]});

@@ -1,5 +1,5 @@
-import {GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {shoutCaptionLayout} from './shout-caption.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {shoutCaptionLayout} from './shout-caption.mjs?v=chapter-presentation-20261117-r1';
 export function streetTrialFrame({width,height,portrait,player,worldWidth=2300}){
  const zoom=Math.max(.42,portrait?width/550:Math.min(width/1050,(height-102)/360));
  const visible=width/zoom,camera=Math.min(worldWidth-visible/2,Math.max(visible/2,player.x+visible*.13));

@@ -30,7 +30,7 @@ h2{margin:5px 0 12px}
 .choose button{width:128px;padding:5px}
 .choose button[aria-pressed=true]{background:#f4c768;box-shadow:0 0 0 3px #d8654d,0 4px #17353a}
 .choose img{width:85px;height:82px;object-fit:contain;display:block;margin:auto}
-.primary{background:#d9614a;color:white;padding:10px 22px;font-size:22px;width:100%}
+.primary{background:#bc3f31;color:#fff6df;padding:10px 22px;font-size:22px;width:100%}
 .card .keys{font-size:12px}
 .card .note{font-size:11px;color:#53655d}
 .compact{max-width:360px;display:flex;flex-direction:column;gap:8px}

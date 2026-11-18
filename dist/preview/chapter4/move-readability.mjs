@@ -1,7 +1,7 @@
-import {fighterPose} from './art-motion.mjs?v=campaign-boot-20261112-r3';
-import {HEAD_SEAT} from './art-collar.mjs?v=campaign-boot-20261112-r3';
-import {CAST} from './roster.mjs?v=campaign-boot-20261112-r3';
-import {moveCue} from './combat-view.mjs?v=campaign-boot-20261112-r3';
+import {fighterPose} from './art-motion.mjs?v=chapter-presentation-20261117-r1';
+import {HEAD_SEAT} from './art-collar.mjs?v=chapter-presentation-20261117-r1';
+import {CAST} from './roster.mjs?v=chapter-presentation-20261117-r1';
+import {moveCue} from './combat-view.mjs?v=chapter-presentation-20261117-r1';
 // Presentation only: these beats never extend an attack, hitbox, stun or cooldown.
 const moves=new Map(Object.values(CAST).flatMap(c=>c.moves.map(m=>[m.kind,m])));
 export const SIGNATURE_SIZE=Object.freeze({dream:{width:92,height:59},word:{width:164,height:72,size:36},grip:{height:42,glow:68}});

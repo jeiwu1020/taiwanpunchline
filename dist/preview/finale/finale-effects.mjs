@@ -1,5 +1,5 @@
-import {drawSignatureProp} from '../../art-expression.mjs?v=campaign-boot-20261112-r3';
-import {RALLY} from '../../stage-expansion.mjs?v=rally-consistency-20261115-r1';
+import {drawSignatureProp} from '../../art-expression.mjs?v=chapter-presentation-20261117-r1';
+import {RALLY} from '../../stage-expansion.mjs?v=chapter-presentation-20261117-r1';
 export const FINALE_SUPPORTERS=Object.freeze({
  'supporter-woman':'supporter-woman-v46.png','supporter-man':'supporter-man-v46.png','supporter-young':'supporter-young-v48.png','supporter-elder':'supporter-elder-v48.png','supporter-grandma':'supporter-grandma-v48.png'
 });

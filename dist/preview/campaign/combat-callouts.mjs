@@ -1,6 +1,6 @@
-import {moveCaption} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
-import {comicMoveStyle,shoutCaptionBeat,shoutCaptionLayout} from '../../shout-caption.mjs?v=campaign-boot-20261112-r3';
-import {CAST} from '../../core.mjs?v=rally-consistency-20261115-r1';
+import {moveCaption} from '../../move-readability.mjs?v=chapter-presentation-20261117-r1';
+import {comicMoveStyle,shoutCaptionBeat,shoutCaptionLayout} from '../../shout-caption.mjs?v=chapter-presentation-20261117-r1';
+import {CAST} from '../../core.mjs?v=chapter-presentation-20261117-r1';
 
 export function makeCombatCallout(text,subtitle='',kind='impact',actorType='wang'){
  const value=String(text??'').trim();if(!value)return null;

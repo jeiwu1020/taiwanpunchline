@@ -1,6 +1,6 @@
-import {createComicReadingPosition} from '../../story-comic-reading.mjs?v=full-comic-r1';
-import {drawBubble} from '../../starter-comic-layout.mjs?v=full-comic-r1';
-import {supportedComicSize} from '../../story-comic-layout.mjs';
+import {createComicReadingPosition} from '../../story-comic-reading.mjs?v=chapter-presentation-20261117-r1';
+import {drawBubble} from '../../starter-comic-layout.mjs?v=chapter-presentation-20261117-r1';
+import {supportedComicSize} from '../../story-comic-layout.mjs?v=chapter-presentation-20261117-r1';
 // The existing game canvas keeps its viewport/first-paint contract. This reader
 // owns only bubbles and reading controls; controllers remain checkpoint owners.
 export function mountChapterComicReader({document,getChapter,onChange=()=>{},onAudio=()=>{},isBlocked=()=>false,paintFrame,onRetryArt}={}){

@@ -1,16 +1,16 @@
 /** Scene transitions are staged until the authority confirms durable readback. */
 export async function createCampaignPlayable({router,chapterId,createPlayableChapter,options={},onChange=()=>{}}={}){
  if(!router?.enabled)return {accepted:false,persisted:false,reason:'preview-only'};
- const started=await router.begin(chapterId,{difficulty:options.difficulty});
+ const started=await router.begin(chapterId,{difficulty:options.difficulty,replay:!!options.replay});
  if(!started.accepted||!started.persisted)return {...started,accepted:false,recovery:router};
- const initial=router.view();
+ const initial=router.view(),startStepId=started.run?.stepId??initial.stepId,startCarry=options.replay?(initial.replayCarry??null):(initial.carry??null);
  const local=createPlayableChapter({...options,characterId:initial.selection.characterId,helperId:initial.selection.helperId,difficulty:initial.difficulty??options.difficulty,
-  initialCarry:initial.carry??null,initialStepId:initial.stepId,unlockedIds:initial.unlocked,statsForCharacter:id=>router.statsForCharacter?.(id)});
- if(local.view().stepId!==initial.stepId){router.cancel();return {accepted:false,persisted:initial.persisted,reason:'resume-adapter-required'};}
+  initialCarry:startCarry,initialStepId:startStepId,unlockedIds:initial.unlocked,statsForCharacter:id=>router.statsForCharacter?.(id)});
+ if(local.view().stepId!==startStepId){router.cancel();return {accepted:false,persisted:initial.persisted,reason:'resume-adapter-required'};}
  let runToken=started.token,busy=false,blocked=false,saveIssue=null,pendingApply=null,tail=Promise.resolve(),outbound=[];
  const notify=()=>{try{onChange();}catch{}};
  const reject=reason=>({accepted:false,persisted:view().persisted,reason});
- const view=()=>{const s=local.view(),v=router.view();return {...s,unlocked:[...v.unlocked],persisted:v.persisted&&!busy&&!blocked&&!pendingApply,busy,blocked,saveIssue,
+ const view=()=>{const s=local.view(),v=router.view();return {...s,replay:!!options.replay,unlocked:[...v.unlocked],persisted:v.persisted&&!busy&&!blocked&&!pendingApply,busy,blocked,saveIssue,
   canNavigate:v.canNavigate&&!busy&&!blocked&&!pendingApply,saveLabel:blocked?'進度已在其他頁面變更，請重新接續':busy?'正在確認保存…':pendingApply?'尚未保存，請重試保存或匯出備份':v.saveLabel,
   campaignChapterId:v.chapterId,campaignStepId:v.stepId,nextRoute:{...v.route}};};
  const usable=t=>!busy&&!blocked&&!pendingApply&&t===local.view().token;

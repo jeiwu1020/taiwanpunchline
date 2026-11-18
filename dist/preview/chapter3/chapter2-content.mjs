@@ -1,4 +1,4 @@
-import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=chapter-presentation-20261117-r1';
 // Chapter 3 standalone candidate. All new dialogue and settings are editable fiction.
 // The file names retain chapter2- prefixes for parity with the Site #53 engine.
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};

@@ -1,4 +1,4 @@
-import {fighterBaseStats} from './fighter-attributes.mjs?v=campaign-boot-20261112-r3';
+import {fighterBaseStats} from './fighter-attributes.mjs?v=chapter-presentation-20261117-r1';
 // Fictional minibosses only borrow move animations. They are not the named
 // fighter and must retain authored difficulty instead of inheriting new traits.
 export function challengeOpponentStats(characterId,{kind='boss'}={}){

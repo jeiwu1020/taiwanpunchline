@@ -28,4 +28,4 @@ export function installChaseWindow({document,chapter}){
   ctx.drawImage(image,...m.crop,m.x,m.y,m.width,m.height);
  }};
 }
-import {DEVELOPMENT_TOOLS} from '../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../release-features.mjs?v=chapter-presentation-20261117-r1';

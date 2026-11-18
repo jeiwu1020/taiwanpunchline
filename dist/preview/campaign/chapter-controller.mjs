@@ -1,7 +1,7 @@
-import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
-import {fighterBaseStats} from '../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=chapter-presentation-20261117-r1';
+import {fighterBaseStats} from '../../fighter-attributes.mjs?v=chapter-presentation-20261117-r1';
 import {normalizeCarry,zeroSkills} from './core/model.mjs?v=chapter-presentation-20261117-r1';
-import {captureRoundState,restoreRoundState} from '../../round-series-state.mjs?v=rally-consistency-20261115-r1';
+import {captureRoundState,restoreRoundState} from '../../round-series-state.mjs?v=chapter-presentation-20261117-r1';
 // Shared encounter presentation state. Chapter modules provide content only.
 let sessionCount=0;
 export function createChapterController({chapterId,content:CHAPTER,stepIds:STEP_IDS,storyFrames,characterNames:CHARACTER_NAMES,defaultUnlocked,unlockId,nextChapterId,createRoute,createDuel}, {characterId='wang',difficulty='beginner',rng=Math.random,initialStepId='entry',unlockedIds=null,helperId=null,statsForCharacter=null,initialCarry=null}={}){

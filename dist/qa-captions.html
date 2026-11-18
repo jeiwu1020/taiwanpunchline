@@ -1,8 +1,8 @@
 <!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>招式框視覺檢查</title><style>body{margin:12px;background:#e8e4d5;font:16px system-ui}button{padding:8px;margin:4px}canvas{display:block;background:#d4cbaa;border:1px solid #777}pre{white-space:pre-wrap}</style><h1>無框漫畫喊話 · 直向／橫向／側轉</h1><p>使用正式角色繪製與無框喊話排版；左右色彩區分，不追隨角色。</p><button data-mode="portrait">390×640 直向</button><button data-mode="normal">844×390 雙方發招</button><button data-mode="edge">667×320 靠邊</button><button data-mode="flip">667×320 側轉</button><button data-mode="knee">844×390 蹲跪</button><button data-mode="burst">強招鋸齒 1100×600</button><button data-mode="burstphone">強招鋸齒 667×320</button><canvas></canvas><pre id="result"></pre><script type="module">
-import {ART_FILES,drawFighterArt} from './art-render.mjs?v=workers-background-only-20261113-r1';
-import {fighterPose} from './art-motion.mjs?v=workers-background-only-20261113-r1';
-import {moveCaption} from './move-readability.mjs?v=workers-background-only-20261113-r1';
-import {shoutCaptionLayout,comicAccentState,paintComicAccent} from './shout-caption.mjs?v=workers-background-only-20261113-r1';
+import {ART_FILES,drawFighterArt} from './art-render.mjs?v=chapter-presentation-20261117-r1';
+import {fighterPose} from './art-motion.mjs?v=chapter-presentation-20261117-r1';
+import {moveCaption} from './move-readability.mjs?v=chapter-presentation-20261117-r1';
+import {shoutCaptionLayout,comicAccentState,paintComicAccent} from './shout-caption.mjs?v=chapter-presentation-20261117-r1';
 const images=Object.fromEntries(await Promise.all(Object.entries(ART_FILES).map(async([k,v])=>{const im=new Image();im.src='assets/'+v;await im.decode();return[k,im]})));
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
 function show(mode){const small=['edge','flip','burstphone'].includes(mode),width=mode==='burst'?1100:mode==='portrait'?390:small?667:844,height=mode==='burst'?600:mode==='portrait'?640:small?320:390;canvas.width=width;canvas.height=height;

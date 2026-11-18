@@ -1,6 +1,6 @@
-import {createStoryComicPainter} from './story-comic-art.mjs';
-import {createComicImageLoader,STORY_COMIC_IMAGE_FILES,STORY_COMIC_MINIBOSSES,comicMinibossReady,paintComicMiniboss} from './story-comic-assets.mjs';
-import {COMIC_PROP_FILES,comicPropReady,paintComicProps} from './story-comic-props.mjs';
+import {createStoryComicPainter} from './story-comic-art.mjs?v=chapter-presentation-20261117-r1';
+import {createComicImageLoader,STORY_COMIC_IMAGE_FILES,STORY_COMIC_MINIBOSSES,comicMinibossReady,paintComicMiniboss} from './story-comic-assets.mjs?v=chapter-presentation-20261117-r1';
+import {COMIC_PROP_FILES,comicPropReady,paintComicProps} from './story-comic-props.mjs?v=chapter-presentation-20261117-r1';
 
 /** Six hosts share exactly this presentation; quick view loads those same hosts.
  * Readiness never owns a checkpoint or falls back to a combat character rig. */

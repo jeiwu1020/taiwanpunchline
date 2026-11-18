@@ -1,35 +1,35 @@
-import {applyFinaleAssistCopy} from './finale-assist-policy.mjs';
-import {drawFinaleStoryArt} from './finale-story-art.mjs?v=comic-props-r2';
-import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
-import {finaleVerdictText} from './finale-verdict.mjs?v=finale-verdict-r1';
-import {finaleOffscreenHints,drawFinaleCameraHints} from './finale-camera-hints.mjs?v=finale-follow-r1';
-import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
-import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
-import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
-import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-upgrade-r1';
-import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
-import {CAST,Duel,GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
-import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=campaign-boot-20261112-r3';
-import {presentationFighter} from '../../move-readability.mjs?v=campaign-boot-20261112-r3';
-import {arrowPresentation} from '../../art-motion.mjs?v=campaign-boot-20261112-r3';
-import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
-import {bindTouchControls} from '../../touch-controls.mjs?v=campaign-boot-20261112-r3';
-import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
-import {setGameSelectValue} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
+import {applyFinaleAssistCopy} from './finale-assist-policy.mjs?v=chapter-presentation-20261117-r1';
+import {drawFinaleStoryArt} from './finale-story-art.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs?v=chapter-presentation-20261117-r1';
+import {finaleVerdictText} from './finale-verdict.mjs?v=chapter-presentation-20261117-r1';
+import {finaleOffscreenHints,drawFinaleCameraHints} from './finale-camera-hints.mjs?v=chapter-presentation-20261117-r1';
+import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=chapter-presentation-20261117-r1';
+import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=chapter-presentation-20261117-r1';
+import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-presentation-20261117-r1';
+import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-presentation-20261117-r1';
+import {registerQuickView} from '../quick-view/hook.mjs?v=chapter-presentation-20261117-r1';
+import {CAST,Duel,GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
+import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=chapter-presentation-20261117-r1';
+import {presentationFighter} from '../../move-readability.mjs?v=chapter-presentation-20261117-r1';
+import {arrowPresentation} from '../../art-motion.mjs?v=chapter-presentation-20261117-r1';
+import {planSimulationFrame} from '../../simulation-frame.mjs?v=chapter-presentation-20261117-r1';
+import {bindTouchControls} from '../../touch-controls.mjs?v=chapter-presentation-20261117-r1';
+import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=chapter-presentation-20261117-r1';
+import {setGameSelectValue} from '../../game-select.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=chapter-presentation-20261117-r1';
-import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
-import {createChapterMedia} from '../campaign/chapter-media.mjs?v=campaign-boot-20261112-r3';
-import {consumeCampaignHandoff} from '../campaign/navigation.mjs?v=campaign-boot-20261112-r3';
-import {openChallengeProgress} from '../campaign/fresh/progress.mjs?v=campaign-boot-20261112-r3';
+import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=chapter-presentation-20261117-r1';
+import {createChapterMedia} from '../campaign/chapter-media.mjs?v=chapter-presentation-20261117-r1';
+import {consumeCampaignHandoff} from '../campaign/navigation.mjs?v=chapter-presentation-20261117-r1';
+import {openChallengeProgress} from '../campaign/fresh/progress.mjs?v=chapter-presentation-20261117-r1';
 import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=chapter-presentation-20261117-r1';
 import {saveIssueText} from '../../save-copy.mjs?v=chapter-presentation-20261117-r1';
-import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=campaign-boot-20261112-r3';
-import {createFinaleSession} from './finale-session.mjs?v=campaign-boot-20261112-r3';
-import {createFinalePreview} from './finale-preview.mjs?v=campaign-boot-20261112-r3';
-import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=finale-arena-20261113-r4';
-import {drawFinaleStage,drawFinaleLockedStand} from './finale-stage.mjs?v=finale-arena-20261114-r5';
-import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=campaign-boot-20261112-r3';
+import {CHARACTER_IDS} from '../campaign/core/catalog.mjs?v=chapter-presentation-20261117-r1';
+import {createFinaleSession} from './finale-session.mjs?v=chapter-presentation-20261117-r1';
+import {createFinalePreview} from './finale-preview.mjs?v=chapter-presentation-20261117-r1';
+import {finaleCameraFrame,finalePoint,finaleTacticalMarkers} from './finale-camera.mjs?v=chapter-presentation-20261117-r1';
+import {drawFinaleStage,drawFinaleLockedStand} from './finale-stage.mjs?v=chapter-presentation-20261117-r1';
+import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=chapter-presentation-20261117-r1';
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>query.has(k));
@@ -87,13 +87,14 @@ async function attach(handoff){
   else{
    progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks,onSaved:receipt=>saveFeedback.saved(receipt)});const state=progress.get(),p=progress.readProfile();
    if(state.readOnly||state.dirty){$('#menu-status').textContent=saveIssueText(state.reason);return false;}
-   if(handoff&&(handoff.profileId!==state.activeProfileId||handoff.revision!==state.revision||handoff.generation!==state.generation||handoff.chapterId!==p.campaign.cursor.chapterId)){ $('#menu-status').textContent='此接續已過期。請回挑戰總覽重新接續，原存檔保留。';return false;}
-   if(p.campaign.cursor.chapterId!=='finale-3v4'){$('#menu-status').textContent='請先完成五章、解鎖七人，再從挑戰總覽進入最終戰。';return false;}
-   r=await createFinaleSession({progress,onChange:sync});
+   const clearedReplay=handoff?.replay===true&&p.campaign.finale?.status==='completed';
+   if(handoff&&(handoff.profileId!==state.activeProfileId||handoff.revision!==state.revision||handoff.generation!==state.generation||(!clearedReplay&&(handoff.replay===true||handoff.chapterId!==p.campaign.cursor.chapterId)))){ $('#menu-status').textContent='此接續已過期。請回挑戰總覽重新接續，原存檔保留。';return false;}
+   if(!clearedReplay&&p.campaign.cursor.chapterId!=='finale-3v4'){$('#menu-status').textContent='請先完成五章、解鎖七人，再從挑戰總覽進入最終戰。';return false;}
+   r=await createFinaleSession({progress,replay:clearedReplay,onChange:sync});
   }
   if(!r.accepted){$('#menu-status').textContent=saveIssueText(r.reason);if(progress?.get().dirty)openRecovery();return false;}
   chapter=r.chapter;const s=view();draftTeam=s.team??[s.characterId,...CHARACTER_IDS.filter(id=>id!==s.characterId).slice(0,2)];$('#menu-status').textContent=s.preview?'不讀寫正式存檔。':s.saveLabel;
-  if(s.mode==='complete')chapter.reviewEnding();sync();return true;
+  if(!s.replay&&s.mode==='complete')chapter.reviewEnding();sync();return true;
  }catch(error){$('#menu-status').textContent='無法安全接續。請回總覽重試；原存檔保留。';return false;}
  finally{booting=false;renderTeam();}
 }
@@ -190,4 +191,4 @@ registerQuickView(window,()=>{
  for(const actor of chapter.world.actors)if(actor.team===1)actor.hp=0;
  return true;
 });
-import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs?v=chapter-presentation-20261117-r1';

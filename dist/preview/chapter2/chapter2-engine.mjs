@@ -1,8 +1,8 @@
-import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
-import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=rally-consistency-20261115-r1';
-import {Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-state-supply-20261115-r1';
-import {CHAPTER2} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
+import {installBossEncounter} from '../../chapter-encounters.mjs?v=chapter-presentation-20261117-r1';
+import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-presentation-20261117-r1';
+import {Duel,GROUND} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=chapter-presentation-20261117-r1';
+import {CHAPTER2} from './chapter2-content.mjs?v=chapter-presentation-20261117-r1';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'su',mobKind:'mini_mic',name:'催場隊長',pattern:[{action:'special2',name:'驗章衝三步！跳開！',range:210,warning:.8,rest:2.1},{action:'punch',name:'章沒乾，補一下！',range:112,warning:.55,rest:1.1}]},
  'miniboss-b':{type:'su',mobKind:'mini_guard',name:'動線總管',pattern:[{action:'special2',name:'直線通行！跳開！',range:210,warning:.65,rest:1.1},{action:'special1',name:'出口用喊的！退遠！',range:185,warning:.8,rest:1.5},{action:'punch',name:'回來補章！',range:112,warning:.45,rest:1.2}]}

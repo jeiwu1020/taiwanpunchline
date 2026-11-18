@@ -1,4 +1,4 @@
-import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=chapter-presentation-20261117-r1';
 // Playable review draft. Reveal final opponent only at boss-comic.
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};
 export const CHARACTER_NAMES=freeze({wang:'恰吉王',han:'韓國魚',huang:'咆哮哥',su:'電火球',ko:'柯P',ma:'小馬哥',chen:'阿扁仔'});

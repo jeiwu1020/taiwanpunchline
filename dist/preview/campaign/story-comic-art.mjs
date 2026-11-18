@@ -1,8 +1,8 @@
-import {storyComicScene,comicSpeakerId} from '../../story-comic-scenes.mjs';
-import {STORY_COMIC_MINIBOSSES,STORY_COMIC_POSE_VARIANTS,comicActorImageKey,comicMinibossKey} from './story-comic-assets.mjs';
-import {comicPropComposition,comicDoorGeometry} from './story-comic-props.mjs';
-import {isComicDoorRoom,paintComicRoom,DOOR_PUSH_CONTACTS} from './story-comic-room.mjs';
-import {comicBackdropGeometry} from './story-comic-parade.mjs';
+import {storyComicScene,comicSpeakerId} from '../../story-comic-scenes.mjs?v=chapter-presentation-20261117-r1';
+import {STORY_COMIC_MINIBOSSES,STORY_COMIC_POSE_VARIANTS,comicActorImageKey,comicMinibossKey} from './story-comic-assets.mjs?v=chapter-presentation-20261117-r1';
+import {comicPropComposition,comicDoorGeometry} from './story-comic-props.mjs?v=chapter-presentation-20261117-r1';
+import {isComicDoorRoom,paintComicRoom,DOOR_PUSH_CONTACTS} from './story-comic-room.mjs?v=chapter-presentation-20261117-r1';
+import {comicBackdropGeometry} from './story-comic-parade.mjs?v=chapter-presentation-20261117-r1';
 
 // The new native v2 Ma/Chen/Su replace the rejected v1 likeness candidates.
 // Quarter-cell crops preserve their complete hair, hands and shoes.

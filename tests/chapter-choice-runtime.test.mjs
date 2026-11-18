@@ -33,7 +33,7 @@ for(const n of [2,3,4])test(`chapter ${n} actual choice runtime exposes only rea
  const {app,q}=await runtime(t,n);
  assert.equal(q('#choice-panel').hidden,false);
  if(n<4){
-  assert.equal(q('#choice-roster').hidden,false);assert.match(q('#choice-roster button').textContent,/下一段出戰準備/);
+  assert.equal(q('#choice-roster').hidden,false);assert.match(q('#choice-roster button').textContent,/強化技能/);
   q('#choice-roster button').click();assert.equal(q('#challengePreparationOverlay').open,true);q('#preparationCancel').click();
   assert.equal(app.chapter.view().mode,'choice');assert.equal(q('#chapter-next').textContent,`追向第${n===2?'三':'四'}章 →`);
  }else{

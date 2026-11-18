@@ -1,9 +1,9 @@
-import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=street-object-polish-r2';
-import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=campaign-boot-20261112-r3';
+import {drawChapterEncounter} from './chapter-encounter-art.mjs?v=chapter-presentation-20261117-r1';
+import {prepareChallengeArenaImages} from './challenge-arena-backdrop.mjs?v=chapter-presentation-20261117-r1';
 import {createDepthChallengeRenderer,depthRouteCameraFrame} from './challenge-depth-render.mjs?v=chapter-presentation-20261117-r1';
 export {depthWorldPoint,depthBackdropLayout,depthRenderItems,depthMobLabelLayout,depthMobLabelLayouts,paintDepthRoute} from './challenge-depth-render.mjs?v=chapter-presentation-20261117-r1';
-import {DESK} from './stage-expansion.mjs?v=rally-consistency-20261115-r1';
-import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
+import {DESK} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
+import {drawChallengeMob,drawChallengeScene,drawChallengeBackdrop,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 export function routeCameraFrame(width,height,route,options={}){
  const {overlay=false,portrait=width<height,fullStage=false,touch=true,landscapePreview=false,safe={},camera='classic',previous=null,delta=1000/60,...mobileOptions}=options;

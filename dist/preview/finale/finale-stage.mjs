@@ -1,4 +1,4 @@
-import {finalePoint,FINALE_FLOOR} from './finale-camera.mjs?v=finale-arena-20261113-r4';
+import {finalePoint,FINALE_FLOOR} from './finale-camera.mjs?v=chapter-presentation-20261117-r1';
 const FLOOR=FINALE_FLOOR;
 // The match keeps the same sealed microphone as the preceding comic.
 // It is scenery, drawn behind the fighters, with no collision or move changes.

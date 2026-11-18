@@ -1,7 +1,7 @@
-import {mountCameraDirectionHints} from './camera-direction-hints.mjs?v=campaign-boot-20261112-r3';
+import {mountCameraDirectionHints} from './camera-direction-hints.mjs?v=chapter-presentation-20261117-r1';
 import {applyChallengeCameraLayout,applyCombatPresentationLayout,measureChallengeOcclusions,challengeLogicalRect} from './challenge-layout.mjs?v=chapter-presentation-20261117-r1';
 import {mainRouteMicPlan} from './challenge-depth-render.mjs?v=chapter-presentation-20261117-r1';
-import {flyingMicLayout,drawFlyingMic} from './preview/chapter2/flying-mic.mjs?v=campaign-boot-20261112-r3';
+import {flyingMicLayout,drawFlyingMic} from './preview/chapter2/flying-mic.mjs?v=chapter-presentation-20261117-r1';
 
 // These are display-space placements only. Combat and camera geometry stay unchanged.
 export function feedbackPlacement({width,height,touch,portrait,hudBottom,specials,buttons,stick}){

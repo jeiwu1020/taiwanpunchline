@@ -1,4 +1,4 @@
-import {mountPageZoomGuard,ownsGamePageTarget} from '../../page-zoom-gestures.mjs?v=campaign-boot-20261112-r3';
+import {mountPageZoomGuard,ownsGamePageTarget} from '../../page-zoom-gestures.mjs?v=chapter-presentation-20261117-r1';
 // The later chapters share the main game's explicit reading-zoom preference.
 // No persistent state is written by this binding or by its resize handling.
 export function mountCampaignTouch({document,window}){

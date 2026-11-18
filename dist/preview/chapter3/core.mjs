@@ -1,2 +1,2 @@
 // Shared combat implementation; chapter-specific encounter content stays local.
-export * from '../../core.mjs?v=rally-consistency-20261115-r1';
+export * from '../../core.mjs?v=chapter-presentation-20261117-r1';

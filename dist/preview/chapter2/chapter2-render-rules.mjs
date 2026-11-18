@@ -1,6 +1,6 @@
-import {drawChallengeTabletopBand,drawChallengeTableFront} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
-import {GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {presentationFighter} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {drawChallengeTabletopBand,drawChallengeTableFront} from './challenge-art.mjs?v=chapter-presentation-20261117-r1';
+import {GROUND} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {presentationFighter} from './move-readability.mjs?v=chapter-presentation-20261117-r1';
 export const chapter2RenderActor=f=>presentationFighter(f);
 export const chapter2WorldPoint=(x,y,depth,{left,base,zoom})=>({x:(x-left)*zoom,y:base+(y-GROUND+(depth??0)*.65)*zoom});
 export function chapter2TableFrame(p,frame,depthMode){

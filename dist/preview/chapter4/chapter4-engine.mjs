@@ -1,8 +1,8 @@
-import {installBossEncounter} from '../../chapter-encounters.mjs?v=street-object-polish-r2';
-import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=rally-consistency-20261115-r1';
-import {Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=campaign-state-supply-20261115-r1';
-import {CHAPTER4} from './chapter4-content.mjs?v=campaign-boot-20261112-r3';
+import {installBossEncounter} from '../../chapter-encounters.mjs?v=chapter-presentation-20261117-r1';
+import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-presentation-20261117-r1';
+import {Duel,GROUND} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {ChallengeDepthRoute,DEPTH} from './challenge-depth-engine.mjs?v=chapter-presentation-20261117-r1';
+import {CHAPTER4} from './chapter4-content.mjs?v=chapter-presentation-20261117-r1';
 export const MINIBOSS_PATTERNS=Object.freeze({
  'miniboss-a':{type:'ma',mobKind:'mini_schedule',name:'班表主任',pattern:[{action:'special1',name:'握手才放行！跳開！',range:135,warning:.7,rest:1.9},{action:'punch',name:'班表再蓋一下！',range:112,warning:.55,rest:1.4}]},
  'miniboss-b':{type:'ma',mobKind:'mini_marshal',name:'里程總監',pattern:[{action:'special1',name:'伸手查證！跳開！',range:135,warning:.6,rest:1.3},{action:'special2',name:'上托點名！別再跳！',range:145,warning:.8,rest:1.5},{action:'special3',name:'補給前清喉嚨！蹲低！',range:160,warning:.65,rest:1.6}]}
@@ -27,4 +27,4 @@ export function chapter4ActorProjection(actor,{left=0,base=430,zoom=1}={}){
  return {x:(actor.x-left)*zoom,y:base+((actor.y??GROUND)-GROUND+(actor.depth??0)*.65)*zoom};
 }
 
-export {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=rally-consistency-20261115-r1';
+export {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-presentation-20261117-r1';

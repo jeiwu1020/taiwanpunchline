@@ -1,30 +1,30 @@
-import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
-import {FinaleArena} from './finale-engine.mjs?v=campaign-boot-20261112-r3';
-import {ENDING,FINALE_OPENING} from './finale-story.mjs?v=campaign-boot-20261112-r3';
-import {CAST} from '../../core.mjs?v=rally-consistency-20261115-r1';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=chapter-presentation-20261117-r1';
+import {FinaleArena} from './finale-engine.mjs?v=chapter-presentation-20261117-r1';
+import {ENDING,FINALE_OPENING} from './finale-story.mjs?v=chapter-presentation-20261117-r1';
+import {CAST} from '../../core.mjs?v=chapter-presentation-20261117-r1';
 const reject=reason=>({accepted:false,persisted:false,reason});
 
 /** Presentation never moves beyond a checkpoint until the v4 writer reads it back. */
-export async function createFinaleSession({progress,rng=Math.random,onChange=()=>{}}={}){
+export async function createFinaleSession({progress,replay=false,rng=Math.random,onChange=()=>{}}={}){
  if(!progress||progress.testMode)return reject('preview-only');
- const preview=progress.preview===true;
- const begun=await progress.beginChallenge({chapterId:'finale-3v4'});
+ const preview=progress.preview===true,isReplay=!!replay&&!preview;
+ const begun=await progress.beginChallenge({chapterId:'finale-3v4',replay:isReplay});
  if(!begun.accepted||(!begun.persisted&&!preview))return {...begun,accepted:false};
- let token=begun.token,world=null,mode='team-select',result=null,paused=false,frame=0,serial=0,busy=false,blocked=false,pendingApply=null,issue=null,tail=Promise.resolve(),review=false;
- const saved=()=>progress.readProfile().campaign;
+ let token=begun.token,currentStepId=begun.run?.stepId??saved()?.cursor?.stepId??'team-select',world=null,mode='team-select',result=null,paused=false,frame=0,serial=0,busy=false,blocked=false,pendingApply=null,issue=null,tail=Promise.resolve(),review=false;
+ function saved(){return progress.readProfile().campaign;}
  const notify=()=>{try{onChange();}catch{}};
  const newWorld=()=>{const c=saved();world=new FinaleArena({team:c.finale.team,difficulty:c.difficulty??'easy',statsForCharacter:id=>progress.getChallengeStats(id),rng});mode='battle';result=null;paused=false;};
- const fromSaved=()=>{const step=saved().cursor.stepId;if(step==='battle')newWorld();else{mode=step==='ending'?'story':step;frame=0;world=null;}};
+ const fromSaved=()=>{const step=isReplay?begun.run.stepId:saved().cursor.stepId;if(step==='battle')newWorld();else{mode=step==='ending'?'story':step;frame=0;world=null;}};
  fromSaved();
  const usable=()=>!busy&&!blocked&&!pendingApply;
  function view(){const s=progress.get(),c=saved(),characterId=c.finale.team?.[0]??c.selection.characterId,frames=mode==='intro'?FINALE_OPENING:ENDING,storyFrame=['story','intro'].includes(mode)?resolveDialogueFrame({...frames[frame],speaker:frames[frame].speaker==='player'?CAST[characterId].name:frames[frame].speaker},characterId):null;
-  return {mode,stepId:c.cursor.stepId,token:String(serial),characterId,helperId:c.selection.helperId,difficulty:c.difficulty??'easy',unlocked:progress.availableCharacters(),team:c.finale.team?[...c.finale.team]:null,rounds:{player:0,enemy:0},result,paused,busy,blocked,frameIndex:frame,frameCount:frames.length,storyFrame,
+  return {mode,replay:isReplay,stepId:isReplay?currentStepId:c.cursor.stepId,token:String(serial),characterId,helperId:c.selection.helperId,difficulty:c.difficulty??'easy',unlocked:progress.availableCharacters(),team:c.finale.team?[...c.finale.team]:null,rounds:{player:0,enemy:0},result,paused,busy,blocked,frameIndex:frame,frameCount:frames.length,storyFrame,
    preview,persisted:!preview&&s.persisted&&!s.dirty&&!busy&&!pendingApply&&!blocked,canNavigate:(s.persisted||preview)&&!s.dirty&&!busy&&!pendingApply&&!blocked&&!s.readOnly,saveIssue:issue??s.reason,saveLabel:preview?'測試模式，不保存進度':busy?'正在確認保存…':pendingApply?'尚未保存，請重試保存':blocked?'進度已變更，請重新接續':'進度已保存',review};
  }
  function operation(work){if(!usable())return Promise.resolve(reject(busy?'busy':pendingApply?'unsaved-progress':issue??'stale-run'));busy=true;notify();const task=tail.then(work).catch(()=>{blocked=true;issue='operation-failed';return reject(issue);});tail=task.catch(()=>{});return task.finally(()=>{busy=false;notify();});}
  async function dispatch(action,apply){
   const r=await progress.dispatchChallenge(token,action);
-  if(!r.accepted){blocked=true;issue=r.reason;return r;}token=r.token;
+  if(!r.accepted){blocked=true;issue=r.reason;return r;}token=r.token;if(r.run?.stepId)currentStepId=r.run.stepId;
   if(!r.persisted&&!preview){pendingApply=apply;issue=r.reason;return r;}
   apply();serial++;issue=null;return r;
  }

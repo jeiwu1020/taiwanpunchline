@@ -22,7 +22,7 @@ body.app{display:block;padding:0;margin:0;color:var(--paper);font-family:"PingFa
 #trial-app #hud .timer{grid-column:2;height:64px;min-width:0;overflow:hidden;color:#fff3d5;background:#17353aeb;border:2px solid #e7cf9d;border-radius:8px;display:flex;flex-direction:column;justify-content:center;text-align:center}
 #trial-app #timer{font:900 20px/24px ui-monospace,monospace;white-space:nowrap;font-variant-numeric:tabular-nums}
 #trial-app #match-score{font-size:10px;line-height:14px;white-space:normal}
-#trial-app #enemy-hp{width:100%;margin:0;height:11px}
+#trial-app #enemy-hp{width:100%;margin:0}
 #trial-app #health{display:block;height:100%;background:#67b68a}
 #trial-app .chapter-objective{position:absolute;top:calc(env(safe-area-inset-top,0px) + 117px);left:calc(env(safe-area-inset-left,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 10px);display:flex;justify-content:space-between;gap:8px;pointer-events:none;color:#17353a;font-size:12px;line-height:1.4;z-index:4}
 #trial-app .chapter-objective b,#trial-app .chapter-objective span{padding:2px 6px;border-radius:4px;background:#fff5dcd9;max-width:48%}
@@ -60,11 +60,11 @@ body[data-touch="true"][data-layout="landscape"] #trial-app .chapter-objective s
 #trial-app .card,#trial-app .story-card{color:#17353a}
 
 /* One newsprint / ink shell for every chapter panel, as in chapter one. */
-#trial-app :is(.card,.story-card),body>dialog{--ink:#173239;--paper:#fff5dc;--red:#b73c2d;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(#162e350d 1px,transparent 1px);background-size:6px 6px;border:3px solid var(--ink);border-radius:8px;box-shadow:6px 7px 0 #162e3580;overscroll-behavior:contain}
+#trial-app :is(.card,.story-card),body>dialog{--ink:#173239;--paper:#fff5dc;--red:#bc3f31;color:var(--ink);background-color:var(--paper);background-image:radial-gradient(#162e350d 1px,transparent 1px);background-size:6px 6px;border:3px solid var(--ink);border-radius:8px;box-shadow:6px 7px 0 #162e3580;overscroll-behavior:contain}
 #trial-app :is(.card,.story-card) button{border:2px solid var(--ink);border-radius:5px;min-height:44px;box-shadow:2px 3px 0 #17323935;touch-action:manipulation}
 #trial-app :is(.card,.story-card) .primary{background:var(--red);color:#fff7dd}
 #trial-app :is(.card,.story-card) :is(h1,h2){line-height:1.25;letter-spacing:.02em}
-#trial-app .eyebrow,#trial-app #story-speaker{display:inline-block;background:#b73c2d;color:#fff5dc;font-weight:900;padding:3px 8px;border-radius:3px}
+#trial-app .eyebrow,#trial-app #story-speaker{display:inline-block;background:#bc3f31;color:#fff5dc;font-weight:900;padding:3px 8px;border-radius:3px}
 #trial-app .card{width:min(760px,100%);max-height:100%;padding:20px 24px;text-align:left}
 #trial-app .card>h2,#trial-app .card>h1{border-bottom:3px solid #173239;padding-bottom:10px}
 #trial-app #pause-panel .card{background-color:#fff5dc;border-radius:8px;max-width:760px;width:min(760px,100%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}

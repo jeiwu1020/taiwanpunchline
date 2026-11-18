@@ -1,5 +1,5 @@
-import {comicRoomGeometry,isComicDoorRoom} from './story-comic-room.mjs';
-import {isParadeProp,paintParadeProp} from './story-comic-parade.mjs';
+import {comicRoomGeometry,isComicDoorRoom} from './story-comic-room.mjs?v=chapter-presentation-20261117-r1';
+import {isParadeProp,paintParadeProp} from './story-comic-parade.mjs?v=chapter-presentation-20261117-r1';
 // Illustrated props reuse the original opening and street artwork. Characters
 // are always intact pose images; this layer never draws or assembles bodies.
 export const COMIC_PROP_FILES=Object.freeze({

@@ -1,11 +1,11 @@
-import {setGameSelectValue} from '../../game-select.mjs?v=campaign-boot-20261112-r3';
-import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs';
-import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=campaign-boot-20261112-r3';
+import {setGameSelectValue} from '../../game-select.mjs?v=chapter-presentation-20261117-r1';
+import {mountChallengeSaveFeedback} from '../../challenge-save-feedback.mjs?v=chapter-presentation-20261117-r1';
+import {createCampaignHandoff,consumeCampaignHandoff} from './navigation.mjs?v=chapter-presentation-20261117-r1';
 import {saveIssueText} from '../../save-copy.mjs?v=chapter-presentation-20261117-r1';
 import {mountChallengePreparation} from '../../challenge-preparation.mjs?v=chapter-presentation-20261117-r1';
-import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=campaign-boot-20261112-r3';
+import {openChallengeContinuation as openContinuation} from './fresh-router.mjs?v=chapter-presentation-20261117-r1';
 import {createCampaignPlayable} from './playable-bridge.mjs?v=chapter-presentation-20261117-r1';
-import {chapterCastWithResolvedPortraits} from '../shared-asset-urls.mjs?v=chapter-hud-portrait-20261116-r1';
+import {chapterCastWithResolvedPortraits} from '../shared-asset-urls.mjs?v=chapter-presentation-20261117-r1';
 const reasonText=reason=>({
  'adoption-required':'原版與舊版後續進度不能自動合併，請選擇這一槽要接續的來源；兩份原檔都會保留。',
  'source-changed':'來源剛被另一頁變更，這次沒有採用。請先匯出完整備份，再重新整理後重新選擇來源。',
@@ -41,8 +41,10 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
  const headerHome=document.querySelector('#home'),brandHome=document.querySelector('.brand');
  const helperLabel=make('label','campaign-helper-label','下一段助拳（新路段／對局生效） '),helperSelect=make('select','campaign-helper');helperLabel.htmlFor='campaign-helper';helperLabel.hidden=true;helperLabel.append(helperSelect);
  for(const type of ['keydown','keyup'])helperSelect.addEventListener(type,event=>event.stopPropagation());
- const preparationButton=make('button','campaign-prepare','出戰準備'),growthButton=make('button','campaign-growth','查看角色能力'),retryPreparation=make('button','campaign-retry-prepare','重新整備再重試'),bar=make('aside','campaign-bar'),state=make('span','campaign-save-state'),retry=make('button','campaign-retry-save','重試保存'),backup=make('button','campaign-export','匯出新版備份'),oldBackup=make('button','campaign-export-v1','匯出原版備份'),reloadLatest=make('button','campaign-reload-latest','重新接續最新進度'),next=make('a','campaign-next');
+ const preparationButton=make('button','campaign-prepare','強化技能'),growthButton=make('button','campaign-growth','查看角色能力'),retryPreparation=make('button','campaign-retry-prepare','重新整備再重試'),bar=make('aside','campaign-bar'),state=make('span','campaign-save-state'),retry=make('button','campaign-retry-save','重試保存'),backup=make('button','campaign-export','匯出新版備份'),oldBackup=make('button','campaign-export-v1','匯出原版備份'),reloadLatest=make('button','campaign-reload-latest','重新接續最新進度'),next=make('a','campaign-next');
+ preparationButton.className='primary menu-action';
  growthButton.className='primary menu-action';
+ retryPreparation.className='primary menu-action';
  bar.setAttribute('aria-label','章節保存狀態');state.setAttribute('role','status');retry.type=backup.type=oldBackup.type=growthButton.type='button';bar.className='challenge-save-slot';bar.hidden=true;growthButton.hidden=retry.hidden=backup.hidden=oldBackup.hidden=next.hidden=true;bar.append(state);const recoveryPanel=make('section','challengeRecoveryPanel');recoveryPanel.className='challenge-recovery-panel';recoveryPanel.hidden=true;const preparationActions=make('div','campaign-preparation-actions');preparationActions.className='challenge-preparation-actions preparation-actions';preparationActions.hidden=true;preparationActions.append(preparationButton,growthButton,retryPreparation);const recoveryCopy=make('p','campaign-recovery-copy');recoveryCopy.setAttribute('role','status');reloadLatest.type='button';recoveryPanel.append(recoveryCopy,retry,backup,oldBackup,reloadLatest,next);const host=document.querySelector('#trial-app > header, .app > header, header');if(host)host.insertBefore(bar,host.querySelector('.toolbar'));else stage.append(bar);menu.append(preparationActions,recoveryPanel);bar.tabIndex=0;bar.setAttribute('role','button');bar.setAttribute('aria-label','保存狀態，開啟保存與備份');
  const saveFeedback=mountChallengeSaveFeedback({document,window,button:bar,isPreview:()=>testPreview||!!window.__quickViewIsolated});
  const previewStart=document.querySelector('#start');if(previewStart)previewStart.hidden=!testPreview;
@@ -89,7 +91,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
 
  function render(){
   if(!router?.enabled){
-   if(!recovery){saveFeedback.update({enabled:true});const current=getPlayable();preparationActions.hidden=!current||!current.view().paused;preparationButton.disabled=preparationBusy;preparationButton.hidden=true;growthButton.hidden=false;retryPreparation.hidden=true;if(current?.view().paused){const host=document.querySelector('#pause-panel .card');if(host&&preparationActions.parentElement!==host)host.append(preparationActions);}return;}
+   if(!recovery){saveFeedback.update({enabled:true});const current=getPlayable();preparationActions.hidden=!current||!current.view().paused;preparationButton.disabled=preparationBusy;preparationButton.hidden=true;growthButton.hidden=true;retryPreparation.hidden=true;if(current?.view().paused){const host=document.querySelector('#pause-panel .card');if(host&&preparationActions.parentElement!==host)host.append(preparationActions);}return;}
    const r=recovery.get();bar.hidden=false;if(recoveryPanel.parentElement!==menu)menu.append(recoveryPanel);preparationActions.hidden=true;recoveryPanel.hidden=false;
    state.textContent=recoveryIssue==='source-changed'?reasonText(recoveryIssue):r.persisted&&!r.dirty?'進度已確認保存，請按接續繼續。':'尚未保存，請重試或匯出完整備份。';
    recoveryCopy.textContent=state.textContent;saveFeedback.update({enabled:true,error:r.persisted&&!r.dirty?'':state.textContent});helperLabel.hidden=growthButton.hidden=next.hidden=true;next.removeAttribute('href');backup.hidden=false;oldBackup.hidden=false;retry.hidden=!r.dirty;retry.disabled=busy||recoveryIssue==='source-changed';return;
@@ -98,7 +100,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   if(s)renderContinuationChoice({document,state:{...s,busy:busy||s.busy},chapterId});
   const selector=s?.paused?'#pause-panel .card':({'story':'#story-panel .story-card','result':'#result-panel .card','choice':'#choice-panel .card','complete':'#choice-panel .card'})[s?.mode];
   const fullComic=s?.mode==='story'&&document.querySelector('#story-panel')?.dataset.fullComic==='true';
-  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic||s.mode==='result'&&s.result?.matchWon;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||s.paused||!(s.mode==='result'&&!s.result?.matchWon);retryPreparation.disabled=preparationButton.disabled;
+  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic||s.mode==='result'&&s.result?.matchWon;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.paused||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||(!s.paused&&!(s.mode==='result'&&!s.result?.matchWon&&s.result?.winner!=='player'));retryPreparation.disabled=preparationButton.disabled;
   state.textContent=s?.saveLabel??v.saveLabel;
   if(s?.blocked)state.textContent=reasonText(s.saveIssue);
   else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；目前無法接續下一段，進度已保留。`;
@@ -111,13 +113,13 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   }
   setGameSelectValue(helperSelect,s?.helperId??v.selection.helperId);
   helperSelect.disabled=busy||!!s?.busy||!!s?.blocked||!s?.persisted||v.dirty||v.readOnly;
-  growthButton.hidden=combat;growthButton.disabled=busy||preparationBusy;
+  growthButton.hidden=!s?.paused;growthButton.disabled=busy||preparationBusy;
   const needsRecovery=!v.persisted||!!s?.blocked||!!s?.saveIssue;backup.hidden=!needsRecovery;oldBackup.hidden=!needsRecovery;retry.hidden=!needsRecovery;retry.disabled=busy||preparationBusy||!!s?.busy;reloadLatest.disabled=busy||preparationBusy||!!s?.busy;recoveryPanel.hidden=!needsRecovery;recoveryPanel.dataset.floating=String(host===stage);if(needsRecovery&&host===stage){recoveryPanel.setAttribute('role','alert');}
-  const destination=!combat&&v.chapterId!==chapterId&&v.route.status==='ready'&&v.canNavigate&&!s?.blocked&&!s?.busy;
+  const destination=!combat&&!s?.replay&&v.chapterId!==chapterId&&v.route.status==='ready'&&v.canNavigate&&!s?.blocked&&!s?.busy;
   next.hidden=!destination;if(destination)recoveryPanel.hidden=false;
   if(destination){next.href=v.route.url;next.textContent=`接續第 ${v.chapterId.split('-')[1]} 章 →`;}
   else next.removeAttribute('href');
-  if(s?.mode==='complete'&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
+  if(s?.mode==='complete'&&!s?.replay&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
  }
  // The attached host first renders while this job is busy. Publish the final
  // busy transition too, so its reading controls re-evaluate their save guards.
@@ -135,9 +137,9 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   recovery=null;
   const v=router.view();
   if(v.route.status!=='ready'){menuStatus.textContent=reasonText(v.route.status==='legacy'?'legacy-entry-required':'content-locked');render();return;}
-  if(v.chapterId!==chapterId){menuStatus.textContent='存檔目前在另一章，請使用下方接續連結。';render();return;}
+  if(v.chapterId!==chapterId&&!(handoff?.replay===true&&handoff.chapterId===chapterId)){menuStatus.textContent='存檔目前在另一章，請使用下方接續連結。';render();return;}
   if(handoff?.difficulty){const input=document.querySelector('#difficulty');if(input)setGameSelectValue(input,handoff.difficulty);}
-  const attached=await createCampaignPlayable({router,chapterId,createPlayableChapter,options:getOptions(),onChange:()=>{render();onChange();}});
+  const attached=await createCampaignPlayable({router,chapterId,createPlayableChapter,options:{...getOptions(),replay:!!handoff?.replay},onChange:()=>{render();onChange();}});
   if(!attached.accepted){attachPending=!!attached.recovery;menuStatus.textContent=reasonText(attached.reason);render();return;}attachPending=false;
   chapter=attached.chapter;document.body.dataset.campaignMode='true';const legacyPreparation=document.querySelector('#leave');if(legacyPreparation)legacyPreparation.hidden=true;
   const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='人物、對白與情節均為虛構喜劇，不代表原型人物的真實發言。';
@@ -211,18 +213,22 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  actions.hidden=s.mode!=='complete';link.hidden=true;link.removeAttribute('href');home.hidden=true;home.removeAttribute('href');home.removeAttribute('aria-disabled');home.removeAttribute('tabindex');
  if(s.mode==='choice'&&presentation){
   if(title)title.textContent=`${presentation.recruit}加入！`;
-  const destination=chapterId==='chapter-5'?'七人到齊，前往最終戰。':chapterId==='chapter-4'&&s.campaignChapterId?'第五章尚未開放，完成本章後可回挑戰總覽查看。':`繼續追向${presentation.next}。`;
+  const destination=s.replay?`第${presentation.number}章重玩即將完成，原章節進度保留。`:chapterId==='chapter-5'?'七人到齊，前往最終戰。':chapterId==='chapter-4'&&s.campaignChapterId?'第五章尚未開放，完成本章後可回挑戰總覽查看。':`繼續追向${presentation.next}。`;
   copy.textContent=`${presentation.recruit}已解鎖，可當主戰或助拳。${destination}${s.campaignChapterId?` ${s.saveLabel||'進度已保存'}。`:'本次預覽的角色解鎖僅於此次遊玩有效。'}`;
   const continueButton=document.querySelector('#chapter-next');if(continueButton)continueButton.textContent='繼續 →';
  }
  if(s.mode!=='complete')return;
- if(presentation&&title)title.textContent=`第${presentation.number}章完成`;
+ if(presentation&&title)title.textContent=s.replay?`第${presentation.number}章重玩完成！`:`第${presentation.number}章完成`;
  home.hidden=false;home.textContent=s.campaignChapterId?'回挑戰總覽':'回首頁';let safe=true;
  if(s.campaignChapterId){
   safe=completionCanLeave(s);
-  copy.textContent=s.nextRoute?.status==='locked'?`${s.saveLabel||'進度已保存'}。${presentation?.next||'下一章'}尚未開放，檢查點會保留。`:s.nextRoute?.status==='ready'?`${s.saveLabel||'進度已保存'}。可接續${presentation?.next||'下一章'}。`:`${s.saveLabel||'進度已保存'}。可從挑戰總覽查看接續進度。`;
+  if(s.replay){
+   copy.textContent=`第${presentation?.number||''}章重玩完成！本次獲得的小怪經驗與首次完整重玩獎勵已保存，原章節進度保留。`;
+  }else{
+   copy.textContent=s.nextRoute?.status==='locked'?`${s.saveLabel||'進度已保存'}。${presentation?.next||'下一章'}尚未開放，檢查點會保留。`:s.nextRoute?.status==='ready'?`${s.saveLabel||'進度已保存'}。可接續${presentation?.next||'下一章'}。`:`${s.saveLabel||'進度已保存'}。可從挑戰總覽查看接續進度。`;
+  }
   if(!safe)copy.textContent+=' 尚未能安全離開，請先重試保存或匯出備份；若進度已在其他頁變更，請保留備份後重新接續。';
-  if(safe&&s.nextRoute?.status==='ready'){link.hidden=false;link.href=s.nextRoute.url;link.textContent='繼續挑戰 →';}
+  if(!s.replay&&safe&&s.nextRoute?.status==='ready'){link.hidden=false;link.href=s.nextRoute.url;link.textContent='繼續挑戰 →';}
  }else{
   const next=presentation?.previewNext;
   copy.textContent=next?`本章預覽完成；本次進度不會保存。可不存檔試玩${presentation.next}。`:'本章預覽完成；本次進度不會保存。';
@@ -235,4 +241,4 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  copy.setAttribute('role','status');copy.tabIndex=-1;
  if(entered){if(!link.hidden)link.focus({preventScroll:true});else if(safe)home.focus({preventScroll:true});else copy.focus({preventScroll:true});}
 }
-import {DEVELOPMENT_TOOLS} from '../../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../../release-features.mjs?v=chapter-presentation-20261117-r1';

@@ -1,6 +1,6 @@
-import {RALLY,SUPPORTER_TEAMS,supporterFormation} from '../../stage-expansion.mjs?v=rally-depth-alpha-20261115-r1';
-import {GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
-import {supporterFlagLayout} from '../../supporter-flags.mjs?v=campaign-boot-20261112-r3';
+import {RALLY,SUPPORTER_TEAMS,supporterFormation} from '../../stage-expansion.mjs?v=chapter-presentation-20261117-r1';
+import {GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
+import {supporterFlagLayout} from '../../supporter-flags.mjs?v=chapter-presentation-20261117-r1';
 export function rallyCrowdFormation(world,frame,width,height,time,{route=false,reducedMotion=false}={}){
  const zoom=Math.max(.1,frame.zoom||1),cameraX=frame.left+width/(2*zoom),cameraY=430+(height/2-frame.base)/zoom;
  return supporterFormation(world,time,reducedMotion,{width,height,zoom,x:cameraX,y:cameraY,route,crowdBottom:Math.max(height*.45,frame.base-4)}).map(member=>{

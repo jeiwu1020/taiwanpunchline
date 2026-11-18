@@ -1,5 +1,5 @@
-import {drawSignatureProp} from './art-expression.mjs?v=campaign-boot-20261112-r3';
-import {SIGNATURE_SIZE,nameTileOffset} from './move-readability.mjs?v=campaign-boot-20261112-r3';
+import {drawSignatureProp} from './art-expression.mjs?v=chapter-presentation-20261117-r1';
+import {SIGNATURE_SIZE,nameTileOffset} from './move-readability.mjs?v=chapter-presentation-20261117-r1';
 // Same asset, dimensions and words as VS. Call at the projectile's world origin.
 export function drawChallengeSignatureProjectile(ctx,images,p,time){
  const direction=p.vx<0?-1:1;

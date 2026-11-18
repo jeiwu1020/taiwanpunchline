@@ -1,46 +1,46 @@
-import {loadChapterImage} from '../../chapter-image-loader.mjs';
-import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=comic-reader-r1';
-import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=full-comic-r2';
-import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-upgrade-r1';
-import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=street-object-polish-r2';
-import {challengeResultActions,chapterRoundResultCopy,mountChapterCountdown,setSeriesWinMarkers} from '../../series-presentation.mjs?v=series-presentation-20261117-r1';
-import {registerQuickView} from '../quick-view/hook.mjs?v=quick-view-20261113-r1';
-import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=campaign-boot-20261112-r3';
-import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=campaign-boot-20261112-r3';
+import {loadChapterImage} from '../../chapter-image-loader.mjs?v=chapter-presentation-20261117-r1';
+import {mountChapterComicReader} from '../campaign/chapter-comic-reader.mjs?v=chapter-presentation-20261117-r1';
+import {createComicPresentation} from '../campaign/story-comic-presentation.mjs?v=chapter-presentation-20261117-r1';
+import {drawChallengeSignatureProjectile} from '../../challenge-signature-projectile.mjs?v=chapter-presentation-20261117-r1';
+import {drawChapterEncounter,drawChapterEncounterEffects,drawChapterEncounterGuidance,drawChapterEncounterObject} from '../../chapter-encounter-art.mjs?v=chapter-presentation-20261117-r1';
+import {challengeResultActions,chapterRoundResultCopy,mountChapterCountdown,setSeriesWinMarkers} from '../../series-presentation.mjs?v=chapter-presentation-20261117-r1';
+import {registerQuickView} from '../quick-view/hook.mjs?v=chapter-presentation-20261117-r1';
+import {drawChapterStreetMotifs} from '../campaign/chapter-street-motifs.mjs?v=chapter-presentation-20261117-r1';
+import {streetActorNeedsPaint} from '../../street-actor-visibility.mjs?v=chapter-presentation-20261117-r1';
 import {backgroundPresentation} from '../../background-cache-policy.mjs?v=chapter-presentation-20261117-r1';
-import {drawStreetMobHealth} from '../../challenge-mob-health.mjs?v=street-mob-hp-20261116-r1';
-import {planSimulationFrame} from '../../simulation-frame.mjs?v=campaign-boot-20261112-r3';
+import {drawStreetMobHealth} from '../../challenge-mob-health.mjs?v=chapter-presentation-20261117-r1';
+import {planSimulationFrame} from '../../simulation-frame.mjs?v=chapter-presentation-20261117-r1';
 import {combatCalloutEntries,drawCombatCallout,layoutCombatCallouts,makeCombatCallout,moveCalloutForMove,moveKindForAction,rememberCombatCallout} from '../campaign/combat-callouts.mjs?v=chapter-presentation-20261117-r1';
-import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-feedback.mjs?v=chapter-combat-feedback-20261115-r1';
+import {rememberCombatFeedback,paintCombatFeedback} from '../campaign/combat-feedback.mjs?v=chapter-presentation-20261117-r1';
 import {invalidateStreetStaticCaches} from '../campaign/street-static-cache.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterPauseLifecycle} from '../campaign/chapter-pause-lifecycle.mjs?v=chapter-presentation-20261117-r1';
-import {createChapterMedia} from '../campaign/chapter-media.mjs?v=rally-consistency-20261115-r1';
+import {createChapterMedia} from '../campaign/chapter-media.mjs?v=chapter-presentation-20261117-r1';
 import {createMobileCameraAdapter} from '../campaign/mobile-camera-adapter.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterInterface,chapterKeyboardAction} from '../campaign/chapter-ui.mjs?v=chapter-presentation-20261117-r1';
-import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=campaign-boot-20261112-r3';
-import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=campaign-boot-20261112-r3';
-import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
+import {mountSpecialNameFit} from '../../special-name-fit.mjs?v=chapter-presentation-20261117-r1';
+import {mountCampaignTouch} from '../campaign/touch-policy.mjs?v=chapter-presentation-20261117-r1';
+import {chapterAssetURL} from '../shared-asset-urls.mjs?v=chapter-presentation-20261117-r1';
 import {mountContinuationControls,renderContinuationChoice} from '../campaign/page-bridge.mjs?v=chapter-presentation-20261117-r1';
-import {loadChapterAssetsInStages} from '../campaign/chapter-asset-loading.mjs?v=chapter-staged-assets-20261116-r1';
+import {loadChapterAssetsInStages} from '../campaign/chapter-asset-loading.mjs?v=chapter-presentation-20261117-r1';
 import {mountChapterLoadingOverlay,unifiedChallengeBackdropFrame,fixedBackdropPresentation} from '../../chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
-import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=campaign-boot-20261112-r3';
-import {installChaseWindow} from '../later-chase-window.mjs?v=campaign-boot-20261112-r3';
-import {CAST,Duel,GROUND} from './core.mjs?v=rally-consistency-20261115-r1';
-import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=campaign-boot-20261112-r3';
-import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=campaign-boot-20261112-r3';
-import {drawChapter2Miniboss} from './chapter2-mob-art.mjs?v=campaign-boot-20261112-r3';
-import {streetTrialFrame} from './street-trial-view.mjs?v=rally-consistency-20261115-r1';
-import {DESK} from './stage-expansion.mjs?v=campaign-boot-20261112-r3';
-import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy,mergeRallySupporterLayers} from '../campaign/rally-crowd.mjs?v=rally-depth-alpha-20261115-r1';
-import {chapter2RenderActor,chapter2TableFrame,chapter2ObstacleFrame,chapter2SceneLayers,drawChapter2TableLayer} from './chapter2-render-rules.mjs?v=street-object-polish-r3';
-import {arrowPresentation} from './art-motion.mjs?v=campaign-boot-20261112-r3';
-import {bindTouchControls} from './touch-controls.mjs?v=campaign-boot-20261112-r3';
+import {drawStreetBackdrop,SKY_EXTENSION_FILES,STREET_SEAM_FILES} from './street-backdrop.mjs?v=chapter-presentation-20261117-r1';
+import {installChaseWindow} from '../later-chase-window.mjs?v=chapter-presentation-20261117-r1';
+import {CAST,Duel,GROUND} from './core.mjs?v=chapter-presentation-20261117-r1';
+import {ART_FILES,drawFighterArt,drawProp} from './art-render.mjs?v=chapter-presentation-20261117-r1';
+import {drawChallengeMob,drawChallengeStreetProp,drawChallengeSupply} from './challenge-art.mjs?v=chapter-presentation-20261117-r1';
+import {drawChapter2Miniboss} from './chapter2-mob-art.mjs?v=chapter-presentation-20261117-r1';
+import {streetTrialFrame} from './street-trial-view.mjs?v=chapter-presentation-20261117-r1';
+import {DESK} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
+import {rallyCrowdFormation,paintRallySupporters,paintRallySupporterFlags,paintRallyAttackLane,paintRallyCallouts,rallyEventCopy,mergeRallySupporterLayers} from '../campaign/rally-crowd.mjs?v=chapter-presentation-20261117-r1';
+import {chapter2RenderActor,chapter2TableFrame,chapter2ObstacleFrame,chapter2SceneLayers,drawChapter2TableLayer} from './chapter2-render-rules.mjs?v=chapter-presentation-20261117-r1';
+import {arrowPresentation} from './art-motion.mjs?v=chapter-presentation-20261117-r1';
+import {bindTouchControls} from './touch-controls.mjs?v=chapter-presentation-20261117-r1';
 import {createPlayableChapter} from './chapter2-controller.mjs?v=chapter-presentation-20261117-r1';
-import {CHAPTER2,CHARACTER_NAMES} from './chapter2-content.mjs?v=campaign-boot-20261112-r3';
-import {ASSET_FILES} from './chapter2-assets.mjs?v=campaign-boot-20261112-r3';
-import {CHAPTER2_NEW_ART} from './chapter2-new-art.mjs?v=campaign-boot-20261112-r3';
-import {storyPropState} from './chapter3-story-props.mjs?v=campaign-boot-20261112-r3';
-import {bossRevealed,storyActors,soloMicX} from './chapter2-reveal.mjs?v=campaign-boot-20261112-r3';
+import {CHAPTER2,CHARACTER_NAMES} from './chapter2-content.mjs?v=chapter-presentation-20261117-r1';
+import {ASSET_FILES} from './chapter2-assets.mjs?v=chapter-presentation-20261117-r1';
+import {CHAPTER2_NEW_ART} from './chapter2-new-art.mjs?v=chapter-presentation-20261117-r1';
+import {storyPropState} from './chapter3-story-props.mjs?v=chapter-presentation-20261117-r1';
+import {bossRevealed,storyActors,soloMicX} from './chapter2-reveal.mjs?v=chapter-presentation-20261117-r1';
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d');
@@ -73,7 +73,7 @@ function refreshMenu(){roster($('#menu-roster'),['wang','han','huang','su'],sele
 function sync(){
  pauseLifecycle.sync();const s=v();if(!s)return;seriesCountdown.sync(s);chaseWindow.paint({active:s.mode==='route'&&!s.paused,image:images['opening-props-v75'],time:frameTime});if(uiToken!==s.token)storyStartedAt=frameTime;uiToken=s.token;clearHold();ui.refreshAccess();if(!s.paused&&!ui.busy)ui.cancelRestart(false);const noncombat=!['route','battle'].includes(s.mode)||s.paused||s.blocked||s.busy;document.body.dataset.noncombat=String(noncombat);document.body.dataset.chapterMode=s.paused?"pause":s.mode;
  for(const id of ['menu','story-panel','result-panel','pause-panel','choice-panel'])$('#'+id).hidden=true;
- $('#pause').disabled=!['story','route','battle'].includes(s.mode);$('#pause').textContent=s.mode==='story'?'出戰準備':s.paused?'▶ 繼續':'Ⅱ 暫停';
+ $('#pause').disabled=!['story','route','battle'].includes(s.mode);$('#pause').textContent=s.mode==='story'?'強化技能':s.paused?'▶ 繼續':'Ⅱ 暫停';
  $('#fighter-name').textContent=CAST[s.characterId].name;
  for(const [i,b] of $$('#specials button').entries())b.querySelector('.move-copy strong').textContent=CAST[s.characterId].moves[i].name;
  idle=new Duel(s.characterId,'beginner',()=>.3,bossRevealed(s)&&s.characterId!=='ko'?'ko':'wang');
@@ -84,7 +84,7 @@ function sync(){
   $('#result-panel').hidden=false;const fictionNote=$('#result-panel .fiction-note');if(fictionNote)fictionNote.hidden=true;let outcome=null;if(s.result.kind==='route'){$('#result-eyebrow').textContent='路段結果';$('#result-title').textContent='這段先喘口氣';$('#result-copy').textContent='倒下不會倒退章節，從目前路段再試一次。';$('#result-score').textContent='';}else{outcome=chapterRoundResultCopy(s,chapter?.world?.enemy?.displayName??'對手');$('#result-eyebrow').textContent=outcome.eyebrow;$('#result-title').textContent=outcome.title;$('#result-copy').textContent=outcome.subtitle;$('#result-score').textContent=outcome.score;}
   $('#result-next').textContent=s.result.matchLost?'重試這一關':s.result.matchWon?'繼續追神麥 →':outcome?.action??'下一局 →';const token=s.token;$('#result-next').onclick=()=>{media.unlock();if(!ui.busy&&chapter.continueResult(token))sync();};const skillButton=$('#result-skill'),overviewButton=$('#result-home'),resultActionBlocked=!!s.busy||!!s.blocked||!!continuation?.operationBusy,actions=challengeResultActions({challenge:true,resultReady:!!(s.result.matchWon||s.result.matchLost),winner:s.result.matchWon?'player':s.result.matchLost?'enemy':s.result.winner,between:!!outcome&&!outcome.complete,route:s.result.kind==='route'});skillButton.hidden=!actions.showPreparation;skillButton.textContent=actions.preparationLabel;overviewButton.hidden=!actions.showOverview;$('#result-next').disabled=resultActionBlocked;skillButton.disabled=overviewButton.disabled=resultActionBlocked;skillButton.onclick=()=>{media.unlock();if(!ui.busy&&!resultActionBlocked)continuation?.openPreparation();};overviewButton.onclick=()=>{if(!ui.busy&&!resultActionBlocked)continuation?.returnOverview({confirmed:true});};
  }else if(s.mode==='choice'||s.mode==='complete'){
-  $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.className='primary menu-action';prepare.textContent='調整下一段出戰準備';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
+  $('#choice-panel').hidden=false;const token=s.token,choiceRoster=$('#choice-roster');choiceRoster.replaceChildren();choiceRoster.hidden=s.mode==='complete'||!!s.campaignChapterId;if(!choiceRoster.hidden){const prepare=document.createElement('button');prepare.type='button';prepare.className='primary menu-action';prepare.textContent='強化技能';prepare.onclick=()=>continuation.openPreparation();choiceRoster.append(prepare);}
   $('#choice-title').textContent=s.mode==='complete'?'神麥往下一站去了':'柯P加入！';$('#choice-copy').textContent=s.mode==='complete'?'第三章已打通。第四章入口已保留，回挑戰總覽，接著追麥。':'選好接下來的主角，跟著音響車追神麥。下一站，繼續追麥。';$('#chapter-next').hidden=s.mode==='complete';$('#chapter-next').onclick=()=>{if(!ui.busy&&chapter.finishChapter(token))sync();};
  }
  renderContinuationChoice({document,state:s,chapterId:'chapter-3'});continuation.render();

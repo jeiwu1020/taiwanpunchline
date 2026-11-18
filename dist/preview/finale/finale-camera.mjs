@@ -1,6 +1,6 @@
 import {fitChallengeCamera} from '../../challenge-camera.mjs?v=chapter-presentation-20261117-r1';
-import {GROUND} from '../../core.mjs?v=rally-consistency-20261115-r1';
-import {ARENA} from './finale-engine.mjs?v=campaign-boot-20261112-r3';
+import {GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
+import {ARENA} from './finale-engine.mjs?v=chapter-presentation-20261117-r1';
 // The engine limits foot anchors; visible shoes/rings need a safety apron.
 // This changes scenery only, never the legal movement range.
 export const FINALE_FLOOR=Object.freeze({left:ARENA.left-80,right:ARENA.right+80,back:ARENA.back-40,front:ARENA.front+40});

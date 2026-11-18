@@ -1,4 +1,4 @@
-import {ENCOUNTER_SPRITES} from '../../chapter-encounter-art.mjs?v=comic-props-r2';
+import {ENCOUNTER_SPRITES} from '../../chapter-encounter-art.mjs?v=chapter-presentation-20261117-r1';
 const INK='#263c37',PAPER='#fff0cc',GOLD='#e7b64c',RED='#b34d39';
 function rect(c,x,y,w,h,fill){c.fillStyle=fill;c.strokeStyle=INK;c.lineWidth=4;c.beginPath();c.roundRect(x,y,w,h,7);c.fill();c.stroke();}
 function text(c,t,x,y,size=24,color=INK){c.font=`900 ${size}px Microsoft JhengHei,system-ui`;c.textAlign='center';c.textBaseline='middle';c.fillStyle=color;c.fillText(t,x,y);}

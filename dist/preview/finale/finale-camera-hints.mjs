@@ -1,6 +1,6 @@
-import {offscreenOpponentHints} from '../../camera-direction-hints.mjs?v=finale-follow-r1';
+import {offscreenOpponentHints} from '../../camera-direction-hints.mjs?v=chapter-presentation-20261117-r1';
 import {challengeActorBounds} from '../../challenge-camera.mjs?v=chapter-presentation-20261117-r1';
-import {finalePoint,finaleSubject} from './finale-camera.mjs?v=finale-follow-r1';
+import {finalePoint,finaleSubject} from './finale-camera.mjs?v=chapter-presentation-20261117-r1';
 
 // Adapt projected copies to the shared edge-label placement. Never hand these
 // display poses back to the arena, targeting, attacks, or save authority.

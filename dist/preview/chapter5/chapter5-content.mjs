@@ -1,6 +1,6 @@
-import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=dialogue-20261113-r1';
+import {resolveDialogueFrame} from '../../character-dialogue.mjs?v=chapter-presentation-20261117-r1';
 // A shared journey: no new wake-up sequence when an unlocked fighter takes over.
-import {CHARACTER_NAMES,STEP_IDS} from '../chapter4/chapter4-content.mjs?v=campaign-boot-20261112-r3';
+import {CHARACTER_NAMES,STEP_IDS} from '../chapter4/chapter4-content.mjs?v=chapter-presentation-20261117-r1';
 export {CHARACTER_NAMES,STEP_IDS};
 export const STARTER_IDS=Object.freeze(['wang','han','huang','su','ko','ma']);
 const freeze=value=>{if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;};

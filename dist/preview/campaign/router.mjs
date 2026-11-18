@@ -1,7 +1,7 @@
 import {openCampaignStore} from './core/store.mjs?v=chapter-presentation-20261117-r1';
 import {migrateV1} from './core/migrate.mjs?v=chapter-presentation-20261117-r1';
 import {currentProfile,deriveStats,validateDocument,MAX_JSON_LENGTH} from './core/model.mjs?v=chapter-presentation-20261117-r1';
-import {PROFILE_IDS} from './core/catalog.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from './core/catalog.mjs?v=chapter-presentation-20261117-r1';
 
 export const CAMPAIGN_KEY='taiwanpunchline-progress-v2';
 export const ORIGINAL_KEY='taiwanpunchline-progress-v1';

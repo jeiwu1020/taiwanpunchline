@@ -1,8 +1,8 @@
-import {resolveDialogueFrame} from './character-dialogue.mjs?v=dialogue-20261113-r1';
+import {resolveDialogueFrame} from './character-dialogue.mjs?v=chapter-presentation-20261117-r1';
 import {mountChallengeDialogViewport} from './challenge-dialog-viewport.mjs?v=chapter-presentation-20261117-r1';
-import {openingFrame} from './challenge-opening-art.mjs?v=campaign-boot-20261112-r3';
-import {createComicReadingPosition} from './story-comic-reading.mjs?v=full-comic-r1';
-import {drawBubble} from './starter-comic-layout.mjs?v=full-comic-r1';
+import {openingFrame} from './challenge-opening-art.mjs?v=chapter-presentation-20261117-r1';
+import {createComicReadingPosition} from './story-comic-reading.mjs?v=chapter-presentation-20261117-r1';
+import {drawBubble} from './starter-comic-layout.mjs?v=chapter-presentation-20261117-r1';
 // Explicit advances only. Story presentation owns no progress or save writes.
 export function mountChallengeStory({document,paint,paintComic,onRetryArt,isArtLoading=()=>false,onAudio=()=>{},reducedMotion}={}){
  const root=document.createElement('dialog');root.className='challenge-story';root.dataset.comicReader='true';root.setAttribute('aria-label','挑戰故事');

@@ -1,10 +1,10 @@
-import {chapterAssetURL} from '../shared-asset-urls.mjs?v=campaign-boot-20261112-r3';
-import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=campaign-boot-20261112-r3';
-import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=campaign-boot-20261112-r3';
-import {expressionFor} from './art-expression.mjs?v=campaign-boot-20261112-r3';
-import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=campaign-boot-20261112-r3';
-import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=campaign-boot-20261112-r3';
-import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=campaign-boot-20261112-r3';
+import {chapterAssetURL} from '../shared-asset-urls.mjs?v=chapter-presentation-20261117-r1';
+import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=chapter-presentation-20261117-r1';
+import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=chapter-presentation-20261117-r1';
+import {expressionFor} from './art-expression.mjs?v=chapter-presentation-20261117-r1';
+import {hasRosterArt,drawRosterArt} from './art-roster.mjs?v=chapter-presentation-20261117-r1';
+import {fighterPose,solveArm,ease,clamp} from './art-motion.mjs?v=chapter-presentation-20261117-r1';
+import {HEAD_SEAT,drawCollarFront} from './art-collar.mjs?v=chapter-presentation-20261117-r1';
 export const ART_FILES={
  'chapter-encounter-props':'challenge/encounter-props-v2.png',
  ...OPENING_ART_FILES,

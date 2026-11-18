@@ -1,5 +1,5 @@
 import {isMobileLandscapePresentation,streetPlayerCameraProfile} from './challenge-layout.mjs?v=chapter-presentation-20261117-r1';
-import {MOB_TYPES} from './challenge-content.mjs?v=rally-consistency-20261115-r1';
+import {MOB_TYPES} from './challenge-content.mjs?v=chapter-presentation-20261117-r1';
 // Shared, display-only challenge framing. All rectangles are in logical canvas
 // coordinates. safeRect has already consumed the OS inset, so it is never
 // applied a second time here. World collision and depth coordinates are intact.

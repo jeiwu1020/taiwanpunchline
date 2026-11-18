@@ -1,5 +1,5 @@
-import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=campaign-boot-20261112-r3';
-import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=campaign-boot-20261112-r3';
+import {deriveFighterStats} from '../../../fighter-attributes.mjs?v=chapter-presentation-20261117-r1';
+import {CAMPAIGN_ID,PROFILE_IDS,STARTERS,CHARACTER_IDS,CHAPTERS,STEPS,ROUTES,FIRST_CLEAR_STEPS,receiptFor,chapterById,FINALE_ID,FINALE_STEPS,FINALE_RECEIPT} from './catalog.mjs?v=chapter-presentation-20261117-r1';
 export const SKILLS=Object.freeze(['hp','move','basic','defense','special','rally','assist']);
 export const MAX_XP=2800,XP_PER_POINT=80,MAX_RANK=5,MAX_SERIAL=1_000_000_000,MAX_JSON_LENGTH=250_000;
 export const clone=v=>JSON.parse(JSON.stringify(v));

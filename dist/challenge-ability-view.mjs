@@ -1,4 +1,4 @@
-import {deriveFighterStats} from './fighter-attributes.mjs?v=campaign-boot-20261112-r3';
+import {deriveFighterStats} from './fighter-attributes.mjs?v=chapter-presentation-20261117-r1';
 // Pure presentation over the same calculator used by combat, never a rating.
 export const ABILITY_BRANCHES=Object.freeze([
  ['hp','續航氣勢','氣勢','maxHp','氣勢上限 +3%'],

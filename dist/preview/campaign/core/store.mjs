@@ -1,5 +1,5 @@
 import {clone,newDocument,validateDocument,currentProfile,integer,MAX_SERIAL,MAX_JSON_LENGTH} from './model.mjs?v=chapter-presentation-20261117-r1';
-import {PROFILE_IDS} from './catalog.mjs?v=campaign-boot-20261112-r3';
+import {PROFILE_IDS} from './catalog.mjs?v=chapter-presentation-20261117-r1';
 import {migrateV1} from './migrate.mjs?v=chapter-presentation-20261117-r1';
 import {startRun,applyRunAction,chooseCharacters,allocateSkill,resetSkills} from './transition.mjs?v=chapter-presentation-20261117-r1';
 // Candidate defaults never name the live game's keys. Integration must be explicit.
@@ -109,4 +109,4 @@ export async function openCampaignStore({storage,locks,key=CURRENT_KEY,legacyKey
   }
  };
 }
-import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs';
+import {DEVELOPMENT_TOOLS} from '../../../release-features.mjs?v=chapter-presentation-20261117-r1';

@@ -1,4 +1,4 @@
-import {DEVELOPMENT_TOOLS} from './release-features.mjs';
+import {DEVELOPMENT_TOOLS} from './release-features.mjs?v=chapter-presentation-20261117-r1';
 // Portable, versioned player profiles. This key never owns audio/display settings.
 // Test mode lives in memory only: it is not an unlock, save, or ranking credential.
 export const PROFILE_KEY='taiwanpunchline-progress-v1';

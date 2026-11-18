@@ -1,5 +1,5 @@
-import {Duel} from '../../core.mjs?v=rally-consistency-20261115-r1';
-import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=campaign-boot-20261112-r3';
+import {Duel} from '../../core.mjs?v=chapter-presentation-20261117-r1';
+import {challengeOpponentStats} from '../../challenge-opponent-policy.mjs?v=chapter-presentation-20261117-r1';
 // One telegraph/recovery implementation; chapters supply only pattern data.
 export class ChapterMiniDuel extends Duel{
  constructor(spec,{characterId,helperId,difficulty,rng,stats}){

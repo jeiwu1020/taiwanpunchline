@@ -102,7 +102,7 @@ html body[data-sideways="true"]>dialog#help-dialog{max-width:calc(var(--challeng
 .challenge-preparation-panel :is(button,select){min-height:44px;max-width:100%;min-width:0;padding:8px 12px;font:inherit;border:2px solid #173239;border-radius:6px;box-shadow:none;touch-action:manipulation;background:#fff9e9;color:#173239}
 .challenge-preparation-panel .preparation-skill-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:9px 0;border-top:1px dashed #17323955}
 .challenge-preparation-panel #challengePreparationScope{padding:10px;border:2px dashed #9b522c;background:#ffedbf}
-.challenge-preparation-panel #preparationConfirm{background:#b73c2d;color:#fff5dc;font-weight:800}
+.challenge-preparation-panel #preparationConfirm{background:#bc3f31;color:#fff5dc;font-weight:800}
 .challenge-preparation-panel :is(footer,.preparation-actions){display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:14px;padding-bottom:4px}
 .challenge-recovery-panel{box-sizing:border-box;max-width:100%;margin:12px 0;padding:12px;border:2px dashed #9b522c;background:#ffedbf;color:#173239;text-align:left;font-size:13px;line-height:1.55;overflow-wrap:anywhere}
 .challenge-recovery-panel :is(button,a){display:inline-block;min-height:44px;margin:5px 5px 0 0;padding:7px 10px;font:inherit;line-height:1.4;max-width:100%;white-space:normal;touch-action:manipulation}
@@ -170,8 +170,8 @@ button.challenge-save-slot[data-status="error"],#campaign-bar.challenge-save-slo
    Their own rotated placement must beat the legacy centered-dialog rule. */
 html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challenge-dialog-left)!important;top:var(--challenge-dialog-top)!important}
 
-/* Pause inspection shares menu-action geometry; amber distinguishes inspection. */
-#pause-screen #challenge-inspect-button.menu-action,#trial-app #pause-panel #leave.menu-action{background:#e5ae46;color:#152c34}
+/* Pause inspection shares menu-action geometry; blue distinguishes inspection and skills. */
+#pause-screen #challenge-inspect-button.menu-action,#trial-app #pause-panel #leave.menu-action{background:#315f88;color:#fff6df}
 /* Instruction text follows the entire HUD, never an implicit grid row inside
    the timer. The measured rectangle remains part of shared camera avoidance. */
 #viewport-shell>.app[data-touch="true"][data-layout="portrait"] .dom-hud #item-status{position:absolute;top:calc(100% + 6px);left:50%;right:auto;bottom:auto;transform:translateX(-50%);grid-area:auto;margin:0;width:max-content;max-width:100%;height:auto}
@@ -285,7 +285,10 @@ html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challeng
 #result .result-paper .menu-action[hidden],
 #trial-app #result-panel .result-paper .menu-action[hidden]{display:none!important}
 #result .result-paper #challenge-result-overview,
-#trial-app #result-panel .result-paper #result-home{background:#315f88;color:#fff6df}
+#result .result-paper #reselect,
+#trial-app #result-panel .result-paper #result-home,
+#trial-app #result-panel .result-paper #result-skill.menu-action{background:#315f88;color:#fff6df}
+#trial-app #result-panel .result-paper #campaign-retry-prepare.menu-action{background:#237363;color:#fff6df}
 #result .result-paper .fiction-note,
 #trial-app #result-panel .result-paper .fiction-note{
  display:block;
