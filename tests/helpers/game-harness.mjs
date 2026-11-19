@@ -26,7 +26,7 @@ export async function gameHarness({initialize=true,storage,newProfile=false,moun
  const window=element(),document=element();window.localStorage=newProfile?(storage??memoryStorage()):allUnlockedStorage(storage);window.navigator={locks:memoryLocks()};window.location={href:'https://game-harness.test/',origin:'https://game-harness.test',assign(url){this.assigned=url;}};document.documentElement=element();document.body=element();
  const $=key=>{if(!elements.has(key))elements.set(key,element());return elements.get(key);};
  const specials=[1,2,3].map(i=>$(`[data-action="special${i}"]`));specials.forEach((b,i)=>b.dataset.action='special'+(i+1));
- document.createElement=()=>element();document.querySelector=$;document.querySelectorAll=s=>s==='[data-hold],[data-action]'?specials:[];document.hasFocus=()=>true;
+ document.createElement=()=>element();document.querySelector=$;document.querySelectorAll=s=>s==='[data-hold],[data-action]'?specials:[];document.getElementById=id=>elements.get('#'+id)??null;document.hasFocus=()=>true;
  const param=()=>({setValueAtTime(){},exponentialRampToValueAtTime(){}});
  window.AudioContext=class{constructor(){this.currentTime=0;this.destination={};}resume(){}createOscillator(){return{frequency:param(),connect(){},disconnect(){},start(){},stop(){}};}createGain(){return{gain:param(),connect(){},disconnect(){}};}};
  const context={document,window,console,URL,queueMicrotask,setTimeout:fn=>{const id=++timerId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id),Phaser:{Scene:class{},Game:class{},Scale:{RESIZE:0,NO_CENTER:0}}};

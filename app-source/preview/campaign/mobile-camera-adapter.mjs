@@ -21,11 +21,17 @@ export function createMobileCameraAdapter(){
   if(frozen)options={...options,cameraMode:'stable',camera:'stable'};
   if(paused&&canReuseCameraFrame(previous,width,height,{...options,paused:true,measuredCameraSafety:measured?options.measuredCameraSafety:false})){lastResult={...lastResult,presentation};return lastResult;}
   const preferred={...legacyFrame,width,height,x:legacyFrame.left+width/(2*legacyFrame.zoom),y:430+(height/2-legacyFrame.base)/legacyFrame.zoom};
+  const directJump=route&&camera==='classic'&&world.player.y<(world.player.supportY??430)-1;
+  // The legacy street frame only raises its base near the top of the jump.
+  // Restore its standing anchor, then move it with the actor from takeoff.
+  // This keeps the chapter's preferred zoom while making dynamic follow
+  // immediate across the later chapter routes.
+  const directPreferred=directJump?{...preferred,y:preferred.y+(legacyFrame.jumpPan||0)/legacyFrame.zoom+world.player.y-(world.player.supportY??430)}:preferred;
   const inset=stageInsets(width,height,options);
   const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
   const plan=challengeCameraPlan(cameraWorld,{route,previous,delta});
   const portraitBattleY=options.touch&&options.portrait ? 0.69 : undefined;
-  const frame=route?fitChallengeCamera(preferred,plan.subjects,previous,delta,{...safety,cameraMode:frozen?'stable':camera,paused,cameraPlan:plan}):controlledCombatCameraFrame(width,height,[cameraWorld.player,cameraWorld.enemy],previous,delta,{...safety,cameraMode:camera,paused,subjectScreenY:portraitBattleY,preferredCameraFrame:preferred});
+  const frame=route?fitChallengeCamera(directPreferred,plan.subjects,previous,delta,{...safety,cameraMode:frozen?'stable':camera,paused,cameraPlan:plan,cameraVerticalDirect:directJump}):controlledCombatCameraFrame(width,height,[cameraWorld.player,cameraWorld.enemy],previous,delta,{...safety,cameraMode:camera,paused,subjectScreenY:portraitBattleY,preferredCameraFrame:preferred});
   previous=frame;lastWorld=world;lastRoute=route;
   lastResult={...legacyFrame,presentation,backdropScene:world,backdropZoom:Math.max(legacyFrame.zoom,frame.backdropZoom||frame.zoom,lastResult?.cameraFrame?.width===width&&lastResult?.cameraFrame?.height===height?lastResult.backdropZoom||0:0),zoom:frame.zoom,left:frame.x-width/(2*frame.zoom),base:height/2+(430-frame.y)*frame.zoom,cameraFrame:frame};
   return lastResult;

@@ -92,7 +92,7 @@ function resumeFromPause(){const s=v();if(!s?.paused)return false;media.unlock()
 function togglePause(){const s=v();if(!s)return;if(s.paused){resumeFromPause();return;}if(ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
 $('#resume').onclick=resumeFromPause;
-$('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
+$('#start').onclick=()=>{media.enterChapter();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
 
 window.addEventListener('keydown',e=>{
@@ -179,7 +179,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}
  finally{requestAnimationFrame(tick);}
 }
-continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-5',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
+continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-5',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onEnter:()=>media.enterChapter(),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
 refreshMenu();resizeCanvas();
 const allFiles={'chen-head':'chen-head-v8.webp','chen-step':'chen-step-v9.webp','chen-wave':'chen-wave-v9.webp',...ART_FILES,...ASSET_FILES,'chapter5-sky':'challenge/street-sky-v75.webp','chapter4-sound-truck':'chapter4/sound-truck-v1.png',...CHAPTER5_ART.files};
 const sceneBackdropFile=index=>allFiles[`chapter5-scene-${index}`]||allFiles['chapter5-sky'];

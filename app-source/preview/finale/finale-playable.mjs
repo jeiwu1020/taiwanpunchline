@@ -116,7 +116,7 @@ async function ensureSelectedTeam(){
  if(!chapter){if(!await attach())return false;if(view().mode==='team-select')draftTeam=requestedTeam;}
  return true;
 }
-$('#start').onclick=async()=>{media.unlock();if(!await ensureSelectedTeam())return;if(view().mode==='team-select'){await chapter.start([...draftTeam],{opening:true});sync();}};
+$('#start').onclick=async()=>{media.enterChapter();if(!await ensureSelectedTeam())return;if(view().mode==='team-select'){await chapter.start([...draftTeam],{opening:true});sync();}};
 $('#finale-prepare').onclick=async()=>{if(await ensureSelectedTeam())openPreparation();};$('#leave').onclick=()=>openPreparation(true);
 $('#story-next').onclick=async()=>{media.unlock();await chapter?.nextStory();sync();};$('#result-next').onclick=async()=>{media.unlock();await chapter?.continueResult();sync();};$('#result-reselect').onclick=async()=>{await chapter?.reselect();sync();};
 for(const id of ['menu-home','result-home','complete-home'])$('#'+id).onclick=returnOverview;

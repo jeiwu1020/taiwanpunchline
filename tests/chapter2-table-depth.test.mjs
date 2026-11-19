@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
-import {resolve} from 'node:path';
+import {tmpdir} from 'node:os';
+import {join,resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {JSDOM} from 'jsdom';
 import {createCanvas,Image} from '@napi-rs/canvas';
+import {TABLE_SIDE_CLEARANCE} from '../dist/challenge-depth-engine.mjs';
 import {createChapter2Route} from '../dist/preview/chapter2/chapter2-engine.mjs';
 const dist=resolve('dist/preview/chapter2');
 const advance=(g,input,n=90)=>{for(let i=0;i<n;i++)g.step(1/60,input);};
@@ -12,6 +14,8 @@ const clean=(type='wang',routeIndex=0)=>{const g=createChapter2Route({characterI
 
 test('real chapter-two renderer keeps a rear-contact actor behind both tabletop and apron',async()=>{
  const dom=new JSDOM(await readFile(resolve(dist,'index.html'),'utf8'),{url:'http://table.test/',pretendToBeVisual:true});
+ const originalGlobals=Object.fromEntries(['window','document','Image','innerWidth','innerHeight','devicePixelRatio','requestAnimationFrame'].map(key=>[key,globalThis[key]]));
+ try{
  const {window}=dom,canvas=window.document.querySelector('canvas'),native=createCanvas(960,540),ctx=native.getContext('2d');
  let raf;const events=[],ellipses=[],ellipse=ctx.ellipse.bind(ctx),drawImage=ctx.drawImage.bind(ctx);ctx.ellipse=(...args)=>{ellipses.push(args);return ellipse(...args);};ctx.drawImage=(im,...args)=>{events.push({image:im.tag,args});return drawImage(im,...args);};
  for(const name of ['width','height'])Object.defineProperty(canvas,name,{get:()=>native[name],set:n=>native[name]=n,configurable:true});
@@ -22,11 +26,12 @@ test('real chapter-two renderer keeps a rear-contact actor behind both tabletop 
  const script=(await readFile(resolve(dist,'chapter2-playable.mjs'),'utf8')).replace(/from '(\.\.?\/[^']+)'/g,(_,p)=>`from '${new URL(p,pathToFileURL(resolve(dist,'chapter2-playable.mjs'))).href}'`);
  const app=await import('data:text/javascript;base64,'+Buffer.from(script+'\nexport {chapter,draw,sync,images};').toString('base64'));
  const q=s=>window.document.querySelector(s);for(let i=0;i<200&&q('#start').disabled;i++)await new Promise(r=>setTimeout(r,10));assert.equal(q('#start').disabled,false);
- q('#start').click();while(app.chapter.view().mode==='story')q('#story-next').click();
+ q('#start').click();let storyAdvances=0;while(app.chapter.view().mode==='story'&&storyAdvances<24){const state=app.chapter.view();assert.equal(app.chapter.nextStory(state.token),true);storyAdvances++;}
+ assert.notEqual(app.chapter.view().mode,'story',`story did not advance after ${storyAdvances} clicks (frame ${app.chapter.view().frameIndex}/${app.chapter.view().frameCount})`);
  const g=app.chapter.world,t=g.platforms[0];g.section={...g.section,spawns:[]};g.enemies=[];g.platforms=[t];g.supplyUsed=true;
  Object.assign(g.player,{x:(t.left+t.right)/2,depth:t.depth-t.depthHalf-10,y:430,supportY:430});advance(g,{down:true},90);
  assert.equal(g.player.depth,-62,'unchanged physical collision stops at rear edge');
- events.length=0;app.draw(1000);await writeFile(resolve('../evidence/rear-contact-current.png'),native.toBuffer('image/png'));
+ events.length=0;app.draw(1000);await writeFile(join(tmpdir(),'rear-contact-current.png'),native.toBuffer('image/png'));
  const bodyLast=events.findLastIndex(e=>/wang-(parts|head)/.test(e.image)),tables=events.map((e,i)=>({...e,i})).filter(e=>e.image?.endsWith('street-props-v2.webp')&&e.args[0]===101);
  const isFront=e=>e.args[1]===130&&Math.abs(e.args[7]/e.args[6]-(430-t.y)*513/433/250)<1e-8;
  assert.ok(bodyLast>=0);assert.ok(tables.some(e=>!isFront(e)&&e.i>bodyLast),'tabletop must cover actor at rear collision boundary');
@@ -37,16 +42,16 @@ test('real chapter-two renderer keeps a rear-contact actor behind both tabletop 
  Object.assign(g.player,{y:t.y,supportY:t.y,depth:t.depth});ellipses.length=0;events.length=0;app.draw(1000);
  const shadow=ellipses.find(e=>Math.abs(e[2]-38*zoom)<1e-9),surface=events.find(e=>e.image?.endsWith('street-props-v2.webp')&&e.args[0]===101&&e.args[1]===130&&!isFront(e));
  assert.ok(Math.abs(shadow[1]-(surface.args[5]+(t.depthHalf*.65*zoom)))<1e-8,'tabletop occupant shadow must share its support plane');
- dom.window.close();
+ }finally{dom.window.close();for(const [key,value] of Object.entries(originalGlobals)){if(value===undefined)delete globalThis[key];else globalThis[key]=value;}}
 });
 
 test('all three starters keep every chapter-two table solid on four sides and landable from both depth edges',()=>{
  for(const type of ['wang','han','huang'])for(let routeIndex=0;routeIndex<3;routeIndex++)for(let ti=0;ti<2;ti++){
   for(const side of ['back','front','left','right']){
-   const g=clean(type,routeIndex),p=g.player,t=g.platforms[ti],near=t.depth+t.depthHalf,far=t.depth-t.depthHalf;
+   const g=clean(type,routeIndex),p=g.player,t=g.platforms[ti],near=t.depth+t.depthHalf,far=t.depth-t.depthHalf;g.platforms=[t];g.chapterEncounter={key:`2:${g.section.id}`,chapter:2,boss:false,kind:'rush',collision:{halfWidth:40,depthHalf:24,height:82},props:[],gates:[],hazards:[],parcels:[],effects:[],notes:[],time:0};
    Object.assign(p,{x:side==='left'?t.left-25:side==='right'?t.right+25:(t.left+t.right)/2,depth:side==='back'?far-10:side==='front'?near+10:t.depth,y:430,supportY:430});
    advance(g,{[side==='back'?'down':side==='front'?'up':side==='left'?'right':'left']:true});
-   assert.equal(side==='left'||side==='right'?p.x:p.depth,side==='left'?t.left:side==='right'?t.right:side==='back'?far:near,type+'/'+routeIndex+'/'+ti+'/'+side);
+   assert.equal(side==='left'||side==='right'?p.x:p.depth,side==='left'?t.left-TABLE_SIDE_CLEARANCE:side==='right'?t.right+TABLE_SIDE_CLEARANCE:side==='back'?far:near,type+'/'+routeIndex+'/'+ti+'/'+side);
   }
   for(const sign of [-1,1]){
    const g=clean(type,routeIndex),p=g.player,t=g.platforms[ti];Object.assign(p,{x:(t.left+t.right)/2,depth:t.depth+sign*(t.depthHalf+8)});g.press('jump');advance(g,sign<0?{down:true}:{up:true},16);advance(g,{},100);assert.equal(p.y,t.y);assert.equal(p.supportY,t.y);advance(g,sign<0?{down:true}:{up:true},50);assert.equal(p.y,430);

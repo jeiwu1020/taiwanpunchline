@@ -54,13 +54,16 @@ test('page fallback cancels repeated pointer-game-control taps but retains nativ
 });
 test('depth route uses shared full-stage safe space while retaining legacy callers',async()=>{
  const {depthRouteCameraFrame}=await import('../dist/challenge-depth-render.mjs');
- for(const {width,height,portrait,touch=true} of sizes.filter(s=>!s.sideways))for(const y of [430,160]){
- const route={player:{x:1000,y,depth:0},worldWidth:3100};
- const frame=depthRouteCameraFrame(width,height,route,{portrait:!!portrait,touch,fullStage:true});
+ for(const {width,height,portrait,touch=true} of sizes.filter(s=>!s.sideways)){
+ const route={player:{x:1000,y:430,depth:0},worldWidth:3100},grounded=depthRouteCameraFrame(width,height,route,{portrait:!!portrait,touch,fullStage:true});
  const safe=presentation.stageInsets(width,height,{touch,portrait:!!portrait});
- const sy=v=>(v-frame.y)*frame.zoom+height/2;
- assert.ok(sy(y-300)>=safe.top-1,`${width}x${height}: actor head stays under HUD`);
- assert.ok(sy(495)<=height-safe.bottom+30,`${width}x${height}: walkable street clears controls`);
+ const project=(frame,v)=>(v-frame.y)*frame.zoom+height/2;
+ assert.ok(project(grounded,130)>=safe.top-1,`${width}x${height}: grounded actor head stays under HUD`);
+ assert.ok(project(grounded,495)<=height-safe.bottom+30,`${width}x${height}: grounded street clears controls`);
+ route.player.y=160;const jumped=depthRouteCameraFrame(width,height,route,{portrait:!!portrait,touch,fullStage:true});
+ assert.ok(project(jumped,-140)>=safe.top-1,`${width}x${height}: jumping actor head stays under HUD`);
+ assert.ok(project(jumped,188)<=height-safe.bottom+1,`${width}x${height}: jumping actor remains above controls`);
+ assert.equal(jumped.zoom,grounded.zoom,`${width}x${height}: dynamic jump follow keeps camera distance`);
  }
 });
 test('pause freezes an in-flight camera ease until resume',()=>{

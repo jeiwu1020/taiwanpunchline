@@ -97,9 +97,10 @@ function preferredDepthRouteCameraFrame(width,height,route,{overlay=false,portra
   const legacyInset=stageInsets(legacyWidth,legacyHeight,{touch,portrait}),legacyAvailable=Math.max(1,legacyHeight-legacyInset.top-legacyInset.bottom);
   const inset=closer?{top:88+(safe.top||0),bottom:66+(safe.bottom||0)}:stageInsets(width,height,{touch,portrait}),available=Math.max(1,height-inset.top-inset.bottom);
   const actorTop=route.player.y+depthOf(route.player)*DEPTH_SCALE-300;
+  const scaleActorTop=(route.player.supportY??GROUND)+depthOf(route.player)*DEPTH_SCALE-300;
   const floor=GROUND+MAX_DEPTH*DEPTH_SCALE;
-  const legacyZoom=Math.min(1.4,legacyWidth/(portrait?550:1050),Math.max(1,legacyAvailable-40)/Math.max(400,floor-actorTop));
-  const dynamicZoom=Math.min(1.4,width/(portrait?550:1050),Math.max(1,available-40)/Math.max(400,floor-actorTop),closer?legacyZoom*1.18:Infinity);
+  const legacyZoom=Math.min(1.4,legacyWidth/(portrait?550:1050),Math.max(1,legacyAvailable-40)/Math.max(400,floor-scaleActorTop));
+  const dynamicZoom=Math.min(1.4,width/(portrait?550:1050),Math.max(1,available-40)/Math.max(400,floor-scaleActorTop),closer?legacyZoom*1.18:Infinity);
   // Stable means fixed actor scale for this viewport. Height changes only pan.
   const standingZoom=Math.min(1.4,width/(portrait?550:1050),Math.max(1,available-40)/400,closer?Math.min(1.4,legacyWidth/1050,Math.max(1,legacyAvailable-40)/400)*1.18:Infinity);
   // Only native phone landscape limits the near zoom. Reserve most of the
@@ -110,7 +111,7 @@ function preferredDepthRouteCameraFrame(width,height,route,{overlay=false,portra
   const zoom=camera==='stable'?Math.min(1.4,standingZoom*1.12,Math.max(1,available-40)/300):gentleLandscape?Math.min(dynamicZoom,farDynamicZoom*1.6):dynamicZoom,visible=width/zoom;
   const x=clamp(route.player.x+visible*.13,visible/2,Math.max(visible/2,route.worldWidth-visible/2));
   const restBase=height-inset.bottom-20-MAX_DEPTH*DEPTH_SCALE*zoom;
-  const jumpPan=camera==='stable'?Math.max(0,inset.top+20-(restBase+(actorTop-GROUND)*zoom)):0;
+  const jumpPan=camera==='stable'?Math.max(0,inset.top+20-(restBase+(actorTop-GROUND)*zoom)):Math.max(0,scaleActorTop-actorTop)*zoom;
   const base=restBase+jumpPan;
   // Static art uses the highest possible camera density for this viewport.
   // Jump zoom still follows the original camera, without re-rasterizing art.
@@ -146,11 +147,18 @@ export function depthRouteCameraFrame(width,height,route,options={}){
  // the older far-jump reserve beneath it. Fit actual poses once, below, against
  // measured blockers; distant mobs must not influence this preferred scale.
  const nativeClose=measured&&options.touch!==false&&!(options.portrait??width<height)&&options.landscapePreview===true&&height<=500&&options.camera!=='stable';
- const preferred=preferredDepthRouteCameraFrame(width,height,resting,{...options,...(measured?{safe:{},hudBottom:null,lowerLane:nativeClose?options.lowerLane:null}:{}),skipMobileFrame:!nativeClose});
+ const preferredRoute=options.camera==='stable'?resting:route;
+ const preferred=preferredDepthRouteCameraFrame(width,height,preferredRoute,{...options,...(measured?{safe:{},hudBottom:null,lowerLane:nativeClose?options.lowerLane:null}:{}),skipMobileFrame:!nativeClose});
  if(!options.fullStage)return {...preferred,presentation};
  const inset=stageInsets(width,height,options);
  const safety=measured?options:{...options,measuredCameraSafety:false,safeRect:{left:0,top:Math.max(inset.top,options.hudBottom||0),right:width,bottom:height-inset.bottom},occlusions:[]};
- return {...fitChallengeCamera(preferred,subjects,options.previous,options.delta,{...safety,...(measured?{cameraPlan:plan}:{})}),presentation};
+ // Omitting the camera setting is the legacy dynamic-follow default. Keep
+ // this branch aligned with fitChallengeCamera's default instead of treating
+ // older callers as stable while the vertical jump correction is applied.
+ const dynamicCamera=options.camera!=='stable';
+ const desktopDynamic=options.touch===false&&dynamicCamera;
+ const rising=dynamicCamera&&route.player.y<(route.player.supportY??GROUND)-1;
+ return {...fitChallengeCamera(preferred,subjects,options.previous,options.delta,{...safety,...(measured?{cameraPlan:plan}:{}),...(desktopDynamic?{cameraHorizontalDeadZone:36,cameraFollowFactor:.2}:{}),cameraVerticalDirect:rising}),presentation};
 }
 export function depthBackdropLayout(frame){
  const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;

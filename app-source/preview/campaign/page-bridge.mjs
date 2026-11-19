@@ -27,7 +27,7 @@ const reasonText=reason=>({
 
 /** Mount is inert. Query parameters cannot grant access or trigger a storage read. */
 export function mountContinuationControls({document,window,chapterId,createPlayableChapter,
- getOptions=()=>({}),getPlayable=()=>null,pauseForUI=()=>{},isReady=()=>true,testPreview=false,characters={},onReady=()=>{},onChange=()=>{},reloadPage=()=>window.location.reload(),navigate=url=>window.location.assign(url)}){
+ getOptions=()=>({}),getPlayable=()=>null,pauseForUI=()=>{},isReady=()=>true,testPreview=false,characters={},onReady=()=>{},onEnter=()=>{},onChange=()=>{},reloadPage=()=>window.location.reload(),navigate=url=>window.location.assign(url)}){
  const query=new URL(window.location.href).searchParams;
  testPreview=DEVELOPMENT_TOOLS&&(testPreview||['test','qa','previewOnly'].some(key=>query.has(key))||document.documentElement.dataset.testPreview==='true');
  const menu=document.querySelector('#menu .card'),stage=document.querySelector('#stage');
@@ -148,8 +148,8 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   const eyebrow=menu.querySelector('.eyebrow'),note=menu.querySelector('.note');if(eyebrow)eyebrow.textContent='繼續追麥';if(note)note.textContent='人物、對白與情節均為虛構喜劇，不代表原型人物的真實發言。';
   if(attached.persisted){launched=true;onReady(chapter);}else menuStatus.textContent=reasonText('unsaved-progress');render();
  }
- resume.onclick=()=>job(()=>startContinuation());
- retry.onclick=()=>job(async()=>{const result=recovery?await recovery.retrySave():chapter?await chapter.retrySave():router?.enabled?await router.retrySave():null;if(result&&(!result.accepted||!result.persisted)){if(recovery)recoveryIssue=result.reason;menuStatus.textContent=reasonText(result.reason);}else if(result?.accepted===true&&result.persisted===true&&chapter&&!launched){launched=true;onReady(chapter);}else if(result?.accepted===true&&result.persisted===true&&attachPending){await startContinuation();}});
+ resume.onclick=()=>{onEnter();return job(()=>startContinuation());};
+ retry.onclick=()=>{if(attachPending)onEnter();return job(async()=>{const result=recovery?await recovery.retrySave():chapter?await chapter.retrySave():router?.enabled?await router.retrySave():null;if(result&&(!result.accepted||!result.persisted)){if(recovery)recoveryIssue=result.reason;menuStatus.textContent=reasonText(result.reason);}else if(result?.accepted===true&&result.persisted===true&&chapter&&!launched){launched=true;onReady(chapter);}else if(result?.accepted===true&&result.persisted===true&&attachPending){await startContinuation();}});};
  function actionStatus(copy){const status=document.querySelector('#chapter-action-status');if(status)status.textContent=copy;else menuStatus.textContent=copy;}
  const retryDialog=document.createElement('dialog');retryDialog.id='campaign-retry-confirm';retryDialog.className='chapter-home-confirm paper campaign-retry-confirm';retryDialog.setAttribute('aria-labelledby','campaign-retry-title');retryDialog.setAttribute('aria-describedby','campaign-retry-copy');retryDialog.innerHTML='<h2 id="campaign-retry-title">重新整備再重試？</h2><p id="campaign-retry-copy" data-copy></p><div class="home-confirm-actions"><button type="button" class="primary menu-action" data-cancel>取消</button><button type="button" class="primary menu-action" data-confirm>重新整備再重試</button></div>';document.body.append(retryDialog);
  function confirmRetry(copy){

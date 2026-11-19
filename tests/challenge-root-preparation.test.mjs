@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {starterGameEntry} from './helpers/starter-game-entry.mjs';
 import {newEnvelope,CHALLENGE_KEY} from '../dist/preview/campaign/fresh/schema.mjs';
 import {memoryStorage} from './helpers/main-unified-fixture.mjs';
+import {starterOpeningMode} from '../dist/starter-opening.mjs';
 const seed=xp=>{const e=newEnvelope();e.campaign.profiles[0].campaign.xp=xp;return memoryStorage({[CHALLENGE_KEY]:JSON.stringify(e)});};
 async function settle(x){await x.settle();await x.context.challengeRun?.flush();await x.settle();}
 test('overview edit saves configuration without starting or consuming opening',async()=>{
@@ -15,6 +16,9 @@ test('explicit start saves preparation then presents existing comic before creat
  const storage=seed(160),x=await starterGameEntry({storage,fresh:true});globalThis.document=x.document;x.context.openPreparation({intent:'start',entry:{characterId:'wang',helperId:'han'}});x.$('#preparationConfirm').click();await settle(x);
  assert.equal(x.context.challengeRun,null);assert.equal(x.profiles.readProfile().campaign.story.opening,'unseen');assert.equal(x.$('.starter-opening').open,true);assert.equal(x.starts,0);
  x.$('[data-starter-skip]').click();await settle(x);assert.ok(x.context.challengeRun);assert.equal(x.profiles.readProfile().campaign.story.opening,'seen');assert.equal(x.starts,1);x.close();
+});
+test('replaying chapter one with a nonstarter character skips the legacy opening comic',()=>{
+ assert.equal(starterOpeningMode({profiles:{},characterId:'huang',replay:true}),'continue');
 });
 test('an opening callback from a reset slot generation cannot start a stale run',async()=>{
  const storage=seed(0),x=await starterGameEntry({storage,fresh:true});x.start({characterId:'wang',helperId:'han'});const g=x.profiles.preparationSnapshot();await x.profiles.resetProfile('slot-1',g);const raw=storage.getItem(CHALLENGE_KEY);

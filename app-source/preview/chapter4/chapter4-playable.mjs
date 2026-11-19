@@ -95,7 +95,7 @@ function resumeFromPause(){const s=v();if(!s?.paused)return false;media.unlock()
 function togglePause(){const s=v();if(!s)return;if(s.paused){resumeFromPause();return;}if(ui.busy)return;media.unlock();if(s.mode==='story'){continuation?.openPreparation();return;}if(chapter.setPaused(true,s.token))sync();}
 $('#pause').onclick=togglePause;
 $('#resume').onclick=resumeFromPause;
-$('#start').onclick=()=>{media.unlock();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
+$('#start').onclick=()=>{media.enterChapter();chapter=createPlayableChapter({characterId:selected,difficulty:$('#difficulty').value});sync();};
 function resizeCanvas(){return ui.prepareSurface();}
 
 window.addEventListener('keydown',e=>{
@@ -182,7 +182,7 @@ function tick(now){
  }catch(error){ui.failFrame(error);}
  finally{requestAnimationFrame(tick);}
 }
-continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-4',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
+continuation=mountContinuationControls({document,window,characters:CAST,chapterId:'chapter-4',createPlayableChapter,getPlayable:()=>chapter,pauseForUI:()=>{clearHold();const s=v();if(s&&!s.paused&&['route','battle'].includes(s.mode)&&chapter.setPaused(true,s.token))sync();},isReady:()=>!$('#start').disabled,getOptions:()=>({difficulty:$('#difficulty').value}),onEnter:()=>media.enterChapter(),onReady:next=>{chapter=next;selected=next.view().characterId;sync();},onChange:()=>sync()});
 refreshMenu();resizeCanvas();
 const allFiles={...ART_FILES,...SKY_EXTENSION_FILES,...STREET_SEAM_FILES,...ASSET_FILES,...CHAPTER4_NEW_ART.files};
 const sceneAssetIndexes=Object.fromEntries([0,1,2].flatMap(index=>[[`chapter4-sky-${index}`,index],[`chapter4-seam-${index}`,index],[`chapter4-edge-${index}`,index]]));

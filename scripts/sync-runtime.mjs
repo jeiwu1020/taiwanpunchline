@@ -81,7 +81,7 @@ function syncDirectory(srcDir, destDir, { force = false, prune = false } = {}) {
 export function syncRuntime({
   rootDir = DEFAULT_ROOT,
   force = false,
-  prune = false,
+  prune = true,
   quiet = false,
 } = {}) {
   const pairs = [
@@ -102,9 +102,12 @@ export function syncRuntime({
     }
     summary[destName] = syncDirectory(srcDir, destDir, { force, prune });
   }
-  if (!quiet && (summary.dist.copied > 0 || summary.build.copied > 0)) {
+  if (
+    !quiet &&
+    (summary.dist.copied > 0 || summary.dist.removed > 0 || summary.build.copied > 0 || summary.build.removed > 0)
+  ) {
     console.log(
-      `[sync-runtime] synced dist (${summary.dist.copied}/${summary.dist.total}) and build (${summary.build.copied}/${summary.build.total})`,
+      `[sync-runtime] dist: ${summary.dist.copied} copied, ${summary.dist.removed} stale removed, ${summary.dist.total} source files; build: ${summary.build.copied} copied, ${summary.build.removed} stale removed, ${summary.build.total} source files`,
     );
   }
   return summary;
@@ -112,7 +115,7 @@ export function syncRuntime({
 
 if (process.argv[1] && resolve(process.argv[1]) === __filename) {
   const force = process.argv.includes('--force');
-  const prune = process.argv.includes('--prune');
+  const prune = !process.argv.includes('--no-prune');
   const quiet = process.argv.includes('--quiet');
   syncRuntime({ force, prune, quiet });
 }

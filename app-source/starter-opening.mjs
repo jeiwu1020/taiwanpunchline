@@ -10,8 +10,9 @@ export const STARTER_ART_FILES=Object.freeze({
 // a route; ChallengeSession's original beginRouteAttempt is the durable boundary.
 // Every nonempty legacy record is ambiguous and must continue without a wake-up.
 export function starterOpeningMode({profiles,characterId,replay=false,review=false}={}){
- if(!['wang','han'].includes(characterId))return 'legacy';
  if(review)return 'review';
+ if(replay)return 'continue';
+ if(!['wang','han'].includes(characterId))return 'legacy';
  const state=profiles.get(),profile=profiles.getCurrentProfile(),challenge=profile.challenge;
  // Fresh campaign slots have an explicit comic receipt. Merely saving a party
  // must not consume it or rely on the old empty-profile heuristic.

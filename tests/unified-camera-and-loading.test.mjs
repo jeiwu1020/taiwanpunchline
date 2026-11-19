@@ -333,7 +333,7 @@ test('Camera pans smoothly without single-frame teleports on mode switch, separa
   });
   assert.ok(Math.abs(nextStable.x - dyn.x) * nextStable.zoom <= 8, `mode switch shift ${(nextStable.x - dyn.x) * nextStable.zoom}px must ease smoothly`);
 
-  // Street jump keeps background vertical camera steady instead of bouncing 1:1 with player.y
+  // Dynamic street follow tracks the jumping player vertically without changing distance.
   const streetWorld = {
     player: { x: 500, y: 430, supportY: 430, depth: 0, hp: 100 },
     enemies: [],
@@ -351,7 +351,8 @@ test('Camera pans smoothly without single-frame teleports on mode switch, separa
   const groundedStreet = streetPlayerCameraFrame(390, 844, streetWorld, streetOpts);
   streetWorld.player.y = 260;
   const jumpedStreet = streetPlayerCameraFrame(390, 844, streetWorld, { ...streetOpts, previous: groundedStreet, delta: 16 });
-  assert.ok(Math.abs(jumpedStreet.y - groundedStreet.y) < 1e-6, 'street vertical camera must stay grounded during ordinary jump instead of bouncing the scenery');
+  assert.ok(jumpedStreet.y < groundedStreet.y - 100, 'dynamic street camera follows the upward jump');
+  assert.equal(jumpedStreet.zoom, groundedStreet.zoom, 'following a jump does not zoom the camera');
 });
 
 test('Desktop & mobile landscape Boss/VS cameras stay smooth (no jump-cuts) through mid-air jumps and podium desk landings', async () => {

@@ -211,7 +211,7 @@ test('mobile landscape challenge overview does not clip review-opening and suppo
     const snapshot = { profileId: 'slot-1', revision: 1, generation: 0, initialized: true, characterId: 'wang', helperId: 'han', difficulty: 'easy', allowance: 3, characters: { wang: { skills: {} }, han: { skills: {} } }, unlockedCharacters: ['wang', 'han'] };
     const controller = {
       get: () => ({ activeProfileId: 'slot-1', initialized: true, persisted: true, revision: 1, generation: 0 }),
-      readProfile: () => ({ characters: snapshot.characters, unlockedCharacters: ['wang', 'han'], campaign: { xp: 0, chapterClears: [], cursor: { chapterId: 'chapter-1', stepId: 'entry' }, selection: { characterId: 'wang', helperId: 'han' }, difficulty: 'easy' } })
+      readProfile: () => ({ characters: snapshot.characters, unlockedCharacters: ['wang', 'han'], campaign: { xp: 0, chapterClears: ['chapter-1'], cursor: { chapterId: 'chapter-1', stepId: 'entry' }, selection: { characterId: 'wang', helperId: 'han' }, difficulty: 'easy' } })
     };
     const ui = mountChallengeUI({ controller, characters: CAST, parent: app, onReview: () => {} });
     ui.open({ view: 'chapter' });

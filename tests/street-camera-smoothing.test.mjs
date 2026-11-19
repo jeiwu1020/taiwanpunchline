@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ChallengeDepthRoute} from '../dist/challenge-depth-engine.mjs';
 import {depthRouteCameraFrame} from '../dist/challenge-depth-render.mjs';
-import {challengeActorBounds,challengeCameraSubjects} from '../dist/challenge-camera.mjs';
+import {challengeActorBounds,challengeCameraSubjects,challengeCameraPlan,fitChallengeCamera} from '../dist/challenge-camera.mjs';
 import {createMobileCameraAdapter} from '../dist/preview/campaign/mobile-camera-adapter.mjs';
 import {streetTrialFrame} from '../dist/preview/chapter2/street-trial-view.mjs';
 const geometry=(w,h)=>({safeRect:{left:8,top:8,right:w-8,bottom:h-8},occlusions:[{left:8,top:8,right:w-8,bottom:Math.min(120,h*.23)},{left:8,top:h-130,right:w*.27,bottom:h-8},{left:w*.65,top:h-154,right:w-8,bottom:h-8}]});
@@ -29,4 +29,18 @@ for(const section of [0,1,2])for(const mode of ['classic','stable'])test(`long r
 });
 test('stable encounter has a dead zone for small subject motion in open space',()=>{
  const p=actor(450),e=actor(510),world={player:p,enemy:e,enemies:[e],worldWidth:3600},ad=createMobileCameraAdapter(),options={width:1280,height:720,route:true,camera:'stable',delta:1000/60,safeRect:{left:0,top:0,right:1280,bottom:720},occlusions:[]},legacy={zoom:.8,left:-300,base:570};const first=ad.frame(legacy,world,options).cameraFrame;p.x++;e.x++;const second=ad.frame(legacy,world,options).cameraFrame;assert.equal(second.x,first.x,'stable does not follow every world-unit wiggle');assert.equal(second.zoom,first.zoom);
+});
+test('desktop first-chapter dynamic street holds small horizontal sway in its dead zone',()=>{
+ const p={...actor(500),supportY:430},e={...actor(600),supportY:430},world={player:p,enemy:e,enemies:[e],worldWidth:3600},preferred={width:1280,height:720,x:500,y:430,zoom:.8},options={safeRect:{left:0,top:0,right:1280,bottom:720},occlusions:[],cameraMode:'classic'};let plan=challengeCameraPlan(world,{route:true}),frame=fitChallengeCamera(preferred,plan.subjects,null,1000/60,{...options,cameraPlan:plan,cameraHorizontalDeadZone:36});const start=frame.x;
+ for(let i=0;i<12;i++){p.x++;e.x++;plan=challengeCameraPlan(world,{route:true,previous:frame});frame=fitChallengeCamera({...preferred,x:preferred.x+i+1},plan.subjects,frame,1000/60,{...options,cameraPlan:plan,cameraHorizontalDeadZone:36});}
+ assert.ok(Math.abs(frame.x-start)<1,'small walking steps should not make the desktop view sway');
+});
+for(const [w,h,touch,portrait] of [[1280,720,false,false],[390,844,true,true]])test(`dynamic street follows an upward jump without zooming ${w}x${h}`,()=>{
+ const p={...actor(1000),supportY:430},e={...actor(1160),supportY:430},world={player:p,enemy:e,enemies:[e],worldWidth:3600},options={fullStage:true,touch,portrait,camera:'classic',delta:1000/60};const rest=depthRouteCameraFrame(w,h,world,{...options,previous:null});let jump=rest;for(let i=1;i<=24;i++){p.y=430-i*6;jump=depthRouteCameraFrame(w,h,world,{...options,previous:jump});assert.equal(jump.zoom,rest.zoom,'jump height must not change camera distance');}assert.ok(jump.y<rest.y-100,'camera must rise with the jumping character');
+ p.y=430;const stableRest=depthRouteCameraFrame(w,h,world,{...options,camera:'stable',previous:null});p.y=286;const stableJump=depthRouteCameraFrame(w,h,world,{...options,camera:'stable',previous:null});assert.equal(stableJump.zoom,stableRest.zoom,'stable mode does not gain jump-triggered zoom');
+});
+test('later chapter desktop dynamic street follows the jump directly without zooming',()=>{
+ const p={...actor(1000),supportY:430},e={...actor(1160),supportY:430},world={player:p,enemy:e,enemies:[e],worldWidth:3600},ad=createMobileCameraAdapter(),options={width:1280,height:720,route:true,camera:'classic',delta:1000/60},view=()=>streetTrialFrame({width:1280,height:720,portrait:false,player:p,worldWidth:3600});const start=ad.frame(view(),world,options).cameraFrame;let current=start;
+ for(let i=1;i<=24;i++){p.y=430-i*6;current=ad.frame(view(),world,options).cameraFrame;assert.equal(current.zoom,start.zoom,'jump height must not change camera distance');}
+ assert.ok(current.y<start.y-110,'dynamic desktop camera should move up with the jumping character');
 });

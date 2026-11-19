@@ -12,7 +12,7 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
  const elements=Object.fromEntries(['player','enemy','assist-player','assist-enemy'].map(id=>{const el=document.createElement('audio');el.preload='none';el.dataset.chapterVoice=id;document.body.append(el);return[id,el];}));
  const fetchImpl=window.fetch?.bind(window)||globalThis.fetch;
  const voices=new VoiceChannels(elements,{fetchImpl});
- let prefs=normalizeSettings(getSettings()),context=null,sfxGain=null,unlocked=false,destroyed=false,hidden=false,demo=null,view={},epoch=0,previewAudioFailure=false;
+ let prefs=normalizeSettings(getSettings()),context=null,sfxGain=null,unlocked=false,destroyed=false,hidden=false,demo=null,view={},epoch=0,previewAudioFailure=false,crowdBufferPromise=null;
  const timers=new Set(),oscillators=new Set();
  const emit=(channel,status,extra={})=>{if(destroyed)return;const value={channel,status,...extra};try{onState(value);}catch{}if(status==='error'||status==='blocked'){try{onError(value);}catch{}}};
  const voiceAllowed=()=>!destroyed&&!prefs.masterMuted&&!prefs.voiceMuted&&prefs.voiceVolume>0;
@@ -38,6 +38,11 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
   if(voiceAllowed()&&context)voices.prime(asset('assets/audio-unlock-silence-v37.wav'));
   return pending;
  }
+ function enterChapter(){
+  if(destroyed)return Promise.resolve({status:'destroyed'});
+  music.select('battle');
+  const pending=unlock();if(sfxAllowed()&&context)void loadCrowdBuffer().catch(()=>{});return pending;
+ }
  function stopEffects(){epoch++;for(const id of timers)window.clearTimeout(id);timers.clear();for(const o of oscillators){o.onended=null;try{o.stop();}catch{}try{o.disconnect();}catch{}o._chapterGain?.disconnect?.();}oscillators.clear();}
  function stopPreview(){stopEffects();voices.stopAll();demo?.stop();emit('preview','stopped');}
  function stop(){stopPreview();}
@@ -54,7 +59,7 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
    if(next.mode==='result'){stopEffects();demo?.stop();voices.clearQueued();}
    else stop();
   }
-  view={...next};music.select(next.settingsOpen?'menu':['route','battle'].includes(next.mode)?'battle':'menu',{restart:!!next.restart});
+  view={...next};music.select(next.settingsOpen?'menu':['story','route','battle'].includes(next.mode)?'battle':'menu',{restart:!!next.restart});
  }
  function playVoice(kind,lane='player',preview=false){
   const c=clip(kind);if(!c||!voiceAllowed()||hidden||!unlocked)return false;
@@ -65,12 +70,31 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
   let o,g;
   try{const t=context.currentTime;o=context.createOscillator();g=context.createGain();o._chapterGain=g;const freq={hit:125,block:260,jump:360,heal:680,start:440}[kind]||200;o.type=kind==='hit'?'square':'triangle';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(kind==='heal'?1000:freq*.45,t+.13);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.15);o.connect(g);g.connect(sfxGain);oscillators.add(o);o.onended=()=>{oscillators.delete(o);o.disconnect();g.disconnect();};o.start(t);o.stop(t+.17);return true;}catch{if(o){oscillators.delete(o);try{o.disconnect();}catch{}}try{g?.disconnect();}catch{}emit('sfx','error');return false;}
  }
+ function loadCrowdBuffer(){
+  crowdBufferPromise??=fetchImpl(asset('assets/sfx/crowd-cheer-44.mp3')).then(response=>{if(!response.ok)throw Error('crowd audio');return response.arrayBuffer();}).then(bytes=>context.decodeAudioData(bytes)).catch(error=>{crowdBufferPromise=null;throw error;});
+  return crowdBufferPromise;
+ }
+ function playCrowdCheer(){
+  if(!unlocked||hidden||!sfxAllowed()||!context||context.state!=='running'||!view.active||view.paused||view.settingsOpen)return false;
+  const ticket=epoch;
+  loadCrowdBuffer().then(buffer=>{
+   if(ticket!==epoch||destroyed||hidden||!sfxAllowed()||!view.active||view.paused||view.settingsOpen||context?.state!=='running')return;
+   let source,gain;
+   try{
+    const now=context.currentTime;source=context.createBufferSource();gain=context.createGain();source.buffer=buffer;source._chapterGain=gain;
+    gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,prefs.sfxVolume*.28),now+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+1.6);
+    source.connect(gain);gain.connect(sfxGain);oscillators.add(source);source.onended=()=>{oscillators.delete(source);source.disconnect();gain.disconnect();};source.start(now,.1,1.5);source.stop(now+1.65);
+   }catch{if(source){oscillators.delete(source);try{source.disconnect();}catch{}}try{gain?.disconnect();}catch{}emit('sfx','error');}
+  },()=>emit('sfx','error'));
+  return true;
+ }
  function handleEvents(events,world={}){
   if(destroyed||!unlocked||hidden||!view.active||view.paused||view.settingsOpen)return;
   for(const e of events||[]){
    if(e.type==='assistStart'){
     const owner=e.assist?.owner||e.f;const lane=owner===world.enemy||owner?.id==='enemy'?'assist-enemy':'assist-player';if(!e.assist?.displayName)playVoice(e.kind,lane);tone(e.kind);
    }else if(e.type==='move'&&!e.assist&&!e.f?.isAssist&&!e.f?.mobKind){playVoice(e.kind||e.f?.attack?.kind,e.f===world.enemy||e.f?.id==='enemy'?'enemy':'player');tone(e.kind);}
+   else if(e.type==='rally')playCrowdCheer();
    else if(['hit','block','jump','heal','counter','spit','launch'].includes(e.type))tone(e.type);
    else if(e.type==='supply')tone('heal');
   }
@@ -96,5 +120,5 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
  const blur=()=>setHidden(true),focus=()=>setHidden(!!document.hidden),visibility=()=>setHidden(!!document.hidden);
  window.addEventListener('blur',blur);window.addEventListener('focus',focus);window.addEventListener('pagehide',blur);window.addEventListener('pageshow',focus);document.addEventListener('visibilitychange',visibility);
  setPreferences(prefs);
- return{setPreferences,unlock,sync,handleEvents,audition,testSfx,inspect,preview,stopPreview,stop,setHidden,destroy,get state(){return{music:music.state,unlocked,hidden,destroyed};}};
+ return{setPreferences,unlock,enterChapter,sync,handleEvents,audition,testSfx,inspect,preview,stopPreview,stop,setHidden,destroy,get state(){return{music:music.state,unlocked,hidden,destroyed};}};
 }
