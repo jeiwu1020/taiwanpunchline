@@ -1,5 +1,5 @@
 import {battleResultCopy} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
-import {COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
+import {COMBAT,MINI_COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 const ease=n=>{const t=clamp(n);return t*t*(3-2*t);};
 // Only read-only visual data crosses the boundary. Nothing here steps combat,
@@ -22,7 +22,7 @@ export function finishBeat(sequence,elapsed=sequence.elapsed){
 export function finishFighterView(sequence,index,beat=finishBeat(sequence)){
  const source=sequence.fighters[index],defeated=sequence.reason==='double-ko'||sequence.winner!=='draw'&&source.id!==sequence.winner,role=defeated?'defeated':sequence.winner==='draw'?'draw':'winner';
  if(sequence.reducedMotion||beat.phase==='freeze')return {fighter:{...source,flash:0},rotation:0,role};
- const p=beat.settle,collapse=defeated&&sequence.reason!=='timeout',duration=source.performance?.actionDuration||COMBAT[source.attack?.kind]?.duration||.36;
+ const p=beat.settle,collapse=defeated&&sequence.reason!=='timeout',duration=source.performance?.actionDuration||(COMBAT[source.attack?.kind]??MINI_COMBAT[source.attack?.kind])?.duration||.36;
  // Finish the existing pose in visual time only, then settle the hands. The
  // action object's age is a copy, never the cleared combat action.
  const attack=source.attack?{...source.attack,age:source.attack.age+(Math.max(.5,duration+.2-source.attack.age))*p}:null;

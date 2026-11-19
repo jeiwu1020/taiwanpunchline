@@ -3,7 +3,7 @@ const pulse=(t,inEnd,holdEnd,end)=>ease(t/inEnd)*(1-ease((t-holdEnd)/(end-holdEn
 // Coordinates are in the established right-facing rig. These beats are render
 // only; art-motion maps actual combat hit/release times into this legacy clock.
 export function rosterMotion(kind,t,{outcome='pending',outcomeAge=0}={}){
- if(!/^(ma_|su_|huang_|chen_|ko_)/.test(kind))return null;
+ if(!/^(ma_|su_|huang_|chen_|ko_|mini_)/.test(kind))return null;
  let wrist={x:9,y:-126.6},farW={x:42,y:-92},headAngle=0,drop=0,shift=0,gait=0,hand='fist',farHand='fist',handAngle=0,farHandAngle=0,handTurn,farHandTurn,shoulderLift=0,footSpread=0,bagSway=0,prop=null;
  const reach=(near,far,u)=>{wrist={x:mix(9,near.x,u),y:mix(-126.6,near.y,u)};farW={x:mix(42,far.x,u),y:mix(-92,far.y,u)};};
  if(kind==='ma_handshake'){
@@ -39,6 +39,26 @@ export function rosterMotion(kind,t,{outcome='pending',outcomeAge=0}={}){
   const u=pulse(t,.20,.42,.74),crack=pulse(t,.27,.34,.50),inhale=pulse(t,.10,.16,.26);reach({x:62,y:-170},{x:48,y:-141},u);headAngle=-.09*u+.19*crack;shift=7*u;drop=-3*inhale+2*crack;shoulderLift=3*inhale;hand='open-right';handAngle=.25;handTurn=u;
  }else if(kind==='ko_resolve'){
   const u=pulse(t,.12,.77,.92),absorb=outcome==='armor'?pulse(outcomeAge,.04,.09,.20):0;reach({x:23,y:-145},{x:54,y:-140},u);drop=11*u+3*absorb;shift=2*u;headAngle=-.025*u+.025*absorb;footSpread=12*u;
+ }else if(kind==='mini_flyer_shot'){
+  const u=pulse(t,.14,.26,.48);reach({x:66,y:-152},{x:36,y:-138},u);shift=7*u;headAngle=-.04*u;hand='open-right';handAngle=.2;handTurn=u;
+ }else if(kind==='mini_whistle_charge'){
+  const u=pulse(t,.18,.62,1.02),s=Math.sin(t*22)*u;reach({x:34,y:-166},{x:58,y:-122},u);drop=13*u;shift=9*u;gait=s*.6;headAngle=-.12*u;
+ }else if(kind==='mini_megaphone_blast'){
+  const u=pulse(t,.26,.46,.76);reach({x:68,y:-164},{x:52,y:-138},u);shift=9*u;drop=-2*u;headAngle=-.07*u;farHand=u>.05?'open-left':'fist';farHandAngle=.35;farHandTurn=u;
+ }else if(kind==='mini_step_rush'){
+  const u=pulse(t,.16,.62,.96),s=Math.sin(t*26)*u;gait=s*.85;reach({x:22+s*20,y:-154+s*12},{x:58-s*16,y:-140-s*10},u);shift=7*u;drop=5*u+Math.abs(s)*3;headAngle=.05*u;
+ }else if(kind==='mini_notice_lob'){
+  const u=pulse(t,.20,.42,.78);reach({x:58,y:-185},{x:46,y:-142},u);headAngle=-.11*u;shift=5*u;hand='open-right';handAngle=.3;handTurn=u;
+ }else if(kind==='mini_folder_combo'){
+  const b1=pulse(t,.16,.26,.39),b2=pulse(Math.max(0,t-.26),.12,.24,.46),u=Math.max(b1,b2);wrist={x:9+56*b1,y:-126.6+24*b1};farW={x:42+38*b2,y:-92-36*b2};shift=5*u;drop=4*u;headAngle=.04*u;
+ }else if(kind==='mini_pass_grab'){
+  const u=pulse(t,.20,.38,.80);reach({x:72,y:-136},{x:38,y:-148},u);shift=8*u;drop=4*u;headAngle=.06*u;hand='open-right';handAngle=.15;handTurn=u;
+ }else if(kind==='mini_baton_upper'){
+  const u=pulse(t,.22,.40,.72);reach({x:64,y:-204},{x:44,y:-152},u);headAngle=-.09*u;shift=6*u;drop=-3*u;
+ }else if(kind==='mini_whistle_double'){
+  const b1=pulse(t,.16,.28,.36),b2=pulse(Math.max(0,t-.28),.14,.24,.56),u=Math.max(b1,b2);reach({x:48,y:-172},{x:52,y:-148},u);shoulderLift=4*(b1+b2);headAngle=.05*(b1+b2);
+ }else if(kind==='mini_barrier_drop'){
+  const u=pulse(t,.20,.42,.72);reach({x:68,y:-118},{x:54,y:-116},u);drop=8*u;shift=9*u;headAngle=.06*u;hand='open-right';handTurn=u;
  }
  return {wrist,farW,headAngle,drop,shift,gait,hand,farHand,handAngle,farHandAngle,handTurn,farHandTurn,shoulderLift,footSpread,bagSway,prop,outcome};
 }

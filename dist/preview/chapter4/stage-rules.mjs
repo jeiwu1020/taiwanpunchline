@@ -1,4 +1,4 @@
-import {COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
+import {COMBAT,MINI_COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
 // V19 shared stage rules. No actor, character, health or difficulty biases.
 export const STAGE_ITEMS=Object.freeze({
  // V47 opaque artwork is about 37x36 / 38x37 world pixels in flight.
@@ -14,7 +14,7 @@ export function stageRandom(sample){let seed=(Math.floor(sample*4294967296)^0x9e
 // moves keep their last active phase; defense and drinking keep a short opening
 // pose, then retain their existing counter/consume/interruption rules.
 export const PERFORMANCE_GUARD=Object.freeze(Object.fromEntries(
- Object.entries(COMBAT).filter(([,m])=>m.cooldown).map(([kind,m])=>[kind,Object.freeze({
+ Object.entries({...COMBAT,...MINI_COMBAT}).filter(([,m])=>m.cooldown).map(([kind,m])=>[kind,Object.freeze({
   start:0,end:m.behavior==='heal'?.4:['counter','reject','calm','armor'].includes(m.behavior)?m.start+.12:m.hits?Math.max(...m.hits.map(h=>h.end)):m.end??m.start+.06,
  })])
 ));

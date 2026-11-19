@@ -285,10 +285,11 @@ html body[data-sideways="true"]>dialog[data-viewport-anchor]{left:var(--challeng
 #result .result-paper .menu-action[hidden],
 #trial-app #result-panel .result-paper .menu-action[hidden]{display:none!important}
 #result .result-paper #challenge-result-overview,
+#trial-app #result-panel .result-paper #result-home{background:#5d4c7c;color:#fff6df}
 #result .result-paper #reselect,
-#trial-app #result-panel .result-paper #result-home,
 #trial-app #result-panel .result-paper #result-skill.menu-action{background:#315f88;color:#fff6df}
-#trial-app #result-panel .result-paper #campaign-retry-prepare.menu-action{background:#237363;color:#fff6df}
+#result .result-paper #replay{background:#237363;color:#fff6df}
+#trial-app #result-panel .result-paper #campaign-retry-prepare.menu-action{background:#b86420;color:#fff6df}
 #result .result-paper .fiction-note,
 #trial-app #result-panel .result-paper .fiction-note{
  display:block;

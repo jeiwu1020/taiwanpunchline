@@ -1,4 +1,4 @@
-import {COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
+import {COMBAT,MINI_COMBAT} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
 import {rosterMotion} from './art-roster-motion.mjs?v=chapter-presentation-20261117-r1';
 export const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 export const ease=v=>{const t=clamp(v);return t*t*(3-2*t)};
@@ -21,7 +21,7 @@ export function solveLeg(hip,ankle,l1=35,l2=40){
 }
 const legacyTimings={rush:{start:.12,end:.5,duration:.66},counter:{start:.10,window:.58,duration:.8},heal:{start:.8,duration:1},coin:{start:.16,duration:.42},arrow:{start:.24,duration:.55},ma_handshake:{start:.18,end:.30,duration:.56},ma_gaze:{start:.25,end:.38,duration:.72},ma_cough:{hits:[{start:.20,end:.28},{start:.42,end:.50}],duration:.82},su_shout:{start:.22,end:.36,duration:.64},su_dare:{start:.20,window:.48,duration:.88},huang_shout:{start:.24,end:.36,duration:.68},huang_debt:{start:.14,window:.50,duration:.82},huang_queue:{start:.24,duration:.74},chen_dream:{start:.30,duration:.72},chen_question:{hits:[{start:.18,end:.27},{start:.40,end:.50}],duration:.76},chen_calm:{start:.12,window:.56,duration:.82},ko_bags:{hits:[{start:.16,end:.26},{start:.38,end:.50}],duration:.72},ko_name:{start:.26,duration:.74},ko_resolve:{start:.12,duration:.92}};
 export function visualTime(kind,t){
- const old=legacyTimings[kind],now=COMBAT[kind];if(!old||!now)return t;
+ const old=legacyTimings[kind],now=COMBAT[kind]??MINI_COMBAT[kind];if(!old||!now)return t;
  const pairs=[[0,0]];for(const k of ['start','end'])if(now[k]!=null&&old[k]!=null)pairs.push([now[k],old[k]]);
  if(now.window&&old.window)pairs.push([now.start+now.window,old.start+old.window]);
  if(now.hits&&old.hits)for(let i=0;i<old.hits.length;i++)for(const k of ['start','end'])pairs.push([now.hits[i][k],old.hits[i][k]]);

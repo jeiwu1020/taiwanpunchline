@@ -4,11 +4,11 @@ import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=chap
 import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-presentation-20261117-r1';
 import {CHAPTER5} from './chapter5-content.mjs?v=chapter-presentation-20261117-r1';
 export const MINIBOSS_PATTERNS=Object.freeze({
- 'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'清點隊長',pattern:[{action:'punch',name:'清點第一下！',range:112,warning:.6,rest:.55},{action:'punch',name:'清點第二下！',range:112,warning:.7,rest:1.3}]},
- 'miniboss-b':{type:'huang',mobKind:'mini_marshal',name:'試音總管',pattern:[{action:'special3',name:'請站在線後！',range:210,warning:1,rest:1.5},{action:'special1',name:'測試，一、二！',range:185,warning:1.1,rest:1.8}]}
+ 'miniboss-a':{type:'wang',mobKind:'mini_schedule',name:'清點隊長',moves:['mini_baton_upper','mini_megaphone_blast','mini_whistle_charge'],pattern:[{action:'punch',name:'清點第一下！',range:112,warning:.6,rest:.55},{action:'punch',name:'清點第二下！',range:112,warning:.7,rest:1.3}]},
+ 'miniboss-b':{type:'huang',mobKind:'mini_marshal',name:'試音總管',moves:['mini_megaphone_blast','mini_whistle_double','mini_barrier_drop'],pattern:[{action:'special3',name:'請站在線後！',range:210,warning:1,rest:1.5},{action:'special1',name:'測試，一、二！',range:185,warning:1.1,rest:1.8}]}
 });
 // `type` supplies the move kit only; the already-met fictional NPC keeps its own art and name.
-const BOSS_ASSIST_ROSTER=Object.freeze(Object.values(MINIBOSS_PATTERNS).map(({type,mobKind,name})=>({helper:type,mobKind,displayName:name})));
+const BOSS_ASSIST_ROSTER=Object.freeze(Object.values(MINIBOSS_PATTERNS).map(({type,mobKind,name,moves})=>({helper:type,mobKind,displayName:name,moves:moves.slice(0,2)})));
 export function createChapter5Duel({stepId,characterId='wang',helperId='han',difficulty='easy',rng=Math.random,stats}={}){
  if(Object.hasOwn(MINIBOSS_PATTERNS,stepId))return new ChapterMiniDuel(MINIBOSS_PATTERNS[stepId],{characterId,helperId,difficulty,rng,stats});
  if(stepId!=='boss')throw new RangeError('Unknown chapter-five duel');

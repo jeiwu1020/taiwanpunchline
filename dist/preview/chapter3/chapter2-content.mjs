@@ -157,8 +157,8 @@ export const CHAPTER2=freeze({
     "identityStatus": "proposal-only",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構活動服務站管理員，為了減少流程又增加一張流程表。",
-    "tell": "先丟固定落點的退件通知，再揮兩袋附件，最後補一拳。",
-    "counterplay": "先離開落字標記，再格擋附件的低、中兩段；兩袋都收回後才反擊。",
+    "tell": "先丟固定落點的退件通知，再揮兩本卷宗，最後補一拳。",
+    "counterplay": "先離開落點標記，再格擋卷宗的低、中兩段；兩本都收回後才反擊。",
     "dialogue": [
      [
       "程序總管",

@@ -246,15 +246,17 @@ test('Item 6 & 8: Unified menu copy (強化技能), pause-only 查看角色能�
  // Verify semantic colors in chapter-first-interface.css & challenge.css & finale.css
  const firstCss = readText('dist/preview/campaign/chapter-first-interface.css');
  assert.match(firstCss, /\.menu-action\{[^}]*background:#bc3f31/);
- assert.match(firstCss, /#restart-match[^}]*#campaign-retry-prepare\.menu-action\{background:#237363/);
- assert.match(firstCss, /#campaign-growth\.menu-action\{background:#315f88/);
+ assert.match(firstCss, /#restart-match\{background:#237363/);
+ assert.match(firstCss, /#campaign-retry-prepare\.menu-action\{background:#b86420/);
+ assert.match(firstCss, /#campaign-growth\.menu-action\{background:#cde3e6/);
  assert.match(firstCss, /#result-skill[^}]*#campaign-prepare\.menu-action[^}]*\{background:#315f88/);
+ assert.match(firstCss, /#pause-home\.menu-action[^}]*#result-home\{background:#5d4c7c/);
  assert.match(firstCss, /#restart-confirm-button\{background:#e5ae46\}/);
 
  const challengeCss = readText('dist/challenge.css');
  assert.match(challengeCss, /\.challenge-dialog\s+\.challenge-start\{[^}]*background:#bc3f31/);
  assert.match(challengeCss, /\.challenge-replay-launch\{[^}]*background:#237363/);
- assert.match(challengeCss, /\.challenge-tabs\s+button\[aria-pressed=true\]\{[^}]*background:#e5ae46/);
+ assert.match(challengeCss, /\.challenge-tabs\s+button\[aria-pressed=true\]\{[^}]*background:#2c6b74/);
 
  // Verify pause-only 查看角色能力 behavior in page-bridge.mjs
  const dom = new JSDOM('<div id="stage"></div><div id="menu"><div class="card"><span class="eyebrow"></span><p class="note"></p><div id="menu-roster"></div><label><select id="difficulty"><option value="easy">一般</option></select></label><button id="start"></button></div></div><div id="story-panel"><div class="story-card"></div></div><div id="result-panel"><div class="card"></div></div><div id="pause-panel"><div class="card"><button id="leave">查看角色能力</button></div></div><div id="choice-panel"><div class="card"><p id="choice-copy"></p></div></div>', {url: 'https://example.test/'});

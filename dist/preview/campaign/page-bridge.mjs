@@ -97,10 +97,14 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
    recoveryCopy.textContent=state.textContent;saveFeedback.update({enabled:true,error:r.persisted&&!r.dirty?'':state.textContent});helperLabel.hidden=growthButton.hidden=next.hidden=true;next.removeAttribute('href');backup.hidden=false;oldBackup.hidden=false;retry.hidden=!r.dirty;retry.disabled=busy||recoveryIssue==='source-changed';return;
   }
   const v=router.view(),s=launched?chapter?.view():null,combat=!!s&&!s.paused&&['route','battle'].includes(s.mode);bar.hidden=false;bar.classList.toggle('campaign-bar-combat',combat);refreshLegacy.hidden=!v.canRefreshLegacy;refreshLegacy.disabled=busy;
-  if(s)renderContinuationChoice({document,state:{...s,busy:busy||s.busy},chapterId});
+  if(s?.mode==='complete'&&!s?.replay&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
+  const redirecting=navigating&&s?.mode==='complete';
+  const choicePanel=document.querySelector('#choice-panel');
+  if(choicePanel&&s?.mode==='complete')choicePanel.hidden=redirecting;
+  if(s)renderContinuationChoice({document,state:{...s,busy:busy||s.busy,suppressPanel:redirecting},chapterId});
   const selector=s?.paused?'#pause-panel .card':({'story':'#story-panel .story-card','result':'#result-panel .card','choice':'#choice-panel .card','complete':'#choice-panel .card'})[s?.mode];
   const fullComic=s?.mode==='story'&&document.querySelector('#story-panel')?.dataset.fullComic==='true';
-  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic||s.mode==='result'&&s.result?.matchWon;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.paused||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||(!s.paused&&!(s.mode==='result'&&!s.result?.matchWon&&s.result?.winner!=='player'));retryPreparation.disabled=preparationButton.disabled;
+  const host=fullComic?stage:!s?menu:(selector&&document.querySelector(selector))||stage;if(recoveryPanel.parentElement!==host)host.append(recoveryPanel);if(preparationActions.parentElement!==host)host.append(preparationActions);preparationActions.hidden=combat||!s||fullComic||redirecting||s.mode==='result'&&s.result?.matchWon;preparationButton.disabled=busy||preparationBusy||!!s?.busy||!!s?.blocked;preparationButton.hidden=!s||s.paused||s.mode==='complete'||['route','battle'].includes(s.mode)||s.mode==='result'&&!s.result?.matchWon;retryPreparation.hidden=!s||(!s.paused&&!(s.mode==='result'&&!s.result?.matchWon&&s.result?.winner!=='player'));retryPreparation.disabled=preparationButton.disabled;
   state.textContent=s?.saveLabel??v.saveLabel;
   if(s?.blocked)state.textContent=reasonText(s.saveIssue);
   else if(v.route.status==='locked')state.textContent=`${v.saveLabel}；目前無法接續下一段，進度已保留。`;
@@ -115,11 +119,10 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   helperSelect.disabled=busy||!!s?.busy||!!s?.blocked||!s?.persisted||v.dirty||v.readOnly;
   growthButton.hidden=!s?.paused;growthButton.disabled=busy||preparationBusy;
   const needsRecovery=!v.persisted||!!s?.blocked||!!s?.saveIssue;backup.hidden=!needsRecovery;oldBackup.hidden=!needsRecovery;retry.hidden=!needsRecovery;retry.disabled=busy||preparationBusy||!!s?.busy;reloadLatest.disabled=busy||preparationBusy||!!s?.busy;recoveryPanel.hidden=!needsRecovery;recoveryPanel.dataset.floating=String(host===stage);if(needsRecovery&&host===stage){recoveryPanel.setAttribute('role','alert');}
-  const destination=!combat&&!s?.replay&&v.chapterId!==chapterId&&v.route.status==='ready'&&v.canNavigate&&!s?.blocked&&!s?.busy;
+  const destination=!s&&!navigating&&v.chapterId!==chapterId&&v.route.status==='ready'&&v.canNavigate;
   next.hidden=!destination;if(destination)recoveryPanel.hidden=false;
   if(destination){next.href=v.route.url;next.textContent=`接續第 ${v.chapterId.split('-')[1]} 章 →`;}
   else next.removeAttribute('href');
-  if(s?.mode==='complete'&&!s?.replay&&s.canNavigate&&!s.blocked&&!s.busy)navigateSaved();
  }
  // The attached host first renders while this job is busy. Publish the final
  // busy transition too, so its reading controls re-evaluate their save guards.
@@ -208,12 +211,13 @@ export function renderContinuationChoice({document,state:s,chapterId}){
  let actions=document.querySelector('#continuation-complete-actions');if(!actions){actions=document.createElement('div');actions.id='continuation-complete-actions';actions.className='continuation-complete-actions';card.append(actions);}
  let link=document.querySelector('#continuation-choice-link');if(!link){link=document.createElement('a');link.id='continuation-choice-link';link.className='continuation-choice-link';actions.append(link);}
  let home=document.querySelector('#continuation-home-link');if(!home){home=document.createElement('a');home.id='continuation-home-link';home.className='continuation-choice-link continuation-home-link';home.textContent='回挑戰總覽';actions.append(home);}
+ if(s.suppressPanel){actions.hidden=true;link.hidden=true;link.removeAttribute('href');home.hidden=true;home.removeAttribute('href');home.removeAttribute('aria-disabled');home.removeAttribute('tabindex');return;}
  const visible=!card.closest('[hidden],.hidden'),entered=s.mode==='complete'&&card.dataset.continuationMode!=='complete'&&visible;
  if(s.mode!=='complete'||visible)card.dataset.continuationMode=s.mode;
  actions.hidden=s.mode!=='complete';link.hidden=true;link.removeAttribute('href');home.hidden=true;home.removeAttribute('href');home.removeAttribute('aria-disabled');home.removeAttribute('tabindex');
  if(s.mode==='choice'&&presentation){
   if(title)title.textContent=`${presentation.recruit}加入！`;
-  const destination=s.replay?`第${presentation.number}章重玩即將完成，原章節進度保留。`:chapterId==='chapter-5'?'七人到齊，前往最終戰。':chapterId==='chapter-4'&&s.campaignChapterId?'第五章尚未開放，完成本章後可回挑戰總覽查看。':`繼續追向${presentation.next}。`;
+  const destination=s.replay?`第${presentation.number}章重玩即將完成，原章節進度保留。`:chapterId==='chapter-5'?'七人到齊，前往最終戰。':chapterId==='chapter-4'&&s.campaignChapterId&&s.nextRoute?.status==='locked'?'第五章尚未開放，完成本章後可回挑戰總覽查看。':`繼續追向${presentation.next}。`;
   copy.textContent=`${presentation.recruit}已解鎖，可當主戰或助拳。${destination}${s.campaignChapterId?` ${s.saveLabel||'進度已保存'}。`:'本次預覽的角色解鎖僅於此次遊玩有效。'}`;
   const continueButton=document.querySelector('#chapter-next');if(continueButton)continueButton.textContent='繼續 →';
  }

@@ -24,6 +24,18 @@ export const COMBAT={
  ko_name:{behavior:'word',start:.30,duration:.78,flight:.56,range:230,damage:12,knock:25,height:'low',slow:.7,cooldown:6,hint:'弧線文字落在固定標記 · 命中緩速25%，可跳離或格擋'},
  ko_resolve:{behavior:'armor',start:.16,window:.90,duration:.46,cooldown:7,hint:'一次普通傷害減為60%且不退不斷招 · 可帶入普通拳'},
 };
+export const MINI_COMBAT=Object.freeze({
+ mini_flyer_shot:Object.freeze({kind:'mini_flyer_shot',name:'急遞傳單',behavior:'projectile',start:.16,duration:.48,projectileKind:'flyer',speed:520,life:2,damage:10,knock:26,height:'high',cooldown:4,hint:'傳單直線飛出 · 蹲低、跳躍或格擋可避開'}),
+ mini_whistle_charge:Object.freeze({kind:'mini_whistle_charge',name:'哨音清場',behavior:'advance',advanceStart:.18,advanceEnd:.56,speed:145,start:.58,end:.70,duration:1.02,range:165,damage:13,knock:52,height:'mid',contact:false,cooldown:5.5,hint:'壓身前移吹哨 · 收招後再反擊'}),
+ mini_megaphone_blast:Object.freeze({kind:'mini_megaphone_blast',name:'廣播壓場',behavior:'melee',start:.30,end:.42,duration:.76,range:185,damage:13,knock:70,height:'mid',contact:false,guardCost:2,cooldown:5.5,hint:'擴音器中段喊話 · 壓兩格防守，拉開距離或格擋'}),
+ mini_step_rush:Object.freeze({kind:'mini_step_rush',name:'三步清場',behavior:'combo',duration:.96,range:125,height:'low',contact:true,cooldown:5.5,hits:[{start:.22,end:.29,damage:6,knock:6,height:'low'},{start:.42,end:.49,damage:5,knock:6,height:'low'},{start:.62,end:.69,damage:5,knock:36,height:'low'}],steps:[{start:.12,end:.22,speed:330},{start:.32,end:.42,speed:330},{start:.52,end:.62,speed:330}],hint:'三步前衝清場 · 跳過或格擋，等收招反擊'}),
+ mini_notice_lob:Object.freeze({kind:'mini_notice_lob',name:'限時公告',behavior:'word',start:.30,duration:.78,flight:.56,range:230,damage:11,knock:24,height:'low',slow:.7,cooldown:6,projectileKind:'notice',noticeText:'通知',markLabel:'落點',hint:'公告標記落點 · 離開標記、跳躍或格擋'}),
+ mini_folder_combo:Object.freeze({kind:'mini_folder_combo',name:'卷宗二連',behavior:'combo',duration:.78,range:155,contact:true,cooldown:4.5,hits:[{start:.16,end:.26,damage:6,knock:4,height:'low'},{start:.40,end:.51,damage:8,knock:30,height:'mid'}],destroysQueue:true,hint:'卷宗低接中兩段揮擊 · 兩段可格擋'}),
+ mini_pass_grab:Object.freeze({kind:'mini_pass_grab',name:'驗證抓手',behavior:'grab',start:.28,end:.36,duration:.80,range:135,damage:11,knock:0,height:'grab',cooldown:5.5,hint:'伸手查驗通行 · 抓技穿過格擋，跳起可閃'}),
+ mini_baton_upper:Object.freeze({kind:'mini_baton_upper',name:'哨棒上托',behavior:'melee',start:.25,end:.38,duration:.72,range:145,damage:9,airDamage:13,knock:44,height:'mid',contact:true,antiAir:true,cooldown:5.5,hint:'揮棒上托點名 · 防空較強，退開或格擋'}),
+ mini_whistle_double:Object.freeze({kind:'mini_whistle_double',name:'雙響短哨',behavior:'combo',duration:.88,range:160,height:'high',contact:false,cooldown:6,hits:[{start:.20,end:.28,damage:4,knock:4,height:'high'},{start:.44,end:.52,damage:6,knock:30,height:'high'}],erase:true,hint:'高處兩聲短哨 · 蹲低可閃避，消除直線飛道具'}),
+ mini_barrier_drop:Object.freeze({kind:'mini_barrier_drop',name:'擺放路障',behavior:'queue',start:.28,duration:.72,range:110,life:1.5,damage:10,knock:60,height:'low',cooldown:6.5,hint:'擺放路障牌 · 跳過或出拳／道具打掉'}),
+});
 export const HIGH_Y=252;
 export const JUMP_SPEED=900;
 export const GRAVITY=1550;

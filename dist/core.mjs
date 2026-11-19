@@ -2,7 +2,7 @@ import {fighterBaseStats} from './fighter-attributes.mjs?v=chapter-presentation-
 import {captureFinishSnapshot} from './match-finish.mjs?v=chapter-presentation-20261117-r1';
 import {DESK,RALLY} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
 import {CAST} from './roster.mjs?v=chapter-presentation-20261117-r1';
-import {COMBAT,HIGH_Y,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
+import {COMBAT,MINI_COMBAT,HIGH_Y,JUMP_SPEED,GRAVITY} from './combat-rules.mjs?v=chapter-presentation-20261117-r1';
 import {STAGE_ITEMS,ITEM_THROW,ITEM_DROP,stageRandom,performanceGuardActive} from './stage-rules.mjs?v=chapter-presentation-20261117-r1';
 import {PAPER_FLIGHT,itemFighterPose,itemProjectileTouches} from './item-collision.mjs?v=chapter-presentation-20261117-r1';
 import {heldItemAnchor} from './item-presentation.mjs?v=chapter-presentation-20261117-r1';
@@ -12,6 +12,8 @@ export {CAST,performanceGuardActive};
 export const GROUND=430;
 const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;
+export const resolveMoveSpec=spec=>!spec?null:typeof spec==='string'?(MINI_COMBAT[spec]??Object.values(COMBAT).find(m=>m.kind===spec)??null):(spec.kind&&MINI_COMBAT[spec.kind]?Object.freeze({...MINI_COMBAT[spec.kind],...spec}):null);
+const moveAt=(f,idx)=>f?.customMoves?.[idx]??CAST[f?.type]?.moves?.[idx]??null;
 const fighter=(type,x,id)=>({rally:0,dropThrough:0,downTime:0,downBlocked:false,supportY:GROUND,item:null,type,x,y:GROUND,vy:0,hp:100,maxHp:100,id,face:id==='player'?1:-1,guard:false,guardPips:3,guardBroken:0,guardGrace:0,guardBlockedAt:-10,guardReleasedAt:-10,guardRegen:0,guardCasts:new Set(),counter:0,brace:0,armor:0,slow:0,calm:0,reject:0,stun:0,flash:0,attack:null,performance:null,cooldowns:[0,0,0],move:0,combo:0,comboTime:0,reaction:0,reactionKind:'hit',crouch:false,crouchBlend:0,lowProfile:false,land:0,basicStep:0,basicTime:0,grabPose:0,grabbedPose:0});
 // Contacts are collected from both actors before any damage/cancellation occurs.
 // A cast ID survives attack recovery, reflections and multi-hit phases.
@@ -23,7 +25,9 @@ export class Duel {
   this.player=fighter(character,260,'player');this.enemy=fighter(opponent,700,'enemy');this.difficulty=difficulty;this.rng=()=>{if(replayFirst){replayFirst=false;return stageSeed;}return rng();};this.remaining=60;this.elapsed=0;this.status='active';this.winner=null;this.projectiles=[];this.obstacles=[];this.events=[];this.aiWait=.9;this.aiThreats=new Map();this.aiRecovery=0;this.aiActiveAttack=null;this.aiDefense=0;this.aiAction=null;this.aiBufferedDefense=null;this.aiReceivedHit=0;this.aiEscapeRollHit=-1;this.aiInput={};this.freeze=0;this.buffer=null;this.nextCast=1;this.contacts=[];this.worldSpawns=[];this.worldEffects=[];this.collecting=false;this.resolving=false;this.stats={hits:0,damage:0,blocks:0,maxCombo:0,interrupts:0,counters:0,specialHits:0,whiffs:0};
   if(difficulty==='beginner')this.aiWait=2.2;
   this.assists=[];this.training={enabled:options.mode==='training',opponent:options.trainingBehavior||'stand',infiniteHealth:options.infiniteHealth!==false,repeatAssist:options.repeatAssist!==false};
-  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null,roster=options[f.id+'AssistRoster']??(helper?[{helper}]:[]);if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');if(!Array.isArray(roster)||roster.some(a=>!a||!Object.hasOwn(CAST,a.helper)||a.mobKind!==undefined&&typeof a.mobKind!=='string'||a.displayName!==undefined&&typeof a.displayName!=='string'))throw new RangeError('Invalid assist roster');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.assist={helper:roster[0]?.helper??helper,used:false,active:false,charge:100,damageTaken:0};f.assistRoster=roster.map(a=>({...a}));f.assistCursor=0;}
+  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null,roster=options[f.id+'AssistRoster']??(helper?[{helper}]:[]);if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');if(!Array.isArray(roster)||roster.some(a=>!a||!Object.hasOwn(CAST,a.helper)||a.mobKind!==undefined&&typeof a.mobKind!=='string'||a.displayName!==undefined&&typeof a.displayName!=='string'||a.moves!==undefined&&(!Array.isArray(a.moves)||!a.moves.length||a.moves.some(s=>!resolveMoveSpec(s)))))throw new RangeError('Invalid assist roster');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.assist={helper:roster[0]?.helper??helper,used:false,active:false,charge:100,damageTaken:0};f.assistRoster=roster.map(a=>({...a}));f.assistCursor=0;}
+  this.enemy.noRally=options.enemyKind==='miniboss'||!!options.enemyNoRally;
+  if(Array.isArray(options.enemyMoves)&&options.enemyMoves.length)this.enemy.customMoves=options.enemyMoves.map(resolveMoveSpec);
   this.configureTraining({});
  }
  other(f){return f===this.player?this.enemy:this.player;}
@@ -32,7 +36,7 @@ export class Duel {
   if(this.status!=='active'||(f!==this.player&&f!==this.enemy)||f.stun>0||f.guardBroken>0)return false;
   if(action==='assist')return this.requestAssist(f);
   if(action==='rally'){
-   if(f.rally<100||f.attack||f.guard||this.rallies.some(r=>r.owner===f))return false;
+   if(f.noRally||f.rally<100||f.attack||f.guard||this.rallies.some(r=>r.owner===f))return false;
    f.rally=0;f.performance=null;f.stun=.3;const target=this.other(f),direction=target.x>=f.x?1:-1;this.rallies.push({owner:f,age:0,castId:this.nextCast++,fired:false,x:clamp(f.x-direction*120,-60,1020),previousX:clamp(f.x-direction*120,-60,1020),startX:clamp(f.x-direction*120,-60,1020),targetX:target.x,targetY:target.supportY??GROUND,direction,result:null});this.events.push({type:'rally',f});return true;
   }
   if(action==='jump'){
@@ -42,10 +46,10 @@ export class Duel {
   if(f.guard)return false;
   if(f.attack&&!(f.attack.kind==='punch'&&f.attack.age>.21&&action!=='punch'))return false;
   let idx=-1,kind=action,move;
-  if(/^special[123]$/.test(action)){idx=Number(action.at(-1))-1;move=CAST[f.type].moves[idx];if(!move||f.cooldowns[idx]>0)return false;kind=move.kind;}
+  if(/^special[123]$/.test(action)){idx=Number(action.at(-1))-1;move=moveAt(f,idx);if(!move||f.cooldowns[idx]>0)return false;kind=move.kind;}
   else if(action!=='punch')return false;
   if(kind==='chen_dream'&&this.projectiles.some(p=>p.owner===f&&p.kind==='dream'&&!p.dead))return false;
-  if(kind==='huang_queue'&&this.obstacles.some(p=>p.owner===f&&!p.dead))return false;
+  if((kind==='huang_queue'||kind==='mini_barrier_drop')&&this.obstacles.some(p=>p.owner===f&&!p.dead))return false;
   if(move){f.cooldowns[idx]=move.cooldown;f.reaction=0;}
   const thrown=kind==='punch'?f.item:null;if(thrown){kind='item_throw';f.item=null;}
   this.releaseGrabPose();
@@ -73,9 +77,12 @@ export class Duel {
  assistReady(f){return (f===this.player||f===this.enemy)&&this.status==='active'&&!!f.assist?.helper&&!f.assist.active&&(!f.assist.used||this.training.enabled&&this.training.repeatAssist);}
  requestAssist(f){
   if(!this.assistReady(f)||f.stun>0||f.guardBroken>0||f.guard||f.attack||!grounded(f))return false;
-  const spec=f.assistRoster?.length?f.assistRoster[f.assistCursor%f.assistRoster.length]:{helper:f.assist.helper},helper=spec.helper,m=chooseAssistMove(helper,this.rng),target=this.other(f),direction=target.x>=f.x?1:-1;
+  const spec=f.assistRoster?.length?f.assistRoster[f.assistCursor%f.assistRoster.length]:{helper:f.assist.helper},helper=spec.helper;
+  const customPool=Array.isArray(spec.moves)&&spec.moves.length?spec.moves.map(resolveMoveSpec).filter(Boolean):null;
+  const m=customPool?.length?customPool[Math.min(customPool.length-1,Math.floor(Math.max(0,this.rng())*customPool.length))]:chooseAssistMove(helper,this.rng),target=this.other(f),direction=target.x>=f.x?1:-1;
   // Fixed warned origin and facing. No chasing/teleporting after the target.
   const actor=fighter(helper,clamp(f.x-direction*40,68,892),'assist-'+f.id);actor.y=f.y;actor.supportY=f.supportY;actor.face=direction;
+  if(customPool?.length)actor.customMoves=customPool;
   Object.assign(actor,{mobKind:spec.mobKind,displayName:spec.displayName});if(f.assistRoster?.length)f.assistCursor=(f.assistCursor+1)%f.assistRoster.length;
   const a={id:this.nextCast++,owner:f,target,helper,displayName:spec.displayName,kind:m.kind,name:m.name,move:m,actor,age:0,warning:ASSIST_WARNING,exitDuration:ASSIST_EXIT,phase:'warning',phaseAge:0,exitAge:0};
   f.assist.used=true;f.assist.charge=0;f.assist.damageTaken=0;f.assist.active=true;this.assists.push(a);this.events.push({type:'assistWarning',f,helper,kind:m.kind,name:m.name,assist:a});return true;
@@ -95,7 +102,7 @@ export class Duel {
    }
    if(a.phase==='warning'&&a.age>=a.warning){
     a.phase='attack';a.phaseAge=a.age-a.warning;
-    a.actor.attack={kind:a.kind,age:0,fired:false,hit:false,idx:CAST[a.helper].moves.findIndex(m=>m.kind===a.kind),castId:a.id,strikes:[],erased:[]};
+    a.actor.attack={kind:a.kind,age:0,fired:false,hit:false,idx:(a.actor.customMoves??CAST[a.helper].moves).findIndex(m=>m?.kind===a.kind),castId:a.id,strikes:[],erased:[]};
     a.actor.performance={kind:a.kind,age:0,actionDuration:a.move.duration,duration:a.move.duration+ASSIST_EXIT,castId:a.id,outcome:'pending',outcomeAge:0};
     this.events.push({type:'assistStart',f:a.owner,helper:a.helper,kind:a.kind,name:a.name,assist:a});
    }
@@ -200,7 +207,7 @@ export class Duel {
  stageWorld(effect,spawn=false){if(this.collecting)(spawn?this.worldSpawns:this.worldEffects).push(effect);else effect();}
  animateAttack(f,dt,context=null){
   const a=f.attack;if(!a)return;a.age+=dt;
-  const m=a.kind==='item_throw'?ITEM_THROW:a.kind==='punch'?COMBAT.punch:CAST[f.type].moves[a.idx];if(!m||m.kind&&m.kind!==a.kind){f.attack=null;return;}
+  const m=a.kind==='item_throw'?ITEM_THROW:a.kind==='punch'?COMBAT.punch:moveAt(f,a.idx);if(!m||m.kind&&m.kind!==a.kind){f.attack=null;return;}
   const age=a.age,o=context?.target??this.other(f),owner=context?.owner??f,assist=context?.assist,metadata=assist?{assist:true,assistId:assist.id,helper:assist.helper}:{},overlap=(start,end)=>Math.max(0,Math.min(age,end)-Math.max(age-dt,start));
   // Resolve the visible miss only after the real last contact/defense window.
   const lastHit=m.hits?Math.max(...m.hits.map(h=>h.end)):m.end;
@@ -213,7 +220,7 @@ export class Duel {
    if(a.strikes[index]||!(age>s.start&&age<s.end))return;
    const height=s.height??m.height??'mid';
    if(a.kind==='punch'||m.destroysQueue)this.stageWorld(()=>{if(grounded(f))for(const q of this.obstacles)if(!q.dead&&q.owner!==owner&&(q.x-f.x)*f.face>=0&&Math.abs(q.x-f.x)<m.range)this.breakQueue(q,owner,metadata);});
-   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const p=this.projectiles.find(p=>!p.dead&&['coin','dream'].includes(p.kind)&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<m.range&&Math.abs(p.y-(f.y-HIGH_Y))<40);if(p){p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
+   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const p=this.projectiles.find(p=>!p.dead&&['coin','dream','flyer'].includes(p.kind)&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<m.range&&Math.abs(p.y-(f.y-HIGH_Y))<40);if(p){p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
    this.emitContact({from:owner,to:o,...(assist?{origin:f,...metadata}:{}),raw:s.damage??m.damage,groundDamage:m.damage,airDamage:m.airDamage,knock:s.knock??m.knock??20,height,contact:!!m.contact,grab:m.behavior==='grab',range:m.range,antiAir:m.antiAir,guardCost:m.guardCost??1,impact:a.kind,castId:a.castId,direction:f.face,a,index,wallBonus:m.wallBonus??0});
   };
   if(m.behavior==='combo')m.hits.forEach(strike);
@@ -226,7 +233,7 @@ export class Duel {
    a.fired=true;
    this.stageWorld(()=>{if(m.behavior==='queue'){
     for(const q of this.obstacles)if(q.owner===f)q.dead=true;
-    const obstacle={kind:'queue',owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life,castId:a.castId,damage:m.damage,knock:m.knock,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});
+    const obstacle={kind:'queue',impact:a.kind,owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life,castId:a.castId,damage:m.damage,knock:m.knock,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});
    }else this.launch(f,a,m,o,assist);},true);
   }
   if(f.attack===a&&age>m.duration){if(!a.hit&&['counter','reject','calm'].includes(m.behavior))this.events.push({type:'counterMiss',f});else if(!a.hit&&['melee','rush','advance','grab','combo'].includes(m.behavior)&&owner.id==='player')this.stats.whiffs++;f.counter=0;f.reject=0;f.calm=0;f.attack=null;f.lowProfile=false;}
@@ -275,7 +282,7 @@ export class Duel {
   const p={kind:m.projectileKind??(m.behavior==='word'?'word':'arrow'),owner,originalOwner:owner,...metadata,castId:a.castId,impact:a.kind,height:m.height,direction:f.face,travelDir:f.face,x:f.x+f.face*60,y:f.y-HIGH_Y,vx:f.face*(m.speed??0),vy:0,gravity:0,life:m.life??2.2,age:0,damage:m.damage,knock:m.knock??30,phase:m.behavior==='projectile'?'outbound':'lob',reflected:false,dead:false,hits:new Set(),radius:13};
   if(m.behavior==='projectile'&&p.kind==='dream'){p.originX=p.x;p.turnX=p.x+f.face*m.travel;p.returnDamage=m.returnDamage;}
   if(m.behavior==='lob'||m.behavior==='word'){
-   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=m.slow??0;p.word=m.word;
+   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=m.slow??0;p.word=m.word;p.noticeText=m.noticeText;p.markLabel=m.markLabel;
    this.events.push({type:m.behavior==='word'?'wordMark':'arrowMark',f:owner,...metadata,x:p.targetX,y:GROUND});
   }
   this.projectiles.push(p);this.events.push({type:'launch',f:owner,p,...metadata});
@@ -284,7 +291,7 @@ export class Duel {
  queueCrossings(f,previousX,nextX){
   if(!grounded(f)||f.y<GROUND-1)return;
   for(const q of this.obstacles)if(!q.dead&&q.life>0&&q.owner!==f&&Math.min(previousX,nextX)<=q.x+18&&Math.max(previousX,nextX)>=q.x-18){
-   q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:'huang_queue',castId:q.castId,direction:q.direction,guardCost:1});
+   q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:q.impact??'huang_queue',castId:q.castId,direction:q.direction,guardCost:1});
   }
  }
  updateObstacles(dt,previous){for(const q of this.obstacles)q.life-=dt;this.queueCrossings(this.player,previous[0],this.player.x);this.queueCrossings(this.enemy,previous[1],this.enemy.x);}
@@ -330,13 +337,13 @@ export class Duel {
  }
  // Public direct damage remains for callers; production collisions always queue
  // explicit cast, impact, direction and contact metadata above.
- damage(from,to,raw,knock=20,impactOverride){if(this.status!=='active')return false;const impact=impactOverride??from.attack?.kind??'punch',m=COMBAT[impact]??COMBAT.punch;const result=this.resolveHit({from,to,raw,knock,impact,castId:from.attack?.castId??this.nextCast++,direction:from.face,height:m.height??'mid',contact:m.contact??true,guardCost:m.guardCost??1,grab:m.behavior==='grab'});this.separate(true);if(this.contacts.length)this.resolveContacts();if(to.hp<=0||from.hp<=0)this.finish();return result;}
+ damage(from,to,raw,knock=20,impactOverride){if(this.status!=='active')return false;const impact=impactOverride??from.attack?.kind??'punch',m=COMBAT[impact]??MINI_COMBAT[impact]??COMBAT.punch;const result=this.resolveHit({from,to,raw,knock,impact,castId:from.attack?.castId??this.nextCast++,direction:from.face,height:m.height??'mid',contact:m.contact??true,guardCost:m.guardCost??1,grab:m.behavior==='grab'});this.separate(true);if(this.contacts.length)this.resolveContacts();if(to.hp<=0||from.hp<=0)this.finish();return result;}
  resolveHit(c){
   const eventStart=this.events.length;
   try{
   const{from,to}=c;if(this.status!=='active')return false;
   if(c.antiAir)c.raw=grounded(to)?c.groundDamage:c.airDamage;
-  const normal=!c.grab,p=c.p,straight=p&&['coin','dream'].includes(p.kind)&&p.phase!=='lob';
+  const normal=!c.grab,p=c.p,straight=p&&['coin','dream','flyer'].includes(p.kind)&&p.phase!=='lob';
   // Defense is forward facing. Lob impacts are independent ground hazards.
   const forward=(p||c.rally)?c.direction*to.face<0:((c.origin??from).x-to.x)*to.face>=0;
   if(normal&&to.reject>0&&forward&&(c.contact||straight)){
@@ -348,7 +355,7 @@ export class Duel {
   }
   if(normal&&c.contact&&to.counter>0&&forward){
    const responseStart=this.events.length;
-   const stance=to.attack?.kind,m=COMBAT[stance];to.counter=0;to.attack=null;this.performanceOutcome(to,'counter');
+   const stance=to.attack?.kind,m=COMBAT[stance]??MINI_COMBAT[stance];to.counter=0;to.attack=null;this.performanceOutcome(to,'counter');
    this.events.push({type:'counter',f:to,from});if(to.id==='player')this.stats.counters++;
    if(m&&Math.abs(from.x-to.x)<m.range&&(from.x-to.x)*to.face>=0){
     // Counter returns never trigger another counter/rejection recursively.
@@ -457,7 +464,7 @@ export class Duel {
   this.aiWait-=dt;this.aiRecovery=Math.max(0,this.aiRecovery-dt);this.trackAIRecovery();this.aiDefense=Math.max(0,this.aiDefense-dt);this.aiAction=null;
   // Each currently visible cast/hazard earns its own perception deadline.
   // Seeing one threat never reveals a new attack or a different projectile.
-  const threats=[],currentMove=COMBAT[o.attack?.kind];
+  const threats=[],currentMove=COMBAT[o.attack?.kind]??MINI_COMBAT[o.attack?.kind];
   if(o.attack&&o.attack.age>.05&&dist<(currentMove?.range??130)+15)threats.push({source:o.attack,kind:'attack'});
   for(const p of this.projectiles)if(p.owner===o&&!p.dead&&(p.phase==='lob'?Math.abs(p.targetX-f.x)<65&&p.flight-p.age<.6:Math.abs(p.x-f.x)<290))threats.push({source:p,kind:'projectile'});
   for(const q of this.obstacles)if(q.owner!==f&&!q.dead&&(q.x-f.x)*dir>0&&Math.abs(q.x-f.x)<140)threats.push({source:q,kind:'queue'});
@@ -475,13 +482,14 @@ export class Duel {
   for(const item of this.aiItems.keys())if(!visibleItems.includes(item))this.aiItems.delete(item);
   for(const item of visibleItems)if(!this.aiItems.has(item))this.aiItems.set(item,this.elapsed+(easy?.40:.16)+this.rng()*(easy?.28:.14));
   const observedAttack=this.aiThreats.get(o.attack),knowsAttack=observedAttack&&this.elapsed>=observedAttack.readyAt;
-  const seekingHeal=f.type==='wang'&&f.hp<=f.maxHp*.8&&f.cooldowns[2]===0&&dist>190;
+  const enemyMoves=f.customMoves??CAST[f.type].moves;
+  const seekingHeal=enemyMoves[2]?.behavior==='heal'&&f.hp<=f.maxHp*.8&&f.cooldowns[2]===0&&dist>190;
   const approach=(dist>125||!grounded(f)&&!easy)&&!seekingHeal&&(!easy||this.aiRecovery<=0);
   this.aiInput={left:approach&&dir<0,right:approach&&dir>0,guard:this.aiDefense>0&&!!this.aiInput.guard,crouch:this.aiDefense>0&&!!this.aiInput.crouch};
   if(f.guardBroken)return;
   const rallyThreat=this.rallies.find(r=>r.owner===o&&r.age>.35&&!r.fired&&(f.x-r.x)*r.direction>=-RALLY.radius);
   if(rallyThreat&&!f.attack&&!f.stun){this.aiInput={guard:true};return;}
-  if(f.rally>=100&&!f.attack&&!f.stun&&this.aiWait<=0){this.aiAction='rally';this.aiInput={};this.aiWait=1.4;return;}
+  if(!f.noRally&&f.rally>=100&&!f.attack&&!f.stun&&this.aiWait<=0){this.aiAction='rally';this.aiInput={};this.aiWait=1.4;return;}
   if(f.stun>0){
    // Queue a response to a hit already received. It waits for the same legal
    // request/input gate as a human, rather than losing the whole input window.
@@ -525,7 +533,7 @@ export class Duel {
    if(this.rng()<(easy?.4:.78)){
     this.aiDefense=easy?.24:.30;
     const remaining=visible?(current?.hits?.[0].start??current?.start??.1)-(helperThreat?threat.source.age-threat.source.warning:o.attack.age):0;
-    const defensive=CAST[f.type].moves.map((m,i)=>({m,i})).filter(({m,i})=>f.cooldowns[i]===0&&['counter','reject','calm','armor'].includes(m.behavior)&&m.start<remaining&&dist<155&&(m.behavior==='counter'?current?.contact:m.behavior==='reject'?current?.contact:true));
+    const defensive=enemyMoves.map((m,i)=>({m,i})).filter(({m,i})=>f.cooldowns[i]===0&&['counter','reject','calm','armor'].includes(m.behavior)&&m.start<remaining&&dist<155&&(m.behavior==='counter'?current?.contact:m.behavior==='reject'?current?.contact:true));
     if(visible&&current?.behavior==='grab'){this.aiInput={};this.aiAction='jump';}
     else if(queue||projectile?.phase==='lob'||projectile?.height==='low'||visible&&current?.height==='low'){this.aiInput={};this.aiAction='jump';}
     else if(defensive.length&&this.rng()<.65){const pick=defensive[Math.min(defensive.length-1,Math.floor(this.rng()*defensive.length))];this.aiInput={};this.aiAction='special'+(pick.i+1);}
@@ -542,7 +550,7 @@ export class Duel {
   this.aiWait=(easy?.60:.32)+this.rng()*(easy?.55:.3);
   if(f.item&&dist<520){this.aiInput={};this.aiAction='punch';return;}
   if(seekingHeal&&this.rng()<.85){this.aiInput={};this.aiAction='special3';return;}
-  const candidates=CAST[f.type].moves.map((m,i)=>({m,i})).filter(({m,i})=>f.cooldowns[i]===0&&
+  const candidates=enemyMoves.map((m,i)=>({m,i})).filter(({m,i})=>f.cooldowns[i]===0&&
    (m.behavior==='heal'?f.hp<=f.maxHp*.85&&dist>190:['counter','reject','calm'].includes(m.behavior)?dist<165&&!!knowsAttack:m.behavior==='grab'?dist<145:m.behavior==='queue'?dist>150&&dist<390:m.behavior==='projectile'||m.behavior==='lob'?dist>155:m.behavior==='word'?dist<330:dist<(m.range??150)+(m.behavior==='rush'||m.steps?120:15)));
   if(candidates.length&&this.rng()<.78){const pick=candidates[Math.min(candidates.length-1,Math.floor(this.rng()*candidates.length))];this.aiInput.guard=false;this.aiInput.crouch=false;this.aiAction='special'+(pick.i+1);}
   else if(dist<130){this.aiInput.guard=false;this.aiInput.crouch=false;this.aiAction='punch';}

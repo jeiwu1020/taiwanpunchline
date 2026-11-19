@@ -12,9 +12,11 @@ export function moveCalloutForMove(kind,text,actorType='wang'){
  const caption=moveCaption(kind);return caption?{...makeCombatCallout(text||caption.text,'',kind,actorType),duration:caption.duration}:null;
 }
 
-export function moveKindForAction(action,actorType='wang'){
+export function moveKindForAction(action,actorOrType='wang'){
  if(!/^special[123]$/.test(action??''))return action||'impact';
- return CAST[actorType]?.moves?.[Number(action.at(-1))-1]?.kind??'impact';
+ const actorObj=actorOrType&&typeof actorOrType==='object'?actorOrType:null;
+ const moves=actorObj?.customMoves??CAST[actorObj?.type??actorOrType]?.moves;
+ return moves?.[Number(action.at(-1))-1]?.kind??'impact';
 }
 
 export function rememberCombatCallout(callouts,actor,caption,now=performance.now()){
@@ -29,12 +31,12 @@ export function combatCalloutEntries(state,world,actors,callouts,now=performance
  if(!world||!state)return [];
  if(state.mode==='battle'&&world.warning?.name&&world.enemy){
   const actor=world.enemy,current=callouts.get(actor),name=world.warning.name;
-  if(current?.caption.text!==name)rememberCombatCallout(callouts,actor,makeCombatCallout(name,'',moveKindForAction(world.warning.action,actor.type),actor.type),now);
+  if(current?.caption.text!==name)rememberCombatCallout(callouts,actor,makeCombatCallout(name,'',moveKindForAction(world.warning.action,actor),actor.mobKind?'mini':actor.type),now);
  }else if(state.mode==='route'){
   for(const actor of actors){
    if(actor===world.player||actor.hp<=0||!actor.mobKind?.startsWith('mini_')||!(actor.warning>0))continue;
    const name=actor.chapterCaption??'注意對手動作',current=callouts.get(actor);
-   if(current?.caption.text!==name)rememberCombatCallout(callouts,actor,makeCombatCallout(name,'',actor.attack?.kind??'impact',actor.type),now);
+   if(current?.caption.text!==name)rememberCombatCallout(callouts,actor,makeCombatCallout(name,'',actor.attack?.kind??'impact',actor.mobKind?'mini':actor.type),now);
   }
  }
  return actors.flatMap(actor=>{const record=callouts.get(actor);return record?[{...record,previous:record.placement,player:actor===world.player}]:[];}).slice(0,2);
@@ -44,7 +46,7 @@ export function layoutCombatCallouts(entries,actors,frame,width,height,ground,de
  if(!entries.length)return [];
  const zoom=Math.max(.01,frame.zoom||1),view={x:frame.left+width/(2*zoom),y:ground+(height/2-frame.base)/zoom,width,height,zoom};
  return entries.map(entry=>{
-  const placement=shoutCaptionLayout(entry.caption.text,entry.player?'player':'enemy',view,{top:Math.max(0,safeTop),bottom:18},{kind:entry.caption.kind,actor:entry.actor.type});
+  const placement=shoutCaptionLayout(entry.caption.text,entry.player?'player':'enemy',view,{top:Math.max(0,safeTop),bottom:18},{kind:entry.caption.kind,actor:entry.actor.mobKind?'mini':entry.actor.type});
   placement.showSubtitle=!!entry.caption.subtitle;entry.previous=placement;const age=Math.max(0,now-entry.started),beat=shoutCaptionBeat(age,entry.caption.duration*1000);
   return {...entry,placement,alpha:beat.alpha,scale:beat.scale};
  });

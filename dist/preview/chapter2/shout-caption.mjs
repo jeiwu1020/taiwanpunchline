@@ -15,9 +15,10 @@ export function shoutCaptionBeat(age,duration=1350,reduced=false){
 const CHARACTER_INK={
  wang:{label:'恰吉王',accent:'#ffab68',face:'#fff0bf'},han:{label:'韓國魚',accent:'#ffdc42',face:'#fff7b0'},
  ma:{label:'小馬哥',accent:'#5ee6ef',face:'#cfffff'},su:{label:'電火球',accent:'#ff7962',face:'#ffe7da'},
- huang:{label:'咆哮哥',accent:'#b6a0ff',face:'#f0e5ff'},chen:{label:'阿扁仔',accent:'#92eb7c',face:'#e3ffbd'},ko:{label:'柯P',accent:'#ff9ecb',face:'#ffe5f0'}
+ huang:{label:'咆哮哥',accent:'#b6a0ff',face:'#f0e5ff'},chen:{label:'阿扁仔',accent:'#92eb7c',face:'#e3ffbd'},ko:{label:'柯P',accent:'#ff9ecb',face:'#ffe5f0'},
+ mini:{label:'場務',accent:'#f2b84b',face:'#fff4cc'}
 };
-const TREATMENTS={rush:'speed',counter:'seal',heal:'pulse',coin:'flight',han_knee:'impact',arrow:'flight',ma_handshake:'grip',ma_gaze:'impact',ma_cough:'combo',su_shout:'impact',su_rush:'speed',su_dare:'seal',huang_shout:'impact',huang_debt:'seal',huang_queue:'combo',chen_dream:'flight',chen_question:'combo',chen_calm:'pulse',ko_bags:'combo',ko_name:'flight',ko_resolve:'seal'};
+const TREATMENTS={rush:'speed',counter:'seal',heal:'pulse',coin:'flight',han_knee:'impact',arrow:'flight',ma_handshake:'grip',ma_gaze:'impact',ma_cough:'combo',su_shout:'impact',su_rush:'speed',su_dare:'seal',huang_shout:'impact',huang_debt:'seal',huang_queue:'combo',chen_dream:'flight',chen_question:'combo',chen_calm:'pulse',ko_bags:'combo',ko_name:'flight',ko_resolve:'seal',mini_flyer_shot:'flight',mini_whistle_charge:'speed',mini_megaphone_blast:'impact',mini_step_rush:'speed',mini_notice_lob:'flight',mini_folder_combo:'combo',mini_pass_grab:'grip',mini_baton_upper:'impact',mini_whistle_double:'combo',mini_barrier_drop:'combo'};
 export function comicMoveStyle(kind,actor){return {...(CHARACTER_INK[actor]||{label:'招式',accent:'#ffdc42',face:'#fff7b0'}),treatment:TREATMENTS[kind]||'impact'};}
 export function comicAccentState(age,duration=1350,reduced=false){
  return {alpha:Math.max(0,Math.min(.96,(duration-age)/260)),spread:reduced?1:Math.min(1,Math.max(.75,.75+age/440)),done:age>=duration};

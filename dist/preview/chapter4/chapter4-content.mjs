@@ -177,8 +177,8 @@ export const CHAPTER4=freeze({
     "identityStatus": "fictional",
     "mechanicsStatus": "telegraphed-pattern-reusing-core",
     "concept": "虛構路跑工作人員，把補給證明看得比補水還重要。",
-    "tell": "先伸手查證，再上托點名，最後清喉嚨連咳兩聲。",
-    "counterplay": "跳躲抓取後落地；上托手掌要退開或格擋，咳嗽可蹲低。不要全程連跳，等收招反擊。",
+    "tell": "先伸手查證，再上托點名，最後連吹兩聲高哨。",
+    "counterplay": "跳躲抓取後落地；揮棒上托要退開或格擋，高聲哨音可蹲低。不要全程連跳，等收招反擊。",
     "dialogue": [
      [
       "里程總監",
