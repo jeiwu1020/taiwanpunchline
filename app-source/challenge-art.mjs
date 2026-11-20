@@ -34,7 +34,6 @@ const captainRows=[
  {head:[37,525,420,485],body:[549,531,397,480],prop:[1073,525,428,495]}
 ];
 const neckSkin=[[145,164,42,65],[120,444,46,64],[85,742,35,55]];
-const generatedNeckSkin=[[706,148,54,78],[694,470,58,65],[695,760,60,60]];
 // The guard atlas includes a rear neck stump below the ear, separate from the
 // central throat used by the body rig. Follow the original ear/jaw ink instead
 // of leaving that second neck floating behind the collar. Atlas coordinates
@@ -99,13 +98,10 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  // not the mouth edge. Captain heads already include their own neck.
  const guardNeck=!captain&&!generated&&row===2,broadCaptain=Boolean(captain&&kind==='mini_guard');
 
- if(generated){
-  ctx.save();ctx.beginPath();ctx.moveTo(-9,-181);ctx.lineTo(9,-181);ctx.lineTo(7,-170);ctx.lineTo(4,-157);ctx.lineTo(2,-151);ctx.lineTo(-4,-151);ctx.lineTo(-7,-157);ctx.lineTo(-9,-170);ctx.closePath();ctx.clip();
-  crop(ctx,img,generatedNeckSkin[row],-10,-181,20,34);ctx.restore();
- }else if(guardNeck){
+ if(!generated&&guardNeck){
   ctx.save();ctx.beginPath();ctx.moveTo(-9,-179);ctx.lineTo(13,-179);ctx.lineTo(14,-162);ctx.lineTo(16,-154);ctx.lineTo(14,-141);ctx.lineTo(7,-149);ctx.lineTo(-2,-156);ctx.lineTo(-9,-164);ctx.closePath();ctx.clip();
   crop(ctx,img,neckSkin[row],-9,-179,25,38);ctx.restore();
- }else if(!captain)crop(ctx,img,neckSkin[row],-10,-180,27,34);
+ }else if(!captain&&!generated)crop(ctx,img,neckSkin[row],-10,-180,27,34);
  // Seat this captain's original broad neck inside its existing collar.
  ctx.save();ctx.translate(broadCaptain?5:1,(guardNeck?-162:broadCaptain?-145:-156)+p.bob);
  // Rotate the broad portrait around its rear neck insertion, so recoil cannot lift a gap.
@@ -136,8 +132,8 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  // The atlas prop already contains its hand and cuff. Measure its inlet.
  const generatedHeld=[
   {rect:c.prop,width:94,height:92,anchor:[.18,.89,-.78]},
-  {rect:c.prop,width:84,height:98,anchor:[.52,.88,-1.28]},
-  {rect:c.prop,width:88,height:104,anchor:[.20,.89,-.72]}
+  {rect:c.prop,width:84,height:98,anchor:[.21,.88,-1.28]},
+  {rect:c.prop,width:88,height:104,anchor:[.25,.92,-.72]}
  ];
  const held=captain?{rect:parts.prop,width:kind==='mini_guard'?88:82,height:kind==='mini_guard'?102:85,anchor:kind==='mini_guard'?[.05,.88,-.25]:[.05,.86,-.5]}:generated?generatedHeld[row]:
   row===0?{rect:c.prop,width:70,height:68,anchor:[.13,.88,-.65]}:
