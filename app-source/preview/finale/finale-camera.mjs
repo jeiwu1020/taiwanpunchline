@@ -54,9 +54,9 @@ export function finaleCameraFrame(width,height,world,{previous=null,occlusions=[
   x=clamp(old.x,foot.x+pocket.x-rx,foot.x+pocket.x+rx);
   y=clamp(old.y,foot.y+pocket.y-ry,foot.y+pocket.y+ry);
  }
- // A player's own jump may leave the standing pocket. Move vertically only
- // as much as needed to show that body; never zoom out for anybody's jump.
- y=clamp(y,body.y+pocket.y-ry,body.y+pocket.y+ry);
+ // Dynamic view keeps the controlled actor at the same screen height from
+ // takeoff. Stable view retains its original deadzone. Neither path changes z.
+ y=mode==='classic'?body.y+pocket.y:clamp(y,body.y+pocket.y-ry,body.y+pocket.y+ry);
  return {width,height,x,y,zoom:z,challengeCameraMode:mode,cameraSafetyFit:pocket.cameraSafetyFit,
   arenaProfile:'player-follow',arenaGeometryKey:key,arenaPocket:pocket,arenaFocusId:focus.id,arenaAnchor:anchor,
   left:x-width/(2*z),base:height/2+(GROUND-y)*z};

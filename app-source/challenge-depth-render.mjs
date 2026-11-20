@@ -97,7 +97,10 @@ function preferredDepthRouteCameraFrame(width,height,route,{overlay=false,portra
   const legacyInset=stageInsets(legacyWidth,legacyHeight,{touch,portrait}),legacyAvailable=Math.max(1,legacyHeight-legacyInset.top-legacyInset.bottom);
   const inset=closer?{top:88+(safe.top||0),bottom:66+(safe.bottom||0)}:stageInsets(width,height,{touch,portrait}),available=Math.max(1,height-inset.top-inset.bottom);
   const actorTop=route.player.y+depthOf(route.player)*DEPTH_SCALE-300;
-  const scaleActorTop=(route.player.supportY??GROUND)+depthOf(route.player)*DEPTH_SCALE-300;
+  // Dynamic camera scale is tied to the street floor, not the current jump or
+  // tabletop support. Stable framing keeps its existing support-based rule.
+  const scaleSupportY=camera==='stable'?(route.player.supportY??GROUND):GROUND;
+  const scaleActorTop=scaleSupportY+depthOf(route.player)*DEPTH_SCALE-300;
   const floor=GROUND+MAX_DEPTH*DEPTH_SCALE;
   const legacyZoom=Math.min(1.4,legacyWidth/(portrait?550:1050),Math.max(1,legacyAvailable-40)/Math.max(400,floor-scaleActorTop));
   const dynamicZoom=Math.min(1.4,width/(portrait?550:1050),Math.max(1,available-40)/Math.max(400,floor-scaleActorTop),closer?legacyZoom*1.18:Infinity);
@@ -156,9 +159,12 @@ export function depthRouteCameraFrame(width,height,route,options={}){
  // this branch aligned with fitChallengeCamera's default instead of treating
  // older callers as stable while the vertical jump correction is applied.
  const dynamicCamera=options.camera!=='stable';
- const desktopDynamic=options.touch===false&&dynamicCamera;
  const rising=dynamicCamera&&route.player.y<(route.player.supportY??GROUND)-1;
- return {...fitChallengeCamera(preferred,subjects,options.previous,options.delta,{...safety,...(measured?{cameraPlan:plan}:{}),...(desktopDynamic?{cameraHorizontalDeadZone:36,cameraFollowFactor:.2}:{}),cameraVerticalDirect:rising}),presentation};
+ // Match the later chapter adapter: remove legacy jumpPan first, then track
+ // the player's real takeoff offset immediately. The view scale stays fixed.
+ const supportY=route.player.supportY??GROUND;
+ const directPreferred=rising?{...preferred,y:preferred.y+(preferred.jumpPan||0)/preferred.zoom+route.player.y-supportY}:preferred;
+ return {...fitChallengeCamera(directPreferred,subjects,options.previous,options.delta,{...safety,...(measured?{cameraPlan:plan}:{}),cameraVerticalDirect:rising}),presentation};
 }
 export function depthBackdropLayout(frame){
  const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;
