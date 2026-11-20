@@ -65,11 +65,11 @@ const aliases={placard:'mic',leaflet:'flyer',barricade:'guard',flagger:'mic',pho
 export function challengeMobKind(mob){const k=mob.mobKind||mob.template||mob.kind||'mic';return aliases[k]||k;}
 const crop=(ctx,img,r,x,y,w,h)=>ctx.drawImage(img,...r,x,y,w,h);
 function bone(ctx,img,r,a,b,w,cap=5){ctx.save();ctx.translate(a.x,a.y);ctx.rotate(Math.atan2(b.y-a.y,b.x-a.x)-Math.PI/2);crop(ctx,img,r,-w/2,-cap,w,Math.hypot(b.x-a.x,b.y-a.y)+cap*2);ctx.restore();}
-function forearm(ctx,img,r,a,prop,row){
+function forearm(ctx,img,r,a,prop,row,generated=false){
  const wristFraction=row===0?.66:row===1?.64:.59;
  const length=Math.hypot(a.wrist.x-a.elbow.x,a.wrist.y-a.elbow.y),h=length/wristFraction,w=30;
  ctx.save();ctx.translate(a.elbow.x,a.elbow.y);ctx.rotate(Math.atan2(a.wrist.y-a.elbow.y,a.wrist.x-a.elbow.x)-Math.PI/2);
- if(prop){crop(ctx,img,[r[0],r[1],r[2],r[3]*wristFraction],-w/2,-4,w,length+4);}
+ if(prop){const overlap=generated?10:4,sourceFraction=Math.min(1,wristFraction+overlap/h);crop(ctx,img,[r[0],r[1],r[2],r[3]*sourceFraction],-w/2,-4,w,length+overlap);}
  else crop(ctx,img,r,-w/2,-4,w,h+4);
  ctx.restore();
 }
@@ -86,7 +86,7 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  const leg=l=>{bone(ctx,img,c.thigh,l.hip,l.knee,29);bone(ctx,img,[c.shin[0],c.shin[1],c.shin[2],c.shin[3]*.72],l.knee,l.ankle,25,3);crop(ctx,img,[c.shin[0],c.shin[1]+c.shin[3]*.69,c.shin[2],c.shin[3]*.31],l.ankle.x-13,l.ankle.y-5,39,16);};
  leg(p.legs.far);leg(p.legs.near);
  ctx.translate(p.bodyX,p.bodyY);
- bone(ctx,img,c.upper,p.farArm.shoulder,p.farArm.elbow,26);forearm(ctx,img,c.fore,p.farArm,false,row);
+ bone(ctx,img,c.upper,p.farArm.shoulder,p.farArm.elbow,26);forearm(ctx,img,c.fore,p.farArm,false,row,generated);
  crop(ctx,portrait,parts.body,-45,-171,90,112);
  // Original heads end at the chin. The guard's broad jaw needs a little
  // clearance above the collar and a tapered throat sampled from its cheek,
@@ -107,9 +107,12 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
   ctx.beginPath();guardHeadOutline.forEach(([x,y],i)=>ctx[i?'lineTo':'moveTo'](-55+(x-c.head[0])*111/c.head[2],-107+(y-c.head[1])*111/c.head[3]));ctx.closePath();ctx.clip();
  }
 
- crop(ctx,portrait,parts.head,captain?-53:-55,captain?-119:-107,captain?108:111,captain?123:111);ctx.restore();
- // Seat the neck behind its own front collar, without moving the arm skeleton
- // or painting a flat-colored patch over the generated engraving.
+ // The generated older guard has excess neck below the chin. Trim only that source edge,
+ // then keep the original pixel scale so the face stays natural and lands inside the collar.
+ const generatedNeckTrimPx=generated&&!captain&&row===2?48:0,headRect=generatedNeckTrimPx?[parts.head[0],parts.head[1],parts.head[2],parts.head[3]-generatedNeckTrimPx]:parts.head;
+ const headWidth=captain?108:111,headHeight=(captain?123:111)*(headRect[3]/parts.head[3]);
+ crop(ctx,portrait,headRect,captain?-53:-55,captain?-119:-107,headWidth,headHeight);ctx.restore();
+ // Original head crops need their own collar retouch after the head is seated.
  if(!generated){ctx.save();ctx.beginPath();
  if(guardNeck){
   // Follow this vest's two actual collar leaves. The generic diagonal mask
@@ -123,7 +126,10 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
   ctx.moveTo(16,-162);ctx.lineTo(18,-163);ctx.lineTo(30,-144);ctx.lineTo(20,-153);ctx.lineTo(11,-142);ctx.lineTo(16,-156);ctx.closePath();
  }else{ctx.moveTo(-18,-161);ctx.lineTo(-3,-153);ctx.lineTo(13,-157);ctx.lineTo(30,-147);ctx.lineTo(17,-133);ctx.lineTo(-10,-143);ctx.closePath();}
  ctx.clip();crop(ctx,portrait,parts.body,-45,-171,90,112);ctx.restore();}
- bone(ctx,img,c.upper,p.arm.shoulder,p.arm.elbow,30);forearm(ctx,img,c.fore,p.arm,true,row);
+ // Generated heads include their neck. Repaint the body's original collar pixels
+ // over the overlap so skin tucks naturally into the shirt instead of ending at a seam.
+ if(generated){ctx.save();ctx.beginPath();ctx.rect(-45,-171,90,28);ctx.clip();crop(ctx,portrait,parts.body,-45,-171,90,112);ctx.restore();}
+ bone(ctx,img,c.upper,p.arm.shoulder,p.arm.elbow,30);forearm(ctx,img,c.fore,p.arm,true,row,generated);
  // The atlas prop already contains its hand and cuff. Measure its inlet.
  const generatedHeld=[
   {rect:c.prop,width:94,height:92,anchor:[.18,.89,-.78]},
