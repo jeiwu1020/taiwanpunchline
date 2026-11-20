@@ -27,10 +27,6 @@ export function chapter2SceneLayers(platforms,actors,depthMode,encounter=null,ro
   for(const prop of encounter?.props??[])layers.push({kind:'encounter-prop',value:prop,depth:prop.depth??0});
   if(routeState&&!routeState.supplyUsed&&Number.isFinite(routeState.section?.supplyX))layers.push({kind:'route-supply',value:{x:routeState.section.supplyX},depth:routeState.section.supplyDepth??0});
   if(Number.isFinite(routeState?.gateX))layers.push({kind:'route-gate',value:{x:routeState.gateX},depth:0});
- }else if(encounter?.boss){
-  // Put the boss interaction on the table's front edge, after the tabletop
-  // and before either fighter, so it stays visible without covering combat.
-  for(const prop of encounter.props??[])layers.push({kind:'encounter-prop',value:prop,depth:-.001});
  }
  for(const callout of callouts)layers.push({kind:'callout',value:callout,depth:(callout.actor.depth??0)-.001});
  for(const a of actors)layers.push({kind:'actor',a,depth:a.depth??0});

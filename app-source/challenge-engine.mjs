@@ -61,9 +61,8 @@ export class ChallengeRoute {
    const [kind,x,trigger,rewardXp,rewardCp]=entry;
    if(this.spawned.has(i)||this.player.x<(trigger??x-560))return;this.spawned.add(i);
    const baseSpec=MOB_TYPES[kind],spec=rewardXp===undefined&&rewardCp===undefined?baseSpec:{...baseSpec,xp:rewardXp??baseSpec.xp,cp:rewardCp??baseSpec.cp};
-   const repeated=this.section.spawns.slice(0,i).filter(spawn=>spawn[0]===kind).length,variant=(repeated+this.sectionIndex)%3;
-   const suffix=['','肩包','紅頭巾'][variant],f=new Duel('wang','easy',this.rng).enemy;delete f.combatStats;
-   Object.assign(f,{id:`${this.section.id}-${i}`,mobKind:kind,name:spec.name,displayName:suffix?`${spec.name}・${suffix}`:spec.name,variant,x,hp:spec.hp,maxHp:spec.hp,spec,aiWait:.65,deadAge:0,warning:0});
+   const f=new Duel('wang','easy',this.rng).enemy;delete f.combatStats;
+   Object.assign(f,{id:`${this.section.id}-${i}`,mobKind:kind,name:spec.name,x,hp:spec.hp,maxHp:spec.hp,spec,aiWait:.65,deadAge:0,warning:0});
    this.enemies.push(f);this.events.push({type:'mobSpawn',f});
   });
  }

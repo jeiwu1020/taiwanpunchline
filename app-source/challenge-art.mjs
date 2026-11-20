@@ -77,21 +77,10 @@ function forearm(ctx,img,r,a,prop,row){
  else crop(ctx,img,r,-w/2,-4,w,h+4);
  ctx.restore();
 }
-function drawMobSlingBag(ctx){
- ctx.save();ctx.lineCap='round';ctx.strokeStyle='#263c37';ctx.lineWidth=12;ctx.beginPath();ctx.moveTo(-30,-157);ctx.lineTo(18,-83);ctx.stroke();
- ctx.strokeStyle='#e7b64c';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(-30,-157);ctx.lineTo(18,-83);ctx.stroke();
- ctx.fillStyle='#b34d39';ctx.strokeStyle='#263c37';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(8,-94,28,25,4);ctx.fill();ctx.stroke();
- ctx.fillStyle='#fff0cc';ctx.beginPath();ctx.arc(22,-82,4,0,Math.PI*2);ctx.fill();ctx.restore();
-}
-function drawMobHeadband(ctx){
- ctx.save();ctx.fillStyle='#b34d39';ctx.strokeStyle='#263c37';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-38,-100);ctx.quadraticCurveTo(0,-108,38,-99);ctx.lineTo(35,-89);ctx.quadraticCurveTo(0,-97,-36,-90);ctx.closePath();ctx.fill();ctx.stroke();
- ctx.beginPath();ctx.moveTo(34,-98);ctx.lineTo(49,-105);ctx.lineTo(45,-91);ctx.lineTo(55,-85);ctx.lineTo(38,-87);ctx.closePath();ctx.fill();ctx.stroke();ctx.restore();
-}
 /** Local foot origin, like drawFighterArt. Caller owns world translation/facing. */
 export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  const img=images['challenge-mobs'];if(!img)return null;
  const kind=challengeMobKind(mob),row=kind==='flyer'?1:kind==='guard'||kind==='mini_guard'?2:0,c=rows[row];
- const spawnIndex=Number(String(mob.id??'').match(/(\d+)$/)?.[1]),variant=Number.isInteger(mob.variant)?mob.variant:Number.isFinite(spawnIndex)?spawnIndex%3:0;
  const captain=kind.startsWith('mini_')&&images['challenge-captains']?captainRows[kind==='mini_guard'?1:0]:null,portrait= captain?images['challenge-captains']:img,parts=captain||c;
  const p=fighterPose({...mob,type:'wang',supportY:mob.supportY??430},time);
  ctx.save();
@@ -121,7 +110,7 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
   ctx.beginPath();guardHeadOutline.forEach(([x,y],i)=>ctx[i?'lineTo':'moveTo'](-55+(x-c.head[0])*111/c.head[2],-107+(y-c.head[1])*111/c.head[3]));ctx.closePath();ctx.clip();
  }
 
- crop(ctx,portrait,parts.head,captain?-53:-55,captain?-119:-107,captain?108:111,captain?123:111);if(!captain&&variant===2)drawMobHeadband(ctx);ctx.restore();
+ crop(ctx,portrait,parts.head,captain?-53:-55,captain?-119:-107,captain?108:111,captain?123:111);ctx.restore();
  // Seat the neck behind its own front collar, without moving the arm skeleton
  // or painting a flat-colored patch over the generated engraving.
  ctx.save();ctx.beginPath();
@@ -137,7 +126,6 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
   ctx.moveTo(16,-162);ctx.lineTo(18,-163);ctx.lineTo(30,-144);ctx.lineTo(20,-153);ctx.lineTo(11,-142);ctx.lineTo(16,-156);ctx.closePath();
  }else{ctx.moveTo(-18,-161);ctx.lineTo(-3,-153);ctx.lineTo(13,-157);ctx.lineTo(30,-147);ctx.lineTo(17,-133);ctx.lineTo(-10,-143);ctx.closePath();}
  ctx.clip();crop(ctx,portrait,parts.body,-45,-171,90,112);ctx.restore();
- if(!captain&&variant===1)drawMobSlingBag(ctx);
  bone(ctx,img,c.upper,p.arm.shoulder,p.arm.elbow,30);forearm(ctx,img,c.fore,p.arm,true,row);
  // The atlas prop already contains its hand and cuff. Measure its inlet.
  const held=captain?{rect:parts.prop,width:kind==='mini_guard'?88:82,height:kind==='mini_guard'?102:85,anchor:kind==='mini_guard'?[.05,.88,-.25]:[.05,.86,-.5]}:

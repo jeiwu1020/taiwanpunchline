@@ -1,4 +1,3 @@
-import {installBossEncounter} from '../../chapter-encounters.mjs?v=chapter-presentation-20261117-r1';
 import {Duel} from '../../core.mjs?v=chapter-presentation-20261117-r1';
 import {ChallengeDepthRoute,DEPTH} from '../../challenge-depth-engine.mjs?v=chapter-presentation-20261117-r1';
 import {ChapterMiniDuel} from '../campaign/chapter-mini-duel.mjs?v=chapter-presentation-20261117-r1';
@@ -12,7 +11,7 @@ const BOSS_ASSIST_ROSTER=Object.freeze(Object.values(MINIBOSS_PATTERNS).map(({ty
 export function createChapter5Duel({stepId,characterId='wang',helperId='han',difficulty='easy',rng=Math.random,stats}={}){
  if(Object.hasOwn(MINIBOSS_PATTERNS,stepId))return new ChapterMiniDuel(MINIBOSS_PATTERNS[stepId],{characterId,helperId,difficulty,rng,stats});
  if(stepId!=='boss')throw new RangeError('Unknown chapter-five duel');
- const d=new Duel(characterId,difficulty,rng,'chen',{playerAssist:helperId,enemyAssist:BOSS_ASSIST_ROSTER[0].helper,enemyAssistRoster:BOSS_ASSIST_ROSTER,playerStats:stats});d.nextItemAt=Infinity;d.enemy.displayName='阿扁仔';d.drainEvents=()=>d.events.splice(0);return installBossEncounter(d,5);
+ const d=new Duel(characterId,difficulty,rng,'chen',{playerAssist:helperId,enemyAssist:BOSS_ASSIST_ROSTER[0].helper,enemyAssistRoster:BOSS_ASSIST_ROSTER,playerStats:stats});d.nextItemAt=Infinity;d.enemy.displayName='阿扁仔';d.drainEvents=()=>d.events.splice(0);return d;
 }
 export function createChapter5Route({routeIndex,characterId='wang',helperId='han',difficulty='easy',rng=Math.random,carry=null,stats}={}){
  if(!Number.isInteger(routeIndex)||routeIndex<0||routeIndex>2)throw new RangeError('Unknown route');
