@@ -460,16 +460,28 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  const smoothedActors=actors.map((a,i)=>({...a,supportY:supportYs[i]}));
  if(mobileLandscape&&!street)preferred={...preferred,y:supportYs[0]+depthY(actors[0])-(height*.84-height/2)/preferred.zoom};
  const stableStreetZoom=Math.min(1.4,width/440,height*.74/328),preferredZoom=(street&&mobileLandscape)?stableStreetZoom:Math.max(.000001,finite(preferred.zoom,stableStreetZoom));
- const wantedZoom=mode==='stable'?preferredZoom:street?(mobileLandscape?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom):preferredZoom;
+ // A dynamic street keeps one actor-relative vertical anchor and one zoom for
+ // the whole route. Landing on a table must not switch back to grounded framing.
+ const routeDynamic=street&&mode==='classic';
+ const sameRouteWorld=!options.cameraPlan?.state?.world||previous?.cameraTracking?.world===options.cameraPlan.state.world;
+ const savedRouteCamera=routeDynamic&&same&&sameRouteWorld&&previous?.routeCamera?.version===1&&Number.isFinite(previous.routeCamera.zoom)&&previous.routeCamera.zoom>0&&Number.isFinite(previous.routeCamera.verticalFollowAnchor?.playerY)&&Number.isFinite(previous.routeCamera.verticalFollowAnchor?.cameraY)?previous.routeCamera:null;
+ const wantedZoom=routeDynamic&&savedRouteCamera?savedRouteCamera.zoom:mode==='stable'?preferredZoom:street?(mobileLandscape?Math.max(preferredZoom*.90,Math.min(preferredZoom,finite(preferred.zoom,preferredZoom))):preferredZoom):preferredZoom;
  const scaleActors=!street&&previousUsable?smoothedActors.map(a=>({...a,supportY:Math.max(430,finite(a.supportY,430))})):smoothedActors;
  const rawBoxes=smoothedActors.map(a=>groundedActorBounds(a,boundsOptions));
  const rawHeight=(Math.max(...rawBoxes.map(b=>b.bottom))-Math.min(...rawBoxes.map(b=>b.top)))*wantedZoom;
  const topHudBottom=occlusions.reduce((m,o)=>!o.softControl&&(o.top+o.bottom)/2<(rect.top+rect.bottom)/2?Math.max(m,o.bottom):m,rect.top);
  const openVertical=Math.max(1,rect.bottom-topHudBottom);
- const shareVerticalBand=!options.cameraVerticalDirect&&!street&&rawBoxes.length>1&&rawHeight>openVertical-4;
+ const verticalDirect=routeDynamic||!!options.cameraVerticalDirect;
+ const shareVerticalBand=!verticalDirect&&!street&&rawBoxes.length>1&&rawHeight>openVertical-4;
  const sharedSupportY=supportYs[0];
- const boxes=options.cameraVerticalDirect?smoothedActors.map((a,i)=>i===0?{...rawBoxes[i],top:finite(a.y,430)+depthY(a)-300,bottom:finite(a.y,430)+depthY(a)+28}:rawBoxes[i]):shareVerticalBand?smoothedActors.map((a,i)=>({...rawBoxes[i],top:sharedSupportY+depthY(a)-300,bottom:sharedSupportY+depthY(a)+28})):rawBoxes;
- const anticipated=(options.cameraPlan?.anticipated||scaleActors).map((a,i)=>{const actor=i===0&&street?{...a,supportY:supportYs[0]}:a,b=groundedActorBounds(actor,boundsOptions);if(options.cameraVerticalDirect&&i===0){b.top=finite(actor.y,430)+depthY(actor)-300;b.bottom=finite(actor.y,430)+depthY(actor)+28;}return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
+ const boxes=verticalDirect?smoothedActors.map((a,i)=>i===0?{...rawBoxes[i],top:finite(a.y,430)+depthY(a)-300,bottom:finite(a.y,430)+depthY(a)+28}:rawBoxes[i]):shareVerticalBand?smoothedActors.map((a,i)=>({...rawBoxes[i],top:sharedSupportY+depthY(a)-300,bottom:sharedSupportY+depthY(a)+28})):rawBoxes;
+ const anticipated=(options.cameraPlan?.anticipated||scaleActors).map((a,i)=>{const actor=i===0&&street?{...a,supportY:supportYs[0]}:a,b=groundedActorBounds(actor,boundsOptions);if(verticalDirect&&i===0){b.top=finite(actor.y,430)+depthY(actor)-300;b.bottom=finite(actor.y,430)+depthY(actor)+28;}return options.cameraPlan?.state?{...b,left:b.left-32,right:b.right+32}:b;});
+ let routeVerticalAnchor=null;
+ if(routeDynamic){
+  const playerDisplayY=finite(actors[0].y,430)+depthY(actors[0]);
+  routeVerticalAnchor=savedRouteCamera?.verticalFollowAnchor??{playerY:playerDisplayY,cameraY:finite(preferred.y,430)};
+  preferred={...preferred,y:routeVerticalAnchor.cameraY+playerDisplayY-routeVerticalAnchor.playerY,jumpPan:0};
+ }
  let center=previousUsable?{x:previous.x+(preferred.x-previous.x)*ease,y:previous.y+(preferred.y-previous.y)*ease}:{x:preferred.x,y:preferred.y};
  const wanted=z=>({x:width/2-center.x*z,y:height/2-center.y*z});
  // A maximum-scale fit can have disconnected legal pockets around controls.
@@ -478,7 +490,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
  function fit(targetBoxes,maximum,continuous=false){
   const dt=clamp(delta,0,100)/1000,step=dt*60;
   const allowanceX=street?Math.max(3*step,265*dt*(previous?.zoom||maximum)+step):(vsMobileJump?16*step/Math.SQRT2:Math.max(4*step,480*dt*(previous?.zoom||maximum)));
-  const allowanceY=options.cameraVerticalDirect?JUMP_SPEED*dt*(previous?.zoom||maximum):street?Math.max(14*step,840*dt):Math.max(6*step,520*dt);
+  const allowanceY=verticalDirect?JUMP_SPEED*dt*(previous?.zoom||maximum):street?Math.max(14*step,840*dt):Math.max(6*step,520*dt);
   const multiAllowanceY=(!mobileLandscape&&street&&targetBoxes.length>1)?Math.max(5*step,300*dt):allowanceY;
   const limitsFor=(z,ay)=>continuous&&same?{left:width/2-previous.x*z-allowanceX,right:width/2-previous.x*z+allowanceX,top:height/2-previous.y*z-ay,bottom:height/2-previous.y*z+ay}:null;
   const limits=z=>limitsFor(z,allowanceY);
@@ -496,7 +508,7 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   if(!position){let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2,p=place(mid);if(p)lo=mid;else hi=mid;}zoom=Math.max(.000001,lo);position=place(zoom);}
   return {zoom,position};
  }
- const forecast=fit(options.cameraVerticalDirect?anticipated.slice(0,1):anticipated,wantedZoom);let target=forecast.zoom;
+ const forecast=fit(verticalDirect?anticipated.slice(0,1):anticipated,wantedZoom);let target=forecast.zoom;
  if(!street&&mobileLandscape&&mode==='classic')target=Math.max(wantedZoom*.88,target);
  if(same&&mode==='stable'&&options.cameraPlan?.state?.retained?.some(e=>e.remaining<600))target=Math.min(target,previous.zoom);
   
@@ -505,15 +517,17 @@ export function fitChallengeCamera(preferred,actors,previous=null,delta=1000/60,
   const deadZone=same&&options.cameraPlan&&deadZonePixels>0&&Math.abs(future.x-previous.x)*previous.zoom<deadZonePixels;
   if(deadZone)future.x=previous.x;
   const follow=!deadZone&&options.cameraPlan?.state?.engaged?clamp(options.cameraPlan.velocityX,-265,265)*clamp(delta,0,100)/1000:0;
-  const futureY=options.cameraVerticalDirect?preferred.y:shareVerticalBand?sharedSupportY+(depthY(smoothedActors[0]))-136:future.y;
-  center=same?{x:previous.x+(future.x-previous.x)*ease+follow*(deadZone?0:finite(options.cameraFollowFactor,1)),y:options.cameraVerticalDirect?futureY:previous.y+(futureY-previous.y)*ease}:future;}
+  const futureY=verticalDirect?preferred.y:shareVerticalBand?sharedSupportY+(depthY(smoothedActors[0]))-136:future.y;
+  center=same?{x:previous.x+(future.x-previous.x)*ease+follow*(deadZone||routeDynamic?0:finite(options.cameraFollowFactor,1)),y:verticalDirect?futureY:previous.y+(futureY-previous.y)*ease}:future;}
  let zoomTarget=previousUsable?Math.min(wantedZoom,previous.zoom+(target-previous.zoom)*(target<previous.zoom?Math.max(ease,1-Math.pow(.82,clamp(delta,0,100)/(1000/60))):ease)):target;
+ if(routeDynamic)zoomTarget=savedRouteCamera?savedRouteCamera.zoom:target;
  if(mobileLandscape&&same&&target<previous.zoom&&previous.zoom-target<1e-5)zoomTarget=target;
  if(same){const maxRatio=!mobileLandscape&&street?1.015:1.02,step=Math.pow(maxRatio,clamp(delta,0,100)/(1000/60));zoomTarget=clamp(zoomTarget,previous.zoom/step,previous.zoom*step);}
- const {zoom,position}=fit(options.cameraVerticalDirect?boxes.slice(0,1):boxes,zoomTarget,true);
+ const {zoom,position}=fit(verticalDirect?boxes.slice(0,1):boxes,zoomTarget,true);
  if(!position)return {...preferred,challengeCameraMode:mode,cameraSafetyFit:false};
  const x=(width/2-position.x)/zoom,y=(height/2-position.y)/zoom;
- const result={...preferred,x,y,zoom,challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:mobileLandscape?'soft':'normal',challengeSupportY:supportYs,...(options.cameraPlan?{cameraTracking:options.cameraPlan.state}:{})};
+ const storedVerticalAnchor=routeDynamic&&!savedRouteCamera?{...routeVerticalAnchor,cameraY:y}:routeVerticalAnchor;
+ const result={...preferred,x,y,zoom,challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:mobileLandscape?'soft':'normal',challengeSupportY:supportYs,...(routeDynamic?{routeCamera:{version:1,verticalFollowAnchor:storedVerticalAnchor,zoom}}:{}),...(options.cameraPlan?{cameraTracking:options.cameraPlan.state}:{})};
  if('base' in preferred)Object.assign(result,{base:height/2+(430-y)*zoom,jumpPan:0,backdropZoom:Math.max(preferred.backdropZoom||0,wantedZoom),backdropTop:Math.min(preferred.backdropTop??Infinity,y-height/(2*zoom)),backdropBottom:Math.max(preferred.backdropBottom??-Infinity,y+height/(2*zoom))});
  return result;
 }
@@ -533,7 +547,7 @@ function closeGeometry(width,height,options,profile){
 function closeKey(width,height,g,profile){return JSON.stringify([1,profile,JSON.parse(fixedGeometryKey(width,height,g))]);}
 function compatibleCloseState(frame){
  const s=frame?.playerCloseCamera;
- if(s?.version!==1||!['portrait','landscape'].includes(s.profile)||!['classic','stable'].includes(frame.challengeCameraMode)||!([frame.width,frame.height,frame.x,frame.y,frame.zoom,s.zoom,s.referenceZoom,s.maximumDensity,s.anchor?.x,s.anchor?.y,s.pose?.x,s.pose?.displayY,s.reserveX,s.follow?.left,s.follow?.right].every(Number.isFinite))||s.zoom<=0||s.zoom!==frame.zoom||s.maximumDensity<s.zoom||s.referenceZoom<=0||typeof s.follow.clamped!=='boolean')return null;
+ if(![1,2].includes(s?.version)||!['portrait','landscape'].includes(s.profile)||!['classic','stable'].includes(frame.challengeCameraMode)||!([frame.width,frame.height,frame.x,frame.y,frame.zoom,s.zoom,s.referenceZoom,s.maximumDensity,s.anchor?.x,s.anchor?.y,s.pose?.x,s.pose?.displayY,s.reserveX,s.follow?.left,s.follow?.right].every(Number.isFinite))||s.zoom<=0||s.zoom!==frame.zoom||s.maximumDensity<s.zoom||s.referenceZoom<=0||typeof s.follow.clamped!=='boolean'||(s.version===2&&frame.challengeCameraMode==='classic'&&![s.verticalFollowAnchor?.playerY,s.verticalFollowAnchor?.cameraY].every(Number.isFinite)))return null;
  let key;try{key=JSON.parse(s.geometryKey);}catch{return null;}
  if(!Array.isArray(key)||key[0]!==1||key[1]!==s.profile||key[2]?.[1]!==frame.width||key[2]?.[2]!==frame.height||s.reserveX!==(s.profile==='landscape'?80:32)||s.follow.left!==s.anchor.x-s.reserveX*s.zoom||s.follow.right!==s.anchor.x+s.reserveX*s.zoom)return null;
  return s;
@@ -591,9 +605,10 @@ export function streetPlayerCameraFrame(width,height,world,options={}){
  const limitedX=old&&zoom===old.zoom?previous.x+(paused?0:clamp((targetX-previous.x)*zoom,-budget,budget)/zoom):targetX;
  const q=width/2+(pose.x-limitedX)*zoom,shownX=clamp(q,left,right),clamped=shownX!==q;
  const x=clamped?pose.x+(width/2-shownX)/zoom:limitedX;
- const rising=mode==='classic'&&finite(p.y,430)<finite(p.supportY,finite(p.y,430))-1;
- const y=rising?finite(p.y,430)+depthY(p)+(height/2-anchor.y)/zoom:smoothGroundedVerticalY(width,height,zoom,anchor.y,pose.x,x,p,rect,occlusions,previous,paused,elapsed);
- return{width,height,x,y,zoom,mode:'depth-route',hud:0,base:height/2+(430-y)*zoom,jumpPan:0,challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:profile==='landscape'?'soft':'normal',playerCloseCamera:{version:1,profile,geometryKey:key,zoom,referenceZoom,maximumDensity,anchor,pose,reserveX,follow:{left,right,clamped}},backdropZoom:maximumDensity,backdropTop:y-height/(2*zoom),backdropBottom:y+height/(2*zoom)};
+ const savedVerticalAnchor=old?.verticalFollowAnchor;
+ const verticalFollowAnchor=mode==='classic'&&savedVerticalAnchor&&Number.isFinite(savedVerticalAnchor.playerY)&&Number.isFinite(savedVerticalAnchor.cameraY)?savedVerticalAnchor:mode==='classic'?{playerY:finite(p.supportY,finite(p.y,430))+depthY(p),cameraY:finite(p.supportY,finite(p.y,430))+depthY(p)+(height/2-anchor.y)/zoom}:null;
+ const y=mode==='classic'?verticalFollowAnchor.cameraY+pose.displayY-verticalFollowAnchor.playerY:smoothGroundedVerticalY(width,height,zoom,anchor.y,pose.x,x,p,rect,occlusions,previous,paused,elapsed);
+ return{width,height,x,y,zoom,mode:'depth-route',hud:0,base:height/2+(430-y)*zoom,jumpPan:0,challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:profile==='landscape'?'soft':'normal',playerCloseCamera:{version:2,profile,geometryKey:key,zoom,referenceZoom,maximumDensity,anchor,pose,reserveX,follow:{left,right,clamped},verticalFollowAnchor},backdropZoom:maximumDensity,backdropTop:y-height/(2*zoom),backdropBottom:y+height/(2*zoom)};
 }
 
 // The original v2 solver owns landscape STABLE. A paused portrait-close owner
