@@ -52,7 +52,7 @@ function effect(c,e,project,z,atlas){
 export function drawChapterEncounterObject(c,kind,value,project,zoom=1,images={},time=0){
  if(kind==='gate'){gate(c,value,project,zoom,time);return;}
  if(kind!=='prop')return;
- const q=project(value.x,430,value.depth);c.save();c.translate(q.x,q.y);c.scale(zoom,zoom);prop(c,value,images,time);c.restore();
+ const q=project(value.x,value.renderY??430,value.depth);c.save();c.translate(q.x,q.y);c.scale(zoom,zoom);prop(c,value,images,time);c.restore();
 }
 export function drawChapterEncounterEffects(c,w,project,zoom=1,images={}){
  const s=w?.chapterEncounter;if(!s)return;const atlas=images['chapter-mob-fx']??chapterMobFxImage();c.save();
@@ -64,7 +64,7 @@ export function drawChapterEncounterEffects(c,w,project,zoom=1,images={}){
 }
 export function drawChapterEncounterGuidance(c,w,project,zoom=1,contextScale=1){
  const s=w?.chapterEncounter;if(!s)return;c.save();
- const hint=chapterPropHint(w);if(hint){const p=hint.prop,q=project(p.x,430,p.depth),prefix={ready:'攻擊',approach:'靠近',turn:'轉身',cooldown:`${Math.ceil(p.cooldown)} 秒後`}[hint.state];caption(c,`${prefix} · ${LABELS[p.kind]}`,q.x,q.y+29/contextScale,contextScale);}
+ const hint=chapterPropHint(w);if(hint){const p=hint.prop,q=project(p.x,p.renderY??430,p.depth),prefix={ready:'攻擊',approach:'靠近',turn:'轉身',armed:`已啟動 ${Math.ceil(p.activeTime)} 秒`,cooldown:`${Math.ceil(p.cooldown)} 秒後`}[hint.state];caption(c,`${prefix} · ${LABELS[p.kind]}`,q.x,q.y+29/contextScale,contextScale);}
  const note=[...s.notes].reverse().find(n=>Math.abs(n.x-w.player.x)<550);if(note){const q=project(note.x,430,note.depth);c.save();c.globalAlpha=Math.min(1,note.life*2);caption(c,note.text,q.x,q.y-250*zoom,contextScale,GREEN);c.restore();}c.restore();
 }
 export function drawChapterEncounter(c,w,project,zoom=1,images={},contextScale=1){
