@@ -164,7 +164,7 @@ export function depthRouteCameraFrame(width,height,route,options={}){
  // the player's real takeoff offset immediately. The view scale stays fixed.
  const supportY=route.player.supportY??GROUND;
  const directPreferred=rising?{...preferred,y:preferred.y+(preferred.jumpPan||0)/preferred.zoom+route.player.y-supportY}:preferred;
- return {...fitChallengeCamera(directPreferred,subjects,options.previous,options.delta,{...safety,...(measured?{cameraPlan:plan}:{}),cameraVerticalDirect:rising}),presentation};
+ return {...fitChallengeCamera(directPreferred,subjects,options.previous,options.delta,{...safety,cameraPlan:plan,cameraVerticalDirect:rising}),presentation};
 }
 export function depthBackdropLayout(frame){
  const width=frame.width/frame.zoom,height=frame.height/frame.zoom,left=frame.x-width/2,top=frame.y-height/2;

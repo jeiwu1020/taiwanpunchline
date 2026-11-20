@@ -232,7 +232,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   if(!previousUsable||!Array.isArray(prevSupportYs)||!Number.isFinite(prevSupportYs[i]))return targetSY;
   return prevSupportYs[i]+(targetSY-prevSupportYs[i])*supportEase;
  });
- const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player),groundY:supportYs[0]};
+ const pose=options.paused&&state?.pose?state.pose:{x:player.x,displayY:finite(player.y,430)+depthY(player),groundY:supportYs[0],worldY:finite(player.y,430)};
  const standing={left:-132,right:132,top:-300,bottom:28};
  const scaleBaselineY=Math.max(430,...rawSupportYs);
  const scaleBodies=actors.map(actor=>{const y=previousUsable?scaleBaselineY:finite(actor.supportY,430)+depthY(actor);return {left:actor.x+standing.left,right:actor.x+standing.right,top:y+standing.top,bottom:y+standing.bottom};});
@@ -282,10 +282,10 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const openVertical=Math.max(1,rect.bottom-topHudBottom);
  const shareVerticalBand=mode==='classic'&&restingBodies.length>1&&spanHeight>openVertical-4;
  const sharedFramingY=supportYs[0];
- const jumpFollowing=mode==='classic'&&finite(player.y,430)<finite(player.supportY,430)-1;
- const jumpOffset=jumpFollowing?finite(player.y,430)-finite(player.supportY,430):0;
- const dynamicBaseY=shareVerticalBand?sharedFramingY-136:restingGround;
- const targetY=mode==='stable'?playerGround:dynamicBaseY+jumpOffset;
+ const savedVerticalAnchor=old?.verticalFollowAnchor;
+ const validVerticalAnchor=savedVerticalAnchor&&Number.isFinite(savedVerticalAnchor.playerY)&&Number.isFinite(savedVerticalAnchor.cameraY);
+ const verticalFollowAnchor=mode==='classic'?(validVerticalAnchor?savedVerticalAnchor:{playerY:finite(player.supportY,430),cameraY:shareVerticalBand?sharedFramingY-136:restingGround}):null;
+ const targetY=mode==='stable'?playerGround:verticalFollowAnchor.cameraY+finite(player.y,430)-verticalFollowAnchor.playerY;
  if(mode==='stable'){
   if(!previousUsable)targetX=pairCenter;
   else if(modeChanged||(state?.recentering&&Math.abs(previous.x-player.x)>1)){
@@ -304,18 +304,19 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   }
  }
  let centerX=previousUsable?previous.x+(targetX-previous.x)*panEase:targetX;
- let centerY=previousUsable?(jumpFollowing?targetY:previous.y+(targetY-previous.y)*panEase):targetY;
+ let centerY=previousUsable?(mode==='classic'?targetY:previous.y+(targetY-previous.y)*panEase):targetY;
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
  const sharedBodies=shareVerticalBand?restingBodies.map(b=>({...b,top:sharedFramingY+standing.top,bottom:sharedFramingY+standing.bottom})):restingBodies;
- const pairFramingBodies=sharedBodies.map((b,i)=>jumpFollowing&&i===0?{...b,top:b.top+jumpOffset,bottom:b.bottom+jumpOffset}:b);
+ const pairFramingBodies=sharedBodies.map((b,i)=>mode==='classic'&&i===0?{...b,top:pose.displayY-300,bottom:pose.displayY+28}:b);
  const framingBodies=mode==='stable'?[restingBodies[0]]:pairFramingBodies;
  const maxStepScreen=previousUsable&&!options.paused&&dt>0?Math.max(5,420*(dt/1000)):Infinity;
- const maxStepScreenY=jumpFollowing&&Number.isFinite(maxStepScreen)?Math.max(maxStepScreen,JUMP_SPEED*(dt/1000)*zoom):maxStepScreen;
+ const playerYDelta=Number.isFinite(state?.pose?.worldY)?Math.abs(finite(player.y,430)-state.pose.worldY):JUMP_SPEED*(dt/1000);
+ const maxStepScreenY=mode==='classic'&&Number.isFinite(maxStepScreen)?Math.max(maxStepScreen,playerYDelta*zoom):maxStepScreen;
  const stepWorld=Number.isFinite(maxStepScreen)?maxStepScreen/Math.max(.25,zoom):Infinity;
  const stepWorldY=Number.isFinite(maxStepScreenY)?maxStepScreenY/Math.max(.25,zoom):Infinity;
  const motionLimits=Number.isFinite(stepWorld)?{left:width/2-(previous.x+stepWorld)*zoom,right:width/2-(previous.x-stepWorld)*zoom,top:height/2-(previous.y+stepWorldY)*zoom,bottom:height/2-(previous.y-stepWorldY)*zoom}:null;
  let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted,motionLimits),finalZoom=zoom;
- if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,jumpFollowing?wanted:{x:width/2-pairCenter*zoom,y:height/2-(shareVerticalBand?sharedFramingY-136:restingGround)*zoom},motionLimits);
+ if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,wanted,motionLimits);
  if(!position)position=placeAtScale([framingBodies[0]],zoom,rect,occlusions,wanted,motionLimits);
  if(!position&&motionLimits){
   const boundedPlace=z=>{
@@ -331,10 +332,10 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   }
  }
  if(!position)position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted);
- if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,jumpFollowing?wanted:{x:width/2-pairCenter*zoom,y:height/2-(shareVerticalBand?sharedFramingY-136:restingGround)*zoom});
+ if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,wanted);
  if(!position)position=placeAtScale([framingBodies[0]],zoom,rect,occlusions,wanted);
  if(!position){
-  const playerPlace=z=>placeAtScale([framingBodies[0]],z,rect,occlusions,wantedFor(player.x,jumpFollowing?pose.displayY:pose.groundY,z));
+  const playerPlace=z=>placeAtScale([framingBodies[0]],z,rect,occlusions,wantedFor(player.x,mode==='classic'?pose.displayY:pose.groundY,z));
   let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(playerPlace(mid))lo=mid;else hi=mid;}
   finalZoom=Math.max(1e-6,lo);position=playerPlace(finalZoom)||{x:wanted.x,y:wanted.y};
  }
@@ -351,7 +352,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
   }
  }
   return {...(legacy||{}),width,height,x:finalX,y:finalY,zoom:finalZoom,backdropZoom:stableTarget,left:finalX-width/(2*finalZoom),base:height/2+(430-finalY)*finalZoom,hud:0,mode:mode==='stable'?'stable-fixed':'classic',challengeCameraMode:mode,cameraSafetyFit:safetyFit,
-   controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter,recentering,supportYs}};
+   controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:stableZoom,lockedZoom:stableTarget,anchor:safeAnchor,pose,pairCenter,recentering,supportYs,verticalFollowAnchor}};
 }
 function smoothGroundedVerticalY(width,height,zoom,anchorY,poseX,cameraX,player,rect,occlusions,previous,paused,elapsedMs,smoothedSupportY=null){
  const liveDisplayY=finite(player.y,430)+depthY(player);
