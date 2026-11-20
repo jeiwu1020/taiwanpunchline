@@ -136,7 +136,7 @@ export class ChallengeDepthRoute extends ChallengeRoute {
   p.move=playerMoved&&p.stun<=0?(p.move||p.face):0;
   for(const e of this.enemies){
    const previous=positions.get(e),moved=previous&&Math.hypot(e.x-previous.x,e.depth-previous.depth)>.001;
-   e.move=alive(e)&&e.stun<=0&&!e.attack&&moved&&e.hp===previous.hp?e.face:0;
+   e.move=alive(e)&&e.stun<=0&&moved&&((!e.attack&&e.hp===previous.hp)||e.attack?.signature==='flagCharge')?e.face:0;
   }
  }
  updateEffects(dt){
@@ -151,7 +151,8 @@ export class ChallengeDepthRoute extends ChallengeRoute {
    if(q.lob){q.x=q.targetX;q.y=GROUND-220*(1-q.age/q.flight);if(q.age<q.flight)continue;}
    for(const f of q.owner===p?this.enemies:[p]){
     if(!alive(f)||q.hits.has(f.id)||Math.abs(f.depth-q.depth)>DEPTH.hit)continue;
-    const touches=q.lob?Math.abs(f.x-q.targetX)<75&&f.y>GROUND-85: f.x>=Math.min(old,q.x)-32&&f.x<=Math.max(old,q.x)+32&&q.y+13>=f.y-(f.crouch?175:277)&&q.y-13<=f.y-28;
+    const targetGround=q.groundOnly?grounded(f)&&(f.supportY??GROUND)>=GROUND-1:f.y>GROUND-85;
+    const touches=q.lob?Math.abs(f.x-q.targetX)<(q.targetRadius??75)&&targetGround: f.x>=Math.min(old,q.x)-32&&f.x<=Math.max(old,q.x)+32&&q.y+13>=f.y-(f.crouch?175:277)&&q.y-13<=f.y-28;
     if(touches){
      // Collision is swept: the projectile may already have crossed the target
      // this frame. Its travel direction, not that overshoot or its owner after

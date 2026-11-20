@@ -8,6 +8,7 @@ export const ART_FILES={
  'challenge-street-sky':'challenge/street-sky-v75.webp',
  'challenge-supply':'challenge/supply-stand-v75.webp',
  'challenge-mobs':'challenge/mob-atlas-v1.webp',
+ 'challenge-mobs-generated':'challenge/mob-atlas-generated-v1.png',
  'challenge-street':'challenge/street-v1.webp',
  'challenge-street-deep':'challenge/street-deep-v2.webp',
  'challenge-arena':'challenge/arena-v2.webp',
@@ -60,7 +61,7 @@ export function drawChallengeTableFront(ctx,image,{x,y,width,height}){
  ctx.save();ctx.beginPath();ctx.rect(x-width-1,start,width*3+2,end-start);ctx.clip();
  ctx.drawImage(image,101,130,1244,513,x,y-height*80/433,width,height*513/433);ctx.restore();
 }
-const aliases={placard:'mic',leaflet:'flyer',barricade:'guard'};
+const aliases={placard:'mic',leaflet:'flyer',barricade:'guard',flagger:'mic',phone:'flyer',baton:'guard'};
 export function challengeMobKind(mob){const k=mob.mobKind||mob.template||mob.kind||'mic';return aliases[k]||k;}
 const crop=(ctx,img,r,x,y,w,h)=>ctx.drawImage(img,...r,x,y,w,h);
 function bone(ctx,img,r,a,b,w,cap=5){ctx.save();ctx.translate(a.x,a.y);ctx.rotate(Math.atan2(b.y-a.y,b.x-a.x)-Math.PI/2);crop(ctx,img,r,-w/2,-cap,w,Math.hypot(b.x-a.x,b.y-a.y)+cap*2);ctx.restore();}
@@ -74,10 +75,11 @@ function forearm(ctx,img,r,a,prop,row){
 }
 /** Local foot origin, like drawFighterArt. Caller owns world translation/facing. */
 export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
- const img=images['challenge-mobs'];if(!img)return null;
- const kind=challengeMobKind(mob),row=kind==='flyer'?1:kind==='guard'||kind==='mini_guard'?2:0,c=rows[row];
+ const generated=mob.spec?.artAtlas==='generated',img=images[generated?'challenge-mobs-generated':'challenge-mobs']??images['challenge-mobs'];if(!img)return null;
+ const kind=challengeMobKind(mob),row=generated&&Number.isInteger(mob.spec?.artRow)?mob.spec.artRow:kind==='flyer'?1:kind==='guard'||kind==='mini_guard'?2:0,c=rows[row];
  const captain=kind.startsWith('mini_')&&images['challenge-captains']?captainRows[kind==='mini_guard'?1:0]:null,portrait= captain?images['challenge-captains']:img,parts=captain||c;
- const p=fighterPose({...mob,type:'wang',supportY:mob.supportY??430},time);
+ const poseMob={...mob,type:'wang',supportY:mob.supportY??430,attack:mob.attack?.signature==='flagCharge'&&mob.attack.fired?null:mob.attack};
+ const p=fighterPose(poseMob,time);
  ctx.save();
  if(shadow){ctx.fillStyle='#33241538';ctx.beginPath();ctx.ellipse(0,2,37,7,0,0,Math.PI*2);ctx.fill();}
  if(kind.startsWith('mini_'))ctx.scale(1.1,1.06);
@@ -89,12 +91,12 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  // Original heads end at the chin. The guard's broad jaw needs a little
  // clearance above the collar and a tapered throat sampled from its cheek,
  // not the mouth edge. Captain heads already include their own neck.
- const guardNeck=!captain&&row===2,broadCaptain=Boolean(captain&&kind==='mini_guard');
+ const guardNeck=!captain&&!generated&&row===2,broadCaptain=Boolean(captain&&kind==='mini_guard');
 
- if(guardNeck){
+ if(!generated&&guardNeck){
   ctx.save();ctx.beginPath();ctx.moveTo(-9,-179);ctx.lineTo(13,-179);ctx.lineTo(14,-162);ctx.lineTo(16,-154);ctx.lineTo(14,-141);ctx.lineTo(7,-149);ctx.lineTo(-2,-156);ctx.lineTo(-9,-164);ctx.closePath();ctx.clip();
   crop(ctx,img,neckSkin[row],-9,-179,25,38);ctx.restore();
- }else if(!captain)crop(ctx,img,neckSkin[row],-10,-180,27,34);
+ }else if(!captain&&!generated)crop(ctx,img,neckSkin[row],-10,-180,27,34);
  // Seat this captain's original broad neck inside its existing collar.
  ctx.save();ctx.translate(broadCaptain?5:1,(guardNeck?-162:broadCaptain?-145:-156)+p.bob);
  // Rotate the broad portrait around its rear neck insertion, so recoil cannot lift a gap.
@@ -108,7 +110,7 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
  crop(ctx,portrait,parts.head,captain?-53:-55,captain?-119:-107,captain?108:111,captain?123:111);ctx.restore();
  // Seat the neck behind its own front collar, without moving the arm skeleton
  // or painting a flat-colored patch over the generated engraving.
- ctx.save();ctx.beginPath();
+ if(!generated){ctx.save();ctx.beginPath();
  if(guardNeck){
   // Follow this vest's two actual collar leaves. The generic diagonal mask
   // cut across its right-shifted V and left a straight skin-colored patch.
@@ -120,14 +122,21 @@ export function drawChallengeMob(ctx,images,mob,time=0,{shadow=true}={}){
   ctx.moveTo(-55,-190);ctx.lineTo(-10,-190);ctx.lineTo(-10,-169);ctx.lineTo(-8,-165);ctx.lineTo(3,-157);ctx.lineTo(8,-152);ctx.lineTo(11,-143);ctx.lineTo(-55,-130);ctx.closePath();
   ctx.moveTo(16,-162);ctx.lineTo(18,-163);ctx.lineTo(30,-144);ctx.lineTo(20,-153);ctx.lineTo(11,-142);ctx.lineTo(16,-156);ctx.closePath();
  }else{ctx.moveTo(-18,-161);ctx.lineTo(-3,-153);ctx.lineTo(13,-157);ctx.lineTo(30,-147);ctx.lineTo(17,-133);ctx.lineTo(-10,-143);ctx.closePath();}
- ctx.clip();crop(ctx,portrait,parts.body,-45,-171,90,112);ctx.restore();
+ ctx.clip();crop(ctx,portrait,parts.body,-45,-171,90,112);ctx.restore();}
  bone(ctx,img,c.upper,p.arm.shoulder,p.arm.elbow,30);forearm(ctx,img,c.fore,p.arm,true,row);
  // The atlas prop already contains its hand and cuff. Measure its inlet.
- const held=captain?{rect:parts.prop,width:kind==='mini_guard'?88:82,height:kind==='mini_guard'?102:85,anchor:kind==='mini_guard'?[.05,.88,-.25]:[.05,.86,-.5]}:
+ const generatedHeld=[
+  {rect:c.prop,width:94,height:92,anchor:[.18,.89,-.78]},
+  {rect:c.prop,width:84,height:98,anchor:[.52,.88,-1.28]},
+  {rect:c.prop,width:88,height:104,anchor:[.20,.89,-.72]}
+ ];
+ const held=captain?{rect:parts.prop,width:kind==='mini_guard'?88:82,height:kind==='mini_guard'?102:85,anchor:kind==='mini_guard'?[.05,.88,-.25]:[.05,.86,-.5]}:generated?generatedHeld[row]:
   row===0?{rect:c.prop,width:70,height:68,anchor:[.13,.88,-.65]}:
   row===1?{rect:c.prop,width:73,height:66,anchor:[.12,.89,-.7]}:
   {rect:c.prop,width:86,height:98,anchor:[.12,.90,-.35]};
  drawAttachedProp(ctx,portrait,held.rect,p.arm,held);
+ const sweepAge=(mob.attack?.age??0)-(mob.attack?.windup??1);
+ if(mob.attack?.signature==='batonSweep'&&mob.attack.fired&&sweepAge<.2){ctx.save();ctx.globalAlpha*=Math.max(0,1-sweepAge/.2);ctx.lineCap='round';ctx.strokeStyle='#ffb330';ctx.lineWidth=13;ctx.beginPath();ctx.moveTo(7,-157);ctx.quadraticCurveTo(67,-164,112,-100);ctx.stroke();ctx.strokeStyle='#fff0a6';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(9,-157);ctx.quadraticCurveTo(68,-161,110,-101);ctx.stroke();ctx.restore();}
  ctx.restore();return p;
 }
 /** Continue the original street with grain-sized asphalt, not a stretched edge.

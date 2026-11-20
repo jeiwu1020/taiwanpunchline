@@ -1,6 +1,7 @@
 // Content-identical shared image URLs. Custom loader bases retain their original behavior.
 export const SHARED_ASSET_PATHS=Object.freeze({
   "preview/chapter2/assets/challenge/mob-atlas-v1.webp": "assets/challenge/mob-atlas-v1.webp",
+  "preview/chapter2/assets/challenge/mob-atlas-generated-v1.png": "assets/challenge/mob-atlas-generated-v1.png",
   "preview/chapter2/assets/challenge/opening-props-v75.png": "assets/challenge/opening-props-v75.png",
   "preview/chapter2/assets/challenge/street-props-v2.webp": "assets/challenge/street-props-v2.webp",
   "preview/chapter2/assets/challenge/supply-stand-v75.webp": "assets/challenge/supply-stand-v75.webp",
@@ -38,6 +39,7 @@ export const SHARED_ASSET_PATHS=Object.freeze({
   "preview/chapter2/assets/wang-shock-head.webp": "assets/wang-shock-head.webp",
   "preview/chapter2/assets/wang-sip-v3.webp": "assets/wang-sip-v3.webp",
   "preview/chapter3/assets/challenge/mob-atlas-v1.webp": "assets/challenge/mob-atlas-v1.webp",
+  "preview/chapter3/assets/challenge/mob-atlas-generated-v1.png": "assets/challenge/mob-atlas-generated-v1.png",
   "preview/chapter3/assets/challenge/opening-props-v75.png": "assets/challenge/opening-props-v75.png",
   "preview/chapter3/assets/challenge/street-props-v2.webp": "assets/challenge/street-props-v2.webp",
   "preview/chapter3/assets/challenge/supply-stand-v75.webp": "assets/challenge/supply-stand-v75.webp",
@@ -83,6 +85,7 @@ export const SHARED_ASSET_PATHS=Object.freeze({
   "preview/chapter3/assets/wang-shock-head.webp": "assets/wang-shock-head.webp",
   "preview/chapter3/assets/wang-sip-v3.webp": "assets/wang-sip-v3.webp",
   "preview/chapter4/assets/challenge/mob-atlas-v1.webp": "assets/challenge/mob-atlas-v1.webp",
+  "preview/chapter4/assets/challenge/mob-atlas-generated-v1.png": "assets/challenge/mob-atlas-generated-v1.png",
   "preview/chapter4/assets/challenge/opening-props-v75.png": "assets/challenge/opening-props-v75.png",
   "preview/chapter4/assets/challenge/street-props-v2.webp": "assets/challenge/street-props-v2.webp",
   "preview/chapter4/assets/challenge/supply-stand-v75.webp": "assets/challenge/supply-stand-v75.webp",

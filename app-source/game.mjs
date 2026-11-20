@@ -922,7 +922,7 @@ class Arena extends Phaser.Scene {
    else if(p.kind==='flyer'){g.fillStyle(0xfff9e8,.98);g.fillRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(2.5,0x234852);g.strokeRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(3,0xd96b38);g.lineBetween(p.x-12,p.y-4,p.x+12,p.y-4);}
    else if(p.kind==='dream'){sprite('dream',p.x,p.y,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06,1,'signature-props',p.vx<0);if(p.phase==='return')label(p.x,p.y+47,'↶ 回程','#d0f4d9',15);}
    else if(p.kind==='arrow'||p.kind==='word'||p.kind==='notice'){
-    const word=p.kind==='word',notice=p.kind==='notice',width=word?92:notice?96:110,color=word?0x367e8a:notice?0xd4822a:0xbe4033;
+    const word=p.kind==='word',notice=p.kind==='notice',width=p.markWidth??(word?92:notice?96:110),color=word?0x367e8a:notice?0xd4822a:0xbe4033;
     g.lineStyle(3,color,.9);g.strokeEllipse(p.targetX,GROUND,width,19);g.fillStyle(color,.13);g.fillEllipse(p.targetX,GROUND,width,15);
     label(p.targetX,GROUND+16,word?'落字':notice?(p.markLabel||'落點'):'落箭',word?'#295e66':notice?'#7d4310':'#893b2c',15);
     if(word){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(p.age||0,.56,direction);g.fillStyle(0xfff7e5,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,'賴祥德','#fff8dc',size);}

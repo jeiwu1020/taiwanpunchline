@@ -91,7 +91,7 @@ export function interactChapterProp(w,actor=w.player){
  message(w,s.joke,prop.x,prop.depth);return true;
 }
 export function stepChapterMob(w,e,dt){
- const s=w.chapterEncounter;if(!s||!e.mobKind)return false;
+ const s=w.chapterEncounter;if(!s||!e.mobKind||e.spec?.useChallengeAI)return false;
  const p=w.player,target=e.chapterLure??p,dx=target.x-e.x,dir=dx>=0?1:-1;e.move=0;
  if(e.chapterRest>0){e.chapterRest=Math.max(0,e.chapterRest-dt);e.aiWait=e.chapterRest;return true;}
  if(e.chapterTell){

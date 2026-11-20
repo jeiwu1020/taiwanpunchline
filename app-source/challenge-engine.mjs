@@ -62,7 +62,7 @@ export class ChallengeRoute {
    if(this.spawned.has(i)||this.player.x<(trigger??x-560))return;this.spawned.add(i);
    const baseSpec=MOB_TYPES[kind],spec=rewardXp===undefined&&rewardCp===undefined?baseSpec:{...baseSpec,xp:rewardXp??baseSpec.xp,cp:rewardCp??baseSpec.cp};
    const f=new Duel('wang','easy',this.rng).enemy;delete f.combatStats;
-   Object.assign(f,{id:`${this.section.id}-${i}`,mobKind:kind,name:spec.name,x,hp:spec.hp,maxHp:spec.hp,spec,aiWait:.65,deadAge:0,warning:0});
+   Object.assign(f,{id:`${this.section.id}-${i}`,mobKind:kind,name:spec.name,x,hp:spec.hp,maxHp:spec.hp,spec,aiWait:.65,deadAge:0,warning:0,warningText:spec.attackTell??null});
    this.enemies.push(f);this.events.push({type:'mobSpawn',f});
   });
  }
@@ -181,15 +181,29 @@ export class ChallengeRoute {
   for(const e of this.enemies){
    if(!alive(e)){e.deadAge+=dt;continue;}if(e.stun>0)continue;
    if(stepChapterMob(this,e,dt)){this.separateEnemy(e,dt);continue;}
-   const spec=e.spec,dx=p.x-e.x,dist=Math.abs(dx);e.move=0;e.face=dx>=0?1:-1;e.aiWait-=dt;
+   const spec=e.spec,dx=p.x-e.x,dist=Math.abs(dx);e.move=0;
+   if(e.attack?.signature==='flagCharge')e.face=e.attack.direction??e.face;else e.face=dx>=0?1:-1;
+   e.aiWait-=dt;
    e.guard=spec.behavior==='guard'&&!e.attack&&e.guardBroken<=0&&dist<220;
    if(e.attack){e.attack.age+=dt;e.warning=Math.max(0,e.attack.windup-e.attack.age);
     if(!e.attack.fired&&e.attack.age>=e.attack.windup){e.attack.fired=true;
      if(spec.behavior==='thrower')this.projectiles.push({owner:e,kind:'paper',x:e.x+e.face*35,y:e.y-252,vx:e.face*300,age:0,life:2.4,damage:spec.damage,knock:18,face:e.face,hits:new Set(),dead:false});
-     else if(dist<spec.range&&Math.abs(p.y-e.y)<105)this.hit(e,p,spec.damage,30);
+     else if(spec.behavior==='phoneMark'){
+      const radius=spec.markRadius??64;
+      this.projectiles.push({owner:e,kind:'notice',x:e.x+e.face*35,y:e.y-252,vx:0,age:0,life:(spec.noticeFlight??.72)+.2,damage:spec.damage,knock:20,face:e.face,hits:new Set(),dead:false,lob:true,targetX:clamp(p.x,50,this.worldWidth-50),targetRadius:radius,markWidth:radius*2,markLabel:'推播落點',noticeText:'直播通知',flight:spec.noticeFlight??.72,groundOnly:true,depth:p.depth??0});
+     }else if(spec.behavior==='flagCharge'){e.attack.chargeAge=0;e.attack.hitPlayer=false;}
+     else if(spec.behavior==='batonSweep'){
+      if(dist<spec.range&&grounded(p)&&(p.supportY??GROUND)>=GROUND-1)this.hit(e,p,spec.damage,42,{origin:e,impact:'baton-sweep',contact:true});
+     }else if(dist<spec.range&&Math.abs(p.y-e.y)<105)this.hit(e,p,spec.damage,30);
     }
-    if(e.attack&&e.attack.age>=e.attack.windup+.3){e.attack=null;e.aiWait=spec.recovery;}
-   }else if(dist<spec.range&&e.aiWait<=0){e.guard=false;e.attack={kind:'punch',age:0,windup:spec.windup*this.tuning.windup,fired:false,variant:'left'};e.warning=e.attack.windup;}
+    if(spec.behavior==='flagCharge'&&e.attack?.fired&&e.attack.chargeAge<spec.chargeDuration){
+     const direction=e.attack.direction??e.face,before={x:e.x,depth:e.depth},oldX=e.x;e.x=clamp(e.x+direction*spec.chargeSpeed*this.tuning.speed*dt,55,this.worldWidth-80);this.resolveTableMotion?.(e,before);e.move=e.x===oldX?0:direction;e.attack.chargeAge+=dt;
+     const crossed=p.x>=Math.min(oldX,e.x)-44&&p.x<=Math.max(oldX,e.x)+44,playerGrounded=grounded(p)&&(p.supportY??GROUND)>=GROUND-1&&p.y>GROUND-85;
+     if(!e.attack.hitPlayer&&crossed&&playerGrounded){e.attack.hitPlayer=true;this.hit(e,p,spec.damage,44,{origin:{x:oldX,depth:e.depth??0,face:direction},impact:'flag-charge',contact:true});}
+    }
+    const endTime=e.attack.windup+(spec.behavior==='flagCharge'?(spec.chargeDuration??.46):0)+.3;
+    if(e.attack&&e.attack.age>=endTime){e.attack=null;e.warning=0;e.warningText=null;e.aiWait=spec.recovery;}
+   }else if(dist<spec.range&&e.aiWait<=0){e.guard=false;e.attack={kind:'punch',age:0,windup:spec.windup*this.tuning.windup,fired:false,variant:'left',signature:spec.behavior,direction:e.face};e.warning=e.attack.windup;e.warningText=spec.attackTell??null;}
    else if(dist<660&&dist>spec.range*.8){e.move=e.face;e.x+=e.face*spec.speed*this.tuning.speed*dt;}
    this.separateEnemy(e,dt);
   }
@@ -209,7 +223,8 @@ export class ChallengeRoute {
    if(q.lob){q.x=q.targetX;q.y=GROUND-220*(1-q.age/q.flight);if(q.age<q.flight)continue;}
    for(const f of q.owner===p?this.enemies:[p]){
     if(!alive(f)||q.hits.has(f.id))continue;
-    const touches=q.lob?Math.abs(f.x-q.targetX)<75&&f.y>GROUND-85: f.x>=Math.min(old,q.x)-32&&f.x<=Math.max(old,q.x)+32&&q.y+13>=f.y-(f.crouch?175:277)&&q.y-13<=f.y-28;
+    const targetGround=q.groundOnly?grounded(f)&&(f.supportY??GROUND)>=GROUND-1:f.y>GROUND-85;
+    const touches=q.lob?Math.abs(f.x-q.targetX)<(q.targetRadius??75)&&targetGround: f.x>=Math.min(old,q.x)-32&&f.x<=Math.max(old,q.x)+32&&q.y+13>=f.y-(f.crouch?175:277)&&q.y-13<=f.y-28;
     if(touches){if(f.reject>0&&(q.owner.x-f.x)*f.face>=0&&['coin','dream'].includes(q.kind)){f.reject=0;q.owner=f;q.vx=-q.vx;q.direction=f.face;q.reflected=true;q.hits.clear();q.hits.add(f.id);this.events.push({type:'reflect',f,p:q});break;}const guarded=f.guard&&grounded(f)&&(q.owner.x-f.x)*f.face>=0;q.hits.add(f.id);this.hit(q.owner,f,q.damage,q.knock,{projectile:true,contact:false,impact:q.kind,assist:this.assists.find(a=>a.id===q.assistId),category:q.category??'special'});if(q.slow&&!guarded){f.slow=q.slow;this.events.push({type:'slow',f});}q.dead=guarded||q.kind!=='dream';break;}
    }
    if(q.lob||q.age>q.life)q.dead=true;

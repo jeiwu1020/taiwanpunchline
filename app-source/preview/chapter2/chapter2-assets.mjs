@@ -32,6 +32,7 @@ export const ASSET_FILES={
   "han-shock": "han-shock-head.webp",
   "challenge-supply": "challenge/supply-stand-v75.webp",
   "challenge-mobs": "challenge/mob-atlas-v1.webp",
+  "challenge-mobs-generated": "challenge/mob-atlas-generated-v1.png",
   "challenge-street-props": "challenge/street-props-v2.webp",
   "supporter-man": "supporter-man-v46.png",
   "supporter-woman": "supporter-woman-v46.png",

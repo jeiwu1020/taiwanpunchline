@@ -191,7 +191,7 @@ export function depthRenderItems(route){
  return list.sort((a,b)=>(a.sortDepth??a.depth)-(b.sortDepth??b.depth)||foregroundOrder(a)-foregroundOrder(b));
 }
 export function depthMobLabelLayout(f,frame){
- return {text:f.warning>0?(f.chapterCaption??'要出手了！'):f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
+ return {text:f.warning>0?(f.warningText??f.chapterCaption??'要出手了！'):f.name||f.displayName||'街頭搗蛋鬼',x:f.x,y:depthWorldPoint(f).y-305,fontSize:Math.max(18,16/frame.zoom),strokeWidth:Math.max(2.5,2/frame.zoom),plate:true,hp:clamp(f.hp/(f.maxHp||1),0,1)};
 }
 /** Keep clustered names on stable short rows without moving their head x anchors. */
 export function depthMobLabelLayouts(mobs,frame,{slots=new Map()}={}){
@@ -262,6 +262,8 @@ function drawProjectile(ctx,images,q,time,zoom){
   // actual trajectory rather than the duel-only sideways arrow release arc.
   if(q.kind==='word'){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(q.age||0,.56,direction);ctx.fillStyle='#fff7e5';ctx.strokeStyle='#367e8a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,'賴祥德',x,p.y,zoom,{size,color:'#295e66'});}
   else if(images['art-props'])drawProp(ctx,images,'arrow',p.x,p.y,150,20,q.lob?Math.PI/2:Math.atan2(q.vy||0,q.vx||1));
+ }else if(q.kind==='notice'){
+  const w=124,h=60,x=p.x+nameTileOffset(q.age||0,q.flight||.72,direction);ctx.fillStyle='#fff6df';ctx.strokeStyle='#d4822a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,q.noticeText||'通知',x,p.y,zoom,{size:24,color:'#7d4310'});
  }else if(!drawItem(ctx,images,q.kind,p.x,p.y,1.05,q.kind==='paper'?time*.008:Math.sin(time*.013)*.12)){
   // Mob leaflets use the original paper item when available; all scene builds
   // still have a readable illustrated fallback, never an invisible attack.
@@ -276,7 +278,7 @@ function drawActorShadow(ctx,item){
 function drawGroundEffects(ctx,items,frame){
  for(const item of items){const f=item.value;
   if(item.kind==='actor'&&(f.supportY??GROUND)>=GROUND)drawActorShadow(ctx,item);
-  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word')){const y=GROUND+depthOf(f)*DEPTH_SCALE,color=f.kind==='word'?'#367e8a':'#be4033',x=f.targetX??f.x;ellipse(ctx,x,y,55,9,color+'22');ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(x,y,55,9,0,0,Math.PI*2);ctx.stroke();label(ctx,f.kind==='word'?'落字':'落箭',x,y+20,frame.zoom,{color});}
+  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word'||f.kind==='notice')){const y=GROUND+depthOf(f)*DEPTH_SCALE,notice=f.kind==='notice',color=f.kind==='word'?'#367e8a':notice?'#d4822a':'#be4033',x=f.targetX??f.x,rx=notice?(f.markWidth??96)/2:55;ellipse(ctx,x,y,rx,9,color+'22');ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(x,y,rx,9,0,0,Math.PI*2);ctx.stroke();label(ctx,notice?(f.markLabel||'落點'):f.kind==='word'?'落字':'落箭',x,y+20,frame.zoom,{color});}
  }
 }
 function drawActor(ctx,images,item,time,frame,options,poses){
