@@ -12,8 +12,15 @@ syncRuntime({ rootDir: __dirname });
 const app = express();
 const PORT = Number(process.env.PORT || 3000);
 
-app.use((_req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store');
+app.use((req, res, next) => {
+  const reqPath = req.path || '/';
+  if (reqPath === '/' || reqPath.endsWith('/') || reqPath.endsWith('.html')) {
+    res.setHeader('Cache-Control', 'no-cache');
+  } else if (typeof req.query?.v === 'string' || reqPath.startsWith('/assets/') || /\/assets\//.test(reqPath)) {
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+  } else {
+    res.setHeader('Cache-Control', 'public, max-age=300');
+  }
   next();
 });
 

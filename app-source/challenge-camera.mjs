@@ -244,6 +244,13 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const safeAnchor={x:(rect.left+rect.right)/2,y:rect.top+(rect.bottom-rect.top)*subjectScreenY};
  const wantedFor=(centerX,groundY,z)=>({x:width/2-centerX*z,y:height/2-(groundY+(height/2-safeAnchor.y)/z)*z});
  const legacy=options.preferredCameraFrame;
+ if(!options.touch&&!portrait&&mode==='classic'&&!previous&&legacy&&[legacy.x,legacy.y,legacy.zoom].every(Number.isFinite)&&legacy.zoom>0&&legacy.zoom<=maximum){
+  const wantedLegacy={x:width/2-legacy.x*legacy.zoom,y:height/2-legacy.y*legacy.zoom};
+  const exactLegacy=placeAtScale(restingBodies,legacy.zoom,rect,occlusions,wantedLegacy);
+  if(exactLegacy&&Math.abs(exactLegacy.x-wantedLegacy.x)<1e-6&&Math.abs(exactLegacy.y-wantedLegacy.y)<1e-6){
+   return {...legacy,width,height,x:legacy.x,y:legacy.y,zoom:legacy.zoom,backdropZoom:legacy.zoom,left:legacy.x-width/(2*legacy.zoom),base:height/2+(430-legacy.y)*legacy.zoom,hud:0,mode:'classic',challengeCameraMode:mode,cameraSafetyFit:true,controlOverlay:g.softControls?'soft':'normal',stageView:legacy?.stageView,controlledCombatCamera:{version:3,geometryKey:key,baseline:legacy.zoom,lockedZoom:legacy.zoom,anchor:safeAnchor,pose,pairCenter,recentering:false,supportYs,verticalFollowAnchor:{playerY:finite(player.supportY,430),cameraY:legacy.y}}};
+  }
+ }
  const preferredZoom=(mobileLandscape&&options.measuredCameraSafety!==false&&Array.isArray(options.occlusions))?maximum:clamp(finite(legacy?.zoom,maximum),1e-6,maximum);
  const scaleGround=scaleBodies.reduce((sum,b)=>sum+(b.top+b.bottom)/2,0)/scaleBodies.length;
  const legacyCenterX=Number.isFinite(legacy?.x)?legacy.x:pairCenter;
@@ -264,6 +271,7 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const playerGround=(restingBodies[0].top+restingBodies[0].bottom)/2;
  const playerRest=placeAtScale([scaleBodies[0]],stableZoom,rect,occlusions,wantedFor(player.x,scalePlayerGround,stableZoom));
  if(!playerRest){let lo=0,hi=stableZoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(placeAtScale([scaleBodies[0]],mid,rect,occlusions,wantedFor(player.x,scalePlayerGround,mid)))lo=mid;else hi=mid;}stableZoom=Math.max(1e-6,lo);}
+ const liveBodies=restingBodies.map((b,i)=>i===0?{...b,top:pose.displayY-300,bottom:pose.displayY+28}:b);
  const dynamicCeiling=portrait?Math.min(maximum,Math.max(stableZoom,preferredZoom)):stableZoom;
  const dynamicFit=largestFit(scaleBodies,dynamicCeiling,pairCenter,scaleGround);
  const dynamicFloor=portrait?Math.min(stableZoom,dynamicFit):stableZoom*.88;
@@ -308,17 +316,17 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  const wanted={x:width/2-centerX*zoom,y:height/2-centerY*zoom};
  const sharedBodies=shareVerticalBand?restingBodies.map(b=>({...b,top:sharedFramingY+standing.top,bottom:sharedFramingY+standing.bottom})):restingBodies;
  const pairFramingBodies=sharedBodies.map((b,i)=>mode==='classic'&&i===0?{...b,top:pose.displayY-300,bottom:pose.displayY+28}:b);
- const framingBodies=mode==='stable'?[restingBodies[0]]:pairFramingBodies;
+ const framingBodies=mode==='stable'?[liveBodies[0]]:pairFramingBodies;
  const maxStepScreen=previousUsable&&!options.paused&&dt>0?Math.max(5,420*(dt/1000)):Infinity;
  const playerYDelta=Number.isFinite(state?.pose?.worldY)?Math.abs(finite(player.y,430)-state.pose.worldY):JUMP_SPEED*(dt/1000);
- const maxStepScreenY=mode==='classic'&&Number.isFinite(maxStepScreen)?Math.max(maxStepScreen,playerYDelta*zoom):maxStepScreen;
+ const maxStepScreenY=Number.isFinite(maxStepScreen)?Math.max(maxStepScreen,playerYDelta*zoom):maxStepScreen;
  const stepWorld=Number.isFinite(maxStepScreen)?maxStepScreen/Math.max(.25,zoom):Infinity;
  const stepWorldY=Number.isFinite(maxStepScreenY)?maxStepScreenY/Math.max(.25,zoom):Infinity;
  const motionLimits=Number.isFinite(stepWorld)?{left:width/2-(previous.x+stepWorld)*zoom,right:width/2-(previous.x-stepWorld)*zoom,top:height/2-(previous.y+stepWorldY)*zoom,bottom:height/2-(previous.y-stepWorldY)*zoom}:null;
  let position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted,motionLimits),finalZoom=zoom;
  if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,wanted,motionLimits);
  if(!position)position=placeAtScale([framingBodies[0]],zoom,rect,occlusions,wanted,motionLimits);
- if(!position&&motionLimits){
+ if(!position&&mode!=='stable'&&motionLimits){
   const boundedPlace=z=>{
    const sw=maxStepScreen/Math.max(.25,z),swY=maxStepScreenY/Math.max(.25,z);
    const lim={left:width/2-(previous.x+sw)*z,right:width/2-(previous.x-sw)*z,top:height/2-(previous.y+swY)*z,bottom:height/2-(previous.y-swY)*z};
@@ -334,8 +342,8 @@ export function controlledCombatCameraFrame(width,height,fighters,previous=null,
  if(!position)position=placeAtScale(framingBodies,zoom,rect,occlusions,wanted);
  if(!position&&mode==='classic')position=placeAtScale(pairFramingBodies,zoom,rect,occlusions,wanted);
  if(!position)position=placeAtScale([framingBodies[0]],zoom,rect,occlusions,wanted);
- if(!position){
-  const playerPlace=z=>placeAtScale([framingBodies[0]],z,rect,occlusions,wantedFor(player.x,mode==='classic'?pose.displayY:pose.groundY,z));
+ if(!position&&mode!=='stable'){
+  const playerPlace=z=>placeAtScale([framingBodies[0]],z,rect,occlusions,wantedFor(player.x,pose.displayY,z));
   let lo=0,hi=zoom;for(let i=0;i<30;i++){const mid=(lo+hi)/2;if(playerPlace(mid))lo=mid;else hi=mid;}
   finalZoom=Math.max(1e-6,lo);position=playerPlace(finalZoom)||{x:wanted.x,y:wanted.y};
  }
@@ -363,22 +371,33 @@ function smoothGroundedVerticalY(width,height,zoom,anchorY,poseX,cameraX,player,
  const groundCamY=groundDisplayY+(height/2-anchorY)/zoom;
  const easeY=1-Math.exp(-elapsedMs/150);
  let candY=previous.y+(groundCamY-previous.y)*easeY;
- const bodyTop=groundDisplayY-300,bodyBottom=groundDisplayY+28;
+ const bodyTop=Math.min(groundDisplayY,liveDisplayY)-300,bodyBottom=Math.max(groundDisplayY,liveDisplayY)+28;
  const actorLeft=width/2+(poseX-132-cameraX)*zoom,actorRight=width/2+(poseX+132-cameraX)*zoom;
- let minTop=rect.top,maxBottom=rect.bottom;
+ let minTop=rect.top,maxBottom=rect.bottom,softBottom=rect.bottom;
  const midRectY=(rect.top+rect.bottom)/2;
  for(const o of occlusions||[]){
-  if(o.softControl)continue;
   if(o.left<actorRight-1e-6&&o.right>actorLeft+1e-6){
+   if(o.softControl){
+    if((o.top+o.bottom)/2<midRectY)minTop=Math.max(minTop,o.bottom);
+    else softBottom=Math.min(softBottom,o.top);
+    continue;
+   }
    if((o.top+o.bottom)/2<midRectY)minTop=Math.max(minTop,o.bottom);
    else maxBottom=Math.min(maxBottom,o.top);
   }
  }
- const maxCamY=bodyTop-(minTop-height/2)/zoom,minCamY=bodyBottom-(maxBottom-height/2)/zoom;
- if(minCamY<=maxCamY)candY=clamp(candY,minCamY,maxCamY);
- else candY=Math.min(candY,maxCamY);
- const maxStepY=Math.max(3,380*(elapsedMs/1000))/Math.max(.25,zoom);
- return clamp(candY,previous.y-maxStepY,previous.y+maxStepY);
+ const liveTop=liveDisplayY-300,liveBottom=liveDisplayY+28,liveCollar=liveDisplayY+28-SOFT_CONTROL_LOWER_BODY;
+ const maxCamY=bodyTop-(minTop-height/2)/zoom,minCamY=Math.max(bodyBottom-(maxBottom-height/2)/zoom,(Math.max(groundDisplayY,liveDisplayY)+28-SOFT_CONTROL_LOWER_BODY)-(softBottom-height/2)/zoom);
+ const liveMaxY=liveTop-(minTop-height/2)/zoom,liveMinY=Math.max(liveBottom-(maxBottom-height/2)/zoom,liveCollar-(softBottom-height/2)/zoom);
+ const rawCandY=candY;
+ if(minCamY<=maxCamY+1e-5){const lo=Math.min(minCamY,maxCamY),hi=Math.max(minCamY,maxCamY);candY=clamp(candY,lo,hi);}
+ else if(liveMinY<=liveMaxY+1e-5){const lo=Math.min(liveMinY,liveMaxY),hi=Math.max(liveMinY,liveMaxY);candY=clamp(candY,lo,hi);}
+ else candY=Math.min(candY,liveMaxY);
+ const safetyMoved=candY!==rawCandY;
+ const maxStepY=(safetyMoved?Math.max(380,JUMP_SPEED):380)*(elapsedMs/1000)/Math.max(.25,zoom);
+ const stepped=clamp(candY,previous.y-Math.max(3/Math.max(.25,zoom),maxStepY),previous.y+Math.max(3/Math.max(.25,zoom),maxStepY));
+ if(liveMinY<=liveMaxY+1e-5){const lo=Math.min(liveMinY,liveMaxY),hi=Math.max(liveMinY,liveMaxY);return clamp(stepped,lo,hi);}
+ return Math.min(stepped,liveMaxY);
 }
 function fitPlayerFixedCamera(preferred,player,previous,delta,options){
  const {width,height}=preferred,g=playerFixedGeometry(width,height,options),{rect,occlusions}=g;

@@ -1,8 +1,7 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><script data-quick-view-isolation>
 // Must run before every game script. Ordinary pages and production are inert.
 (()=>{
- const host='codex-complete-challenge-story-taiwanpunchline.playformosa.workers.dev';
- if(location.hostname!==host||window.parent===window)return;
+ if(window.parent===window)return;
  let session;
  try{
   if(parent.location.origin!==location.origin||parent.location.pathname!=='/preview/quick-view/')return;

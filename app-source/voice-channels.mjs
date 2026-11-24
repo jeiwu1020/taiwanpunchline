@@ -37,7 +37,7 @@ export class VoiceChannels {
   if(typeof context?.decodeAudioData!=='function'||typeof context?.createBufferSource!=='function'||typeof this.fetchImpl!=='function')return Promise.resolve();
   const jobs=[];
   for(const clip of clips){
-   const src=clip?.src;if(!src||this.buffers.has(src))continue;
+   const src=clip?.src;if(!src)continue;if(this.buffers.has(src)){const cached=this.buffers.get(src);this.buffers.delete(src);this.buffers.set(src,cached);continue;}
    if(!this.preparing.has(src)){
     let finish;const promise=new Promise(resolve=>{finish=resolve;});
     this.preparing.set(src,promise);this.loads.push({src,context,finish});
@@ -54,7 +54,7 @@ export class VoiceChannels {
    }).then(bytes=>new Promise((resolve,reject)=>{
     const pending=context.decodeAudioData(bytes,resolve,reject);pending?.then?.(resolve,reject);
    })).then(buffer=>{
-    if(Number.isFinite(buffer?.duration)&&buffer.duration>0)this.buffers.set(src,buffer);
+    if(Number.isFinite(buffer?.duration)&&buffer.duration>0){this.buffers.delete(src);this.buffers.set(src,buffer);while(this.buffers.size>32){const oldest=this.buffers.keys().next().value;this.buffers.delete(oldest);}}
    }).catch(()=>{}).finally(()=>{
     this.loading--;this.preparing.delete(src);finish();this.loadNext();
    });
@@ -104,7 +104,7 @@ export class VoiceChannels {
    if(lane.token!==releasedToken)return;
    const next=lane.queue.shift();if(next)this.start(actor,lane,next);
   };
-  const buffer=this.buffers.get(clip.src),context=lane.output?.context;
+  const buffer=this.buffers.get(clip.src),context=lane.output?.context;if(buffer){this.buffers.delete(clip.src);this.buffers.set(clip.src,buffer);}
   if(buffer&&context?.state==='running'){
    let source;
    try{

@@ -1,5 +1,5 @@
 // Presentation only: no campaign writes, combat mutation, or new audio assets.
-import {VoiceChannels} from '../../voice-channels.mjs?v=chapter-presentation-20261117-r1';
+import {VoiceChannels} from '../../voice-channels.mjs?v=chapter-presentation-20261117-r1';import {SFX_FREQUENCIES} from '../../sfx-frequencies.mjs?v=chapter-presentation-20261117-r1';
 import {createBackgroundMusic} from '../../background-music.mjs?v=chapter-presentation-20261117-r1';
 import {playableVoice} from '../../voice-slots.mjs?v=chapter-presentation-20261117-r1';
 import {createMoveDemo} from '../../move-demo.mjs?v=chapter-presentation-20261117-r1';
@@ -68,7 +68,7 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
  function tone(kind){
   if(!unlocked||hidden||!sfxAllowed()||!context||context.state!=='running')return false;
   let o,g;
-  try{const t=context.currentTime;o=context.createOscillator();g=context.createGain();o._chapterGain=g;const freq={hit:125,block:260,jump:360,heal:680,start:440}[kind]||200;o.type=kind==='hit'?'square':'triangle';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(kind==='heal'?1000:freq*.45,t+.13);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.15);o.connect(g);g.connect(sfxGain);oscillators.add(o);o.onended=()=>{oscillators.delete(o);o.disconnect();g.disconnect();};o.start(t);o.stop(t+.17);return true;}catch{if(o){oscillators.delete(o);try{o.disconnect();}catch{}}try{g?.disconnect();}catch{}emit('sfx','error');return false;}
+  try{const t=context.currentTime;o=context.createOscillator();g=context.createGain();o._chapterGain=g;const freq=SFX_FREQUENCIES[kind]||200;o.type=kind==='hit'?'square':'triangle';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(kind==='heal'?1000:freq*.45,t+.13);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.15);o.connect(g);g.connect(sfxGain);oscillators.add(o);o.onended=()=>{oscillators.delete(o);o.disconnect();g.disconnect();};o.start(t);o.stop(t+.17);return true;}catch{if(o){oscillators.delete(o);try{o.disconnect();}catch{}}try{g?.disconnect();}catch{}emit('sfx','error');return false;}
  }
  function loadCrowdBuffer(){
   crowdBufferPromise??=fetchImpl(asset('assets/sfx/crowd-cheer-44.mp3')).then(response=>{if(!response.ok)throw Error('crowd audio');return response.arrayBuffer();}).then(bytes=>context.decodeAudioData(bytes)).catch(error=>{crowdBufferPromise=null;throw error;});
@@ -82,7 +82,7 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
    let source,gain;
    try{
     const now=context.currentTime;source=context.createBufferSource();gain=context.createGain();source.buffer=buffer;source._chapterGain=gain;
-    gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,prefs.sfxVolume*.28),now+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+1.6);
+    gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.28,now+.025);gain.gain.exponentialRampToValueAtTime(.0001,now+1.6);
     source.connect(gain);gain.connect(sfxGain);oscillators.add(source);source.onended=()=>{oscillators.delete(source);source.disconnect();gain.disconnect();};source.start(now,.1,1.5);source.stop(now+1.65);
    }catch{if(source){oscillators.delete(source);try{source.disconnect();}catch{}}try{gain?.disconnect();}catch{}emit('sfx','error');}
   },()=>emit('sfx','error'));
@@ -92,8 +92,8 @@ export function createChapterMedia({document,window,getSettings=()=>({}),getImag
   if(destroyed||!unlocked||hidden||!view.active||view.paused||view.settingsOpen)return;
   for(const e of events||[]){
    if(e.type==='assistStart'){
-    const owner=e.assist?.owner||e.f;const lane=owner===world.enemy||owner?.id==='enemy'?'assist-enemy':'assist-player';if(!e.assist?.displayName)playVoice(e.kind,lane);tone(e.kind);
-   }else if(e.type==='move'&&!e.assist&&!e.f?.isAssist&&!e.f?.mobKind){playVoice(e.kind||e.f?.attack?.kind,e.f===world.enemy||e.f?.id==='enemy'?'enemy':'player');tone(e.kind);}
+    const owner=e.assist?.owner||e.f;const lane=owner===world.enemy||owner?.team===1||owner?.id==='enemy'?'assist-enemy':'assist-player';if(!e.assist?.displayName)playVoice(e.kind,lane);tone(e.kind);
+   }else if(e.type==='move'&&!e.assist&&!e.f?.isAssist&&!e.f?.mobKind){const f=e.f,lane=f===world.enemy||f?.team===1||f?.id==='enemy'?'enemy':(f?.team===0&&f?.id&&f.id!=='player')?'assist-player':'player';playVoice(e.kind||f?.attack?.kind,lane);tone(e.kind);}
    else if(e.type==='rally')playCrowdCheer();
    else if(['hit','block','jump','heal','counter','spit','launch'].includes(e.type))tone(e.type);
    else if(e.type==='supply')tone('heal');

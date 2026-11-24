@@ -23,7 +23,7 @@ export class ChallengeRoute {
   this.rng=rng;this.worldWidth=this.section.width;this.platforms=this.section.platforms??[];this.cameraX=0;this.elapsed=0;this.remaining=Infinity;this.status='active';this.winner=null;
   this.enemies=[];this.enemy=this.duel.enemy;this.enemy.hp=0;this.enemy.x=99999;
   this.projectiles=[];this.assists=[];this.rallies=[];this.obstacles=[];this.items=[];this.events=[];this.worldEffects=[];this.worldSpawns=[];
-  this.spawned=new Set();this.nextCast=1;this.runId=options.runId??'chapter-1';this.supplyUsed=false;this.stats={hits:0,damage:0,blocks:0,maxCombo:0,specialHits:0,interrupts:0,counters:0};
+  this.spawned=new Set();this.nextCast=1;this.buffer=null;this.runId=options.runId??'chapter-1';this.supplyUsed=false;this.stats={hits:0,damage:0,blocks:0,maxCombo:0,specialHits:0,interrupts:0,counters:0};
  }
  get routeProgress(){return clamp((this.player.x-140)/(this.worldWidth-280),0,1);}
  get gateX(){return this.worldWidth-140;}
@@ -35,6 +35,9 @@ export class ChallengeRoute {
  assistReady(f=this.player){return f===this.player&&this.status==='active'&&!!f.assist?.helper&&!f.assist.active&&!f.assist.used;}
  press(action){
   const p=this.player;if(this.status!=='active'||p.stun>0||p.guardBroken>0)return false;
+  if(p.attack&&['punch','special1','special2','special3','jump','assist','rally'].includes(action)){this.buffer={action,time:.15};return false;}
+  if(p.type==='chen'&&action==='special1'&&this.projectiles.filter(q=>!q.dead&&q.kind==='dream').length>=4)return false;
+  if(p.type==='huang'&&action==='special3'&&this.obstacles.filter(o=>!o.dead&&o.life>0).length>=4)return false;
   if(action==='assist'){
    if(!this.assistReady()||p.attack||p.guard||!grounded(p))return false;
    p.assist.used=true;p.assist.active=true;p.assist.charge=0;p.assist.damageTaken=0;
@@ -109,7 +112,7 @@ export class ChallengeRoute {
   for(const s of rule.steps??[])if(a.age>=s.start&&a.age<=s.end)p.x+=p.face*s.speed*dt;
   if(crossed(rule.start??.2)){
    if(rule.behavior==='heal'){const before=p.hp;p.hp=Math.min(p.maxHp,p.hp+(rule.heal??10));this.events.push({type:'heal',f:p,amount:p.hp-before});}
-   else if(['counter','reject','calm','armor'].includes(rule.behavior)){p[rule.behavior]=rule.behavior==='armor'?1:(rule.window??.5);if(rule.behavior==='armor')this.events.push({type:'armor',f:p});}
+   else if(['counter','reject','calm','armor'].includes(rule.behavior)){p[rule.behavior]=rule.window??.5;if(rule.behavior==='armor')this.events.push({type:'armor',f:p});}
    else if(rule.behavior==='queue'){this.obstacles.push({owner,x:p.x+p.face*rule.range,y:p.supportY??GROUND,life:rule.life,damage:rule.damage,knock:rule.knock,hits:new Set(),dead:false});this.events.push({type:'queuePlant',f:owner});}
    else if(['projectile','lob','word'].includes(rule.behavior)){
     const lob=rule.behavior!=='projectile';const target=this.enemy;
@@ -119,7 +122,7 @@ export class ChallengeRoute {
   const strikes=rule.hits??[{start:rule.start??.1,end:rule.end??((rule.start??.1)+.14),damage:rule.damage??10,knock:rule.knock??25,height:rule.height}];
   if(['melee','grab','combo','rush','advance'].includes(rule.behavior))strikes.forEach((s,i)=>{
    if(a.age<s.start||before>(s.end??s.start+.12))return;
-   if(rule.erase){for(const q of this.projectiles)if(q.owner!==owner&&!q.dead&&this.attackSharesLane(p,q)&&(q.x-p.x)*p.face>=0&&Math.abs(q.x-p.x)<rule.range&&Math.abs(q.y-(p.y-252))<55){q.dead=true;this.events.push({type:'erase',f:owner,p:q});break;}}
+   if(rule.erase){for(const q of this.projectiles)if(q.owner!==owner&&!q.dead&&!q.lob&&['arrow','word','notice','paper'].includes(q.kind)&&this.attackSharesLane(p,q)&&(q.x-p.x)*p.face>=0&&Math.abs(q.x-p.x)<rule.range&&Math.abs(q.y-(p.y-252))<55){q.dead=true;this.events.push({type:'erase',f:owner,p:q});break;}}
    for(const e of this.enemies){const key=`${i}:${e.id}`,dx=(e.x-p.x)*a.routeDirection;
     const height=s.height??rule.height??'mid';
     if(!alive(e)||a.routeHits.has(key)||dx<0||dx>=(rule.range??130))continue;
@@ -178,6 +181,7 @@ export class ChallengeRoute {
   if(move&&p.stun<=0&&!p.guard&&!p.crouch){const speed=p.attack?95:250;p.x+=move*speed*this.growth.moveMultiplier*(p.slow>0?.75:1)*dt;p.move=move;}
   this.enemy=this.enemies.filter(alive).sort((a,b)=>Math.abs(a.x-p.x)-Math.abs(b.x-p.x))[0]??this.duel.enemy;
   this.attackPlayer(dt);
+  if(this.buffer){this.buffer.time-=dt;if(!p.attack&&this.buffer.time>0){const buffered=this.buffer.action;this.buffer=null;this.press(buffered);}else if(this.buffer.time<=0)this.buffer=null;}
   for(const e of this.enemies){
    if(!alive(e)){e.deadAge+=dt;continue;}if(e.stun>0)continue;
    if(stepChapterMob(this,e,dt)){this.separateEnemy(e,dt);continue;}
