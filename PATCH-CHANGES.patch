@@ -7,7 +7,7 @@ index 8d8c52a..b1707b1 100644
  .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .specials .cooldown-value{font-family:ui-monospace,monospace;font-size:13px;line-height:12px;}
  .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .specials button:not(.cooling) .cooldown{visibility:hidden;}
 -.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad{grid-column:1;grid-row:2/4;width:100%;max-width:100px;height:110px;justify-self:start;}
-+.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad{grid-column:1;grid-row:1/4;width:100%;max-width:100px;height:110px;justify-self:end;align-self:end;margin-bottom:12px;}
++.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad{grid-column:1;grid-row:1/4;width:100%;max-width:100px;height:110px;justify-self:center;align-self:end;margin-bottom:12px;}
  .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck #touch-stick{width:100%;height:auto;aspect-ratio:1;max-width:100px;}
  .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .rally-button{grid-column:3;grid-row:3;}
  .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .assist-button{grid-column:4;grid-row:2;}
@@ -20,13 +20,13 @@ index 34fd9e4..c9d8205 100644
    assert.equal(desktop.x, 500);
  });
 +
-+test('portrait touch-pad shifts inward toward center without crowding specials or altering landscape', async () => {
++test('portrait touch-pad centers halfway between edge and specials without altering vertical offset or landscape', async () => {
 +  const {stylesAt} = await import('./helpers/css-contracts.mjs');
 +  const css = readFileSync(resolve(root, 'app-source/combat-controls-v73.css'), 'utf8');
 +  const portraitPad = stylesAt(css, [
 +    '.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad'
 +  ], {width: 390, height: 844});
-+  assert.equal(portraitPad['justify-self'], 'end');
++  assert.equal(portraitPad['justify-self'], 'center');
 +  assert.equal(portraitPad['align-self'], 'end');
 +  assert.equal(portraitPad['grid-row'], '1/4');
 +  assert.equal(portraitPad['margin-bottom'], '12px');

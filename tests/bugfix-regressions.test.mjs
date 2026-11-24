@@ -111,13 +111,13 @@ test('controlledCombatCameraFrame protects desktop exact opening composition whe
   assert.equal(desktop.x, 500);
 });
 
-test('portrait touch-pad shifts inward toward center without crowding specials or altering landscape', async () => {
+test('portrait touch-pad centers halfway between edge and specials without altering vertical offset or landscape', async () => {
   const {stylesAt} = await import('./helpers/css-contracts.mjs');
   const css = readFileSync(resolve(root, 'app-source/combat-controls-v73.css'), 'utf8');
   const portraitPad = stylesAt(css, [
     '.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad'
   ], {width: 390, height: 844});
-  assert.equal(portraitPad['justify-self'], 'end');
+  assert.equal(portraitPad['justify-self'], 'center');
   assert.equal(portraitPad['align-self'], 'end');
   assert.equal(portraitPad['grid-row'], '1/4');
   assert.equal(portraitPad['margin-bottom'], '12px');
