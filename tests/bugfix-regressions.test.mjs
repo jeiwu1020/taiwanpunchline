@@ -110,3 +110,27 @@ test('controlledCombatCameraFrame protects desktop exact opening composition whe
   assert.equal(desktop.zoom, 0.8);
   assert.equal(desktop.x, 500);
 });
+
+test('portrait touch-pad shifts inward toward center without crowding specials or altering landscape', async () => {
+  const {stylesAt} = await import('./helpers/css-contracts.mjs');
+  const css = readFileSync(resolve(root, 'app-source/combat-controls-v73.css'), 'utf8');
+  const portraitPad = stylesAt(css, [
+    '.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad'
+  ], {width: 390, height: 844});
+  assert.equal(portraitPad['justify-self'], 'end');
+  assert.equal(portraitPad['align-self'], 'end');
+  assert.equal(portraitPad['grid-row'], '1/4');
+  assert.equal(portraitPad['margin-bottom'], '12px');
+  assert.equal(portraitPad['max-width'], '100px');
+
+  const portraitDeck = stylesAt(css, [
+    '.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck'
+  ], {width: 320, height: 568});
+  assert.equal(portraitDeck['grid-template-columns'], 'minmax(56px,1fr) repeat(4,52px)');
+
+  const landscapePad = stylesAt(css, [
+    '.app[data-touch="true"][data-layout="landscape"][data-overlay-controls="true"][data-depth-route] .control-deck .touch-pad'
+  ], {width: 844, height: 390});
+  assert.equal(landscapePad['grid-row'], '1/3');
+  assert.equal(landscapePad['margin-bottom'], undefined);
+});

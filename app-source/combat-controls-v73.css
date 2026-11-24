@@ -316,7 +316,7 @@
 }
 .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .specials .cooldown-value{font-family:ui-monospace,monospace;font-size:13px;line-height:12px;}
 .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .specials button:not(.cooling) .cooldown{visibility:hidden;}
-.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad{grid-column:1;grid-row:2/4;width:100%;max-width:100px;height:110px;justify-self:start;}
+.app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .touch-pad{grid-column:1;grid-row:1/4;width:100%;max-width:100px;height:110px;justify-self:end;align-self:end;margin-bottom:12px;}
 .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck #touch-stick{width:100%;height:auto;aspect-ratio:1;max-width:100px;}
 .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .rally-button{grid-column:3;grid-row:3;}
 .app[data-touch="true"][data-layout="portrait"][data-overlay-controls="false"][data-depth-route] .control-deck .assist-button{grid-column:4;grid-row:2;}
