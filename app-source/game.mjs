@@ -878,6 +878,8 @@ class Arena extends Phaser.Scene {
   }
   for(const f of [duel.player,duel.enemy]){
    if(performanceGuardActive(f)){g.lineStyle(3,0xedba50,.8);g.strokeEllipse(f.x,GROUND+2,97,18);}
+   if(f.armor>0){const pulse=Math.sin(time*.018)*.5+.5;g.lineStyle(3.5,0x67e5f2,.85);g.strokeEllipse(f.x,GROUND+2,88+pulse*12,18);g.lineStyle(2.5,0xffe896,.75);g.strokeRoundedRect(f.x-50,f.y-264,100,260,16);}
+   if(f.slow>0){const spin=(time*.006)%(Math.PI*2);g.lineStyle(3,0x4ea5b0,.85);g.strokeEllipse(f.x,GROUND+3,74,15);g.fillStyle(0x4ea5b0,.22);g.fillEllipse(f.x,GROUND+3,68,12);g.lineStyle(3,0x9ef0f7,.9);g.beginPath();g.arc(f.x,GROUND+3,30,spin,spin+1.4);g.strokePath();}
   }
   const held=duel.player.item,enemyHeld=duel.enemy.item,name=k=>STAGE_ITEMS[k]?.label||'道具';
   const status=held?itemActorName(duel.player,duel.enemy,CAST)+'持有'+name(held.kind)+' · 按攻擊丟出':duel.items?.some(i=>i.state==='falling')?'道具要來了！走近自動拿':duel.items?.some(i=>i.state==='ground')?'走近拿道具 · 攻擊鍵投擲':'隨機掉落道具 · 走近自動拿';
@@ -896,7 +898,7 @@ class Arena extends Phaser.Scene {
  drawFighter(g,f,time,i){
   const finishView=matchFinish?finishFighterView(matchFinish,i,this.finishBeat):null;if(finishView){f=finishView.fighter;time=this.finishBeat.artTime;}
   const {renderF,spit,impact}=this.fighterPresentation(f,time,!!finishView);
-  const atk=renderF.attack,drawKey=[renderF.type,renderF.mobKind||'',renderF.hp<=0?1:0,!!renderF.guard,!!renderF.crouch,renderF.crouchBlend||0,Math.round((renderF.move||0)*10),renderF.reactionKind||'',renderF.reaction||0,Math.round((renderF.flash||0)*60),renderF.stun>0?1:0,renderF.guardBroken>0?1:0,renderF.grabPose||0,renderF.grabbedPose||0,atk?atk.kind+':'+Math.round(atk.age*60)+':'+(atk.variant||''):'',spit?Math.round(spit*60):'',impact||'',Math.round(time/33)].join('|');
+  const atk=renderF.attack,drawKey=[renderF.type,renderF.mobKind||'',renderF.hp<=0?1:0,!!renderF.guard,renderF.armor>0?1:0,renderF.counter>0?1:0,renderF.reject>0?1:0,renderF.calm>0?1:0,renderF.y<(renderF.supportY??430)-1?1:0,!!renderF.crouch,renderF.crouchBlend||0,Math.round((renderF.move||0)*10),renderF.reactionKind||'',renderF.reaction||0,Math.round((renderF.flash||0)*60),renderF.stun>0?1:0,renderF.guardBroken>0?1:0,renderF.grabPose||0,renderF.grabbedPose||0,atk?atk.kind+':'+Math.round(atk.age*60)+':'+(atk.variant||'')+':'+(atk.presentationOutcome||'')+':'+Math.round((atk.outcomeAge||0)*60):'',spit?Math.round(spit*60):'',impact||'',Math.round(time/33)].join('|');
   let pose=this.lastFighterPose?.[i];
   if(this.fighterCanvasKeys[i]!==drawKey||!pose){this.fighterCanvasKeys[i]=drawKey;const texture=this.artCanvases[i],ctx=texture.getContext();ctx.clearRect(0,0,512,384);ctx.save();ctx.translate(256,350);pose=renderF.mobKind?drawChallengeMob(ctx,this.artImages,renderF,time):drawFighterArt(ctx,this.artImages,renderF,time,{spit,impact,shadow:false});ctx.restore();this.lastFighterPose[i]=pose;}
   this.lastArtPose.set(f,pose);
@@ -921,19 +923,27 @@ class Arena extends Phaser.Scene {
   for(const p of duel.projectiles){
    const direction=p.vx<0?-1:1;
    if(p.kind==='paper'||p.kind==='rubber_duck'){this.paintItem(p.kind,p.x,p.y,1.05,p.kind==='paper'?time*.008:Math.sin(time*.013)*.12);}
-   else if(p.kind==='coin'){for(let j=2;j>=0;j--)sprite('coin',p.x-direction*j*19,p.y,26,27,time*.006,j===0?1:.21);}
-   else if(p.kind==='flyer'){g.fillStyle(0xfff9e8,.98);g.fillRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(2.5,0x234852);g.strokeRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(3,0xd96b38);g.lineBetween(p.x-12,p.y-4,p.x+12,p.y-4);}
-   else if(p.kind==='dream'){sprite('dream',p.x,p.y,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06,1,'signature-props',p.vx<0);if(p.phase==='return')label(p.x,p.y+47,'↶ 回程','#d0f4d9',15);}
-   else if(p.kind==='arrow'||p.kind==='word'||p.kind==='notice'){
-    const word=p.kind==='word',notice=p.kind==='notice',width=p.markWidth??(word?92:notice?96:110),color=word?0x367e8a:notice?0xd4822a:0xbe4033;
-    g.lineStyle(3,color,.9);g.strokeEllipse(p.targetX,GROUND,width,19);g.fillStyle(color,.13);g.fillEllipse(p.targetX,GROUND,width,15);
-    label(p.targetX,GROUND+16,word?'落字':notice?(p.markLabel||'落點'):'落箭',word?'#295e66':notice?'#7d4310':'#893b2c',15);
-    if(word){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(p.age||0,.56,direction);g.fillStyle(0xfff7e5,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,'賴祥德','#fff8dc',size);}
-    else if(notice){const w=124,h=60,x=p.x+nameTileOffset(p.age||0,p.flight||.56,direction);g.fillStyle(0xfff6df,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,p.noticeText||'通知','#7d4310',28);}
-    else{const v=arrowPresentation(p);sprite('arrow',v.x,v.y,v.width,v.height,v.angle);}
+   else if(p.kind==='coin'){
+    g.lineStyle(6,0xffd659,.32);g.lineBetween(p.x-direction*64,p.y,p.x,p.y);
+    for(let j=3;j>=0;j--)sprite('coin',p.x-direction*j*18,p.y,26,27,time*.008,j===0?1:.42-j*.09);
    }
-   if(p.reflected){g.lineStyle(2,0xe8bc4a,.8);g.strokeCircle(p.x,p.y,21);label(p.x,p.y+32,'↶ 反射','#ffe2a4',15);}
-   if((p.kind==='coin'||p.kind==='dream'||p.kind==='flyer')&&(p.age||0)<.11){g.lineStyle(2,0xb2a179,.55);g.lineBetween(p.owner.x+p.owner.face*48,p.owner.y-206,p.x,p.y);}
+   else if(p.kind==='flyer'){g.lineStyle(4,0xf5c86b,.35);g.lineBetween(p.x-direction*42,p.y,p.x,p.y);g.fillStyle(0xfff9e8,.98);g.fillRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(2.5,0x234852);g.strokeRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(3,0xd96b38);g.lineBetween(p.x-12,p.y-4,p.x+12,p.y-4);}
+   else if(p.kind==='dream'){
+    g.lineStyle(5,0x7ce0a8,.42);g.lineBetween(p.x-direction*68,p.y,p.x,p.y);
+    if(p.turnX!=null&&Math.abs(p.x-p.turnX)<70){const rU=1-Math.abs(p.x-p.turnX)/70;g.lineStyle(3,0xffe488,.7*rU);g.strokeCircle(p.turnX,p.y,22+rU*22);}
+    sprite('dream',p.x,p.y,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06,1,'signature-props',p.vx<0);if(p.phase==='return')label(p.x,p.y+47,'↶ 回程','#d0f4d9',15);
+   }
+   else if(p.kind==='arrow'||p.kind==='word'||p.kind==='notice'){
+    const word=p.kind==='word',notice=p.kind==='notice',width=p.markWidth??(word?92:notice?96:110),color=word?0x367e8a:notice?0xd4822a:0xbe4033,rem=1-Math.max(0,Math.min(1,(p.age||0)/(p.flight||1.2)));
+    g.lineStyle(3.5,color,.92);g.strokeEllipse(p.targetX,GROUND,width,19);g.fillStyle(color,.16);g.fillEllipse(p.targetX,GROUND,width,15);
+    g.lineStyle(2.5,0xfff2c2,.85);g.strokeEllipse(p.targetX,GROUND,Math.max(12,width*rem),Math.max(4,19*rem));
+    label(p.targetX,GROUND+16,word?'落字':notice?(p.markLabel||'落點'):'落箭',word?'#295e66':notice?'#7d4310':'#893b2c',15);
+    if(word){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(p.age||0,.56,direction);g.lineStyle(5,0x5bb5bf,.32);g.lineBetween(x-(p.vx||0)*.08,p.y-(p.vy||0)*.08,x,p.y);g.fillStyle(0xfff7e5,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,'賴祥德','#fff8dc',size);}
+    else if(notice){const w=124,h=60,x=p.x+nameTileOffset(p.age||0,p.flight||.56,direction);g.fillStyle(0xfff6df,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,p.noticeText||'通知','#7d4310',28);}
+    else{const v=arrowPresentation(p);g.lineStyle(5,0xffb84d,.42);g.lineBetween(v.x-Math.cos(v.angle)*68,v.y-Math.sin(v.angle)*68,v.x,v.y);sprite('arrow',v.x,v.y,v.width,v.height,v.angle);}
+   }
+   if(p.reflected){g.lineStyle(3,0xffe478,.9);g.strokeCircle(p.x,p.y,23);label(p.x,p.y+32,'↶ 反射','#ffe2a4',15);}
+   if((p.kind==='coin'||p.kind==='dream'||p.kind==='flyer')&&(p.age||0)<.13){g.lineStyle(3,0xffd66b,.65);g.lineBetween(p.owner.x+p.owner.face*48,p.owner.y-206,p.x,p.y);}
   }
   for(let i=used;i<this.propPool.length;i++)this.propPool[i].setVisible(false);
   for(let i=labels;i<this.markerPool.length;i++)this.markerPool[i].setVisible(false);
@@ -972,23 +982,39 @@ class Arena extends Phaser.Scene {
    if(kind?.includes('_'))sfx(kind);
    else sfx(kind);
   }
-  if(['hit','block'].includes(e.type)){const hitY=impactY(e)+(duel.depthMode?(e.to.depth??0)*.65:0);this.popup(e.to.x,hitY-14,e.type==='block'?(e.assist?'助拳被擋住':'擋住了'):e.assist?'助拳命中！':e.impact==='item_rubber_duck'?'嘎！':e.impact==='item_paper'?'紙花！':e.combo>1?`${e.combo} 連段！`:'啪！',e.type==='block'?'#a7ece3':'#fff6c9',e.combo>1?29:36);this.popup(e.to.x+40,displayY(e.to)-220,'−'+Math.round(e.amount),'#fff6c9',22);if(e.type==='hit'&&!this.reducedMotion)this.cameras.main.shake(95,.005);const sparks=this.add.graphics();sparks.lineStyle(5,0xffdc65);for(let i=0;i<9;i++){const a=i*Math.PI/4.5;sparks.lineBetween(e.to.x+Math.cos(a)*20,hitY+Math.sin(a)*20,e.to.x+Math.cos(a)*59,hitY+Math.sin(a)*59);}this.tweens.add({targets:sparks,alpha:0,duration:200,onComplete:()=>sparks.destroy()});sfx(e.type);}
-  else if(e.type==='counter'){const legacy=e.f.type==='wang',move=CAST[e.f.type].moves.find(m=>m.kind===e.kind||m.behavior==='counter');this.wordBlast(e.f,legacy?'游刃有餘':move?.name||'反擊成功');sfx('counter');}
+  if(['hit','block'].includes(e.type)){
+   const hitY=impactY(e)+(duel.depthMode?(e.to.depth??0)*.65:0),heavy=e.type==='hit'&&(e.amount>=14||e.to.hp<=0||['arrow','han_knee','su_shout','su_dare','huang_shout','ma_handshake','rally'].includes(e.impact));
+   this.popup(e.to.x,hitY-14,e.type==='block'?(e.assist?'助拳被擋住':'擋住了'):e.assist?'助拳命中！':e.impact==='item_rubber_duck'?'嘎！':e.impact==='item_paper'?'紙花！':e.combo>1?`${e.combo} 連段！`:heavy?'轟！':'啪！',e.type==='block'?'#a7ece3':'#fff6c9',e.combo>1?29:heavy?42:36);
+   this.popup(e.to.x+40,displayY(e.to)-220,'−'+Math.round(e.amount),'#fff6c9',heavy?26:22);
+   if(e.type==='hit'&&!this.reducedMotion)this.cameras.main.shake(e.to.hp<=0?200:heavy?140:85,e.to.hp<=0?.012:heavy?.0085:.0045);
+   const sparks=this.add.graphics().setPosition(e.to.x,hitY);
+   if(e.type==='block'){
+    sparks.lineStyle(5,0x7ce1d6);sparks.beginPath();sparks.arc(0,0,34,-1.1,1.1);sparks.strokePath();
+    sparks.lineStyle(3,0xffffff,.9);for(let i=0;i<5;i++){const a=-.9+i*.45;sparks.lineBetween(Math.cos(a)*28,Math.sin(a)*28,Math.cos(a)*54,Math.sin(a)*54);}
+   }else{
+    const rays=heavy?12:9,reach=heavy?74:56;
+    sparks.lineStyle(heavy?6:5,heavy?0xffaa44:0xffdc65);
+    for(let i=0;i<rays;i++){const a=i*(Math.PI*2/rays);sparks.lineBetween(Math.cos(a)*16,Math.sin(a)*16,Math.cos(a)*reach,Math.sin(a)*reach);}
+    sparks.lineStyle(3,0xffffff,.9);sparks.strokeCircle(0,0,heavy?28:18);
+   }
+   this.tweens.add({targets:sparks,alpha:0,scale:heavy?1.35:1.12,duration:heavy?260:190,onComplete:()=>sparks.destroy()});sfx(e.type);
+  }
+  else if(e.type==='counter'){const legacy=e.f.type==='wang',move=CAST[e.f.type].moves.find(m=>m.kind===e.kind||m.behavior==='counter');this.wordBlast(e.f,legacy?'游刃有餘':move?.name||'反擊成功');const ring=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);ring.lineStyle(6,0xffae38);ring.strokeCircle(0,0,46);ring.lineStyle(3,0xffffff);ring.strokeCircle(0,0,32);this.tweens.add({targets:ring,scale:2.1,alpha:0,duration:260,onComplete:()=>ring.destroy()});sfx('counter');}
   else if(e.type==='counterMiss'){this.popup(e.f.x,displayY(e.f)-255,e.f.type==='wang'?'從容失敗':'等太久了','#bddfe1',23);sfx('whiff');}
   else if(e.type==='spit'){const p=this.lastArtPose.get(e.f);this.spitStart.set(e.f,{time:this.artTime,impact:p?{wrist:{x:p.arm.wrist.x,y:p.arm.wrist.y-p.bob},headAngle:p.headAngle}:null});this.popup(e.f.x,displayY(e.f)-220,'水還沒喝到，先喝了一拳。','#fff6c9',20);sfx('spit');}
   else if(e.type==='heal'){this.popup(e.f.x,displayY(e.f)-245,'喝到了！ +'+(e.amount??10),'#a5f0bc',28);sfx('heal');}
   else if(e.type==='arrowMark'){this.popup(e.x,GROUND-34,'離開落點！','#ffe0a1',20);}
   else if(e.type==='arrowMiss'){const flag=text(this,e.x,GROUND-45,'↙ 沒中',22,'#fff6df');flag.setText('沒中 ↙').setFontSize(22).setStroke('#142b32',4);this.tweens.add({targets:flag,alpha:0,duration:900,onComplete:()=>flag.destroy()});sfx('whiff');}
-  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);sfx('block');}
-  else if(e.type==='reflect'){this.popup(e.f.x,displayY(e.f)-272,'拒收，原路退回！','#ffe1a1',22);sfx('counter');}
+  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);if(!this.reducedMotion)this.cameras.main.shake(140,.008);const brk=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);brk.lineStyle(5,0xff7f50);for(let i=0;i<8;i++){const a=i*Math.PI/4;brk.lineBetween(Math.cos(a)*20,Math.sin(a)*20,Math.cos(a)*68,Math.sin(a)*68);}this.tweens.add({targets:brk,scale:1.4,alpha:0,duration:260,onComplete:()=>brk.destroy()});sfx('block');}
+  else if(e.type==='reflect'){this.popup(e.f.x,displayY(e.f)-272,'拒收，原路退回！','#ffe1a1',22);const rfl=this.add.graphics().setPosition(e.f.x,displayY(e.f)-150);rfl.lineStyle(5,0xffe488);rfl.strokeCircle(0,0,38);this.tweens.add({targets:rfl,scale:2.0,alpha:0,duration:240,onComplete:()=>rfl.destroy()});sfx('counter');}
   else if(e.type==='reject'){this.popup(e.f.x,displayY(e.f)-185,'不欠你，擋回去！','#e4c8ef',22);sfx('block');}
   else if(e.type==='erase'){this.popup(e.f.x,displayY(e.f)-250,'咳掉了！','#e1d9c4',20);sfx('whiff');}
   else if(e.type==='capture'){this.popup((e.from.x+e.to.x)/2,Math.min(displayY(e.from),displayY(e.to))-90,'握住了！','#f4d58c',30);sfx('hit');}
   else if(e.type==='queuePlant'){this.popup(e.f.x+e.f.face*85,GROUND-110,'先排隊！','#ffd9a6',21);}
-  else if(e.type==='queueBreak'){this.popup(e.x,GROUND-90,'隊線散了','#f4d4b1',19);}
+  else if(e.type==='queueBreak'){this.popup(e.x,GROUND-90,'隊線散了','#f4d4b1',19);const qb=this.add.graphics().setPosition(e.x,GROUND-40);qb.lineStyle(4,0xe07856);for(let i=0;i<6;i++){const a=-Math.PI+i*(Math.PI/5);qb.lineBetween(0,0,Math.cos(a)*46,Math.sin(a)*46);}this.tweens.add({targets:qb,alpha:0,scale:1.3,duration:220,onComplete:()=>qb.destroy()});}
   else if(e.type==='armor'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'護甲就緒','#b8f0ed',22);}
-  else if(e.type==='armorAbsorb'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'痛，但不停手','#b8f0ed',22);sfx('block');}
-  else if(e.type==='calm'){this.popup(e.f.x,displayY(e.f)-250,'大事化小…','#d4efd6',22);}
+  else if(e.type==='armorAbsorb'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'痛，但不停手','#b8f0ed',22);const arm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);arm.lineStyle(6,0x67e5f2);arm.strokeCircle(0,0,42);this.tweens.add({targets:arm,scale:1.9,alpha:0,duration:240,onComplete:()=>arm.destroy()});sfx('block');}
+  else if(e.type==='calm'){this.popup(e.f.x,displayY(e.f)-250,'大事化小…','#d4efd6',22);const cm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);cm.lineStyle(4,0x7ed9a4);cm.strokeCircle(0,0,40);this.tweens.add({targets:cm,scale:1.8,alpha:0,duration:240,onComplete:()=>cm.destroy()});}
   else if(e.type==='wallBounce'||e.type==='wallHit'){this.popup(e.f.x,displayY(e.f)-230,'牆也聽到了！','#e4c8ef',22);sfx('hit');}
   else if(e.type==='slow'){this.popup(e.f.x,displayY(e.f)-220,'被字絆一下','#bbe5e4',21);}
   else if(e.type==='itemPickup'){if(e.f.item){e.f.item.carryHand=chooseCarryHand(this.lastArtPose.get(e.f));this.carryHands.set(e.f.item,e.f.item.carryHand);}this.popup(e.f.x,displayY(e.f)-220,'拿到'+(e.item.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！','#a5f0bc',22);sfx('heal');}

@@ -7,38 +7,38 @@ export function rosterMotion(kind,t,{outcome='pending',outcomeAge=0}={}){
  let wrist={x:9,y:-126.6},farW={x:42,y:-92},headAngle=0,drop=0,shift=0,gait=0,hand='fist',farHand='fist',handAngle=0,farHandAngle=0,handTurn,farHandTurn,shoulderLift=0,footSpread=0,bagSway=0,prop=null;
  const reach=(near,far,u)=>{wrist={x:mix(9,near.x,u),y:mix(-126.6,near.y,u)};farW={x:mix(42,far.x,u),y:mix(-92,far.y,u)};};
  if(kind==='ma_handshake'){
-  const u=pulse(t,.18,.30,.56),bow=pulse(t,.16,.30,.46);reach({x:68,y:-119},{x:34,y:-146},u);headAngle=.10*bow;drop=7*bow;shift=7*bow;hand='handshake';
-  if(outcome==='whiff'){const inspect=pulse(Math.max(0,t-.30),.10,.16,.26);wrist={x:mix(wrist.x,48,inspect),y:mix(wrist.y,-156,inspect)};headAngle-=.23*inspect;shift-=10*inspect;farW={x:mix(farW.x,21,inspect),y:mix(farW.y,-151,inspect)};}
+  const u=pulse(t,.18,.30,.56),bow=pulse(t,.16,.30,.46);reach({x:78,y:-118},{x:32,y:-148},u);headAngle=.14*bow;drop=10*bow;shift=14*bow;hand='handshake';
+  if(outcome==='whiff'){const inspect=pulse(Math.max(0,t-.30),.10,.16,.26);wrist={x:mix(wrist.x,48,inspect),y:mix(wrist.y,-156,inspect)};headAngle-=.26*inspect;shift-=12*inspect;farW={x:mix(farW.x,21,inspect),y:mix(farW.y,-151,inspect)};}
  }else if(kind==='ma_gaze'){
-  const u=pulse(t,.25,.38,.72),look=pulse(t,.10,.35,.62),inspect=pulse(t,.10,.18,.25);reach({x:67,y:-199},{x:44,y:-157},u);wrist.x+=9*inspect;wrist.y-=17*inspect;headAngle=-.10*look;shift=7*u;drop=-3*u;hand=t<.25?'point':'open-right';handAngle=t<.25?.25:.10;handTurn=u;
+  const u=pulse(t,.25,.38,.72),look=pulse(t,.10,.35,.62),inspect=pulse(t,.10,.18,.25);reach({x:72,y:-208},{x:46,y:-160},u);wrist.x+=11*inspect;wrist.y-=18*inspect;headAngle=-.14*look;shift=11*u;drop=-5*u;hand=t<.25?'point':'open-right';handAngle=t<.25?.28:.12;handTurn=u;
  }else if(kind==='ma_cough'){
-  const u=pulse(t,.13,.56,.82),beat=(start,end)=>t>start&&t<end?Math.sin((t-start)/(end-start)*Math.PI):0,c=beat(.20,.28)+beat(.42,.50),tie=pulse(t,.05,.07,.15);reach({x:26-2*c,y:-167-6*c},{x:53,y:-133},u);farW.x-=27*tie;farW.y-=20*tie;drop=2*u+3*c;shift=3*u+2*c;shoulderLift=5*c;headAngle=.025*u+.045*c;hand=u>.05?'cough':'fist';handAngle=-.4+.06*c;prop='briefing';
+  const u=pulse(t,.13,.56,.82),beat=(start,end)=>t>start&&t<end?Math.sin((t-start)/(end-start)*Math.PI):0,c=beat(.20,.28)+beat(.42,.50),tie=pulse(t,.05,.07,.15);reach({x:26-4*c,y:-168-8*c},{x:55,y:-132},u);farW.x-=27*tie;farW.y-=20*tie;drop=3*u+5*c;shift=4*u+4*c;shoulderLift=8*c;headAngle=.03*u+.08*c;hand=u>.05?'cough':'fist';handAngle=-.4+.08*c;prop='briefing';
  }else if(kind==='su_shout'){
-  const u=pulse(t,.22,.36,.64),inhale=pulse(t,.10,.15,.22);reach({x:49,y:-137},{x:70,y:-157},u);headAngle=-.09*u+.06*inhale;drop=-3*u;shift=10*u-3*inhale;shoulderLift=3*inhale;farHand=u>.05?'open-left':'fist';farHandAngle=.45;farHandTurn=u;
+  const u=pulse(t,.22,.36,.64),inhale=pulse(t,.10,.15,.22);reach({x:56,y:-139},{x:78,y:-164},u);headAngle=-.13*u+.09*inhale;drop=-4*u+4*inhale;shift=15*u-6*inhale;shoulderLift=5*inhale;farHand=u>.05?'open-left':'fist';farHandAngle=.45;farHandTurn=u;
  }else if(kind==='su_rush'){
-  const u=pulse(t,.18,.48,.96),s=Math.sin(t*27)*u;gait=s*.85;reach({x:19+s*21,y:-156+s*14},{x:59-s*17,y:-144-s*12},u);shift=8*u;drop=5*u+Math.abs(s)*3;headAngle=.055*u;
+  const u=pulse(t,.18,.48,.96),s=Math.sin(t*27)*u;gait=s*.85;reach({x:19+s*21,y:-156+s*14},{x:59-s*17,y:-144-s*12},u);shift=12*u;drop=7*u+Math.abs(s)*4;headAngle=.08*u;
  }else if(kind==='su_dare'){
-  const u=pulse(t,.20,.68,.88),beck=Math.sin(t*23)*5*u;reach({x:60+beck,y:-160},{x:38,y:-108},u);shift=-5*u;drop=4*u;headAngle=-.065*u;hand='beckon';handAngle=.2+Math.sin(t*23)*.12*u;
-  if(outcome==='counter'){const punch=pulse(outcomeAge,.07,.13,.25);wrist={x:mix(wrist.x,80,punch),y:mix(wrist.y,-147,punch)};farW={x:35,y:-157};hand='fist';shift+=13*punch;headAngle=.06*punch;}
-  if(outcome==='whiff'){const wait=ease((t-.68)/.12);wrist.y+=17*wait;wrist.x-=17*wait;headAngle=.13*wait;shoulderLift=5*wait*(1-ease((t-.80)/.08));}
+  const u=pulse(t,.20,.68,.88),beck=Math.sin(t*23)*8*u;reach({x:66+beck,y:-164},{x:36,y:-106},u);shift=-8*u;drop=6*u;headAngle=-.09*u;hand='beckon';handAngle=.2+Math.sin(t*23)*.16*u;
+  if(outcome==='counter'){const punch=pulse(outcomeAge,.07,.13,.25);wrist={x:mix(wrist.x,92,punch),y:mix(wrist.y,-148,punch)};farW={x:30,y:-158};hand='fist';shift+=20*punch;drop+=6*punch;headAngle=.11*punch;}
+  if(outcome==='whiff'){const wait=ease((t-.68)/.12);wrist.y+=17*wait;wrist.x-=17*wait;headAngle=.15*wait;shoulderLift=6*wait*(1-ease((t-.80)/.08));}
  }else if(kind==='huang_shout'){
-  const u=pulse(t,.24,.36,.68);reach({x:64,y:-169},{x:53,y:-141},u);headAngle=.075*u;drop=1*u;shift=11*u;hand=u>.08?'point-back-right':'fist';handAngle=1.12;handTurn=u;farHandTurn=0;
+  const u=pulse(t,.24,.36,.68);reach({x:76,y:-176},{x:56,y:-142},u);headAngle=.11*u;drop=2*u;shift=16*u;hand=u>.08?'point-back-right':'fist';handAngle=1.12;handTurn=u;farHandTurn=0;
  }else if(kind==='huang_debt'){
-  const u=pulse(t,.14,.64,.82),push=['reject','reflect'].includes(outcome)?pulse(outcomeAge,.07,.13,.24):0;reach({x:64+5*push,y:-126},{x:77+3*push,y:-167},u);headAngle=-.08*u;shift=-7*u-3*push;hand=u>.08?'back-right':'fist';farHand=u>.08?'back-left':'fist';handAngle=.9;farHandAngle=-.65;handTurn=u;farHandTurn=u;shoulderLift=2*push;
+  const u=pulse(t,.14,.64,.82),push=['reject','reflect'].includes(outcome)?pulse(outcomeAge,.07,.13,.24):0;reach({x:72+9*push,y:-128},{x:84+6*push,y:-174},u);headAngle=-.10*u;shift=-9*u-8*push;hand=u>.08?'back-right':'fist';farHand=u>.08?'back-left':'fist';handAngle=.9;farHandAngle=-.65;handTurn=u;farHandTurn=u;shoulderLift=4*push;
  }else if(kind==='huang_queue'){
-  const u=pulse(t,.24,.38,.74),pull=pulse(t,.12,.19,.24);reach({x:75,y:-146},{x:36,y:-107},u);wrist.x-=24*pull;farW={x:mix(farW.x,61,pull),y:mix(farW.y,-139,pull)};shift=10*u-5*pull;drop=5*u;headAngle=.04*u;hand=u>.08?'back-right':'fist';handAngle=.15;handTurn=u;farHandTurn=0;gait=.45*u;if(t>0&&t<.24){prop='queue-pull';if(t<.18)hand='fist';}
+  const u=pulse(t,.24,.38,.74),pull=pulse(t,.12,.19,.24);reach({x:82,y:-144},{x:36,y:-107},u);wrist.x-=24*pull;farW={x:mix(farW.x,61,pull),y:mix(farW.y,-139,pull)};shift=14*u-6*pull;drop=9*u;headAngle=.06*u;hand=u>.08?'back-right':'fist';handAngle=.15;handTurn=u;farHandTurn=0;gait=.45*u;if(t>0&&t<.24){prop='queue-pull';if(t<.18)hand='fist';}
  }else if(kind==='chen_dream'){
-  const u=pulse(t,.22,.40,.72),release=ease((t-.30)/.12),aim=pulse(t,.12,.24,.30);reach({x:-10,y:-132},{x:41+15*release,y:-216+25*release},u);wrist.x+=10*aim;headAngle=-.10*u;shift=3*u;hand='open-right';handAngle=-.75;handTurn=u;farHand=t<.30?'plane':'open-left';farHandAngle=.4+.2*release;farHandTurn=u;
+  const u=pulse(t,.22,.40,.72),release=ease((t-.30)/.12),aim=pulse(t,.12,.24,.30);reach({x:-10,y:-132},{x:36+28*release,y:-222+28*release},u);wrist.x+=12*aim;headAngle=-.14*u;shift=7*u;hand='open-right';handAngle=-.75;handTurn=u;farHand=t<.30?'plane':'open-left';farHandAngle=.4+.28*release;farHandTurn=u;
  }else if(kind==='chen_question'){
-  const first=pulse(t,.18,.26,.36),second=pulse(Math.max(0,t-.28),.12,.22,.48),u=Math.max(first,second);wrist={x:9+54*first,y:-126.6-22*first};farW={x:42+32*second,y:-92+12*second};headAngle=.09*(first-second);shift=5*u;drop=7*second;hand='open-right';farHand='open-left';handAngle=.8;farHandAngle=-.7;handTurn=u;farHandTurn=u;
+  const first=pulse(t,.18,.26,.36),second=pulse(Math.max(0,t-.28),.12,.22,.48),u=Math.max(first,second);wrist={x:9+62*first,y:-126.6-28*first};farW={x:42+42*second,y:-92+16*second};headAngle=.12*(first-second);shift=9*u;drop=9*second;hand='open-right';farHand='open-left';handAngle=.8;farHandAngle=-.7;handTurn=u;farHandTurn=u;
  }else if(kind==='chen_calm'){
-  const u=pulse(t,.12,.68,.82),retreat=outcome==='calm'?pulse(outcomeAge,.06,.13,.28):0;reach({x:-16,y:-140},{x:67,y:-136},u);headAngle=-.09*u;shift=-5*u-8*retreat;shoulderLift=7*u;drop=-2*u+3*retreat;footSpread=6*retreat;hand='open-right';farHand='open-left';handAngle=-1;farHandAngle=.9;handTurn=u;farHandTurn=u;
+  const u=pulse(t,.12,.68,.82),retreat=outcome==='calm'?pulse(outcomeAge,.06,.13,.28):0;reach({x:-18,y:-142},{x:72,y:-136},u);headAngle=-.12*u;shift=-7*u-12*retreat;shoulderLift=10*u;drop=-2*u+5*retreat;footSpread=9*retreat;hand='open-right';farHand='open-left';handAngle=-1;farHandAngle=.9;handTurn=u;farHandTurn=u;
  }else if(kind==='ko_bags'){
-  const blue=pulse(t,.16,.26,.39),green=pulse(Math.max(0,t-.26),.12,.24,.46),u=Math.max(blue,green),load=pulse(t,.07,.54,.72);wrist={x:9+55*blue,y:-126.6+29*blue+6*load};farW={x:42+37*green,y:-92-39*green+4*load};headAngle=.045*u;shift=3*u-3*load;drop=7*load+2*u;shoulderLift=-3*load;footSpread=7*load;bagSway=.24*blue-.2*green;
+  const blue=pulse(t,.16,.26,.39),green=pulse(Math.max(0,t-.26),.12,.24,.46),u=Math.max(blue,green),load=pulse(t,.07,.54,.72);wrist={x:9+62*blue,y:-126.6+34*blue+6*load};farW={x:42+46*green,y:-92-44*green+4*load};headAngle=.07*u;shift=7*u-4*load;drop=9*load+3*u;shoulderLift=-3*load;footSpread=9*load;bagSway=.36*blue-.32*green;
  }else if(kind==='ko_name'){
-  const u=pulse(t,.20,.42,.74),crack=pulse(t,.27,.34,.50),inhale=pulse(t,.10,.16,.26);reach({x:62,y:-170},{x:48,y:-141},u);headAngle=-.09*u+.19*crack;shift=7*u;drop=-3*inhale+2*crack;shoulderLift=3*inhale;hand='open-right';handAngle=.25;handTurn=u;
+  const u=pulse(t,.20,.42,.74),crack=pulse(t,.27,.34,.50),inhale=pulse(t,.10,.16,.26);reach({x:68,y:-180},{x:50,y:-142},u);headAngle=-.12*u+.24*crack;shift=10*u;drop=-4*inhale+3*crack;shoulderLift=4*inhale;hand='open-right';handAngle=.28;handTurn=u;
  }else if(kind==='ko_resolve'){
-  const u=pulse(t,.12,.77,.92),absorb=outcome==='armor'?pulse(outcomeAge,.04,.09,.20):0;reach({x:23,y:-145},{x:54,y:-140},u);drop=11*u+3*absorb;shift=2*u;headAngle=-.025*u+.025*absorb;footSpread=12*u;
+  const u=pulse(t,.12,.77,.92),absorb=outcome==='armor'?pulse(outcomeAge,.04,.09,.20):0;reach({x:23,y:-145},{x:58,y:-140},u);drop=14*u+4*absorb;shift=4*u+5*absorb;headAngle=-.04*u+.04*absorb;footSpread=15*u;
  }else if(kind==='mini_flyer_shot'){
   const u=pulse(t,.14,.26,.48);reach({x:66,y:-152},{x:36,y:-138},u);shift=7*u;headAngle=-.04*u;hand='open-right';handAngle=.2;handTurn=u;
  }else if(kind==='mini_whistle_charge'){

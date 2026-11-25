@@ -255,13 +255,19 @@ function drawItem(ctx,images,kind,x,y,scale=1,rotation=0,flip=false){
 }
 function drawProjectile(ctx,images,q,time,zoom){
  const p=depthWorldPoint(q),direction=q.vx<0?-1:1;
- if(q.kind==='coin'&&images['art-props']){for(let i=2;i>=0;i--){ctx.save();ctx.globalAlpha*=i===0?1:.21;drawProp(ctx,images,'coin',p.x-direction*i*19,p.y,26,27,time*.006);ctx.restore();}}
- else if(q.kind==='dream'){ctx.save();ctx.translate(p.x,p.y);ctx.scale(direction,1);drawSignatureProp(ctx,images,'dream',0,0,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06);ctx.restore();if(q.phase==='return')label(ctx,'↶ 回程',p.x,p.y+47,zoom,{color:'#d0f4d9'});}
+ if(q.kind==='coin'&&images['art-props']){
+  line(ctx,p.x-direction*64,p.y,p.x,p.y,'#ffd65955',6);
+  for(let i=3;i>=0;i--){ctx.save();ctx.globalAlpha*=i===0?1:.42-i*.09;drawProp(ctx,images,'coin',p.x-direction*i*18,p.y,26,27,time*.008);ctx.restore();}
+ }
+ else if(q.kind==='dream'){
+  line(ctx,p.x-direction*68,p.y,p.x,p.y,'#7ce0a866',5);
+  ctx.save();ctx.translate(p.x,p.y);ctx.scale(direction,1);drawSignatureProp(ctx,images,'dream',0,0,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06);ctx.restore();if(q.phase==='return')label(ctx,'↶ 回程',p.x,p.y+47,zoom,{color:'#d0f4d9'});
+ }
  else if(q.kind==='arrow'||q.kind==='word'){
   // The route engine's lob falls vertically at targetX; align its art to that
   // actual trajectory rather than the duel-only sideways arrow release arc.
   if(q.kind==='word'){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(q.age||0,.56,direction);ctx.fillStyle='#fff7e5';ctx.strokeStyle='#367e8a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,'賴祥德',x,p.y,zoom,{size,color:'#295e66'});}
-  else if(images['art-props'])drawProp(ctx,images,'arrow',p.x,p.y,150,20,q.lob?Math.PI/2:Math.atan2(q.vy||0,q.vx||1));
+  else if(images['art-props']){line(ctx,p.x,p.y-56,p.x,p.y,'#ffb84d66',5);drawProp(ctx,images,'arrow',p.x,p.y,150,20,q.lob?Math.PI/2:Math.atan2(q.vy||0,q.vx||1));}
  }else if(q.kind==='notice'){
   const w=124,h=60,x=p.x+nameTileOffset(q.age||0,q.flight||.72,direction);ctx.fillStyle='#fff6df';ctx.strokeStyle='#d4822a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,q.noticeText||'通知',x,p.y,zoom,{size:24,color:'#7d4310'});
  }else if(!drawItem(ctx,images,q.kind,p.x,p.y,1.05,q.kind==='paper'?time*.008:Math.sin(time*.013)*.12)){
@@ -269,7 +275,7 @@ function drawProjectile(ctx,images,q,time,zoom){
   // still have a readable illustrated fallback, never an invisible attack.
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(time*.008);ctx.fillStyle='#fff6dc';ctx.strokeStyle='#17333b';ctx.lineWidth=2;ctx.fillRect(-20,-13,40,26);ctx.strokeRect(-20,-13,40,26);line(ctx,-13,-5,13,-5,'#db9858',3);line(ctx,-13,4,9,4,'#587c82',2);ctx.restore();
  }
- if(q.reflected){ctx.strokeStyle='#e8bc4a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,23,0,Math.PI*2);ctx.stroke();label(ctx,'↶ 反射',p.x,p.y+36,zoom,{color:'#ffe2a4'});}
+ if(q.reflected){ctx.strokeStyle='#ffe478';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,24,0,Math.PI*2);ctx.stroke();label(ctx,'↶ 反射',p.x,p.y+36,zoom,{color:'#ffe2a4'});}
 }
 function drawActorShadow(ctx,item){
  const f=item.value,p=depthWorldPoint(f,{foot:true}),scale=1-Math.min(.25,Math.max(0,(f.supportY??GROUND)-f.y)/560),alpha=item.episode?assistView(item.episode)?.alpha??0:f.hp<=0?Math.max(0,1-(f.deadAge??0)/.6):1;
@@ -278,7 +284,7 @@ function drawActorShadow(ctx,item){
 function drawGroundEffects(ctx,items,frame){
  for(const item of items){const f=item.value;
   if(item.kind==='actor'&&(f.supportY??GROUND)>=GROUND)drawActorShadow(ctx,item);
-  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word'||f.kind==='notice')){const y=GROUND+depthOf(f)*DEPTH_SCALE,notice=f.kind==='notice',color=f.kind==='word'?'#367e8a':notice?'#d4822a':'#be4033',x=f.targetX??f.x,rx=notice?(f.markWidth??96)/2:55;ellipse(ctx,x,y,rx,9,color+'22');ctx.strokeStyle=color;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(x,y,rx,9,0,0,Math.PI*2);ctx.stroke();label(ctx,notice?(f.markLabel||'落點'):f.kind==='word'?'落字':'落箭',x,y+20,frame.zoom,{color});}
+  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word'||f.kind==='notice')){const y=GROUND+depthOf(f)*DEPTH_SCALE,notice=f.kind==='notice',color=f.kind==='word'?'#367e8a':notice?'#d4822a':'#be4033',x=f.targetX??f.x,rx=notice?(f.markWidth??96)/2:55,rem=1-Math.max(0,Math.min(1,(f.age||0)/(f.flight||1.2)));ellipse(ctx,x,y,rx,9,color+'26');ctx.strokeStyle=color;ctx.lineWidth=3.5;ctx.beginPath();ctx.ellipse(x,y,rx,9,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#fff2c2cc';ctx.lineWidth=2.5;ctx.beginPath();ctx.ellipse(x,y,Math.max(8,rx*rem),Math.max(3,9*rem),0,0,Math.PI*2);ctx.stroke();label(ctx,notice?(f.markLabel||'落點'):f.kind==='word'?'落字':'落箭',x,y+20,frame.zoom,{color});}
  }
 }
 function drawActor(ctx,images,item,time,frame,options,poses){
@@ -289,8 +295,8 @@ function drawActor(ctx,images,item,time,frame,options,poses){
  const pose=f.mobKind?drawChallengeMob(ctx,images,shown.renderF??f,time,{shadow:false}):drawFighterArt(ctx,images,shown.renderF??f,time,{spit:shown.spit??0,impact:shown.impact??null,shadow:false});ctx.restore();
  poses.set(f,pose);options.onPose?.(f,pose);
  if(!f.mobKind){drawHumanGlyph(ctx,fighterGazeGlyph(f),p.x,p.y,f.face);const itemArt=f.item||(f.attack?.kind==='item_throw'&&!f.attack.fired?{kind:f.attack.itemKind,carryHand:f.attack.carryHand}:null);if(itemArt&&pose){const hand=itemArt.carryHand??chooseCarryHand(pose),a=heldItemAnchor({...f,item:itemArt},pose,hand);if(a)drawItem(ctx,images,itemArt.kind,a.x,a.y+depthOf(f)*DEPTH_SCALE,a.scale,a.rotation,a.flip);}}
- if(f.armor>0){ctx.strokeStyle='#5baab6';ctx.lineWidth=3;ctx.strokeRect(p.x-53,p.y-275,106,274);}
- if(f.slow>0){ctx.strokeStyle='#43858b';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(p.x,p.y-6,38,8,0,0,Math.PI*2);ctx.stroke();}
+ if(f.armor>0){ctx.save();ctx.strokeStyle='#67e5f2';ctx.fillStyle='#67e5f218';ctx.lineWidth=3.5;ctx.fillRect(p.x-53,p.y-275,106,274);ctx.strokeRect(p.x-53,p.y-275,106,274);ctx.restore();}
+ if(f.slow>0){const spin=(time*.006)%(Math.PI*2);ctx.save();ellipse(ctx,p.x,p.y-6,38,8,'#43858b33');ctx.strokeStyle='#43858b';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(p.x,p.y-6,38,8,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#9ef0f7';ctx.beginPath();ctx.arc(p.x,p.y-6,28,spin,spin+1.4);ctx.stroke();ctx.restore();}
  if(view)label(ctx,view.caption,view.x,p.y+18,frame.zoom,{color:view.color});
 }
 function drawClasp(ctx,images,items,poses){

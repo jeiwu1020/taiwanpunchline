@@ -134,3 +134,39 @@ test('portrait touch-pad centers halfway between edge and specials without alter
   assert.equal(landscapePad['grid-row'], '1/3');
   assert.equal(landscapePad['margin-bottom'], undefined);
 });
+
+test('airborne punch triggers flyingKick pose and all 7 fighters render special FX cleanly', async () => {
+  const {fighterPose} = await import('../dist/art-motion.mjs');
+  const {drawFighterArt, ART_FILES} = await import('../dist/art-render.mjs');
+  const {CAST} = await import('../dist/roster.mjs');
+  const air = fighterPose({type: 'wang', y: 310, supportY: 430, face: 1, attack: {kind: 'punch', age: 0.11, variant: 'left'}}, 110);
+  assert.ok(air.flyingKick > 0.9, 'airborne punch must present flying kick');
+  const wangCounterHit = fighterPose({
+    type: 'wang', y: 430, supportY: 430, face: 1,
+    attack: {kind: 'counter', age: 0.2, presentationOutcome: 'counter', outcomeAge: 0.08}
+  }, 200);
+  assert.ok(wangCounterHit.arm.wrist.x > 60, 'Wang counter hit follow-through must swing forward');
+
+  const images = Object.fromEntries(Object.keys(ART_FILES).map(k => [k, {key: k, width: 512, height: 512}]));
+  const ctx = new Proxy({}, {
+    get(target, key) {
+      if (key === 'createLinearGradient' || key === 'createRadialGradient') return () => ({addColorStop() {}});
+      if (key === 'measureText') return () => ({width: 12});
+      return () => {};
+    }
+  });
+  for (const [id, char] of Object.entries(CAST)) {
+    for (const move of char.moves) {
+      for (const age of [0.05, 0.25, 0.55, 0.95]) {
+        const fighter = {
+          type: id, y: 430, supportY: 430, face: 1, move: 0, guard: false, stun: 0, reaction: 0,
+          armor: id === 'ko' ? 0.5 : 0, slow: 0.3,
+          attack: {kind: move.kind, age, presentationOutcome: move.behavior === 'counter' ? 'counter' : move.behavior === 'calm' ? 'calm' : 'hit', outcomeAge: 0.08}
+        };
+        const pose = drawFighterArt(ctx, images, fighter, age * 1000, {shadow: true});
+        assert.ok(pose && Number.isFinite(pose.arm.wrist.x), `${id}:${move.kind}@${age} must render finite pose`);
+      }
+    }
+  }
+});
+

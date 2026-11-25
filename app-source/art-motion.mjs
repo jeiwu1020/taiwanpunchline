@@ -32,18 +32,25 @@ export function visualTime(kind,t){
 export function fighterPose(f,time=0,spit=0,impact=null){
  const kind=f.attack?.kind||'',actualAge=Math.max(0,f.attack?.age||0),age=visualTime(kind,actualAge),bob=f.y>=(f.supportY??430)-1?Math.sin(time*.006)*.6:0;
  let walking=!kind&&!f.stun?Math.sin(time*.014)*Math.min(1,Math.abs(f.move||0)):0;
- const variant=f.attack?.variant||'right',airFold=clamp(((f.supportY??430)-f.y)/50),crouch=ease(clamp(f.crouchBlend??(f.crouch?1:0))),phase=time*.014;
- let wrist={x:9+walking*7,y:-126.6+walking*4},farW={x:42-walking*14,y:-92-walking*9},farHand='palm',head='head',headAngle=0,roll=0,rollAngle=0,kick=0;
+ const variant=f.attack?.variant||'right',airbornePos=f.y<(f.supportY??430)-1,airFold=clamp(((f.supportY??430)-f.y)/50),crouch=ease(clamp(f.crouchBlend??(f.crouch?1:0))),phase=time*.014;
+ const outcome=f.attack?.presentationOutcome??f.performance?.outcome??(f.attack?.hit?'hit':'pending'),outcomeAge=f.attack?.outcomeAge??f.performance?.outcomeAge??0;
+ let wrist={x:9+walking*7,y:-126.6+walking*4},farW={x:42-walking*14,y:-92-walking*9},farHand='palm',head='head',headAngle=0,roll=0,rollAngle=0,kick=0,actionShift=0,actionDrop=0,actionSpread=0,flyingKick=0;
  if(kind==='punch'){
   const extend=age<.11?ease(age/.11):1-ease((age-.22)/.10);
   farHand='fist';
-  if(variant==='left'){wrist={x:mix(9,-7,extend),y:mix(-126.6,-151,extend)};farW={x:mix(42,102,extend),y:mix(-92,-138,extend)};}
+  if(airbornePos){
+   kick=extend;flyingKick=extend;actionShift=-6*extend;headAngle=.07*extend;
+   wrist={x:mix(9,-18,extend),y:mix(-126.6,-156,extend)};farW={x:mix(42,68,extend),y:mix(-92,-162,extend)};
+  }else if(variant==='left'){wrist={x:mix(9,-7,extend),y:mix(-126.6,-151,extend)};farW={x:mix(42,102,extend),y:mix(-92,-138,extend)};actionShift=5*extend;}
   else if(variant==='kick'){kick=extend;wrist={x:mix(9,-14,extend),y:mix(-126.6,-155,extend)};farW={x:mix(42,52,extend),y:mix(-92,-155,extend)};}
-  else{wrist={x:mix(9,68,extend),y:mix(-126.6,-135,extend)};farW={x:mix(42,49,extend),y:mix(-92,-158,extend)};}
+  else{wrist={x:mix(9,68,extend),y:mix(-126.6,-135,extend)};farW={x:mix(42,49,extend),y:mix(-92,-158,extend)};actionShift=7*extend;}
  }else if(f.guard||kind==='counter'){
   const lift=f.guard?1:ease(age/.10)*(1-ease((age-.68)/.12));
-  farHand=kind==='counter'?'palm':'fist';farW={x:mix(42,kind==='counter'?30:49,lift),y:mix(-92,kind==='counter'?-194:-158,lift)};
+  const strike=kind==='counter'&&outcome==='counter'?ease(outcomeAge/.07)*(1-ease((outcomeAge-.14)/.14)):0;
+  farHand=kind==='counter'&&strike===0?'palm':'fist';
+  farW={x:mix(42,kind==='counter'?30:49,lift),y:mix(-92,kind==='counter'?-194:-158,lift)};
   wrist={x:mix(9,23,lift),y:mix(-126.6,-171,lift)};headAngle=kind==='counter'?-.05*lift:0;
+  if(strike>0){wrist={x:mix(wrist.x,76,strike),y:mix(wrist.y,-148,strike)};farW={x:mix(farW.x,22,strike),y:mix(farW.y,-146,strike)};actionShift=16*strike;actionDrop=6*strike;headAngle=.09*strike;}
  }
  else if(kind==='heal'||spit>0){
   farW={x:spit>0?58:52,y:spit>0?-102:-90};
@@ -54,20 +61,28 @@ export function fighterPose(f,time=0,spit=0,impact=null){
   }else{
    const lift=age<.25?ease(age/.25):1-ease((age-.83)/.17);
    wrist={x:mix(9,38.4,lift),y:mix(-126.6,-171,lift)};head='sip';headAngle=-.035*lift;
+   if(age>=.98&&outcome==='heal')actionDrop=3*ease((age-.98)/.12)*(1-ease((age-1.10)/.10));
   }
- }else if(kind==='coin'){const reach=ease(age/.13)*(1-ease((age-.25)/.17));wrist={x:mix(9,27,reach),y:mix(-126.6,-217,reach)};farW={x:mix(42,55,reach),y:mix(-92,-151,reach)};}
+ }else if(kind==='coin'){
+  const reach=ease(age/.13)*(1-ease((age-.25)/.17));
+  wrist={x:mix(9,27,reach),y:mix(-126.6,-217,reach)};farW={x:mix(42,80,reach),y:mix(-92,-164,reach)};
+  actionShift=8*reach;headAngle=-.06*reach;
+ }
  else if(kind==='shout'){const reach=ease(age/.12)*(1-ease((age-.42)/.18));wrist={x:mix(9,40,reach),y:mix(-126.6,-135,reach)};farW={x:mix(42,75,reach),y:mix(-92,-155,reach)};head='shock';headAngle=-.035;}
  else if(kind==='rush'){
   // The cutout threshold is roll>.6. Align that threshold with real lowProfile.
   roll=ease((actualAge-(COMBAT.rush.start-.0567069))/.1)*(1-ease((actualAge-(COMBAT.rush.end-.0432931))/.1));
   rollAngle=clamp((age-.12)/.42)*Math.PI*4;head='shock';
+  const coil=actualAge<.16?ease(actualAge/.16):actualAge>=.50?1-ease((actualAge-.50)/.22):0;
+  wrist={x:mix(9,24,coil),y:mix(-126.6,-108,coil)};farW={x:mix(42,56,coil),y:mix(-92,-112,coil)};
+  actionDrop=14*coil;actionShift=actualAge>=.50?10*coil:-4*coil;actionSpread=12*coil;headAngle=actualAge<.16?.16*coil:-.10*coil;
  }
- const rosterAction=rosterMotion(kind,age,{outcome:f.attack?.presentationOutcome??f.performance?.outcome??(f.attack?.hit?'hit':'pending'),outcomeAge:f.attack?.outcomeAge??f.performance?.outcomeAge??0});if(rosterAction){wrist=rosterAction.wrist;farW=rosterAction.farW;headAngle=rosterAction.headAngle;walking=rosterAction.gait;farHand=rosterAction.farHand||'fist';}
+ const rosterAction=rosterMotion(kind,age,{outcome,outcomeAge});if(rosterAction){wrist=rosterAction.wrist;farW=rosterAction.farW;headAngle=rosterAction.headAngle;walking=rosterAction.gait;farHand=rosterAction.farHand||'fist';}
  if(kind==='su_rush'){
   let gait=0;for(const [i,start] of [.12,.32,.52].entries())if(actualAge>=start&&actualAge<=start+.1)gait=Math.sin((actualAge-start)/.1*Math.PI)*(i%2?-1:1)*.85;
   walking=gait;wrist={x:19+gait*21,y:-156+gait*14};farW={x:59-gait*17,y:-144-gait*12};
   const brake=ease((actualAge-.69)/.07)*(1-ease((actualAge-.84)/.12));
-  if(rosterAction){rosterAction.gait=gait;rosterAction.drop=(5+Math.abs(gait)*3)*(1-ease((actualAge-.84)/.12));rosterAction.shift=8*(1-ease((actualAge-.69)/.08))-8*brake;rosterAction.footSpread=13*brake;headAngle=-.10*brake+.055*(1-brake);wrist.x-=14*brake;farW.x+=8*brake;}
+  if(rosterAction){rosterAction.gait=gait;rosterAction.drop=(7+Math.abs(gait)*4)*(1-ease((actualAge-.84)/.12));rosterAction.shift=12*(1-ease((actualAge-.69)/.08))-9*brake;rosterAction.footSpread=16*brake;headAngle=-.12*brake+.08*(1-brake);wrist.x-=14*brake;farW.x+=8*brake;}
  }
  if(airFold>0&&!kind){wrist={x:9+airFold*8,y:-126.6-airFold*20};farW={x:42+airFold*12,y:-92-airFold*24};}
  if(crouch>0){if(!(spit>0&&impact?.wrist))wrist={x:mix(wrist.x,23,crouch),y:mix(wrist.y,-163,crouch)};farW={x:mix(farW.x,49,crouch),y:mix(farW.y,-153,crouch)};farHand='fist';}
@@ -75,12 +90,13 @@ export function fighterPose(f,time=0,spit=0,impact=null){
  const capture=(f.grabPose||0)>0||(f.grabbedPose||0)>0;
  if(capture){wrist={x:33,y:-133};farW={x:42,y:-153};walking=0;if(rosterAction){rosterAction.hand='capture';rosterAction.shift=0;rosterAction.drop=0;}}
  const shoulder={x:-28.8,y:-142.2+bob-(rosterAction?.shoulderLift||0)};wrist.y+=bob;
- const airborne=f.y<(f.supportY??430)-1,landing=Math.sin(Math.PI*clamp((f.land||0)/.18)),bodyY=42*crouch+5*landing+(rosterAction?.drop||0)-(walking?Math.abs(Math.sin(phase))*2:0),bodyX=3*crouch-5*kick+(rosterAction?.shift||0);
- const nearAnkle={x:mix(-24+walking*12-(rosterAction?.footSpread||0),52,kick),y:mix(-8-(airborne?22*airFold:Math.max(0,walking)*10),-35,kick)};
- const farAnkle={x:24-walking*12+(rosterAction?.footSpread||0),y:-8-(airborne?15*airFold:Math.max(0,-walking)*10)};
+ const airborne=airbornePos,landing=Math.sin(Math.PI*clamp((f.land||0)/.18)),bodyY=42*crouch+5*landing+actionDrop+(rosterAction?.drop||0)-(walking?Math.abs(Math.sin(phase))*2:0),bodyX=3*crouch-5*kick+actionShift+(rosterAction?.shift||0);
+ const footSpread=actionSpread+(rosterAction?.footSpread||0);
+ const nearAnkle={x:mix(-24+walking*12-footSpread,flyingKick?66:52,kick),y:mix(-8-(airborne?22*airFold:Math.max(0,walking)*10),flyingKick?-22:-35,kick)};
+ const farAnkle={x:mix(24-walking*12+footSpread,-8,flyingKick),y:-8-(airborne?15*airFold:Math.max(0,-walking)*10)-16*flyingKick};
  const legs={near:solveLeg({x:-16+bodyX,y:-78+bodyY+20*kick},nearAnkle),far:solveLeg({x:15+bodyX,y:-78+bodyY},farAnkle)};
  farW.y+=bob;
- return {rosterAction,kind,age,actualAge,capture,variant,bob,walking,crouch,bodyY,bodyX,kick,head,headAngle,roll,rollAngle,spit,arm:solveArm(shoulder,wrist),farArm:solveArm({x:23,y:-140+bob-(rosterAction?.shoulderLift||0)},farW,42,42),farHand,legs,airborne};
+ return {rosterAction,kind,age,actualAge,capture,variant,bob,walking,crouch,bodyY,bodyX,kick,flyingKick,outcome,outcomeAge,head,headAngle,roll,rollAngle,spit,arm:solveArm(shoulder,wrist),farArm:solveArm({x:23,y:-140+bob-(rosterAction?.shoulderLift||0)},farW,42,42),farHand,legs,airborne};
 }
 export function arrowPresentation(p){
  const age=Math.max(0,p.age||0),face=p.vx<0?-1:1,u=clamp(age/1.2),start=face<0?Math.PI:0,target=Math.atan2(p.vy,p.vx);
