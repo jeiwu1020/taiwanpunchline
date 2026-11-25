@@ -264,3 +264,14 @@
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] .challenge-launch-actions button{min-height:40px;padding:5px 10px;font-size:15px}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] :is(.challenge-warning,.challenge-status){grid-column:1/-1;margin:0}
 .challenge-overview-v4[data-compact="true"][data-layout="landscape"][data-view="chapter"] [data-action="review-opening"]{grid-column:1/-1;min-height:36px;padding:6px 10px;font-size:12px}
+.challenge-branches .challenge-node.has-perk-unlocked{border-color:#c67d0e;background:linear-gradient(135deg,#fff8d2,#ffe28a);box-shadow:3px 3px 0 #8a4b00}
+.ability-perk-note{grid-column:1/-1;margin:2px 0 0;padding:6px 8px;border:1.5px dashed #9d6812;border-radius:5px;background:#fff6d6;font-size:12px;line-height:1.45;color:#523400}
+.ability-perk-note strong{display:block;font-size:12px;color:#8e4b00;margin-bottom:2px}
+.ability-perk-note.is-unlocked{border-style:solid;border-color:#c67d0e;background:#ffea9a;color:#3d2400}
+.ability-perk-banner{margin:10px 0 12px;padding:10px 12px;border:2px dashed #9d6812;border-radius:7px;background:#fff6d6;color:#4a3000}
+.ability-perk-banner.is-unlocked{border-style:solid;border-color:#c67d0e;background:linear-gradient(135deg,#fff5bf,#ffd970);box-shadow:3px 3px 0 #8a4b00}
+.ability-perk-banner strong{display:block;font-size:15px;margin:4px 0 2px;color:#6e3800}
+.ability-perk-banner p{margin:0;font-size:13px;line-height:1.5}
+.ability-perk-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:900;background:#162e35;color:#ffe694}
+.ability-perk-banner.is-unlocked .ability-perk-pill{background:#b84018;color:#fff7d6}
+

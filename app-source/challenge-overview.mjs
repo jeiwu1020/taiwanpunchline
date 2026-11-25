@@ -84,5 +84,6 @@ try{
  app.querySelector('#start')?.addEventListener('click',()=>location.assign('/?entryMenu=1'));
  app.querySelector('#mode-battle')?.addEventListener('click',()=>location.assign('/?entryMenu=1&mode=battle'));
  app.querySelector('#mode-training')?.addEventListener('click',()=>location.assign('/?entryMenu=1&mode=training'));
+ app.querySelector('#mode-brawl')?.addEventListener('click',()=>location.assign(new URL('/preview/finale/?brawl=1',location.href).href));
 }catch{showLoadFailure();}
 window.addEventListener('pagehide',()=>ui?.destroy(),{once:true});

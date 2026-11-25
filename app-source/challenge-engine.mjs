@@ -7,13 +7,14 @@ import {CHALLENGE_SECTIONS,MOB_TYPES,CHALLENGE_DIFFICULTY} from './challenge-con
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const alive=f=>f.hp>0;
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;
+const hasPerk=(f,type)=>!!(f?.perk?.active&&(!type||f.type===type));
 /** A separate world-space simulation. Duel mode remains completely untouched. */
 export class ChallengeRoute {
  constructor(character='wang',difficulty='easy',rng=Math.random,options={}){
   this.sectionIndex=options.section??0;this.section=CHALLENGE_SECTIONS[this.sectionIndex];
   if(!this.section)throw new RangeError('Unknown route section');
   this.duel=new Duel(character,difficulty,rng,'han',{playerAssist:options.playerAssist??null,playerStats:options.stats});
-  this.player=this.duel.player;this.player.x=140;
+  this.player=this.duel.player;this.player.x=140;this.player.dizzyStar=0;this.player.armorCount=0;
   this.player.hp=clamp(options.carry?.hp??this.player.maxHp,0,this.player.maxHp);
   this.player.rally=clamp(options.carry?.rally??0,0,100);
   if(options.carry?.assist)this.player.assist={...this.player.assist,...options.carry.assist,active:false};
@@ -69,28 +70,33 @@ export class ChallengeRoute {
    this.enemies.push(f);this.events.push({type:'mobSpawn',f});
   });
  }
- hit(source,target,damage,knock=25,{projectile=false,ignoreGuard=false,category='basic',impact='punch',assist=null,origin=source,noDefense=false,contact=true,height='mid',castId=null}={}){
+ hit(source,target,damage,knock=25,{projectile=false,ignoreGuard=false,category='basic',impact='punch',assist=null,origin=source,noDefense=false,contact=true,height='mid',castId=null,guardCost=1}={}){
   if(!alive(target))return;
   const dir=Math.sign(target.x-origin.x)||origin.face||1,forward=(origin.x-target.x)*target.face>=0;
   const normal=!ignoreGuard&&!noDefense;
   if(target===this.player&&target.counter>0&&normal&&forward&&contact&&!projectile){
    const kind=target.attack?.kind??'counter',rule=COMBAT[kind]?.behavior==='counter'?COMBAT[kind]:COMBAT.counter;
+   const wangPerk=kind==='counter'&&hasPerk(target,'wang');
    target.counter=0;target.attack=null;target.performance=null;this.events.push({type:'counter',f:target,kind});
-   this.hit(target,source,rule.damage,rule.knock,{category:'special',impact:kind,noDefense:true});
+   if(wangPerk)this.events.push({type:'perkTrigger',f:target,kind:'counter',label:'黃金過肩反擊！'});
+   this.hit(target,source,wangPerk?Math.round(rule.damage*1.3):rule.damage,rule.knock+(wangPerk?10:0),{category:'special',impact:kind,noDefense:true});
    if(rule.retreat)target.x=clamp(target.x-target.face*rule.retreat,50,this.worldWidth-55);return;
   }
   if(target===this.player&&target.reject>0&&normal&&forward){target.reject=0;this.events.push({type:'reject',f:target});return;}
   const defense=target===this.player?this.growth.defenseMultiplier:1;
   const offense=source===this.player?this.attackMultiplier*(this.growth[category+'Multiplier']??1):this.tuning.damage;
+  let baseDamage=damage;
+  if(source===this.player&&!assist&&category==='basic'&&impact==='punch'&&source.brace>0&&hasPerk(source,'ko')){baseDamage*=1.2;source.brace=0;this.events.push({type:'perkTrigger',f:source,kind:'ko_resolve',label:'硬扛反敲 +20%！'});}
   const blocking=target.guard&&normal&&grounded(target)&&forward;
-  let amount=blocking?2:damage*offense,armored=false;
-  if(blocking){knock=5;this.stats.blocks++;target.guardPips=Math.max(0,target.guardPips-1);if(target.guardPips===0){target.guard=false;target.guardBroken=.38;this.events.push({type:'guardBreak',f:target});}}
-  if(!blocking&&normal&&target.armor>0){amount=Math.round(amount*.6);target.armor=0;target.brace=0;knock=0;armored=true;this.events.push({type:'armorAbsorb',f:target,amount});}
-  else if(!blocking&&normal&&target.calm>0){amount=Math.min(4,amount);target.calm=0;knock=COMBAT.chen_calm.retreat;this.events.push({type:'calm',f:target});}
+  let amount=blocking?2:baseDamage*offense,armored=false;
+  if(blocking){knock=5;this.stats.blocks++;target.guardPips=Math.max(0,target.guardPips-(guardCost??1));if(target.guardPips===0){target.guard=false;target.guardBroken=.38;this.events.push({type:'guardBreak',f:target});}}
+  if(!blocking&&normal&&target.armor>0){amount=Math.round(amount*.6);if((target.armorCount||1)>1){target.armorCount-=1;}else{target.armor=0;target.armorCount=0;if(!hasPerk(target,'ko'))target.brace=0;}knock=0;armored=true;this.events.push({type:'armorAbsorb',f:target,amount});}
+  else if(!blocking&&normal&&target.calm>0){amount=Math.min(4,amount);target.calm=0;knock=COMBAT.chen_calm.retreat;if(hasPerk(target,'chen')){const healed=Math.min(4,target.maxHp-target.hp);target.hp+=healed;if(healed>0)this.events.push({type:'heal',f:target,amount:healed});this.events.push({type:'perkTrigger',f:target,kind:'chen_calm',label:'初衷回春 +4！'});}this.events.push({type:'calm',f:target});}
   amount*=defense;
   const hpBefore=target.hp;target.hp=Math.max(0,target.hp-amount);amount=hpBefore-target.hp;
   if(target===this.player&&target.assist.helper&&target.assist.used){const needed=target.maxHp*ASSIST_RECHARGE_RATIO;target.assist.damageTaken=Math.min(needed,(target.assist.damageTaken??0)+amount);target.assist.charge=target.assist.damageTaken/needed*100;if(target.assist.damageTaken+Number.EPSILON*target.maxHp*8>=needed){target.assist.damageTaken=needed;target.assist.charge=100;target.assist.used=false;}}target.flash=.15;target.reaction=.24;target.reactionKind='hit';target.x=clamp(target.x+dir*knock,50,this.worldWidth-55);
   if(!blocking&&!armored){target.stun=.16;target.attack=null;target.warning=0;}
+  if(impact==='ma_handshake'&&!assist&&source===this.player&&hasPerk(source,'ma')){target.dizzyStar=1.25;target.slow=Math.max(target.slow??0,1.4);target.stun=Math.max(target.stun??0,.55);this.events.push({type:'perkTrigger',f:source,kind:'ma_handshake',label:'眼冒金星！'});}
   if(source===this.player){if(!blocking&&category!=='rally')this.player.rally=clamp(this.player.rally+Math.min(25,amount*2.5),0,100);this.stats.hits++;this.stats.damage+=amount;if(category==='special'||category==='assist')this.stats.specialHits++;}
   this.events.push({type:blocking?'block':'hit',f:source,from:source,to:target,source,damage:amount,amount,combo:1,impact,assist:!!assist,assistId:assist?.id,helper:assist?.helper});
   if(!alive(target)){
@@ -111,26 +117,40 @@ export class ChallengeRoute {
   }
   for(const s of rule.steps??[])if(a.age>=s.start&&a.age<=s.end)p.x+=p.face*s.speed*dt;
   if(crossed(rule.start??.2)){
-   if(rule.behavior==='heal'){const before=p.hp;p.hp=Math.min(p.maxHp,p.hp+(rule.heal??10));this.events.push({type:'heal',f:p,amount:p.hp-before});}
-   else if(['counter','reject','calm','armor'].includes(rule.behavior)){p[rule.behavior]=rule.window??.5;if(rule.behavior==='armor')this.events.push({type:'armor',f:p});}
-   else if(rule.behavior==='queue'){this.obstacles.push({owner,x:p.x+p.face*rule.range,y:p.supportY??GROUND,life:rule.life,damage:rule.damage,knock:rule.knock,hits:new Set(),dead:false});this.events.push({type:'queuePlant',f:owner});}
+   if(rule.behavior==='heal'){const wangPerk=!assist&&hasPerk(p,'wang'),beforeHp=p.hp;p.hp=Math.min(p.maxHp,p.hp+(rule.heal??10)+(wangPerk?4:0));if(wangPerk){p.armor=.9;p.armorCount=1;this.events.push({type:'armor',f:p});this.events.push({type:'perkTrigger',f:p,kind:a.kind,label:'金鐘鐵胃！'});}this.events.push({type:'heal',f:p,amount:p.hp-beforeHp});}
+   else if(['counter','reject','calm','armor'].includes(rule.behavior)){const wangPerk=!assist&&a.kind==='counter'&&hasPerk(p,'wang'),koPerk=!assist&&a.kind==='ko_resolve'&&hasPerk(p,'ko');p[rule.behavior]=(rule.window??.5)+(wangPerk?.08:koPerk?.45:0);if(rule.behavior==='armor'){p.armorCount=koPerk?2:1;p.brace=koPerk?1.8:0;this.events.push({type:'armor',f:p});if(koPerk)this.events.push({type:'perkTrigger',f:p,kind:a.kind,label:'雙層鋼鐵霸體！'});}}
+   else if(rule.behavior==='queue'){const huangPerk=!assist&&a.kind==='huang_queue'&&hasPerk(p,'huang');this.obstacles.push({owner,x:p.x+p.face*rule.range,y:p.supportY??GROUND,life:rule.life+(huangPerk?.6:0),damage:rule.damage+(huangPerk?4:0),knock:rule.knock,guardCost:huangPerk?2:1,perk:huangPerk,hits:new Set(),dead:false});this.events.push({type:'queuePlant',f:owner});if(huangPerk)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'鋼鐵人龍！'});}
    else if(['projectile','lob','word'].includes(rule.behavior)){
     const lob=rule.behavior!=='projectile';const target=this.enemy;
-    this.projectiles.push({owner,assistId:assist?.id,category:assist?'assist':'special',slow:rule.slow??0,travel:rule.travel??0,originX:p.x+p.face*50,kind:rule.projectileKind??(rule.behavior==='word'?'word':a.kind),x:p.x+p.face*50,y:p.y-252,vx:p.face*(rule.speed??400),age:0,life:rule.life??1.5,damage:rule.damage??12,knock:rule.knock??30,face:p.face,direction:p.face,travelDir:p.face,gravity:0,vy:0,radius:13,phase:lob?'lob':'outbound',hits:new Set(),lob,targetX:clamp(target.hp>0?target.x:p.x+p.face*240,50,this.worldWidth-50),flight:rule.flight??.8,dead:false});
+    const hanCoin=!assist&&a.kind==='coin'&&hasPerk(p,'han'),hanArrow=!assist&&a.kind==='arrow'&&hasPerk(p,'han'),chenDream=!assist&&a.kind==='chen_dream'&&hasPerk(p,'chen'),koName=!assist&&a.kind==='ko_name'&&hasPerk(p,'ko');
+    const proj={owner,assistId:assist?.id,category:assist?'assist':'special',slow:(rule.slow??0)+(koName?.55:0),travel:(rule.travel??0)+(chenDream?120:0),originX:p.x+p.face*50,kind:rule.projectileKind??(rule.behavior==='word'?'word':a.kind),x:p.x+p.face*50,y:p.y-252,vx:p.face*((rule.speed??400)*(chenDream?1.32:1)),age:0,life:rule.life??1.5,damage:hanCoin?Math.round((rule.damage??12)*1.15):hanArrow?(rule.damage??12)+4:chenDream?(rule.damage??12)+3:(rule.damage??12),returnDamage:(rule.returnDamage??COMBAT.chen_dream.returnDamage)+(chenDream?3:0),knock:rule.knock??30,face:p.face,direction:p.face,travelDir:p.face,gravity:0,vy:0,radius:hanCoin?19:13,phase:lob?'lob':'outbound',hits:new Set(),lob,targetX:clamp(target.hp>0?target.x:p.x+p.face*240,50,this.worldWidth-50),targetRadius:hanArrow?64:koName?62:undefined,markWidth:hanArrow?148:koName?132:undefined,flight:rule.flight??.8,perk:hanCoin||hanArrow||chenDream||koName,dead:false};
+    this.projectiles.push(proj);
+    if(hanCoin){
+     this.projectiles.push({...proj,x:proj.x-p.face*34,y:proj.y+22,vx:proj.vx*.96,damage:Math.max(1,Math.round((rule.damage??11)*.55)),radius:11,miniCoin:true,perk:true,hits:new Set()});
+     this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'發財雙金幣！'});
+    }else if(hanArrow)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨型穿雲箭！'});
+    else if(chenDream)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'超音速紙機！'});
+    else if(koName)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨字重緩！'});
    }
   }
   const strikes=rule.hits??[{start:rule.start??.1,end:rule.end??((rule.start??.1)+.14),damage:rule.damage??10,knock:rule.knock??25,height:rule.height}];
   if(['melee','grab','combo','rush','advance'].includes(rule.behavior))strikes.forEach((s,i)=>{
    if(a.age<s.start||before>(s.end??s.start+.12))return;
-   if(rule.erase){for(const q of this.projectiles)if(q.owner!==owner&&!q.dead&&!q.lob&&['arrow','word','notice','paper'].includes(q.kind)&&this.attackSharesLane(p,q)&&(q.x-p.x)*p.face>=0&&Math.abs(q.x-p.x)<rule.range&&Math.abs(q.y-(p.y-252))<55){q.dead=true;this.events.push({type:'erase',f:owner,p:q});break;}}
+   const suRushPerk=!assist&&a.kind==='su_rush'&&hasPerk(p,'su'),suShoutPerk=!assist&&a.kind==='su_shout'&&hasPerk(p,'su'),maCoughPerk=!assist&&a.kind==='ma_cough'&&hasPerk(p,'ma');
+   const range=(rule.range??130)+(suShoutPerk?28:maCoughPerk?30:0);
+   if(suRushPerk&&i===0&&grounded(p)){
+    for(const q of this.obstacles)if(!q.dead&&q.owner!==owner&&(q.x-p.x)*p.face>=0&&Math.abs(q.x-p.x)<range){q.dead=true;this.events.push({type:'queueBreak',x:q.x,y:q.y,f:owner,obstacle:q});this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'電火球碎障！'});}
+   }
+   if(rule.erase){let erasedAny=false;for(const q of this.projectiles)if(q.owner!==owner&&!q.dead&&!q.lob&&['arrow','word','notice','paper'].includes(q.kind)&&this.attackSharesLane(p,q)&&(q.x-p.x)*p.face>=0&&Math.abs(q.x-p.x)<range&&Math.abs(q.y-(p.y-252))<(maCoughPerk?120:55)){q.dead=true;this.events.push({type:'erase',f:owner,p:q});erasedAny=true;if(!maCoughPerk)break;}if(maCoughPerk&&erasedAny)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'清嗓全掃！'});}
+   if(suShoutPerk&&i===0)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'三格破防爆音！'});
    for(const e of this.enemies){const key=`${i}:${e.id}`,dx=(e.x-p.x)*a.routeDirection;
     const height=s.height??rule.height??'mid';
-    if(!alive(e)||a.routeHits.has(key)||dx<0||dx>=(rule.range??130))continue;
+    if(!alive(e)||a.routeHits.has(key)||dx<0||dx>=range)continue;
     if((height==='low'||height==='grab')&&(!grounded(p)||!grounded(e)||Math.abs(p.y-e.y)>=35))continue;
     if(height==='high'&&e.lowProfile)continue;
     if(Math.abs(p.y-e.y)>=(rule.antiAir?250:140))continue;
     if(rule.behavior==='grab'){p.grabPose=.22;e.grabbedPose=.22;this.events.push({type:'capture',from:owner,to:e});}
-    a.routeHits.add(key);this.hit(owner,e,rule.antiAir&&!grounded(e)?(rule.airDamage??s.damage):s.damage,s.knock,{impact:a.kind,assist,origin:p,contact:!!rule.contact,height,ignoreGuard:rule.behavior==='grab',category:assist?'assist':a.kind==='punch'?'basic':'special'});
+    a.routeHits.add(key);this.hit(owner,e,(rule.antiAir&&!grounded(e)?(rule.airDamage??s.damage):s.damage)+(suRushPerk&&i===2?3:0),s.knock+(suRushPerk&&i===2?10:0),{impact:a.kind,assist,origin:p,contact:!!rule.contact,height,ignoreGuard:rule.behavior==='grab',guardCost:suShoutPerk?3:(rule.guardCost??1),category:assist?'assist':a.kind==='punch'?'basic':'special'});
    }
   });
   if(a.age>=(rule.duration??.65)){p.attack=null;p.performance=null;}
@@ -168,7 +188,8 @@ export class ChallengeRoute {
  tick(dt,input){
   this.elapsed+=dt;this.spawn();const p=this.player,oldX=p.x;
   for(const f of [p,...this.enemies]){
-   for(const key of ['stun','flash','reaction','counter','reject','calm','dropThrough','slow','grabPose','grabbedPose','guardBroken','land'])f[key]=Math.max(0,(f[key]??0)-dt);
+   for(const key of ['stun','flash','reaction','counter','reject','calm','armor','brace','dropThrough','slow','dizzyStar','grabPose','grabbedPose','guardBroken','land'])f[key]=Math.max(0,(f[key]??0)-dt);
+   if((f.armor??0)<=0)f.armorCount=0;
    if(!f.guard&&f.guardBroken<=0){f.guardRegen+=dt;if(f.guardRegen>=1){f.guardPips=Math.min(3,f.guardPips+1);f.guardRegen=0;}}
    f.cooldowns=f.cooldowns.map(v=>Math.max(0,v-dt));f.basicTime=Math.max(0,f.basicTime-dt);
    this.physics(f,dt);
@@ -218,18 +239,18 @@ export class ChallengeRoute {
  }
  updateEffects(dt){
   const p=this.player;
-  for(const q of this.obstacles){q.life-=dt;for(const e of this.enemies)if(alive(e)&&grounded(e)&&Math.abs(e.y-q.y)<35&&Math.abs(e.x-q.x)<45&&!q.hits.has(e.id)){q.hits.add(e.id);this.hit(q.owner,e,q.damage,q.knock,{category:'special',impact:'huang_queue',contact:false,origin:q});}}
+  for(const q of this.obstacles){q.life-=dt;for(const e of this.enemies)if(alive(e)&&grounded(e)&&Math.abs(e.y-q.y)<35&&Math.abs(e.x-q.x)<45&&!q.hits.has(e.id)){q.hits.add(e.id);this.hit(q.owner,e,q.damage,q.knock,{category:'special',impact:'huang_queue',contact:false,origin:q,guardCost:q.guardCost??1});}}
   this.obstacles=this.obstacles.filter(q=>!q.dead&&q.life>0);
   for(const q of this.projectiles){
    if(q.dead)continue;
    q.age+=dt;const old=q.x;q.x+=q.vx*dt;
-   if(q.kind==='dream'&&!q.lob&&q.phase==='outbound'&&Math.abs(q.x-q.originX)>=q.travel){q.phase='return';q.vx=-q.vx;q.hits.clear();q.damage=COMBAT.chen_dream.returnDamage;}
+   if(q.kind==='dream'&&!q.lob&&q.phase==='outbound'&&Math.abs(q.x-q.originX)>=q.travel){q.phase='return';q.vx=-q.vx;q.hits.clear();q.damage=q.returnDamage??COMBAT.chen_dream.returnDamage;}
    if(q.lob){q.x=q.targetX;q.y=GROUND-220*(1-q.age/q.flight);if(q.age<q.flight)continue;}
    for(const f of q.owner===p?this.enemies:[p]){
     if(!alive(f)||q.hits.has(f.id))continue;
     const targetGround=q.groundOnly?grounded(f)&&(f.supportY??GROUND)>=GROUND-1:f.y>GROUND-85;
     const touches=q.lob?Math.abs(f.x-q.targetX)<(q.targetRadius??75)&&targetGround: f.x>=Math.min(old,q.x)-32&&f.x<=Math.max(old,q.x)+32&&q.y+13>=f.y-(f.crouch?175:277)&&q.y-13<=f.y-28;
-    if(touches){if(f.reject>0&&(q.owner.x-f.x)*f.face>=0&&['coin','dream'].includes(q.kind)){f.reject=0;q.owner=f;q.vx=-q.vx;q.direction=f.face;q.reflected=true;q.hits.clear();q.hits.add(f.id);this.events.push({type:'reflect',f,p:q});break;}const guarded=f.guard&&grounded(f)&&(q.owner.x-f.x)*f.face>=0;q.hits.add(f.id);this.hit(q.owner,f,q.damage,q.knock,{projectile:true,contact:false,impact:q.kind,assist:this.assists.find(a=>a.id===q.assistId),category:q.category??'special'});if(q.slow&&!guarded){f.slow=q.slow;this.events.push({type:'slow',f});}q.dead=guarded||q.kind!=='dream';break;}
+    if(touches){if(f.reject>0&&(q.owner.x-f.x)*f.face>=0&&['coin','dream'].includes(q.kind)){f.reject=0;q.owner=f;q.vx=-q.vx;q.direction=f.face;q.reflected=true;if(hasPerk(f,'huang')){q.damage=Math.round(q.damage*1.6);q.vx*=1.25;q.perk=true;this.events.push({type:'perkTrigger',f,kind:'huang_debt',label:'加倍奉還！'});}q.hits.clear();q.hits.add(f.id);this.events.push({type:'reflect',f,p:q});break;}const guarded=f.guard&&grounded(f)&&(q.owner.x-f.x)*f.face>=0;q.hits.add(f.id);this.hit(q.owner,f,q.damage,q.knock,{projectile:true,contact:false,impact:q.kind,assist:this.assists.find(a=>a.id===q.assistId),category:q.category??'special'});if(q.slow&&!guarded){f.slow=Math.max(f.slow??0,q.slow);this.events.push({type:'slow',f});}q.dead=guarded||q.kind!=='dream';break;}
    }
    if(q.lob||q.age>q.life)q.dead=true;
   }

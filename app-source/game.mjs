@@ -4,6 +4,7 @@ import {createBootArtLoader} from './boot-art-loader.mjs?v=chapter-presentation-
 import {mountCompactToolbar} from './compact-toolbar.mjs?v=chapter-presentation-20261117-r1';
 import {planSimulationFrame} from './simulation-frame.mjs?v=chapter-presentation-20261117-r1';
 import {SFX_FREQUENCIES} from './sfx-frequencies.mjs?v=chapter-presentation-20261117-r1';
+import {playProceduralSfx} from './sfx-synth.mjs?v=chapter-presentation-20261117-r1';
 import {challengeOpponentStats} from './challenge-opponent-policy.mjs?v=chapter-presentation-20261117-r1';
 import {mountChallengePreparation,mountChallengeRecovery} from './challenge-preparation.mjs?v=chapter-presentation-20261117-r1';
 import {createCampaignHandoff} from './preview/campaign/navigation.mjs?v=chapter-presentation-20261117-r1';
@@ -196,7 +197,7 @@ function drainVoiceCues(){if(!sound||!voiceEnabled||duel.status!=='active'){voic
 $('#help-dialog').addEventListener('close',()=>{stopEffects();stopVoice();moveDemo?.stop();settingsUI?.close();clearHold();syncBattleSurface();syncMusic();});
 
 function ensureAudio(){audio??=new(window.AudioContext||window.webkitAudioContext)();if(!sfxMasterGain){sfxMasterGain=audio.createGain();sfxMasterGain.connect(audio.destination);}sfxMasterGain.gain.setValueAtTime(!sound||preferences.sfxMuted?0:preferences.sfxVolume,audio.currentTime);voiceChannels.connectAudio(audio);const pending=audio.resume();pending?.catch?.(()=>{});}
-function sfx(kind){if(!sound||preferences.sfxMuted||preferences.sfxVolume<=0)return false;try{ensureAudio();const t=audio.currentTime,o=audio.createOscillator(),g=audio.createGain();o.type=kind==='hit'?'square':'triangle';const freq=SFX_FREQUENCIES[kind]||200;o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(kind==='heal'?1000:freq*.45,t+.13);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.045,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+.15);o.connect(g);g.connect(sfxMasterGain);o.onended=()=>{o.disconnect();g.disconnect();};o.start(t);o.stop(t+.17);return true;}catch{sound=false;stopEffects();stopVoice();$('#sound').textContent='♪ 聲音關';$('#sound').setAttribute('aria-pressed','false');return false;}}
+function sfx(kind){if(!sound||preferences.sfxMuted||preferences.sfxVolume<=0)return false;try{ensureAudio();return playProceduralSfx(audio,sfxMasterGain,kind);}catch{sound=false;stopEffects();stopVoice();$('#sound').textContent='♪ 聲音關';$('#sound').setAttribute('aria-pressed','false');return false;}}
 let effectEpoch=0;const effectTimers=new Set();
 let crowdBufferPromise=null;const crowdSources=new Set();
 async function playCrowdCheer(){
@@ -739,6 +740,7 @@ window.addEventListener('pageshow',event=>{if(event.persisted)window.location.re
 window.addEventListener('storage',event=>{if(event.key!==null&&event.key!==CHALLENGE_KEY)return;if(challengeRun){pauseGame();showChallengeSaveFailure({reason:'stale-run'});return;}profileProgress.refresh().then(()=>{restoreProfileSelection();refreshProfileAccess();challengeUI?.refresh?.();});});
 $('#challenge-save-slot').onclick=()=>{if(challengeActionBusy)return;if(!challengeRun&&!challengeSaveBlocked){openChallenge();challengeUI?.open({view:'save'});}else showRootRecovery();};
 $('#mode-challenge').disabled=false;$('#mode-challenge').innerHTML='挑戰';$('#mode-challenge').onclick=openChallenge;
+if($('#mode-brawl'))$('#mode-brawl').onclick=()=>{stopEffects();stopVoice();music?.stop?.();window.location.assign('preview/finale/?brawl=1');};
 
 const keys={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowDown:'crouch',KeyS:'crouch',KeyK:'guard',ShiftLeft:'guard',KeyJ:'punch',ArrowUp:'jump',KeyW:'jump',Space:'jump',KeyU:'special1',KeyI:'special2',KeyO:'special3',KeyL:'rally',KeyH:'assist'};
 window.addEventListener('keydown',e=>{if(challengeInputBlocked()){if(e.code==='Escape')e.preventDefault();return;}if(homeRequested&&e.code==='Tab'){e.preventDefault();const items=[$('#home-cancel'),$('#home-confirm-button')].filter(e=>!e.hidden),index=items.indexOf(document.activeElement);items[(index+(e.shiftKey?items.length-1:1)+items.length)%items.length].focus();return;}if(e.target.closest('dialog,select,[data-game-select],.game-select-menu,#result')||['INPUT','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='Escape'){if(e.repeat)return;if(homeRequested){e.preventDefault();cancelHomeConfirmation();return;}if(restartRequested){e.preventDefault();cancelRestartConfirmation();return;}if(duel.status==='active')pauseGame();else if(duel.status==='paused')resumeGame();return;}const action=challengeKeyAction(e.code,keys,!!duel.depthMode);if(!action||!started)return;e.preventDefault();if(e.repeat||duel.status!=='active'||viewportUI?.ready===false)return;if(['left','right','up','down','guard','punch','crouch'].includes(action)){const alreadyHeld=!!hold[action];heldKeys.add(e.code);syncHold(action);if(action==='punch'&&!alreadyHeld){duel.press('punch');punchWait=.33;}}else{heldKeys.add(e.code);syncActionKeyFeedback();duel.press(action);}});
@@ -877,9 +879,12 @@ class Arena extends Phaser.Scene {
    this.paintItem(item.kind,item.x,item.y-15,1,falling?Math.sin(time*.004)*.2:0);
   }
   for(const f of [duel.player,duel.enemy]){
+   if(f.hp>0&&f.perk?.active){const spin=(time*.0024)%(Math.PI*2),pulse=Math.sin(time*.014)*.5+.5;g.fillStyle(0xffd959,f.attack?.kind?.length?.16:.10);g.fillEllipse(f.x,GROUND+3,108+pulse*10,22);g.lineStyle(3.2,0xffe266,.92);g.strokeEllipse(f.x,GROUND+3,96+pulse*10,20);g.lineStyle(2.5,0xfff8c9,.85);g.beginPath();g.arc(f.x,GROUND+3,38,spin,spin+1.2);g.strokePath();g.beginPath();g.arc(f.x,GROUND+3,38,spin+Math.PI,spin+Math.PI+1.2);g.strokePath();}
    if(performanceGuardActive(f)){g.lineStyle(3,0xedba50,.8);g.strokeEllipse(f.x,GROUND+2,97,18);}
-   if(f.armor>0){const pulse=Math.sin(time*.018)*.5+.5;g.lineStyle(3.5,0x67e5f2,.85);g.strokeEllipse(f.x,GROUND+2,88+pulse*12,18);g.lineStyle(2.5,0xffe896,.75);g.strokeRoundedRect(f.x-50,f.y-264,100,260,16);}
+   if(f.armor>0){const pulse=Math.sin(time*.018)*.5+.5;g.lineStyle(3.5,0x67e5f2,.85);g.strokeEllipse(f.x,GROUND+2,88+pulse*12,18);g.lineStyle(2.5,0xffe896,.75);g.strokeRoundedRect(f.x-50,f.y-264,100,260,16);if((f.armorCount??1)>=2){g.lineStyle(4,0xffe169,.92);g.strokeRoundedRect(f.x-58,f.y-272,116,274,20);}}
+   if(f.brace>0&&f.hp>0){const pulse=Math.sin(time*.02)*.5+.5;g.lineStyle(3.5,0xffe169,.9);g.strokeCircle(f.x+f.face*26,f.y-130,20+pulse*5);g.fillStyle(0xffe97d,.28);g.fillCircle(f.x+f.face*26,f.y-130,18);}
    if(f.slow>0){const spin=(time*.006)%(Math.PI*2);g.lineStyle(3,0x4ea5b0,.85);g.strokeEllipse(f.x,GROUND+3,74,15);g.fillStyle(0x4ea5b0,.22);g.fillEllipse(f.x,GROUND+3,68,12);g.lineStyle(3,0x9ef0f7,.9);g.beginPath();g.arc(f.x,GROUND+3,30,spin,spin+1.4);g.strokePath();}
+   if(f.dizzyStar>0&&f.hp>0){for(let k=0;k<3;k++){const a=time*.006+k*(Math.PI*2/3),sx=f.x+Math.cos(a)*32,sy=f.y-290+Math.sin(a)*8;g.fillStyle(0xffe45e,.96);g.fillCircle(sx,sy,6);g.lineStyle(2,0x17353a,.9);g.strokeCircle(sx,sy,6);}}
   }
   const held=duel.player.item,enemyHeld=duel.enemy.item,name=k=>STAGE_ITEMS[k]?.label||'道具';
   const status=held?itemActorName(duel.player,duel.enemy,CAST)+'持有'+name(held.kind)+' · 按攻擊丟出':duel.items?.some(i=>i.state==='falling')?'道具要來了！走近自動拿':duel.items?.some(i=>i.state==='ground')?'走近拿道具 · 攻擊鍵投擲':'隨機掉落道具 · 走近自動拿';
@@ -898,7 +903,7 @@ class Arena extends Phaser.Scene {
  drawFighter(g,f,time,i){
   const finishView=matchFinish?finishFighterView(matchFinish,i,this.finishBeat):null;if(finishView){f=finishView.fighter;time=this.finishBeat.artTime;}
   const {renderF,spit,impact}=this.fighterPresentation(f,time,!!finishView);
-  const atk=renderF.attack,drawKey=[renderF.type,renderF.mobKind||'',renderF.hp<=0?1:0,!!renderF.guard,renderF.armor>0?1:0,renderF.counter>0?1:0,renderF.reject>0?1:0,renderF.calm>0?1:0,renderF.y<(renderF.supportY??430)-1?1:0,!!renderF.crouch,renderF.crouchBlend||0,Math.round((renderF.move||0)*10),renderF.reactionKind||'',renderF.reaction||0,Math.round((renderF.flash||0)*60),renderF.stun>0?1:0,renderF.guardBroken>0?1:0,renderF.grabPose||0,renderF.grabbedPose||0,atk?atk.kind+':'+Math.round(atk.age*60)+':'+(atk.variant||'')+':'+(atk.presentationOutcome||'')+':'+Math.round((atk.outcomeAge||0)*60):'',spit?Math.round(spit*60):'',impact||'',Math.round(time/33)].join('|');
+  const atk=renderF.attack,drawKey=[renderF.type,renderF.mobKind||'',renderF.hp<=0?1:0,!!renderF.guard,renderF.armor>0?1:0,renderF.armorCount||0,renderF.perk?.active?1:0,renderF.dizzyStar>0?1:0,renderF.counter>0?1:0,renderF.reject>0?1:0,renderF.calm>0?1:0,renderF.y<(renderF.supportY??430)-1?1:0,!!renderF.crouch,renderF.crouchBlend||0,Math.round((renderF.move||0)*10),renderF.reactionKind||'',renderF.reaction||0,Math.round((renderF.flash||0)*60),renderF.stun>0?1:0,renderF.guardBroken>0?1:0,renderF.grabPose||0,renderF.grabbedPose||0,atk?atk.kind+':'+Math.round(atk.age*60)+':'+(atk.variant||'')+':'+(atk.presentationOutcome||'')+':'+Math.round((atk.outcomeAge||0)*60):'',spit?Math.round(spit*60):'',impact||'',Math.round(time/33)].join('|');
   let pose=this.lastFighterPose?.[i];
   if(this.fighterCanvasKeys[i]!==drawKey||!pose){this.fighterCanvasKeys[i]=drawKey;const texture=this.artCanvases[i],ctx=texture.getContext();ctx.clearRect(0,0,512,384);ctx.save();ctx.translate(256,350);pose=renderF.mobKind?drawChallengeMob(ctx,this.artImages,renderF,time):drawFighterArt(ctx,this.artImages,renderF,time,{spit,impact,shadow:false});ctx.restore();this.lastFighterPose[i]=pose;}
   this.lastArtPose.set(f,pose);
@@ -924,25 +929,28 @@ class Arena extends Phaser.Scene {
    const direction=p.vx<0?-1:1;
    if(p.kind==='paper'||p.kind==='rubber_duck'){this.paintItem(p.kind,p.x,p.y,1.05,p.kind==='paper'?time*.008:Math.sin(time*.013)*.12);}
    else if(p.kind==='coin'){
-    g.lineStyle(6,0xffd659,.32);g.lineBetween(p.x-direction*64,p.y,p.x,p.y);
-    for(let j=3;j>=0;j--)sprite('coin',p.x-direction*j*18,p.y,26,27,time*.008,j===0?1:.42-j*.09);
+    const cw=p.perk?(p.miniCoin?22:38):26,ch=p.perk?(p.miniCoin?23:39):27;
+    g.lineStyle(p.perk?8:6,p.perk?0xffe56b:0xffd659,p.perk?.55:.32);g.lineBetween(p.x-direction*(p.perk?82:64),p.y,p.x,p.y);
+    if(p.perk){g.lineStyle(3,0xfff6c4,.85);g.strokeCircle(p.x,p.y,p.miniCoin?18:27);}
+    for(let j=3;j>=0;j--)sprite('coin',p.x-direction*j*18,p.y,cw,ch,time*.008,j===0?1:.42-j*.09);
    }
    else if(p.kind==='flyer'){g.lineStyle(4,0xf5c86b,.35);g.lineBetween(p.x-direction*42,p.y,p.x,p.y);g.fillStyle(0xfff9e8,.98);g.fillRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(2.5,0x234852);g.strokeRoundedRect(p.x-19,p.y-12,38,24,4);g.lineStyle(3,0xd96b38);g.lineBetween(p.x-12,p.y-4,p.x+12,p.y-4);}
    else if(p.kind==='dream'){
-    g.lineStyle(5,0x7ce0a8,.42);g.lineBetween(p.x-direction*68,p.y,p.x,p.y);
+    g.lineStyle(p.perk?7:5,p.perk?0xffe26b:0x7ce0a8,p.perk?.65:.42);g.lineBetween(p.x-direction*(p.perk?90:68),p.y,p.x,p.y);
+    if(p.perk){g.lineStyle(3.5,0xffe488,.9);g.lineBetween(p.x+direction*32,p.y,p.x-direction*20,p.y-20);g.lineBetween(p.x+direction*32,p.y,p.x-direction*20,p.y+20);}
     if(p.turnX!=null&&Math.abs(p.x-p.turnX)<70){const rU=1-Math.abs(p.x-p.turnX)/70;g.lineStyle(3,0xffe488,.7*rU);g.strokeCircle(p.turnX,p.y,22+rU*22);}
     sprite('dream',p.x,p.y,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06,1,'signature-props',p.vx<0);if(p.phase==='return')label(p.x,p.y+47,'↶ 回程','#d0f4d9',15);
    }
    else if(p.kind==='arrow'||p.kind==='word'||p.kind==='notice'){
     const word=p.kind==='word',notice=p.kind==='notice',width=p.markWidth??(word?92:notice?96:110),color=word?0x367e8a:notice?0xd4822a:0xbe4033,rem=1-Math.max(0,Math.min(1,(p.age||0)/(p.flight||1.2)));
-    g.lineStyle(3.5,color,.92);g.strokeEllipse(p.targetX,GROUND,width,19);g.fillStyle(color,.16);g.fillEllipse(p.targetX,GROUND,width,15);
+    g.lineStyle(p.perk?4.5:3.5,p.perk?0xffdf6e:color,.92);g.strokeEllipse(p.targetX,GROUND,width,19);g.fillStyle(color,.16);g.fillEllipse(p.targetX,GROUND,width,15);
     g.lineStyle(2.5,0xfff2c2,.85);g.strokeEllipse(p.targetX,GROUND,Math.max(12,width*rem),Math.max(4,19*rem));
     label(p.targetX,GROUND+16,word?'落字':notice?(p.markLabel||'落點'):'落箭',word?'#295e66':notice?'#7d4310':'#893b2c',15);
     if(word){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(p.age||0,.56,direction);g.lineStyle(5,0x5bb5bf,.32);g.lineBetween(x-(p.vx||0)*.08,p.y-(p.vy||0)*.08,x,p.y);g.fillStyle(0xfff7e5,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,'賴祥德','#fff8dc',size);}
     else if(notice){const w=124,h=60,x=p.x+nameTileOffset(p.age||0,p.flight||.56,direction);g.fillStyle(0xfff6df,.98);g.fillRoundedRect(x-w/2,p.y-h/2,w,h,10);g.lineStyle(4,color);g.strokeRoundedRect(x-w/2,p.y-h/2,w,h,10);label(x,p.y,p.noticeText||'通知','#7d4310',28);}
-    else{const v=arrowPresentation(p);g.lineStyle(5,0xffb84d,.42);g.lineBetween(v.x-Math.cos(v.angle)*68,v.y-Math.sin(v.angle)*68,v.x,v.y);sprite('arrow',v.x,v.y,v.width,v.height,v.angle);}
+    else{const v=arrowPresentation(p);g.lineStyle(p.perk?7:5,p.perk?0xff8c2e:0xffb84d,p.perk?.72:.42);g.lineBetween(v.x-Math.cos(v.angle)*(p.perk?96:68),v.y-Math.sin(v.angle)*(p.perk?96:68),v.x,v.y);if(p.perk){g.lineStyle(3,0xffdf6e,.9);g.strokeCircle(v.x,v.y,26);}sprite('arrow',v.x,v.y,v.width,v.height,v.angle);}
    }
-   if(p.reflected){g.lineStyle(3,0xffe478,.9);g.strokeCircle(p.x,p.y,23);label(p.x,p.y+32,'↶ 反射','#ffe2a4',15);}
+   if(p.reflected){g.lineStyle(p.perk?4:3,p.perk?0xffca42:0xffe478,.95);g.strokeCircle(p.x,p.y,p.perk?29:23);label(p.x,p.y+32,p.perk?'↶ 2×反彈':'↶ 反射','#ffe2a4',15);}
    if((p.kind==='coin'||p.kind==='dream'||p.kind==='flyer')&&(p.age||0)<.13){g.lineStyle(3,0xffd66b,.65);g.lineBetween(p.owner.x+p.owner.face*48,p.owner.y-206,p.x,p.y);}
   }
   for(let i=used;i<this.propPool.length;i++)this.propPool[i].setVisible(false);
@@ -979,8 +987,7 @@ class Arena extends Phaser.Scene {
    const caption=moveCaption(kind),pos=captionPosition(e.f,duel.other(e.f),caption?.width,this.cameraView);
    if(caption)this.popup(pos.x,pos.y,caption.text,'#173c43',caption.size,{bubble:true,caption:{...caption,kind},actor:e.f});
    this.moveBeats??=new WeakMap();this.moveBeats.set(e.f,{kind,started:this.artTime||0,x:e.f.x,y:e.f.y,face:e.f.face||1});
-   if(kind?.includes('_'))sfx(kind);
-   else sfx(kind);
+   sfx(kind);
   }
   if(['hit','block'].includes(e.type)){
    const hitY=impactY(e)+(duel.depthMode?(e.to.depth??0)*.65:0),heavy=e.type==='hit'&&(e.amount>=14||e.to.hp<=0||['arrow','han_knee','su_shout','su_dare','huang_shout','ma_handshake','rally'].includes(e.impact));
@@ -1005,23 +1012,24 @@ class Arena extends Phaser.Scene {
   else if(e.type==='heal'){this.popup(e.f.x,displayY(e.f)-245,'喝到了！ +'+(e.amount??10),'#a5f0bc',28);sfx('heal');}
   else if(e.type==='arrowMark'){this.popup(e.x,GROUND-34,'離開落點！','#ffe0a1',20);}
   else if(e.type==='arrowMiss'){const flag=text(this,e.x,GROUND-45,'↙ 沒中',22,'#fff6df');flag.setText('沒中 ↙').setFontSize(22).setStroke('#142b32',4);this.tweens.add({targets:flag,alpha:0,duration:900,onComplete:()=>flag.destroy()});sfx('whiff');}
-  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);if(!this.reducedMotion)this.cameras.main.shake(140,.008);const brk=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);brk.lineStyle(5,0xff7f50);for(let i=0;i<8;i++){const a=i*Math.PI/4;brk.lineBetween(Math.cos(a)*20,Math.sin(a)*20,Math.cos(a)*68,Math.sin(a)*68);}this.tweens.add({targets:brk,scale:1.4,alpha:0,duration:260,onComplete:()=>brk.destroy()});sfx('block');}
-  else if(e.type==='reflect'){this.popup(e.f.x,displayY(e.f)-272,'拒收，原路退回！','#ffe1a1',22);const rfl=this.add.graphics().setPosition(e.f.x,displayY(e.f)-150);rfl.lineStyle(5,0xffe488);rfl.strokeCircle(0,0,38);this.tweens.add({targets:rfl,scale:2.0,alpha:0,duration:240,onComplete:()=>rfl.destroy()});sfx('counter');}
-  else if(e.type==='reject'){this.popup(e.f.x,displayY(e.f)-185,'不欠你，擋回去！','#e4c8ef',22);sfx('block');}
-  else if(e.type==='erase'){this.popup(e.f.x,displayY(e.f)-250,'咳掉了！','#e1d9c4',20);sfx('whiff');}
-  else if(e.type==='capture'){this.popup((e.from.x+e.to.x)/2,Math.min(displayY(e.from),displayY(e.to))-90,'握住了！','#f4d58c',30);sfx('hit');}
+  else if(e.type==='guardBreak'){this.popup(e.f.x,displayY(e.f)-205,'破防！','#ffbb96',29);if(!this.reducedMotion)this.cameras.main.shake(140,.008);const brk=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);brk.lineStyle(5,0xff7f50);for(let i=0;i<8;i++){const a=i*Math.PI/4;brk.lineBetween(Math.cos(a)*20,Math.sin(a)*20,Math.cos(a)*68,Math.sin(a)*68);}this.tweens.add({targets:brk,scale:1.4,alpha:0,duration:260,onComplete:()=>brk.destroy()});sfx('guardBreak');}
+  else if(e.type==='reflect'){this.popup(e.f.x,displayY(e.f)-272,'拒收，原路退回！','#ffe1a1',22);const rfl=this.add.graphics().setPosition(e.f.x,displayY(e.f)-150);rfl.lineStyle(5,0xffe488);rfl.strokeCircle(0,0,38);this.tweens.add({targets:rfl,scale:2.0,alpha:0,duration:240,onComplete:()=>rfl.destroy()});sfx('reflect');}
+  else if(e.type==='reject'){this.popup(e.f.x,displayY(e.f)-185,'不欠你，擋回去！','#e4c8ef',22);sfx('reject');}
+  else if(e.type==='erase'){this.popup(e.f.x,displayY(e.f)-250,'咳掉了！','#e1d9c4',20);sfx('erase');}
+  else if(e.type==='capture'){this.popup((e.from.x+e.to.x)/2,Math.min(displayY(e.from),displayY(e.to))-90,'握住了！','#f4d58c',30);sfx('capture');}
   else if(e.type==='queuePlant'){this.popup(e.f.x+e.f.face*85,GROUND-110,'先排隊！','#ffd9a6',21);}
-  else if(e.type==='queueBreak'){this.popup(e.x,GROUND-90,'隊線散了','#f4d4b1',19);const qb=this.add.graphics().setPosition(e.x,GROUND-40);qb.lineStyle(4,0xe07856);for(let i=0;i<6;i++){const a=-Math.PI+i*(Math.PI/5);qb.lineBetween(0,0,Math.cos(a)*46,Math.sin(a)*46);}this.tweens.add({targets:qb,alpha:0,scale:1.3,duration:220,onComplete:()=>qb.destroy()});}
+  else if(e.type==='queueBreak'){this.popup(e.x,GROUND-90,'隊線散了','#f4d4b1',19);const qb=this.add.graphics().setPosition(e.x,GROUND-40);qb.lineStyle(4,0xe07856);for(let i=0;i<6;i++){const a=-Math.PI+i*(Math.PI/5);qb.lineBetween(0,0,Math.cos(a)*46,Math.sin(a)*46);}this.tweens.add({targets:qb,alpha:0,scale:1.3,duration:220,onComplete:()=>qb.destroy()});sfx('queueBreak');}
   else if(e.type==='armor'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'護甲就緒','#b8f0ed',22);}
-  else if(e.type==='armorAbsorb'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'痛，但不停手','#b8f0ed',22);const arm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);arm.lineStyle(6,0x67e5f2);arm.strokeCircle(0,0,42);this.tweens.add({targets:arm,scale:1.9,alpha:0,duration:240,onComplete:()=>arm.destroy()});sfx('block');}
-  else if(e.type==='calm'){this.popup(e.f.x,displayY(e.f)-250,'大事化小…','#d4efd6',22);const cm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);cm.lineStyle(4,0x7ed9a4);cm.strokeCircle(0,0,40);this.tweens.add({targets:cm,scale:1.8,alpha:0,duration:240,onComplete:()=>cm.destroy()});}
-  else if(e.type==='wallBounce'||e.type==='wallHit'){this.popup(e.f.x,displayY(e.f)-230,'牆也聽到了！','#e4c8ef',22);sfx('hit');}
+  else if(e.type==='armorAbsorb'){this.popup(e.f.x+e.f.face*90,displayY(e.f)-88,'痛，但不停手','#b8f0ed',22);const arm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);arm.lineStyle(6,0x67e5f2);arm.strokeCircle(0,0,42);this.tweens.add({targets:arm,scale:1.9,alpha:0,duration:240,onComplete:()=>arm.destroy()});sfx('armorAbsorb');}
+  else if(e.type==='calm'){this.popup(e.f.x,displayY(e.f)-250,'大事化小…','#d4efd6',22);const cm=this.add.graphics().setPosition(e.f.x,displayY(e.f)-135);cm.lineStyle(4,0x7ed9a4);cm.strokeCircle(0,0,40);this.tweens.add({targets:cm,scale:1.8,alpha:0,duration:240,onComplete:()=>cm.destroy()});sfx('calm');}
+  else if(e.type==='wallBounce'||e.type==='wallHit'){this.popup(e.f.x,displayY(e.f)-230,'牆也聽到了！','#e4c8ef',22);sfx(e.type);}
   else if(e.type==='slow'){this.popup(e.f.x,displayY(e.f)-220,'被字絆一下','#bbe5e4',21);}
+  else if(e.type==='perkTrigger'){this.popup(e.f.x,displayY(e.f)-265,'★ '+(e.label||'五階質變！'),'#ffe478',26,{rise:34,duration:1050});const pk=this.add.graphics().setPosition(e.f.x,displayY(e.f)-145);pk.lineStyle(5,0xffdc5e);pk.strokeCircle(0,0,48);for(let i=0;i<8;i++){const a=i*Math.PI/4;pk.lineBetween(Math.cos(a)*28,Math.sin(a)*28,Math.cos(a)*82,Math.sin(a)*82);}this.tweens.add({targets:pk,scale:1.7,alpha:0,duration:320,onComplete:()=>pk.destroy()});sfx('perkTrigger');}
   else if(e.type==='itemPickup'){if(e.f.item){e.f.item.carryHand=chooseCarryHand(this.lastArtPose.get(e.f));this.carryHands.set(e.f.item,e.f.item.carryHand);}this.popup(e.f.x,displayY(e.f)-220,'拿到'+(e.item.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！','#a5f0bc',22);sfx('heal');}
   else if(e.type==='rally'){playCrowdCheer();}
   else if(e.type==='rallyResult'){this.popup(e.result==='miss'?e.r.x:e.to.x,GROUND-100,e.result==='miss'?(e.r.tooHigh?'桌上太高啦！':'躲開了！'):e.result==='blocked'?'格擋 −'+e.amount:'命中 −'+e.amount,e.result==='hit'?'#ffe084':'#d0f7fa',22);}
   else if(e.type==='itemThrow'){this.popup(e.f.x,displayY(e.f)-220,e.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！','#fff6c9',22);}
-  else if(e.type==='performanceGuard'){this.popup(e.f.x,displayY(e.f)-280,'讓我演完這一下！','#ffe29a',18);sfx('block');}
+  else if(e.type==='performanceGuard'){this.popup(e.f.x,displayY(e.f)-280,'讓我演完這一下！','#ffe29a',18);sfx('performanceGuard');}
   else if(e.type==='over')beginMatchFinish();else if(['launch','jump'].includes(e.type))sfx(e.type);
  }
 

@@ -113,3 +113,26 @@ body[data-compact=true][data-layout=landscape] #trial-app .ending-studio{grid-co
 body[data-compact=true][data-layout=landscape] #trial-app .ending-thanks{grid-column:2;grid-row:3;margin:6px 0;font-size:12px}
 body[data-compact=true][data-layout=landscape] #trial-app .ending-actions{grid-column:2;grid-row:4;gap:8px}
 body[data-compact=true][data-layout=landscape] #trial-app .ending-actions button{font-size:14px;min-width:105px;padding:6px 10px}
+.brawl-options{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:center;margin:8px 0;padding:8px 12px;background:#fff4d2;border:2px solid #17353a;border-radius:8px;font-size:13px;font-weight:900}
+.brawl-options[hidden]{display:none}
+.brawl-options label{display:flex;align-items:center;gap:6px;min-height:36px}
+.brawl-options select{font:inherit;background:#fffaf0;border:2px solid #17353a;border-radius:6px;padding:5px 8px}
+.brawl-rank5-toggle input{width:18px;height:18px;accent-color:#c67617}
+.finale-scoreboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:6px;margin:8px 0}
+.finale-scoreboard[hidden],.finale-mvp-roast[hidden],.ending-winners[hidden]{display:none}
+.finale-scoreboard .score-chip{padding:5px 6px;border:2px solid #267965;border-radius:6px;background:#e6f2d8;color:#152c34;font-size:11px;line-height:1.3;text-align:center}
+.finale-scoreboard .score-chip[data-team=enemy]{border-color:#a5413e;background:#f8e2da}
+.finale-scoreboard .score-chip[data-out=true]{opacity:.58}
+.finale-scoreboard .score-chip[data-mvp=true]{border-color:#d48c19;box-shadow:0 0 0 2px #ffe47a inset;background:#fff7d6}
+.finale-scoreboard .score-chip strong{display:block;font-size:12px;white-space:nowrap}
+.finale-scoreboard .score-chip small{display:block;font-weight:800}
+.finale-mvp-roast{margin:6px 0 10px;padding:7px 11px;background:#fff5d4;border:2px dashed #c27d1c;border-radius:7px;font-size:13px;font-weight:900;color:#17353a;line-height:1.45}
+.ending-winners{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px auto}
+.ending-winners figure{margin:0;padding:6px 10px;border:2px solid #e0b15b;border-radius:9px;background:#18373acc;width:82px;color:#fff4d8}
+.ending-winners img{width:54px;height:54px;object-fit:contain;display:block;margin:0 auto 4px}
+.ending-winners figcaption{font-size:12px;font-weight:900;line-height:1.25}
+body[data-compact=true][data-layout=landscape] #trial-app #menu .brawl-options{grid-column:1/-1;margin:2px 0;padding:4px 8px;font-size:11px}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel .finale-scoreboard{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:4px 0}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel .finale-scoreboard .score-chip{padding:3px;font-size:10px}
+body[data-compact=true][data-layout=landscape] #trial-app #result-panel .finale-mvp-roast{margin:4px 0;padding:4px 8px;font-size:11px}
+

@@ -13,6 +13,7 @@ import {presentationFighter,fighterGazeGlyph,drawHumanGlyph,SIGNATURE_SIZE,nameT
 import {assistView} from './assist-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {RALLY} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
 import {ITEM_ART,heldItemAnchor,chooseCarryHand} from './item-presentation.mjs?v=chapter-presentation-20261117-r1';
+import {drawWorldFighterAuras,drawWorldProjectileExtra} from './preview/campaign/world-combat-fx.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const DEPTH_SCALE=.65,MIN_DEPTH=-90,MAX_DEPTH=100;
 const depthOf=f=>Number(f?.depth)||0;
@@ -256,8 +257,9 @@ function drawItem(ctx,images,kind,x,y,scale=1,rotation=0,flip=false){
 function drawProjectile(ctx,images,q,time,zoom){
  const p=depthWorldPoint(q),direction=q.vx<0?-1:1;
  if(q.kind==='coin'&&images['art-props']){
+  const cw=q.perk?(q.miniCoin?22:36):26,ch=q.perk?(q.miniCoin?23:37):27;
   line(ctx,p.x-direction*64,p.y,p.x,p.y,'#ffd65955',6);
-  for(let i=3;i>=0;i--){ctx.save();ctx.globalAlpha*=i===0?1:.42-i*.09;drawProp(ctx,images,'coin',p.x-direction*i*18,p.y,26,27,time*.008);ctx.restore();}
+  for(let i=3;i>=0;i--){ctx.save();ctx.globalAlpha*=i===0?1:.42-i*.09;drawProp(ctx,images,'coin',p.x-direction*i*18,p.y,cw,ch,time*.008);ctx.restore();}
  }
  else if(q.kind==='dream'){
   line(ctx,p.x-direction*68,p.y,p.x,p.y,'#7ce0a866',5);
@@ -275,7 +277,8 @@ function drawProjectile(ctx,images,q,time,zoom){
   // still have a readable illustrated fallback, never an invisible attack.
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(time*.008);ctx.fillStyle='#fff6dc';ctx.strokeStyle='#17333b';ctx.lineWidth=2;ctx.fillRect(-20,-13,40,26);ctx.strokeRect(-20,-13,40,26);line(ctx,-13,-5,13,-5,'#db9858',3);line(ctx,-13,4,9,4,'#587c82',2);ctx.restore();
  }
- if(q.reflected){ctx.strokeStyle='#ffe478';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,24,0,Math.PI*2);ctx.stroke();label(ctx,'↶ 反射',p.x,p.y+36,zoom,{color:'#ffe2a4'});}
+ drawWorldProjectileExtra(ctx,q,(wx,wy=GROUND,wz=0)=>({x:wx,y:wy+wz*DEPTH_SCALE}),1,time);
+ if(q.reflected){label(ctx,q.perk?'↶ 2×反彈':'↶ 反射',p.x,p.y+36,zoom,{color:'#ffe2a4'});}
 }
 function drawActorShadow(ctx,item){
  const f=item.value,p=depthWorldPoint(f,{foot:true}),scale=1-Math.min(.25,Math.max(0,(f.supportY??GROUND)-f.y)/560),alpha=item.episode?assistView(item.episode)?.alpha??0:f.hp<=0?Math.max(0,1-(f.deadAge??0)/.6):1;
@@ -295,7 +298,7 @@ function drawActor(ctx,images,item,time,frame,options,poses){
  const pose=f.mobKind?drawChallengeMob(ctx,images,shown.renderF??f,time,{shadow:false}):drawFighterArt(ctx,images,shown.renderF??f,time,{spit:shown.spit??0,impact:shown.impact??null,shadow:false});ctx.restore();
  poses.set(f,pose);options.onPose?.(f,pose);
  if(!f.mobKind){drawHumanGlyph(ctx,fighterGazeGlyph(f),p.x,p.y,f.face);const itemArt=f.item||(f.attack?.kind==='item_throw'&&!f.attack.fired?{kind:f.attack.itemKind,carryHand:f.attack.carryHand}:null);if(itemArt&&pose){const hand=itemArt.carryHand??chooseCarryHand(pose),a=heldItemAnchor({...f,item:itemArt},pose,hand);if(a)drawItem(ctx,images,itemArt.kind,a.x,a.y+depthOf(f)*DEPTH_SCALE,a.scale,a.rotation,a.flip);}}
- if(f.armor>0){ctx.save();ctx.strokeStyle='#67e5f2';ctx.fillStyle='#67e5f218';ctx.lineWidth=3.5;ctx.fillRect(p.x-53,p.y-275,106,274);ctx.strokeRect(p.x-53,p.y-275,106,274);ctx.restore();}
+ drawWorldFighterAuras(ctx,f,(wx,wy=GROUND,wz=0)=>({x:wx,y:wy+wz*DEPTH_SCALE}),1,time);
  if(f.slow>0){const spin=(time*.006)%(Math.PI*2);ctx.save();ellipse(ctx,p.x,p.y-6,38,8,'#43858b33');ctx.strokeStyle='#43858b';ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(p.x,p.y-6,38,8,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#9ef0f7';ctx.beginPath();ctx.arc(p.x,p.y-6,28,spin,spin+1.4);ctx.stroke();ctx.restore();}
  if(view)label(ctx,view.caption,view.x,p.y+18,frame.zoom,{color:view.color});
 }

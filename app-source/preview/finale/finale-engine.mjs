@@ -18,7 +18,7 @@ export class FinaleArena extends Duel{
   const opponents=CHARACTER_IDS.filter(id=>!team.includes(id));
   super(team[0],difficulty,rng,opponents[0],{playerStats:statsForCharacter?.(team[0])});
   this.mode='finale';this.depthMode=true;this.team=[...team];this.aiEnabled=true;this.remaining=ARENA.duration;this.nextItemAt=Infinity;
-  this.actors=[this.player,...[...team.slice(1),...opponents].map(id=>new Duel(id,difficulty,rng,team[0],{playerStats:team.includes(id)?statsForCharacter?.(id):undefined}).player)];
+  this.actors=[this.player,...[...team.slice(1),...opponents].map(id=>new Duel(id,difficulty,rng,team[0],{playerStats:statsForCharacter?.(id,team.includes(id)?0:1)}).player)];
   const positions=[[210,0],[150,-90],[150,90],[690,-105],[770,-35],[770,45],[690,115]];
   this.actors.forEach((f,i)=>{
    const same=team.includes(f.type);
@@ -59,7 +59,7 @@ export class FinaleArena extends Duel{
   const scale=c.from.team===1?(this.difficulty==='beginner'?.55:this.difficulty==='easy'?.8:1):1;
   try{return super.resolveHit({...c,raw:c.raw*scale,groundDamage:c.groundDamage==null?undefined:c.groundDamage*scale,airDamage:c.airDamage==null?undefined:c.airDamage*scale});}finally{this.contactPair=old;}
  }
- launch(f,a,m,o,assist){super.launch(f,a,m,o,assist);const p=this.projectiles.at(-1);p.depth=f.depth??0;p.originDepth=p.depth;p.targetDepth=o.depth??0;}
+ launch(f,a,m,o,assist){const before=this.projectiles.length;super.launch(f,a,m,o,assist);for(const p of this.projectiles.slice(before)){p.depth=f.depth??0;p.originDepth=p.depth;p.targetDepth=o.depth??0;}}
  moveFighter(f,x){f.x=clamp(x,ARENA.left,ARENA.right);}
  separate(){
   if(!this.actors)return;
@@ -87,7 +87,7 @@ export class FinaleArena extends Duel{
  projectileTouches(p,f,x,y){return lane(p,f)&&super.projectileTouches(p,f,x,y);}
  queueCrossings(f,previous,next){
   if(!ground(f))return;
-  for(const q of this.obstacles)if(!q.dead&&q.owner.team!==f.team&&lane(q,f)&&Math.min(previous,next)<=q.x+18&&Math.max(previous,next)>=q.x-18){q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:'huang_queue',castId:q.castId,direction:q.direction,guardCost:1,origin:q});}
+  for(const q of this.obstacles)if(!q.dead&&q.owner.team!==f.team&&lane(q,f)&&Math.min(previous,next)<=q.x+18&&Math.max(previous,next)>=q.x-18){q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1,origin:q});}
  }
  animateAttack(f,dt,context){
   const source=this.effectSource,origin=this.effectOrigin;this.effectSource=context?.owner??f;this.effectOrigin=f;
@@ -138,7 +138,8 @@ export class FinaleArena extends Duel{
   const positions=new Map(this.actors.map(f=>[f,f.x]));
   for(const f of this.actors){
    if(!alive(f)){f.attack=null;f.performance=null;this.setGuard(f,false);continue;}
-   for(const k of ['land','basicTime','reaction','stun','flash','counter','brace','armor','slow','calm','reject','comboTime','guardBroken','guardGrace','grabPose','grabbedPose'])f[k]=Math.max(0,f[k]-dt);
+   for(const k of ['land','basicTime','reaction','stun','flash','counter','brace','armor','slow','dizzyStar','calm','reject','comboTime','guardBroken','guardGrace','grabPose','grabbedPose'])f[k]=Math.max(0,f[k]-dt);
+   if(f.armor<=0)f.armorCount=0;
    if(f.guardBroken===0&&f.guardPips===0){f.guardPips=2;f.guardGrace=.65;}
    f.cooldowns=f.cooldowns.map(t=>Math.max(0,t-dt));
    if(f.performance){const p=f.performance;p.age=f.attack?.castId===p.castId?f.attack.age+dt:p.age+dt;p.outcomeAge+=dt;if(p.age>=p.duration)f.performance=null;}

@@ -14,7 +14,8 @@ const clamp=(n,a,b)=>Math.min(b,Math.max(a,n));
 const grounded=f=>f.y>=(f.supportY??GROUND)-1&&f.vy>=0;
 export const resolveMoveSpec=spec=>!spec?null:typeof spec==='string'?(MINI_COMBAT[spec]??Object.values(COMBAT).find(m=>m.kind===spec)??null):(spec.kind&&MINI_COMBAT[spec.kind]?Object.freeze({...MINI_COMBAT[spec.kind],...spec}):null);
 const moveAt=(f,idx)=>f?.customMoves?.[idx]??CAST[f?.type]?.moves?.[idx]??null;
-const fighter=(type,x,id)=>({rally:0,dropThrough:0,downTime:0,downBlocked:false,supportY:GROUND,item:null,type,x,y:GROUND,vy:0,hp:100,maxHp:100,id,face:id==='player'?1:-1,guard:false,guardPips:3,guardBroken:0,guardGrace:0,guardBlockedAt:-10,guardReleasedAt:-10,guardRegen:0,guardCasts:new Set(),counter:0,brace:0,armor:0,slow:0,calm:0,reject:0,stun:0,flash:0,attack:null,performance:null,cooldowns:[0,0,0],move:0,combo:0,comboTime:0,reaction:0,reactionKind:'hit',crouch:false,crouchBlend:0,lowProfile:false,land:0,basicStep:0,basicTime:0,grabPose:0,grabbedPose:0});
+const fighter=(type,x,id)=>({rally:0,dropThrough:0,downTime:0,downBlocked:false,supportY:GROUND,item:null,type,x,y:GROUND,vy:0,hp:100,maxHp:100,id,face:id==='player'?1:-1,guard:false,guardPips:3,guardBroken:0,guardGrace:0,guardBlockedAt:-10,guardReleasedAt:-10,guardRegen:0,guardCasts:new Set(),counter:0,brace:0,armor:0,armorCount:0,slow:0,dizzyStar:0,calm:0,reject:0,stun:0,flash:0,attack:null,performance:null,cooldowns:[0,0,0],move:0,combo:0,comboTime:0,reaction:0,reactionKind:'hit',crouch:false,crouchBlend:0,lowProfile:false,land:0,basicStep:0,basicTime:0,grabPose:0,grabbedPose:0,perk:null});
+const hasPerk=(f,type)=>!!(f?.perk?.active&&(!type||f.type===type));
 // Contacts are collected from both actors before any damage/cancellation occurs.
 // A cast ID survives attack recovery, reflections and multi-hit phases.
 export class Duel {
@@ -25,7 +26,7 @@ export class Duel {
   this.player=fighter(character,260,'player');this.enemy=fighter(opponent,700,'enemy');this.difficulty=difficulty;this.rng=()=>{if(replayFirst){replayFirst=false;return stageSeed;}return rng();};this.remaining=60;this.elapsed=0;this.status='active';this.winner=null;this.projectiles=[];this.obstacles=[];this.events=[];this.aiWait=.9;this.aiThreats=new Map();this.aiRecovery=0;this.aiActiveAttack=null;this.aiDefense=0;this.aiAction=null;this.aiBufferedDefense=null;this.aiReceivedHit=0;this.aiEscapeRollHit=-1;this.aiInput={};this.freeze=0;this.buffer=null;this.nextCast=1;this.contacts=[];this.worldSpawns=[];this.worldEffects=[];this.collecting=false;this.resolving=false;this.stats={hits:0,damage:0,blocks:0,maxCombo:0,interrupts:0,counters:0,specialHits:0,whiffs:0};
   if(difficulty==='beginner')this.aiWait=2.2;
   this.assists=[];this.training={enabled:options.mode==='training',opponent:options.trainingBehavior||'stand',infiniteHealth:options.infiniteHealth!==false,repeatAssist:options.repeatAssist!==false};
-  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null,roster=options[f.id+'AssistRoster']??(helper?[{helper}]:[]);if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');if(!Array.isArray(roster)||roster.some(a=>!a||!Object.hasOwn(CAST,a.helper)||a.mobKind!==undefined&&typeof a.mobKind!=='string'||a.displayName!==undefined&&typeof a.displayName!=='string'||a.moves!==undefined&&(!Array.isArray(a.moves)||!a.moves.length||a.moves.some(s=>!resolveMoveSpec(s)))))throw new RangeError('Invalid assist roster');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.assist={helper:roster[0]?.helper??helper,used:false,active:false,charge:100,damageTaken:0};f.assistRoster=roster.map(a=>({...a}));f.assistCursor=0;}
+  for(const f of [this.player,this.enemy]){const helper=options[f.id+'Assist']??null,roster=options[f.id+'AssistRoster']??(helper?[{helper}]:[]);if(helper!==null&&!Object.hasOwn(CAST,helper))throw new RangeError('Unknown assist ID');if(!Array.isArray(roster)||roster.some(a=>!a||!Object.hasOwn(CAST,a.helper)||a.mobKind!==undefined&&typeof a.mobKind!=='string'||a.displayName!==undefined&&typeof a.displayName!=='string'||a.moves!==undefined&&(!Array.isArray(a.moves)||!a.moves.length||a.moves.some(s=>!resolveMoveSpec(s)))))throw new RangeError('Invalid assist roster');const base=fighterBaseStats(f.type),stats=options[f.id+'Stats'];f.combatStats={};for(const key of ['moveMultiplier','basicMultiplier','specialMultiplier','rallyMultiplier','assistMultiplier','defenseMultiplier']){const value=stats?.[key]??(key==='defenseMultiplier'?stats?.damageTakenMultiplier??base.damageTakenMultiplier:base[key]);if(!Number.isFinite(value)||value<=0)throw new RangeError('Invalid combat multiplier');f.combatStats[key]=value;}const maxHp=stats?.maxHp??options[f.id+'MaxHp']??base.maxHp;if(!Number.isFinite(maxHp)||maxHp<=0)throw new RangeError('Invalid maximum HP');f.maxHp=maxHp;f.hp=maxHp;f.perk=stats?.perk??null;f.assist={helper:roster[0]?.helper??helper,used:false,active:false,charge:100,damageTaken:0};f.assistRoster=roster.map(a=>({...a}));f.assistCursor=0;}
   this.enemy.noRally=options.enemyKind==='miniboss'||!!options.enemyNoRally;
   if(Array.isArray(options.enemyMoves)&&options.enemyMoves.length)this.enemy.customMoves=options.enemyMoves.map(resolveMoveSpec);
   this.configureTraining({});
@@ -54,7 +55,7 @@ export class Duel {
   const thrown=kind==='punch'?f.item:null;if(thrown){kind='item_throw';f.item=null;}
   this.releaseGrabPose();
   // Armor is an offensive one-hit resource, retained into a basic but not a special.
-  if(kind!=='punch'&&kind!=='item_throw'){f.armor=0;f.brace=0;}
+  if(kind!=='punch'&&kind!=='item_throw'){f.armor=0;f.armorCount=0;f.brace=0;}
   f.counter=0;f.reject=0;f.calm=0;
   f.attack={kind,performanceGuardShown:false,age:0,fired:false,hit:false,idx,castId:this.nextCast++,strikes:[],erased:[]};
   // A presentation is never an attack: it cannot hit, defend, heal, move the
@@ -143,7 +144,8 @@ export class Duel {
   const previous=[this.player.x,this.enemy.x];
   for(const f of [this.player,this.enemy]){
    const broken=f.guardBroken;
-   for(const k of ['land','basicTime','reaction','stun','flash','counter','brace','armor','slow','calm','reject','comboTime','guardBroken','guardGrace','grabPose','grabbedPose','dropThrough'])f[k]=Math.max(0,f[k]-dt);
+   for(const k of ['land','basicTime','reaction','stun','flash','counter','brace','armor','slow','dizzyStar','calm','reject','comboTime','guardBroken','guardGrace','grabPose','grabbedPose','dropThrough'])f[k]=Math.max(0,f[k]-dt);
+   if(f.armor<=0)f.armorCount=0;
    if(broken>0&&f.guardBroken===0){f.guardPips=Math.max(2,f.guardPips);f.guardGrace=.65;f.guardReleasedAt=this.elapsed;f.guardRegen=0;this.events.push({type:'guardRecover',f});}
    f.cooldowns=f.cooldowns.map(t=>Math.max(0,t-dt));
    if(f.performance){const p=f.performance;p.age=f.attack?.castId===p.castId?f.attack.age+dt:p.age+dt;p.outcomeAge+=dt;if(p.age>=p.duration)f.performance=null;}
@@ -219,21 +221,26 @@ export class Duel {
   const strike=(s,index)=>{
    if(a.strikes[index]||!(age>s.start&&age<s.end))return;
    const height=s.height??m.height??'mid';
-   if(a.kind==='punch'||m.destroysQueue)this.stageWorld(()=>{if(grounded(f))for(const q of this.obstacles)if(!q.dead&&q.owner!==owner&&(q.x-f.x)*f.face>=0&&Math.abs(q.x-f.x)<m.range)this.breakQueue(q,owner,metadata);});
-   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const p=this.projectiles.find(p=>!p.dead&&['coin','dream','flyer'].includes(p.kind)&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<m.range&&Math.abs(p.y-(f.y-HIGH_Y))<40);if(p){p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
-   this.emitContact({from:owner,to:o,...(assist?{origin:f,...metadata}:{}),raw:s.damage??m.damage,groundDamage:m.damage,airDamage:m.airDamage,knock:s.knock??m.knock??20,height,contact:!!m.contact,grab:m.behavior==='grab',range:m.range,antiAir:m.antiAir,guardCost:m.guardCost??1,impact:a.kind,castId:a.castId,direction:f.face,a,index,wallBonus:m.wallBonus??0});
+   const suRushPerk=!assist&&a.kind==='su_rush'&&hasPerk(f,'su'),suShoutPerk=!assist&&a.kind==='su_shout'&&hasPerk(f,'su'),maCoughPerk=!assist&&a.kind==='ma_cough'&&hasPerk(f,'ma');
+   const range=(m.range??130)+(suShoutPerk?28:maCoughPerk?30:0);
+   if(a.kind==='punch'||m.destroysQueue||suRushPerk)this.stageWorld(()=>{if(grounded(f))for(const q of this.obstacles)if(!q.dead&&q.owner!==owner&&(q.x-f.x)*f.face>=0&&Math.abs(q.x-f.x)<range){this.breakQueue(q,owner,metadata);if(suRushPerk)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'電火球碎障！'});}});
+   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const matches=this.projectiles.filter(p=>!p.dead&&['coin','dream','flyer'].includes(p.kind)&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<range&&Math.abs(p.y-(f.y-HIGH_Y))<(maCoughPerk?120:40));if(maCoughPerk){if(matches.length){for(const p of matches){p.dead=true;this.events.push({type:'erase',f:owner,p,...metadata});}a.erased[index]=true;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'清嗓全掃！'});}}else if(matches[0]){const p=matches[0];p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
+   if(suShoutPerk&&index===0)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'三格破防爆音！'});
+   const raw=(s.damage??m.damage)+(suRushPerk&&index===2?3:0),knock=(s.knock??m.knock??20)+(suRushPerk&&index===2?10:0),guardCost=suShoutPerk?3:(m.guardCost??1);
+   this.emitContact({from:owner,to:o,...(assist?{origin:f,...metadata}:{}),raw,groundDamage:m.damage,airDamage:m.airDamage,knock,height,contact:!!m.contact,grab:m.behavior==='grab',range,antiAir:m.antiAir,guardCost,impact:a.kind,castId:a.castId,direction:f.face,a,index,wallBonus:m.wallBonus??0});
   };
   if(m.behavior==='combo')m.hits.forEach(strike);
   else if(['melee','rush','advance','grab'].includes(m.behavior))strike(m,0);
   else if(['counter','reject','calm','armor'].includes(m.behavior)){
-   if(age>m.start&&!a.fired){a.fired=true;f[m.behavior==='armor'?'armor':m.behavior]=m.window;if(m.behavior==='armor'){f.brace=0;this.events.push({type:'armor',f});}}
+   if(age>m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&a.kind==='counter'&&hasPerk(f,'wang'),koPerk=!assist&&a.kind==='ko_resolve'&&hasPerk(f,'ko');f[m.behavior==='armor'?'armor':m.behavior]=m.window+(wangPerk?.08:koPerk?.45:0);if(m.behavior==='armor'){f.armorCount=koPerk?2:1;f.brace=koPerk?1.8:0;this.events.push({type:'armor',f});if(koPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'雙層鋼鐵霸體！'});}}
   }else if(m.behavior==='heal'){
-   if(age>=m.start&&!a.fired){a.fired=true;const amount=Math.min(m.heal,f.maxHp-f.hp);f.hp+=amount;this.performanceOutcome(f,'heal',a.castId);this.events.push({type:'heal',f,amount});}
+   if(age>=m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&hasPerk(f,'wang'),targetHeal=m.heal+(wangPerk?4:0),amount=Math.min(targetHeal,f.maxHp-f.hp);f.hp+=amount;if(wangPerk){f.armor=.9;f.armorCount=1;this.events.push({type:'armor',f});this.events.push({type:'perkTrigger',f,kind:a.kind,label:'金鐘鐵胃！'});}this.performanceOutcome(f,'heal',a.castId);this.events.push({type:'heal',f,amount});}
   }else if(age>m.start&&!a.fired){
    a.fired=true;
    this.stageWorld(()=>{if(m.behavior==='queue'){
     for(const q of this.obstacles)if(q.owner===f)q.dead=true;
-    const obstacle={kind:'queue',impact:a.kind,owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life,castId:a.castId,damage:m.damage,knock:m.knock,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});
+    const huangPerk=!assist&&a.kind==='huang_queue'&&hasPerk(f,'huang');
+    const obstacle={kind:'queue',impact:a.kind,owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life+(huangPerk?.6:0),castId:a.castId,damage:m.damage+(huangPerk?4:0),knock:m.knock,guardCost:huangPerk?2:1,perk:huangPerk,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});if(huangPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'鋼鐵人龍！'});
    }else this.launch(f,a,m,o,assist);},true);
   }
   if(f.attack===a&&age>m.duration){if(!a.hit&&['counter','reject','calm'].includes(m.behavior))this.events.push({type:'counterMiss',f});else if(!a.hit&&['melee','rush','advance','grab','combo'].includes(m.behavior)&&owner.id==='player')this.stats.whiffs++;f.counter=0;f.reject=0;f.calm=0;f.attack=null;f.lowProfile=false;}
@@ -279,19 +286,26 @@ export class Duel {
  }
  launch(f,a,m,o,assist=null){
   const owner=assist?.owner??f,metadata=assist?{assist:true,assistId:assist.id,helper:assist.helper}:{};
-  const p={kind:m.projectileKind??(m.behavior==='word'?'word':'arrow'),owner,originalOwner:owner,...metadata,castId:a.castId,impact:a.kind,height:m.height,direction:f.face,travelDir:f.face,x:f.x+f.face*60,y:f.y-HIGH_Y,vx:f.face*(m.speed??0),vy:0,gravity:0,life:m.life??2.2,age:0,damage:m.damage,knock:m.knock??30,phase:m.behavior==='projectile'?'outbound':'lob',reflected:false,dead:false,hits:new Set(),radius:13};
-  if(m.behavior==='projectile'&&p.kind==='dream'){p.originX=p.x;p.turnX=p.x+f.face*m.travel;p.returnDamage=m.returnDamage;}
+  const hanCoin=!assist&&a.kind==='coin'&&hasPerk(f,'han'),hanArrow=!assist&&a.kind==='arrow'&&hasPerk(f,'han'),chenDream=!assist&&a.kind==='chen_dream'&&hasPerk(f,'chen'),koName=!assist&&a.kind==='ko_name'&&hasPerk(f,'ko');
+  const p={kind:m.projectileKind??(m.behavior==='word'?'word':'arrow'),owner,originalOwner:owner,...metadata,castId:a.castId,impact:a.kind,height:m.height,direction:f.face,travelDir:f.face,x:f.x+f.face*60,y:f.y-HIGH_Y,vx:f.face*((m.speed??0)*(chenDream?1.32:1)),vy:0,gravity:0,life:m.life??2.2,age:0,damage:hanCoin?Math.round(m.damage*1.15):hanArrow?m.damage+4:chenDream?m.damage+3:m.damage,knock:m.knock??30,phase:m.behavior==='projectile'?'outbound':'lob',reflected:false,dead:false,hits:new Set(),radius:hanCoin?19:13,perk:hanCoin||hanArrow||chenDream||koName};
+  if(m.behavior==='projectile'&&p.kind==='dream'){p.originX=p.x;p.turnX=p.x+f.face*(m.travel+(chenDream?120:0));p.returnDamage=m.returnDamage+(chenDream?3:0);if(chenDream)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'超音速紙機！'});}
   if(m.behavior==='lob'||m.behavior==='word'){
-   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=m.slow??0;p.word=m.word;p.noticeText=m.noticeText;p.markLabel=m.markLabel;
+   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=(m.slow??0)+(koName?.55:0);p.word=m.word;p.noticeText=m.noticeText;p.markLabel=m.markLabel;
+   if(hanArrow){p.markWidth=148;p.hitRadius=64;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨型穿雲箭！'});}
+   if(koName){p.markWidth=132;p.hitRadius=62;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨字重緩！'});}
    this.events.push({type:m.behavior==='word'?'wordMark':'arrowMark',f:owner,...metadata,x:p.targetX,y:GROUND});
   }
   this.projectiles.push(p);this.events.push({type:'launch',f:owner,p,...metadata});
+  if(hanCoin){
+   const mini={...p,x:clamp(p.x-f.face*34,68,892),y:p.y+22,vx:p.vx*.96,damage:Math.max(1,Math.round(m.damage*.55)),radius:11,miniCoin:true,perk:true,hits:new Set()};
+   this.projectiles.push(mini);this.events.push({type:'launch',f:owner,p:mini,...metadata});this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'發財雙金幣！'});
+  }
  }
  breakQueue(q,f,metadata={}){q.dead=true;this.events.push({type:'queueBreak',x:q.x,y:q.y,f,obstacle:q,...metadata});}
  queueCrossings(f,previousX,nextX){
   if(!grounded(f)||f.y<GROUND-1)return;
   for(const q of this.obstacles)if(!q.dead&&q.life>0&&q.owner!==f&&Math.min(previousX,nextX)<=q.x+18&&Math.max(previousX,nextX)>=q.x-18){
-   q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:q.impact??'huang_queue',castId:q.castId,direction:q.direction,guardCost:1});
+   q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:q.impact??'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1});
   }
  }
  updateObstacles(dt,previous){for(const q of this.obstacles)q.life-=dt;this.queueCrossings(this.player,previous[0],this.player.x);this.queueCrossings(this.enemy,previous[1],this.enemy.x);}
@@ -299,7 +313,7 @@ export class Duel {
  updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const time=Math.min(dt,p.life),oldX=p.x,oldY=p.y;p.life-=time;p.age+=time;
    if(p.phase==='lob'){
     const t=Math.min(p.age,p.flight);p.x=p.startX+p.vx*t;p.y=p.startY+((p.targetY-p.startY-.5*p.gravity*p.flight*p.flight)/p.flight)*t+.5*p.gravity*t*t;p.vy=(p.targetY-p.startY-.5*p.gravity*p.flight*p.flight)/p.flight+p.gravity*t;
-    if(p.age>=p.flight){p.dead=true;const target=this.other(p.owner);if(Math.abs(target.x-p.targetX)<48&&target.y>=GROUND-1&&grounded(target))this.contacts.push({from:p.owner,to:target,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{}),raw:p.damage,knock:p.knock,height:'low',contact:false,impact:p.impact,castId:p.castId,direction:p.travelDir,guardCost:1,p,slow:p.slow});else{if(p.owner.id==='player')this.stats.whiffs++;this.events.push({type:p.kind==='word'?'wordMiss':'arrowMiss',x:p.targetX,y:GROUND,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{})});}}
+    if(p.age>=p.flight){p.dead=true;const target=this.other(p.owner);if(Math.abs(target.x-p.targetX)<(p.hitRadius??48)&&target.y>=GROUND-1&&grounded(target))this.contacts.push({from:p.owner,to:target,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{}),raw:p.damage,knock:p.knock,height:'low',contact:false,impact:p.impact,castId:p.castId,direction:p.travelDir,guardCost:1,p,slow:p.slow});else{if(p.owner.id==='player')this.stats.whiffs++;this.events.push({type:p.kind==='word'?'wordMiss':'arrowMiss',x:p.targetX,y:GROUND,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{})});}}
     continue;
    }
    p.x+=p.vx*time;
@@ -349,7 +363,12 @@ export class Duel {
   if(normal&&to.reject>0&&forward&&(c.contact||straight)){
    to.reject=0;to.counter=0;to.attack=null;
    this.performanceOutcome(to,straight&&!p.reflected?'reflect':'reject');
-   if(straight&&!p.reflected){p.owner=to;p.vx=-p.vx;p.direction=Math.sign(p.vx);p.travelDir=p.direction;p.reflected=true;p.phase='reflected';p.hits.clear();p.x=to.x+p.direction*48;p.life=Math.min(1.8,p.life+.5);this.events.push({type:'reflect',f:to,p,...(c.assist?{assist:true,assistId:c.assistId,helper:c.helper}:{})});}
+   if(straight&&!p.reflected){
+    const huangPerk=hasPerk(to,'huang');
+    p.owner=to;p.vx=-p.vx*(huangPerk?1.25:1);p.direction=Math.sign(p.vx);p.travelDir=p.direction;p.reflected=true;p.phase='reflected';p.hits.clear();p.x=to.x+p.direction*48;p.life=Math.min(1.8,p.life+.5);
+    if(huangPerk){p.damage=Math.round(p.damage*1.6);p.perk=true;this.events.push({type:'perkTrigger',f:to,kind:'huang_debt',label:'加倍奉還！'});}
+    this.events.push({type:'reflect',f:to,p,...(c.assist?{assist:true,assistId:c.assistId,helper:c.helper}:{})});
+   }
    else{if(p)p.dead=true;this.events.push({type:'reject',f:to,from});}
    return false;
   }
@@ -358,8 +377,10 @@ export class Duel {
    const stance=to.attack?.kind,m=COMBAT[stance]??MINI_COMBAT[stance];to.counter=0;to.attack=null;this.performanceOutcome(to,'counter');
    this.events.push({type:'counter',f:to,from});if(to.id==='player')this.stats.counters++;
    if(m&&Math.abs(from.x-to.x)<m.range&&(from.x-to.x)*to.face>=0){
+    const wangPerk=stance==='counter'&&hasPerk(to,'wang');
+    if(wangPerk)this.events.push({type:'perkTrigger',f:to,kind:'counter',label:'黃金過肩反擊！'});
     // Counter returns never trigger another counter/rejection recursively.
-    this.applyDamage({from:to,to:from,raw:m.damage,knock:m.knock,impact:stance,castId:this.nextCast++,direction:to.face,height:'mid',contact:false,noDefense:true});
+    this.applyDamage({from:to,to:from,raw:wangPerk?Math.round(m.damage*1.3):m.damage,knock:m.knock+(wangPerk?10:0),impact:stance,castId:this.nextCast++,direction:to.face,height:'mid',contact:false,noDefense:true});
     if(m.retreat)this.retreat(to,m.retreat);
    }
    // A main fighter earned this counter; the helper is causal metadata only.
@@ -368,7 +389,7 @@ export class Duel {
   }
   let blocked=normal&&!to.guardBroken&&to.guard&&grounded(to)&&(p?.phase==='lob'||forward);
   if(p){if(blocked||p.kind!=='dream'||p.reflected)p.dead=true;}
-  if(c.grab){this.capture(c.origin??from,to,from,c);to.armor=0;to.brace=0;}
+  if(c.grab){this.capture(c.origin??from,to,from,c);to.armor=0;to.armorCount=0;to.brace=0;}
   return this.applyDamage({...c,blocked});
   }finally{if(c.assist)for(let i=eventStart;i<this.events.length;i++)if(!this.events[i].assistResponse)Object.assign(this.events[i],{assist:true,assistId:c.assistId,helper:c.helper});}
  }
@@ -390,9 +411,11 @@ export class Duel {
   if(c.grab||c.noDefense)to.performance=null;
   const source=c.assist?'assistMultiplier':c.impact==='rally'?'rallyMultiplier':c.impact==='punch'||c.p?.itemId||c.impact?.startsWith('item_')?'basicMultiplier':'specialMultiplier';
   const offense=from.combatStats?.[source]??1,defense=to.combatStats?.defenseMultiplier??1;
-  let amount=blocked?2:c.raw*offense,armored=false,calmed=false,wallAmount=0;
-  if(!blocked&&!c.grab&&to.armor>0){amount=Math.round(amount*.6);armored=true;to.armor=0;to.brace=0;this.performanceOutcome(to,'armor');this.events.push({type:'armorAbsorb',f:to,amount});}
-  else if(!blocked&&!c.grab&&to.calm>0){amount=Math.min(4,amount);calmed=true;to.calm=0;this.performanceOutcome(to,'calm');this.events.push({type:'calm',f:to});}
+  let baseRaw=c.raw;
+  if(!c.assist&&c.impact==='punch'&&from.brace>0&&hasPerk(from,'ko')){baseRaw*=1.2;from.brace=0;this.events.push({type:'perkTrigger',f:from,kind:'ko_resolve',label:'硬扛反敲 +20%！'});}
+  let amount=blocked?2:baseRaw*offense,armored=false,calmed=false,wallAmount=0;
+  if(!blocked&&!c.grab&&to.armor>0){amount=Math.round(amount*.6);armored=true;if((to.armorCount||1)>1){to.armorCount-=1;}else{to.armor=0;to.armorCount=0;if(!hasPerk(to,'ko'))to.brace=0;}this.performanceOutcome(to,'armor');this.events.push({type:'armorAbsorb',f:to,amount});}
+  else if(!blocked&&!c.grab&&to.calm>0){amount=Math.min(4,amount);calmed=true;to.calm=0;if(hasPerk(to,'chen')){const healed=Math.min(4,to.maxHp-to.hp);to.hp+=healed;if(healed>0)this.events.push({type:'heal',f:to,amount:healed});this.events.push({type:'perkTrigger',f:to,kind:'chen_calm',label:'初衷回春 +4！'});}this.performanceOutcome(to,'calm');this.events.push({type:'calm',f:to});}
   amount*=defense;
   if(blocked){
    to.guardBlockedAt=this.elapsed;to.guardRegen=0;
@@ -433,8 +456,11 @@ export class Duel {
    }
    to.attack=null;to.counter=0;to.reject=0;to.calm=0;to.crouch=false;to.lowProfile=false;if(!blocked)this.setGuard(to,false);
   }
+  if(c.grab&&c.impact==='ma_handshake'&&!c.assist&&hasPerk(from,'ma')){
+   to.dizzyStar=1.25;to.slow=Math.max(to.slow,1.4);to.stun=Math.max(to.stun,.55);this.events.push({type:'perkTrigger',f:from,kind:'ma_handshake',label:'眼冒金星！'});
+  }
   if(wallAmount>0)this.events.push({type:performanceGuard?'wallHit':'wallBounce',f:to,amount:wallAmount,x:to.x});
-  if(c.slow&&!blocked){to.slow=c.slow;this.events.push({type:'slow',f:to,duration:c.slow});}
+  if(c.slow&&!blocked){to.slow=Math.max(to.slow,c.slow);this.events.push({type:'slow',f:to,duration:c.slow});}
   from.combo=from.comboTime>0?from.combo+1:1;from.comboTime=1.15;this.freeze=Math.max(this.freeze,blocked?.012:.025);
   if(from.id==='player'){this.stats.hits++;this.stats.damage+=amount+wallAmount;if(c.impact!=='punch'&&!c.p?.itemId)this.stats.specialHits++;this.stats.maxCombo=Math.max(this.stats.maxCombo,from.combo);}
   if(blocked&&to.id==='player')this.stats.blocks++;
@@ -443,7 +469,7 @@ export class Duel {
   if(this.training.enabled&&this.training.infiniteHealth)to.hp=to.maxHp;
   return true;
  }
- finish(){if(this.status!=='active')return;if(this.training.enabled){for(const f of [this.player,this.enemy])if(f.hp<=0)f.hp=f.maxHp;this.remaining=60;return;}const p=this.player,e=this.enemy;if(p.hp<=0||e.hp<=0)this.winner=p.hp<=0&&e.hp<=0?'draw':p.hp>0?'player':'enemy';else{const difference=p.hp/p.maxHp-e.hp/e.maxHp;this.winner=Math.abs(difference)<1e-12?'draw':difference>0?'player':'enemy';}this.finishSnapshot=captureFinishSnapshot(this);this.status='over';this.buffer=null;this.aiInput={};this.aiAction=null;this.aiBufferedDefense=null;this.freeze=0;this.rallies=[];this.items=[];this.assists=[];this.projectiles=this.projectiles.filter(p=>!p.itemId&&!p.assistId);this.aiItems.clear();for(const f of [this.player,this.enemy]){f.assist.active=false;f.item=null;f.counter=0;f.brace=0;f.armor=0;f.reject=0;f.calm=0;this.setGuard(f,false);f.attack=null;f.performance=null;}this.events.push({type:'over',winner:this.winner});}
+ finish(){if(this.status!=='active')return;if(this.training.enabled){for(const f of [this.player,this.enemy])if(f.hp<=0)f.hp=f.maxHp;this.remaining=60;return;}const p=this.player,e=this.enemy;if(p.hp<=0||e.hp<=0)this.winner=p.hp<=0&&e.hp<=0?'draw':p.hp>0?'player':'enemy';else{const difference=p.hp/p.maxHp-e.hp/e.maxHp;this.winner=Math.abs(difference)<1e-12?'draw':difference>0?'player':'enemy';}this.finishSnapshot=captureFinishSnapshot(this);this.status='over';this.buffer=null;this.aiInput={};this.aiAction=null;this.aiBufferedDefense=null;this.freeze=0;this.rallies=[];this.items=[];this.assists=[];this.projectiles=this.projectiles.filter(p=>!p.itemId&&!p.assistId);this.aiItems.clear();for(const f of [this.player,this.enemy]){f.assist.active=false;f.item=null;f.counter=0;f.brace=0;f.armor=0;f.armorCount=0;f.reject=0;f.calm=0;this.setGuard(f,false);f.attack=null;f.performance=null;}this.events.push({type:'over',winner:this.winner});}
  // The AI calls the same request gate and spends the same round resource.
  thinkAssist(){
   const f=this.enemy;if(this.elapsed<5||this.aiRecovery>0||!this.assistReady(f)||Math.abs(f.x-this.player.x)>370)return;

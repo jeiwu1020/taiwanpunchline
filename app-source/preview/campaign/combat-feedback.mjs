@@ -1,7 +1,7 @@
 import {impactY} from '../../combat-view.mjs?v=chapter-presentation-20261117-r1';
 import {GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
 
-const COLORS=Object.freeze({hit:'#fff6c9',block:'#a7ece3',damage:'#fff6c9',counter:'#fff0be',miss:'#bddfe1',heal:'#a5f0bc',break:'#ffbb96',reflect:'#ffe1a1',reject:'#e4c8ef',erase:'#e1d9c4',capture:'#f4d58c',queue:'#ffd9a6',armor:'#b8f0ed',calm:'#d4efd6',wall:'#e4c8ef',slow:'#bbe5e4',rally:'#ffe084'});
+const COLORS=Object.freeze({hit:'#fff6c9',block:'#a7ece3',damage:'#fff6c9',counter:'#fff0be',miss:'#bddfe1',heal:'#a5f0bc',break:'#ffbb96',reflect:'#ffe1a1',reject:'#e4c8ef',erase:'#e1d9c4',capture:'#f4d58c',queue:'#ffd9a6',armor:'#b8f0ed',calm:'#d4efd6',wall:'#e4c8ef',slow:'#bbe5e4',rally:'#ffe084',perk:'#ffe57a'});
 
 export function rememberCombatFeedback(queue,event,now=performance.now()){
  if(!event||!queue)return;
@@ -9,9 +9,10 @@ export function rememberCombatFeedback(queue,event,now=performance.now()){
  const actor=(f,offset,text,color,size,x=f?.x)=>{if(f)add(x,f.y+offset,f.depth,text,color,size);};
  if(event.type==='hit'||event.type==='block'){
   const target=event.to;if(!target)return;
-  const text=event.type==='block'?(event.assist?'助拳被擋住':'擋住了'):event.assist?'助拳命中！':event.impact==='item_rubber_duck'?'嘎！':event.impact==='item_paper'?'紙花！':event.combo>1?`${event.combo} 連段！`:'啪！';
-  add(target.x,impactY(event)-14,target.depth,text,event.type==='block'?COLORS.block:COLORS.hit,event.combo>1?29:36);
-  add(target.x+40,target.y-220,target.depth,'−'+Math.round(event.amount??0),COLORS.damage,22);
+  const heavy=event.type==='hit'&&((event.amount??0)>=14||target.hp<=0||['arrow','han_knee','su_shout','su_dare','huang_shout','ma_handshake','rally'].includes(event.impact));
+  const text=event.type==='block'?(event.assist?'助拳被擋住':'擋住了'):event.assist?'助拳命中！':event.impact==='item_rubber_duck'?'嘎！':event.impact==='item_paper'?'紙花！':event.combo>1?`${event.combo} 連段！`:heavy?'轟！':'啪！';
+  add(target.x,impactY(event)-14,target.depth,text,event.type==='block'?COLORS.block:COLORS.hit,event.combo>1?29:heavy?42:36);
+  add(target.x+40,target.y-220,target.depth,'−'+Math.round(event.amount??0),COLORS.damage,heavy?26:22);
  }else if(event.type==='counter')actor(event.f,-150,event.f?.type==='wang'?'游刃有餘':'反擊成功！',COLORS.counter,24);
  else if(event.type==='counterMiss')actor(event.f,-255,event.f?.type==='wang'?'從容失敗':'等太久了',COLORS.miss,23);
  else if(event.type==='spit')actor(event.f,-220,'水還沒喝到，先喝了一拳。','#fff6c9',20);
@@ -30,6 +31,7 @@ export function rememberCombatFeedback(queue,event,now=performance.now()){
  else if(event.type==='calm')actor(event.f,-250,'大事化小…',COLORS.calm,22);
  else if(event.type==='wallBounce'||event.type==='wallHit')actor(event.f,-230,'牆也聽到了！',COLORS.wall,22);
  else if(event.type==='slow')actor(event.f,-220,'被字絆一下',COLORS.slow,21);
+ else if(event.type==='perkTrigger')actor(event.f,-280,'★ '+(event.label||'五階質變！'),COLORS.perk,25);
  else if(event.type==='itemPickup')actor(event.f,-220,'拿到'+(event.item?.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！',COLORS.heal,22);
  else if(event.type==='itemThrow')actor(event.f,-220,event.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！',COLORS.hit,22);
  else if(event.type==='rallyResult')add(event.result==='miss'?event.r?.x:event.to?.x,GROUND-100,event.to?.depth??event.r?.depth??0,event.result==='miss'?(event.r?.tooHigh?'桌上太高啦！':'躲開了！'):event.result==='blocked'?'格擋 −'+event.amount:'命中 −'+event.amount,event.result==='hit'?COLORS.rally:'#d0f7fa',22);

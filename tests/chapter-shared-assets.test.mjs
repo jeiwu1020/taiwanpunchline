@@ -11,7 +11,7 @@ async function chapter(number){
   imp(`${dir}/${tag}-assets.mjs`),imp(`${dir}/${tag}-new-art.mjs`),imp(`${dir}/street-backdrop.mjs`),imp(`${dir}/art-render.mjs`),imp(`${dir}/core.mjs`)
  ]);
  const source=readFileSync(resolve(dist,dir,`${tag}-playable.mjs`),'utf8');
- const expression=source.match(/const allFiles=(\{[^;]+\});let loaded=0;/)?.[1];assert.ok(expression,'actual preload declaration');
+ const expression=source.match(/const allFiles=(\{[^;]+\});/)?.[1];assert.ok(expression,'actual preload declaration');
  const files=new Function('SKY_EXTENSION_FILES','STREET_SEAM_FILES','ASSET_FILES','CHAPTER2_NEW_ART','CHAPTER4_NEW_ART','ART_FILES',`return (${expression})`)(backdrop.SKY_EXTENSION_FILES,backdrop.STREET_SEAM_FILES,assets.ASSET_FILES,art.CHAPTER2_NEW_ART,art.CHAPTER4_NEW_ART,renderer.ART_FILES);
  let assetURL=file=>'assets/'+file;
  if(existsSync(resolve(dist,'preview/shared-asset-urls.mjs'))){const shared=await imp('preview/shared-asset-urls.mjs');assetURL=file=>shared.chapterAssetURL(`chapter${number}`,file);}

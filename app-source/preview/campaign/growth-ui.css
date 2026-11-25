@@ -141,3 +141,26 @@
  .campaign-growth-paper { padding: 12px 16px; }
  .campaign-growth-title { font-size: 25px; }
 }
+.campaign-growth-perk {
+ margin: 10px 0 6px;
+ padding: 8px 10px;
+ border: 2px dashed #9d6812;
+ border-radius: 6px;
+ background: #fff6d6;
+ color: #4a3000;
+ font-size: 13px;
+ line-height: 1.45;
+}
+.campaign-growth-perk strong { display: block; color: #7a4100; margin-bottom: 2px; }
+.campaign-growth-perk.is-unlocked {
+ border-style: solid;
+ border-color: #c67d0e;
+ background: linear-gradient(135deg, #fff5bf, #ffd970);
+ box-shadow: 2px 2px 0 #8a4b00;
+}
+.campaign-growth-skill.is-perk-unlocked {
+ border-color: #c67d0e;
+ background: linear-gradient(135deg, #fff8d2, #ffe28a);
+}
+.campaign-growth-skill-perk { color: #8a4b00; font-weight: 800; margin-top: 2px; }
+

@@ -57,10 +57,40 @@ export function supporterFormation(duel,time=0,reduced=false,view=null){
  }
  return members;
 }
+const RIVAL_PAIR_ROASTS=Object.freeze({
+ 'wang:han':'恰吉王：「韓國魚，我這輩子從沒對這支麥克風這麼從容過。」',
+ 'han:wang':'韓國魚：「可憐哪王兄，剛才連滾帶爬的姿勢差點上熱搜！」',
+ 'han:su':'韓國魚：「大聲公借我喊一句：發財金幣比嗓門還大聲！」',
+ 'su:han':'電火球蘇：「什麼穿雲箭？在我的大聲公面前都是雜訊啦！」',
+ 'su:huang':'電火球蘇：「有錯就要認，排隊線今天先讓我衝過去了！」',
+ 'huang:su':'戰神昌：「麥克風音量大不代表有道理，全部給我先去排隊！」',
+ 'ma:chen':'小馬哥：「報告院長，謝謝指教。剛才握完手記得多喝溫開水。」',
+ 'chen:ma':'阿扁仔：「喂！紙飛機飛過去的不是公文，是我莫忘初衷的氣勢啦！」',
+ 'ko:chen':'阿北柯：「怪怪的，這紙飛機空氣動力學明顯不對，還是我阿北比較科學。」',
+ 'chen:ko':'阿扁仔：「別在那邊算數據了！看我的紙飛機從從容容來回兩趟！」',
+ 'huang:wang':'戰神昌：「滾得再快也沒用，今天這支麥克風我正式宣布拒絕轉交！」',
+ 'wang:huang':'恰吉王：「排隊線畫得再直，也擋不住我從容過肩摔啦！」',
+ 'ma:wang':'小馬哥：「從容不是只有你會，我咳兩聲照樣把全場拉進節奏。」',
+ 'wang:ma':'恰吉王：「想跟我握手？我這杯保溫杯剛喝完，手滑沒握到！」',
+ 'ko:huang':'阿北柯：「咆哮沒有用啦，SOP 已經算出你要喊幾分貝了。」',
+ 'huang:ko':'戰神昌：「再點名我就把你的白板全部退件！去排隊！」',
+});
+const MIRROR_ROASTS=Object.freeze({
+ wang:'兩個恰吉王同時戴上墨鏡——全場找不到第二個人能看破誰才是本尊。',
+ han:'兩位韓國魚在場上互喊可憐哪，結果連發財金幣都搞不清楚該飛向哪一邊。',
+ ma:'兩位小馬哥同時清喉嚨致詞，全場等了三十秒還沒進入第二頁簡報。',
+ su:'雙電火球大聲公對轟，錄音室的隔音棉現場宣布提早離職。',
+ huang:'兩個戰神互畫排隊線，排到最後兩人只好站在線上互相拒絕對方。',
+ chen:'兩架夢想紙飛機在半空中互敬握手，現場突然變得很溫馨。',
+ ko:'兩個阿北拿著同款點名牌互嗆不科學，最後雙雙對著麥克風說「我算錯了」。',
+});
 export function battleResultCopy(duel){
  const mirror=duel.player.type===duel.enemy.type,label=f=>(f.displayName||f.name||CAST[f.type].name)+(mirror&&!f.mobKind&&SUPPORTER_TEAMS[f.id]?`（${SUPPORTER_TEAMS[f.id].label}）`:'');
  if(duel.winner==='draw')return {title:`${label(duel.player)}、${label(duel.enemy)} 平手！`,subtitle:'兩邊都不肯下班，麥克風只好宣布加班。'};
- const winner=duel.winner==='player'?duel.player:duel.enemy,stats=duel.stats||{};
- const roast=stats.interrupts>0?'本場最佳戰術：不讓對方把水喝完。':stats.counters>0?(duel.player.type==='wang'?'墨鏡戴對時機，從容就是一種攻擊。':'等到對方出招，這一回合笑著接下。'):stats.maxCombo>=4?'拳腳沒有在辯論，但場面很有說服力。':CAST[winner.type].roast;
+ const winner=duel.winner==='player'?duel.player:duel.enemy,loser=winner===duel.player?duel.enemy:duel.player,stats=duel.stats||{};
+ const bothCast=!duel.player.mobKind&&!duel.enemy.mobKind;
+ const rival=bothCast&&!mirror?RIVAL_PAIR_ROASTS[`${winner.type}:${loser.type}`]:null;
+ const mirrorRoast=bothCast&&mirror?MIRROR_ROASTS[winner.type]:null;
+ const roast=mirrorRoast||rival||(stats.interrupts>0?'本場最佳戰術：不讓對方把水喝完。':stats.counters>0?(duel.player.type==='wang'?'墨鏡戴對時機，從容就是一種攻擊。':'等到對方出招，這一回合笑著接下。'):stats.maxCombo>=4?'拳腳沒有在辯論，但場面很有說服力。':CAST[winner.type].roast);
  return {title:`${label(winner)}${mirror?'':' '}獲勝！`,subtitle:roast};
 }
