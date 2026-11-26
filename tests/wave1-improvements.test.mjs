@@ -342,4 +342,5 @@ test('Brawl entry point and Finale UI wiring match Wave-1 contracts',()=>{
  assert.match(finaleHtml,/id="ending-winners"/);
  assert.ok(finaleJs.startsWith('import {DEVELOPMENT_TOOLS}'),'DEVELOPMENT_TOOLS hoisted to top of finale-playable.mjs');
  assert.ok(finaleJs.includes("brawl=query.has('brawl')")&&finaleJs.includes("campaign?.finale?.status==='completed'"),'?brawl=1 requires finale completion on active profile');
+ assert.ok(finaleJs.includes('koFlights')&&finaleJs.includes('drawKoSmoke')&&!finaleJs.includes('ctx.strokeRect(p.x-43'),'Finale uses comic KO fly-out and replaces boxy target rectangle with clean pointer');
 });

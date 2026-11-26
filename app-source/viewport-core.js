@@ -21,7 +21,7 @@
    // Rotation sometimes exposes the preceding orientation's visual metrics.
    // The layout viewport is the consistent fallback; never add stale offsets.
    if(Math.abs(vw-width)>2&&((vw>vh)!==(width>height)))return {geometry:fallback,valid:true,reason:'layout-fallback'};
-   if(left< -2||top< -2||left+vw>width+2||top+vh>height+2)return {geometry:fallback,valid:false,reason:'visual-bounds'};
+   if(left< -8||top< -8||left+vw>width+8||top+vh>height+8)return {geometry:fallback,valid:false,reason:'visual-bounds'};
    // Rounding tolerance is not permission to paint beyond the layout bounds.
    const w=Math.min(vw,width),h=Math.min(vh,height);
    return {geometry:{width:w,height:h,left:Math.max(0,Math.min(left,width-w)),top:Math.max(0,Math.min(top,height-h))},valid:true,reason:''};
@@ -41,21 +41,33 @@
   const expected=[frame.left,frame.top,frame.screenWidth,frame.screenHeight];
   // Desktop retains its existing max-width content inside the physical shell.
   // Only horizontal containment may differ; vertical offsets remain invalid.
-  const valid=rects.length>0&&rects.every(rect=>allowNarrow?rect[0]>=expected[0]-1.5&&rect[2]<=expected[2]+1.5&&rect[0]+rect[2]<=expected[0]+expected[2]+1.5&&Math.abs(rect[1]-expected[1])<=1.5&&Math.abs(rect[3]-expected[3])<=1.5:rect.every((n,i)=>Math.abs(n-expected[i])<=1.5));
+  const valid=rects.length>0&&rects.every(rect=>allowNarrow?rect[0]>=expected[0]-4&&rect[2]<=expected[2]+4&&rect[0]+rect[2]<=expected[0]+expected[2]+4&&Math.abs(rect[1]-expected[1])<=4&&Math.abs(rect[3]-expected[3])<=4:rect.every((n,i)=>Math.abs(n-expected[i])<=4));
   return {valid,key:JSON.stringify(rects.map(r=>r.map(n=>Math.round(n*100)/100))),reason:valid?'':'layout-mismatch'};
  }
  // Reading primitive viewport metrics is cheap and does not force a DOM layout.
- function viewportMetricKey(win,doc){const v=win.visualViewport;return [win.innerWidth,win.innerHeight,win.devicePixelRatio,win.scrollX,win.scrollY,!!doc?.hidden,v?.width,v?.height,v?.offsetLeft,v?.offsetTop,v?.scale].join(':');}
+ function viewportMetricKey(win,doc){const v=win.visualViewport;return [Math.round(Number(win.innerWidth)||0),Math.round(Number(win.innerHeight)||0),Math.round((Number(win.devicePixelRatio)||1)*100),Math.round(Number(win.scrollX)||0),Math.round(Number(win.scrollY)||0),!!doc?.hidden,v?Math.round(Number(v.width)||0):'',v?Math.round(Number(v.height)||0):'',v?Math.round(Number(v.offsetLeft)||0):'',v?Math.round(Number(v.offsetTop)||0):'',v?Math.round((Number(v.scale)||1)*100):''].join(':');}
  function validSurface(surface){return !!surface&&surface.valid!==false&&surface.contextLost!==true&&[surface.width,surface.height].every(v=>Number.isFinite(v)&&v>0)&&[surface.backingWidth,surface.backingHeight].every(v=>Number.isFinite(v)&&v>1);}
  function createViewportLifecycle({window:win,document:doc=win.document,read,apply,measure=()=>({valid:true,key:''}),prepare=()=>null,requirePaint=false,clearInput=()=>{},onState=()=>{},onSurfaceReset=()=>{},settleMs=100,orientationMs=240,quietMs=64,observeMs=1000,timeoutMs=2200,activeProbeMs=1000}){
   const now=()=>win.performance?.now?.()??Date.now();
   const request=win.requestAnimationFrame?.bind(win)||root.requestAnimationFrame?.bind(root)||((fn)=>win.setTimeout?.(()=>fn(now()),16)||0);
   const cancel=win.cancelAnimationFrame?.bind(win)||root.cancelAnimationFrame?.bind(root)||win.clearTimeout?.bind(win)||(()=>{});
-  let frame=null,epoch=0,surfaceGeneration=0,token=null,prepared=false,painted=false,recoveryStarted=null,ready=false,status='settling',reason='',raf=0,disposed=false,applying=false,started=now(),changed=started,minimum=orientationMs,geometryKey='',previousKey='',stable=0,metricKey='',lastProbe=started,lastValidation=false;
+  let frame=null,epoch=0,surfaceGeneration=0,token=null,prepared=false,painted=false,recoveryStarted=null,ready=false,status='settling',reason='',raf=0,recoveryTimer=0,disposed=false,applying=false,started=now(),changed=started,minimum=orientationMs,geometryKey='',previousKey='',stable=0,metricKey='',lastProbe=started,lastValidation=false;
   const subscribers=new Set();
   const matches=value=>!!value&&value.epoch===epoch&&value.surfaceGeneration===surfaceGeneration;
-  function publish(){const state={frame,epoch,surfaceGeneration,token,prepared,painted,ready,status,reason,readiness:requirePaint?'paint':'geometry'};onState(state);for(const fn of subscribers)fn(state);if(win.CustomEvent&&win.dispatchEvent)win.dispatchEvent(new win.CustomEvent('parliamentviewportchange',{detail:state}));}
-  function gate(){clearInput();ready=false;status='settling';publish();}
+  const isBootLoading=()=>{const overlay=doc?.getElementById?.('chapter-loading-overlay');return doc?.documentElement?.dataset?.chapterOverlayLoading==='true'&&!!overlay&&!overlay.hidden&&overlay.dataset?.loadingState==='loading';};
+  function clearRecoveryTimer(){if(recoveryTimer){win.clearTimeout?.(recoveryTimer);recoveryTimer=0;}}
+  function scheduleRecoveryCheck(){
+   if(disposed||recoveryTimer||status!=='blocked'||reason==='draw-failed'||doc?.hidden||typeof win.setTimeout!=='function')return;
+   recoveryTimer=win.setTimeout(()=>{
+    recoveryTimer=0;
+    if(disposed||status!=='blocked'||reason==='draw-failed'||doc?.hidden)return;
+    const reading=read(),rect=measure(frame)||{},valid=reading.valid!==false&&rect.valid!==false,renderReady=!requirePaint||(prepared&&painted);
+    if(valid&&(renderReady||isBootLoading()))invalidate('auto-recover');
+    else scheduleRecoveryCheck();
+   },350);
+  }
+  function publish(){if(status!=='blocked')clearRecoveryTimer();else scheduleRecoveryCheck();const state={frame,epoch,surfaceGeneration,token,prepared,painted,ready,status,reason,readiness:requirePaint?'paint':'geometry'};onState(state);for(const fn of subscribers)fn(state);if(win.CustomEvent&&win.dispatchEvent)win.dispatchEvent(new win.CustomEvent('parliamentviewportchange',{detail:state}));}
+  function gate(){clearRecoveryTimer();clearInput();ready=false;status='settling';publish();}
   function renew(){surfaceGeneration++;token=Object.freeze({epoch,surfaceGeneration});prepared=false;painted=false;}
   function acknowledgePrepared(value,surface){if(disposed||!matches(value)||!validSurface(surface))return false;prepared=true;return true;}
   function prepareCurrent(){if(!frame)return;const surface=prepare(frame,token);if(requirePaint){if(!validSurface(surface)){beforeSurfaceMutation();prepared=false;return surface;}acknowledgePrepared(token,surface);}return surface;}
@@ -72,8 +84,9 @@
    if(key!==previousKey||!valid){if(ready)gate();stable=0;changed=time;}else stable++;
    previousKey=key;
    const renderReady=!requirePaint||prepared&&painted;
+   if(isBootLoading()&&!renderReady){started=Math.max(started,time-minimum);return true;}
    if(valid&&renderReady&&time-started>=minimum&&time-changed>=quietMs&&stable>=2){if(!ready){ready=true;status='ready';reason='';publish();}}
-   if(!ready&&time-started>=timeoutMs){status='blocked';reason=reason||(!renderReady?'surface-unpainted':'layout-unstable');publish();return false;}
+   if(!ready&&time-started>=timeoutMs){if(valid&&renderReady&&stable<2)return true;status='blocked';reason=reason||(!renderReady?'surface-unpainted':'layout-unstable');publish();return false;}
    return !ready||time-started<observeMs;
   }
   function tick(time){raf=0;if(disposed)return;try{if(sample(Number.isFinite(time)?time:now()))raf=request(tick);}catch(_){ready=false;status='blocked';reason='surface-prepare-failed';clearInput();publish();}}
@@ -117,7 +130,7 @@
   function acknowledgePaint(value,surface){
    if(disposed||!matches(value)||!prepared||!validSurface(surface)||doc?.hidden)return false;
    const firstPaint=!painted;painted=true;recoveryStarted=null;
-   if(firstPaint&&!raf&&!ready){if(status==='blocked'){started=now();changed=started;stable=0;previousKey='';status='settling';}raf=request(tick);}
+   if(firstPaint&&!raf&&!ready){if(status==='blocked'){clearRecoveryTimer();started=now();changed=started;stable=0;previousKey='';status='settling';}raf=request(tick);}
    return true;
   }
   function checkActive(time=now()){
@@ -126,14 +139,14 @@
    else if(time-lastProbe>=activeProbeMs){
     lastProbe=time;const reading=read();
     if(JSON.stringify(reading.frame)!==geometryKey)invalidate('active-recheck');
-    else{const rect=measure(frame)||{},valid=reading.valid!==false&&rect.valid!==false&&!doc?.hidden;if(valid!==lastValidation){if(recoveryStarted!==null)invalidateSurface('surface-reset');else invalidate('active-layout');}}
+    else{const rect=measure(frame)||{},valid=reading.valid!==false&&rect.valid!==false&&!doc?.hidden;if(status==='blocked'&&reason!=='draw-failed'&&valid&&(!requirePaint||(prepared&&painted)))invalidate('auto-recover');else if(valid!==lastValidation){if(recoveryStarted!==null)invalidateSurface('surface-reset');else invalidate('active-layout');}}
    }
    return token;
   }
   const events=['resize','orientationchange','pageshow','scroll','pagehide'];
   events.forEach(type=>win.addEventListener?.(type,invalidate));
   win.visualViewport?.addEventListener?.('resize',invalidate);win.visualViewport?.addEventListener?.('scroll',invalidate);doc?.addEventListener?.('visibilitychange',invalidate);
-  const api={get frame(){return frame;},get epoch(){return epoch;},get surfaceGeneration(){return surfaceGeneration;},get token(){return token;},get ready(){return ready;},get status(){return status;},get reason(){return reason;},get applying(){return applying;},get prepared(){return prepared;},invalidate,invalidateSurface,beforeSurfaceMutation,failSurface,acknowledgePrepared,acknowledgePaint,checkActive,prepareCurrent,subscribe(fn){subscribers.add(fn);return()=>subscribers.delete(fn);},destroy(){if(disposed)return;disposed=true;clearInput();if(raf)cancel(raf);raf=0;events.forEach(type=>win.removeEventListener?.(type,invalidate));win.visualViewport?.removeEventListener?.('resize',invalidate);win.visualViewport?.removeEventListener?.('scroll',invalidate);doc?.removeEventListener?.('visibilitychange',invalidate);subscribers.clear();}};
+  const api={get frame(){return frame;},get epoch(){return epoch;},get surfaceGeneration(){return surfaceGeneration;},get token(){return token;},get ready(){return ready;},get status(){return status;},get reason(){return reason;},get applying(){return applying;},get prepared(){return prepared;},invalidate,invalidateSurface,beforeSurfaceMutation,failSurface,acknowledgePrepared,acknowledgePaint,checkActive,prepareCurrent,subscribe(fn){subscribers.add(fn);return()=>subscribers.delete(fn);},destroy(){if(disposed)return;disposed=true;clearRecoveryTimer();clearInput();if(raf)cancel(raf);raf=0;events.forEach(type=>win.removeEventListener?.(type,invalidate));win.visualViewport?.removeEventListener?.('resize',invalidate);win.visualViewport?.removeEventListener?.('scroll',invalidate);doc?.removeEventListener?.('visibilitychange',invalidate);subscribers.clear();}};
   invalidate('mount');return api;
  }
  Object.defineProperty(root,'parliamentViewportCore',{value:Object.freeze({gameViewport,viewportSample,sampleViewport,readGameViewport,measureViewportElements,createViewportLifecycle}),configurable:true});

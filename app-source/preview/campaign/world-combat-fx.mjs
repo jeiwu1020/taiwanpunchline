@@ -106,41 +106,42 @@ export function drawWorldFighterAuras(ctx,f,project,zoom=1,time=nowMs()){
  if(!f||f.hp<=0||f.mobKind)return;
  const groundY=f.supportY??GROUND,foot=project(f.x,groundY,f.depth??0),actorPos=project(f.x,f.y??GROUND,f.depth??0);
  const s=zoom*(foot.scale??1),t=time*.001;
- // Rank-5 signature golden ring & rising embers around feet
+ // Rank-5 signature soft floor spotlight + attack-time rising embers (no harsh body ring)
  if(f.perk?.active){
-  const attackBoost=f.attack?1.2:1,spin=(t*2.4)%(Math.PI*2),pulse=.5+.5*Math.sin(t*7);
+  const attackBoost=f.attack?1.18:1,pulse=.5+.5*Math.sin(t*6);
   ctx.save();
   ctx.translate(foot.x,foot.y);
   ctx.scale(s,s);
-  ctx.fillStyle=f.attack?'#ffd95930':'#ffd9591c';
-  ctx.beginPath();ctx.ellipse(0,2,56*attackBoost,13*attackBoost,0,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='#ffe266';ctx.lineWidth=3.2;
-  ctx.beginPath();ctx.ellipse(0,2,(48+pulse*5)*attackBoost,(10.5+pulse*1.5)*attackBoost,0,0,Math.PI*2);ctx.stroke();
-  ctx.strokeStyle='#fff8c9';ctx.lineWidth=2.5;
-  ctx.beginPath();ctx.ellipse(0,2,42*attackBoost,8.5*attackBoost,0,spin,spin+1.25);ctx.stroke();
-  ctx.beginPath();ctx.ellipse(0,2,42*attackBoost,8.5*attackBoost,0,spin+Math.PI,spin+Math.PI+1.25);ctx.stroke();
-  ctx.fillStyle='#ffe97d';
-  for(let i=0;i<4;i++){
-   const phase=(t*1.1+i*.25)%1,angle=spin+i*Math.PI/2,px=Math.cos(angle)*38*attackBoost,py=-10-phase*85;
-   ctx.globalAlpha=(1-phase)*.85;
-   star4(ctx,px,py,5.5);ctx.fill();
+  ctx.fillStyle=f.attack?'#ffd95930':'#ffd95918';
+  ctx.beginPath();ctx.ellipse(0,2,(46+pulse*3)*attackBoost,9*attackBoost,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=f.attack?'#fff4ba28':'#fff4ba12';
+  ctx.beginPath();ctx.ellipse(0,2,28*attackBoost,5.5*attackBoost,0,0,Math.PI*2);ctx.fill();
+  if(f.attack){
+   const spin=(t*3.2)%(Math.PI*2);
+   ctx.fillStyle='#ffe97d';
+   for(let i=0;i<4;i++){
+    const phase=(t*1.5+i*.25)%1,angle=spin+i*Math.PI/2,px=Math.cos(angle)*38*attackBoost,py=-10-phase*88;
+    ctx.globalAlpha=(1-phase)*.9;
+    star4(ctx,px,py,5.5);ctx.fill();
+   }
   }
   ctx.restore();
  }
- // Multi-hit Rank-5 Ko / standard armor shell
+ // Multi-hit Rank-5 Ko / standard comic front guard arc (no giant egg oval)
  if(f.armor>0){
-  const pulse=.5+.5*Math.sin(t*10);
+  const face=f.face||1,pulse=.5+.5*Math.sin(t*10);
   ctx.save();
   ctx.translate(actorPos.x,actorPos.y);
   ctx.scale(s,s);
-  ctx.strokeStyle='#67e5f2';ctx.fillStyle='#67e5f21c';ctx.lineWidth=3.5;
-  ctx.beginPath();ctx.ellipse(0,-136,56+pulse*4,132,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.lineCap='round';
+  ctx.strokeStyle='#67e5f2';ctx.lineWidth=4.5;
+  ctx.beginPath();ctx.arc(face*10,-135,64+pulse*3,face>0?-.68:Math.PI-.68,face>0?.68:Math.PI+.68);ctx.stroke();
   if((f.armorCount??1)>=2){
    ctx.strokeStyle='#ffe169';ctx.lineWidth=3.5;
-   ctx.beginPath();ctx.ellipse(0,-136,64+pulse*5,140,0,0,Math.PI*2);ctx.stroke();
-   ctx.fillStyle='#142b32e8';ctx.fillRect(34,-262,38,24);
-   ctx.strokeStyle='#ffe169';ctx.lineWidth=2;ctx.strokeRect(34,-262,38,24);
-   ctx.fillStyle='#ffe57f';ctx.font='900 14px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('×'+f.armorCount,53,-250);
+   ctx.beginPath();ctx.arc(face*16,-135,73+pulse*4,face>0?-.55:Math.PI-.55,face>0?.55:Math.PI+.55);ctx.stroke();
+   ctx.fillStyle='#142b32e8';ctx.fillRect(32,-262,38,24);
+   ctx.strokeStyle='#ffe169';ctx.lineWidth=2;ctx.strokeRect(32,-262,38,24);
+   ctx.fillStyle='#ffe57f';ctx.font='900 14px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('×'+f.armorCount,51,-250);
   }
   ctx.restore();
  }

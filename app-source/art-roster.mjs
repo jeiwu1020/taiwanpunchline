@@ -69,12 +69,11 @@ export function drawRosterArt(ctx,images,f,p){
   ctx.restore();
  }
  if(f.brace>0||f.armor>0){
-  ctx.save();ctx.strokeStyle='#67e5f2';ctx.fillStyle='#67e5f218';ctx.lineWidth=4.5;
-  ctx.beginPath();ctx.ellipse(0,-135,60,126,0,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.strokeStyle='#67e5f2';ctx.lineWidth=4.5;ctx.beginPath();ctx.moveTo(54,-192);ctx.lineTo(72,-172);ctx.lineTo(72,-94);ctx.lineTo(54,-76);ctx.stroke();
   if((f.armorCount??1)>=2||p.perk){
-   ctx.strokeStyle='#ffe169';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(0,-135,68,134,0,0,Math.PI*2);ctx.stroke();
+   ctx.strokeStyle='#ffd975';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(64,-198);ctx.lineTo(84,-176);ctx.lineTo(84,-90);ctx.lineTo(64,-70);ctx.stroke();
   }
-  ctx.strokeStyle='#ffd975';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(64,-196);ctx.lineTo(82,-176);ctx.lineTo(82,-92);ctx.lineTo(64,-74);ctx.stroke();
   ctx.restore();
  }
  if(p.kind==='ma_handshake'&&p.age>.08&&p.age<.50){

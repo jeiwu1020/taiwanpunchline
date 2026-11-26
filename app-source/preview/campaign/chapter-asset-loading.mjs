@@ -19,15 +19,21 @@ export function chapterAssetLoadPlan(files,{sceneIndex=null,includeMinibossAtlas
  * saved chapter and inspect its current route. Its returned scene index and
  * miniboss flag select the rest of the startup-critical image set.
  */
-export async function loadChapterAssetsInStages({files,resolveScene,loadImage,onProgress,sceneAssetIndexes}={}){
+export async function loadChapterAssetsInStages({files,resolveScene,loadImage,onProgress,sceneAssetIndexes,concurrency=6}={}){
  if(typeof loadImage!=='function')throw new TypeError('loadImage must be a function');
+ const limit=Math.max(1,Number(concurrency)||6);
  const loadBatch=async(batch,phase)=>{
-  const entries=Object.entries(batch),total=entries.length;let loaded=0;
-  const results=await Promise.all(entries.map(async([key,file])=>{
-   try{return {key,image:await loadImage(key,file,phase)};}
-   catch(error){return {key,error};}
-   finally{loaded++;try{onProgress?.({phase,key,loaded,total});}catch{/* Progress UI cannot block asset loading. */}}
-  }));
+  const entries=Object.entries(batch),total=entries.length;if(!total)return {images:{},errors:[]};
+  const results=new Array(total);let next=0,loaded=0;
+  const worker=async()=>{
+   while(next<total){
+    const index=next++,[key,file]=entries[index];
+    try{results[index]={key,image:await loadImage(key,file,phase)};}
+    catch(error){results[index]={key,error};}
+    finally{loaded++;try{onProgress?.({phase,key,loaded,total});}catch{/* Progress UI cannot block asset loading. */}}
+   }
+  };
+  await Promise.all(Array.from({length:Math.min(limit,total)},()=>worker()));
   return {images:Object.fromEntries(results.filter(result=>!result.error).map(result=>[result.key,result.image])),errors:results.filter(result=>result.error).map(result=>result.error)};
  };
 

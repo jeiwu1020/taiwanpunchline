@@ -13,7 +13,7 @@ export function mountViewportProtection(document,recheck){
  const updateCopy=()=>{copy.textContent=cameraBlocked?'可用畫面太小，無法安全顯示主角，操作暫停。請橫放裝置或放大視窗，再重新檢查。':defaultCopy;};
  // Only present a known cause. Recovery, paint ownership and input gating remain
  // owned by the existing draw-failed lifecycle; never restart its deadline here.
- return {setDrawFailure(error){cameraBlocked=error?.code==='STREET_CAMERA_BLOCKED';updateCopy();},update(state){if(state.ready){cameraBlocked=false;updateCopy();}const show=state.status==='blocked';if(notice.hidden===show)notice.hidden=!show;},destroy(){notice.remove();}};
+ return {setDrawFailure(error){cameraBlocked=error?.code==='STREET_CAMERA_BLOCKED';updateCopy();},update(state){if(state.ready){cameraBlocked=false;updateCopy();}const overlay=document.getElementById?.('chapter-loading-overlay');const loadingVisible=!!overlay&&!overlay.hidden;const show=state.status==='blocked'&&(!loadingVisible||cameraBlocked);if(notice.hidden===show)notice.hidden=!show;},destroy(){notice.remove();}};
 }
 
 // One Canvas2D surface adapter serves all later chapters. Its acknowledgement

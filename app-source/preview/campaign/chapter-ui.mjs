@@ -21,7 +21,8 @@ export function chapterEnemyHud(state,world,cast={}){
 export function mountChapterInterface({document,window,cast,getCharacter,getExitState=()=>null,pauseForUI=()=>()=>{},onSound=()=>{},storage,navigate=url=>window.location.assign(url),onCameraChange=()=>{},onViewportChange=()=>{},surfaceContext=null,onSurfaceReset=()=>{},clearHold=()=>{},canUse=id=>!!cast[id],media=null,onRestart=()=>false,isBusy=()=>false,isOperationBusy=isBusy,onPrepare=null,onReturnOverview=null,onReturnHome=null}){
  const $=s=>document.querySelector(s),app=document.body;
  const cameraHints=mountCameraDirectionHints({document,root:$('#trial-app')});
- let resume=null,returnFocus=null,cameraEnabled=false,viewport,settingsUI=null,restarting=false,mounted=false,previewAudioFailure=false,restartPauseRequested=false,lifecycle=null,geometryDirty=true,occlusionCache=null,geometryCamera=null,renderedWorld=null;
+ let resume=null,returnFocus=null,cameraEnabled=false,viewport,settingsUI=null,restarting=false,mounted=false,previewAudioFailure=false,restartPauseRequested=false,lifecycle=null,geometryDirty=true,occlusionCache=null,geometryCamera=null,renderedWorld=null,lastObservedSize='';
+ const readObservedSize=()=>{const sh=$('#trial-app'),st=$('#stage');return `${sh?.clientWidth||0}x${sh?.clientHeight||0}:${st?.clientWidth||0}x${st?.clientHeight||0}:${window.innerWidth||0}x${window.innerHeight||0}`;};
  const safeProbe=document.createElement('div');safeProbe.style.cssText='position:fixed;visibility:hidden;pointer-events:none;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)';document.body.append(safeProbe);
  const preview=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>new URL(window.location.href).searchParams.has(k));
  if(storage===undefined){try{storage=preview?null:window.localStorage;}catch{storage=null;}}
@@ -88,7 +89,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
  }
  function applyViewport(next,epoch){viewport=next;geometryDirty=true;const touch=next.touch;
   const {width,height,rotation,left,top,screenWidth,screenHeight}=viewport,portrait=width<height,shell=$('#trial-app');
-  Object.assign(shell.style,{position:'fixed',left:left+'px',top:top+'px',width:width+'px',height:height+'px',transformOrigin:'top left',transform:rotation?'translateX('+screenWidth+'px) rotate(90deg)':'none'});
+  Object.assign(shell.style,{position:'fixed',left:left+'px',top:top+'px',width:width+'px',height:height+'px',maxWidth:touch||rotation?'none':'1440px',transformOrigin:'top left',transform:rotation?'translateX('+screenWidth+'px) rotate(90deg)':'none'});
   for(const [key,value]of Object.entries({touch,sideways:rotation===90,rotation,layout:portrait?'portrait':'landscape',overlayControls:touch&&!portrait,nativeLandscape:touch&&!rotation&&!portrait,portrait,compact:height<=500,fullBleed:!!viewport.fullBleed})){app.dataset[key]=String(value);shell.dataset[key]=String(value);}
   applyChallengeLayout(shell,viewport);applyChallengeLayout(app,viewport);applyChallengeLayout(document.documentElement,viewport);
   app.dataset.depthRoute??='true';
@@ -99,6 +100,7 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
   $('#rotate-mode').hidden=!touch;$('#camera-mode').hidden=!cameraEnabled;
   shell.__committedViewport=viewport;
   prepareCombatLayout();
+  lastObservedSize=readObservedSize();
   if(mounted)onViewportChange({frame:viewport,epoch});
  }
  function resize(){if(lifecycle?.applying)return viewport;lifecycle?.invalidate('layout');return viewport;}
@@ -140,7 +142,8 @@ export function mountChapterInterface({document,window,cast,getCharacter,getExit
  const shell=$('#trial-app'),protection=mountViewportProtection(document,()=>lifecycle?.invalidate('orientation'));
  lifecycle=createViewportLifecycle({window,document,requirePaint:true,read:readViewport,apply:applyViewport,prepare:()=>surface.prepare(),onSurfaceReset:()=>surface.reset(),clearInput:clearHold,settleMs:140,orientationMs:320,quietMs:120,timeoutMs:5000,measure:next=>{const layout=measureViewportElements(next,[shell],{allowNarrow:!next.touch}),state=surface.inspect();return {...layout,valid:layout.valid&&state.valid,key:layout.key+':'+state.width+':'+state.height+':'+state.backingWidth+':'+state.backingHeight,reason:layout.reason||(state.valid?'':'surface-invalid')};},onState:state=>{if(!state.ready)cameraHints.clear();protection.update(state);for(const el of [app,shell,dialog]){el.__viewportState=state;el.dataset.viewportReady=String(state.ready);el.dataset.viewportEpoch=String(state.epoch);el.dataset.surfaceGeneration=String(state.surfaceGeneration);el.dataset.viewportPainted=String(state.painted);el.dataset.viewportStatus=state.status;el.dataset.viewportReason=state.reason;}geometryDirty=true;}});
  let geometryObserverTimer=0;
- const geometryObserver=window.ResizeObserver?new window.ResizeObserver(()=>{geometryDirty=true;if(!mounted)return;window.clearTimeout(geometryObserverTimer);geometryObserverTimer=window.setTimeout(()=>{geometryObserverTimer=0;if(mounted)lifecycle.invalidate('layout');},120);}):null;
+ lastObservedSize=readObservedSize();
+ const geometryObserver=window.ResizeObserver?new window.ResizeObserver(()=>{geometryDirty=true;const nextSize=readObservedSize();if(nextSize===lastObservedSize)return;lastObservedSize=nextSize;if(!mounted)return;window.clearTimeout(geometryObserverTimer);geometryObserverTimer=window.setTimeout(()=>{geometryObserverTimer=0;if(mounted)lifecycle.invalidate('layout');},120);}):null;
  for(const el of [shell,$('#stage')].filter(Boolean))geometryObserver?.observe(el);
  // HUD/control reflow changes camera occlusion, but not the game surface size.
  // Keep that measurement fresh without resetting the canvas lifecycle during

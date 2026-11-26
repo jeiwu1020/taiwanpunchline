@@ -75,11 +75,6 @@ export function drawFighterArt(ctx,images,f,time=0,{spit=0,impact=null,shadow=tr
  p.perk=!!f.perk?.active;
  ctx.save();
  if(shadow){ctx.fillStyle='#142b3230';ctx.beginPath();ctx.ellipse(0,1+Math.max(0,430-f.y),44,7,0,0,Math.PI*2);ctx.fill();}
- if(p.perk&&f.hp>0){
-  const pulse=.5+.5*Math.sin(time*.009),boost=f.attack?1.18:1;
-  ctx.save();ctx.fillStyle=f.attack?'#ffd9542c':'#ffd95416';ctx.strokeStyle='#ffe169';ctx.lineWidth=f.attack?3.5:2.2;
-  ctx.beginPath();ctx.ellipse(0,-138,58*boost+pulse*4,126*boost,0,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.restore();
- }
  if(hasRosterArt(f.type)){drawRosterArt(ctx,images,f,p);ctx.restore();return p;}
  if(knee&&knee.blend>=.999){
   drawKneeArt(ctx,images,p.age);

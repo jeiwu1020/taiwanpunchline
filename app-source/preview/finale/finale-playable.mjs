@@ -37,7 +37,7 @@ import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=chapter-presenta
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,brawl=query.has('brawl'),preview=!brawl&&DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>query.has(k));
-let chapter=null,progress=null,images={},loaded=false,booting=false,brawlLocked=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null,combatFeedback=[],worldFx=[];
+let chapter=null,progress=null,images={},loaded=false,booting=false,brawlLocked=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null,combatFeedback=[],worldFx=[],koFlights=new Map(),fxTime=0;
 const BRAWL_MVP_LINES=Object.freeze({
  wang:'從頭到尾沒流一滴汗，這就是從容不迫的含金量！',
  han:'現場發財金幣請記得領取，大家辛苦了，可憐哪！',
@@ -212,7 +212,40 @@ controls=bindTouchControls({document,window,active,viewport:()=>({ready:ui.ready
 for(const b of $$('#controls button')){b.addEventListener('click',e=>{if(e.detail===0&&!b.disabled)command(b.dataset.action??(b.dataset.hold==='punch'?'punch':null));});b.addEventListener('keydown',e=>{if(!['Enter',' '].includes(e.key)||!active())return;e.preventDefault();if(!e.repeat){if(b.dataset.hold){pointers.add(b.dataset.hold);recalc();if(b.dataset.hold==='punch')command('punch');}else command(b.dataset.action);}});const release=()=>{pointers.delete(b.dataset.hold);recalc();};b.addEventListener('keyup',release);b.addEventListener('blur',release);}
 function cover(image,w,h){if(!image)return;const z=Math.max(w/image.width,h/image.height);ctx.drawImage(image,(w-image.width*z)/2,(h-image.height*z)/2,image.width*z,image.height*z);}
 function micStand(x,foot,height){return drawFinaleLockedStand(ctx,images['comic-locked-stand'],{x,foot,height});}
-function actor(a,frame,time){const q=finalePoint(a.x,a.y,a.depth??0),x=(q.x-frame.left)*frame.zoom,y=frame.base+(q.y-GROUND)*frame.zoom;ctx.save();ctx.translate(x,y);ctx.scale(frame.zoom*q.scale*(a.face||1),frame.zoom*q.scale);ctx.globalAlpha=a.hp<=0?.3:1;drawFighterArt(ctx,images,presentationFighter(a),time,{shadow:false});ctx.restore();}
+function actor(a,frame,time,ko){
+ let wx=a.x,wy=a.y,rot=0,alpha=1;
+ if(ko){
+  const u=Math.min(1,(fxTime-ko.started)/650);
+  if(u>=1)return;
+  wx=ko.x+ko.dir*(u*420);
+  wy=ko.y-Math.sin(u*Math.PI)*210-u*70;
+  rot=ko.dir*u*Math.PI*2.4;
+  alpha=1-Math.pow(u,2.2);
+ }
+ const q=finalePoint(wx,wy,a.depth??0),x=(q.x-frame.left)*frame.zoom,y=frame.base+(q.y-GROUND)*frame.zoom;
+ ctx.save();ctx.translate(x,y);if(rot)ctx.rotate(rot);ctx.scale(frame.zoom*q.scale*(a.face||1),frame.zoom*q.scale);ctx.globalAlpha=alpha;drawFighterArt(ctx,images,presentationFighter(a),time,{shadow:false});ctx.restore();
+}
+function drawKoSmoke(ko,point,zoom){
+ const puffU=Math.min(1,(fxTime-ko.started)/480);
+ if(puffU<1){
+  const p=point(ko.x,GROUND-54,ko.depth),s=zoom*p.scale,alpha=1-puffU*puffU;
+  ctx.save();ctx.translate(p.x,p.y);ctx.scale(s,s);ctx.globalAlpha=alpha*.92;
+  ctx.fillStyle='#fff6df';ctx.strokeStyle='#17353a';ctx.lineWidth=2.5;
+  for(const [ang,dist,rad] of [[-.8,24,22],[0,10,28],[.8,26,21],[-2.3,22,19],[2.4,24,18]]){
+   const px=Math.cos(ang)*dist*(.4+puffU*.95),py=Math.sin(ang)*dist*(.4+puffU*.75)-puffU*28,r=rad*(.7+puffU*.55)*(1-puffU*.35);
+   ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fill();ctx.stroke();
+  }
+  ctx.restore();
+ }
+ const flagU=Math.min(1,(fxTime-ko.started)/1400);
+ if(flagU<1){
+  const p=point(ko.x,GROUND,ko.depth),s=zoom*p.scale,alpha=flagU<.65?1:1-(flagU-.65)/.35;
+  ctx.save();ctx.translate(p.x,p.y);ctx.scale(s,s);ctx.globalAlpha=alpha*.85;ctx.rotate(ko.dir*.36);
+  ctx.strokeStyle='#17353a';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-30);ctx.stroke();
+  ctx.fillStyle='#fffaf0';ctx.beginPath();ctx.moveTo(0,-30);ctx.lineTo(20,-24);ctx.lineTo(0,-17);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.restore();
+ }
+}
 const idle=Object.fromEntries(CHARACTER_IDS.map(id=>[id,new Duel(id,'beginner',()=>.3,'wang').player]));
 function paint(time){
  const w=canvas.clientWidth,h=canvas.clientHeight,s=view(),g=chapter?.world;ctx.clearRect(0,0,w,h);
@@ -229,15 +262,43 @@ function paint(time){
  }
  const compact=ui.viewport.touch&&w>h&&h<=420;if(document.body.dataset.finaleCompact!==String(compact)){document.body.dataset.finaleCompact=String(compact);ui.invalidateGeometry();}
  const options=ui.cameraOptions,roster=ui.logicalRect($('#arena-roster').getBoundingClientRect());
- if(g!==arenaWorld){arenaFrame=null;arenaWorld=g;combatFeedback.length=0;worldFx.length=0;}
+ if(g!==arenaWorld){arenaFrame=null;arenaWorld=g;combatFeedback.length=0;worldFx.length=0;koFlights.clear();}
  const f=finaleCameraFrame(w,h,g,{...options,occlusions:[...(options.occlusions??[]),roster],previous:arenaFrame,paused:s.paused||s.mode==='result'}),zoom=f.zoom;arenaFrame=f;
  drawFinaleStage(ctx,images['finale-arena'],w,h,f);
  const point=(x,y=GROUND,z=0)=>{const q=finalePoint(x,y,z);return {x:(q.x-f.left)*zoom,y:f.base+(q.y-GROUND)*zoom,scale:q.scale};};
  const target=g.targetFor(g.player);
- for(const a of g.actors){const p=point(a.x,GROUND,a.depth);ctx.strokeStyle=a===g.player?'#f6ca52':a.team===0?'#227c69':'#ac3838';ctx.lineWidth=Math.max(2,3*zoom);ctx.fillStyle=a.hp<=0?'#27323555':a.team===0?'#36a68b55':'#d3555555';ctx.beginPath();ctx.ellipse(p.x,p.y,36*zoom*p.scale,9*zoom*p.scale,0,0,Math.PI*2);ctx.fill();ctx.stroke();if(a===target){ctx.strokeStyle='#ffe378';ctx.strokeRect(p.x-43*zoom*p.scale,p.y-300*zoom*p.scale,86*zoom*p.scale,306*zoom*p.scale);}}
+ for(const a of g.actors){
+  if(a.hp<=0){
+   if(!koFlights.has(a))koFlights.set(a,{started:fxTime,x:a.x,y:a.y,depth:a.depth??0,dir:a.team===0?-1:1});
+   continue;
+  }
+  const p=point(a.x,GROUND,a.depth);
+  ctx.fillStyle='#142b3238';ctx.beginPath();ctx.ellipse(p.x,p.y,38*zoom*p.scale,7.5*zoom*p.scale,0,0,Math.PI*2);ctx.fill();
+  if(a===g.player){
+   ctx.fillStyle='#ffd95428';ctx.beginPath();ctx.ellipse(p.x,p.y,44*zoom*p.scale,9.5*zoom*p.scale,0,0,Math.PI*2);ctx.fill();
+  }
+ }
  const middle=point(480,GROUND,-15);micStand(middle.x,middle.y,210*zoom*middle.scale);
+ for(const ko of koFlights.values())drawKoSmoke(ko,point,zoom);
  const actors=[...g.actors,...g.assists.map(a=>({...a.actor,isAssist:true,depth:a.actor.depth??a.owner.depth,team:a.owner.team,hp:a.phase==='exit'?0:1}))].sort((a,b)=>a.depth-b.depth);
- for(const a of actors){actor(a,f,time);if(a.hp>0&&!a.isAssist){drawWorldFighterAuras(ctx,a,point,zoom,time);const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);ctx.fillStyle='#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name+(a.perk?.active?' ★5':'');ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);}}
+ for(const a of actors){
+  const ko=!a.isAssist&&a.hp<=0?koFlights.get(a):null;
+  actor(a,f,time,ko);
+  if(a.hp>0&&!a.isAssist){
+   drawWorldFighterAuras(ctx,a,point,zoom,time);
+   const p=point(a.x,a.y-292,a.depth),width=54*zoom*p.scale;
+   ctx.fillStyle='#172f36';ctx.fillRect(p.x-width/2,p.y,width,5);
+   ctx.fillStyle=a.team===0?'#68d6b8':'#f69383';ctx.fillRect(p.x-width/2,p.y,width*a.hp/a.maxHp,5);
+   ctx.fillStyle=a===g.player?'#ffe588':'#fff8dc';ctx.strokeStyle='#17353a';ctx.font=`900 ${Math.max(10,13*zoom)}px system-ui`;ctx.textAlign='center';ctx.lineWidth=3;
+   const name=(a===g.player?'★ ':a.team===0?'友 ':'敵 ')+CAST[a.type].name+(a.perk?.active?' ★5':'');
+   ctx.strokeText(name,p.x,p.y-5);ctx.fillText(name,p.x,p.y-5);
+   if(a===target){
+    const bob=Math.sin(fxTime*.01)*3*zoom,tx=p.x,ty=p.y-(22*zoom)+bob,ts=6.5*zoom*p.scale;
+    ctx.fillStyle='#ffdf6e';ctx.strokeStyle='#b22c24';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(tx,ty+ts*1.2);ctx.lineTo(tx-ts,ty-ts*.7);ctx.lineTo(tx+ts,ty-ts*.7);ctx.closePath();ctx.fill();ctx.stroke();
+   }
+  }
+ }
  for(const p of g.projectiles){if(p.dead)continue;const q=p.kind==='arrow'?arrowPresentation(p):p,v=point(q.x,q.y,p.depth);ctx.save();ctx.translate(v.x,v.y);ctx.scale(zoom*v.scale,zoom*v.scale);if(p.kind==='coin'){const cs=p.miniCoin?27:p.perk?46:35;drawProp(ctx,images,'coin',0,0,cs,cs+1,time*.008);}else if(p.kind==='arrow')drawProp(ctx,images,'arrow',0,0,q.width,q.height,q.angle);else if(drawChallengeSignatureProjectile(ctx,images,p,time)){}else{ctx.fillStyle='#fff7df';ctx.strokeStyle='#17353a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-18,12);ctx.lineTo(24,0);ctx.lineTo(-18,-12);ctx.closePath();ctx.fill();ctx.stroke();}ctx.restore();drawWorldProjectileExtra(ctx,p,point,zoom,time);}
  drawFinaleEffects(ctx,images,g,point,zoom,time);
  paintWorldFx(ctx,worldFx,point,zoom,time);
@@ -254,13 +315,13 @@ function hud(){
  for(const a of g.actors){const el=roster.querySelector(`[data-actor="${a.id}"]`);el.dataset.out=String(a.hp<=0);const text=(a.team===0?'友 ':'敵 ')+CAST[a.type].name+(a.hp<=0?' ×':'');if(el.firstChild.textContent!==text)el.firstChild.textContent=text;el.lastChild.style.width=Math.max(0,a.hp/a.maxHp*100)+'%';}
 }
 function tick(now){
- try{const paintToken=ui.beginFrame(now),elapsed=lastTime===null?0:now-lastTime;lastTime=now;const plan=planSimulationFrame(elapsed,{paused:!active()});
+ try{const s=view(),paintToken=ui.beginFrame(now),elapsed=lastTime===null?0:now-lastTime;lastTime=now;if(!s?.paused)fxTime+=Math.min(50,Math.max(0,elapsed));const plan=planSimulationFrame(elapsed,{paused:!active()});
   if(active()){if(held.punch){punchWait-=plan.acceptedMs/1000;if(punchWait<=0)command('punch');}for(const dt of plan.steps){if(!active())break;chapter.step(dt,held);}const events=chapter.drainEvents();media.handleEvents(events,chapter.world);for(const e of events){rememberCombatFeedback(combatFeedback,e,now);rememberWorldFx(worldFx,e,now);if(e.type==='move'&&e.f===chapter.world.player){caption=e.name;captionUntil=now+1400;$('#caption').textContent=caption;}}}
   if(view()?.token!==lastToken)sync();hud();if(paintToken){paint(now);ui.paintFrame(paintToken);}
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],['comic-locked-stand','challenge/story-props-r3/locked-godmic-stand-r3.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();requestAnimationFrame(tick);
+ try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],['comic-locked-stand','challenge/story-props-r3/locked-godmic-stand-r3.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();ui?.resize?.();ui?.prepareSurface?.();requestAnimationFrame(tick);
   const handoff=(preview||brawl)?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||brawl||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
  }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
 }
