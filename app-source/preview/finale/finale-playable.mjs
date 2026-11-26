@@ -37,7 +37,7 @@ import {FINALE_INTRO,FINALE_VERDICT} from './finale-story.mjs?v=chapter-presenta
 if(window.parliamentOrientationChoice?.pending)await window.parliamentOrientationChoice.ready;
 mountCampaignTouch({document,window});
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],canvas=$('#game-canvas'),ctx=canvas.getContext('2d'),query=new URL(location.href).searchParams,brawl=query.has('brawl'),preview=!brawl&&DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>query.has(k));
-let chapter=null,progress=null,images={},loaded=false,booting=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null,combatFeedback=[],worldFx=[];
+let chapter=null,progress=null,images={},loaded=false,booting=false,brawlLocked=false,ui,controls,preparation,preparationBusy=false,recoveryOpen=false,draftTeam=['wang','han','huang'],keys=new Set(),pointers=new Set(),held={},lastTime=null,lastToken=null,punchWait=0,caption='',captionUntil=0,arenaFrame=null,arenaWorld=null,combatFeedback=[],worldFx=[];
 const BRAWL_MVP_LINES=Object.freeze({
  wang:'從頭到尾沒流一滴汗，這就是從容不迫的含金量！',
  han:'現場發財金幣請記得領取，大家辛苦了，可憐哪！',
@@ -85,10 +85,10 @@ $('#intro-copy').replaceChildren(...FINALE_INTRO.map(f=>{const p=document.create
 function renderTeam(){
  for(const [i,id]of ['#team-main','#team-ally1','#team-ally2'].entries())setGameSelectValue($(id),draftTeam[i]);
  if(brawl&&view()){setGameSelectValue($('#brawl-difficulty'),view().difficulty);$('#brawl-rank5').checked=!!view().rank5Perks;}
- const valid=new Set(draftTeam).size===3;$('#team-error').textContent=valid?'我方三人已選好。其餘四人是對手。':'主角與兩名隊友必須是不同角色。';
+ const valid=new Set(draftTeam).size===3;$('#team-error').textContent=brawlLocked?'需先在目前存檔通過第五章與最終戰，才會解鎖「3v4 大亂鬥」。':valid?'我方三人已選好。其餘四人是對手。':'主角與兩名隊友必須是不同角色。';
  $('#team-lineup').replaceChildren(...CHARACTER_IDS.map(id=>{const f=document.createElement('figure');f.dataset.team=draftTeam.includes(id)?'ally':'enemy';const img=document.createElement('img');img.src=new URL('../../'+CAST[id].portrait,import.meta.url).href;img.alt='';const name=document.createElement('figcaption');name.textContent=(draftTeam[0]===id?'你 · ':draftTeam.includes(id)?'友 · ':'敵 · ')+CAST[id].name;f.append(img,name);return f;}));
- $('#start').disabled=!loaded||booting||!valid||!!view()?.busy||!!view()?.blocked;
- $('#start').textContent=!loaded?'角色素材載入中…':brawl?'三人上場，3v4 大亂鬥！':!chapter?'接續這一槽的最終戰':view()?.mode==='team-select'?'三人上場，最後開講！':'接續最終戰';
+ $('#start').disabled=!loaded||booting||brawlLocked||!valid||!!view()?.busy||!!view()?.blocked;
+ $('#start').textContent=!loaded?'角色素材載入中…':brawlLocked?'全破主線後解鎖':brawl?'三人上場，3v4 大亂鬥！':!chapter?'接續這一槽的最終戰':view()?.mode==='team-select'?'三人上場，最後開講！':'接續最終戰';
 }
 function renderResultScoreboard(g,winner){
  const board=$('#result-scoreboard'),roastEl=$('#result-mvp-roast');
@@ -147,7 +147,20 @@ async function attach(handoff){
  if(booting||chapter)return false;booting=true;renderTeam();$('#menu-status').textContent=brawl?'七人已解鎖！選三位就能直接開打。':'正在確認七人與已保存進度…';
  try{
   let r;
-  if(brawl)r={accepted:true,persisted:true,preview:true,chapter:createFinaleBrawlSession({difficulty:$('#brawl-difficulty')?.value||'easy',rank5Perks:$('#brawl-rank5')?.checked??true,team:draftTeam,onChange:sync})};
+  if(brawl){
+   let cleared=DEVELOPMENT_TOOLS&&['test','qa','previewOnly'].some(k=>query.has(k));
+   if(!cleared){
+    try{progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks,onSaved:receipt=>saveFeedback.saved(receipt)});cleared=progress?.readProfile()?.campaign?.finale?.status==='completed';}catch{cleared=false;}
+   }
+   if(!cleared){
+    brawlLocked=true;
+    $('#menu-status').textContent='「3v4 大亂鬥」需先在目前存檔全破主線（通關五章與最終戰）後才會解鎖！';
+    $('#brawl-options').hidden=true;$('#team-lineup').hidden=true;
+    return false;
+   }
+   brawlLocked=false;
+   r={accepted:true,persisted:true,preview:true,chapter:createFinaleBrawlSession({difficulty:$('#brawl-difficulty')?.value||'easy',rank5Perks:$('#brawl-rank5')?.checked??true,team:draftTeam,onChange:sync})};
+  }
   else if(preview)r=await createFinalePreview({onChange:sync});
   else{
    progress??=await openChallengeProgress({storage:window.localStorage,locks:window.navigator.locks,onSaved:receipt=>saveFeedback.saved(receipt)});const state=progress.get(),p=progress.readProfile();

@@ -333,13 +333,13 @@ test('Brawl entry point and Finale UI wiring match Wave-1 contracts',()=>{
  const gameJs=readFileSync(resolve(root,'dist/game.mjs'),'utf8');
  const overviewJs=readFileSync(resolve(root,'dist/challenge-overview.mjs'),'utf8');
 
- assert.match(rootHtml,/id="mode-brawl"[^>]*>3v4 大亂鬥<\/button>/);
- assert.ok(gameJs.includes("$('#mode-brawl')")&&gameJs.includes("preview/finale/?brawl=1"),'game.mjs wires #mode-brawl to preview/finale/?brawl=1');
- assert.match(overviewJs,/mode-brawl.*\/preview\/finale\/\?brawl=1/);
+ assert.match(rootHtml,/id="mode-brawl"[^>]*disabled[^>]*>3v4 大亂鬥 <small>全破解鎖<\/small><\/button>/);
+ assert.ok(gameJs.includes("$('#mode-brawl')")&&gameJs.includes("preview/finale/?brawl=1")&&gameJs.includes("campaign?.finale?.status==='completed'"),'game.mjs gates #mode-brawl behind finale completion');
+ assert.ok(overviewJs.includes("mode-brawl")&&overviewJs.includes("/preview/finale/?brawl=1")&&overviewJs.includes("campaign?.finale?.status==='completed'"),'challenge-overview.mjs gates #mode-brawl behind finale completion');
  assert.match(finaleHtml,/id="brawl-options"/);
  assert.match(finaleHtml,/id="result-scoreboard"/);
  assert.match(finaleHtml,/id="result-mvp-roast"/);
  assert.match(finaleHtml,/id="ending-winners"/);
  assert.ok(finaleJs.startsWith('import {DEVELOPMENT_TOOLS}'),'DEVELOPMENT_TOOLS hoisted to top of finale-playable.mjs');
- assert.match(finaleJs,/brawl=query\.has\('brawl'\)/,'?brawl=1 is available without DEVELOPMENT_TOOLS gating');
+ assert.ok(finaleJs.includes("brawl=query.has('brawl')")&&finaleJs.includes("campaign?.finale?.status==='completed'"),'?brawl=1 requires finale completion on active profile');
 });

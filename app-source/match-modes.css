@@ -5,7 +5,7 @@
 .mode-picker,.mode-options{display:flex;gap:5px;align-items:center;min-width:0;flex-wrap:wrap}
 .mode-picker button,.mode-options button,.mode-options select{min-height:44px;min-width:44px;border:2px solid #719096;background:#1b3c44;color:#fff1d1;border-radius:6px;padding:5px 11px;font-size:14px;font-weight:800;white-space:nowrap}
 .mode-picker #mode-brawl{border-color:#e5b964;background:#26464f;color:#ffebb8}
-.mode-picker #mode-brawl:hover{background:#345b64;color:#fff7dc}
+.mode-picker #mode-brawl:not(:disabled):hover{background:#345b64;color:#fff7dc}
 .mode-picker button[aria-pressed="true"]{background:#ffcd76;color:#17313a;border-color:#fff1bb;box-shadow:2px 2px 0 #081c23;transform:rotate(-1deg)}
 .mode-options button[aria-pressed="true"]{background:#e0ead9;color:#17313a;border-color:#fff5ce}
 .mode-picker button:disabled{opacity:.48;cursor:not-allowed}.mode-picker small{display:inline;font-size:10px}

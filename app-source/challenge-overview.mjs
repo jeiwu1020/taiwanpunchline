@@ -40,6 +40,7 @@ function renderHomeMenu(){
  app.querySelectorAll('.screen').forEach(screen=>screen.classList.add('hidden'));menu.classList.remove('hidden');
  app.dataset.titleOpen='false';stage.inert=false;if(deck)deck.inert=false;
  const challengeButton=app.querySelector('#mode-challenge');challengeButton?.removeAttribute('disabled');if(challengeButton)challengeButton.textContent='挑戰';
+ syncBrawlButton();
  app.querySelector('#pause')?.setAttribute('disabled','');app.querySelector('#help')?.removeAttribute('disabled');
  const paintCard=(side,id,role)=>{const cast=CAST[id];if(!cast)return;const image=app.querySelector(`#${side}-portrait`);if(image){image.src=cast.portrait;image.alt=`${cast.name}原創諷刺漫畫`;}app.querySelector(`#${side}-name`).textContent=cast.name;app.querySelector(`#${side}-tag`).textContent=cast.tag;app.querySelector(`#${side}-moves`).textContent=cast.moves.map(move=>move.name).join(' · ');app.querySelector(`#${side}-selection-hint`).textContent=role;};
  paintCard('player',player,'你 · 選角中');paintCard('opponent',opponent,'AI · 點我換人');
@@ -74,16 +75,25 @@ async function continueSavedCampaign({characterId,helperId}={}){
  location.assign(handoff.url);return{accepted:true,persisted:true};
 }
 
+function brawlUnlocked(){return controller.readProfile()?.campaign?.finale?.status==='completed';}
+function syncBrawlButton(){
+ const brawlButton=app.querySelector('#mode-brawl');if(!brawlButton)return;
+ const unlocked=brawlUnlocked();
+ brawlButton.disabled=!unlocked;
+ brawlButton.innerHTML=unlocked?'3v4 大亂鬥':'3v4 大亂鬥 <small>全破解鎖</small>';
+ brawlButton.title=unlocked?'七人全解鎖 · 3v4 自由大亂鬥':'請先通關主線五章與最終戰後解鎖';
+}
+
 let ui=null;
 try{
  await loadHomeSurface();renderHomeMenu();
- ui=mountChallengeUI({controller,characters:CAST,parent:app,onStart:openMainChallenge,onContinue:continueSavedCampaign,onClose:()=>{}});
+ ui=mountChallengeUI({controller,characters:CAST,parent:app,onStart:openMainChallenge,onContinue:continueSavedCampaign,onChange:syncBrawlButton,onClose:()=>{}});
  ui.open({view:'chapter'});
  app.querySelector('#mode-challenge')?.addEventListener('click',()=>ui.open({view:'chapter'}));
  app.querySelector('#home')?.addEventListener('click',()=>location.assign('/'));
  app.querySelector('#start')?.addEventListener('click',()=>location.assign('/?entryMenu=1'));
  app.querySelector('#mode-battle')?.addEventListener('click',()=>location.assign('/?entryMenu=1&mode=battle'));
  app.querySelector('#mode-training')?.addEventListener('click',()=>location.assign('/?entryMenu=1&mode=training'));
- app.querySelector('#mode-brawl')?.addEventListener('click',()=>location.assign(new URL('/preview/finale/?brawl=1',location.href).href));
+ app.querySelector('#mode-brawl')?.addEventListener('click',()=>{if(!brawlUnlocked())return;location.assign(new URL('/preview/finale/?brawl=1',location.href).href);});
 }catch{showLoadFailure();}
 window.addEventListener('pagehide',()=>ui?.destroy(),{once:true});
