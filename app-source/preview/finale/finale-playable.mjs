@@ -12,7 +12,9 @@ import {drawChallengeSignatureProjectile} from '../../challenge-signature-projec
 import {FINALE_SUPPORTERS,drawFinaleEffects} from './finale-effects.mjs?v=chapter-presentation-20261117-r1';
 import {registerQuickView} from '../quick-view/hook.mjs?v=chapter-presentation-20261117-r1';
 import {CAST,Duel,GROUND} from '../../core.mjs?v=chapter-presentation-20261117-r1';
-import {loadArtImages,drawFighterArt,drawProp} from '../../art-render.mjs?v=chapter-presentation-20261117-r1';
+import {ART_FILES,drawFighterArt,drawProp} from '../../art-render.mjs?v=chapter-presentation-20261117-r1';
+import {loadChapterImage} from '../../chapter-image-loader.mjs?v=chapter-presentation-20261117-r1';
+import {mountChapterLoadingOverlay} from '../../chapter-unified-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {presentationFighter} from '../../move-readability.mjs?v=chapter-presentation-20261117-r1';
 import {arrowPresentation} from '../../art-motion.mjs?v=chapter-presentation-20261117-r1';
 import {planSimulationFrame} from '../../simulation-frame.mjs?v=chapter-presentation-20261117-r1';
@@ -183,9 +185,10 @@ async function returnOverview(){
  if(progress&&!progress.verifyPersistedReceipt({...progress.get(),testMode:false})){openRecovery();$('#finale-save-status').textContent='存檔已在其他頁面變更。請保留備份後重新接續。';return false;}
  media.stop();window.location.assign('../../challenge-overview/');return true;
 }
+const abilityCast=Object.fromEntries(Object.entries(CAST).map(([id,cast])=>[id,{...cast,portrait:typeof cast.portrait==='string'&&cast.portrait.startsWith('assets/')?new URL('../../'+cast.portrait,import.meta.url).href:cast.portrait}]));
 function openPreparation(readOnly=false){
  if(!chapter||preparationBusy||view().busy)return false;pauseForUI();
- preparation??=mountChallengePreparation({document,window,characters:CAST,controller:chapter,getEncounter:view,onBusy:value=>{preparationBusy=value;},onApplied:()=>{const s=chapter.preparationSnapshot(),rest=draftTeam.filter(id=>id!==s.characterId);draftTeam=[s.characterId,...rest,...CHARACTER_IDS.filter(id=>id!==s.characterId&&!rest.includes(id))].slice(0,3);sync();},onClose:sync,onFailure:sync});
+ preparation??=mountChallengePreparation({document,window,characters:abilityCast,controller:chapter,getEncounter:view,onBusy:value=>{preparationBusy=value;},onApplied:()=>{const s=chapter.preparationSnapshot(),rest=draftTeam.filter(id=>id!==s.characterId);draftTeam=[s.characterId,...rest,...CHARACTER_IDS.filter(id=>id!==s.characterId&&!rest.includes(id))].slice(0,3);sync();},onClose:sync,onFailure:sync});
  const editable=!readOnly&&!brawl&&view().mode==='team-select';
  return preparation.open({readOnly:!editable,intent:'boundary',...(editable?{initial:{characterId:draftTeam[0]}}:{})});
 }
@@ -314,16 +317,72 @@ function hud(){
  const roster=$('#arena-roster');if(roster.childElementCount!==7)roster.replaceChildren(...g.actors.map(a=>{const el=document.createElement('span');el.dataset.actor=a.id;el.dataset.team=a.team===0?'ally':'enemy';const text=document.createElement('b'),bar=document.createElement('i');el.append(text,bar);return el;}));
  for(const a of g.actors){const el=roster.querySelector(`[data-actor="${a.id}"]`);el.dataset.out=String(a.hp<=0);const text=(a.team===0?'友 ':'敵 ')+CAST[a.type].name+(a.hp<=0?' ×':'');if(el.firstChild.textContent!==text)el.firstChild.textContent=text;el.lastChild.style.width=Math.max(0,a.hp/a.maxHp*100)+'%';}
 }
+let pendingReveal=false,overlayRevealed=false,tickStarted=false,assetsLoading=false;
+const finaleBackdropURL=new URL('../../assets/arena-chamber-v19.webp',import.meta.url).href;
+const loadingOverlay=mountChapterLoadingOverlay({
+ document,
+ chapter:5,
+ chapterNumber:brawl?'3v4 大亂鬥':'最終戰',
+ chapterTitle:brawl?'七人自由大亂鬥':'最終戰 · 七人開講',
+ backdropUrl:finaleBackdropURL,
+ tips:[
+  '主角腳底有淡金光圈，頭頂 ★／友／敵 標記與小地圖方便隨時確認站位。',
+  '3v4 模式已關閉助拳，所有角色同場開戰，善用四向走位避開對手包夾。',
+  '時間到先比存活人數，再比剩餘血量比例；倒下後隊友仍可替全隊拿下勝利！'
+ ],
+ onRetry:()=>{void load();}
+});
 function tick(now){
  try{const s=view(),paintToken=ui.beginFrame(now),elapsed=lastTime===null?0:now-lastTime;lastTime=now;if(!s?.paused)fxTime+=Math.min(50,Math.max(0,elapsed));const plan=planSimulationFrame(elapsed,{paused:!active()});
   if(active()){if(held.punch){punchWait-=plan.acceptedMs/1000;if(punchWait<=0)command('punch');}for(const dt of plan.steps){if(!active())break;chapter.step(dt,held);}const events=chapter.drainEvents();media.handleEvents(events,chapter.world);for(const e of events){rememberCombatFeedback(combatFeedback,e,now);rememberWorldFx(worldFx,e,now);if(e.type==='move'&&e.f===chapter.world.player){caption=e.name;captionUntil=now+1400;$('#caption').textContent=caption;}}}
-  if(view()?.token!==lastToken)sync();hud();if(paintToken){paint(now);ui.paintFrame(paintToken);}
+  if(view()?.token!==lastToken)sync();hud();if(paintToken){paint(now);ui.paintFrame(paintToken);if(pendingReveal&&!overlayRevealed){overlayRevealed=true;loadingOverlay.setReady();}}
  }catch(error){ui.failFrame(error);}finally{requestAnimationFrame(tick);}
 }
 async function load(){
- try{const extra=await Promise.all([['finale-arena','arena-chamber-v19.webp'],['finale-corridor','challenge/infinite-corridor-v1.png'],['comic-locked-stand','challenge/story-props-r3/locked-godmic-stand-r3.png'],...Object.entries(FINALE_SUPPORTERS)].map(async([id,file])=>[id,await new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=new URL('../../assets/'+file,import.meta.url).href;})]));images={...await loadArtImages(new URL('../../assets/',import.meta.url).href),...Object.fromEntries(extra)};void comic.load(images).then(()=>comicReader.sync());loaded=true;renderTeam();ui?.resize?.();ui?.prepareSurface?.();requestAnimationFrame(tick);
-  const handoff=(preview||brawl)?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});if(preview||brawl||handoff?.accepted)await attach(handoff?.handoff);else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
- }catch{$('#menu-status').textContent='素材載入失敗，請重新整理。存檔未變更。';$('#start').disabled=true;}
+ if(assetsLoading)return;
+ assetsLoading=true;
+ const allAssetEntries=[
+  ['finale-arena','arena-chamber-v19.webp'],
+  ['finale-corridor','challenge/infinite-corridor-v1.png'],
+  ['comic-locked-stand','challenge/story-props-r3/locked-godmic-stand-r3.png'],
+  ...Object.entries(FINALE_SUPPORTERS),
+  ...Object.entries(ART_FILES)
+ ];
+ const total=allAssetEntries.length;
+ let completed=allAssetEntries.filter(([key])=>!!images[key]).length;
+ const phaseLabel=brawl?'3v4 大亂鬥素材':'最終戰角色與舞台';
+ loadingOverlay.setProgress(total?completed/total:0,{phaseLabel,statusText:`載入角色與舞台素材 ${total?Math.round(completed/total*100):0}%`});
+ try{
+  const pending=allAssetEntries.filter(([key])=>!images[key]);
+  const limit=Math.max(1,Math.min(6,pending.length||1));
+  let next=0;
+  const worker=async()=>{
+   while(next<pending.length){
+    const [key,file]=pending[next++];
+    const img=await loadChapterImage(new URL('../../assets/'+file,import.meta.url).href,{timeoutMs:30000,retries:2});
+    images[key]=img;
+    completed++;
+    const ratio=total?completed/total:1;
+    const pct=Math.round(ratio*100);
+    $('#start').textContent=`載入角色素材 ${pct}%`;
+    loadingOverlay.setProgress(ratio,{phaseLabel,statusText:`載入角色與舞台素材 ${pct}%`});
+   }
+  };
+  await Promise.all(Array.from({length:limit},()=>worker()));
+  void comic.load(images).then(()=>comicReader.sync());
+  loaded=true;renderTeam();ui?.resize?.();ui?.prepareSurface?.();pendingReveal=true;
+  if(!tickStarted){tickStarted=true;requestAnimationFrame(tick);}
+  const handoff=(preview||brawl)?null:consumeCampaignHandoff({window,chapterId:'finale-3v4'});
+  if(preview||brawl||handoff?.accepted)await attach(handoff?.handoff);
+  else if(query.has('handoff'))$('#menu-status').textContent='接續已過期，請回挑戰總覽重新接續。';
+ }catch(err){
+  $('#menu-status').textContent='素材載入失敗，請重試或重新整理。存檔未變更。';
+  $('#start').textContent='素材載入失敗';
+  $('#start').disabled=true;
+  loadingOverlay.setError(err?.message||'部分最終戰素材載入失敗，請點按鈕重試。');
+ }finally{
+  assetsLoading=false;
+ }
 }
 renderTeam();load();
 

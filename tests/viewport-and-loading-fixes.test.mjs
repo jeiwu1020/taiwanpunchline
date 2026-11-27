@@ -218,3 +218,106 @@ test('chapter5 route gate uses drawChapter5Prop and chapters 2-5 defer comic loa
  const cssSrc=readFileSync(resolve(root,'dist/preview/campaign/chapter-shell.css'),'utf8');
  assert.match(cssSrc,/#trial-app\[data-touch="true"\],#trial-app\[data-sideways="true"\]\{max-width:none;margin:0\}/);
 });
+
+test('loadArtImages and createComicImageLoader bound concurrent downloads to at most 6',async()=>{
+ const {loadArtImages,ART_FILES}=await import('../dist/art-render.mjs');
+ const {createComicImageLoader}=await import('../dist/preview/campaign/story-comic-assets.mjs');
+
+ let activeArt=0,maxActiveArt=0;
+ class BoundedArtImage{
+  constructor(){this.onload=null;this.onerror=null;this.width=128;this.height=128;this.naturalWidth=128;this.naturalHeight=128;this._src='';}
+  set src(v){
+   this._src=v;activeArt++;maxActiveArt=Math.max(maxActiveArt,activeArt);
+   setTimeout(()=>{activeArt--;this.onload?.();},6);
+  }
+  get src(){return this._src;}
+  removeAttribute(){this._src='';}
+ }
+ const progressEvents=[];
+ const artImages=await loadArtImages('assets/',{
+  concurrency:6,
+  timeoutMs:2000,
+  retries:0,
+  ImageType:BoundedArtImage,
+  onProgress:e=>progressEvents.push(e)
+ });
+ const totalArt=Object.keys(ART_FILES).length;
+ assert.ok(maxActiveArt>=2&&maxActiveArt<=6,`expected art concurrency <= 6, got ${maxActiveArt}`);
+ assert.equal(Object.keys(artImages).length,totalArt);
+ assert.equal(progressEvents.length,totalArt);
+ assert.equal(progressEvents.at(-1).loaded,totalArt);
+
+ const fakeComicFiles=Object.fromEntries(Array.from({length:16},(_,i)=>[`panel-${i}`,`comic/${i}.png`]));
+ let activeComic=0,maxActiveComic=0,failOnce=true;
+ class BoundedComicImage{
+  constructor(){this.onload=null;this.onerror=null;this.naturalWidth=64;this.naturalHeight=64;this._src='';}
+  set src(v){
+   this._src=v;activeComic++;maxActiveComic=Math.max(maxActiveComic,activeComic);
+   setTimeout(()=>{
+    activeComic--;
+    if(failOnce&&v.endsWith('comic/0.png')){failOnce=false;this.onerror?.(new Error('transient'));return;}
+    this.onload?.();
+   },6);
+  }
+  get src(){return this._src;}
+ }
+ const comicLoader=createComicImageLoader({
+  ImageClass:BoundedComicImage,
+  files:fakeComicFiles,
+  baseURL:'https://test.local/assets/',
+  timeoutMs:2000,
+  concurrency:6
+ });
+ const comicBag={};
+ const firstPass=await comicLoader(comicBag);
+ assert.equal(firstPass.ready,false);
+ assert.ok(maxActiveComic>=2&&maxActiveComic<=6,`expected comic concurrency <= 6, got ${maxActiveComic}`);
+ const retryPass=await comicLoader(comicBag,{retry:true});
+ assert.equal(retryPass.ready,true);
+ assert.equal(Object.keys(comicBag).length,16);
+});
+
+test('3v4 brawl pause preparationSnapshot opens read-only ability dialog and finale uses loading overlay & updated rules',async t=>{
+ const {createFinaleBrawlSession}=await import('../dist/preview/finale/finale-brawl.mjs');
+ const {mountChallengePreparation}=await import('../dist/challenge-preparation.mjs');
+ const {CAST}=await import('../dist/core.mjs');
+ const dom=new JSDOM('<!doctype html><html><head></head><body></body></html>',{url:'https://test.local/sub/preview/finale/?brawl=1'});
+ t.after(()=>dom.window.close());
+ const {window}=dom,{document}=window;
+ const brawlSession=createFinaleBrawlSession({difficulty:'hard',rank5Perks:true,team:['wang','han','huang']});
+ await brawlSession.start(['wang','han','huang']);
+ brawlSession.setPaused(true);
+ const snap=brawlSession.preparationSnapshot();
+ assert.equal(snap.unlockedCharacters.length,7);
+ assert.equal(snap.allowance,5);
+ assert.equal(snap.testMode,true);
+ assert.ok(snap.characters.wang&&snap.characters.ko);
+
+ const resolvedCast=Object.fromEntries(Object.entries(CAST).map(([id,cast])=>[id,{...cast,portrait:`https://test.local/sub/${cast.portrait}`}]));
+ const prep=mountChallengePreparation({document,window,characters:resolvedCast,controller:brawlSession,getEncounter:()=>brawlSession.view()});
+ assert.equal(prep.open({readOnly:true,intent:'boundary'}),true,'brawl preparation dialog must open in read-only mode');
+ assert.equal(prep.isOpen,true);
+ assert.ok(document.querySelector('#challengePreparationOverlay img')?.getAttribute('src')?.startsWith('https://test.local/sub/assets/'));
+
+ const finaleSrc=readFileSync(resolve(root,'dist/preview/finale/finale-playable.mjs'),'utf8');
+ assert.match(finaleSrc,/mountChapterLoadingOverlay/);
+ assert.match(finaleSrc,/loadChapterImage/);
+ assert.match(finaleSrc,/abilityCast/);
+ const finaleHtml=readFileSync(resolve(root,'dist/preview/finale/index.html'),'utf8');
+ assert.equal(finaleHtml.includes('地上的圈線區分隊伍'),false);
+ assert.match(finaleHtml,/主角腳底淡金光圈與頭頂/);
+});
+
+test('challenge-overview and qa-viewport avoid root-absolute paths for subpath deployments',()=>{
+ const overviewHtml=readFileSync(resolve(root,'dist/challenge-overview/index.html'),'utf8');
+ assert.equal(/<base\s+href=["']\/["']/i.test(overviewHtml),false,'must not hardcode <base href="/">');
+ assert.equal(/(href|src)=["']\//.test(overviewHtml),false,'overview html must not use root-absolute asset paths');
+
+ const overviewJs=readFileSync(resolve(root,'dist/challenge-overview.mjs'),'utf8');
+ assert.equal(overviewJs.includes("fetch('/index.html'"),false,'must not fetch root-absolute /index.html');
+ assert.equal(overviewJs.includes("location.assign('/')"),false,'must not navigate to root-absolute /');
+
+ const qaHtml=readFileSync(resolve(root,'dist/qa-viewport.html'),'utf8');
+ assert.equal(/src=["']\/\??/.test(qaHtml),false,'qa-viewport iframes must use relative paths');
+});
+

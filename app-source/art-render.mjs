@@ -1,3 +1,4 @@
+import {loadChapterImage} from './chapter-image-loader.mjs?v=chapter-presentation-20261117-r1';
 import {OPENING_ART_FILES} from './challenge-opening-assets.mjs?v=chapter-presentation-20261117-r1';
 import {kneePresentation,drawKneeArt} from './art-signature.mjs?v=chapter-presentation-20261117-r1';
 import {expressionFor} from './art-expression.mjs?v=chapter-presentation-20261117-r1';
@@ -194,6 +195,18 @@ export function drawFighterArt(ctx,images,f,time=0,{spit=0,impact=null,shadow=tr
  if(knee){ctx.restore();drawKneeArt(ctx,images,p.age);}
  ctx.restore();return p;
 }
-export async function loadArtImages(base='assets/'){
- const entries=await Promise.all(Object.entries(ART_FILES).map(([key,file])=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve([key,im]);im.onerror=()=>reject(new Error(file));im.src=base+file})));return Object.fromEntries(entries);
+export async function loadArtImages(base='assets/',{concurrency=6,timeoutMs=30000,retries=2,onProgress,ImageType}={}){
+ const entries=Object.entries(ART_FILES),total=entries.length;if(!total)return {};
+ const loadedEntries=new Array(total),limit=Math.max(1,Math.min(Number(concurrency)||6,total));
+ let next=0,done=0;
+ const worker=async()=>{
+  while(next<total){
+   const index=next++,[key,file]=entries[index];
+   const image=await loadChapterImage(base+file,{timeoutMs,retries,ImageType});
+   loadedEntries[index]=[key,image];
+   done++;try{onProgress?.({key,loaded:done,total});}catch{}
+  }
+ };
+ await Promise.all(Array.from({length:limit},()=>worker()));
+ return Object.fromEntries(loadedEntries);
 }

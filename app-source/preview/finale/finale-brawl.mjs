@@ -103,14 +103,20 @@ export function createFinaleBrawlSession({difficulty='easy',rank5Perks=true,team
   },
   async retrySave(){return {accepted:true,persisted:true};},
   preparationSnapshot(){
+   const skillsFor=()=>({hp:0,move:0,basic:0,defense:0,special:useRank5?5:0,rally:0,assist:0});
    return {
     characterId:currentTeam[0],
     helperId:currentTeam[1],
     difficulty:currentDifficulty,
+    unlockedCharacters:[...CHARACTER_IDS],
+    allowance:useRank5?5:0,
+    characters:Object.fromEntries(CHARACTER_IDS.map(id=>[id,{skills:skillsFor()}])),
     rank5Perks:useRank5,
-    skills:{special:useRank5?5:0},
+    skills:skillsFor(),
     perks:Object.fromEntries(CHARACTER_IDS.map(id=>[id,{...statsFor(id).perk,castName:CAST[id].name}])),
     token:String(serial),
+    testMode:true,
+    preview:true,
     readOnly:true,
    };
   },

@@ -45,21 +45,27 @@ export function paintComicMiniboss(ctx,images,actor,scene,_options,registry=STOR
 
 /** Same URLs and loader for normal play and quick view. No storage or campaign
  * writes; one decoded request per file, failures remain visible to the caller. */
-export function createComicImageLoader({ImageClass=globalThis.Image,files=STORY_COMIC_IMAGE_FILES,baseURL=new URL('../../assets/',import.meta.url).href,timeoutMs=15000}={}){
+export function createComicImageLoader({ImageClass=globalThis.Image,files=STORY_COMIC_IMAGE_FILES,baseURL=new URL('../../assets/',import.meta.url).href,timeoutMs=15000,concurrency=6}={}){
  const pending=new Map(),failed=new Set();
  return async function load(images,{retry=false}={}){
-  const results=await Promise.all(Object.entries(files).map(async([key,file])=>{
-   if(decoded(images[key]))return {key,status:'ready'};
-   if(retry&&failed.delete(key))pending.delete(key);
-   if(!pending.has(key))pending.set(key,new Promise((resolve,reject)=>{
-    let image,timer;const finish=(error)=>{clearTimeout(timer);if(image)image.onload=image.onerror=null;if(error){failed.add(key);reject(error);}else resolve(image);};
-    try{image=new ImageClass();timer=setTimeout(()=>finish(Error(`Comic image timed out: ${key}`)),timeoutMs);
-     image.onload=()=>finish(decoded(image)?null:Error(`Empty comic image: ${key}`));
-     image.onerror=()=>finish(Error(`Comic image unavailable: ${key}`));image.src=new URL(file,baseURL).href;
-    }catch(error){finish(error);}
-   }));
-   try{images[key]=await pending.get(key);return {key,status:'ready'};}catch(error){return {key,status:'failed',error};}
-  }));
+  const entries=Object.entries(files),results=new Array(entries.length),limit=Math.max(1,Math.min(Number(concurrency)||6,entries.length||1));
+  let next=0;
+  const worker=async()=>{
+   while(next<entries.length){
+    const index=next++,[key,file]=entries[index];
+    if(decoded(images[key])){results[index]={key,status:'ready'};continue;}
+    if(retry&&failed.delete(key))pending.delete(key);
+    if(!pending.has(key))pending.set(key,new Promise((resolve,reject)=>{
+     let image,timer;const finish=(error)=>{clearTimeout(timer);if(image)image.onload=image.onerror=null;if(error){failed.add(key);reject(error);}else resolve(image);};
+     try{image=new ImageClass();timer=setTimeout(()=>finish(Error(`Comic image timed out: ${key}`)),timeoutMs);
+      image.onload=()=>finish(decoded(image)?null:Error(`Empty comic image: ${key}`));
+      image.onerror=()=>finish(Error(`Comic image unavailable: ${key}`));image.src=new URL(file,baseURL).href;
+     }catch(error){finish(error);}
+    }));
+    try{images[key]=await pending.get(key);results[index]={key,status:'ready'};}catch(error){results[index]={key,status:'failed',error};}
+   }
+  };
+  await Promise.all(Array.from({length:limit},()=>worker()));
   return {ready:results.every(r=>r.status==='ready'),results};
  };
 }
