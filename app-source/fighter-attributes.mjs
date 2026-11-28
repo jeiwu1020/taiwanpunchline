@@ -8,13 +8,13 @@ export const FIGHTER_BASE_ATTRIBUTES=Object.freeze({
 });
 const branches=Object.freeze({hp:['maxHp',.03],move:['moveMultiplier',.01],basic:['basicMultiplier',.02],defense:['damageTakenMultiplier',-.015],special:['specialMultiplier',.02],rally:['rallyMultiplier',.02],assist:['assistMultiplier',.02]});
 export const RANK5_PERKS=Object.freeze({
- wang:Object.freeze({title:'鐵胃金鐘開麥',move:'保溫杯／跳起過肩',summary:'喝茶回復增至 14 並附金鐘硬甲；過肩反擊窗口延長且爆擊退 +10、1.3× 回擊'}),
- han:Object.freeze({title:'發財雙幣天女箭',move:'發財金幣／一支穿雲箭',summary:'噴出金光超大金幣加第 2 枚小幣；穿雲箭爆裂加寬且傷害 +4'}),
- su:Object.freeze({title:'電火球碎障三連撞',move:'三步跨衝／大聲公震場',summary:'三步跨衝可震碎排隊線並強化末擊；大聲公直接震碎全部 3 格防禦'}),
- huang:Object.freeze({title:'加倍奉還鋼鐵人龍',move:'今天我拒絕／先去排隊',summary:'成功反彈飛行道具變 1.6× 金光爆彈；排隊線持久加粗、壓 2 格防禦'}),
- ma:Object.freeze({title:'黃金神手暈眩爆震',move:'死亡之握／喉嚨卡卡',summary:'死亡之握附帶眼冒金星與重度遲緩；清嗓咳整排掃光對手飛行道具'}),
- chen:Object.freeze({title:'超音速夢想回春手',move:'夢想紙飛機／莫忘初衷',summary:'紙飛機加速 1.32×、飛距 +120 且去回 +3 傷；定神觸發立刻回復 +4 氣勢'}),
- ko:Object.freeze({title:'雙層鋼鐵大字緩速',move:'鋼鐵硬扛／亂說話點名',summary:'硬扛升格為 2 層超久霸體與下次普攻 +20%；點名大字砸地加寬且重度緩速'}),
+ wang:Object.freeze({title:'鐵胃金鐘開麥',move:'喝水回氣／從從容容',short:'喝水 +5 附 1.4 秒金鐘，反擊 1.5×！',summary:'喝水回氣 +5（共回 15）並附 1.4 秒金鐘硬甲；從從容容窗口延長，反擊 1.5× 爆擊退 +20！'}),
+ han:Object.freeze({title:'發財雙幣天女箭',move:'發財金幣波／一支穿雲箭',short:'金幣變雙幣連發，穿雲箭範圍加大 +5 傷！',summary:'發財金幣波連噴金光大幣加第 2 枚小幣；一支穿雲箭紅金光柱加寬、擊退 +12 且傷害 +5！'}),
+ su:Object.freeze({title:'電火球碎障三連撞',move:'衝衝衝／在那叫什麼',short:'衝衝衝碎拒馬末擊 +6，吼叫震碎 3 格防！',summary:'衝衝衝直接撞碎排隊拒馬，第 3 擊傷害 +6、破 2 格防；在那叫什麼加寬並一次震碎全部 3 格防禦！'}),
+ huang:Object.freeze({title:'加倍奉還鋼鐵人龍',move:'我有欠你喔／可以這樣插隊喔',short:'拒馬變 2 次黃金緩速牆，彈道具 1.6×！',summary:'可以這樣插隊喔升格為黃金拒馬：可擋 2 次、+5 傷且緩速壓 2 格防；我有欠你喔反彈飛行道具變 1.6× 金光爆彈！'}),
+ ma:Object.freeze({title:'黃金神手暈眩爆震',move:'死亡之握／酷酷嫂',short:'死亡之握 +4 傷重暈，清嗓全掃場並緩速！',summary:'死亡之握附 +4 震傷、眼冒金星與重度遲緩；酷酷嫂金霧掃光全場直線道具並衝擊緩速！'}),
+ chen:Object.freeze({title:'超音速夢想回春手',move:'有夢最美／有這麼嚴重嗎',short:'紙飛機 1.32× 超音速 +4，定神回 +5 震退！',summary:'有夢最美紙飛機 1.32× 加速、飛距 +120、去回 +4 傷；有這麼嚴重嗎擋下攻擊回 +5 氣勢並震退近敵！'}),
+ ko:Object.freeze({title:'雙層鋼鐵大字緩速',move:'我不會屈服／賴祥德',short:'2 層霸體下次重拳 1.75×，點名震暈加寬！',summary:'我不會屈服變 2 層長效霸體，下次普攻 1.75× 破 2 格防；賴祥德金框巨字砸地短暈並重度緩速！'}),
 });
 export function specialPerkFor(id,specialRank=0,challenge=false){
  if(typeof id!=='string'||!Object.hasOwn(RANK5_PERKS,id))return null;

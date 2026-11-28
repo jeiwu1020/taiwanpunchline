@@ -213,3 +213,21 @@ for(const [key,code] of [['Escape','Escape'],[' ','Space'],['ArrowUp','ArrowUp']
   if(code==='Escape'){f.ui.element.dispatchEvent(new f.w.Event('cancel',{cancelable:true}));assert.equal(f.ui.element.open,false);assert.equal(f.d.activeElement,f.launcher);}
  });
 }
+
+test('Rank-5 perk hides spoilers before rank 5 and reveals compact title, short text, and banner at rank 5',async t=>{
+ const f=fixture(t,{xp:2800});f.state.characters.wang.skills={...zero(),special:4};f.ui.open();
+ const perkAt4=deriveFighterStats('wang',{challenge:true,skills:f.state.characters.wang.skills}).perk;
+ assert.equal(perkAt4.unlocked,false);
+ assert.doesNotMatch(f.ui.element.textContent,new RegExp(perkAt4.title));
+ assert.doesNotMatch(f.ui.element.textContent,new RegExp(perkAt4.short.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+ assert.match(f.q('[data-perk-summary="wang"]').textContent,/隱藏|5\/5/);
+ assert.match(f.skill('special').textContent,/5\/5 解鎖隱藏質變/);
+
+ f.skill('special').click();await flush();
+ assert.equal(f.state.characters.wang.skills.special,5);
+ assert.ok(f.q('[data-perk-summary="wang"]').classList.contains('is-unlocked'));
+ assert.ok(f.q('[data-perk-summary="wang"]').textContent.includes(perkAt4.title));
+ assert.ok(f.q('[data-perk-summary="wang"]').textContent.includes(perkAt4.move));
+ assert.ok(f.q('[data-perk-summary="wang"]').textContent.includes(perkAt4.summary));
+ assert.ok(f.skill('special').textContent.includes(perkAt4.short));
+});

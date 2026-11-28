@@ -13,7 +13,7 @@ import {presentationFighter,fighterGazeGlyph,drawHumanGlyph,SIGNATURE_SIZE,nameT
 import {assistView} from './assist-presentation.mjs?v=chapter-presentation-20261117-r1';
 import {RALLY} from './stage-expansion.mjs?v=chapter-presentation-20261117-r1';
 import {ITEM_ART,heldItemAnchor,chooseCarryHand} from './item-presentation.mjs?v=chapter-presentation-20261117-r1';
-import {drawWorldFighterAuras,drawWorldProjectileExtra} from './preview/campaign/world-combat-fx.mjs?v=chapter-presentation-20261117-r1';
+import {drawWorldFighterAuras,drawWorldProjectileExtra,drawWorldObstacleExtra} from './preview/campaign/world-combat-fx.mjs?v=chapter-presentation-20261117-r1';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const DEPTH_SCALE=.65,MIN_DEPTH=-90,MAX_DEPTH=100;
 const depthOf=f=>Number(f?.depth)||0;
@@ -257,25 +257,27 @@ function drawItem(ctx,images,kind,x,y,scale=1,rotation=0,flip=false){
 function drawProjectile(ctx,images,q,time,zoom){
  const p=depthWorldPoint(q),direction=q.vx<0?-1:1;
  if(q.kind==='coin'&&images['art-props']){
-  const cw=q.perk?(q.miniCoin?22:36):26,ch=q.perk?(q.miniCoin?23:37):27;
-  line(ctx,p.x-direction*64,p.y,p.x,p.y,'#ffd65955',6);
+  const cw=q.perk?(q.miniCoin?26:46):26,ch=q.perk?(q.miniCoin?27:47):27;
+  line(ctx,p.x-direction*(q.perk?88:64),p.y,p.x,p.y,q.perk?'#ffe56b88':'#ffd65955',q.perk?8:6);
   for(let i=3;i>=0;i--){ctx.save();ctx.globalAlpha*=i===0?1:.42-i*.09;drawProp(ctx,images,'coin',p.x-direction*i*18,p.y,cw,ch,time*.008);ctx.restore();}
  }
  else if(q.kind==='dream'){
-  line(ctx,p.x-direction*68,p.y,p.x,p.y,'#7ce0a866',5);
-  ctx.save();ctx.translate(p.x,p.y);ctx.scale(direction,1);drawSignatureProp(ctx,images,'dream',0,0,SIGNATURE_SIZE.dream.width,SIGNATURE_SIZE.dream.height,Math.sin(time*.008)*.06);ctx.restore();if(q.phase==='return')label(ctx,'↶ 回程',p.x,p.y+47,zoom,{color:'#d0f4d9'});
+  line(ctx,p.x-direction*(q.perk?96:68),p.y,p.x,p.y,q.perk?'#ffe26b99':'#7ce0a866',q.perk?7:5);
+  ctx.save();ctx.translate(p.x,p.y);ctx.scale(direction,1);drawSignatureProp(ctx,images,'dream',0,0,SIGNATURE_SIZE.dream.width*(q.perk?1.12:1),SIGNATURE_SIZE.dream.height*(q.perk?1.12:1),Math.sin(time*.008)*.06);ctx.restore();
+  if(q.phase==='return')label(ctx,'↶ 回程',p.x,p.y+47,zoom,{color:'#d0f4d9'});
+  else if(q.perk)label(ctx,'★ 超音速',p.x,p.y-38,zoom,{size:13,color:'#ffe87a'});
  }
  else if(q.kind==='arrow'||q.kind==='word'){
   // The route engine's lob falls vertically at targetX; align its art to that
   // actual trajectory rather than the duel-only sideways arrow release arc.
-  if(q.kind==='word'){const {width:w,height:h,size}=SIGNATURE_SIZE.word,x=p.x+nameTileOffset(q.age||0,.56,direction);ctx.fillStyle='#fff7e5';ctx.strokeStyle='#367e8a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,'賴祥德',x,p.y,zoom,{size,color:'#295e66'});}
-  else if(images['art-props']){line(ctx,p.x,p.y-56,p.x,p.y,'#ffb84d66',5);drawProp(ctx,images,'arrow',p.x,p.y,150,20,q.lob?Math.PI/2:Math.atan2(q.vy||0,q.vx||1));}
+  if(q.kind==='word'){const {width:baseW,height:baseH,size}=SIGNATURE_SIZE.word,w=baseW+(q.perk?24:0),h=baseH+(q.perk?10:0),x=p.x+nameTileOffset(q.age||0,.56,direction);ctx.fillStyle=q.perk?'#fff2c6':'#fff7e5';ctx.strokeStyle=q.perk?'#ffcf48':'#367e8a';ctx.lineWidth=q.perk?6:4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);if(q.perk){ctx.strokeStyle='#367e8a';ctx.lineWidth=2.5;ctx.strokeRect(x-w/2+4,p.y-h/2+4,w-8,h-8);}label(ctx,q.perk?'★ 賴祥德':'賴祥德',x,p.y,zoom,{size:q.perk?size+2:size,color:'#295e66'});}
+  else if(images['art-props']){line(ctx,p.x,p.y-(q.perk?84:56),p.x,p.y,q.perk?'#ff8c2e99':'#ffb84d66',q.perk?7:5);drawProp(ctx,images,'arrow',p.x,p.y,150,20,q.lob?Math.PI/2:Math.atan2(q.vy||0,q.vx||1));}
  }else if(q.kind==='notice'){
   const w=124,h=60,x=p.x+nameTileOffset(q.age||0,q.flight||.72,direction);ctx.fillStyle='#fff6df';ctx.strokeStyle='#d4822a';ctx.lineWidth=4;ctx.fillRect(x-w/2,p.y-h/2,w,h);ctx.strokeRect(x-w/2,p.y-h/2,w,h);label(ctx,q.noticeText||'通知',x,p.y,zoom,{size:24,color:'#7d4310'});
  }else if(!drawItem(ctx,images,q.kind,p.x,p.y,1.05,q.kind==='paper'?time*.008:Math.sin(time*.013)*.12)){
   // Mob leaflets use the original paper item when available; all scene builds
   // still have a readable illustrated fallback, never an invisible attack.
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(time*.008);ctx.fillStyle='#fff6dc';ctx.strokeStyle='#17333b';ctx.lineWidth=2;ctx.fillRect(-20,-13,40,26);ctx.strokeRect(-20,-13,40,26);line(ctx,-13,-5,13,-5,'#db9858',3);line(ctx,-13,4,9,4,'#587c82',2);ctx.restore();
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(time*.008);ctx.fillStyle='#fff6dc';ctx.strokeStyle='#17353b';ctx.lineWidth=2;ctx.fillRect(-20,-13,40,26);ctx.strokeRect(-20,-13,40,26);line(ctx,-13,-5,13,-5,'#db9858',3);line(ctx,-13,4,9,4,'#587c82',2);ctx.restore();
  }
  drawWorldProjectileExtra(ctx,q,(wx,wy=GROUND,wz=0)=>({x:wx,y:wy+wz*DEPTH_SCALE}),1,time);
  if(q.reflected){label(ctx,q.perk?'↶ 2×反彈':'↶ 反射',p.x,p.y+36,zoom,{color:'#ffe2a4'});}
@@ -287,7 +289,7 @@ function drawActorShadow(ctx,item){
 function drawGroundEffects(ctx,items,frame){
  for(const item of items){const f=item.value;
   if(item.kind==='actor'&&(f.supportY??GROUND)>=GROUND)drawActorShadow(ctx,item);
-  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word'||f.kind==='notice')){const y=GROUND+depthOf(f)*DEPTH_SCALE,notice=f.kind==='notice',color=f.kind==='word'?'#367e8a':notice?'#d4822a':'#be4033',x=f.targetX??f.x,rx=notice?(f.markWidth??96)/2:55,rem=1-Math.max(0,Math.min(1,(f.age||0)/(f.flight||1.2)));ellipse(ctx,x,y,rx,9,color+'26');ctx.strokeStyle=color;ctx.lineWidth=3.5;ctx.beginPath();ctx.ellipse(x,y,rx,9,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#fff2c2cc';ctx.lineWidth=2.5;ctx.beginPath();ctx.ellipse(x,y,Math.max(8,rx*rem),Math.max(3,9*rem),0,0,Math.PI*2);ctx.stroke();label(ctx,notice?(f.markLabel||'落點'):f.kind==='word'?'落字':'落箭',x,y+20,frame.zoom,{color});}
+  if(item.kind==='projectile'&&(f.kind==='arrow'||f.kind==='word'||f.kind==='notice')){const y=GROUND+depthOf(f)*DEPTH_SCALE,notice=f.kind==='notice',word=f.kind==='word',color=word?'#367e8a':notice?'#d4822a':'#be4033',x=f.targetX??f.x,rx=(f.markWidth??(word?92:notice?96:110))/2,rem=1-Math.max(0,Math.min(1,(f.age||0)/(f.flight||1.2)));ellipse(ctx,x,y,rx,9,f.perk?'#ffdf6e33':color+'26');ctx.strokeStyle=f.perk?'#ffdf6e':color;ctx.lineWidth=f.perk?4.5:3.5;ctx.beginPath();ctx.ellipse(x,y,rx,9,0,0,Math.PI*2);ctx.stroke();ctx.strokeStyle='#fff2c2cc';ctx.lineWidth=2.5;ctx.beginPath();ctx.ellipse(x,y,Math.max(8,rx*rem),Math.max(3,9*rem),0,0,Math.PI*2);ctx.stroke();label(ctx,f.perk?(word?'★ 巨字落點':'★ 穿雲落點'):notice?(f.markLabel||'落點'):word?'落字':'落箭',x,y+20,frame.zoom,{color:f.perk?'#ffe87a':color});}
  }
 }
 function drawActor(ctx,images,item,time,frame,options,poses){
@@ -330,7 +332,7 @@ export function paintDepthRoute(ctx,images,route,time,frame,options={}){
   else if(item.kind==='encounter-gate')drawChapterEncounterObject(ctx,'gate',q,encounterProject,1,images,route.chapterEncounter?.time??time);
   else if(item.kind==='actor')drawActor(ctx,images,item,time,frame,options,poses);
   else if(item.kind==='projectile')drawProjectile(ctx,images,q,time,frame.zoom);
-  else if(item.kind==='obstacle'){const y=(q.y??GROUND)+depthOf(q)*DEPTH_SCALE;line(ctx,q.x-35,y-2,q.x+35,y-2,'#ab4e3c',5);drawSignatureProp(ctx,images,'queue',q.x,y-37,92,74,0,Math.min(1,q.life*3));label(ctx,'地面攔停',q.x,y-87,frame.zoom,{color:'#ffe0ab'});}
+  else if(item.kind==='obstacle'){const y=(q.y??GROUND)+depthOf(q)*DEPTH_SCALE;line(ctx,q.x-35,y-2,q.x+35,y-2,q.perk?'#ffe05c':'#ab4e3c',5);drawSignatureProp(ctx,images,'queue',q.x,y-37,92,74,0,Math.min(1,q.life*3));if(q.perk)drawWorldObstacleExtra(ctx,q,encounterProject,1,time);else label(ctx,'地面攔停',q.x,y-87,frame.zoom,{color:'#ffe0ab'});}
   else if(item.kind==='rally'&&!options.externalRallyRenderer)drawRally(ctx,images,q,time,frame.zoom,options.reducedMotion);
  }
  drawClasp(ctx,images,items,poses);

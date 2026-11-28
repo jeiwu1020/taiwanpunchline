@@ -142,13 +142,13 @@ export class ChallengeDepthRoute extends ChallengeRoute {
  updateEffects(dt){
   const p=this.player;
   for(const q of this.projectiles)q.depth??=q.owner.depth??0;
-  for(const q of this.obstacles){q.life-=dt;for(const e of this.enemies)if(alive(e)&&Math.abs(e.depth-q.depth)<=DEPTH.hit&&grounded(e)&&Math.abs(e.y-q.y)<35&&Math.abs(e.x-q.x)<45&&!q.hits.has(e.id)){q.hits.add(e.id);this.hit(q.owner,e,q.damage,q.knock,{category:'special',impact:'huang_queue',contact:false,origin:q});}}
+  for(const q of this.obstacles){q.life-=dt;if(!q.hits)q.hits=new Set();for(const e of this.enemies)if(alive(e)&&Math.abs(e.depth-q.depth)<=DEPTH.hit&&grounded(e)&&Math.abs(e.y-q.y)<35&&Math.abs(e.x-q.x)<45&&!q.hits.has(e.id)){q.hits.add(e.id);this.hit(q.owner,e,q.damage,q.knock,{category:'special',impact:'huang_queue',contact:false,origin:q,guardCost:q.guardCost??1,slow:q.slow??0});if((q.hitsLeft??1)>1)q.hitsLeft-=1;else q.dead=true;}}
   this.obstacles=this.obstacles.filter(q=>!q.dead&&q.life>0);
   for(const q of this.projectiles){
    if(q.dead)continue;
    q.age+=dt;const old=q.x;q.x+=q.vx*dt;
-   if(q.kind==='dream'&&!q.lob&&q.phase==='outbound'&&Math.abs(q.x-q.originX)>=q.travel){q.phase='return';q.vx=-q.vx;q.hits.clear();q.damage=COMBAT.chen_dream.returnDamage;}
-   if(q.lob){q.x=q.targetX;q.y=GROUND-220*(1-q.age/q.flight);if(q.age<q.flight)continue;}
+   if(q.kind==='dream'&&!q.lob&&q.phase==='outbound'&&Math.abs(q.x-q.originX)>=q.travel){q.phase='return';q.vx=-q.vx;q.hits.clear();q.damage=q.returnDamage??COMBAT.chen_dream.returnDamage;}
+   if(q.lob){q.x=q.targetX;q.y=GROUND-220*(1-q.age/q.flight);if(q.age<q.flight)continue;if(q.perk)this.events.push({type:'perkImpact',kind:q.kind,f:q.owner,x:q.targetX,y:GROUND,depth:q.depth??0});}
    for(const f of q.owner===p?this.enemies:[p]){
     if(!alive(f)||q.hits.has(f.id)||Math.abs(f.depth-q.depth)>DEPTH.hit)continue;
     const targetGround=q.groundOnly?grounded(f)&&(f.supportY??GROUND)>=GROUND-1:f.y>GROUND-85;
@@ -159,12 +159,13 @@ export class ChallengeDepthRoute extends ChallengeRoute {
      // moving, determines the side to guard and the direction of knockback.
      const direction=Math.sign(q.vx)||q.face||1,origin={x:f.x-direction,face:direction,depth:q.depth};
      const forward=(origin.x-f.x)*f.face>=0;
-     if(f.reject>0&&forward&&['coin','dream'].includes(q.kind)){
-      f.reject=0;q.owner=f;q.vx=-q.vx;q.direction=f.face;q.reflected=true;q.hits.clear();q.hits.add(f.id);this.events.push({type:'reflect',f,p:q});break;
+     if(f.reject>0&&forward&&(['coin','dream','flyer'].includes(q.kind)||(f.type==='huang'&&f.perk?.active&&q.kind==='paper'))){
+      f.reject=0;q.owner=f;q.vx=-q.vx;q.direction=f.face;q.reflected=true;
+      if(f.type==='huang'&&f.perk?.active){q.damage=Math.round(q.damage*1.6);q.vx*=1.25;q.perk=true;this.events.push({type:'perkTrigger',f,kind:'huang_debt',label:'加倍奉還！'});}
+      q.hits.clear();q.hits.add(f.id);this.events.push({type:'reflect',f,p:q});break;
      }
      const guarded=f.guard&&grounded(f)&&forward;q.hits.add(f.id);
-     this.hit(q.owner,f,q.damage,q.knock,{projectile:true,contact:false,origin,impact:q.kind,assist:this.assists.find(a=>a.id===q.assistId),category:q.category??'special'});
-     if(q.slow&&!guarded){f.slow=q.slow;this.events.push({type:'slow',f});}
+     this.hit(q.owner,f,q.damage,q.knock,{projectile:true,contact:false,origin,impact:q.kind,assist:this.assists.find(a=>a.id===q.assistId),category:q.category??'special',slow:q.slow??0,stun:q.stun??0});
      q.dead=guarded||q.kind!=='dream';break;
     }
    }

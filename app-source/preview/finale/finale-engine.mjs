@@ -87,7 +87,7 @@ export class FinaleArena extends Duel{
  projectileTouches(p,f,x,y){return lane(p,f)&&super.projectileTouches(p,f,x,y);}
  queueCrossings(f,previous,next){
   if(!ground(f))return;
-  for(const q of this.obstacles)if(!q.dead&&q.owner.team!==f.team&&lane(q,f)&&Math.min(previous,next)<=q.x+18&&Math.max(previous,next)>=q.x-18){q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1,origin:q});}
+  for(const q of this.obstacles){if(q.dead||q.owner.team===f.team||!lane(q,f))continue;if(!q.hits)q.hits=new Set();if(q.hits.has(f.id))continue;if(Math.min(previous,next)<=q.x+18&&Math.max(previous,next)>=q.x-18){q.hits.add(f.id);if((q.hitsLeft??1)>1)q.hitsLeft-=1;else q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1,slow:q.slow??0,origin:q});}}
  }
  animateAttack(f,dt,context){
   const source=this.effectSource,origin=this.effectOrigin;this.effectSource=context?.owner??f;this.effectOrigin=f;

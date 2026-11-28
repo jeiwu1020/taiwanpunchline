@@ -1,12 +1,14 @@
 import {drawSignatureProp} from '../../art-expression.mjs?v=chapter-presentation-20261117-r1';
 import {RALLY} from '../../stage-expansion.mjs?v=chapter-presentation-20261117-r1';
+import {drawWorldObstacleExtra} from '../campaign/world-combat-fx.mjs?v=chapter-presentation-20261117-r1';
 export const FINALE_SUPPORTERS=Object.freeze({
  'supporter-woman':'supporter-woman-v46.png','supporter-man':'supporter-man-v46.png','supporter-young':'supporter-young-v48.png','supporter-elder':'supporter-elder-v48.png','supporter-grandma':'supporter-grandma-v48.png'
 });
 export function drawFinaleEffects(ctx,images,g,point,zoom,time){
  for(const q of g.obstacles){if(q.dead)continue;const p=point(q.x,430,q.depth),z=zoom*p.scale;ctx.save();ctx.translate(p.x,p.y);ctx.scale(z,z);
-  ctx.fillStyle=q.owner.team===0?'#32857033':'#bd594033';ctx.beginPath();ctx.ellipse(0,0,45,12,0,0,7);ctx.fill();drawSignatureProp(ctx,images,'queue',0,-37,92,74,0,Math.min(1,q.life*3));
-  ctx.font='900 13px system-ui';ctx.textAlign='center';ctx.fillStyle='#fff0cb';ctx.strokeStyle='#253c38';ctx.lineWidth=3;const label=q.owner.team===0?'友方排隊線':'對手排隊線';ctx.strokeText(label,0,-81);ctx.fillText(label,0,-81);ctx.restore();
+  ctx.fillStyle=q.perk?'#ffd9593a':q.owner.team===0?'#32857033':'#bd594033';ctx.beginPath();ctx.ellipse(0,0,q.perk?50:45,q.perk?14:12,0,0,7);ctx.fill();drawSignatureProp(ctx,images,'queue',0,-37,92,74,0,Math.min(1,q.life*3));
+  if(!q.perk){ctx.font='900 13px system-ui';ctx.textAlign='center';ctx.fillStyle='#fff0cb';ctx.strokeStyle='#253c38';ctx.lineWidth=3;const label=q.owner.team===0?'友方排隊線':'對手排隊線';ctx.strokeText(label,0,-81);ctx.fillText(label,0,-81);}ctx.restore();
+  drawWorldObstacleExtra(ctx,q,point,zoom,time);
  }
  for(const r of g.rallies){const warning=r.age<RALLY.warning,color=r.owner.team===0?'#408b70':'#b6523e';
   for(const [i,key]of Object.keys(FINALE_SUPPORTERS).entries()){const im=images[key];if(!im)continue;const p=point(r.x+[0,-1,1,0,-1][i]*26-(i>=3?r.direction*8:0),430,r.depth+(i>=3?10:-8)),z=zoom*p.scale,h=104*z,w=h*im.width/im.height;

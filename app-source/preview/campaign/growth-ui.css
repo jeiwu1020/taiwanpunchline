@@ -152,6 +152,12 @@
  line-height: 1.45;
 }
 .campaign-growth-perk strong { display: block; color: #7a4100; margin-bottom: 2px; }
+.campaign-growth-perk.is-locked {
+ padding: 6px 8px;
+ background: #faf0d3;
+ color: #6e480a;
+ font-size: 12px;
+}
 .campaign-growth-perk.is-unlocked {
  border-style: solid;
  border-color: #c67d0e;
@@ -162,5 +168,6 @@
  border-color: #c67d0e;
  background: linear-gradient(135deg, #fff8d2, #ffe28a);
 }
-.campaign-growth-skill-perk { color: #8a4b00; font-weight: 800; margin-top: 2px; }
+.campaign-growth-skill-perk { color: #8a4b00; font-weight: 800; margin-top: 2px; line-height: 1.35; }
+.campaign-growth-skill-perk.is-locked { font-size: 12px; font-weight: 700; color: #744c0c; }
 

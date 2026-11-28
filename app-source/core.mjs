@@ -222,25 +222,26 @@ export class Duel {
    if(a.strikes[index]||!(age>s.start&&age<s.end))return;
    const height=s.height??m.height??'mid';
    const suRushPerk=!assist&&a.kind==='su_rush'&&hasPerk(f,'su'),suShoutPerk=!assist&&a.kind==='su_shout'&&hasPerk(f,'su'),maCoughPerk=!assist&&a.kind==='ma_cough'&&hasPerk(f,'ma');
-   const range=(m.range??130)+(suShoutPerk?28:maCoughPerk?30:0);
+   const range=(m.range??130)+(suShoutPerk?32:maCoughPerk?40:0);
    if(a.kind==='punch'||m.destroysQueue||suRushPerk)this.stageWorld(()=>{if(grounded(f))for(const q of this.obstacles)if(!q.dead&&q.owner!==owner&&(q.x-f.x)*f.face>=0&&Math.abs(q.x-f.x)<range){this.breakQueue(q,owner,metadata);if(suRushPerk)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'電火球碎障！'});}});
-   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const matches=this.projectiles.filter(p=>!p.dead&&['coin','dream','flyer'].includes(p.kind)&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<range&&Math.abs(p.y-(f.y-HIGH_Y))<(maCoughPerk?120:40));if(maCoughPerk){if(matches.length){for(const p of matches){p.dead=true;this.events.push({type:'erase',f:owner,p,...metadata});}a.erased[index]=true;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'清嗓全掃！'});}}else if(matches[0]){const p=matches[0];p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
+   if(m.erase&&!a.erased[index])this.stageWorld(()=>{if(a.erased[index])return;const eraseKinds=maCoughPerk?['coin','dream','flyer','arrow','word','notice','paper']:['coin','dream','flyer'];const matches=this.projectiles.filter(p=>!p.dead&&eraseKinds.includes(p.kind)&&p.phase!=='lob'&&p.owner!==owner&&(p.x-f.x)*f.face>=0&&Math.abs(p.x-f.x)<range&&Math.abs(p.y-(f.y-HIGH_Y))<(maCoughPerk?120:40));if(maCoughPerk){if(matches.length){for(const p of matches){p.dead=true;this.events.push({type:'erase',f:owner,p,...metadata});}a.erased[index]=true;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'清嗓全掃！'});}}else if(matches[0]){const p=matches[0];p.dead=true;a.erased[index]=true;this.events.push({type:'erase',f:owner,p,...metadata});}});
    if(suShoutPerk&&index===0)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'三格破防爆音！'});
-   const raw=(s.damage??m.damage)+(suRushPerk&&index===2?3:0),knock=(s.knock??m.knock??20)+(suRushPerk&&index===2?10:0),guardCost=suShoutPerk?3:(m.guardCost??1);
-   this.emitContact({from:owner,to:o,...(assist?{origin:f,...metadata}:{}),raw,groundDamage:m.damage,airDamage:m.airDamage,knock,height,contact:!!m.contact,grab:m.behavior==='grab',range,antiAir:m.antiAir,guardCost,impact:a.kind,castId:a.castId,direction:f.face,a,index,wallBonus:m.wallBonus??0});
+   if(maCoughPerk&&index===0)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'清嗓震場！'});
+   const raw=(s.damage??m.damage)+(suRushPerk&&index===2?6:0),knock=(s.knock??m.knock??20)+(suRushPerk&&index===2?16:maCoughPerk?15:0),guardCost=suRushPerk&&index===2?2:suShoutPerk?3:(m.guardCost??1);
+   this.emitContact({from:owner,to:o,...(assist?{origin:f,...metadata}:{}),raw,groundDamage:m.damage,airDamage:m.airDamage,knock,height,contact:!!m.contact,grab:m.behavior==='grab',range,antiAir:m.antiAir,guardCost,slow:maCoughPerk?1.2:0,impact:a.kind,castId:a.castId,direction:f.face,a,index,wallBonus:m.wallBonus??0});
   };
   if(m.behavior==='combo')m.hits.forEach(strike);
   else if(['melee','rush','advance','grab'].includes(m.behavior))strike(m,0);
   else if(['counter','reject','calm','armor'].includes(m.behavior)){
-   if(age>m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&a.kind==='counter'&&hasPerk(f,'wang'),koPerk=!assist&&a.kind==='ko_resolve'&&hasPerk(f,'ko');f[m.behavior==='armor'?'armor':m.behavior]=m.window+(wangPerk?.08:koPerk?.45:0);if(m.behavior==='armor'){f.armorCount=koPerk?2:1;f.brace=koPerk?1.8:0;this.events.push({type:'armor',f});if(koPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'雙層鋼鐵霸體！'});}}
+   if(age>m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&a.kind==='counter'&&hasPerk(f,'wang'),koPerk=!assist&&a.kind==='ko_resolve'&&hasPerk(f,'ko');f[m.behavior==='armor'?'armor':m.behavior]=m.window+(wangPerk?.20:koPerk?.55:0);if(m.behavior==='armor'){f.armorCount=koPerk?2:1;f.brace=koPerk?2.4:0;this.events.push({type:'armor',f});if(koPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'雙層鋼鐵霸體！'});}}
   }else if(m.behavior==='heal'){
-   if(age>=m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&hasPerk(f,'wang'),targetHeal=m.heal+(wangPerk?4:0),amount=Math.min(targetHeal,f.maxHp-f.hp);f.hp+=amount;if(wangPerk){f.armor=.9;f.armorCount=1;this.events.push({type:'armor',f});this.events.push({type:'perkTrigger',f,kind:a.kind,label:'金鐘鐵胃！'});}this.performanceOutcome(f,'heal',a.castId);this.events.push({type:'heal',f,amount});}
+   if(age>=m.start&&!a.fired){a.fired=true;const wangPerk=!assist&&hasPerk(f,'wang'),targetHeal=m.heal+(wangPerk?5:0),amount=Math.min(targetHeal,f.maxHp-f.hp);f.hp+=amount;if(wangPerk){f.armor=1.4;f.armorCount=1;this.events.push({type:'armor',f});this.events.push({type:'perkTrigger',f,kind:a.kind,label:'金鐘鐵胃！'});}this.performanceOutcome(f,'heal',a.castId);this.events.push({type:'heal',f,amount});}
   }else if(age>m.start&&!a.fired){
    a.fired=true;
    this.stageWorld(()=>{if(m.behavior==='queue'){
     for(const q of this.obstacles)if(q.owner===f)q.dead=true;
     const huangPerk=!assist&&a.kind==='huang_queue'&&hasPerk(f,'huang');
-    const obstacle={kind:'queue',impact:a.kind,owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life+(huangPerk?.6:0),castId:a.castId,damage:m.damage+(huangPerk?4:0),knock:m.knock,guardCost:huangPerk?2:1,perk:huangPerk,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});if(huangPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'鋼鐵人龍！'});
+    const obstacle={kind:'queue',impact:a.kind,owner:f,x:clamp(f.x+f.face*m.range,68,892),y:GROUND,life:m.life+(huangPerk?.8:0),castId:a.castId,damage:m.damage+(huangPerk?5:0),knock:m.knock+(huangPerk?8:0),guardCost:huangPerk?2:1,hitsLeft:huangPerk?2:1,slow:huangPerk?.9:0,hits:new Set(),perk:huangPerk,direction:f.face,dead:false};this.obstacles.push(obstacle);this.events.push({type:'queuePlant',f,obstacle});if(huangPerk)this.events.push({type:'perkTrigger',f,kind:a.kind,label:'黃金拒馬！'});
    }else this.launch(f,a,m,o,assist);},true);
   }
   if(f.attack===a&&age>m.duration){if(!a.hit&&['counter','reject','calm'].includes(m.behavior))this.events.push({type:'counterMiss',f});else if(!a.hit&&['melee','rush','advance','grab','combo'].includes(m.behavior)&&owner.id==='player')this.stats.whiffs++;f.counter=0;f.reject=0;f.calm=0;f.attack=null;f.lowProfile=false;}
@@ -287,10 +288,10 @@ export class Duel {
  launch(f,a,m,o,assist=null){
   const owner=assist?.owner??f,metadata=assist?{assist:true,assistId:assist.id,helper:assist.helper}:{};
   const hanCoin=!assist&&a.kind==='coin'&&hasPerk(f,'han'),hanArrow=!assist&&a.kind==='arrow'&&hasPerk(f,'han'),chenDream=!assist&&a.kind==='chen_dream'&&hasPerk(f,'chen'),koName=!assist&&a.kind==='ko_name'&&hasPerk(f,'ko');
-  const p={kind:m.projectileKind??(m.behavior==='word'?'word':'arrow'),owner,originalOwner:owner,...metadata,castId:a.castId,impact:a.kind,height:m.height,direction:f.face,travelDir:f.face,x:f.x+f.face*60,y:f.y-HIGH_Y,vx:f.face*((m.speed??0)*(chenDream?1.32:1)),vy:0,gravity:0,life:m.life??2.2,age:0,damage:hanCoin?Math.round(m.damage*1.15):hanArrow?m.damage+4:chenDream?m.damage+3:m.damage,knock:m.knock??30,phase:m.behavior==='projectile'?'outbound':'lob',reflected:false,dead:false,hits:new Set(),radius:hanCoin?19:13,perk:hanCoin||hanArrow||chenDream||koName};
-  if(m.behavior==='projectile'&&p.kind==='dream'){p.originX=p.x;p.turnX=p.x+f.face*(m.travel+(chenDream?120:0));p.returnDamage=m.returnDamage+(chenDream?3:0);if(chenDream)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'超音速紙機！'});}
+  const p={kind:m.projectileKind??(m.behavior==='word'?'word':'arrow'),owner,originalOwner:owner,...metadata,castId:a.castId,impact:a.kind,height:m.height,direction:f.face,travelDir:f.face,x:f.x+f.face*60,y:f.y-HIGH_Y,vx:f.face*((m.speed??0)*(chenDream?1.32:1)),vy:0,gravity:0,life:m.life??2.2,age:0,damage:hanCoin?Math.round(m.damage*1.15):hanArrow?m.damage+5:chenDream?m.damage+4:koName?m.damage+4:m.damage,knock:(m.knock??30)+(hanArrow?12:koName?10:0),phase:m.behavior==='projectile'?'outbound':'lob',reflected:false,dead:false,hits:new Set(),radius:hanCoin?19:13,perk:hanCoin||hanArrow||chenDream||koName};
+  if(m.behavior==='projectile'&&p.kind==='dream'){p.originX=p.x;p.turnX=p.x+f.face*(m.travel+(chenDream?120:0));p.returnDamage=m.returnDamage+(chenDream?4:0);if(chenDream)this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'超音速紙機！'});}
   if(m.behavior==='lob'||m.behavior==='word'){
-   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=(m.slow??0)+(koName?.55:0);p.word=m.word;p.noticeText=m.noticeText;p.markLabel=m.markLabel;
+   const flight=m.flight;p.flight=flight;p.targetX=m.behavior==='word'?clamp(f.x+f.face*Math.min(m.range,Math.abs(o.x-f.x)),68,892):o.x;p.startX=p.x;p.startY=p.y;p.targetY=GROUND-18;p.gravity=950;p.vx=(p.targetX-p.x)/flight;p.vy=(p.targetY-p.y-.5*p.gravity*flight*flight)/flight;p.slow=(m.slow??0)+(koName?.65:0);p.stun=koName?.35:0;p.word=m.word;p.noticeText=m.noticeText;p.markLabel=m.markLabel;
    if(hanArrow){p.markWidth=148;p.hitRadius=64;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨型穿雲箭！'});}
    if(koName){p.markWidth=132;p.hitRadius=62;this.events.push({type:'perkTrigger',f:owner,kind:a.kind,label:'巨字重緩！'});}
    this.events.push({type:m.behavior==='word'?'wordMark':'arrowMark',f:owner,...metadata,x:p.targetX,y:GROUND});
@@ -304,16 +305,17 @@ export class Duel {
  breakQueue(q,f,metadata={}){q.dead=true;this.events.push({type:'queueBreak',x:q.x,y:q.y,f,obstacle:q,...metadata});}
  queueCrossings(f,previousX,nextX){
   if(!grounded(f)||f.y<GROUND-1)return;
-  for(const q of this.obstacles)if(!q.dead&&q.life>0&&q.owner!==f&&Math.min(previousX,nextX)<=q.x+18&&Math.max(previousX,nextX)>=q.x-18){
-   q.dead=true;this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:q.impact??'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1});
-  }
+  for(const q of this.obstacles){if(q.dead||q.life<=0||q.owner===f)continue;if(!q.hits)q.hits=new Set();if(q.hits.has(f.id))continue;if(Math.min(previousX,nextX)<=q.x+18&&Math.max(previousX,nextX)>=q.x-18){
+   q.hits.add(f.id);if((q.hitsLeft??1)>1)q.hitsLeft-=1;else q.dead=true;
+   this.contacts.push({from:q.owner,to:f,raw:q.damage,knock:q.knock,height:'low',contact:false,impact:q.impact??'huang_queue',castId:q.castId,direction:q.direction,guardCost:q.guardCost??1,slow:q.slow??0});
+  }}
  }
  updateObstacles(dt,previous){for(const q of this.obstacles)q.life-=dt;this.queueCrossings(this.player,previous[0],this.player.x);this.queueCrossings(this.enemy,previous[1],this.enemy.x);}
  projectileTouches(p,f,oldX,oldY=p.y){if(p.itemId)return itemProjectileTouches(p,f,{x:oldX,y:oldY},this.itemPose?.(f)||itemFighterPose(f,this.elapsed*1000));const swept=Math.min(oldX,p.x)<=f.x+35&&Math.max(oldX,p.x)>=f.x-35;if(!swept)return false;const top=f.y-(f.lowProfile?(f.attack?.kind==='rush'?175:235):277),bottom=f.y-28;return p.y+p.radius>=top&&p.y-p.radius<=bottom;}
  updateProjectiles(dt){for(const p of this.projectiles){if(p.dead)continue;const time=Math.min(dt,p.life),oldX=p.x,oldY=p.y;p.life-=time;p.age+=time;
    if(p.phase==='lob'){
     const t=Math.min(p.age,p.flight);p.x=p.startX+p.vx*t;p.y=p.startY+((p.targetY-p.startY-.5*p.gravity*p.flight*p.flight)/p.flight)*t+.5*p.gravity*t*t;p.vy=(p.targetY-p.startY-.5*p.gravity*p.flight*p.flight)/p.flight+p.gravity*t;
-    if(p.age>=p.flight){p.dead=true;const target=this.other(p.owner);if(Math.abs(target.x-p.targetX)<(p.hitRadius??48)&&target.y>=GROUND-1&&grounded(target))this.contacts.push({from:p.owner,to:target,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{}),raw:p.damage,knock:p.knock,height:'low',contact:false,impact:p.impact,castId:p.castId,direction:p.travelDir,guardCost:1,p,slow:p.slow});else{if(p.owner.id==='player')this.stats.whiffs++;this.events.push({type:p.kind==='word'?'wordMiss':'arrowMiss',x:p.targetX,y:GROUND,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{})});}}
+    if(p.age>=p.flight){p.dead=true;if(p.perk)this.events.push({type:'perkImpact',kind:p.kind,f:p.owner,x:p.targetX,y:GROUND,depth:p.targetDepth??p.depth??0});const target=this.other(p.owner);if(Math.abs(target.x-p.targetX)<(p.hitRadius??48)&&target.y>=GROUND-1&&grounded(target))this.contacts.push({from:p.owner,to:target,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{}),raw:p.damage,knock:p.knock,height:'low',contact:false,impact:p.impact,castId:p.castId,direction:p.travelDir,guardCost:1,p,slow:p.slow,stun:p.stun??0});else{if(p.owner.id==='player')this.stats.whiffs++;this.events.push({type:p.kind==='word'?'wordMiss':'arrowMiss',x:p.targetX,y:GROUND,...(p.assist?{assist:true,assistId:p.assistId,helper:p.helper}:{})});}}
     continue;
    }
    p.x+=p.vx*time;
@@ -357,7 +359,7 @@ export class Duel {
   try{
   const{from,to}=c;if(this.status!=='active')return false;
   if(c.antiAir)c.raw=grounded(to)?c.groundDamage:c.airDamage;
-  const normal=!c.grab,p=c.p,straight=p&&['coin','dream','flyer'].includes(p.kind)&&p.phase!=='lob';
+  const normal=!c.grab,p=c.p,straight=p&&(['coin','dream','flyer'].includes(p.kind)||(hasPerk(to,'huang')&&p.kind==='paper'))&&p.phase!=='lob';
   // Defense is forward facing. Lob impacts are independent ground hazards.
   const forward=(p||c.rally)?c.direction*to.face<0:((c.origin??from).x-to.x)*to.face>=0;
   if(normal&&to.reject>0&&forward&&(c.contact||straight)){
@@ -380,7 +382,7 @@ export class Duel {
     const wangPerk=stance==='counter'&&hasPerk(to,'wang');
     if(wangPerk)this.events.push({type:'perkTrigger',f:to,kind:'counter',label:'黃金過肩反擊！'});
     // Counter returns never trigger another counter/rejection recursively.
-    this.applyDamage({from:to,to:from,raw:wangPerk?Math.round(m.damage*1.3):m.damage,knock:m.knock+(wangPerk?10:0),impact:stance,castId:this.nextCast++,direction:to.face,height:'mid',contact:false,noDefense:true});
+    this.applyDamage({from:to,to:from,raw:wangPerk?Math.round(m.damage*1.5):m.damage,knock:m.knock+(wangPerk?20:0),impact:stance,castId:this.nextCast++,direction:to.face,height:'mid',contact:false,noDefense:true});
     if(m.retreat)this.retreat(to,m.retreat);
    }
    // A main fighter earned this counter; the helper is causal metadata only.
@@ -411,21 +413,22 @@ export class Duel {
   if(c.grab||c.noDefense)to.performance=null;
   const source=c.assist?'assistMultiplier':c.impact==='rally'?'rallyMultiplier':c.impact==='punch'||c.p?.itemId||c.impact?.startsWith('item_')?'basicMultiplier':'specialMultiplier';
   const offense=from.combatStats?.[source]??1,defense=to.combatStats?.defenseMultiplier??1;
-  let baseRaw=c.raw;
-  if(!c.assist&&c.impact==='punch'&&from.brace>0&&hasPerk(from,'ko')){baseRaw*=1.2;from.brace=0;this.events.push({type:'perkTrigger',f:from,kind:'ko_resolve',label:'硬扛反敲 +20%！'});}
+  let baseRaw=c.raw,effGuardCost=c.guardCost??1;
+  if(!c.assist&&c.impact==='ma_handshake'&&c.grab&&hasPerk(from,'ma'))baseRaw+=4;
+  if(!c.assist&&c.impact==='punch'&&from.brace>0&&hasPerk(from,'ko')){baseRaw*=1.75;effGuardCost=Math.max(effGuardCost,2);from.brace=0;this.events.push({type:'perkTrigger',f:from,kind:'ko_resolve',label:'霸體重拳 1.75×！'});}
   let amount=blocked?2:baseRaw*offense,armored=false,calmed=false,wallAmount=0;
   if(!blocked&&!c.grab&&to.armor>0){amount=Math.round(amount*.6);armored=true;if((to.armorCount||1)>1){to.armorCount-=1;}else{to.armor=0;to.armorCount=0;if(!hasPerk(to,'ko'))to.brace=0;}this.performanceOutcome(to,'armor');this.events.push({type:'armorAbsorb',f:to,amount});}
-  else if(!blocked&&!c.grab&&to.calm>0){amount=Math.min(4,amount);calmed=true;to.calm=0;if(hasPerk(to,'chen')){const healed=Math.min(4,to.maxHp-to.hp);to.hp+=healed;if(healed>0)this.events.push({type:'heal',f:to,amount:healed});this.events.push({type:'perkTrigger',f:to,kind:'chen_calm',label:'初衷回春 +4！'});}this.performanceOutcome(to,'calm');this.events.push({type:'calm',f:to});}
+  else if(!blocked&&!c.grab&&to.calm>0){amount=Math.min(4,amount);calmed=true;to.calm=0;if(hasPerk(to,'chen')){const healed=Math.min(5,to.maxHp-to.hp);to.hp+=healed;if(healed>0)this.events.push({type:'heal',f:to,amount:healed});this.events.push({type:'perkTrigger',f:to,kind:'chen_calm',label:'初衷震波 +5！'});}this.performanceOutcome(to,'calm');this.events.push({type:'calm',f:to});}
   amount*=defense;
   if(blocked){
    to.guardBlockedAt=this.elapsed;to.guardRegen=0;
    if(!to.guardCasts.has(c.castId)){
-    to.guardCasts.add(c.castId);to.guardPips=Math.max(0,to.guardPips-(c.guardCost??1));
+    to.guardCasts.add(c.castId);to.guardPips=Math.max(0,to.guardPips-effGuardCost);
     if(to.guardPips===0&&to.guardGrace===0){to.guardBroken=.38;this.setGuard(to,false);to.guardReleasedAt=this.elapsed;this.events.push({type:'guardBreak',f:to});}
     else if(to.guardPips===0)to.guardPips=1;
    }
   }
-  const a=to.attack,knock=blocked?5:c.knock??20,next=to.x+c.direction*knock;
+  const a=to.attack,knock=blocked?5:(c.knock??20)+(c.impact==='punch'&&baseRaw!==c.raw&&hasPerk(from,'ko')?22:0),next=to.x+c.direction*knock;
   const wallImpact=!blocked&&!armored&&!calmed&&c.wallBonus&&(next<68||next>892);
   wallAmount=wallImpact?Math.min(Math.min(3,c.wallBonus)*defense,Math.max(0,to.hp-amount)):0;
   const performanceGuard=!c.grab&&!c.noDefense&&!blocked&&!armored&&!calmed&&to.hp>amount+wallAmount&&performanceGuardActive(to);
@@ -446,7 +449,7 @@ export class Duel {
   to.flash=.18;to.reaction=performanceGuard?0:blocked?.1:.40;to.reactionKind=c.impact;
   if(c.noDefense||(!armored&&!performanceGuard)){
    to.stun=blocked?.07:calmed?.08:.16;
-   if(calmed)this.retreat(to,60);else{
+   if(calmed){this.retreat(to,60);if(!c.assist&&!c.grab&&hasPerk(to,'chen')&&from&&from!==to&&Math.abs(from.x-to.x)<200){this.retreat(from,55);from.stun=Math.max(from.stun,.35);}}else{
     if(wallImpact){
      const wall=next>892?892:68,inward=wall-c.direction*30;
      // One spatial rebound, capped by the attacker's occupied body. At a fully
@@ -457,10 +460,11 @@ export class Duel {
    to.attack=null;to.counter=0;to.reject=0;to.calm=0;to.crouch=false;to.lowProfile=false;if(!blocked)this.setGuard(to,false);
   }
   if(c.grab&&c.impact==='ma_handshake'&&!c.assist&&hasPerk(from,'ma')){
-   to.dizzyStar=1.25;to.slow=Math.max(to.slow,1.4);to.stun=Math.max(to.stun,.55);this.events.push({type:'perkTrigger',f:from,kind:'ma_handshake',label:'眼冒金星！'});
+   to.dizzyStar=1.8;to.slow=Math.max(to.slow,1.8);to.stun=Math.max(to.stun,.65);this.events.push({type:'perkTrigger',f:from,kind:'ma_handshake',label:'眼冒金星！'});
   }
   if(wallAmount>0)this.events.push({type:performanceGuard?'wallHit':'wallBounce',f:to,amount:wallAmount,x:to.x});
   if(c.slow&&!blocked){to.slow=Math.max(to.slow,c.slow);this.events.push({type:'slow',f:to,duration:c.slow});}
+  if(c.stun&&!blocked&&!armored){to.stun=Math.max(to.stun,c.stun);}
   from.combo=from.comboTime>0?from.combo+1:1;from.comboTime=1.15;this.freeze=Math.max(this.freeze,blocked?.012:.025);
   if(from.id==='player'){this.stats.hits++;this.stats.damage+=amount+wallAmount;if(c.impact!=='punch'&&!c.p?.itemId)this.stats.specialHits++;this.stats.maxCombo=Math.max(this.stats.maxCombo,from.combo);}
   if(blocked&&to.id==='player')this.stats.blocks++;

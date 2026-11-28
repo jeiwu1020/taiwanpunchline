@@ -8,3 +8,24 @@ const zero={hp:0,move:0,basic:0,defense:0,special:0,rally:0,assist:0};
 test('radar is fixed 0–140 and uses real innate, saved and draft statistics',()=>{const stats=deriveFighterStats('han',{skills:{...zero,hp:2,defense:3},challenge:true});const dom=new JSDOM(abilityRadarMarkup('han',{savedSkills:zero,draftSkills:stats.skills}));const d=dom.window.document;assert.equal(d.querySelector('svg').dataset.scale,'0-140');for(const kind of ['base','saved','draft'])assert.ok(d.querySelector(`[data-radar="${kind}"]`));assert.equal(d.querySelectorAll('[data-axis]').length,7);assert.match(d.querySelector('[data-radar="draft"]').dataset.values,/111\.3/);assert.equal(JSON.parse(d.querySelector('[data-radar="draft"]').dataset.values)[3],100/stats.damageTakenMultiplier);assert.doesNotMatch(d.body.innerHTML,/NaN|undefined/);dom.window.close();});
 test('ability view has seven connected skill cards, actual next-point values and nonbutton readonly ranks',()=>{const dom=new JSDOM(characterAbilityMarkup({id:'han',character:CAST.han,savedSkills:zero,draftSkills:zero,allowance:2,readOnly:false})),d=dom.window.document;assert.equal(d.querySelectorAll('[data-skill-card]').length,7);assert.equal(d.querySelectorAll('button[data-delta="1"]:not(:disabled)').length,7);assert.equal(d.querySelector('[data-stat="maxHp"]').textContent.includes('105'),true);assert.match(d.querySelector('[data-skill-card="hp"]').textContent,/108\.15/);const view=new JSDOM(characterAbilityMarkup({id:'han',character:CAST.han,savedSkills:zero,allowance:2,readOnly:true}));assert.equal(view.window.document.querySelectorAll('[data-skill], [data-reset-skills]').length,0);assert.match(view.window.document.body.textContent,/唯讀/);dom.window.close();view.window.close();});
 test('all 21 moves use final roster combat values and recovery or control does not claim damage',()=>{let count=0;for(const [id,c]of Object.entries(CAST)){const dom=new JSDOM(characterAbilityMarkup({id,character:c,savedSkills:zero,draftSkills:{...zero,special:5},allowance:35}));count+=dom.window.document.querySelectorAll('[data-move-kind]').length;dom.window.close();}assert.equal(count,21);assert.deepEqual(moveDamageParts(CAST.wang.moves[2]),[]);assert.deepEqual(moveDamageParts(CAST.huang.moves[1]),[]);assert.deepEqual(moveDamageParts(CAST.chen.moves[2]),[]);assert.deepEqual(moveDamageParts(CAST.ko.moves[2]),[]);assert.deepEqual(moveDamageParts(CAST.ma.moves[2]).map(x=>x.value),[4,6]);assert.deepEqual(moveDamageParts(CAST.chen.moves[0]).map(x=>x.value),[8,6]);});
+test('Rank-5 perks stay unspoiled below rank 5 and reveal accurate move names and short summary at rank 5',()=>{
+ for(const [id,c]of Object.entries(CAST)){
+  const lockedStats=deriveFighterStats(id,{skills:{...zero,special:4},challenge:true});
+  const lockedDom=new JSDOM(characterAbilityMarkup({id,character:c,savedSkills:{...zero,special:4},draftSkills:{...zero,special:4},allowance:35}));
+  const lockedText=lockedDom.window.document.body.textContent;
+  assert.doesNotMatch(lockedText,new RegExp(lockedStats.perk.title));
+  assert.doesNotMatch(lockedText,new RegExp(lockedStats.perk.short.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  assert.match(lockedText,/5\/5 解鎖隱藏質變/);
+  assert.match(lockedText,/隱藏五階質變/);
+  lockedDom.window.close();
+
+  const unlockedStats=deriveFighterStats(id,{skills:{...zero,special:5},challenge:true});
+  const unlockedDom=new JSDOM(characterAbilityMarkup({id,character:c,savedSkills:{...zero,special:5},draftSkills:{...zero,special:5},allowance:35}));
+  const d=unlockedDom.window.document;
+  assert.ok(d.querySelector(`[data-perk-card="${id}"]`).textContent.includes(unlockedStats.perk.short));
+  assert.ok(d.querySelector(`[data-perk-banner="${id}"]`).textContent.includes(unlockedStats.perk.title));
+  assert.ok(d.querySelector(`[data-perk-banner="${id}"]`).textContent.includes(unlockedStats.perk.move));
+  assert.ok(d.querySelector(`[data-perk-banner="${id}"]`).textContent.includes(unlockedStats.perk.summary));
+  unlockedDom.window.close();
+ }
+});

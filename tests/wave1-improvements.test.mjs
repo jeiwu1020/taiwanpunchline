@@ -5,12 +5,13 @@ import {resolve,dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {Duel,GROUND} from '../dist/core.mjs';
 import {ChallengeRoute} from '../dist/challenge-engine.mjs';
+import {ChallengeDepthRoute} from '../dist/challenge-depth-engine.mjs';
 import {FinaleArena} from '../dist/preview/finale/finale-engine.mjs';
 import {createFinaleBrawlSession} from '../dist/preview/finale/finale-brawl.mjs';
 import {RANK5_PERKS,specialPerkFor,deriveFighterStats} from '../dist/fighter-attributes.mjs';
 import {playProceduralSfx} from '../dist/sfx-synth.mjs';
 import {rememberCombatFeedback} from '../dist/preview/campaign/combat-feedback.mjs';
-import {rememberWorldFx,paintWorldFx,drawWorldFighterAuras,drawWorldProjectileExtra} from '../dist/preview/campaign/world-combat-fx.mjs';
+import {rememberWorldFx,paintWorldFx,drawWorldFighterAuras,drawWorldProjectileExtra,drawWorldObstacleExtra} from '../dist/preview/campaign/world-combat-fx.mjs';
 import {battleResultCopy} from '../dist/stage-expansion.mjs';
 
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
@@ -88,23 +89,25 @@ test('Rank-5 perks catalog and activation rules cover all seven fighters',()=>{
  }
 });
 
-test('Wang Rank-5 perk empowers heal (+14 HP + armor) and counter window/knockback',()=>{
+test('Wang Rank-5 perk empowers heal (+15 HP + 1.4s armor) and 1.5x counter window/knockback',()=>{
  const d=new Duel('wang','beginner',()=>.5,'han',{playerStats:perkStats('wang')});
  d.player.hp=50;
  assert.equal(d.press('special3'),true);
  // COMBAT.heal.start is 1.0s
  stepNoAI(d,68);
- assert.equal(d.player.hp,64,`expected 64 HP, got ${d.player.hp}`);
- assert.ok(d.player.armor>0,'gold bell armor granted on heal');
+ assert.equal(d.player.hp,65,`expected 65 HP, got ${d.player.hp}`);
+ assert.ok(d.player.armor>1.0,'1.4s gold bell armor granted on heal');
  assert.ok(d.events.some(e=>e.type==='perkTrigger'&&e.f===d.player),'emits perkTrigger');
 
  d.player.cooldowns[1]=0;d.player.attack=null;
  d.player.x=420;d.enemy.x=480;
+ const enemyHpBefore=d.enemy.hp;
  assert.equal(d.press('special2'),true);
  stepNoAI(d,6);
  assert.ok(d.player.counter>.35,'Wang Rank-5 counter window extended beyond standard');
  d.damage(d.enemy,d.player,6,15,'punch');
  assert.ok(d.events.some(e=>e.type==='perkTrigger'&&e.kind==='counter'),'Wang Rank-5 counter emits perkTrigger');
+ assert.ok(enemyHpBefore-d.enemy.hp>=18,'Wang Rank-5 counter deals 1.5x damage');
 });
 
 test('Han Rank-5 perk fires mega coin + second mini coin and widens arrow landing mark',()=>{
@@ -141,20 +144,22 @@ test('Su Rank-5 perk shatters all 3 guard pips on shout and breaks queues on rus
  assert.ok(d.events.some(e=>e.type==='queueBreak'));
 });
 
-test('Huang Rank-5 perk reflects projectiles at 1.6x damage and strengthens queue obstacles',()=>{
+test('Huang Rank-5 perk reflects projectiles (incl. paper) at 1.6x damage and strengthens queue obstacles',()=>{
  const d=new Duel('huang','beginner',()=>.5,'han',{playerStats:perkStats('huang')});
  d.obstacles.length=0;
  assert.equal(d.press('special3'),true);
  stepNoAI(d,25);
  assert.equal(d.obstacles.length,1);
  assert.equal(d.obstacles[0].guardCost,2);
+ assert.equal(d.obstacles[0].hitsLeft,2);
+ assert.equal(d.obstacles[0].slow,0.9);
  assert.equal(d.obstacles[0].perk,true);
 
  d.player.cooldowns[1]=0;d.player.attack=null;d.player.face=1;d.player.x=300;d.enemy.x=650;
  assert.equal(d.press('special2'),true);
  stepNoAI(d,10);
  assert.ok(d.player.reject>0,'Huang reject active');
- d.projectiles.push({owner:d.enemy,originalOwner:d.enemy,category:'special',kind:'coin',impact:'coin',x:330,y:GROUND-252,vx:-300,vy:0,gravity:0,radius:13,phase:'outbound',direction:-1,travelDir:-1,life:2,age:0,damage:10,knock:20,hits:new Set(),dead:false});
+ d.projectiles.push({owner:d.enemy,originalOwner:d.enemy,category:'special',kind:'paper',impact:'item_paper',x:330,y:GROUND-252,vx:-300,vy:0,gravity:0,radius:13,phase:'outbound',direction:-1,travelDir:-1,life:2,age:0,damage:10,knock:20,hits:new Set(),dead:false});
  stepNoAI(d,2);
  const refl=d.projectiles[0];
  assert.equal(refl.reflected,true);
@@ -163,13 +168,16 @@ test('Huang Rank-5 perk reflects projectiles at 1.6x damage and strengthens queu
  assert.equal(refl.owner,d.player);
 });
 
-test('Ma Rank-5 perk applies dizzyStar on handshake and multi-erases enemy projectiles on cough',()=>{
+test('Ma Rank-5 perk applies +4 damage, stun, and dizzyStar on handshake and multi-erases enemy projectiles on cough',()=>{
  const d=new Duel('ma','beginner',()=>.5,'han',{playerStats:perkStats('ma')});
  d.player.x=380;d.enemy.x=475;
+ const enemyHpBefore=d.enemy.hp;
  assert.equal(d.press('special1'),true); // ma_handshake (grab)
  stepNoAI(d,25);
- assert.ok(d.enemy.dizzyStar>0,'handshake inflicts dizzyStar');
- assert.ok(d.enemy.slow>0,'handshake applies slow');
+ assert.ok(d.enemy.dizzyStar>1.0,'handshake inflicts extended dizzyStar');
+ assert.ok(d.enemy.slow>1.0,'handshake applies heavy slow');
+ assert.ok(d.enemy.stun>=0.4,'handshake applies extra stun');
+ assert.ok(enemyHpBefore-d.enemy.hp>=14,'handshake deals +4 Rank-5 damage');
 
  d.player.x=300;d.enemy.x=700;d.player.face=1;d.player.attack=null;
  d.projectiles.push(
@@ -182,7 +190,7 @@ test('Ma Rank-5 perk applies dizzyStar on handshake and multi-erases enemy proje
  assert.ok(d.events.some(e=>e.type==='perkTrigger'&&e.kind==='ma_cough'));
 });
 
-test('Chen Rank-5 perk boosts paper plane speed/distance/damage and heals +4 on calm absorb',()=>{
+test('Chen Rank-5 perk boosts paper plane speed/distance/+4 damage, heals +5 on calm absorb, and pushes back close attackers',()=>{
  const base=new Duel('chen','beginner',()=>.5,'wang');
  base.player.x=200;base.enemy.x=800;
  base.press('special1');
@@ -195,10 +203,10 @@ test('Chen Rank-5 perk boosts paper plane speed/distance/damage and heals +4 on 
  stepNoAI(perked,22);
  const perkPlane=perked.projectiles[0];
  assert.ok(perkPlane&&basePlane,'both paper planes launched');
- assert.ok(perkPlane.vx>basePlane.vx,'Rank-5 plane is faster');
+ assert.ok(perkPlane.vx>basePlane.vx,'Rank-5 plane is 1.32x faster');
  assert.equal(perkPlane.turnX,basePlane.turnX+120);
- assert.equal(perkPlane.damage,basePlane.damage+3);
- assert.equal(perkPlane.returnDamage,basePlane.returnDamage+3);
+ assert.equal(perkPlane.damage,basePlane.damage+4);
+ assert.equal(perkPlane.returnDamage,basePlane.returnDamage+4);
 
  perked.player.hp=50;perked.player.cooldowns[2]=0;perked.player.attack=null;
  perked.press('special3');
@@ -206,16 +214,18 @@ test('Chen Rank-5 perk boosts paper plane speed/distance/damage and heals +4 on 
  assert.ok(perked.player.calm>0,'Chen calm active');
  perked.player.x=400;perked.enemy.x=480;perked.player.face=1;
  perked.damage(perked.enemy,perked.player,12,20,'punch');
- // 50 - min(4, 12) + 4 heal == 50! (Without perk, HP drops to 46)
- assert.ok(perked.player.hp>46,`expected calm +4 heal above 46, got ${perked.player.hp}`);
+ // 50 - min(4, 12)*0.98 + 5 heal == 51.08
+ assert.ok(Math.abs(perked.player.hp-51.08)<1e-6,`expected calm +5 heal to ~51.08, got ${perked.player.hp}`);
+ assert.ok(perked.enemy.x>=530,'close attacker pushed back on calm absorb');
  assert.ok(perked.events.some(e=>e.type==='perkTrigger'&&e.kind==='chen_calm'));
 });
 
-test('Ko Rank-5 perk grants 2-hit armor + empowered next punch, and widens word mark',()=>{
+test('Ko Rank-5 perk grants 2-hit 1.05s armor + 1.75x punch, and widens word mark',()=>{
  const d=new Duel('ko','beginner',()=>.5,'wang',{playerStats:perkStats('ko')});
  assert.equal(d.press('special3'),true);
  stepNoAI(d,15);
  assert.equal(d.player.armorCount,2,'2-layer armor');
+ assert.ok(d.player.armor>0.7,'1.05s armor duration active');
  assert.ok(d.player.brace>0,'brace empowered punch ready');
  d.player.x=400;d.enemy.x=490;d.player.face=1;
  d.damage(d.enemy,d.player,10,15,'punch');
@@ -224,12 +234,14 @@ test('Ko Rank-5 perk grants 2-hit armor + empowered next punch, and widens word 
  d.damage(d.enemy,d.player,10,15,'punch');
  assert.equal(d.player.armorCount,0,'second hit exhausts armor');
 
- // Wait for ko_resolve duration to finish so punch can trigger +20% brace perk
+ // Wait for ko_resolve duration to finish so punch can trigger 1.75x brace perk
  stepNoAI(d,20);
  d.player.attack=null;d.player.x=400;d.enemy.x=490;
+ const hpBefore=d.enemy.hp;
  assert.equal(d.press('punch'),true);
  stepNoAI(d,12);
  assert.ok(d.events.some(e=>e.type==='perkTrigger'&&e.kind==='ko_resolve'),'Ko brace empowered punch emitted perkTrigger');
+ assert.ok(hpBefore-d.enemy.hp>=11,'Ko 1.75x brace punch hits noticeably harder');
 
  d.player.cooldowns[1]=0;d.player.attack=null;
  assert.equal(d.press('special2'),true);
@@ -238,7 +250,7 @@ test('Ko Rank-5 perk grants 2-hit armor + empowered next punch, and widens word 
  assert.ok(word&&word.markWidth===132&&word.perk,'widened Rank-5 word projectile');
 });
 
-test('Rank-5 perks work in ChallengeRoute and FinaleArena too',()=>{
+test('Rank-5 perks work in ChallengeRoute, ChallengeDepthRoute, and FinaleArena too',()=>{
  const route=new ChallengeRoute('su','easy',()=>.5,{stats:perkStats('su')});
  assert.equal(route.player.perk.active,true);
  route.spawn();
@@ -246,6 +258,31 @@ test('Rank-5 perks work in ChallengeRoute and FinaleArena too',()=>{
  assert.equal(route.press('special2'),true); // su_rush
  stepNoAI(route,30);
  assert.ok(route.obstacles.every(o=>o.dead),'ChallengeRoute su_rush breaks queue obstacles');
+
+ const depthHuang=new ChallengeDepthRoute('huang','easy',()=>.5,{stats:perkStats('huang')});
+ depthHuang.spawn();
+ depthHuang.obstacles.length=0;
+ assert.equal(depthHuang.press('special3'),true);
+ stepNoAI(depthHuang,25);
+ assert.equal(depthHuang.obstacles.length,1);
+ assert.equal(depthHuang.obstacles[0].hitsLeft,2,'ChallengeDepthRoute golden queue has 2 hits');
+ assert.equal(depthHuang.obstacles[0].slow,0.9,'ChallengeDepthRoute golden queue applies slow');
+ assert.equal(depthHuang.obstacles[0].guardCost,2,'ChallengeDepthRoute golden queue deals 2 guard cost');
+ depthHuang.player.cooldowns[1]=0;depthHuang.player.attack=null;depthHuang.player.face=1;depthHuang.player.x=180;
+ depthHuang.enemies[0].x=650;depthHuang.enemies[0].depth=0;
+ assert.equal(depthHuang.press('special2'),true);
+ stepNoAI(depthHuang,10);
+ depthHuang.projectiles.push({owner:depthHuang.enemies[0],kind:'paper',x:210,y:GROUND-252,vx:-300,depth:0,life:2,age:0,damage:10,knock:20,hits:new Set(),dead:false});
+ stepNoAI(depthHuang,2);
+ assert.equal(depthHuang.projectiles[0].reflected,true,'ChallengeDepthRoute Huang reflects paper');
+ assert.equal(depthHuang.projectiles[0].damage,16,'ChallengeDepthRoute Huang reflects at 1.6x damage');
+
+ const depthHan=new ChallengeDepthRoute('han','easy',()=>.5,{stats:perkStats('han')});
+ depthHan.spawn();
+ depthHan.player.x=200;depthHan.enemies[0].x=420;depthHan.enemies[0].depth=0;
+ assert.equal(depthHan.press('special3'),true); // arrow lob
+ stepNoAI(depthHan,95);
+ assert.ok(depthHan.events.some(e=>e.type==='perkImpact'&&e.kind==='arrow'),'ChallengeDepthRoute emits perkImpact on Rank-5 lob impact');
 
  const arena=new FinaleArena({team:['han','wang','ko'],difficulty:'easy',statsForCharacter:id=>perkStats(id)});
  assert.ok(arena.actors.every(a=>a.perk?.active),'all 7 FinaleArena actors have Rank-5 perks active');
@@ -263,21 +300,26 @@ test('sfx-synth synthesizes multi-layered comedy effects without errors',()=>{
  }
 });
 
-test('world-combat-fx and combat-feedback draw Rank-5 auras, counters, stars, and perkTrigger text',()=>{
+test('world-combat-fx and combat-feedback draw Rank-5 auras, counters, stars, perkImpact, and golden obstacles',()=>{
  const feedback=[],worldFx=[];
  const fakePlayer={x:300,y:GROUND,supportY:GROUND,depth:0,hp:80,maxHp:100,face:1,armor:1.5,armorCount:2,brace:1.2,dizzyStar:1,perk:{active:true}};
  rememberCombatFeedback(feedback,{type:'perkTrigger',f:fakePlayer,label:'發財雙金幣！'},100);
+ rememberCombatFeedback(feedback,{type:'perkImpact',kind:'arrow',f:fakePlayer,x:500,y:GROUND},120);
  rememberWorldFx(worldFx,{type:'perkTrigger',f:fakePlayer},100);
+ rememberWorldFx(worldFx,{type:'perkImpact',kind:'arrow',f:fakePlayer,x:500,y:GROUND},120);
  rememberWorldFx(worldFx,{type:'hit',to:fakePlayer,amount:20,combo:2,impact:'han_knee'},100);
- assert.equal(feedback.length,1);
+ assert.equal(feedback.length,2);
  assert.equal(feedback[0].text,'★ 發財雙金幣！');
- assert.equal(worldFx.length,2);
+ assert.equal(feedback[1].text,'★ 穿雲貫地！');
+ assert.equal(worldFx.length,3);
 
  const ctx=mockCtx(),proj=(x,y)=>({x,y,scale:1});
  drawWorldFighterAuras(ctx,fakePlayer,proj,1,250);
  drawWorldProjectileExtra(ctx,{kind:'arrow',x:360,y:GROUND-200,targetX:500,targetDepth:0,markWidth:148,age:.2,flight:.8,perk:true,reflected:true},proj,1,250);
+ drawWorldObstacleExtra(ctx,{x:440,y:GROUND,depth:0,hitsLeft:2,perk:true,dead:false},proj,1,250);
  paintWorldFx(ctx,worldFx,proj,1,250);
- assert.ok(ctx.__ops.some(([op,t])=>op==='fillText'&&t==='×2'),'renders ×2 armor badge');
+ assert.ok(ctx.__ops.some(([op,t])=>op==='fillText'&&t==='霸體 ×2'),'renders 霸體 ×2 armor badge');
+ assert.ok(ctx.__ops.some(([op,t])=>op==='fillText'&&t==='★ 黃金拒馬 ×2'),'renders golden obstacle badge');
  assert.ok(ctx.__ops.some(([op])=>op==='ellipse'),'renders aura & lob rings');
 });
 

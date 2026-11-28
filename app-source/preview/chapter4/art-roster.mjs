@@ -70,18 +70,18 @@ export function drawRosterArt(ctx,images,f,p){
  }
  if(f.brace>0||f.armor>0){
   ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
-  ctx.strokeStyle='#67e5f2';ctx.lineWidth=4.5;ctx.beginPath();ctx.moveTo(54,-192);ctx.lineTo(72,-172);ctx.lineTo(72,-94);ctx.lineTo(54,-76);ctx.stroke();
+  ctx.strokeStyle='#67e5f2';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(54,-192);ctx.lineTo(72,-172);ctx.lineTo(72,-94);ctx.lineTo(54,-76);ctx.stroke();
   if((f.armorCount??1)>=2||p.perk){
-   ctx.strokeStyle='#ffd975';ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(64,-198);ctx.lineTo(84,-176);ctx.lineTo(84,-90);ctx.lineTo(64,-70);ctx.stroke();
+   ctx.strokeStyle='#ffd975';ctx.lineWidth=4.5;ctx.beginPath();ctx.moveTo(64,-200);ctx.lineTo(86,-176);ctx.lineTo(86,-90);ctx.lineTo(64,-68);ctx.stroke();
   }
   ctx.restore();
  }
  if(p.kind==='ma_handshake'&&p.age>.08&&p.age<.50){
-  const rays=p.perk?11:7,reach=p.perk?46:34;
-  ctx.save();ctx.globalAlpha*=Math.sin(Math.max(0,Math.min(1,(p.age-.08)/.42))*Math.PI);ctx.strokeStyle='#ffcf52';ctx.lineWidth=p.perk?5:4;
-  for(let i=0;i<rays;i++){const a=-1.4+i*(2.8/(rays-1));ctx.beginPath();ctx.moveTo(p.arm.wrist.x+24+Math.cos(a)*12,p.arm.wrist.y+Math.sin(a)*12);ctx.lineTo(p.arm.wrist.x+24+Math.cos(a)*reach,p.arm.wrist.y+Math.sin(a)*reach);ctx.stroke();}
-  ctx.strokeStyle='#fff3b8';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(p.arm.wrist.x+24,p.arm.wrist.y,p.perk?25:18,0,Math.PI*2);ctx.stroke();
-  if(p.perk){ctx.strokeStyle='#ffe478';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.arm.wrist.x+24,p.arm.wrist.y,33,0,Math.PI*2);ctx.stroke();}
+  const rays=p.perk?13:7,reach=p.perk?56:34;
+  ctx.save();ctx.globalAlpha*=Math.sin(Math.max(0,Math.min(1,(p.age-.08)/.42))*Math.PI);ctx.strokeStyle='#ffcf52';ctx.lineWidth=p.perk?5.5:4;
+  for(let i=0;i<rays;i++){const a=-1.45+i*(2.9/(rays-1));ctx.beginPath();ctx.moveTo(p.arm.wrist.x+24+Math.cos(a)*12,p.arm.wrist.y+Math.sin(a)*12);ctx.lineTo(p.arm.wrist.x+24+Math.cos(a)*reach,p.arm.wrist.y+Math.sin(a)*reach);ctx.stroke();}
+  ctx.strokeStyle='#fff3b8';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.arm.wrist.x+24,p.arm.wrist.y,p.perk?27:18,0,Math.PI*2);ctx.stroke();
+  if(p.perk){ctx.strokeStyle='#ffe478';ctx.lineWidth=3.5;ctx.beginPath();ctx.arc(p.arm.wrist.x+24,p.arm.wrist.y,38,0,Math.PI*2);ctx.stroke();}
   ctx.restore();
  }
 }

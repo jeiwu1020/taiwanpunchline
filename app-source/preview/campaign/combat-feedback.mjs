@@ -32,6 +32,7 @@ export function rememberCombatFeedback(queue,event,now=performance.now()){
  else if(event.type==='wallBounce'||event.type==='wallHit')actor(event.f,-230,'牆也聽到了！',COLORS.wall,22);
  else if(event.type==='slow')actor(event.f,-220,'被字絆一下',COLORS.slow,21);
  else if(event.type==='perkTrigger')actor(event.f,-280,'★ '+(event.label||'五階質變！'),COLORS.perk,25);
+ else if(event.type==='perkImpact')add(event.x,(event.y??GROUND)-70,event.depth??0,event.kind==='word'?'★ 巨字重壓！':'★ 穿雲貫地！',COLORS.perk,24);
  else if(event.type==='itemPickup')actor(event.f,-220,'拿到'+(event.item?.kind==='rubber_duck'?'吱吱鴨':'紙團')+'！',COLORS.heal,22);
  else if(event.type==='itemThrow')actor(event.f,-220,event.kind==='rubber_duck'?'橡皮鴨出勤，嘎！':'紙團出動，請收件！',COLORS.hit,22);
  else if(event.type==='rallyResult')add(event.result==='miss'?event.r?.x:event.to?.x,GROUND-100,event.to?.depth??event.r?.depth??0,event.result==='miss'?(event.r?.tooHigh?'桌上太高啦！':'躲開了！'):event.result==='blocked'?'格擋 −'+event.amount:'命中 −'+event.amount,event.result==='hit'?COLORS.rally:'#d0f7fa',22);
