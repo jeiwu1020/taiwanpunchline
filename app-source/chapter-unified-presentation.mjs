@@ -378,6 +378,7 @@ export function mountChapterLoadingOverlay({
     }, 3600);
   }
 
+  if (typeof onRetry === 'function') retryBtn.textContent = '重試載入';
   retryBtn.onclick = () => {
     if (typeof onRetry === 'function') onRetry();
     else doc.defaultView?.location?.reload?.();

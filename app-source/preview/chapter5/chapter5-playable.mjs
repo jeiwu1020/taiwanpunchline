@@ -187,12 +187,18 @@ refreshMenu();resizeCanvas();
 const allFiles={'chen-head':'chen-head-v8.webp','chen-step':'chen-step-v9.webp','chen-wave':'chen-wave-v9.webp',...ART_FILES,...ASSET_FILES,'chapter5-sky':'challenge/street-sky-v75.webp','chapter4-sound-truck':'chapter4/sound-truck-v1.png',...CHAPTER5_ART.files};
 const sceneBackdropFile=index=>allFiles[`chapter5-scene-${index}`]||allFiles['chapter5-sky'];
 const initialBackdropFile=sceneBackdropFile(0);
-const loadingOverlay=mountChapterLoadingOverlay({document,chapter:5,backdropUrl:initialBackdropFile?chapter5AssetURL(initialBackdropFile):''});
-loadChapterAssetsInStages({files:allFiles,loadImage:(key,file)=>loadChapterImage(chapter5AssetURL(file)),onProgress:({phase,loaded,total})=>{const ratio=total?loaded/total:0;if(phase==='shared'){$('#start').textContent=`載入共用素材 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(ratio*.5,{phaseLabel:'共用角色素材',statusText:`載入共用素材 ${Math.round(ratio*100)}%`});}else if(phase==='current-scene'){$('#start').textContent=`載入目前場景 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(.5+ratio*.5,{phaseLabel:'目前關卡場景',statusText:`載入目前場景 ${Math.round(ratio*100)}%`});}},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';loadingOverlay.setPhase('章節接續','正在同步戰役進度與舞台…');await continuation.assetsReady();}const state=v();targetSceneIndex=routeIndex(state);const file=sceneBackdropFile(targetSceneIndex);if(file)loadingOverlay.setBackdrop?.(chapter5AssetURL(file));return {sceneIndex:targetSceneIndex,includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
- Object.assign(images,staged.images);const targetBackdrop=staged.images[`chapter5-scene-${targetSceneIndex}`]?.src||staged.images['chapter5-sky']?.src;if(targetBackdrop)loadingOverlay.setBackdrop?.(targetBackdrop);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';ui?.resize?.();resizeCanvas();pendingReveal=true;requestAnimationFrame(tick);
- void comic.load(images).then(()=>comicReader.sync());
- requestAnimationFrame(()=>requestAnimationFrame(()=>void staged.loadBackground().then(({images:background,errors})=>{Object.assign(images,background);if(errors.length)deferredAssetError='部分場景素材載入失敗，請重新整理頁面。';})));
-}).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請重新整理';$('#start').disabled=true;hudText('#objective',err.message);loadingOverlay.setError(err?.message||'部分關卡素材載入失敗，請重新整理再試。');});
+let assetsLoading=false,tickStarted=false;
+const loadingOverlay=mountChapterLoadingOverlay({document,chapter:5,backdropUrl:initialBackdropFile?chapter5AssetURL(initialBackdropFile):'',onRetry:()=>{void loadAssets();}});
+function loadAssets(){
+ if(assetsLoading)return;
+ assetsLoading=true;$('#start').disabled=true;
+ return loadChapterAssetsInStages({files:allFiles,cachedImages:images,loadImage:(key,file)=>loadChapterImage(chapter5AssetURL(file)),onProgress:({phase,loaded,total})=>{const ratio=total?loaded/total:0;if(phase==='shared'){$('#start').textContent=`載入共用素材 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(ratio*.5,{phaseLabel:'共用角色素材',statusText:`載入共用素材 ${Math.round(ratio*100)}%`});}else if(phase==='current-scene'){$('#start').textContent=`載入目前場景 ${Math.round(ratio*100)}%`;loadingOverlay.setProgress(.5+ratio*.5,{phaseLabel:'目前關卡場景',statusText:`載入目前場景 ${Math.round(ratio*100)}%`});}},resolveScene:async()=>{if(new URLSearchParams(window.location.search).has('handoff')){$('#start').disabled=false;$('#start').textContent='正在接續章節…';loadingOverlay.setPhase('章節接續','正在同步戰役進度與舞台…');await continuation.assetsReady();}const state=v();targetSceneIndex=routeIndex(state);const file=sceneBackdropFile(targetSceneIndex);if(file)loadingOverlay.setBackdrop?.(chapter5AssetURL(file));return {sceneIndex:targetSceneIndex,includeMinibossAtlas:/^miniboss/.test(state?.stepId??'')};}}).then(async staged=>{
+  Object.assign(images,staged.images);const targetBackdrop=staged.images[`chapter5-scene-${targetSceneIndex}`]?.src||staged.images['chapter5-sky']?.src;if(targetBackdrop)loadingOverlay.setBackdrop?.(targetBackdrop);$('#start').disabled=false;await continuation.assetsReady();$('#start').textContent='獨立預覽（不存進度）';ui?.resize?.();resizeCanvas();pendingReveal=true;if(!tickStarted){tickStarted=true;requestAnimationFrame(tick);}
+  void comic.load(images).then(()=>comicReader.sync());
+  requestAnimationFrame(()=>requestAnimationFrame(()=>void staged.loadBackground().then(({images:background,errors})=>{Object.assign(images,background);if(errors.length)deferredAssetError='部分場景素材載入失敗，請重試或重新整理頁面。';})));
+ }).catch(err=>{continuation.assetsFailed();$('#start').textContent='素材載入失敗，請點重試';$('#start').disabled=true;hudText('#objective',err.message);loadingOverlay.setError(err?.message||'部分關卡素材載入失敗，請點重試再試。');}).finally(()=>{assetsLoading=false;});
+}
+loadAssets();
 
 
 registerQuickView(window,async()=>{

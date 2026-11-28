@@ -321,3 +321,56 @@ test('challenge-overview and qa-viewport avoid root-absolute paths for subpath d
  assert.equal(/src=["']\/\??/.test(qaHtml),false,'qa-viewport iframes must use relative paths');
 });
 
+test('chapters 2-5 wire in-place onRetry with cachedImages reuse so handoff is preserved on retry',async t=>{
+ const cachedImages={};
+ let sceneAttempts=0,sharedDownloads=0;
+ await assert.rejects(loadChapterAssetsInStages({
+  files:{shared:'shared.webp','chapter5-scene-0':'scene0.png'},
+  cachedImages,
+  resolveScene:async()=>({sceneIndex:0}),
+  loadImage:async(key,file)=>{
+   if(key==='shared'){sharedDownloads++;return `img:${file}`;}
+   sceneAttempts++;
+   throw new Error('transient scene failure');
+  }
+ }),/transient scene failure/);
+ assert.equal(sharedDownloads,1);
+ assert.equal(cachedImages.shared,'img:shared.webp');
+
+ const retryResult=await loadChapterAssetsInStages({
+  files:{shared:'shared.webp','chapter5-scene-0':'scene0.png'},
+  cachedImages,
+  resolveScene:async()=>({sceneIndex:0}),
+  loadImage:async(key,file)=>{
+   if(key==='shared'){sharedDownloads++;return `img:${file}`;}
+   sceneAttempts++;
+   return `img:${file}`;
+  }
+ });
+ assert.equal(sharedDownloads,1,'retry must reuse cached shared assets without re-downloading');
+ assert.equal(sceneAttempts,2);
+ assert.equal(retryResult.images['chapter5-scene-0'],'img:scene0.png');
+
+ const dom=new JSDOM('<!doctype html><html><body></body></html>');
+ t.after(()=>dom.window.close());
+ let retried=0;
+ const overlay=mountChapterLoadingOverlay({document:dom.window.document,chapter:5,onRetry:()=>{retried++;}});
+ const retryBtn=dom.window.document.querySelector('.chapter-loading-retry');
+ assert.equal(retryBtn.textContent,'重試載入');
+ retryBtn.click();
+ assert.equal(retried,1);
+
+ for(const rel of [
+  'dist/preview/chapter2/chapter2-playable.mjs',
+  'dist/preview/chapter3/chapter2-playable.mjs',
+  'dist/preview/chapter4/chapter4-playable.mjs',
+  'dist/preview/chapter5/chapter5-playable.mjs'
+ ]){
+  const src=readFileSync(resolve(root,rel),'utf8');
+  assert.match(src,/onRetry:\(\)=>\{void loadAssets\(\);\}/,`${rel} must wire in-place onRetry`);
+  assert.match(src,/cachedImages:images/,`${rel} must pass cachedImages to loadChapterAssetsInStages`);
+  assert.match(src,/if\(!tickStarted\)\{tickStarted=true;requestAnimationFrame\(tick\);\}/,`${rel} must guard duplicate animation loop`);
+ }
+});
+
+

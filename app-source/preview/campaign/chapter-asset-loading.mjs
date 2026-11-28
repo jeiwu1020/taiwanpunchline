@@ -19,7 +19,7 @@ export function chapterAssetLoadPlan(files,{sceneIndex=null,includeMinibossAtlas
  * saved chapter and inspect its current route. Its returned scene index and
  * miniboss flag select the rest of the startup-critical image set.
  */
-export async function loadChapterAssetsInStages({files,resolveScene,loadImage,onProgress,sceneAssetIndexes,concurrency=6}={}){
+export async function loadChapterAssetsInStages({files,resolveScene,loadImage,onProgress,sceneAssetIndexes,concurrency=6,cachedImages}={}){
  if(typeof loadImage!=='function')throw new TypeError('loadImage must be a function');
  const limit=Math.max(1,Number(concurrency)||6);
  const loadBatch=async(batch,phase)=>{
@@ -28,7 +28,12 @@ export async function loadChapterAssetsInStages({files,resolveScene,loadImage,on
   const worker=async()=>{
    while(next<total){
     const index=next++,[key,file]=entries[index];
-    try{results[index]={key,image:await loadImage(key,file,phase)};}
+    try{
+     const cached=cachedImages&&Object.hasOwn(cachedImages,key)?cachedImages[key]:null;
+     const image=cached??await loadImage(key,file,phase);
+     if(cachedImages&&image)cachedImages[key]=image;
+     results[index]={key,image};
+    }
     catch(error){results[index]={key,error};}
     finally{loaded++;try{onProgress?.({phase,key,loaded,total});}catch{/* Progress UI cannot block asset loading. */}}
    }

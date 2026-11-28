@@ -196,7 +196,7 @@ export function mountContinuationControls({document,window,chapterId,createPlaya
   if(!launch.accepted){label.hidden=resume.hidden=false;revealExitOptions();if(launch.reason!=='no-handoff')menuStatus.textContent=reasonText(launch.reason);return idle;}
   setGameSelectValue(select,launch.handoff.profileId);return job(()=>startContinuation(launch.handoff));
  }
- return {whenIdle:()=>idle,render,openPreparation,openRecovery,returnOverview,returnHome,get exitState(){return exitState();},get operationBusy(){return busy||preparationBusy||leaving||!!chapter?.view().busy;},get busy(){return busy||preparationBusy||leaving||!!chapter?.view().busy||!!preparation?.isOpen;},assetsReady,assetsFailed(){if(!testPreview){menuStatus.textContent='章節素材載入失敗，請重新整理後再接續。已保存進度不變。';revealExitOptions();}}};
+ return {whenIdle:()=>idle,render,openPreparation,openRecovery,returnOverview,returnHome,get exitState(){return exitState();},get operationBusy(){return busy||preparationBusy||leaving||!!chapter?.view().busy;},get busy(){return busy||preparationBusy||leaving||!!chapter?.view().busy||!!preparation?.isOpen;},assetsReady,assetsFailed(){if(!testPreview){menuStatus.textContent='章節素材載入失敗，請重試載入或回總覽重新接續。已保存進度不變。';revealExitOptions();}}};
 }
 function completionCanLeave(state){return !!state.persisted&&!!state.canNavigate&&!state.busy&&!state.blocked;}
 const CHAPTER_PRESENTATION={
